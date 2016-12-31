@@ -29,32 +29,33 @@ USE `tfdb`;
 --
 
 CREATE TABLE `t_organ` (
-  `id` int(11) NOT NULL,
-  `parent_id` int(11) NOT NULL,
-  `code` varchar(256) NOT NULL,
-  `name` varchar(256) NOT NULL,
-  `shortname` varchar(256) NOT NULL,
-  `englishname` varchar(256) NOT NULL,
-  `avatar` varchar(256) NOT NULL,
-  `domain` varchar(256) NOT NULL,
-  `province_id` int(11) NOT NULL,
-  `city_id` int(11) NOT NULL,
-  `district_id` int(11) NOT NULL,
-  `postcode` varchar(20) NOT NULL,
-  `contact` varchar(256) NOT NULL,
-  `address` varchar(1024) NOT NULL,
-  `telephone` varchar(50) NOT NULL,
-  `fax` varchar(50) NOT NULL,
-  `email` varchar(256) NOT NULL,
-  `website` varchar(256) NOT NULL,
-  `inward_id` int(11) NOT NULL COMMENT '企业性质',
-  `industry_id` int(11) NOT NULL COMMENT '主营行业',
-  `capital` int(11) NOT NULL COMMENT '注册资金',
-  `employnumber` int(11) NOT NULL,
-  `computernumber` int(11) NOT NULL,
-  `ad` varchar(1024) NOT NULL COMMENT '广告语',
-  `intro` varchar(1024) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(256),
+  `name` VARCHAR(256),
+  `shortname` VARCHAR(256),
+  `englishname` VARCHAR(256),
+  `logo` VARCHAR(256),
+  `domain` VARCHAR(256),
+  `province_id` INT NOT NULL DEFAULT 0,
+  `city_id` INT NOT NULL DEFAULT 0,
+  `district_id` INT NOT NULL DEFAULT 0,
+  `postcode` VARCHAR(20),
+  `contact` VARCHAR(256),
+  `address` VARCHAR(1024),
+  `telephone` VARCHAR(50),
+  `fax` VARCHAR(50),
+  `email` VARCHAR(256),
+  `website` VARCHAR(256),
+  `inward_id` INT NOT NULL DEFAULT 0 COMMENT '企业性质',
+  `industry_id` INT NOT NULL DEFAULT 0 COMMENT '主营行业',
+  `capital` INT NOT NULL DEFAULT 0 COMMENT '注册资金',
+  `membernumber` INT NOT NULL DEFAULT 0,
+  `computernumber` INT NOT NULL DEFAULT 0,
+  `ad` VARCHAR(1024) COMMENT '广告语',
+  `intro` VARCHAR(1024),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -63,17 +64,19 @@ CREATE TABLE `t_organ` (
 --
 
 CREATE TABLE `t_branch` (
-  `id` int(11) NOT NULL,
-  `organ_id` int(11) NOT NULL,
-  `parent_id` int(11) NOT NULL,
-  `name` varchar(256) NOT NULL,
-  `manager_id` int(11) NOT NULL,
-  `address` varchar(1024) NOT NULL,
-  `website` varchar(256) NOT NULL,
-  `telephone` varchar(50) NOT NULL,
-  `fax` varchar(50) NOT NULL,
-  `intro` varchar(1024) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `organ_id` INT NOT NULL DEFAULT 0,
+  `parent_id` INT NOT NULL DEFAULT 0,
+  `name` VARCHAR(256),
+  `manager_id` INT NOT NULL DEFAULT 0,
+  `address` VARCHAR(1024),
+  `website` VARCHAR(256),
+  `telephone` VARCHAR(50),
+  `fax` VARCHAR(50),
+  `intro` VARCHAR(1024),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -82,24 +85,24 @@ CREATE TABLE `t_branch` (
 --
 
 CREATE TABLE `t_member` (
-  `id` int(11) NOT NULL,
-  `account` varchar(256) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  `fullname` varchar(256) NOT NULL,
-  `pinyin` varchar(256) NOT NULL,
-  `workno` varchar(50) NOT NULL COMMENT '工号',
-  `sex` varchar(2) NOT NULL,
-  `birthday` date NOT NULL,
-  `avatar` varchar(50) NOT NULL,
-  `email` varchar(256) NOT NULL,
-  `mobile` varchar(50) NOT NULL,
-  `telephone` varchar(50) NOT NULL,
-  `address` varchar(1024) NOT NULL,
-  `groupmax` int(11) NOT NULL COMMENT '可建群数量',
-  `groupuse` int(11) NOT NULL COMMENT '已建群数量',
-  `intro` varchar(1024) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `account` VARCHAR(256),
+  `password` VARCHAR(32),
+  `fullname` VARCHAR(256),
+  `pinyin` VARCHAR(256) COMMENT '姓名全拼',
+  `workno` VARCHAR(50) COMMENT '工号',
+  `sex` CHAR(1),
+  `birthday` VARCHAR(8),
+  `logo` VARCHAR(256),
+  `email` VARCHAR(256),
+  `mobile` VARCHAR(50),
+  `telephone` VARCHAR(50),
+  `address` VARCHAR(1024),
+  `groupmax` INT NOT NULL DEFAULT 0 COMMENT '可建群数量',
+  `groupuse` INT NOT NULL DEFAULT 0 COMMENT '已建群数量',
+  `intro` VARCHAR(1024),
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -108,25 +111,27 @@ CREATE TABLE `t_member` (
 --
 
 CREATE TABLE `t_branch_member` (
-  `id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
-  `position_id` int(11) NOT NULL,
-  `is_master` char(1) NOT NULL COMMENT '是否主要职能'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `branch_id` INT NOT NULL DEFAULT 0,
+  `member_id` INT NOT NULL DEFAULT 0,
+  `position_id` INT NOT NULL DEFAULT 0,
+  `is_master` CHAR(1) DEFAULT '0' COMMENT '0非主要职能，1主要智能',
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_role`：角色（即身份）
+-- 表的结构 `t_role`：角色
 --
 
 CREATE TABLE `t_role` (
-  `id` int(11) NOT NULL,
-  `parent_id` int(11),
-  `name` varchar(256) NOT NULL,
-  `listorder` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -135,14 +140,15 @@ CREATE TABLE `t_role` (
 --
 
 CREATE TABLE `t_priv` (
-  `id` int(11) NOT NULL,
-  `parent_id` int(11) NOT NULL,
-  `name` varchar(256) NOT NULL,
-  `category` char(1) NOT NULL COMMENT '种类：1权限，2层级限制'
-  `grouping` varchar(256) NOT NULL COMMENT '分组'
-  `url` varchar(512) NOT NULL COMMENT '按url控制权限',
-  `listorder` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `parent_id` INT NOT NULL DEFAULT 0,
+  `name` VARCHAR(256),
+  `category` CHAR(1) DEFAULT '0' COMMENT '种类：1权限，2层级限制',
+  `grouping` CHAR(1) DEFAULT '0' COMMENT '0非分组记录，1分组记录',
+  `url` VARCHAR(512) COMMENT '按url控制权限',
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -151,10 +157,25 @@ CREATE TABLE `t_priv` (
 --
 
 CREATE TABLE `t_role_priv` (
-  `id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  `priv_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `role_id` INT NOT NULL DEFAULT 0,
+  `priv_id` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_member_role`：成员-角色关系
+--
+
+CREATE TABLE `t_member_role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL DEFAULT 0,
+  `role_id` INT NOT NULL DEFAULT 0,
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -163,17 +184,20 @@ CREATE TABLE `t_role_priv` (
 --
 
 CREATE TABLE `t_group` (
-  `id` int(11) NOT NULL,
-  `code` varchar(20) NOT NULL,
-  `name` varchar(256) NOT NULL,
-  `createdate` varchar(8) NOT NULL,
-  `creator_id` int(11) NOT NULL COMMENT '创建者',
-  `volume` int(11) NOT NULL COMMENT '可容纳人数',
-  `amount` int(11) NOT NULL COMMENT '已有人数',
-  `space` int(11) NOT NULL COMMENT '共享空间',
-  `annexlong` int(11) NOT NULL COMMENT '聊天附件保留天数',
-  `notice` varchar(1024) NOT NULL COMMENT '群公告'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(20),
+  `name` VARCHAR(256),
+  `createdate` VARCHAR(8),
+  `creator_id` INT NOT NULL DEFAULT 0 COMMENT '创建者',
+  `volume` INT NOT NULL DEFAULT 0 COMMENT '可容纳人数',
+  `volumeuse` INT NOT NULL DEFAULT 0 COMMENT '已有人数',
+  `space` INT NOT NULL DEFAULT 0 COMMENT '共享空间',
+  `spaceuse` INT NOT NULL DEFAULT 0 COMMENT '已用共享空间',
+  `annexlong` INT NOT NULL DEFAULT 0 COMMENT '聊天附件保留天数',
+  `notice` VARCHAR(1024) COMMENT '群公告',
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -182,11 +206,13 @@ CREATE TABLE `t_group` (
 --
 
 CREATE TABLE `t_group_member` (
-  `id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
-  `is_creator` char(1) NOT NULL COMMENT '是否创建者'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL DEFAULT 0,
+  `member_id` INT NOT NULL DEFAULT 0,
+  `is_creator` CHAR(1) DEFAULT '0' COMMENT '0非创建者，1创建者',
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -195,10 +221,12 @@ CREATE TABLE `t_group_member` (
 --
 
 CREATE TABLE `t_position` (
-  `id` int(11) NOT NULL,
-  `organ_id` int(11) NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8 NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `organ_id` INT NOT NULL DEFAULT 0,
+  `name` VARCHAR(50),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -207,141 +235,108 @@ CREATE TABLE `t_position` (
 --
 
 CREATE TABLE `t_friend` (
-  `id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
-  `friend_id` int(11) NOT NULL,
-  `createdate` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL DEFAULT 0,
+  `friend_id` INT NOT NULL DEFAULT 0,
+  `createdate` VARCHAR(8),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
 
 --
--- Indexes for dumped tables
+-- 表的结构 `t_contact`：联系人
 --
 
---
--- Indexes for table `t_organ`
---
-ALTER TABLE `t_organ`
-  ADD PRIMARY KEY (`id`);
+CREATE TABLE `t_contact` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL DEFAULT 0,
+  `contact_id` INT NOT NULL DEFAULT 0,
+  `contacttimes` INT NOT NULL DEFAULT 0,
+  `lastcontactdate` VARCHAR(8),
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
 
 --
--- Indexes for table `t_branch`
---
-ALTER TABLE `t_branch`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_member`
---
-ALTER TABLE `t_member`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_branch_member`
---
-ALTER TABLE `t_branch_member`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_role`
---
-ALTER TABLE `t_role`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_priv`
---
-ALTER TABLE `t_priv`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_role_priv`
---
-ALTER TABLE `t_role_priv`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_group`
---
-ALTER TABLE `t_group`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_group_member`
---
-ALTER TABLE `t_group_member`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_position`
---
-ALTER TABLE `t_position`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `t_friend`
---
-ALTER TABLE `t_friend`
-  ADD PRIMARY KEY (`id`);
-
---
--- 在导出的表使用AUTO_INCREMENT
+-- 表的结构 `t_province`：省份
 --
 
+CREATE TABLE `t_province` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
 --
--- 使用表AUTO_INCREMENT `t_organ`
+-- 表的结构 `t_city`：城市
 --
-ALTER TABLE `t_organ`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE `t_city` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `province_id` INT NOT NULL DEFAULT 0,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
 --
--- 使用表AUTO_INCREMENT `t_branch`
+-- 表的结构 `t_district`：地区
 --
-ALTER TABLE `t_branch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE `t_district` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `city_id` INT NOT NULL DEFAULT 0,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
 --
--- 使用表AUTO_INCREMENT `t_member`
+-- 表的结构 `t_inward`：企业性质
 --
-ALTER TABLE `t_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE `t_inward` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
 --
--- 使用表AUTO_INCREMENT `t_branch_member`
+-- 表的结构 `t_industry`：主营行业
 --
-ALTER TABLE `t_branch_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE `t_industry` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
 --
--- 使用表AUTO_INCREMENT `t_role`
+-- 表的结构 `t_sex`：性别
 --
-ALTER TABLE `t_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `t_priv`
---
-ALTER TABLE `t_priv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `t_role_priv`
---
-ALTER TABLE `t_role_priv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `t_group`
---
-ALTER TABLE `t_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `t_group_member`
---
-ALTER TABLE `t_group_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `t_position`
---
-ALTER TABLE `t_position`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `t_friend`
---
-ALTER TABLE `t_friend`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE `t_sex` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
