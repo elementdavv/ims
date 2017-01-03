@@ -49,8 +49,8 @@ CREATE TABLE `t_organ` (
   `inward_id` INT NOT NULL DEFAULT 0 COMMENT '企业性质',
   `industry_id` INT NOT NULL DEFAULT 0 COMMENT '主营行业',
   `capital` INT NOT NULL DEFAULT 0 COMMENT '注册资金',
-  `membernumber` INT NOT NULL DEFAULT 0,
-  `computernumber` INT NOT NULL DEFAULT 0,
+  `membernumber` INT NOT NULL DEFAULT 0 COMMENT '成员个数',
+  `computernumber` INT NOT NULL DEFAULT 0 COMMENT '计算机台数',
   `ad` VARCHAR(1024) COMMENT '广告语',
   `intro` VARCHAR(1024),
   `listorder` INT NOT NULL DEFAULT 0,
@@ -68,7 +68,7 @@ CREATE TABLE `t_branch` (
   `organ_id` INT NOT NULL DEFAULT 0,
   `parent_id` INT NOT NULL DEFAULT 0,
   `name` VARCHAR(256),
-  `manager_id` INT NOT NULL DEFAULT 0,
+  `manager_id` INT NOT NULL DEFAULT 0 COMMENT '部门经理',
   `address` VARCHAR(1024),
   `website` VARCHAR(256),
   `telephone` VARCHAR(50),
@@ -188,7 +188,7 @@ CREATE TABLE `t_group` (
   `code` VARCHAR(20),
   `name` VARCHAR(256),
   `createdate` VARCHAR(8),
-  `creator_id` INT NOT NULL DEFAULT 0 COMMENT '创建者',
+  `creator_id` INT NOT NULL DEFAULT 0,
   `volume` INT NOT NULL DEFAULT 0 COMMENT '可容纳人数',
   `volumeuse` INT NOT NULL DEFAULT 0 COMMENT '已有人数',
   `space` INT NOT NULL DEFAULT 0 COMMENT '共享空间',
@@ -253,15 +253,15 @@ CREATE TABLE `t_contact` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `member_id` INT NOT NULL DEFAULT 0,
   `contact_id` INT NOT NULL DEFAULT 0,
-  `contacttimes` INT NOT NULL DEFAULT 0,
-  `lastcontactdate` VARCHAR(8),
+  `contacttimes` INT NOT NULL DEFAULT 0 COMMENT '联系次数，一天内算一次',
+  `lastcontactdate` VARCHAR(8) COMMENT '最后联系日期',
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_province`：省份
+-- 表的结构 `t_province`：字典：省份
 --
 
 CREATE TABLE `t_province` (
@@ -274,7 +274,7 @@ CREATE TABLE `t_province` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_city`：城市
+-- 表的结构 `t_city`：字典：城市
 --
 
 CREATE TABLE `t_city` (
@@ -288,7 +288,7 @@ CREATE TABLE `t_city` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_district`：地区
+-- 表的结构 `t_district`：字典：地区
 --
 
 CREATE TABLE `t_district` (
@@ -302,7 +302,7 @@ CREATE TABLE `t_district` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_inward`：企业性质
+-- 表的结构 `t_inward`：字典：企业性质
 --
 
 CREATE TABLE `t_inward` (
@@ -315,7 +315,7 @@ CREATE TABLE `t_inward` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_industry`：主营行业
+-- 表的结构 `t_industry`：字典：主营行业
 --
 
 CREATE TABLE `t_industry` (
@@ -328,7 +328,7 @@ CREATE TABLE `t_industry` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_sex`：性别
+-- 表的结构 `t_sex`：字典：性别
 --
 
 CREATE TABLE `t_sex` (
