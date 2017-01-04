@@ -1,0 +1,151 @@
+html,body,dl,dt,dd,div,form,h3,ul,li {
+	margin: 0;
+	padding: 0;
+}
+
+html,body {
+	height: 100%;
+	max-height: 100%;
+	overflow: hidden;
+}
+
+html {
+	background: url(../images/bg-all.gif) #E8E8E8 left top repeat-x;
+}
+
+body {
+	font: 12px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+.top {
+	background: url() 10% center no-repeat;
+	height: 148px;
+}
+
+/**/
+.middle {
+	padding-top: 60px;
+	background: url() center center no-repeat;
+}
+
+.middle form {
+	width: 542px;
+	margin: 0 auto;
+	background: url(../images/login.png) center center no-repeat;
+	height: 240px;
+}
+
+/**/
+.tabs {
+	background: #AFEEEE;
+	position: relative;
+}
+
+.lib_Menubox {
+	width: 130px;
+	position: absolute;
+	left: -6px;
+	top: 8px;
+}
+
+ul,li {
+	list-style: none;
+}
+
+.lib_Menubox ul li {
+	padding-left: 20px;
+	color: #282828;
+	font-weight: 700;
+	line-height: 40px;
+	text-align: left;
+	cursor: pointer;
+}
+
+.lib_Menubox ul li.hover {
+	background: url(../images/tab-hover.png) left center no-repeat;
+}
+
+.lib_Menubox ul li.hover span {
+	color: #FFFFFF;
+}
+
+.lib_Menubox ul li span {
+	padding-left: 24px;
+	display: block;
+}
+
+.normal {
+	background: url(../images/icon-lock.gif) left center no-repeat;
+}
+
+.ad {
+	background: url(../images/icon-ad.gif) left center no-repeat;
+}
+
+.pki {
+	background: url(../images/icon-u.gif) left center no-repeat;
+}
+
+/**/
+.lib_Contentbox {
+	width: 300px;
+	padding: 0 40px;
+	position: absolute;
+	left: 100px;
+	top: 15px;
+}
+
+.warning {
+	border: 1px solid #C57071;
+	padding-left: 60px;
+	background: url(../images/icon-warning.gif) #FFE5E5 20px center no-repeat;
+	color: #9F0000;
+	font-weight: 700;
+	line-height: 30px;
+	text-align: left;
+	height: 30px;
+}
+
+.login-table {
+	margin: 0px auto;
+	margin-top:10px;
+	width: 280px;
+	line-height: 30px;
+	text-align: left;
+}
+
+.login-table th {
+	padding-right: 5px;
+}
+
+.l-input {
+	border: 1px solid #8E9AA1;
+	padding: 0 2px;
+	width: 180px;
+	background: #FFFFFF;
+	line-height: 20px;
+	height: 20px;
+}
+
+.l-btn {
+	width: 71px;
+	border: none;
+	background: url(../images/btn-bg1.png) center center no-repeat;
+	color: #FFFFFF;
+	line-height: 29px;
+	height: 50px;
+	cursor: pointer;
+}
+
+
+.bottom {
+	background: #0C4F8E;
+	color: #FFFFFF;
+	line-height: 32px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	_width: 100%;
+}
