@@ -21,14 +21,11 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 	@Override
 	public TMember searchSigleUser(String name, String password) {
 		
-		System.out.println(password);
 		try {
-			String pwd = PasswordGenerator.getInstance().getMD5Str(password);
-			System.out.println(pwd);
 			
 			Criteria ctr = getCriteria();
 			ctr.add(Restrictions.eq("account", name));
-			ctr.add(Restrictions.eq("password", pwd));
+			ctr.add(Restrictions.eq("password", password));
 			
 			List list = ctr.list();
 			
@@ -41,6 +38,23 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public boolean updateUserPwd(String account, String md5Pwd) {
+		
+		String hql = "update TMember set password='" + md5Pwd + "' where account='" + account + "'";
+		
+		boolean status = true;
+		
+		try {
+			executeUpdate(hql);
+		} catch (Exception e) {
+			status = false;
+			e.printStackTrace();
+		}
+		
+		return status;
 	}
 
 }

@@ -13,7 +13,7 @@ public class HibernateTest extends BaseDao{
 
 	@Test
 	public void hibernateAcc() {
-		Memeber m = new Memeber();
+		TMember m = new TMember();
 		m.setAccount("admin");
 		m.setPassword("123");
 		Configuration cf = new AnnotationConfiguration();
@@ -28,7 +28,7 @@ public class HibernateTest extends BaseDao{
 	
 	@Test
 	public void hibernateSpring(){
-		Memeber m = new Memeber();
+		TMember m = new TMember();
 		m.setAccount("admin");
 		m.setPassword("123");
 		MemberService us = new MemberServiceImpl();

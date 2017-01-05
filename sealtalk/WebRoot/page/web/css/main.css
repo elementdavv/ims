@@ -1,0 +1,411 @@
+@charset "utf-8";
+
+#TestInput
+{
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+    white-space: nowrap; /* for at message */
+}
+
+[contenteditable=true]:empty:before{
+    content: attr(placeholder);
+    display: block; /* For Firefox */
+    color: #a9a9a9;
+    position:absolute;
+    top:6px;
+}
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html{
+
+    height: 100%;
+}
+body{
+    height: 100%;
+    min-width: 1000px;
+    background: #ebf0f5;
+    /*overflow: hidden;*/
+    /*background-size: 100%;*/
+}
+.header, .box_hd, .LeftNav, .drag_area{
+    -webkit-app-region: drag;    /* for pc client */
+}
+button, input, select, textarea, #message-content, #Messages /* for pc client */
+{
+    -webkit-app-region: no-drag;
+}
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */
+{
+    margin: 0;
+    padding: 0;
+}
+
+font {
+    font-size: 12px;
+}
+
+/** 设置默认字体 **/
+body,
+button, input, select, textarea,
+h1, h2, h3, h4, h5, h6 {
+    font-size: 14px;
+    font-family: 'PingFangSC-Medium', 'Microsoft YaHei', sans-serif;
+}
+
+address, cite, dfn, em, var {
+    font-style: normal;
+}
+
+/* 将斜体扶正 */
+code, kbd, pre, samp {
+    font-family: courier new, courier, monospace;
+}
+
+/* 统一等宽字体 */
+small {
+    font-size: 12px;
+}
+
+/* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+ul, ol {
+    list-style: none;
+}
+
+/** 重置文本格式元素 **/
+a {
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+}
+
+/* outline去除FF浏览器里的链接虚线 */
+a:hover, a:link, a:visited, a:focus, a:active {
+    text-decoration: none;
+}
+
+sup {
+    vertical-align: text-top;
+}
+
+/* 重置，减少对行高的影响 */
+sub {
+    vertical-align: text-bottom;
+}
+
+/** 重置表单元素 **/
+legend {
+    color: #000;
+}
+
+/* for ie6 */
+fieldset, img {
+    border: 0;
+}
+
+/* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea {
+    font-size: 100%;
+}
+
+/* 使得表单元素在 ie 下能继承字体大小 */
+/* 注：optgroup 无法扶正 */
+
+/** 重置表格元素 **/
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+input::-ms-clear{display:none;}
+/*
+	------------Reset   End--------------
+*/
+.chatHeader{
+    height: 50px;
+    width: 100%;
+    /*background: -moz-linear-gradient(top, #000000 0%, #ffffff 100%);*/
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(100%,#ffffff));*/
+    /*background: -webkit-linear-gradient(top, #000000 0%,#ffffff 100%);*/
+    /*background: -o-linear-gradient(top, #000000 0%,#ffffff 100%);*/
+    /*background: -ms-linear-gradient(top, #000000 0%,#ffffff 100%);*/
+    background: linear-gradient(to right, #30c0da 0%,#40d4a3 100%);
+    box-shadow: 0px 0px 10px #cbcbcb;
+}
+.chatHeaderMenu{
+
+    height: 100%;
+
+}
+.chatHeaderMenu li{
+    float: left;
+    width: 160px;
+    height: 100%;
+    line-height: 50px;
+    color: #ffffff;
+    text-align: center;
+}
+.chatHeaderMenu li.active{
+    background: #1081bc;
+}
+/*.chatHeaderMenu li a{*/
+    /*display: inline-block;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+
+/*}*/
+
+
+
+
+
+
+.chatContent{
+    height: calc(100% - 50px);
+    /*width: 340px;*/
+    background: #ffffff;
+    position: relative;
+}
+
+.chatContent .chatMenu{
+    width: 336px;
+    padding: 0px 2px;
+    height: 70px;
+    border-bottom: 1px solid #e6e6e6;
+    /*background: paleturquoise;*/
+    overflow: hidden;
+}
+.chatContent .chatMenu li{
+    width: 112px;
+    height: 70px;
+    float: left;
+}
+.chatLeftIcon{
+    background: url("img/chatLeftIcon.png") no-repeat;
+}
+.chatContent .chatMenu li:nth-child(1){
+    /*background-color: palevioletred;*/
+    background-position: 24px -48px;
+}
+.chatContent .chatMenu li:nth-child(2){
+    background-position: -162px -46px;
+}
+.chatContent .chatMenu li:nth-child(3){
+    background-position: -352px -45px;
+    /*background-color: palevioletred;*/
+
+}
+.chatContent .chatMenu li:nth-child(1).active{
+    background-position: 24px -111px;
+}
+.chatContent .chatMenu li:nth-child(2).active{
+    background-position: -162px -112px;
+}
+.chatContent .chatMenu li:nth-child(3).active{
+    background-position: -352px -110px;
+}
+.chatContent,.chatBoxOuter{
+    float: left;
+}
+.chatBoxOuter{
+    height: calc(100% - 50px);
+    width: calc(100% - 340px);
+    /*background: red;*/
+}
+.chatBox{
+    height: 90%;
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0px 0px 0px #e3e9f0;
+    margin: 0px auto;
+    margin-top: 30px;
+    max-width: 1100px;
+    min-width: 500px;
+    border-radius: 10px;
+}
+
+
+.chatHide{
+    display: none;
+}
+/*<!--消息-->*/
+.footerPlus{
+    height: 70px;
+    border-top: 1px solid #e6e6e6;
+    background-position: 143px -341px;
+    position: absolute;
+    /* border-top: 0px; */
+    width: 100%;
+    bottom: 0px;
+}
+.newsTabContent{
+    height: calc(100% - 140px);
+}
+.groupChatList,.usualChatList,.newsChatList{
+    height: 100%;
+    width: 320px;
+    overflow-y: auto;
+    /*background: palegoldenrod;*/
+    padding: 20px 10px 20px 10px;
+}
+.newsChatList{
+    padding-top: 10px;
+}
+.groupChatListUl{
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*overflow-y: auto;*/
+    margin: 13px 0px 35px 10px;
+}
+.groupChatListUl li{
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 10px;
+    /*background: palegoldenrod;*/
+    position: relative;
+}
+.groupChatListUl li div{
+    position: relative;
+    top: 10px;
+}
+.groupChatListUl li .groupImg{
+    float: left;
+    margin-left: 10px;
+}
+.groupChatList .triOpen,.usualChatList .triOpen{
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background-position: -37px -307px;
+    /* background-color: palegreen; */
+    margin-left: 10px;
+}
+.groupChatList .triClose,.usualChatList .triClose{
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background-position: -97px -304px;
+    /* background-color: palegreen; */
+    margin-left: 10px;
+}
+.groupChatList .discrib{
+     display: inline-block;
+    margin-left: 10px;
+ }
+.groupChatListUl li .groupName{
+    display: inline-block;
+    height: 44px;
+    float: left;
+    line-height: 44px;
+    text-indent: 18px;
+}
+.operMenuList {
+    position: absolute;
+    height: 156px;
+    width: 226px;
+    bottom: 100px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0px 0px 10px #f1f4f6;
+    left: 56px;
+    display: none;
+}
+.operMenuList ul{
+    margin: 26px;
+    /*background: palegoldenrod;*/
+}
+.operMenuList ul li{
+   height: 25px;
+    line-height: 25px;
+    padding-left: 34px;
+}
+.operMenuList ul li:nth-child(1){
+    background-position: -208px -212px;
+}
+.operMenuList ul li:nth-child(2){
+    background-position: -206px -251px ;
+    margin: 16px 0px;
+}
+.operMenuList ul li:nth-child(3){
+    background-position: -206px -293px ;
+}
+
+/*组织*/
+.orgnized{
+    width: 340px;
+}
+.serachMenber{
+    height: 70px;
+    width: 340px;
+    /*background: papayawhip;*/
+    overflow: hidden;
+}
+.serachMenber .searchInput{
+    height: 42px;
+    width: 320px;
+    background: #f5f5f5;
+    margin: 24px 0px 0px 10px;
+    /* margin-top: 24px; */
+    border: none;
+
+}
+.serachMenber .searchInput .defaultText{
+    display: block;
+    margin: 0px auto;
+    height: 42px;
+    width: 100px;
+    /* background: red; */
+    text-indent: 40px;
+    color: #333333;
+    line-height: 42px;
+    background-position: -397px -365px;
+}
+.organizationList{
+    height: 100px;
+    background: pink;
+    margin: 30px 32px 0px 24px;
+}
+.organizationList ul li{
+
+}
+.organizationList li .groupImg{
+    float: left;
+    margin-left: 10px;
+}
+.organizationList li .groupName{
+    display: inline-block;
+    height: 44px;
+    float: left;
+    line-height: 44px;
+    text-indent: 8px;
+}
+.organizationList li {
+    height: 60px;
+    /*margin-right: 10px;*/
+    border-radius: 10px;
+    /* background: palegoldenrod; */
+    position: relative;
+    overflow: hidden;
+}
+.organizationList li div{
+    position: relative;
+    top: 10px;
+}
+.groupCollspanO{
+    float: right;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    /* background: red; */
+    margin-top: 10px;
+    background-position: -206px -339px;
+}

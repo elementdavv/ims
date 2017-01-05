@@ -12,4 +12,12 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 */
 	public TMember searchSigleUser(String name, String password);
 
+	/**
+	 * 更新用户密码
+	 * @param userName
+	 * @param md5Pwd
+	 * @return
+	 */
+	public boolean updateUserPwd(String account, String md5Pwd);
+
 } 
