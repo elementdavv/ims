@@ -20,7 +20,7 @@
 	</c:if>
 	<c:if test="${SessionUser == null}">
 		<%
-			response.sendRedirect(request.getContextPath()+"/system!login.action");
+			response.sendRedirect(request.getContextPath()+"/system!login");
 		%>
 	</c:if>
 </body>
