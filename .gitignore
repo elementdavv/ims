@@ -1,5 +1,8 @@
 *.class
-*.classpath
-*.project
-*.settings
+.classpath
+.project
+.my*
+.springBeans
+.settings
+
 
