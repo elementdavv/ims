@@ -1,8 +1,5 @@
 package com.sealtalk.action;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
