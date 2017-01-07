@@ -1,5 +1,8 @@
 package com.sealtalk.action;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -44,22 +47,19 @@ public class SystemAction extends BaseAction {
 	 */
 	public String afterLogin() throws Exception
 	{
-		String name = request.getParameter("account");
-		String password = request.getParameter("userpwd");
-		
-		if (name == null || "".equals(name)) {
+		if (account == null || "".equals(account)) {
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
 			return "loginPage";
 		}
 		
-		TMember member = memberService.searchSigleUser(name, password);
+		TMember member = memberService.searchSigleUser(account, userpwd);
 		
 		if(member == null) {
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
 			return "loginPage";
 		}
 		
-		logger.info("That logining account is " + name);
+		logger.debug("That logining account is " + account);
 		
 		SessionUser su = new SessionUser();
 		
@@ -72,7 +72,15 @@ public class SystemAction extends BaseAction {
 		//code...
 		
 		setSessionUser(su);
-		return "loginSuccess";
+		
+		JSONObject text = new JSONObject();
+		
+		text.put("code", 1);
+		text.put("text", "ok");
+		
+		returnToClient(text.toString());
+		
+		return "text";
 	}
 	
 	/**
@@ -93,7 +101,9 @@ public class SystemAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String fogetPassword() throws Exception {
-		return "fogetpwd";
+		//request.getRequestDispatcher("/page/web/forgotpassword.jsp").forward(request, response);
+		
+		return "forgetpwd";
 	}
 	
 	/**
@@ -102,7 +112,6 @@ public class SystemAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String requestText() throws Exception {
-		String url = request.getParameter("url");
 		String phone = request.getParameter("phone");
 		
 		//中转代码
@@ -113,6 +122,8 @@ public class SystemAction extends BaseAction {
 		text.put("code", 1);
 		text.put("text", Tips.SENDTEXTS.getName());
 		
+		returnToClient(text.toString());
+		
 		return "text";
 	}
 	
@@ -121,6 +132,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 */
 	public String testText() throws Exception {
+		String phone = request.getParameter("phone");
 		String textCode = request.getParameter("textcode");
 		
 		JSONObject text = new JSONObject();
@@ -189,6 +201,25 @@ public class SystemAction extends BaseAction {
 	
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
+	}
+	
+	private String account;
+	private String userpwd;
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getUserpwd() {
+		return userpwd;
+	}
+
+	public void setUserpwd(String userpwd) {
+		this.userpwd = userpwd;
 	}
 	
 }

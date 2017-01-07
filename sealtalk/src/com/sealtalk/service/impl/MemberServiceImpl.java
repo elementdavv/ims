@@ -12,7 +12,7 @@ public class MemberServiceImpl implements MemberService {
 		TMember memeber = null;
 		
 		try {
-			password = PasswordGenerator.getInstance().getMD5Str(password);
+			//password = PasswordGenerator.getInstance().getMD5Str(password);  //前端加密
 			memeber = memberDao.searchSigleUser(name, password);
 		} catch (Exception e) {
 			e.printStackTrace();
