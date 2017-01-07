@@ -5,7 +5,7 @@ import com.sealtalk.model.TMember;
 
 public interface MemberDao extends IBaseDao<TMember, Long> {
 	/**
-	 * @功能 查找单用户
+	 * 登陆验证
 	 * @param name
 	 * @param password
 	 * @return
@@ -19,5 +19,12 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @return
 	 */
 	public boolean updateUserPwd(String account, String md5Pwd);
+
+	/**
+	 *	获取单用户 
+	 * @param account
+	 * @return
+	 */
+	public TMember getOneOfMember(String account);
 
 } 

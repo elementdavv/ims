@@ -104,18 +104,19 @@
 	</bean>
 	
 	<!-- 成员bean -->
-	<bean id="memberDao" class="com.sealtalk.dao.impl.MemberDaoImpl"
-		autowire="byName" />
-	<bean id="memberService"
-		class="com.sealtalk.service.impl.MemberServiceImpl"
-		autowire="byName" >
+	<bean id="memberDao" class="com.sealtalk.dao.impl.MemberDaoImpl" autowire="byName" />
+	<bean id="memberService" class="com.sealtalk.service.impl.MemberServiceImpl" autowire="byName" >
 		<property name="memberDao" ref="memberDao" />
 	</bean>
+	
 	<!-- 系统管理 -->
-	<bean id="systemAction"
-		class="com.sealtalk.action.SystemAction"
-		scope="prototype" autowire="byName" >
+	<bean id="systemAction" class="com.sealtalk.action.SystemAction" scope="prototype" autowire="byName" >
 		<property name="memberService" ref="memberService" />	
+	</bean>
+	
+	<!-- 成员管理 -->
+	<bean id="memberAction" class="com.sealtalk.action.MemberAction" scope="prototype" autowire="byName" >
+		<property name="memberService" ref="memberService" />
 	</bean>
 
 	<!-- 事务控制 -->

@@ -57,4 +57,24 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		return status;
 	}
 
+	@Override
+	public TMember getOneOfMember(String account) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("account", account));
+			
+			List list = ctr.list();
+			
+			if (list.size() > 0) {
+				return (TMember) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }

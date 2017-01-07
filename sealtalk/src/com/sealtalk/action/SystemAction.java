@@ -1,5 +1,9 @@
 package com.sealtalk.action;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -28,7 +32,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String login() throws Exception
+	public String login() throws IOException, ServletException
 	{
 		if (getSessionUser() == null) {
 			return "loginPage";
@@ -42,7 +46,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String afterLogin() throws Exception
+	public String afterLogin() throws IOException, ServletException
 	{
 		System.out.println("account: " + account);
 		System.out.println("userpwd: " + userpwd);
@@ -88,7 +92,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String logOut() throws Exception
+	public String logOut() throws IOException, ServletException
 	{
 		request.getSession().removeAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONUSER);
 		request.getSession().invalidate();
@@ -100,7 +104,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String fogetPassword() throws Exception {
+	public String fogetPassword() throws ServletException {
 		//request.getRequestDispatcher("/page/web/forgotpassword.jsp").forward(request, response);
 		
 		return "forgetpwd";
@@ -111,7 +115,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String requestText() throws Exception {
+	public String requestText() throws IOException, ServletException {
 		String phone = request.getParameter("phone");
 		
 		//中转代码
@@ -131,7 +135,7 @@ public class SystemAction extends BaseAction {
 	 * @function 验证短信(暂时没有短信平台，模拟)
 	 * @return
 	 */
-	public String testText() throws Exception {
+	public String testText() throws ServletException {
 		String phone = request.getParameter("phone");
 		String textCode = request.getParameter("textcode");
 		
@@ -157,7 +161,7 @@ public class SystemAction extends BaseAction {
 	 * @function:修改新密码
 	 * @return
 	 */
-	public String newPassword() throws Exception {
+	public String newPassword() throws ServletException {
 		String account = request.getParameter("account");
 		String newPwd = request.getParameter("newpwd");
 		String comparePwd = request.getParameter("comparepwd");

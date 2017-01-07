@@ -11,7 +11,7 @@ import com.sealtalk.model.TMember;
 public interface MemberService {
 
 	/**
-	 * 查找单用户
+	 * 登陆验证
 	 * @param name
 	 * @param password
 	 * @return
@@ -25,5 +25,12 @@ public interface MemberService {
 	 * @return
 	 */
 	public boolean updateUserPwd(String account, String newPwd);
+
+	/**
+	 * 获取单个成员
+	 * @param account
+	 * @return
+	 */
+	public String getOneOfMember(String account);
 
 }
