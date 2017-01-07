@@ -73,14 +73,14 @@ public class SystemAction extends BaseAction {
 		
 		setSessionUser(su);
 		
-		/*JSONObject text = new JSONObject();
+		JSONObject text = new JSONObject();
 		
 		text.put("code", 1);
 		text.put("text", "ok");
 		
-		returnToClient(text.toString());*/
+		returnToClient(text.toString());
 		
-		return "loginSuccess";
+		return "text";
 	}
 	
 	/**

@@ -25,7 +25,7 @@ function sendAjax(url,data,callback){
         url: url,
         data:data,
         success: function(data){
-            callback&&callback();
+            callback && callback(data);
         }
     })
 }
@@ -78,8 +78,8 @@ function signin(){
     //验证
     sendAjax('system!afterLogin',data,function(data){
         var datas = JSON.parse(data);
-        if(datas){
-           //window.location.href = 'system!login';
+        if(datas &&	datas.code == 1){
+           window.location.href = 'page/web/main.jsp';
         }
     });
 }
