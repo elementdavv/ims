@@ -44,6 +44,9 @@ public class SystemAction extends BaseAction {
 	 */
 	public String afterLogin() throws Exception
 	{
+		System.out.println("account: " + account);
+		System.out.println("userpwd: " + userpwd);
+		
 		if (account == null || "".equals(account)) {
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
 			return "loginPage";
@@ -70,14 +73,14 @@ public class SystemAction extends BaseAction {
 		
 		setSessionUser(su);
 		
-		JSONObject text = new JSONObject();
+		/*JSONObject text = new JSONObject();
 		
 		text.put("code", 1);
 		text.put("text", "ok");
 		
-		returnToClient(text.toString());
+		returnToClient(text.toString());*/
 		
-		return "text";
+		return "loginSuccess";
 	}
 	
 	/**

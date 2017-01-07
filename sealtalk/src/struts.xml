@@ -13,7 +13,7 @@
    
         <action name="system" class="com.sealtalk.action.SystemAction">
            	<result name="loginPage">/page/web/signin.jsp</result>
-			<result name="loginSuccess" type="redirect">/main.jsp</result>
+			<result name="loginSuccess" type="redirect">/page/web/main.jsp</result>
 			<result name="forgetpwd" type="dispatcher">/page/web/forgotpassword.jsp</result>
 			<result name="text" type="stream">
 				<param name="contentType">text/plain</param>

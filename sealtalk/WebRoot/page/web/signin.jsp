@@ -9,8 +9,12 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/signin.css"/>
 	<script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
 	<script src="<%=request.getContextPath() %>/page/web/js/signin.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/signin.js"></script>
 </head>
 <body>
+
 <div class="signin-bg">
     <div class="signin-logo">
         <div class="main clearfix">
@@ -31,6 +35,7 @@
                         <label for="username" class="username"></label>
                         <input type="text" placeholder="手机号" required="" class="form-control-my ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" name="accountNumber" ng-model="user.accountNumber" ng-pattern="/^1[3-9][0-9]{9,9}$/" id="username" my-focus="">
                         <!--<p class="error-block ng-hide" ng-show="(formSignin.accountNumber.$dirty||formSignin.submitted)&amp;&amp;formSignin.accountNumber.$invalid&amp;&amp;!formSignin.accountNumber.$focused">手机号格式错误</p>-->
+
                     </div>
                     <div class="form-group">
                         <label for="pwdIn" class="pwdIn"></label>

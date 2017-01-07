@@ -6,7 +6,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/main.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
 
@@ -120,38 +120,7 @@
         <div class="organizationList">
             <ul>
                 <li>
-                    <div level="1">
-                        <img class="groupImg" src="css/img/group_chart.png" alt=""/>
-                        <span class="groupName">产品部<em>(15/20)</em></span>
-                        <span class="groupCollspanO chatLeftIcon"></span>
-                    </div>
-                </li>
-                <ul>
-                    <li>
-                        <div level="2">
-                            <span style="height: 20px;width: 20px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="css/img/group_chart.png" alt=""/>
-                            <span class="groupName">adsfadsfadsf<em>(15/20)</em></span>
-                            <span class="groupCollspanO chatLeftIcon"></span>
-                        </div>
-                    </li>
-                </ul>
-                <li>
-                    <div level="1">
-                        <img class="groupImg" src="css/img/group_chart.png" alt=""/>
-                        <span class="groupName">产品部<em>(15/20)</em></span>
-                        <span class="groupCollspanO chatLeftIcon"></span>
-                    </div>
-                </li>
-                <li>
-                    <div level="1">
-                        <img class="groupImg" src="css/img/group_chart.png" alt=""/>
-                        <span class="groupName">产品部<em>(15/20)</em></span>
-                        <span class="groupCollspanO chatLeftIcon"></span>
-                    </div>
-                </li>
-                <li>
-                    <div level="1">
+                    <div>
                         <img class="groupImg" src="css/img/group_chart.png" alt=""/>
                         <span class="groupName">产品部<em>(15/20)</em></span>
                         <span class="groupCollspanO chatLeftIcon"></span>
