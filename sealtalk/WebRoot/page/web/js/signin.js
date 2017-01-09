@@ -9,7 +9,7 @@ window.onload = function(){
         var phoneNum = $('#phoneNum').val();
         var data = JSON.stringify({phoneNum:phoneNum});
         sendAjax('system!requestText',data,function(){
-            console.log('验证码发送成功')
+            console.log('验证码发送成功');
 
         })
     })

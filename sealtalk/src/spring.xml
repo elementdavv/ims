@@ -103,22 +103,30 @@
 		</property>
 	</bean>
 	
-	<!-- 成员bean -->
+	<!-- dao -->
 	<bean id="memberDao" class="com.sealtalk.dao.impl.MemberDaoImpl" autowire="byName" />
+	<bean id="friendDao" class="com.sealtalk.dao.impl.FriendDaoImpl" autowire="byName" />
+	
+	<!-- service -->
 	<bean id="memberService" class="com.sealtalk.service.impl.MemberServiceImpl" autowire="byName" >
 		<property name="memberDao" ref="memberDao" />
 	</bean>
+	<bean id="friendService" class="com.sealtalk.service.impl.FriendServiceImpl" autowire="byName" >
+		<property name="memberDao" ref="memberDao" />
+		<property name="friendDao" ref="friendDao" />
+	</bean>
 	
-	<!-- 系统管理 -->
+	<!-- action -->
 	<bean id="systemAction" class="com.sealtalk.action.SystemAction" scope="prototype" autowire="byName" >
 		<property name="memberService" ref="memberService" />	
 	</bean>
-	
-	<!-- 成员管理 -->
 	<bean id="memberAction" class="com.sealtalk.action.MemberAction" scope="prototype" autowire="byName" >
 		<property name="memberService" ref="memberService" />
 	</bean>
-
+	<bean id="friendAction" class="com.sealtalk.action.FriendAction" scope="prototype" autowire="byName" >
+		<property name="friendService" ref="friendService" />
+	</bean>
+	
 	<!-- 事务控制 -->
 	<bean id="transactionProxy"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"

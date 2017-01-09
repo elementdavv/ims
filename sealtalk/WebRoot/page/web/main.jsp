@@ -6,7 +6,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/main.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/main.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
 
