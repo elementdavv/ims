@@ -1,5 +1,8 @@
 package com.sealtalk.action;
 
+import io.rong.RongCloud;
+import io.rong.models.TokenReslut;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -14,6 +17,8 @@ import com.sealtalk.common.Tips;
 import com.sealtalk.model.SessionUser;
 import com.sealtalk.model.TMember;
 import com.sealtalk.service.MemberService;
+import com.sealtalk.utils.JSONUtils;
+import com.sealtalk.utils.PropertiesUtils;
 
 /**
  * 系统相关
@@ -65,6 +70,21 @@ public class SystemAction extends BaseAction {
 		
 		logger.debug("That logining account is " + account);
 		
+		int userId = member.getId();
+		
+		String token = null;
+		
+		try {
+			String appKey = PropertiesUtils.getStringByKey("db.appKey");
+			String appSecret = PropertiesUtils.getStringByKey("db.appSecret");
+			RongCloud rongCloud = RongCloud.getInstance(appKey, appSecret);
+			TokenReslut userGetTokenResult = rongCloud.user.getToken(userId + "", "username", "http://www.rongcloud.cn/images/logo.png");
+			
+			token = userGetTokenResult.getToken();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		SessionUser su = new SessionUser();
 		
 		if (member != null) {
@@ -77,12 +97,16 @@ public class SystemAction extends BaseAction {
 		
 		setSessionUser(su);
 		
-		JSONObject text = new JSONObject();
+		JSONObject result = new JSONObject();
+		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
 		
-		text.put("code", 1);
-		text.put("text", "ok");
+		text.put("token", token);
 		
-		returnToClient(text.toString());
+		result.put("code", 1);
+		result.put("text", text.toString());
+		
+		System.out.println("text: " + text.toString());
+		returnToClient(result.toString());
 		
 		return "text";
 	}
@@ -209,6 +233,7 @@ public class SystemAction extends BaseAction {
 	
 	private String account;
 	private String userpwd;
+	private String dataSource;
 
 	public String getAccount() {
 		return account;
@@ -224,6 +249,14 @@ public class SystemAction extends BaseAction {
 
 	public void setUserpwd(String userpwd) {
 		this.userpwd = userpwd;
+	}
+	
+	public String getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
 	}
 	
 }

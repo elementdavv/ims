@@ -69,7 +69,7 @@
 			<list>
 				<!-- <value>classpath:/com/sealtalk/pojo</value> -->
 				<value>com/sealtalk/model/TMember.hbm.xml</value>
-		
+				<value>com/sealtalk/model/TFriend.hbm.xml</value>
 			<!--
 				<value>com/sealtalk/pojo/BranchMember.hbm.xml</value>
 				<value>com/sealtalk/pojo/Function.hbm.xml</value>
@@ -89,7 +89,7 @@
 				<value>com/sealtalk/pojo/MemberRole.hbm.xml</value>
 				<value>com/sealtalk/pojo/Sex.hbm.xml</value>
 				<value>com/sealtalk/pojo/Province.hbm.xml</value>
-				<value>com/sealtalk/pojo/Friend.hbm.xml</value>
+			
 				-->
 			</list>
 		</property>
