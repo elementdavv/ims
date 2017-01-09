@@ -105,7 +105,6 @@ public class SystemAction extends BaseAction {
 		result.put("code", 1);
 		result.put("text", text.toString());
 		
-		System.out.println("text: " + text.toString());
 		returnToClient(result.toString());
 		
 		return "text";
