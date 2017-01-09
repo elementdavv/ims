@@ -59,7 +59,7 @@ body,
 button, input, select, textarea,
 h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
-    font-family: 'PingFangSC-Medium', 'Microsoft YaHei', sans-serif;
+    font-family:'Microsoft YaHei', sans-serif;
 }
 
 address, cite, dfn, em, var {
@@ -191,7 +191,7 @@ input::-ms-clear{display:none;}
     float: left;
 }
 .chatLeftIcon{
-    background: url("page/web/css/img/chatLeftIcon.png") no-repeat;
+    background: url("img/chatLeftIcon.png") no-repeat;
 }
 .chatContent .chatMenu li:nth-child(1){
     /*background-color: palevioletred;*/
@@ -223,7 +223,7 @@ input::-ms-clear{display:none;}
     /*background: red;*/
 }
 .chatBox{
-    height: 90%;
+    height: calc(100% - 60px);
     width: 100%;
     background: #ffffff;
     box-shadow: 0px 0px 0px #e3e9f0;
@@ -262,10 +262,10 @@ input::-ms-clear{display:none;}
     padding-top: 10px;
 }
 .groupChatListUl{
-    /*height: 100%;*/
-    /*width: 100%;*/
-    /*overflow-y: auto;*/
-    margin: 13px 0px 35px 10px;
+    /* height: 100%; */
+    /* width: 100%; */
+    /* overflow-y: auto; */
+    padding: 13px 0px 35px 0px;
 }
 .groupChatListUl li{
     height: 60px;
@@ -273,6 +273,14 @@ input::-ms-clear{display:none;}
     border-radius: 10px;
     /*background: palegoldenrod;*/
     position: relative;
+}
+.groupChatListUl li.active{
+    /* height: 60px; */
+    /* margin-right: 10px; */
+    /* border-radius: 10px; */
+    background: #f0fdff;
+    /* position: relative; */
+    padding-left: 10px;
 }
 .groupChatListUl li div{
     position: relative;
@@ -318,6 +326,7 @@ input::-ms-clear{display:none;}
     box-shadow: 0px 0px 10px #f1f4f6;
     left: 56px;
     display: none;
+    background: white;
 }
 .operMenuList ul{
     margin: 26px;
@@ -342,6 +351,8 @@ input::-ms-clear{display:none;}
 /*组织*/
 .orgnized{
     width: 340px;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 .serachMenber{
     height: 70px;
@@ -371,15 +382,16 @@ input::-ms-clear{display:none;}
 }
 .organizationList{
     height: 100px;
-    background: pink;
-    margin: 30px 32px 0px 24px;
+    /*background: pink;*/
+    margin: 20px 32px 0px 24px;
 }
 .organizationList ul li{
 
 }
 .organizationList li .groupImg{
     float: left;
-    margin-left: 10px;
+    width: 32px;
+    margin-top: 5px;
 }
 .organizationList li .groupName{
     display: inline-block;
@@ -389,16 +401,17 @@ input::-ms-clear{display:none;}
     text-indent: 8px;
 }
 .organizationList li {
-    height: 60px;
-    /*margin-right: 10px;*/
+    height: 46px;
+    /* margin-right: 10px; */
     border-radius: 10px;
     /* background: palegoldenrod; */
     position: relative;
     overflow: hidden;
+    margin-top: 10px;
 }
 .organizationList li div{
     position: relative;
-    top: 10px;
+    top: 4px;
 }
 .groupCollspanO{
     float: right;
@@ -408,4 +421,319 @@ input::-ms-clear{display:none;}
     /* background: red; */
     margin-top: 10px;
     background-position: -206px -339px;
+}
+.groupCollspanC{
+    float: right;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    /* background: red; */
+    margin-top: 10px;
+    background-position: -206px -373px;
+}
+.BreadcrumbsOuter{
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.seeOrgnizeTree{
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    background: red;
+    float: right;
+    margin-top: 17px;
+    margin-right: 60px;
+    background-position: -532px -145px;
+}
+.BreadcrumbsOuter .Breadcrumbs{
+    line-height: 60px;
+    margin-left: 42px;
+}
+.BreadcrumbsOuter .Breadcrumbs li{
+    float: left;
+    color: #a9a9a9;
+    /*line-height: 60px;*/
+}
+.BreadcrumbsOuter .Breadcrumbs li a{
+    font-size: 16px;
+    color: #30c0da;
+}
+.chatBox .orgNavClick1{
+    margin: 38px 42px;
+    overflow: hidden;
+}
+.chatBox .orgNavClick1 .orgNavTitle{
+    display: block;
+    font-size: 16px;
+    margin-bottom: 44px;
+    margin-top: 14px;
+}
+.chatBox .orgNavClick1>ul{
+    width: 100%;
+    overflow: hidden;
+    line-height: 80px;
+    margin-left: 22px;
+}
+.chatBox .orgNavClick1>ul>li{
+    float: left;
+    width: 33%;
+    margin-bottom: 60px;
+    overflow: hidden;
+    position: relative;
+    /*margin: 44px 0px 40px 0px;*/
+}
+.showPersonalInfo{
+    margin-left: 58px;
+    overflow: hidden;
+    /*background: red;*/
+    /*height: 100px;*/
+    width: auto;
+    margin-top: 20px;
+}
+.showPersonalInfo span{
+    position: relative;
+    top: -15px;
+    left: 18px;
+}
+.showImgInfo,.showImgInfo{
+    float: left;
+}
+.showImgInfo{
+    display: inline-block;
+    height: 80px;
+    width: 80px;
+    display: inline-block;
+}
+.personalOperaIcon{
+    height: 30px;
+    width: 130px;
+    /*background: plum;*/
+    position: absolute;
+    top: 40px;
+    padding-left: 18px;
+}
+.personalOperaIcon li,.selfImgOpera li{
+    float: left;
+    width: 34px;
+    background-image: url("img/chatLeftIcon.png");
+    height: 30px;
+    line-height: 30px;
+}
+.sendMsg{
+     background-position: -206px -209px;
+ }
+.checkPosition{
+    background-position: -206px -248px;
+}
+.addConver{
+    background-position: -206px -289px;
+}
+
+.orgNavClick2{
+    height: 200px;width: 340px;
+    /*background: paleturquoise;*/
+    margin: 0px auto;
+    margin-top: 52px;
+}
+.selfImgInfo img{
+    margin-left:58px;
+}
+.selfImgInfo{
+    overflow: hidden;
+    padding-bottom: 52px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.selfImgInfo img,.selfImgInfo div{
+    float: left;
+}
+.selfImgInfo div{
+    margin-left:18px;
+}
+.selfImgInfo div .selfImgOpera{
+    overflow: hidden;
+}
+.selfImgInfo div .selfImgOpera li{
+    float: left;
+}
+.selfImgInfo div p{
+    margin-top: 18px;
+}
+.selfImgOpera{
+    margin-top: 10px;;
+}
+.showPersonalInfo ul li{
+    overflow: hidden;
+    margin:20px 0px;
+}
+.showPersonalInfo ul li div{
+    float: left;
+}
+.showPersonalInfo ul li div:nth-child(1){
+    width:73px;
+    color: #808080;
+}
+.showPersonalInfo ul li div:nth-child(2){
+    /*width:73px;*/
+    color: #1a1a1a;
+}
+.orgNavClick3{
+    /*height: 100%;*/
+    width: 100%;
+    /*background: palevioletred;*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*组织结构*/
+/*.topOuter {*/
+    /*height: 124px;*/
+    /*width: 175px;*/
+    /*background: white;*/
+/*}*/
+
+/*.outerVertical{*/
+    /*width: 110px;*/
+    /*height:225px;*/
+    /*background: papayawhip;;*/
+/*}*/
+/*.outerHorizontal{*/
+    /*height: 124px;*/
+    /*width: 175px;*/
+    /*background: palevioletred;*/
+/*}*/
+
+/*.innerHorizontal {*/
+    /*height: 55px;*/
+    /*border: 1px solid #30c0da;*/
+    /*line-height: 55px;*/
+    /*text-align: center;*/
+/*}*/
+/*.innerVertical {*/
+    /*height: 175px;*/
+    /*width:55px;*/
+    /*border: 1px solid #30c0da;*/
+    /*line-height: 55px;*/
+    /*text-align: center;*/
+/*}*/
+/*.level1{*/
+    /*overflow: hidden;*/
+/*}*/
+/*.level1 [level='1']{*/
+    /*float: left;*/
+/*}*/
+
+/*.level2{*/
+    /*overflow: hidden;*/
+/*}*/
+/*.level2 [level='2']{*/
+    /*float: left;*/
+/*}*/
+
+
+/*.level3{*/
+    /*overflow: hidden;*/
+/*}*/
+/*.level3 [level='3']{*/
+    /*float: left;*/
+/*}*/
+
+/*.level4{*/
+    /*overflow: hidden;*/
+/*}*/
+/*.level4 [level='4']{*/
+    /*float: left;*/
+/*}*/
+
+
+.organizeListOuter>div{
+    position: absolute;
+    /*height: 30px;*/
+    /*width: 50px;*/
+}
+.outerHorizontal{
+    height:56px;
+    background: pink;
+    width:174px;
+}
+.outerVertical{
+    height: 174px;
+    width: 56px;
+    background: papayawhip;
+}
+.organizeListOuter{
+    position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*应用管理*/
+.setting{
+    height: 400px;
+    width:100%;
+    background: papayawhip;
+}
+/*弹窗*/
+.WindowMask{
+    height: 100%;
+    width: 100%;
+    position: absolute;top: 0px;left: 0px;
+    background: rgba(0,0,0,0.5);
+    display: none;
+}
+.myContextMenu{
+    position: absolute;
+    width: 96px;
+    top: 500px;
+    left: 500px;
+    background: white;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0px 0px 10px #f1f4f6;
+}
+.contextTri{
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    border: 10px solid #f0f0f0;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    left: -20px;
+    top: 10px;
+}
+.myContextMenu ul{
+    margin-left:10px;
+    /*background:paleturquoise;*/
+}
+.myContextMenu ul li{
+    margin: 10px auto;
+    /*line-height:;*/
 }

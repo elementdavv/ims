@@ -28,7 +28,7 @@ html{
 body{
     height: 100%;
     min-width: 1000px;
-    background: url("page/web/css/img/webBg_new.png") no-repeat;
+    background: url("img/webBg_new.png") no-repeat;
     /*background-size: 100%;*/
 }
 .header, .box_hd, .LeftNav, .drag_area{
@@ -135,7 +135,7 @@ input::-ms-clear{display:none;}
 .signin-bg{
     height: 100%;
     width: 100%;
-    background: url("page/web/css/img/webBg_new.png") no-repeat;
+    background: url("img/webBg_new.png") no-repeat;
 }
 .signin-logo{
     width: 100%;
@@ -209,10 +209,10 @@ input::-ms-clear{display:none;}
     top: 12px;
 }
 .sign-flow .form-group .username{
-    background: url("page/web/css/img/IMsign.png") no-repeat -462px -52px;
+    background: url("img/IMsign.png") no-repeat -462px -52px;
 }
 .sign-flow .form-group .pwdIn{
-    background: url("page/web/css/img/IMsign.png") no-repeat -470px -127px;
+    background: url("img/IMsign.png") no-repeat -470px -127px;
 }
 .sign-flow .form-group input{
     height: 42px;
@@ -302,14 +302,14 @@ input::-ms-clear{display:none;}
 .resetBox .step1Img{
      /*background: red;*/
      height: 30px;
-     background: url(page/web/css/img/IMsign.png) no-repeat;
+     background: url(img/IMsign.png) no-repeat;
      background-position: 114px -188px;
      margin-top: 60px;
  }
 .resetBox .step2Img{
     /*background: red;*/
     height: 30px;
-    background: url(page/web/css/img/IMsign.png) no-repeat;
+    background: url(img/IMsign.png) no-repeat;
     background-position: 114px -240px;
     margin-top: 60px;
 }
@@ -317,7 +317,7 @@ input::-ms-clear{display:none;}
 .resetBox .step3Img{
     /*background: red;*/
     height: 30px;
-    background: url(page/web/css/img/IMsign.png) no-repeat;
+    background: url(img/IMsign.png) no-repeat;
     background-position: 114px -289px;
     margin-top: 60px;
 }
@@ -329,7 +329,7 @@ input::-ms-clear{display:none;}
 }
 .step3 .finishResetImg {
     height: 150px;
-    background: url("page/web/css/img/IMsign.png") no-repeat;
+    background: url("img/IMsign.png") no-repeat;
     background-position: 3px 0px;
     width: 100%;
     display: inline-block;
