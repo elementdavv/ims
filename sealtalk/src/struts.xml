@@ -36,6 +36,14 @@
 				<param name="inputName">inputStream</param>
         	</result>
         </action>
+        
+        <!-- 组织机构 -->
+        <action name="branch" class="com.sealtalk.action.adm.BranchAction">
+        	<result name="text" type="stream">
+        		<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+        	</result>
+        </action>
     </package>
 
 </struts>
