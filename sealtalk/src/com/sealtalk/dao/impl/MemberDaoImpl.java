@@ -57,6 +57,7 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		return status;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TMember getOneOfMember(String account) {
 		try {
@@ -64,10 +65,31 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 			Criteria ctr = getCriteria();
 			ctr.add(Restrictions.eq("account", account));
 			
-			List list = ctr.list();
+			List<TMember> list = ctr.list();
 			
 			if (list.size() > 0) {
 				return (TMember) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TMember> getMultipleMember(String[] mulMemberStr) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.in("account", mulMemberStr));
+			
+			List<TMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
 			}
 			
 		} catch (Exception e) {

@@ -1,5 +1,7 @@
 package com.sealtalk.dao;
 
+import java.util.List;
+
 import com.sealtalk.common.IBaseDao;
 import com.sealtalk.model.TMember;
 
@@ -27,4 +29,11 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 */
 	public TMember getOneOfMember(String account);
 
+	/**
+	 * in 查询多个用户
+	 * @param mulMemberStr
+	 * @return
+	 */
+	public List<TMember> getMultipleMember(String[] mulMemberStr);
+	
 } 

@@ -9,7 +9,12 @@ public enum  Tips {
 	SENDTEXTS("短信验证码已发送"),
 	NULLTEXTS("短信验证码为空"),
 	ERRORTEXTS("短信验证码不正确"),
-	TRUETEXTS("短信验证通过");
+	TRUETEXTS("短信验证通过"),
+	UNKNOWERR("未知错误"),
+	NOTFRIENDID("未选取好友"),
+	FAILADDFRIEND("好友添加失败"),
+	SUCADDFRIEND("好友添加成功"),
+	HAVEFRIENDRELATION("已存在好友关系");
 	
 	private String name;
 	

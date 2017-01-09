@@ -28,6 +28,14 @@
 				<param name="inputName">inputStream</param>
 			</result>
         </action>
+        
+        <!-- 联系人管理  -->
+        <action name="friend" class="com.sealtalk.action.FriendAction">
+        	<result name="text" type="stream">
+        		<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+        	</result>
+        </action>
     </package>
 
 </struts>
