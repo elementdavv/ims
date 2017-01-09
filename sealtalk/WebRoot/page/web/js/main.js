@@ -17,15 +17,11 @@ window.onload = function() {
         switch (index)
         {
             case 0:
-                console.log(0);
+                //群成员管理
+                //creatDialogTree四个参数 1结构数据 2类名(groupConvers/privateConvers) 3title 4已选联系人
+                creatDialogTree('','groupConvers','群组管理')
                 break;
             case 1:
-                console.log(1);
-                break;
-            case 2:
-                console.log(2);
-                break;
-            case 3:
                 //解散群
                 new Window().alert({
                     title   : '解散群',
@@ -35,18 +31,13 @@ window.onload = function() {
                     textForSureBtn : '确定',              //确定按钮
                     textForcancleBtn : '取消',            //取消按钮
                     handlerForCancle : null,
-                    //handlerForClose : null,
                     handlerForSure : null
-                    //width : 490,          //宽
-                    //height: 270          //高
-                    //skinClassName:oWindowMsg.skinClassName,
-                    //autoHide:oWindowMsg.autoHide
                 });
                 break;
-            case 4:
-                console.log(4);
+            case 2:
+                //转让群
+                transfer();
                 break;
-
         }
     })
     $('.newsTabContent').delegate('.groupChatListUl li','mousedown',function(e){
@@ -54,7 +45,7 @@ window.onload = function() {
         if(e.buttons==2){
             var left = e.clientX;
             var top = e.clientY;
-            var arr = ['发起群聊','查看群资料','群成员管理','解散群','转让群']
+            var arr = ['群成员管理','解散群','转让群']
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'groupLeftClick'
             fshowContexMenu(arr,style,id)
