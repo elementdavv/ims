@@ -80,11 +80,32 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TMember> getMultipleMember(String[] mulMemberStr) {
+	public List<TMember> getMultipleMemberForAccounts(String[] mulMemberStr) {
 		try {
 			
 			Criteria ctr = getCriteria();
 			ctr.add(Restrictions.in("account", mulMemberStr));
+			
+			List<TMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TMember> getMultipleMemberForIds(Integer[] ids) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.in("id", ids));
 			
 			List<TMember> list = ctr.list();
 			

@@ -30,10 +30,17 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	public TMember getOneOfMember(String account);
 
 	/**
-	 * in 查询多个用户
+	 * in 查询多个用户按账号
 	 * @param mulMemberStr
 	 * @return
 	 */
-	public List<TMember> getMultipleMember(String[] mulMemberStr);
+	public List<TMember> getMultipleMemberForAccounts(String[] mulMemberStr);
+
+	/**
+	 * 查询多个用户按id
+	 * @param accounts
+	 * @return
+	 */
+	public List<TMember> getMultipleMemberForIds(Integer[] accounts);
 	
 } 

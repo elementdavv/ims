@@ -33,16 +33,73 @@ public class FriendAction extends BaseAction {
 		try{
 			if (account == null || "".equals(account)) {
 				jo.put("code", -1);
-				jo.put("text", Tips.UNKNOWERR);
+				jo.put("text", Tips.UNKNOWERR.getName());
 				result = jo.toString();
 			} else if (friend == null || "".equals(friend)) {
 				jo.put("code", 0);
-				jo.put("text", Tips.NOTFRIENDID);
+				jo.put("text", Tips.NOTFRIENDID.getName());
 				result = jo.toString();
 			} else {
 				result = friendService.addFriend(account, friend);
 			}
 			
+			logger.info(result);
+			
+			returnToClient(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "text";
+	}
+	
+	/**
+	 * 删除联系人关系
+	 * @return
+	 * @throws ServletException
+	 */
+	public String delFriend() throws ServletException {
+		JSONObject jo = new JSONObject();
+		String result = null;
+		
+		try {
+			if (account == null || "".equals(account)) {
+				jo.put("code", -1);
+				jo.put("text", Tips.UNKNOWERR.getName());
+				result = jo.toString();
+			} else if (friend == null || "".equals(friend)) {
+				jo.put("code", 0);
+				jo.put("text", Tips.NOTFRIENDID.getName());
+				result = jo.toString();
+			} else {
+				result = friendService.delFriend(account, friend);
+			}
+			logger.info(result);
+			returnToClient(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "text";
+	}
+	
+	/**
+	 * 拉取联系人列表
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getMemberFriends() throws ServletException {
+		JSONObject jo = new JSONObject();
+		String result = null;
+		
+		try {
+			if (account == null || "".equals(account)) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getName());
+			} else {
+				result = friendService.getMemberFriends(account);
+			}
+			
+			logger.info(result);
 			returnToClient(result);
 		} catch (Exception e) {
 			e.printStackTrace();

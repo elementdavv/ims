@@ -8,7 +8,6 @@ import org.hibernate.criterion.Restrictions;
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.FriendDao;
 import com.sealtalk.model.TFriend;
-import com.sealtalk.model.TMember;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
@@ -44,17 +43,48 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 	@Override
 	public void addFriend(int accountId, int friendId) {
 		try {
+			int countFriend = count("from TFriend");
+			
 			TFriend friend = new TFriend();
 			
 			friend.setFriendId(friendId);
 			friend.setMemberId(accountId);
 			friend.setCreatedate(TimeGenerator.getInstance().formatNow("yyyyMMdd"));
-			friend.setListorder(0);
+			friend.setListorder(countFriend);
 			
 			save(friend);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void delFriend(int accountId, int friendId) {
+		try {
+			String hql = "delete from TFriend where memberId=" + accountId + " and friendId=" + friendId;
+			delete(hql);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<TFriend> getFriendRelationForAccount(String account) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("memberId", account));
+			
+			List<TFriend> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }

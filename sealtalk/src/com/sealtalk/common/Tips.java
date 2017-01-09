@@ -14,7 +14,11 @@ public enum  Tips {
 	NOTFRIENDID("未选取好友"),
 	FAILADDFRIEND("好友添加失败"),
 	SUCADDFRIEND("好友添加成功"),
-	HAVEFRIENDRELATION("已存在好友关系");
+	HAVEFRIENDRELATION("已存在好友关系"),
+	FAILDELFRIEND("好友删除失败"),
+	SUCDELFRIEND("好友删除成功"),
+	HAVEZEROFRIEND("没有好友"),
+	NOHAVEFRIENDRELATION("不存在好友关系");
 	
 	private String name;
 	

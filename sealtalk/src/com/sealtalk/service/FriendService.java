@@ -15,4 +15,19 @@ public interface FriendService {
 	 */
 	public String addFriend(String account, String friend);
 
+	/**
+	 * 删除好友关系
+	 * @param account
+	 * @param friend
+	 * @return
+	 */
+	public String delFriend(String account, String friend);
+
+	/**
+	 * 获取联系人列表
+	 * @param account
+	 * @return
+	 */
+	public String getMemberFriends(String account);
+
 }
