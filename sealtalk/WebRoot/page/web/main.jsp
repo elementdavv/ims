@@ -402,7 +402,35 @@
 
         </div>
     </div>
+    <div class="WindowMask">
 
+    <div class="conversWindow groupConvers">
+    <span class="dialogClose">×</span>
+    <div class="dialogHeader">群组管理</div>
+    <div class="dialogBody">
+    <div class="contactListOuter">
+    <p class="outerTitle">选择联系人：</p>
+    <div class="contactBox">
+    <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
+    <div class="contactsList"></div>
+    </div>
+    </div>
+    <div class="selectedContactOuter">
+    <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
+    <div class="contactBox">
+    <input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>
+    <div class="selectedList"></div>
+    </div>
+    </div>
+
+    </div>
+    <div class="dialogFooter">
+    <input type="button" value="确定" class="manageSure">
+    <input type="button" value="取消" class="manageCancle">
+    </div>
+    </div>
+
+    </div>
 
 </body>
 </html>

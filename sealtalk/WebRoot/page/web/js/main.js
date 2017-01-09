@@ -37,6 +37,10 @@ window.onload = function() {
                     handlerForCancle : null,
                     //handlerForClose : null,
                     handlerForSure : null
+                    //width : 490,          //宽
+                    //height: 270          //高
+                    //skinClassName:oWindowMsg.skinClassName,
+                    //autoHide:oWindowMsg.autoHide
                 });
                 break;
             case 4:
