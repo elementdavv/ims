@@ -191,7 +191,7 @@ input::-ms-clear{display:none;}
     float: left;
 }
 .chatLeftIcon{
-    background: url("img/chatLeftIcon.png") no-repeat;
+    background: url("page/web/css/img/chatLeftIcon.png") no-repeat;
 }
 .chatContent .chatMenu li:nth-child(1){
     /*background-color: palevioletred;*/
