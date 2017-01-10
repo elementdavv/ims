@@ -1,4 +1,4 @@
-package com.sealtalk.action;
+package com.sealtalk.action.member;
 
 import javax.servlet.ServletException;
 
@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.common.Tips;
-import com.sealtalk.service.MemberService;
+import com.sealtalk.service.member.MemberService;
 
 /**
  * 成员action

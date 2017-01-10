@@ -1,4 +1,4 @@
-package com.sealtalk.service;
+package com.sealtalk.service.friend;
 
 /**
  * 好友关系管理 

@@ -1,4 +1,4 @@
-package com.sealtalk.dao.impl;
+package com.sealtalk.dao.member.impl;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
-import com.sealtalk.dao.MemberDao;
+import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
 import com.sealtalk.utils.PasswordGenerator;
 
@@ -18,6 +18,7 @@ import com.sealtalk.utils.PasswordGenerator;
  */
 public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TMember searchSigleUser(String name, String password) {
 		

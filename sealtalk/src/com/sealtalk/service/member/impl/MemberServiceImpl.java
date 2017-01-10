@@ -1,11 +1,11 @@
-package com.sealtalk.service.impl;
+package com.sealtalk.service.member.impl;
 
 import net.sf.json.JSONObject;
 
 import com.sealtalk.common.Tips;
-import com.sealtalk.dao.MemberDao;
+import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
-import com.sealtalk.service.MemberService;
+import com.sealtalk.service.member.MemberService;
 import com.sealtalk.utils.PasswordGenerator;
 
 public class MemberServiceImpl implements MemberService {

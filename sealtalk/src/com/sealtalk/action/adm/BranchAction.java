@@ -27,7 +27,7 @@ public class BranchAction extends BaseAction {
 		
 		return "text";
 	}
-
+	
 	private BranchService branchService;
 	
 	public BranchService getBranchService() {

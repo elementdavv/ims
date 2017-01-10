@@ -1,4 +1,4 @@
-package com.sealtalk.action;
+package com.sealtalk.action.friend;
 
 import javax.servlet.ServletException;
 
@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.common.Tips;
-import com.sealtalk.service.FriendService;
+import com.sealtalk.service.friend.FriendService;
 
 /**
  * 联系人管理 

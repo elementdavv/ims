@@ -10,7 +10,6 @@ window.onload = function(){
         var data = JSON.stringify({phoneNum:phoneNum});
         sendAjax('system!requestText',data,function(){
             console.log('验证码发送成功')
-
         })
     })
 }
@@ -74,12 +73,13 @@ function fSendCheakCode(){
 function signin(){
     var accout = $('#username').val();
     var userpwd = hex_md5($('#pwdIn').val());
-    var data = {'account':accout,'userpwd':userpwd};
+    var data = {account:accout,userpwd:userpwd};
     //验证
-    sendAjax('system!afterLogin',data,function(data){
-        var datas = JSON.parse(data);
+    sendAjax('system!afterLogin',data,function(datas){
+        var datas = JSON.parse(datas);
         if(datas &&	datas.code == 1){
-           window.location.href = 'page/web/main.jsp';
+            window.localStorage.account=JSON.stringify(data);
+            window.location.href = 'page/web/main.jsp';
         }
     });
 }

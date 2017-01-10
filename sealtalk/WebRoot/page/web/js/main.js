@@ -26,6 +26,9 @@ $(function(){
         $(this).closest('li').next('ul').slideToggle();
     })
 
+
+
+
     /*顶部&&左侧导航切换*/
     $('.chatHeaderMenu,.chatMenu').click(function (e) {
         $(e.target).addClass('active')
@@ -45,6 +48,9 @@ $(function(){
         }
         nShowClass&&showPanel(nShowClass);
     })
+
+
+
 
     /*展开关闭子级列表*/
     $('.listCtrl').click(function(){
@@ -81,4 +87,16 @@ function showPanel(panelClass){
         eShowNode.removeClass('chatHide');
         eShowNode.siblings(".chatContent").addClass('chatHide');
     }
+}
+
+
+function sendAjax(url,data,callback){
+    $.ajax({
+        type: "POST",
+        url: url,
+        data:data,
+        success: function(data){
+            callback && callback(data);
+        }
+    })
 }

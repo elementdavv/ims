@@ -1,4 +1,4 @@
-package com.sealtalk.dao;
+package com.sealtalk.dao.member;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.sealtalk.dao.impl;
+package com.sealtalk.dao.friend.impl;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
-import com.sealtalk.dao.FriendDao;
+import com.sealtalk.dao.friend.FriendDao;
 import com.sealtalk.model.TFriend;
 import com.sealtalk.utils.TimeGenerator;
 
@@ -68,11 +68,12 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<TFriend> getFriendRelationForAccount(String account) {
+	public List<TFriend> getFriendRelationForId(int id) {
 		try {
 			Criteria ctr = getCriteria();
-			ctr.add(Restrictions.eq("memberId", account));
+			ctr.add(Restrictions.eq("memberId", id));
 			
 			List<TFriend> list = ctr.list();
 			

@@ -1,4 +1,4 @@
-package com.sealtalk.action;
+package com.sealtalk.action.sys;
 
 import io.rong.RongCloud;
 import io.rong.models.TokenReslut;
@@ -16,7 +16,7 @@ import com.sealtalk.common.Constants;
 import com.sealtalk.common.Tips;
 import com.sealtalk.model.SessionUser;
 import com.sealtalk.model.TMember;
-import com.sealtalk.service.MemberService;
+import com.sealtalk.service.member.MemberService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PropertiesUtils;
 

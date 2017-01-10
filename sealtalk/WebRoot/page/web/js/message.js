@@ -2,6 +2,41 @@
  * Created by zhu_jq on 2017/1/10.
  */
 $(function(){
+
+
+
+    //获取好友列表
+    var sAccount = localStorage.getItem('account');
+    var account = JSON.parse(sAccount).account;
+    sendAjax('friend!getMemberFriends',{account:account},function(data){
+        console.log(data);
+        var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
+        var sHTML = '';
+        for(var i = 0;i<data.length;i++){
+            sHTML += ' <li>'+
+                        '<div>'+
+                            '<img class="groupImg" src="css/img/group_chart.png" alt=""/>'+
+                            '<span class="groupName">产品部<em>(15/20)</em>'+
+                            '</span>'+
+                        '</div>'+
+                    '</li>';
+        }
+        $ParendtDom.append($(sHTML));
+    })
+
+
+    //左侧组织树状图
+
+    sendAjax('branch!getBranchTree','',function(data){
+        console.log(data);
+        var $ParendtDom = $('.organizationList').find('ul');
+
+
+    })
+
+
+
+    //店家查看组织结构图
     $('.seeOrgnizeTree').click(function(){
         seeOrgnizeTree();
     })

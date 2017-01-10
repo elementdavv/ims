@@ -1,4 +1,4 @@
-package com.sealtalk.dao;
+package com.sealtalk.dao.friend;
 
 import java.util.List;
 
@@ -40,6 +40,6 @@ public interface FriendDao extends IBaseDao<TFriend, Long> {
 	 * @param account
 	 * @return
 	 */
-	public List<TFriend> getFriendRelationForAccount(String account);
+	public List<TFriend> getFriendRelationForId(int account);
 	
 } 

@@ -1,4 +1,4 @@
-package com.sealtalk.service.impl;
+package com.sealtalk.service.friend.impl;
 
 import java.util.List;
 
@@ -6,11 +6,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.sealtalk.common.Tips;
-import com.sealtalk.dao.FriendDao;
-import com.sealtalk.dao.MemberDao;
+import com.sealtalk.dao.friend.FriendDao;
+import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TFriend;
 import com.sealtalk.model.TMember;
-import com.sealtalk.service.FriendService;
+import com.sealtalk.service.friend.FriendService;
 import com.sealtalk.utils.JSONUtils;
 
 /**
@@ -121,40 +121,47 @@ public class FriendServiceImpl implements FriendService {
 		String result = null;
 		
 		try {
-			List<TFriend> friendList = friendDao.getFriendRelationForAccount(account);
-			int len = friendList.size();
-			
-			if (friendList == null) {
+			TMember tm = memberDao.getOneOfMember(account);
+			if (tm == null) {
 				status = false;
 			} else {
-				Integer[] accounts = new Integer[len];
+				int id = tm.getId();
 				
-				for(int i = 0; i < len; i++) {
-					accounts[i] = friendList.get(i).getFriendId();
-				}
+				List<TFriend> friendList = friendDao.getFriendRelationForId(id);
 				
-				List<TMember> memberList = memberDao.getMultipleMemberForIds(accounts);
-				int memberLen = memberList.size();
+				int len = friendList.size();
 				
-				if (memberList == null) {
+				if (friendList == null) {
 					status = false;
 				} else {
-					JSONArray ja = new JSONArray();
+					Integer[] accounts = new Integer[len];
 					
-					for(int i = 0; i < memberLen; i++) {
-						TMember tm = memberList.get(i);
-						JSONObject text = JSONUtils.getInstance().modelToJSONObj(tm);
-						if (i == 0) {
-							text.put("code", 1);
-							text.put("text", "ok");
-						}
-						ja.add(text);
+					for(int i = 0; i < len; i++) {
+						accounts[i] = friendList.get(i).getFriendId();
 					}
 					
-					result = ja.toString();
+					List<TMember> memberList = memberDao.getMultipleMemberForIds(accounts);
+					int memberLen = memberList.size();
+					
+					if (memberList == null) {
+						status = false;
+					} else {
+						JSONArray ja = new JSONArray();
+						
+						for(int i = 0; i < memberLen; i++) {
+							TMember tms = memberList.get(i);
+							JSONObject text = JSONUtils.getInstance().modelToJSONObj(tms);
+							if (i == 0) {
+								text.put("code", 1);
+								text.put("text", "ok");
+							}
+							ja.add(text);
+						}
+						
+						result = ja.toString();
+					}
 				}
 			}
-			
 			if (!status) {
 				JSONObject jo = new JSONObject();
 				jo.put("code", 0);

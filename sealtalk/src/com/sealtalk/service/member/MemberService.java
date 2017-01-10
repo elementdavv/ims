@@ -1,4 +1,4 @@
-package com.sealtalk.service;
+package com.sealtalk.service.member;
 
 import com.sealtalk.model.TMember;
 
