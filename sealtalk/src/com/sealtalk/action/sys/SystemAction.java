@@ -1,8 +1,5 @@
 package com.sealtalk.action.sys;
 
-import io.rong.RongCloud;
-import io.rong.models.TokenReslut;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -19,6 +16,8 @@ import com.sealtalk.model.TMember;
 import com.sealtalk.service.member.MemberService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PropertiesUtils;
+import com.sealtalk.utils.RongCloudUtils;
+import com.sealtalk.utils.TimeGenerator;
 
 /**
  * 系统相关
@@ -70,20 +69,35 @@ public class SystemAction extends BaseAction {
 		
 		logger.debug("That logining account is " + account);
 		
-		int userId = member.getId();
+		String userId = "" + member.getId();
 		
+		String name = member.getFullname();
 		String token = null;
 		
-		try {
-			String appKey = PropertiesUtils.getStringByKey("db.appKey");
-			String appSecret = PropertiesUtils.getStringByKey("db.appSecret");
-			RongCloud rongCloud = RongCloud.getInstance(appKey, appSecret);
-			TokenReslut userGetTokenResult = rongCloud.user.getToken(userId + "", "username", "http://www.rongcloud.cn/images/logo.png");
-			
-			token = userGetTokenResult.getToken();
-		} catch (Exception e) {
-			e.printStackTrace();
+		//tomcat安装目录有空格时验证不能过。暂时注掉
+		String tokenMaxAge = PropertiesUtils.getStringByKey("db.tokenMaxAge");
+		
+		long tokenMaxAgeLong = 0;
+		long firstTokenDate = member.getCreatetokendate();
+		long now = TimeGenerator.getInstance().getUnixTime();
+		
+		if (tokenMaxAge != null && !"".equals(tokenMaxAge)) {
+			tokenMaxAgeLong = Long.valueOf(tokenMaxAge);
 		}
+		
+		if ((now - firstTokenDate) > tokenMaxAgeLong) {
+			try {
+				token = RongCloudUtils.getInstance().getToken(userId, name, null);
+				memberService.updateUserTokenForId(userId, token);
+			} catch (Exception e) {
+				logger.error(e);
+				e.printStackTrace();
+			}
+		} else {
+			token = member.getToken();
+		}
+		
+		logger.info(token);
 		
 		SessionUser su = new SessionUser();
 		

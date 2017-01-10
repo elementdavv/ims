@@ -101,6 +101,8 @@ CREATE TABLE `t_member` (
   `groupmax` INT NOT NULL DEFAULT 0 COMMENT '可建群数量',
   `groupuse` INT NOT NULL DEFAULT 0 COMMENT '已建群数量',
   `intro` VARCHAR(1024),
+  `token` VARCHAR(256),	'验证token'
+  `createtokendate` int(11), '创建token时间到秒'
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
@@ -109,7 +111,7 @@ CREATE TABLE `t_member` (
 --
 -- 表的结构 `t_branch_member`部门-成员关系
 --
-
+--select Aid Bname Cname from A left join B on A.Bid = B.Bid inner join C on A.Cid = C.Cid where
 CREATE TABLE `t_branch_member` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `branch_id` INT NOT NULL DEFAULT 0,
@@ -246,7 +248,7 @@ CREATE TABLE `t_friend` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_contact`：联系人
+-- 表的结构 `t_contact`：联系人已废弃
 --
 
 CREATE TABLE `t_contact` (

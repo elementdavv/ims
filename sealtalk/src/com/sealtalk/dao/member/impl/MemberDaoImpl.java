@@ -9,6 +9,7 @@ import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
 import com.sealtalk.utils.PasswordGenerator;
+import com.sealtalk.utils.TimeGenerator;
 
 /**
  * @功能  成员数据管理层
@@ -119,6 +120,23 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public int updateUserTokenForId(String userId, String token) {
+		
+		try {
+			long now = TimeGenerator.getInstance().getUnixTime();
+			String hql = "update TMember mem set mem.token='" + token + "',createtokendate=" + now + " where id=" + userId;
+			
+			int row = update(hql);
+			
+			return row;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 
 }

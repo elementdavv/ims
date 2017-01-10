@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
 		try {
 			TMember member = memberDao.getOneOfMember(account);
 			
-			if (member != null) {
+			if (member == null) {
 				jo.put("code", 0);
 				jo.put("text", Tips.NULLUSER);
 			} else {
@@ -65,6 +65,19 @@ public class MemberServiceImpl implements MemberService {
 			e.printStackTrace();
 		}
 		return jo.toString();
+	}
+	
+	@Override
+	public int updateUserTokenForId(String userId, String token) {
+		int row = 0;
+		
+		try {
+			row = memberDao.updateUserTokenForId(userId, token);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return row;
 	}
 	
 	private MemberDao memberDao;

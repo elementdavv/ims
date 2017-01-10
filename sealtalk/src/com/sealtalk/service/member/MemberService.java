@@ -33,4 +33,12 @@ public interface MemberService {
 	 */
 	public String getOneOfMember(String account);
 
+	/**
+	 * 更新token
+	 * @param userId
+	 * @param token
+	 * @return
+	 */
+	public int updateUserTokenForId(String userId, String token);
+
 }

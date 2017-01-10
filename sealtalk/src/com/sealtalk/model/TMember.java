@@ -20,19 +20,17 @@ public class TMember implements java.io.Serializable {
 	private Integer groupmax;
 	private Integer groupuse;
 	private String intro;
+	private String token;
+	private long createtokendate;
 
 	public TMember() {
-	}
-
-	public TMember(Integer groupmax, Integer groupuse) {
-		this.groupmax = groupmax;
-		this.groupuse = groupuse;
 	}
 
 	public TMember(String account, String password, String fullname,
 			String pinyin, String workno, String sex, String birthday,
 			String logo, String email, String mobile, String telephone,
-			String address, Integer groupmax, Integer groupuse, String intro) {
+			String address, Integer groupmax, Integer groupuse, String intro,
+			String token, long createtokendate) {
 		this.account = account;
 		this.password = password;
 		this.fullname = fullname;
@@ -48,6 +46,8 @@ public class TMember implements java.io.Serializable {
 		this.groupmax = groupmax;
 		this.groupuse = groupuse;
 		this.intro = intro;
+		this.token = token;
+		this.createtokendate = createtokendate;
 	}
 
 	public Integer getId() {
@@ -178,4 +178,20 @@ public class TMember implements java.io.Serializable {
 		this.intro = intro;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public long getCreatetokendate() {
+		return createtokendate;
+	}
+
+	public void setCreatetokendate(long createtokendate) {
+		this.createtokendate = createtokendate;
+	}
+	
 }

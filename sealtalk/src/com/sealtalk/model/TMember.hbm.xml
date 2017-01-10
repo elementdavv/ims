@@ -63,5 +63,12 @@
         <property name="intro" type="java.lang.String">
             <column name="intro" length="1024" />
         </property>
+        <property name="token" type="java.lang.String">
+            <column name="token" length="256" />
+        </property>
+        <property name="createtokendate" type="java.lang.Long">
+            <column name="createtokendate" length="11" />
+        </property>
+        
     </class>
 </hibernate-mapping>
