@@ -38,6 +38,7 @@ public class MemberAction extends BaseAction {
 				result = memberService.getOneOfMember(account);
 			}
 			
+			logger.info(result);
 			returnToClient(result);
 		} catch (Exception e) {
 			e.printStackTrace();
