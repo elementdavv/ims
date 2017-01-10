@@ -12,7 +12,13 @@
     
     <context-param>
 	    <param-name>contextConfigLocation</param-name>
-	    <param-value>classpath:spring.xml</param-value>
+	    <param-value>
+	    	classpath:spring.xml,
+	    	classpath:admin.xml,
+	    	classpath:member.xml,
+	    	classpath:friend.xml,
+	    	classpath:system.xml
+	    </param-value>
 	</context-param>
 	
     <filter-mapping>

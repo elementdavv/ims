@@ -159,9 +159,9 @@ input::-ms-clear{display:none;}
     background: #1081bc;
 }
 /*.chatHeaderMenu li a{*/
-    /*display: inline-block;*/
-    /*height: 100%;*/
-    /*width: 100%;*/
+/*display: inline-block;*/
+/*height: 100%;*/
+/*width: 100%;*/
 
 /*}*/
 
@@ -307,9 +307,9 @@ input::-ms-clear{display:none;}
     margin-left: 10px;
 }
 .groupChatList .discrib{
-     display: inline-block;
+    display: inline-block;
     margin-left: 10px;
- }
+}
 .groupChatListUl li .groupName{
     display: inline-block;
     height: 44px;
@@ -333,7 +333,7 @@ input::-ms-clear{display:none;}
     /*background: palegoldenrod;*/
 }
 .operMenuList ul li{
-   height: 25px;
+    height: 25px;
     line-height: 25px;
     padding-left: 34px;
 }
@@ -441,7 +441,7 @@ input::-ms-clear{display:none;}
     display: inline-block;
     height: 30px;
     width: 30px;
-    background: red;
+    /*background: red;*/
     float: right;
     margin-top: 17px;
     margin-right: 60px;
@@ -522,8 +522,8 @@ input::-ms-clear{display:none;}
     line-height: 30px;
 }
 .sendMsg{
-     background-position: -206px -209px;
- }
+    background-position: -206px -209px;
+}
 .checkPosition{
     background-position: -206px -248px;
 }
@@ -597,62 +597,62 @@ input::-ms-clear{display:none;}
 
 /*组织结构*/
 /*.topOuter {*/
-    /*height: 124px;*/
-    /*width: 175px;*/
-    /*background: white;*/
+/*height: 124px;*/
+/*width: 175px;*/
+/*background: white;*/
 /*}*/
 
 /*.outerVertical{*/
-    /*width: 110px;*/
-    /*height:225px;*/
-    /*background: papayawhip;;*/
+/*width: 110px;*/
+/*height:225px;*/
+/*background: papayawhip;;*/
 /*}*/
 /*.outerHorizontal{*/
-    /*height: 124px;*/
-    /*width: 175px;*/
-    /*background: palevioletred;*/
+/*height: 124px;*/
+/*width: 175px;*/
+/*background: palevioletred;*/
 /*}*/
 
 /*.innerHorizontal {*/
-    /*height: 55px;*/
-    /*border: 1px solid #30c0da;*/
-    /*line-height: 55px;*/
-    /*text-align: center;*/
+/*height: 55px;*/
+/*border: 1px solid #30c0da;*/
+/*line-height: 55px;*/
+/*text-align: center;*/
 /*}*/
 /*.innerVertical {*/
-    /*height: 175px;*/
-    /*width:55px;*/
-    /*border: 1px solid #30c0da;*/
-    /*line-height: 55px;*/
-    /*text-align: center;*/
+/*height: 175px;*/
+/*width:55px;*/
+/*border: 1px solid #30c0da;*/
+/*line-height: 55px;*/
+/*text-align: center;*/
 /*}*/
 /*.level1{*/
-    /*overflow: hidden;*/
+/*overflow: hidden;*/
 /*}*/
 /*.level1 [level='1']{*/
-    /*float: left;*/
+/*float: left;*/
 /*}*/
 
 /*.level2{*/
-    /*overflow: hidden;*/
+/*overflow: hidden;*/
 /*}*/
 /*.level2 [level='2']{*/
-    /*float: left;*/
+/*float: left;*/
 /*}*/
 
 
 /*.level3{*/
-    /*overflow: hidden;*/
+/*overflow: hidden;*/
 /*}*/
 /*.level3 [level='3']{*/
-    /*float: left;*/
+/*float: left;*/
 /*}*/
 
 /*.level4{*/
-    /*overflow: hidden;*/
+/*overflow: hidden;*/
 /*}*/
 /*.level4 [level='4']{*/
-    /*float: left;*/
+/*float: left;*/
 /*}*/
 
 
@@ -702,12 +702,36 @@ input::-ms-clear{display:none;}
     background: papayawhip;
 }
 /*弹窗*/
-.WindowMask{
+.WindowMask,.WindowMask2{
     height: 100%;
     width: 100%;
     position: absolute;top: 0px;left: 0px;
     background: rgba(0,0,0,0.5);
-    /*display: none;*/
+    display: none;
+}
+.WindowMask2{
+    //display: block;
+}
+.groupConvers{
+    height: 764px;
+    width: 866px;
+    background: #ffffff;
+    position: absolute;left: 50%;
+    top: 50%;
+    margin: -382px 0px 0px -433px;
+    border-radius: 10px;
+}
+.privateConvers{
+    height: 764px;
+    width: 444px;
+    background: #ffffff;
+    position: absolute;left: 50%;
+    top: 50%;
+    margin: -382px 0px 0px -222px;
+    border-radius: 10px;
+}
+.privateConvers .selectedContactOuter{
+    display: none;
 }
 .myContextMenu{
     position: absolute;
@@ -736,4 +760,207 @@ input::-ms-clear{display:none;}
 .myContextMenu ul li{
     margin: 10px auto;
     /*line-height:;*/
+}
+
+.dialogFooter {
+    height: 70px;
+    /* background: palegoldenrod; */
+    text-align: right;
+    padding-right: 42px;
+}
+.dialogFooter input[type='button'] {
+    width: 108px;
+    height: 32px;
+    outline: none;
+    border: none;
+    /* background: white; */
+    border-radius: 4px;
+    margin-left: 20px;
+}
+
+.manageSure {
+    background: #30c0da;
+    border: 1px solid #30c0da !important;
+    color: white;
+}
+.manageCancle {
+    background: white;
+    border: 1px solid #30c0da !important;
+    color: #30c0da;
+}
+.dialogHeader{
+    font-size: 16px;
+    color: #000000;
+    /* background: #333333; */
+    /* text-align: center; */
+    height: 40px;
+    text-indent: 42px;
+    line-height: 56px;
+}
+.dialogBody{
+    height: 560px;
+    /* width: 100%; */
+    /* background: paleturquoise; */
+    padding: 50px 42px 45px 42px;
+    overflow: hidden;
+}
+.dialogBody .outerTitle{
+    height: 32px;
+}
+.dialogBody .contactBox{
+    height: 500px;
+    border: 1px solid #e6e6e6;
+}
+.contactBox .contactsSearch,.contactBox .selectedSearch{
+    height: 40px;
+    border-bottom: 1px solid #e6e6e6 !important;
+    border: none;
+    width: 100%;
+    text-indent: 42px;
+    background-position: -761px -340px;
+}
+.contactBox .contactsSearch:focus,.contactBox .selectedSearch:focus{
+    outline: none;
+    border: none;
+}
+.dialogClose {
+    display: inline-block;
+    padding: 2px 10px 3px;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 24px;
+    color: #a5a5a5;
+    /* background: #ff3300; */
+    cursor: pointer;
+}
+
+.contactListOuter,.selectedContactOuter{
+    width: 360px;
+    height: 532px;
+    /*background: plum;*/
+    float: left;
+}
+.selectedContactOuter{
+    margin-left:62px
+
+}
+.contactsList{
+    margin: 3px 12px;
+}
+.contactsList ul li{
+    height: 30px;line-height: 30px;
+}
+.contactsList ul li div{
+    overflow: hidden;
+}
+.contactsList ul li div span{
+    float: left;
+}
+.dialogCollspanO{
+    display: inline-block;
+    height: 20px;
+    width: 15px;
+    background-position: -774px -276px;
+}
+.dialogCollspan{
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}
+.dialogCollspanC{
+    background-position: -774px -215px;
+}
+.groupConvers .dialogCheckBox{
+    display: inline-block;
+    width: 27px;
+    height: 23px;
+    background-position: -532px -258px;
+}
+.groupConvers .CheckBoxChecked {
+    display: inline-block;
+    width: 27px;
+    height: 23px;
+    background-position: -532px -314px;
+}
+.privateConvers .dialogCheckBox{
+    display: inline-block;
+    width: 27px;
+    height: 23px;
+    background-position: -774px -147px;
+}
+.privateConvers .department .CheckBoxChecked,.privateConvers .department .dialogCheckBox{
+    display: none;
+}
+.privateConvers .member .dialogCollspan{
+    display: none;
+}
+.privateConvers .CheckBoxChecked {
+    display: inline-block;
+    width: 27px;
+    height: 23px;
+    background-position: -774px -74px
+}
+.selectedList{
+    margin-top: 4px;
+}
+.selectedList ul{
+
+}
+.selectedList ul li{
+    height: 32px;
+    text-indent: 14px;
+    line-height: 32px;
+}
+.selectedList ul li:hover{
+    background: #f0f6ff;
+ }
+.deleteMemberIcon{
+    height: 32px;
+    text-indent: 14px;
+    line-height: 32px;
+    width: 32px;
+    margin-left: 2px;
+    background-position: -1063px -152px;
+    display: inline-block;
+    float: right;
+    margin-right: 10px;
+}
+.transferInfoBox{
+    width: 782px;
+}
+.transferInfoBox thead,.transferInfoBox tbody{
+
+}
+.transferInfoBox thead tr {
+    background: #f5f5f5;
+    height: 50px;
+}
+.transferInfoBox thead tr th{
+    font-size: 16px;
+    font-weight: lighter;
+    text-align: left;
+    text-indent: 20px;
+}
+.transferInfoBox tbody tr{
+     height: 50px;
+     line-height: 50px;
+ }
+.transferInfoBox tbody tr:hover{
+   background: #f0fdff;
+}
+.transferInfoBox tbody tr td{
+    text-align: left;
+    font-size: 14px;
+    /*font-weight: lighter;*/
+    text-indent: 20px;
+}
+.transferInfoBox tbody tr td.operate span{
+    display: inline-block;height: 30px;width: 74px;
+    background: #ffa200;
+    line-height: 30px;
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+    text-indent: 0px;
 }

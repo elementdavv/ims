@@ -6,8 +6,8 @@ import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
 import com.sealtalk.common.BaseDao;
-import com.sealtalk.service.MemberService;
-import com.sealtalk.service.impl.MemberServiceImpl;
+import com.sealtalk.service.member.MemberService;
+import com.sealtalk.service.member.impl.MemberServiceImpl;
 
 public class HibernateTest extends BaseDao{
 

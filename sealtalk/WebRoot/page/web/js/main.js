@@ -1,78 +1,17 @@
 /**
  * Created by zhu_jq on 2017/1/4.
  */
-window.onload = function() {
+$(function(){
+    $('.dialogClose,.manageCancle').click(function(){
+        $('.WindowMask,.WindowMask2').hide();
+    });
 
     $('.newsTabContent').bind('contextmenu',function(){
         event.preventDefault();
         return false;
     });
 
-
-
-    //群组右键
-    $('body').delegate('#groupLeftClick li','click',function(){
-        $('.myContextMenu').remove();
-        var index = $(this).closest('ul').find('li').index($(this));
-        switch (index)
-        {
-            case 0:
-                console.log(0);
-                break;
-            case 1:
-                console.log(1);
-                break;
-            case 2:
-                console.log(2);
-                break;
-            case 3:
-                //解散群
-                new Window().alert({
-                    title   : '解散群',
-                    content : '确定要解散群么？',
-                    hasCloseBtn : true,
-                    hasImg : true,
-                    textForSureBtn : '确定',              //确定按钮
-                    textForcancleBtn : '取消',            //取消按钮
-                    handlerForCancle : null,
-                    //handlerForClose : null,
-                    handlerForSure : null
-                });
-                break;
-            case 4:
-                console.log(4);
-                break;
-
-        }
-    })
-    $('.newsTabContent').delegate('.groupChatListUl li','mousedown',function(e){
-
-        if(e.buttons==2){
-            var left = e.clientX;
-            var top = e.clientY;
-            var arr = ['发起群聊','查看群资料','群成员管理','解散群','转让群']
-            var style = 'left:'+left+'px;top:'+top+'px';
-            var id = 'groupLeftClick'
-            fshowContexMenu(arr,style,id)
-        }
-        $('.groupChatListUl li').removeClass('active');
-        $(this).addClass('active');
-        return false;
-    })
-
-
-
-
-    $('.seeOrgnizeTree').click(function(){
-        seeOrgnizeTree();
-    })
-
-
-
-
     $('.organizationList').delegate('ul li .groupCollspan','click',function(e){
-
-
         //按钮样式
         var $groupCollspanO = $(this)
         var bOpen = $groupCollspanO.hasClass('groupCollspanO')
@@ -86,6 +25,8 @@ window.onload = function() {
         //内容显示隐藏
         $(this).closest('li').next('ul').slideToggle();
     })
+
+
 
 
     /*顶部&&左侧导航切换*/
@@ -108,6 +49,9 @@ window.onload = function() {
         nShowClass&&showPanel(nShowClass);
     })
 
+
+
+
     /*展开关闭子级列表*/
     $('.listCtrl').click(function(){
         var $chatLeftIcon = $(this).find('.chatLeftIcon')
@@ -122,14 +66,7 @@ window.onload = function() {
         $(this).find('.chatLeftIcon').hasClass('.triOpen')
         $(this).next('ul').slideToggle();
     })
-
-    /*点击"+"*/
-    $('.footerPlus').click(function(){
-        $(this).find('.operMenuList').slideToggle();
-    })
-
-}
-
+})
 
 
 function fshowContexMenu(arr,style,id){
@@ -150,4 +87,16 @@ function showPanel(panelClass){
         eShowNode.removeClass('chatHide');
         eShowNode.siblings(".chatContent").addClass('chatHide');
     }
+}
+
+
+function sendAjax(url,data,callback){
+    $.ajax({
+        type: "POST",
+        url: url,
+        data:data,
+        success: function(data){
+            callback && callback(data);
+        }
+    })
 }
