@@ -1,8 +1,99 @@
-**/*.class
-**/.classpath
-**/.project
-**/.my*
-**/.springBeans
-**/.settings/**
+# Compiled Object files
+*.slo
+*.lo
+
+# Compiled Dynamic libraries
+
+# Compiled Static libraries
+*.lai
+*.la
 
 
+#
+.DS_Store
+
+bin
+gen
+obj
+libs/armeabi
+libs/armeabi-v7a
+/code/client/proj.android/assets/*.*
+.metadata
+xcuserdata/
+
+gdb.setup
+gdbserver
+*.so
+*.suo
+Thumbs.db
+
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+gen/
+
+
+# NDK files
+*.o
+*.d
+*.so
+gdb.setup
+gdbserver
+
+# NDK folder
+bin/
+obj/
+
+local.properties
+
+.classpath
+.project
+
+.metadata/
+
+
+# Object files
+*.o
+
+# Libraries
+
+
+# Shared objects
+*.dylib
+
+# Executables
+*.out
+
+# Xcode
+.DS_Store
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcworkspace
+!default.xcworkspace
+xcuserdata
+*.xcuserstate
+profile
+*.moved-aside
+DerivedData
+
+.svn*
+
+# WebStorm
+
+.idea
+
+Code/node_modules/SimpleMySQL/cache
+/desktop.ini
