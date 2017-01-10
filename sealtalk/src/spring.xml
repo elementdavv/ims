@@ -70,6 +70,7 @@
 				<!-- <value>classpath:/com/sealtalk/pojo</value> -->
 				<value>com/sealtalk/model/TMember.hbm.xml</value>
 				<value>com/sealtalk/model/TFriend.hbm.xml</value>
+				<value>com/sealtalk/model/TBranch.hbm.xml</value>
 			<!--
 				<value>com/sealtalk/pojo/BranchMember.hbm.xml</value>
 				<value>com/sealtalk/pojo/Function.hbm.xml</value>
