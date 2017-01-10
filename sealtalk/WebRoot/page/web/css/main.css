@@ -441,7 +441,7 @@ input::-ms-clear{display:none;}
     display: inline-block;
     height: 30px;
     width: 30px;
-    background: red;
+    /*background: red;*/
     float: right;
     margin-top: 17px;
     margin-right: 60px;
@@ -702,12 +702,15 @@ input::-ms-clear{display:none;}
     background: papayawhip;
 }
 /*弹窗*/
-.WindowMask{
+.WindowMask,.WindowMask2{
     height: 100%;
     width: 100%;
     position: absolute;top: 0px;left: 0px;
     background: rgba(0,0,0,0.5);
-    /*display: none;*/
+    display: none;
+}
+.WindowMask2{
+    //display: block;
 }
 .groupConvers{
     height: 764px;
@@ -897,4 +900,67 @@ input::-ms-clear{display:none;}
     width: 27px;
     height: 23px;
     background-position: -774px -74px
+}
+.selectedList{
+    margin-top: 4px;
+}
+.selectedList ul{
+
+}
+.selectedList ul li{
+    height: 32px;
+    text-indent: 14px;
+    line-height: 32px;
+}
+.selectedList ul li:hover{
+    background: #f0f6ff;
+ }
+.deleteMemberIcon{
+    height: 32px;
+    text-indent: 14px;
+    line-height: 32px;
+    width: 32px;
+    margin-left: 2px;
+    background-position: -1063px -152px;
+    display: inline-block;
+    float: right;
+    margin-right: 10px;
+}
+.transferInfoBox{
+    width: 782px;
+}
+.transferInfoBox thead,.transferInfoBox tbody{
+
+}
+.transferInfoBox thead tr {
+    background: #f5f5f5;
+    height: 50px;
+}
+.transferInfoBox thead tr th{
+    font-size: 16px;
+    font-weight: lighter;
+    text-align: left;
+    text-indent: 20px;
+}
+.transferInfoBox tbody tr{
+     height: 50px;
+     line-height: 50px;
+ }
+.transferInfoBox tbody tr:hover{
+   background: #f0fdff;
+}
+.transferInfoBox tbody tr td{
+    text-align: left;
+    font-size: 14px;
+    /*font-weight: lighter;*/
+    text-indent: 20px;
+}
+.transferInfoBox tbody tr td.operate span{
+    display: inline-block;height: 30px;width: 74px;
+    background: #ffa200;
+    line-height: 30px;
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+    text-indent: 0px;
 }

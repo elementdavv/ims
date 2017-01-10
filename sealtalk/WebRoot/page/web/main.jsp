@@ -12,6 +12,10 @@
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/window.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/creatDialog.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
+    <script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
 
 </head>
 <body>
@@ -404,127 +408,193 @@
     </div>
     <div class="WindowMask">
 
-    <div class="conversWindow groupConvers"><!--//privateConvers-->
-    <span class="dialogClose">×</span>
-    <div class="dialogHeader">群组管理</div>
-    <div class="dialogBody">
-    <div class="contactListOuter">
-    <p class="outerTitle">选择联系人：</p>
-    <div class="contactBox">
-    <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
-    <div class="contactsList">
-    <!--<div class="organizationList">-->
-    <ul>
-    <li>
-    <div level="1" class="department">
-    <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">产品部</span>
-    </div>
-    </li>
-    <ul>
-    <li>
-    <div level="2" class="department">
-    <span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>
-    <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">产品部</span>
-    </div>
-    </li>
-    <ul>
-    <li>
-    <div level="3" class="member">
-    <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-    <span class="dialogCollspan chatLeftIcon"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">李四</span>
-    </div>
-    </li>
-    <li>
-    <div level="3" class="member">
-    <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-    <span class="dialogCollspan chatLeftIcon"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">李四</span>
-    </div>
-    </li>
-    <li>
-    <div level="3" class="member">
-    <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-    <span class="dialogCollspan chatLeftIcon"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">李四</span>
-    </div>
-    </li>
-    </ul>
-    </ul>
-    <li>
-    <div level="1" class="department">
-    <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">产品部</span>
-    </div>
-    </li>
-    <ul>
-    <li>
-    <div level="2" class="department">
-    <span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>
-    <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">产品部</span>
-    </div>
-    </li>
-    <ul>
-    <li>
-    <div level="3" class="department">
-    <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-    <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">产品部</span>
-    </div>
-    </li>
-    <ul>
-    <li>
-    <div level="3" class="member">
-    <span style="height: 20px;width: 66px;display:inline-block;float: left;"></span>
-    <span class="dialogCollspan chatLeftIcon"></span>
-    <span class="chatLeftIcon CheckBoxChecked"></span>
-    <span class="dialogGroupName">李四</span>
-    </div>
-    </li>
-    </ul>
-    </ul>
-    </ul>
-    <li>
-    <div level="1">
-    <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-    <span class="chatLeftIcon dialogCheckBox"></span>
-    <span class="dialogGroupName">产品部</span>
-    </div>
-    </li>
-    </ul>
-    <!--</div>-->
-    </div>
-    </div>
-    </div>
-    <div class="selectedContactOuter">
-    <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
-    <div class="contactBox">
-    <input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>
-    <div class="selectedList">
+        <div class="conversWindow groupConvers"><!--//privateConvers-->
+            <span class="dialogClose">×</span>
+            <div class="dialogHeader">群组管理</div>
+            <div class="dialogBody">
+                <div class="contactListOuter">
+                    <p class="outerTitle">选择联系人：</p>
+                    <div class="contactBox">
+                        <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
+                        <div class="contactsList">
+                            <!--<div class="organizationList">-->
+                            <ul>
+                                <li>
+                                    <div level="1" class="department">
+                                        <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
+                                        <span class="chatLeftIcon dialogCheckBox"></span>
+                                        <span class="dialogGroupName">产品部</span>
+                                    </div>
+                                </li>
+                                <ul>
+                                    <li>
+                                        <div level="2" class="department">
+                                            <span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>
+                                            <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
+                                            <span class="chatLeftIcon dialogCheckBox"></span>
+                                            <span class="dialogGroupName">产品部</span>
+                                        </div>
+                                    </li>
+                                    <ul>
+                                        <li>
+                                            <div level="3" class="member">
+                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
+                                                <span class="dialogCollspan chatLeftIcon"></span>
+                                                <span class="chatLeftIcon dialogCheckBox"></span>
+                                                <span class="dialogGroupName">李四</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div level="3" class="member">
+                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
+                                                <span class="dialogCollspan chatLeftIcon"></span>
+                                                <span class="chatLeftIcon dialogCheckBox"></span>
+                                                <span class="dialogGroupName">李四</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div level="3" class="member">
+                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
+                                                <span class="dialogCollspan chatLeftIcon"></span>
+                                                <span class="chatLeftIcon dialogCheckBox"></span>
+                                                <span class="dialogGroupName">李四</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </ul>
+                                <li>
+                                    <div level="1" class="department">
+                                        <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
+                                        <span class="chatLeftIcon dialogCheckBox"></span>
+                                        <span class="dialogGroupName">产品部</span>
+                                    </div>
+                                </li>
+                                <ul>
+                                    <li>
+                                        <div level="2" class="department">
+                                            <span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>
+                                            <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
+                                            <span class="chatLeftIcon dialogCheckBox"></span>
+                                            <span class="dialogGroupName">产品部</span>
+                                        </div>
+                                    </li>
+                                    <ul>
+                                        <li>
+                                            <div level="3" class="department">
+                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
+                                                <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
+                                                <span class="chatLeftIcon dialogCheckBox"></span>
+                                                <span class="dialogGroupName">产品部</span>
+                                            </div>
+                                        </li>
+                                        <ul>
+                                            <li>
+                                                <div level="3" class="member">
+                                                    <span style="height: 20px;width: 66px;display:inline-block;float: left;"></span>
+                                                    <span class="dialogCollspan chatLeftIcon"></span>
+                                                    <span class="chatLeftIcon CheckBoxChecked"></span>
+                                                    <span class="dialogGroupName">李四</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </ul>
+                                </ul>
+                                <li>
+                                    <div level="1">
+                                        <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
+                                        <span class="chatLeftIcon dialogCheckBox"></span>
+                                        <span class="dialogGroupName">产品部</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="selectedContactOuter">
+                    <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
+                    <div class="contactBox">
+                        <input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>
+                        <div class="selectedList">
+                            <ul>
+                                <li><span class="memberName">赵四</span><span class="chatLeftIcon deleteMemberIcon"></span></li>
+                                <li><span class="memberName">赵四</span><span class="chatLeftIcon deleteMemberIcon"></span></li>
+                                <li><span class="memberName">赵四</span><span class="chatLeftIcon deleteMemberIcon"></span></li>
+                                <li><span class="memberName">赵四</span><span class="chatLeftIcon deleteMemberIcon"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="dialogFooter">
+                <input type="button" value="确定" class="manageSure">
+                <input type="button" value="取消" class="manageCancle">
+            </div>
+        </div>
 
     </div>
-    </div>
-    </div>
+
+    <div class="WindowMask2">
+        <div class="conversWindow groupConvers"><!--//privateConvers-->
+            <span class="dialogClose">×</span>
+            <div class="dialogHeader">群组管理</div>
+            <div class="dialogBody">
+                <div class="transferInfo">
+                    <table class="transferInfoBox">
+                        <thead>
+                            <tr>
+                                <th>群成员</th>
+                                <th>职位</th>
+                                <th>是否具有管理权限</th>
+                                <th>群成员</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img src="" alt=""/>王二虎
+                                </td>
+                                <td>产品经理</td>
+                                <td>是</td>
+                                <td class="operate"><span>转让群</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="" alt=""/>王二虎
+                                </td>
+                                <td>产品经理</td>
+                                <td>是</td>
+                                <td class="operate"><span>转让群</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="" alt=""/>王二虎
+                                </td>
+                                <td>产品经理</td>
+                                <td>是</td>
+                                <td class="operate"><span>转让群</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="" alt=""/>王二虎
+                                </td>
+                                <td>产品经理</td>
+                                <td>是</td>
+                                <td class="operate"><span>转让群</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="dialogFooter">
+                <input type="button" value="确定" class="manageSure">
+                <input type="button" value="取消" class="manageCancle">
+            </div>
+        </div>
+
 
     </div>
-    <div class="dialogFooter">
-    <input type="button" value="确定" class="manageSure">
-    <input type="button" value="取消" class="manageCancle">
-    </div>
-    </div>
-
-    </div>
-
 </body>
 </html>
