@@ -17,7 +17,8 @@
 	    	classpath:admin.xml,
 	    	classpath:member.xml,
 	    	classpath:friend.xml,
-	    	classpath:system.xml
+	    	classpath:system.xml,
+	    	classpath:message.xml
 	    </param-value>
 	</context-param>
 	

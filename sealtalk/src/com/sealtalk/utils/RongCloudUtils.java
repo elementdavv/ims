@@ -1,7 +1,10 @@
 package com.sealtalk.utils;
 
 import io.rong.RongCloud;
+import io.rong.models.CheckOnlineReslut;
+import io.rong.models.CodeSuccessReslut;
 import io.rong.models.TokenReslut;
+import net.sf.json.JSONObject;
 
 /**
  * 融云sdk工具
@@ -54,7 +57,12 @@ public class RongCloudUtils {
 		
 		try {
 			if (url == null || "".equals(url)) {
-				url = "http://www.rongcloud.cn/images/logo.png";
+				String domain = PropertiesUtils.getDomain();
+				String uploadDir = PropertiesUtils.getUploadDir();
+				String logo = PropertiesUtils.getDefaultLogo();
+				
+				url = domain + uploadDir + logo;
+				//url = "http://www.rongcloud.cn/update/images/logo.png";
 			}
 			userGetTokenResult = rongCloud.user.getToken(userId, userName, url);
 		} catch (Exception e) {
@@ -72,18 +80,13 @@ public class RongCloudUtils {
 	 * @return
 	 */
 	public String getToken(String userId, String userName, String url) {
-		try {
-			if (rongCloud == null) {
-				this.init();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		TokenReslut userGetTokenResult = null;
 		String token = null;
 		
 		try {	
+			if (rongCloud == null) {
+				this.init();
+			}
 			userGetTokenResult = this.getTokenResult(userId, userName, url);
 			token = userGetTokenResult.getToken();
 		} catch (Exception e) {
@@ -93,6 +96,52 @@ public class RongCloudUtils {
 		return token;
 	}
 	
-	
-	
+	public int refreshUser(String userId, String userName, String url) {
+		CodeSuccessReslut codeSuccessReslut = null;
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+			if (url == null || "".equals(url)) {
+				String domain = PropertiesUtils.getDomain();
+				String uploadDir = PropertiesUtils.getUploadDir();
+				String logo = PropertiesUtils.getDefaultLogo();
+				
+				url = domain + uploadDir + logo;
+			}
+			codeSuccessReslut = rongCloud.user.refresh(userId, userName, url);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return codeSuccessReslut.getCode();
+	}
+
+	public String checkOnLine(String userId) {
+		CheckOnlineReslut checkOnlineReslut = null;
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+			checkOnlineReslut = rongCloud.user.checkOnline(userId);
+			if (checkOnlineReslut != null) {
+				jo.put("code", checkOnlineReslut.getCode());
+				jo.put("status", checkOnlineReslut.getStatus());
+				jo.put("text", "ok");
+			} else {
+				jo.put("code", 0);
+				jo.put("text", "fail");
+			}
+		} catch (Exception e) {
+			jo.put("code", 0);
+			jo.put("text", "fail");
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+
 }

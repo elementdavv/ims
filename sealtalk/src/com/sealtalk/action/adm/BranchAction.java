@@ -3,10 +3,13 @@
  */
 package com.sealtalk.action.adm;
 
+import java.util.Map;
+
 import javax.servlet.ServletException;
 
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.service.adm.BranchService;
+import com.sealtalk.utils.PropertiesUtils;
 import com.sealtalk.utils.StringUtils;
 
 /**
@@ -49,8 +52,20 @@ public class BranchAction extends BaseAction {
 	 * @return
 	 * @throws ServletException
 	 */
+	@SuppressWarnings("unchecked")
 	public String getBranchMember() throws ServletException {
-		String result = branchService.getBranchMember(branchId);
+		String branchIdPri = null;
+		
+		Map<String, String[]> map = getRequestParams();
+		
+		if (map.size() > 0 && PropertiesUtils.devsContains(map.get("dev")[0])) {
+			branchIdPri = map.get("branchId")[0];
+		} else {
+			branchIdPri = branchId;
+		}
+		
+		
+		String result = branchService.getBranchMember(branchIdPri);
 		
 		returnToClient(result);
 		return "text";

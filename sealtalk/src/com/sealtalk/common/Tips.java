@@ -2,6 +2,7 @@ package com.sealtalk.common;
 
 public enum  Tips {
 	NULLUSER("用户名为空"),
+	NULLID("ID为空"),
 	ERRORUSERORPWD("用户名或密码错误"),
 	FALSECOMPAREPWD("密码不一致"),
 	CHANGEPWDSUC("密码修改成功"),

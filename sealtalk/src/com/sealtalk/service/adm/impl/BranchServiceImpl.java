@@ -44,6 +44,8 @@ public class BranchServiceImpl implements BranchService {
 		
 		JSONArray ja = new JSONArray();
 		
+		ArrayList<Object> branchList = new ArrayList<Object>();
+		
 		try {
 			for(int i = 0; i < list.size(); i++) {
 				Object[] o = (Object[])list.get(i);
@@ -68,12 +70,15 @@ public class BranchServiceImpl implements BranchService {
 					jm.put("groupuse", isBlank(o[20]));
 					jm.put("intro", isBlank(o[21]));
 					
-					JSONObject jb = new JSONObject();
-					jb.put("flag", 0);
-					jb.put("id", isBlank(o[4]));
-					jb.put("pid", isBlank(o[5]));
-					jb.put("name", isBlank(o[6]));
-					ja.add(jb);
+					if (!branchList.contains(o[4])) {
+						JSONObject jb = new JSONObject();
+						jb.put("flag", 0);
+						jb.put("id", isBlank(o[4]));
+						jb.put("pid", isBlank(o[5]));
+						jb.put("name", isBlank(o[6]));
+						ja.add(jb);
+						branchList.add(o[4]);
+					}
 				} else {
 					jm.put("id", isBlank(o[4]));
 					jm.put("pid", isBlank(o[5]));
