@@ -12,13 +12,40 @@
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/window.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
-    <script src="<%=request.getContextPath() %>/page/web/js/creatDialog.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/dialogOper.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
 
 </head>
 <body>
+
+
+    <%--<div class="menberHover">--%>
+        <%--<div class="contextTri"></div>--%>
+        <%--&lt;%&ndash;<div class="memberInfoHover">&ndash;%&gt;--%>
+            <%--<ul class="memberInfoHover">--%>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="css/img/PersonImg.png" alt="">--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>asdasdad</li>--%>
+                <%--<li>asdasdad</li>--%>
+            <%--</ul>--%>
+        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+    <%--</div>--%>
+
+
+
     <div class="chatHeader">
         <ul class="chatHeaderMenu">
             <li class="active" bindPanel="news">消息</li>
@@ -31,8 +58,8 @@
     <!--消息-->
     <div class="chatContent news">
         <ul class="chatMenu">
-            <li class="chatLeftIcon " bindPanel="groupChatList"></li>
-            <li class="chatLeftIcon active" bindPanel="usualChatList"></li>
+            <li class="chatLeftIcon active " bindPanel="groupChatList"></li>
+            <li class="chatLeftIcon " bindPanel="usualChatList"></li>
             <li class="chatLeftIcon" bindPanel="newsChatList"></li>
         </ul>
         <div class="newsTabContent">
@@ -119,10 +146,23 @@
     <div class="chatContent orgnized chatHide">
         <!--<div></div>-->
        <div class="serachMenber">
-           <div class="searchInput">
-               <span class="defaultText chatLeftIcon">搜索人员</span>
-           </div>
+           <input class="searchInput chatLeftIcon">
+               <span class="defaultText">搜索人员</span>
+           </input>
        </div>
+        <div class="searchResult">
+            <ul class="searchResultUL">
+                <%--搜索没有结果--%>
+                <li class="searchNoResult">
+                    <%--<img src='css/img/touxiang.png'/>--%>
+                    <span>没有搜索结果</span>
+                </li>
+                <%--搜索结果--%>
+                <%--<li><img src='css/img/touxiang.png'/>1111(产品总监)</li>--%>
+                <%--<li><img src='css/img/touxiang.png'/>1111(产品总监)</li>--%>
+                <%--<li><img src='css/img/touxiang.png'/>1111(产品总监)</li>--%>
+            </ul>
+        </div>
 
         <div class="organizationList">
             <ul>
@@ -420,95 +460,95 @@
                         <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
                         <div class="contactsList">
                             <!--<div class="organizationList">-->
-                            <ul>
-                                <li>
-                                    <div level="1" class="department">
-                                        <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-                                        <span class="chatLeftIcon dialogCheckBox"></span>
-                                        <span class="dialogGroupName">产品部</span>
-                                    </div>
-                                </li>
-                                <ul>
-                                    <li>
-                                        <div level="2" class="department">
-                                            <span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>
-                                            <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-                                            <span class="chatLeftIcon dialogCheckBox"></span>
-                                            <span class="dialogGroupName">产品部</span>
-                                        </div>
-                                    </li>
-                                    <ul>
-                                        <li>
-                                            <div level="3" class="member">
-                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-                                                <span class="dialogCollspan chatLeftIcon"></span>
-                                                <span class="chatLeftIcon dialogCheckBox"></span>
-                                                <span class="dialogGroupName">李四</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div level="3" class="member">
-                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-                                                <span class="dialogCollspan chatLeftIcon"></span>
-                                                <span class="chatLeftIcon dialogCheckBox"></span>
-                                                <span class="dialogGroupName">李四</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div level="3" class="member">
-                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-                                                <span class="dialogCollspan chatLeftIcon"></span>
-                                                <span class="chatLeftIcon dialogCheckBox"></span>
-                                                <span class="dialogGroupName">李四</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </ul>
-                                <li>
-                                    <div level="1" class="department">
-                                        <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-                                        <span class="chatLeftIcon dialogCheckBox"></span>
-                                        <span class="dialogGroupName">产品部</span>
-                                    </div>
-                                </li>
-                                <ul>
-                                    <li>
-                                        <div level="2" class="department">
-                                            <span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>
-                                            <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-                                            <span class="chatLeftIcon dialogCheckBox"></span>
-                                            <span class="dialogGroupName">产品部</span>
-                                        </div>
-                                    </li>
-                                    <ul>
-                                        <li>
-                                            <div level="3" class="department">
-                                                <span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>
-                                                <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-                                                <span class="chatLeftIcon dialogCheckBox"></span>
-                                                <span class="dialogGroupName">产品部</span>
-                                            </div>
-                                        </li>
-                                        <ul>
-                                            <li>
-                                                <div level="3" class="member">
-                                                    <span style="height: 20px;width: 66px;display:inline-block;float: left;"></span>
-                                                    <span class="dialogCollspan chatLeftIcon"></span>
-                                                    <span class="chatLeftIcon CheckBoxChecked"></span>
-                                                    <span class="dialogGroupName">李四</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </ul>
-                                </ul>
-                                <li>
-                                    <div level="1">
-                                        <span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>
-                                        <span class="chatLeftIcon dialogCheckBox"></span>
-                                        <span class="dialogGroupName">产品部</span>
-                                    </div>
-                                </li>
-                            </ul>
+                            <%--<ul>--%>
+                                <%--<li>--%>
+                                    <%--<div level="1" class="department">--%>
+                                        <%--<span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>--%>
+                                        <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                        <%--<span class="dialogGroupName">产品部</span>--%>
+                                    <%--</div>--%>
+                                <%--</li>--%>
+                                <%--<ul>--%>
+                                    <%--<li>--%>
+                                        <%--<div level="2" class="department">--%>
+                                            <%--<span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>--%>
+                                            <%--<span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>--%>
+                                            <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                            <%--<span class="dialogGroupName">产品部</span>--%>
+                                        <%--</div>--%>
+                                    <%--</li>--%>
+                                    <%--<ul>--%>
+                                        <%--<li>--%>
+                                            <%--<div level="3" class="member">--%>
+                                                <%--<span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>--%>
+                                                <%--<span class="dialogCollspan chatLeftIcon"></span>--%>
+                                                <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                                <%--<span class="dialogGroupName">李四</span>--%>
+                                            <%--</div>--%>
+                                        <%--</li>--%>
+                                        <%--<li>--%>
+                                            <%--<div level="3" class="member">--%>
+                                                <%--<span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>--%>
+                                                <%--<span class="dialogCollspan chatLeftIcon"></span>--%>
+                                                <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                                <%--<span class="dialogGroupName">李四</span>--%>
+                                            <%--</div>--%>
+                                        <%--</li>--%>
+                                        <%--<li>--%>
+                                            <%--<div level="3" class="member">--%>
+                                                <%--<span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>--%>
+                                                <%--<span class="dialogCollspan chatLeftIcon"></span>--%>
+                                                <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                                <%--<span class="dialogGroupName">李四</span>--%>
+                                            <%--</div>--%>
+                                        <%--</li>--%>
+                                    <%--</ul>--%>
+                                <%--</ul>--%>
+                                <%--<li>--%>
+                                    <%--<div level="1" class="department">--%>
+                                        <%--<span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>--%>
+                                        <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                        <%--<span class="dialogGroupName">产品部</span>--%>
+                                    <%--</div>--%>
+                                <%--</li>--%>
+                                <%--<ul>--%>
+                                    <%--<li>--%>
+                                        <%--<div level="2" class="department">--%>
+                                            <%--<span style="height: 20px;width: 22px;display:inline-block;float: left;"></span>--%>
+                                            <%--<span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>--%>
+                                            <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                            <%--<span class="dialogGroupName">产品部</span>--%>
+                                        <%--</div>--%>
+                                    <%--</li>--%>
+                                    <%--<ul>--%>
+                                        <%--<li>--%>
+                                            <%--<div level="3" class="department">--%>
+                                                <%--<span style="height: 20px;width: 44px;display:inline-block;float: left;"></span>--%>
+                                                <%--<span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>--%>
+                                                <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                                <%--<span class="dialogGroupName">产品部</span>--%>
+                                            <%--</div>--%>
+                                        <%--</li>--%>
+                                        <%--<ul>--%>
+                                            <%--<li>--%>
+                                                <%--<div level="3" class="member">--%>
+                                                    <%--<span style="height: 20px;width: 66px;display:inline-block;float: left;"></span>--%>
+                                                    <%--<span class="dialogCollspan chatLeftIcon"></span>--%>
+                                                    <%--<span class="chatLeftIcon CheckBoxChecked"></span>--%>
+                                                    <%--<span class="dialogGroupName">李四</span>--%>
+                                                <%--</div>--%>
+                                            <%--</li>--%>
+                                        <%--</ul>--%>
+                                    <%--</ul>--%>
+                                <%--</ul>--%>
+                                <%--<li>--%>
+                                    <%--<div level="1">--%>
+                                        <%--<span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>--%>
+                                        <%--<span class="chatLeftIcon dialogCheckBox"></span>--%>
+                                        <%--<span class="dialogGroupName">产品部</span>--%>
+                                    <%--</div>--%>
+                                <%--</li>--%>
+                            <%--</ul>--%>
                             <!--</div>-->
                         </div>
                     </div>

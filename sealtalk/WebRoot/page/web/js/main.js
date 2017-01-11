@@ -6,10 +6,15 @@ $(function(){
         $('.WindowMask,.WindowMask2').hide();
     });
 
-    $('.newsTabContent').bind('contextmenu',function(){
+    $(document).bind('contextmenu',function(){
         event.preventDefault();
         return false;
     });
+
+    //document.oncontextmenu = function(){
+    //
+    //    return false;
+    //};
 
     $('.organizationList').delegate('ul li .groupCollspan','click',function(e){
         //按钮样式
@@ -80,6 +85,7 @@ function fshowContexMenu(arr,style,id){
         '<ul>'+listHTML+'</ul>'+
         '</div>';
     $('body').append($(sHTML));
+    return false;
 }
 function showPanel(panelClass){
     var eShowNode = $("."+panelClass);
