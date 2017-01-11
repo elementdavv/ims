@@ -15,6 +15,10 @@ public class StringUtils {
 		return str == null || "".equals(str);
 	}
 	
+	public boolean isNull(Object o) {
+		return o == null;
+	}
+	
 	public String careNull(String str) {
 		return str == null ? "" : str;
 	}

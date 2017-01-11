@@ -125,7 +125,7 @@ public class SystemAction extends BaseAction {
 	}
 	
 	/**
-	 * @function 登出
+	 * 登出
 	 * @return
 	 * @throws Exception
 	 */
@@ -137,7 +137,7 @@ public class SystemAction extends BaseAction {
 	}
 	
 	/**
-	 * @function 跳转修改密码页
+	 * 跳转修改密码页
 	 * @return
 	 * @throws Exception
 	 */
@@ -169,7 +169,7 @@ public class SystemAction extends BaseAction {
 	}
 	
 	/**
-	 * @function 验证短信(暂时没有短信平台，模拟)
+	 * 验证短信(暂时没有短信平台，模拟)
 	 * @return
 	 */
 	public String testText() throws ServletException {
@@ -195,7 +195,7 @@ public class SystemAction extends BaseAction {
 	}
 	
 	/**
-	 * @function:修改新密码
+	 * 修改新密码
 	 * @return
 	 */
 	public String newPassword() throws ServletException {

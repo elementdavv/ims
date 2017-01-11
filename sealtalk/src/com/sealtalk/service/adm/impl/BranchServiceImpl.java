@@ -43,42 +43,39 @@ public class BranchServiceImpl implements BranchService {
 		try {
 			for(int i = 0; i < list.size(); i++) {
 				Object[] o = (Object[])list.get(i);
-				JSONObject jo = new JSONObject();
-				jo.put("id", isBlank(o[21]));
-				jo.put("pid", isBlank(o[5]));
-				jo.put("name", isBlank(o[6]));
-				jo.put("flag", 0);
-				ja.add(jo);
+				JSONObject jm = new JSONObject();
 				
-				jo = null;
-				
-				if (!StringUtils.getInstance().isBlank((String)o[7])) {
-					JSONObject jm = new JSONObject();
+				if (!StringUtils.getInstance().isNull(o[0])) {
 					jm.put("flag", 1);
-					jm.put("pid", isBlank(o[1]));
-					jm.put("id", isBlank(o[22]));
-					jm.put("account", isBlank(o[7]));
-					jm.put("fullname", isBlank(o[8]));
-					jm.put("logo", isBlank(o[9]));
-					jm.put("telephone", isBlank(o[10]));
-					jm.put("email", isBlank(o[11]));
-					jm.put("address", isBlank(o[12]));
-					jm.put("token", isBlank(o[13]));
-					jm.put("sex", isBlank(o[14]));
-					jm.put("birthday", isBlank(o[15]));
-					jm.put("workno", isBlank(o[16]));
-					jm.put("mobile", isBlank(o[17]));
-					jm.put("groupmax", isBlank(o[18]));
-					jm.put("groupuse", isBlank(o[19]));
-					jm.put("intro", isBlank(o[20]));
-					ja.add(jm);
-					jm = null;
+					jm.put("pid", isBlank(o[4]));
+					jm.put("id", isBlank(o[7]));
+					jm.put("account", isBlank(o[8]));
+					jm.put("name", isBlank(o[9]));
+					jm.put("logo", isBlank(o[10]));
+					jm.put("telephone", isBlank(o[11]));
+					jm.put("email", isBlank(o[12]));
+					jm.put("address", isBlank(o[13]));
+					jm.put("token", isBlank(o[14]));
+					jm.put("sex", isBlank(o[15]));
+					jm.put("birthday", isBlank(o[16]));
+					jm.put("workno", isBlank(o[17]));
+					jm.put("mobile", isBlank(o[18]));
+					jm.put("groupmax", isBlank(o[19]));
+					jm.put("groupuse", isBlank(o[20]));
+					jm.put("intro", isBlank(o[21]));
+				} else {
+					jm.put("id", isBlank(o[4]));
+					jm.put("pid", isBlank(o[5]));
+					jm.put("name", isBlank(o[6]));
+					jm.put("flag", 0);
 				}
+				ja.add(jm);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		System.out.println(ja.toString());
 		return ja.toString();
 	}
 	
