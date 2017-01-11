@@ -28,7 +28,7 @@ $(function(){
     //左侧组织树状图
 
     //sendAjax('branch!getBranchTree','',function(data){
-    sendAjax('branch!getBranchTreeAndMember','',function(data){
+	sendAjax('branch!getBranchTreeAndMember','',function(data){
         console.log(data);
         var $ParendtDom = $('.organizationList').find('ul');
 

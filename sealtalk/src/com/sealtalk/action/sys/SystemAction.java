@@ -1,6 +1,7 @@
 package com.sealtalk.action.sys;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 
@@ -36,8 +37,8 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String login() throws IOException, ServletException
-	{
+	public String login() throws IOException, ServletException {
+	
 		if (getSessionUser() == null) {
 			return "loginPage";
 		} else {
@@ -50,24 +51,37 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	public String afterLogin() throws IOException, ServletException
-	{
-		System.out.println("account: " + account);
-		System.out.println("userpwd: " + userpwd);
+	@SuppressWarnings("unchecked")
+	public String afterLogin() throws IOException, ServletException {
+		String userAccount = null;
+		String userPassword = null;
 		
-		if (account == null || "".equals(account)) {
+		Map<String, String[]> map = getRequestParams();
+		
+		if (map.size() > 0 && PropertiesUtils.devsContains(map.get("dev")[0])) {
+			userAccount = map.get("account")[0];
+			userPassword = map.get("userpwd")[0];
+		} else {
+			userAccount = account;
+			userPassword = userpwd;
+		}
+		
+		//System.out.println("userAccount: " + userAccount);
+		//System.out.println("userAccount: " + userPassword);
+		
+		if (userAccount == null || "".equals(userAccount)) {
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
 			return "loginPage";
 		}
 		
-		TMember member = memberService.searchSigleUser(account, userpwd);
+		TMember member = memberService.searchSigleUser(userAccount, userPassword);
 		
 		if(member == null) {
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
 			return "loginPage";
 		}
 		
-		logger.debug("That logining account is " + account);
+		logger.debug("That logining account is " + userAccount);
 		
 		String userId = "" + member.getId();
 		

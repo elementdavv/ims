@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.sealtalk.dao.adm.BranchDao;
 import com.sealtalk.service.adm.BranchService;
 import com.sealtalk.utils.StringUtils;
@@ -13,6 +15,8 @@ import net.sf.json.JSONObject;
 
 public class BranchServiceImpl implements BranchService {
 
+	private Logger logger = Logger.getLogger(BranchServiceImpl.class);
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public String getBranchTree() {
@@ -63,11 +67,18 @@ public class BranchServiceImpl implements BranchService {
 					jm.put("groupmax", isBlank(o[19]));
 					jm.put("groupuse", isBlank(o[20]));
 					jm.put("intro", isBlank(o[21]));
+					
+					JSONObject jb = new JSONObject();
+					jb.put("flag", 0);
+					jb.put("id", isBlank(o[4]));
+					jb.put("pid", isBlank(o[5]));
+					jb.put("name", isBlank(o[6]));
+					ja.add(jb);
 				} else {
 					jm.put("id", isBlank(o[4]));
 					jm.put("pid", isBlank(o[5]));
 					jm.put("name", isBlank(o[6]));
-					jm.put("flag", 0);
+					jm.put("flag", 0);  
 				}
 				ja.add(jm);
 			}
@@ -75,7 +86,7 @@ public class BranchServiceImpl implements BranchService {
 			e.printStackTrace();
 		}
 		
-		System.out.println(ja.toString());
+		logger.info(ja.toString());
 		return ja.toString();
 	}
 	

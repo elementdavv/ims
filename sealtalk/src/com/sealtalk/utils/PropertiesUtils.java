@@ -1,5 +1,6 @@
 package com.sealtalk.utils;
 
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -37,6 +38,21 @@ public class PropertiesUtils {
         return getStringByKey(key, DEFAULT_CONFIG_FILE);  
     }  
   
+    public static ArrayList<String> getListByKey(String key) {
+    	ArrayList<String> list = new ArrayList<String>();
+    	String dev = getStringByKey(key);
+    	
+    	dev = (dev == null) ? "" : dev;
+    	
+    	String[] devs = dev.split(",");
+    	
+    	for(int i = 0; i < devs.length; i++) {
+    		list.add(devs[i]);
+    	}
+    	
+    	return list;
+    }
+    
     public static Properties getProperties() {  
         try {  
             return loader.getPropFromProperties(DEFAULT_CONFIG_FILE);  
@@ -45,5 +61,10 @@ public class PropertiesUtils {
             return null;  
         }  
     }  
+    
+    public static boolean devsContains(String dev) {
+    	ArrayList<String> devs = getListByKey("db.dev");
+    	return devs.contains(dev);
+    }
 
 }

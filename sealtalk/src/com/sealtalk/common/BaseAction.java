@@ -3,6 +3,7 @@ package com.sealtalk.common;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
-//import org.hibernate.Criteria;
-//import org.springframework.util.StringUtils;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.sealtalk.model.SessionUser;
 
@@ -46,6 +46,47 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	public void setServletRequest(HttpServletRequest request)
 	{
 		this.request = request;
+	}
+	
+	/**
+	 * 获取url参数。android请求用url方式传参
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public Map getRequestParams() {
+		Map<String, String[]> map = request.getParameterMap();
+		
+	/*	for(Map.Entry<String, String[]> m: map.entrySet()) {
+			System.out.println("key: " + m.getKey());
+			
+			String[] s = (String[])m.getValue();
+			
+			for(int i = 0; i < m.getValue().length; i++) {
+				System.out.println(m.getValue()[i]);
+			}
+		}*/
+		return map;
+	}
+	
+	/**
+	 * 参数长度
+	 * @return
+	 */
+	public int getRequestParamsLength() {
+		return this.getRequestParams().size();
+	}
+	
+	/**
+	 * 取指定的参数
+	 * @param key
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public String[] getRequestParamsValue(String key) {
+		Map<String, String[]> map = request.getParameterMap();
+		String[] values = (String[])map.get(key);
+		
+		return values;
 	}
 	
 	
@@ -205,38 +246,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	{
 		SessionUser userInfo = getSessionUser();
 		return userInfo == null ? null : userInfo.getAccountName();
-	}*/
-	
-	
-	
-	/** 构�?�grid查询条件one */
-	/*protected String queryConditionHandler(List<String> where, List<String> order, String relationship)
-	{
-		//return QueryConditionHandler.queryConditionHandler(where, order, relationship);
-	}*/
-	
-	
-	
-	/** 构�?�grid查询条件 */
-/*	protected String buildWhereHql(List<String> where)
-	{
-		//return QueryConditionHandler.buildWhereHql(where);
-	}*/
-	
-	
-	
-	/** 构�?�grid排序条件 */
-	/*protected String buildOrderHql(List<String> orderBy)
-	{
-		//return QueryConditionHandler.buildOrderHql(orderBy);
-	}
-	*/
-	
-	
-	/** 构�?�grid查询条件 */
-	/*protected void queryConditionHandler(List<String> where, List<String> order, Criteria criteria)
-	{
-		//QueryConditionHandler.queryConditionHandler(where, order, criteria);
 	}*/
 	
 }

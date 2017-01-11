@@ -54,14 +54,14 @@ public class BranchDaoImpl extends BaseDao<TBranch, Long> implements BranchDao {
 			SQLQuery query = this.getSession().createSQLQuery(sql);
 			
 			List list = query.list();
-			
-			/*for(int i = 0; i < list.size(); i++) {
+			/*
+			for(int i = 0; i < list.size(); i++) {
 				Object [] k = (Object[]) list.get(i);
 				for(int j = 0; j < k.length;j++) {
 					System.out.println(i + "--" + j + "--" + k[j]);
 				}
-			}*/
-			
+			}
+			*/
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
