@@ -55,8 +55,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	@SuppressWarnings("unchecked")
 	public Map getRequestParams() {
 		Map<String, String[]> map = request.getParameterMap();
-		
-	/*	for(Map.Entry<String, String[]> m: map.entrySet()) {
+	
+		for(Map.Entry<String, String[]> m: map.entrySet()) {
 			System.out.println("key: " + m.getKey());
 			
 			String[] s = (String[])m.getValue();
@@ -64,7 +64,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 			for(int i = 0; i < m.getValue().length; i++) {
 				System.out.println(m.getValue()[i]);
 			}
-		}*/
+		}
 		return map;
 	}
 	

@@ -13,6 +13,7 @@
     <include file="struts-member.xml" />
     <include file="struts-friend.xml" />
     <include file="struts-branch.xml" />
+    <include file="struts-message.xml" />
 
 </struts>
 

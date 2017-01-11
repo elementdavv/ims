@@ -67,4 +67,32 @@ public class PropertiesUtils {
     	return devs.contains(dev);
     }
 
+    public static String getDomain() {
+		String domain = getStringByKey("db.domain");
+		
+		if (domain.endsWith("/")) {
+			domain = domain.substring(0, domain.length() - 1);
+		}
+		
+		return domain;
+    }
+    
+    public static String getUploadDir() {
+    	String uploadDir = getStringByKey("db.uploaddir");
+		
+    	if (uploadDir.startsWith("/")) {
+			uploadDir = "/" + uploadDir;
+		}
+		
+		if (uploadDir.endsWith("/")) {
+			uploadDir += "/";
+		}
+		
+		return uploadDir;
+		
+    }
+    
+    public static String getDefaultLogo() {
+    	return getStringByKey("db.defaultlogo");
+    }
 }

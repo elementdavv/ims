@@ -139,4 +139,24 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		return 0;
 	}
 
+	@Override
+	public TMember getMemberForId(int id) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("id", id));
+			
+			List<TMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return (TMember) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }

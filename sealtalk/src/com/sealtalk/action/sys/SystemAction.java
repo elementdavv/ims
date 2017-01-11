@@ -33,7 +33,7 @@ public class SystemAction extends BaseAction {
 	private static final Logger logger = Logger.getLogger(SystemAction.class);
 	
 	/**
-	 * 跳转登陆页面
+	 * 跳转登陆页面(仅web使用)
 	 * @return
 	 * @throws Exception
 	 */
@@ -53,42 +53,23 @@ public class SystemAction extends BaseAction {
 	 */
 	@SuppressWarnings("unchecked")
 	public String afterLogin() throws IOException, ServletException {
-		String userAccount = null;
-		String userPassword = null;
-		
-		Map<String, String[]> map = getRequestParams();
-		
-		if (map.size() > 0 && PropertiesUtils.devsContains(map.get("dev")[0])) {
-			userAccount = map.get("account")[0];
-			userPassword = map.get("userpwd")[0];
-		} else {
-			userAccount = account;
-			userPassword = userpwd;
-		}
-		
-		//System.out.println("userAccount: " + userAccount);
-		//System.out.println("userAccount: " + userPassword);
-		
-		if (userAccount == null || "".equals(userAccount)) {
+		if (account == null || "".equals(account)) {
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
 			return "loginPage";
 		}
 		
-		TMember member = memberService.searchSigleUser(userAccount, userPassword);
+		TMember member = memberService.searchSigleUser(account, userpwd);
 		
 		if(member == null) {
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
 			return "loginPage";
 		}
 		
-		logger.debug("That logining account is " + userAccount);
+		logger.debug("That logining account is " + account);
 		
 		String userId = "" + member.getId();
-		
 		String name = member.getFullname();
 		String token = null;
-		
-		//tomcat安装目录有空格时验证不能过。暂时注掉
 		String tokenMaxAge = PropertiesUtils.getStringByKey("db.tokenMaxAge");
 		
 		long tokenMaxAgeLong = 0;
@@ -101,7 +82,12 @@ public class SystemAction extends BaseAction {
 		
 		if ((now - firstTokenDate) > tokenMaxAgeLong) {
 			try {
-				token = RongCloudUtils.getInstance().getToken(userId, name, null);
+				String domain = PropertiesUtils.getDomain();
+				String uploadDir = PropertiesUtils.getUploadDir();
+				String logo = member.getLogo();
+				String url = domain + uploadDir + logo;
+				
+				token = RongCloudUtils.getInstance().getToken(userId, name, url);
 				memberService.updateUserTokenForId(userId, token);
 			} catch (Exception e) {
 				logger.error(e);
@@ -151,7 +137,7 @@ public class SystemAction extends BaseAction {
 	}
 	
 	/**
-	 * 跳转修改密码页
+	 * 跳转修改密码页(仅web端使用)
 	 * @return
 	 * @throws Exception
 	 */

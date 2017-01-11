@@ -50,5 +50,12 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @return
 	 */
 	public int updateUserTokenForId(String userId, String token);
+
+	/**
+	 * 查询单用户按id
+	 * @param valueOf
+	 * @return
+	 */
+	public TMember getMemberForId(int valueOf);
 	
 } 
