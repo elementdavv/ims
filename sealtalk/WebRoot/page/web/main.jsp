@@ -16,6 +16,14 @@
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/backstageMg.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/Class.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/dialogOper.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
+    <script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
     <%--<script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>--%>
 </head>
 <body>
@@ -117,11 +125,11 @@
     <!--组织通讯录-->
     <div class="chatContent orgnized">
         <!--<div></div>-->
-       <div class="serachMenber">
-           <div class="searchInput">
-               <span class="defaultText chatLeftIcon">搜索人员</span>
-           </div>
-       </div>
+        <div class="serachMenber">
+            <input class="searchInput chatLeftIcon">
+                <span class="defaultText">搜索人员</span>
+            </input>
+        </div>
 
         <div class="organizationList">
             <ul>
@@ -387,391 +395,390 @@
                     <b class="systemSet-keep">保存</b>
                 </div>
     <!--消息记录-->
-    <div class="mesContainer" id="perContainer">
-        <h3 class="perSetBox-title clearfix">
+            <div class="mesContainer" id="perContainer">
+                <h3 class="perSetBox-title clearfix">
+                    <span>张三</span>
+                    <div class="messageRecord clearfix">
+                        <i class="mr-Location"></i>
+                        <i class="mr-record active" id="mr-record"></i>
+                    </div>
+                </h3>
+                <div class="mr-chatview">
+                    <p class="mr-Date">-11月11日 星期五-</p>
+                    <p class="mr-time">9:28</p>
+                    <ul class="mr-chatContent">
+                        <li class="mr-chatContentL clearfix">
+                            <img src="page/web/css/img/1.jpg" >
+                            <div class="mr-chatBox">
+                                <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
+                                <i></i>
+                            </div>
+                        </li>
+                        <li class="mr-chatContentR">
+                            <div class="mr-ownChat">
+                                <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
+                                <i></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mr-chateditBox">
+                        <div class="mr-expresFile clearfix">
+                            <span></span>
+                            <i></i>
+                        </div>
+                        <textarea placeholder="说点什么..."></textarea>
+                        <strong>发送</strong>
+                </div>
+            </div>
+    <!--群组消息记录-->
+            <div class="mesContainer " style="margin-right:341px;display:none;" >
+            <h3 class="perSetBox-title clearfix">
             <span>张三</span>
             <div class="messageRecord clearfix">
-                <i class="mr-Location"></i>
-                <i class="mr-record active" id="mr-record"></i>
+            <i class="mr-Location"></i>
+            <i class="mr-record"></i>
             </div>
-        </h3>
-        <div class="mr-chatview">
+            </h3>
+            <div class="mr-chatview">
             <p class="mr-Date">-11月11日 星期五-</p>
             <p class="mr-time">9:28</p>
+            <p class="group-addPerson clearfix">
+                <span>谁将谁拉进群组<i></i></span>
+            </p>
             <ul class="mr-chatContent">
-                <li class="mr-chatContentL clearfix">
-                    <img src="page/web/css/img/1.jpg" >
-                    <div class="mr-chatBox">
-                        <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                        <i></i>
-                    </div>
-                </li>
-                <li class="mr-chatContentR">
-                    <div class="mr-ownChat">
-                        <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                        <i></i>
-                    </div>
-                </li>
+            <li class="mr-chatContentL clearfix">
+            <img src="page/web/css/img/1.jpg" >
+            <div class="mr-chatBox">
+            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
+            <i></i>
+            </div>
+            </li>
+            <li class="mr-chatContentR">
+            <div class="mr-ownChat">
+            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
+            <i></i>
+            </div>
+            </li>
             </ul>
-        </div>
-        <div class="mr-chateditBox">
-                <div class="mr-expresFile clearfix">
-                    <span></span>
-                    <i></i>
+            </div>
+            <div class="mr-chateditBox">
+            <div class="mr-expresFile clearfix">
+            <span></span>
+            <i></i>
+            </div>
+            <textarea placeholder="说点什么..."></textarea>
+            <strong>发送</strong>
+            </div>
+            </div>
+            <!--个人资料-->
+            <div  class="personalData" id="personalData">
+                <ul class="infoDetails clearfix" id="perInfo">
+                    <li class="active">资料</li>
+                    <li>聊天记录</li>
+                    <li>聊天文件</li>
+                </ul>
+                <div class="infoDetailsBox" id="infoDetailsBox">
+                    <div class="infoDetails-data active">
+                        <div class="infoDet-personal clearfix">
+                            <img src="page/web/css/img/1.jpg">
+                            <div class="infoDet-text">
+                                <p>张三</p>
+                                <div class="clearfix">
+                                    <span class="infoDet-postInfo"></span>
+                                    <span class="infoDet-position"></span>
+                                    <span class="infoDet-addPer"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="infoDetList clearfix">
+                            <li >
+                                <span>手机：</span>
+                                <b>123123123123</b>
+                            </li>
+                                <li >
+                                <span>手机：</span>
+                                <b>123123123123</b>
+                                </li>
+                                <li >
+                                <span>手机：</span>
+                                <b>123123123123</b>
+                                </li>
+                                <li >
+                                <span>手机：</span>
+                                <b>123123123123</b>
+                                </li>
+                                <li >
+                                <span>手机：</span>
+                                <b>123123123123</b>
+                                </li>
+                                <li >
+                                <span>手机：</span>
+                                <b>123123123123</b>
+                                </li>
+                        </ul>
+                    </div>
+                    <div class="infoDet-chatRecord">
+                        <div class="infoDet-search">
+                            <input type="text" placeholder="查找信息..."/>
+                            <i></i>
+                        </div>
+                        <div class="infoDet-recordAll">
+                            <p class="infoDet-timeRecord">2016-09-28</p>
+                            <ul class="infoDet-contentDet">
+                                <li class="infoDet-OthersSay">
+                                    <span>张三&nbsp&nbsp&nbsp17:10:10</span>
+                                    <p>11111111111</p>
+                                </li>
+                                <li class="infoDet-selfSay">
+                                    <span>张三&nbsp&nbsp&nbsp17:10:10</span>
+                                    <p>11111111111</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="infoDet-page">
+                            <span></span>
+                            <div class="infoDet-pageQuery">
+                                <i class="infoDet-firstPage"></i>
+                                <i class="infoDet-prePage"></i>
+                                <i class="infoDet-nextPage"></i>
+                                <i class="infoDet-lastPage"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="infoDet-flieRecord">
+                            <div class="infoDet-search">
+                            <input type="text" placeholder="查找信息..."/>
+                            <i></i>
+                        </div>
+                        <div class="infoDet-recordAll">
+                            <ul class="chatFile">
+                                <li class="chatFile-folder">
+                                    <i></i>
+                                    <p>
+                                        <b>色彩搭配(188.mb)</b>
+                                        <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
+                                    </p>
+                                    <strong>打开</strong>
+                                    <strong>打开文件夹</strong>
+                                </li>
+                                <li class="chatFile-zipFile">
+                                <i></i>
+                                <p>
+                                <b>色彩搭配(188.mb)</b>
+                                <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
+                                </p>
+                                <strong>打开</strong>
+                                <strong>打开文件夹</strong>
+                                </li>
+                                <li class="chatFile-img">
+                                <i></i>
+                                <p>
+                                <b>色彩搭配(188.mb)</b>
+                                <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
+                                </p>
+                                <strong>打开</strong>
+                                <strong>打开文件夹</strong>
+                                </li>
+                                <li class="chatFile-unknown">
+                                <i></i>
+                                <p>
+                                <b>色彩搭配(188.mb)</b>
+                                <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
+                                </p>
+                                <strong>打开</strong>
+                                <strong>打开文件夹</strong>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="infoDet-page">
+                            <span></span>
+                            <div class="infoDet-pageQuery">
+                                <i class="infoDet-firstPage"></i>
+                                <i class="infoDet-prePage"></i>
+                                <i class="infoDet-nextPage"></i>
+                                <i class="infoDet-lastPage"></i>
+                            </div>
+                        </div>
+                     </div>
+                    <div class="group-data" style="display:none">
+                        <ul class="groupInfo">
+                            <li class="groupInfo-name">
+                                <span>群组名称：</span>
+                                <b>天方产品部</b>
+                            </li>
+                            <li class="groupInfo-setTime">
+                            <span>群组名称：</span>
+                            <b>天方产品部</b>
+                            </li>
+                            <li class="groupInfo-Controller">
+                            <span>群主/管理员：</span>
+                           <img src="page/web/css/img/1.jpg">
+                            </li>
+                            <li class="groupInfo-disturb">
+                            <span>消息免打扰：</span>
+                            <p>
+                                <i></i>
+                                <i></i>
+                            </p>
+                            </li>
+                        </ul>
+                        <div class="groupInfo-memberList">
+                            <div class="groupInfo-number clearfix">
+                                <span>成员(6)</span>
+                                <p class="clearfix">
+                                    <i class="groupInfo-noChat"></i>
+                                    <i></i>
+                                </p>
+                            </div>
+                            <ul class="groupInfo-memberAll">
+                                <li>
+                                    <img src="page/web/css/img/1.jpg">
+                                    <p>张三(产品经理)</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <textarea placeholder="说点什么..."></textarea>
-                <strong>发送</strong>
-        </div>
+            </div>
+    <!--群组资料-->
+    <div class="BreadcrumbsOuter chatHide">
+    <ul class="Breadcrumbs">
+    <li><a href=""> 1111 </a> ></li>
+    <li><a href=""> 2222 </a> ></li>
+    <li><a href=""> 3333 </a> ></li>
+    </ul>
+    <a class="chatLeftIcon seeOrgnizeTree"></a>
     </div>
-    <!--群组消息记录-->
-    <div class="mesContainer " style="margin-right:341px;display:none;" >
-    <h3 class="perSetBox-title clearfix">
-    <span>张三</span>
-    <div class="messageRecord clearfix">
-    <i class="mr-Location"></i>
-    <i class="mr-record"></i>
+    <!--组织的层级导航-->
+    <div class="orgNavClick orgNavClick1 chatHide" id="orgnizedLevel">
+    <div class="orgNavTitle">标题</div>
+    <ul>
+    <li>
+    <div class="showImgInfo">
+    <img src="css/img/PersonImg.png" alt=""/>
     </div>
-    </h3>
-    <div class="mr-chatview">
-    <p class="mr-Date">-11月11日 星期五-</p>
-    <p class="mr-time">9:28</p>
-    <p class="group-addPerson clearfix">
-        <span>谁将谁拉进群组<i></i></span>
-    </p>
-    <ul class="mr-chatContent">
-    <li class="mr-chatContentL clearfix">
-    <img src="page/web/css/img/1.jpg" >
-    <div class="mr-chatBox">
-    <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-    <i></i>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
     </div>
     </li>
-    <li class="mr-chatContentR">
-    <div class="mr-ownChat">
-    <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-    <i></i>
+
+    </ul>
+    <div class="orgNavTitle">标题</div>
+    <ul>
+
+    <li>
+    <div class="showImgInfo">
+    <img src="css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </li>
+    <li>
+    <div class="showImgInfo">
+    <img src="css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </li>
+    <li>
+    <div class="showImgInfo">
+    <img src="css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </li>
+    <li>
+    <div class="showImgInfo">
+    <img src="css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
     </div>
     </li>
     </ul>
     </div>
-    <div class="mr-chateditBox">
-    <div class="mr-expresFile clearfix">
-    <span></span>
-    <i></i>
+    <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
+    <div class="personalDetailContent">
+
+    <div class="selfImgInfo">
+    <img src="css/img/PersonImg.png" alt=""/>
+    <div>
+    <p>张三</p>
+    <ul class="selfImgOpera">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
     </div>
-    <textarea placeholder="说点什么..."></textarea>
-    <strong>发送</strong>
+    </div>
+    <div class="showPersonalInfo">
+    <ul>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+
+    </ul>
+    </div>
+
     </div>
     </div>
-    <!--个人资料-->
-    <div  class="personalData" id="personalData">
-        <ul class="infoDetails clearfix" id="perInfo">
-            <li class="active">资料</li>
-            <li>聊天记录</li>
-            <li>聊天文件</li>
-        </ul>
-        <div class="infoDetailsBox" id="infoDetailsBox">
-            <div class="infoDetails-data active">
-                <div class="infoDet-personal clearfix">
-                    <img src="page/web/css/img/1.jpg">
-                    <div class="infoDet-text">
-                        <p>张三</p>
-                        <div class="clearfix">
-                            <span class="infoDet-postInfo"></span>
-                            <span class="infoDet-position"></span>
-                            <span class="infoDet-addPer"></span>
-                        </div>
-                    </div>
-                </div>
-                <ul class="infoDetList clearfix">
-                    <li >
-                        <span>手机：</span>
-                        <b>123123123123</b>
-                    </li>
-                        <li >
-                        <span>手机：</span>
-                        <b>123123123123</b>
-                        </li>
-                        <li >
-                        <span>手机：</span>
-                        <b>123123123123</b>
-                        </li>
-                        <li >
-                        <span>手机：</span>
-                        <b>123123123123</b>
-                        </li>
-                        <li >
-                        <span>手机：</span>
-                        <b>123123123123</b>
-                        </li>
-                        <li >
-                        <span>手机：</span>
-                        <b>123123123123</b>
-                        </li>
-                </ul>
-            </div>
-            <div class="infoDet-chatRecord">
-                <div class="infoDet-search">
-                    <input type="text" placeholder="查找信息..."/>
-                    <i></i>
-                </div>
-                <div class="infoDet-recordAll">
-                    <p class="infoDet-timeRecord">2016-09-28</p>
-                    <ul class="infoDet-contentDet">
-                        <li class="infoDet-OthersSay">
-                            <span>张三&nbsp&nbsp&nbsp17:10:10</span>
-                            <p>11111111111</p>
-                        </li>
-                        <li class="infoDet-selfSay">
-                            <span>张三&nbsp&nbsp&nbsp17:10:10</span>
-                            <p>11111111111</p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="infoDet-page">
-                    <span></span>
-                    <div class="infoDet-pageQuery">
-                        <i class="infoDet-firstPage"></i>
-                        <i class="infoDet-prePage"></i>
-                        <i class="infoDet-nextPage"></i>
-                        <i class="infoDet-lastPage"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="infoDet-flieRecord">
-                    <div class="infoDet-search">
-                    <input type="text" placeholder="查找信息..."/>
-                    <i></i>
-                </div>
-                <div class="infoDet-recordAll">
-                    <ul class="chatFile">
-                        <li class="chatFile-folder">
-                            <i></i>
-                            <p>
-                                <b>色彩搭配(188.mb)</b>
-                                <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-                            </p>
-                            <strong>打开</strong>
-                            <strong>打开文件夹</strong>
-                        </li>
-                        <li class="chatFile-zipFile">
-                        <i></i>
-                        <p>
-                        <b>色彩搭配(188.mb)</b>
-                        <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-                        </p>
-                        <strong>打开</strong>
-                        <strong>打开文件夹</strong>
-                        </li>
-                        <li class="chatFile-img">
-                        <i></i>
-                        <p>
-                        <b>色彩搭配(188.mb)</b>
-                        <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-                        </p>
-                        <strong>打开</strong>
-                        <strong>打开文件夹</strong>
-                        </li>
-                        <li class="chatFile-unknown">
-                        <i></i>
-                        <p>
-                        <b>色彩搭配(188.mb)</b>
-                        <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-                        </p>
-                        <strong>打开</strong>
-                        <strong>打开文件夹</strong>
-                        </li>
-                    </ul>
-                </div>
-                <div class="infoDet-page">
-                    <span></span>
-                    <div class="infoDet-pageQuery">
-                        <i class="infoDet-firstPage"></i>
-                        <i class="infoDet-prePage"></i>
-                        <i class="infoDet-nextPage"></i>
-                        <i class="infoDet-lastPage"></i>
-                    </div>
-                </div>
-             </div>
-            <div class="group-data" style="display:none">
-                <ul class="groupInfo">
-                    <li class="groupInfo-name">
-                        <span>群组名称：</span>
-                        <b>天方产品部</b>
-                    </li>
-                    <li class="groupInfo-setTime">
-                    <span>群组名称：</span>
-                    <b>天方产品部</b>
-                    </li>
-                    <li class="groupInfo-Controller">
-                    <span>群主/管理员：</span>
-                   <img src="page/web/css/img/1.jpg">
-                    </li>
-                    <li class="groupInfo-disturb">
-                    <span>消息免打扰：</span>
-                    <p>
-                        <i></i>
-                        <i></i>
-                    </p>
-                    </li>
-                </ul>
-                <div class="groupInfo-memberList">
-                    <div class="groupInfo-number clearfix">
-                        <span>成员(6)</span>
-                        <p class="clearfix">
-                            <i class="groupInfo-noChat"></i>
-                            <i></i>
-                        </p>
-                    </div>
-                    <ul class="groupInfo-memberAll">
-                        <li>
-                            <img src="page/web/css/img/1.jpg">
-                            <p>张三(产品经理)</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
+    <div class="organizeListOuter">
+    <!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->
     </div>
-    <!--群组资料-->
-    <%--<div class="BreadcrumbsOuter">--%>
-                <%--<ul class="Breadcrumbs">--%>
-                    <%--<li><a href=""> 1111 </a> ></li>--%>
-                    <%--<li><a href=""> 2222 </a> ></li>--%>
-                    <%--<li><a href=""> 3333 </a> ></li>--%>
-                <%--</ul>--%>
-                <%--<a class="chatLeftIcon seeOrgnizeTree"></a>--%>
-            <%--</div>--%>
-            <!--组织的层级导航-->
-            <%--<div class="orgNavClick orgNavClick1 " id="orgnizedLevel">--%>
-                <%--<div class="orgNavTitle">标题</div>--%>
-                <%--<ul>--%>
-                    <%--<li>--%>
-                        <%--<div class="showImgInfo">--%>
-                            <%--<img src="css/img/PersonImg.png" alt=""/>--%>
-                        <%--</div>--%>
-                        <%--<div class="showPersonalInfo">--%>
-                            <%--<span>张三（产品总监）</span>--%>
-                            <%--<ul class="personalOperaIcon">--%>
-                                <%--<li class="sendMsg"></li>--%>
-                                <%--<li class="checkPosition"></li>--%>
-                                <%--<li class="addConver"></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-                    <%--</li>--%>
 
-                <%--</ul>--%>
-                <%--<div class="orgNavTitle">标题</div>--%>
-                <%--<ul>--%>
-
-                    <%--<li>--%>
-                        <%--<div class="showImgInfo">--%>
-                            <%--<img src="css/img/PersonImg.png" alt=""/>--%>
-                        <%--</div>--%>
-                        <%--<div class="showPersonalInfo">--%>
-                            <%--<span>张三（产品总监）</span>--%>
-                            <%--<ul class="personalOperaIcon">--%>
-                                <%--<li class="sendMsg"></li>--%>
-                                <%--<li class="checkPosition"></li>--%>
-                                <%--<li class="addConver"></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-                    <%--</li>--%>
-                    <%--<li>--%>
-                        <%--<div class="showImgInfo">--%>
-                            <%--<img src="css/img/PersonImg.png" alt=""/>--%>
-                        <%--</div>--%>
-                        <%--<div class="showPersonalInfo">--%>
-                            <%--<span>张三（产品总监）</span>--%>
-                            <%--<ul class="personalOperaIcon">--%>
-                                <%--<li class="sendMsg"></li>--%>
-                                <%--<li class="checkPosition"></li>--%>
-                                <%--<li class="addConver"></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-                    <%--</li>--%>
-                    <%--<li>--%>
-                        <%--<div class="showImgInfo">--%>
-                            <%--<img src="css/img/PersonImg.png" alt=""/>--%>
-                        <%--</div>--%>
-                        <%--<div class="showPersonalInfo">--%>
-                            <%--<span>张三（产品总监）</span>--%>
-                            <%--<ul class="personalOperaIcon">--%>
-                                <%--<li class="sendMsg"></li>--%>
-                                <%--<li class="checkPosition"></li>--%>
-                                <%--<li class="addConver"></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-                    <%--</li>--%>
-                    <%--<li>--%>
-                        <%--<div class="showImgInfo">--%>
-                            <%--<img src="css/img/PersonImg.png" alt=""/>--%>
-                        <%--</div>--%>
-                        <%--<div class="showPersonalInfo">--%>
-                            <%--<span>张三（产品总监）</span>--%>
-                            <%--<ul class="personalOperaIcon">--%>
-                                <%--<li class="sendMsg"></li>--%>
-                                <%--<li class="checkPosition"></li>--%>
-                                <%--<li class="addConver"></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-                    <%--</li>--%>
-                <%--</ul>--%>
-            <%--</div>--%>
-            <%--<div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">--%>
-                <%--<div class="personalDetailContent">--%>
-
-                    <%--<div class="selfImgInfo">--%>
-                        <%--<img src="css/img/PersonImg.png" alt=""/>--%>
-                        <%--<div>--%>
-                            <%--<p>张三</p>--%>
-                            <%--<ul class="selfImgOpera">--%>
-                                <%--<li class="sendMsg"></li>--%>
-                                <%--<li class="checkPosition"></li>--%>
-                                <%--<li class="addConver"></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="showPersonalInfo">--%>
-                       <%--<ul>--%>
-                           <%--<li>--%>
-                               <%--<div>aaaaa:</div>--%>
-                               <%--<div>ddddd</div>--%>
-
-                           <%--</li>--%>
-                           <%--<li>--%>
-                               <%--<div>aaaaa:</div>--%>
-                               <%--<div>ddddd</div>--%>
-
-                           <%--</li>--%>
-                           <%--<li>--%>
-                               <%--<div>aaaaa:</div>--%>
-                               <%--<div>ddddd</div>--%>
-
-                           <%--</li>--%>
-                           <%--<li>--%>
-                               <%--<div>aaaaa:</div>--%>
-                               <%--<div>ddddd</div>--%>
-
-                           <%--</li>--%>
-                           <%--<li>--%>
-                               <%--<div>aaaaa:</div>--%>
-                               <%--<div>ddddd</div>--%>
-
-                           <%--</li>--%>
-
-                       <%--</ul>--%>
-                    <%--</div>--%>
-
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="orgNavClick orgNavClick3 chatHide" id="organizeList">--%>
-                <%--<div class="organizeListOuter">--%>
-                    <%--<!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->--%>
-                <%--</div>--%>
-
-            <%--</div>--%>
-
+    </div>
         </div>
     </div>
     <div class="WindowMask">
