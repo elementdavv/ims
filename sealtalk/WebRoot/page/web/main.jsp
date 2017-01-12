@@ -287,21 +287,8 @@
     <div class="chatBoxOuter">
         <div class="chatBox" style="position:relative" id="chatBox">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!--个人设置-->
-                <div class="perSetBox" style="display:none">
+                <div class="perSetBox orgNavClick chatHide" >
                     <h3 class="perSetBox-title">个人设置</h3>
                     <div class="perSetBox-content clearfix">
                         <div class="perSetBox-leftCont">
@@ -361,7 +348,7 @@
                     </div>
                 </div>
     <!--系统设置-->
-                <div class="perSetBox" style="display:none" >
+                <div class="perSetBox orgNavClick chatHide"  >
                         <h3 class="perSetBox-title">系统设置</h3>
                         <div class="systemSetVoice clearfix">
                             <span>通知提示音：</span>
@@ -371,7 +358,7 @@
                         </div>
                         <b class="systemSet-keep">保存</b>
                 </div>
-                <div class="perSetBox" style="display:none">
+                <div class="perSetBox orgNavClick chatHide" >
                     <h3 class="perSetBox-title">修改密码</h3>
                     <div class="changePassword">
                         <div class="clearfix cp-oldPassword">
@@ -394,8 +381,8 @@
                     </div>
                     <b class="systemSet-keep">保存</b>
                 </div>
-    <!--消息记录-->
-            <div class="mesContainer" id="perContainer">
+    <!--geren消息记录-->
+            <div class="mesContainerSelf mesContainer orgNavClick chatHide" id="perContainer">
                 <h3 class="perSetBox-title clearfix">
                     <span>张三</span>
                     <div class="messageRecord clearfix">
@@ -432,7 +419,7 @@
                 </div>
             </div>
     <!--群组消息记录-->
-            <div class="mesContainer " style="margin-right:341px;display:none;" >
+            <div class="mesContainerGroup mesContainer orgNavClick chatHide" style="margin-right:341px;" >
             <h3 class="perSetBox-title clearfix">
             <span>张三</span>
             <div class="messageRecord clearfix">
@@ -471,8 +458,8 @@
             <strong>发送</strong>
             </div>
             </div>
-            <!--个人资料-->
-            <div  class="personalData" id="personalData">
+    <!--个人资料-->
+            <div  class="orgNavClick personalData  chatHide" id="personalData">
                 <ul class="infoDetails clearfix" id="perInfo">
                     <li class="active">资料</li>
                     <li>聊天记录</li>
@@ -642,21 +629,22 @@
                 </div>
             </div>
     <!--群组资料-->
-    <div class="BreadcrumbsOuter chatHide">
-    <ul class="Breadcrumbs">
-    <li><a href=""> 1111 </a> ></li>
-    <li><a href=""> 2222 </a> ></li>
-    <li><a href=""> 3333 </a> ></li>
-    </ul>
-    <a class="chatLeftIcon seeOrgnizeTree"></a>
-    </div>
+            <div class="BreadcrumbsOuter">
+            <ul class="Breadcrumbs">
+            <li><a href=""> 1111 </a> ></li>
+            <li><a href=""> 2222 </a> ></li>
+            <li><a href=""> 3333 </a> ></li>
+            </ul>
+            <a class="chatLeftIcon seeOrgnizeTree"></a>
+            </div>
     <!--组织的层级导航-->
-    <div class="orgNavClick orgNavClick1 chatHide" id="orgnizedLevel">
+
+    <div class="orgNavClick orgNavClick1" id="orgnizedLevel">
     <div class="orgNavTitle">标题</div>
     <ul>
     <li>
     <div class="showImgInfo">
-    <img src="css/img/PersonImg.png" alt=""/>
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
     </div>
     <div class="showPersonalInfo">
     <span>张三（产品总监）</span>
@@ -674,7 +662,7 @@
 
     <li>
     <div class="showImgInfo">
-    <img src="css/img/PersonImg.png" alt=""/>
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
     </div>
     <div class="showPersonalInfo">
     <span>张三（产品总监）</span>
@@ -687,7 +675,7 @@
     </li>
     <li>
     <div class="showImgInfo">
-    <img src="css/img/PersonImg.png" alt=""/>
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
     </div>
     <div class="showPersonalInfo">
     <span>张三（产品总监）</span>
@@ -700,7 +688,7 @@
     </li>
     <li>
     <div class="showImgInfo">
-    <img src="css/img/PersonImg.png" alt=""/>
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
     </div>
     <div class="showPersonalInfo">
     <span>张三（产品总监）</span>
@@ -713,7 +701,7 @@
     </li>
     <li>
     <div class="showImgInfo">
-    <img src="css/img/PersonImg.png" alt=""/>
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
     </div>
     <div class="showPersonalInfo">
     <span>张三（产品总监）</span>
@@ -726,6 +714,7 @@
     </li>
     </ul>
     </div>
+
     <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
     <div class="personalDetailContent">
 
@@ -773,6 +762,7 @@
 
     </div>
     </div>
+
     <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
     <div class="organizeListOuter">
     <!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->

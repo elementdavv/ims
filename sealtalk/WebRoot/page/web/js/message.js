@@ -12,8 +12,8 @@ $(function(){
         if(state=='member'){//点击的是成员
             var data = searchFromList(1,id);
             var sHTML = changeClick2Content(data);
-            //$('.orgNavClick2').html(sHTML);
-            //$('.orgNavClick2').removeClass('chatHide');
+            $('.orgNavClick2').html(sHTML);
+            $('.orgNavClick2').removeClass('chatHide');
 
         }else{//点击的是部门
             //branch!getBranchMember查询部门结构
@@ -97,11 +97,34 @@ $(function(){
 
         },1000);
     })
+
+
     $('.usualChatList').delegate('li','mouseleave',function(e){
         clearTimeout(timer);
-        $('.memberHover').remove();
+        //$('.memberHover').remove();
     })
     $(window).click(function(e){
+        console.log('---===---==-=-=memberHover')
+        console.log(e.target);
+        if($(e.target).parents('.memberHover').length==0){
+            $('.memberHover').remove();
+        }else{
+            switch (e.target.className){
+                case 'sendMsg'://发起聊天
+                    //conversationSelf();
+                    $('.orgNavClick').addClass('chatHide');
+                    $('.mesContainerSelf').removeClass('chatHide');
+                    break;
+                case 'checkPosition'://查看位置
+                    console.log('checkPosition');
+                    break;
+                case 'addConver'://添加群聊
+                    console.log('addConver');
+                    break;
+                default :
+                    console.log(';;;;;');
+            }
+        }
         $('.myContextMenu').remove();
     })
     //右键消息列表
@@ -199,18 +222,21 @@ $(function(){
 
     //获取左侧组织树状图
     sendAjax('branch!getBranchTreeAndMember','',function(data){
+
         window.localStorage.normalInfo = data;
-        var myData = changeFormat(data);
-        if(myData){
-            window.localStorage.getBranchTree = JSON.stringify(myData);
+        var datas = JSON.parse(data);
+        if(datas && data.length!=0){
+            var myData = changeFormat(data);
+            if(myData){
+                window.localStorage.getBranchTree = JSON.stringify(myData);
+            }
+            var $ParendtDom = $('.organizationList');
+            var i = 0;
+            var sHTML = '';
+            var HTML = createOrganizList(myData,sHTML,i);
+            $ParendtDom.html(HTML);
         }
-        //window.localStorage.getBranchTree = myData;
-        var $ParendtDom = $('.organizationList');
-        var i = 0;
-        var sHTML = '';
-        var HTML = createOrganizList(myData,sHTML,i);
-        //console.log(HTML);
-        $ParendtDom.html(HTML);
+
     })
 
 
@@ -340,7 +366,7 @@ function changeClick2Content(data){
                 '<p>'+data.name+'</p>'+
                 '<ul class="selfImgOpera">'+
                     '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
-                '</ul></div></div><div class="showPersonalInfo">'+
+                '</ul></div></div><div class="showPersonalInfo" targetID="'+data.id+'">'+
                 '<ul>'+
                     '<li><div>手机:</div><div>'+data.telephone+'</div></li>'+
                     '<li><div>邮箱:</div><div>'+data.email+'</div></li>'+

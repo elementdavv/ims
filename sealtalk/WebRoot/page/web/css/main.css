@@ -540,6 +540,7 @@ span.defaultText{
 .chatBox .orgNavClick1{
     margin: 38px 42px;
     overflow: hidden;
+    /*padding-top: 61px;*/
 }
 .chatBox .orgNavClick1 .orgNavTitle{
     display: block;
@@ -613,9 +614,11 @@ span.defaultText{
     /*background: paleturquoise;*/
     margin: 0px auto;
     margin-top: 52px;
+    padding-top: 61px;
 }
 .selfImgInfo img{
     margin-left:58px;
+    height: 80px;width: 80px;
 }
 .selfImgInfo{
     overflow: hidden;
@@ -658,6 +661,7 @@ span.defaultText{
 .orgNavClick3{
     /*height: 100%;*/
     width: 100%;
+    padding-top: 61px;
     /*background: palevioletred;*/
 }
 
