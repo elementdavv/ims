@@ -9,6 +9,9 @@
 .backstageMg li:hover{
     background: #f0fdff;
 }
+.backstageMg li.active{
+    background: #f0fdff;
+}
 .backstageMg li em{
     float:left;
     background: url('img/backstage.png')no-repeat;
@@ -526,7 +529,6 @@
 
 }
 .personalData{
-    display:none;
     position:absolute;
     right:0;
     top:0;

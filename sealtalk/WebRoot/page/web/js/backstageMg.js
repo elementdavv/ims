@@ -19,4 +19,11 @@ $(document).ready(function(){
             $('#personalData').css('display','block');
         }
     });
+//    后台管理
+    $('#backstageMgId').on('click','li',function(){
+        $('#backstageMgId li').removeClass('active');
+        $(this).addClass('active');
+        $('.perSetBox').addClass('chatHide');
+        $('.perSetBox').eq($(this).index()).removeClass('chatHide');
+    });
 });
