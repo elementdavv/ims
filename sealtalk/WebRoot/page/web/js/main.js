@@ -4,7 +4,7 @@
 $(function(){
 
 
-    $('#contactsList').perfectScrollbar();
+    //$('#contactsList').perfectScrollbar();
     //$('body').perfectScrollbar();
     $('.dialogClose,.manageCancle').click(function(){
         $('.WindowMask,.WindowMask2').hide();
