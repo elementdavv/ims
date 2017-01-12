@@ -78,6 +78,7 @@ function signin(){
     sendAjax('system!afterLogin',data,function(datas){
         var datas = JSON.parse(datas);
         if(datas &&	datas.code == 1){
+            data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(data);
             window.location.href = 'page/web/main.jsp';
         }

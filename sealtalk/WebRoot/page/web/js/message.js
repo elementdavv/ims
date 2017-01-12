@@ -334,7 +334,7 @@ function loop(data,small,temp){
     }
     for(var i = 0;i<data.length;i++){
         for(var j = 0;j<small.length;j++){
-            if(data[i].pid==small[j].id){
+            if(data[i].pid==small[j].id&&small[j].flag!=1){
                 small[j].hasChild.push(data[i]);
                 remove(tempdata,0);
 
@@ -465,6 +465,10 @@ function creatDialogTree(data,className,title,callback,selected){
     var HTML = DialogTreeLoop(data,sHTML,level);
     //console.log(HTML);
     $('.contactsList').html(HTML);
+
+
+
+
     $('.manageSure').click(function(){
         callback&&callback();
     });

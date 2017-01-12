@@ -447,9 +447,9 @@ span.defaultText{
 
 
 .organizationList{
-    height: 100px;
-    /*background: pink;*/
-    margin: 20px 32px 0px 24px;
+    padding: 20px 32px 0px 24px;
+    overflow: scroll;
+    height: inherit;
 }
 .organizationList ul li{
 
@@ -913,7 +913,11 @@ span.defaultText{
 
 }
 .contactsList{
-    margin: 3px 12px;
+    /*margin: 3px 12px;*/
+     padding: 3px 12px;
+    overflow: hidden;
+    height: calc(100% - 47px);
+    position: relative;
 }
 .contactsList ul li{
     height: 30px;line-height: 30px;

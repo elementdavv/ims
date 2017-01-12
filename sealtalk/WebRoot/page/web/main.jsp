@@ -8,6 +8,7 @@
     <title></title>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/main.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/window.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/window.js"></script>
@@ -15,11 +16,18 @@
     <script src="<%=request.getContextPath() %>/page/web/js/dialogOper.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
 
-</head>
+    </head>
 <body>
-
+    <c:if test="${SessionUser == null}">
+        <%
+			response.sendRedirect(request.getContextPath()+"/system!login");
+		%>
+    </c:if>
 
     <%--<div class="menberHover">--%>
         <%--<div class="contextTri"></div>--%>
@@ -458,7 +466,7 @@
                     <p class="outerTitle">选择联系人：</p>
                     <div class="contactBox">
                         <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
-                        <div class="contactsList">
+                        <div class="contactsList" id="contactsList">
                             <!--<div class="organizationList">-->
                             <%--<ul>--%>
                                 <%--<li>--%>
