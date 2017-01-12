@@ -96,6 +96,11 @@ function showPanel(panelClass){
     if(eShowNode){
         eShowNode.removeClass('chatHide');
         eShowNode.siblings(".chatContent").addClass('chatHide');
+        $('#chatBox').children().each(function(){
+            if(!$(this).hasClass('chatHide')){
+                $(this).addClass('chatHide');
+            }
+        });
     }
 }
 
