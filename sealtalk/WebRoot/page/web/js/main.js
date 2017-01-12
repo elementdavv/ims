@@ -77,14 +77,14 @@ $(function(){
     })
 })
 
-
-function fshowContexMenu(arr,style,id){
+//memShip表示与此操作相关的人员account
+function fshowContexMenu(arr,style,id,memShip){
 
     var listHTML = '';
     for(var i = 0;i<arr.length;i++){
         listHTML+='<li>'+arr[i]+'</li>'
     }
-    var sHTML = '<div class="myContextMenu" id="'+id+'" style="'+style+'">'+
+    var sHTML = '<div memShip="'+memShip+'" class="myContextMenu" id="'+id+'" style="'+style+'">'+
         '<div class="contextTri"></div>'+
         '<ul>'+listHTML+'</ul>'+
         '</div>';

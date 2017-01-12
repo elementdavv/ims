@@ -139,20 +139,26 @@ $(function(){
             var top = e.clientY;
             var arr = ['解除好友']
             var style = 'left:'+left+'px;top:'+top+'px';
-            var id = 'usualLeftClick'
-            fshowContexMenu(arr,style,id)
+            var id = 'usualLeftClick';
+            var friend = $(this).attr('account');
+            //var memShip = JSON.stringify()
+            fshowContexMenu(arr,style,id,friend);
         }
         $('.usualChatList li').removeClass('active');
         $(this).addClass('active');
         return false;
     })
     $('body').delegate('#usualLeftClick li','click',function(){
+        var memShip = $('.myContextMenu').attr('memship');
         $('.myContextMenu').remove();
         var index = $(this).closest('ul').find('li').index($(this));
         switch (index)
         {
             case 0:
                 //解除好友
+                //if(memShip){
+                //    var friend = JSON.parse(memShip);
+                //}
                 new Window().alert({
                     title   : '解除好友',
                     content : '确定要解除好友吗？',
@@ -161,40 +167,19 @@ $(function(){
                     textForSureBtn : '确定',              //确定按钮
                     textForcancleBtn : '取消',            //取消按钮
                     handlerForCancle : null,
-                    handlerForSure : null
+                    handlerForSure : function(){
+                        cancleRelation(account,memShip);
+                    }
                 });
                 break;
         }
     })
 
 
-    //获取好友列表左侧
+    //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
     var account = JSON.parse(sAccount).account;
-    sendAjax('friend!getMemberFriends',{account:account},function(data){
-        //console.log(data);
-        window.localStorage.MemberFriends = data;
-        var myData = JSON.parse(data);
-        //var myData = changeFormat(data);
-        var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
-        var sHTML = '';
-        //var memberInfos = [];
-        //var member = {};
-        for(var i = 0;i<myData.length;i++){
-            var account = myData[i].account;
-            var fullname = myData[i].fullname;
-            var workno = myData[i].workno?' ('+myData[i].workno+')':''
-            var logo = myData[i].logo?myData[i].logo:'css/img/group_chart.png';
-            var curData = myData[i];
-            sHTML += ' <li account="'+account+'">'+
-                        '<div>'+
-                            '<img class="groupImg" src="'+logo+'" alt=""/>'+
-                            '<span class="groupName">'+fullname+workno+'</span>'+
-                        '</div>'+
-                      '</li>';
-        }
-        $ParendtDom.append($(sHTML));
-    })
+    getMemberFriends(account);
 
 
     //获取左侧组织树状图
@@ -242,7 +227,8 @@ $(function(){
                         var datas = JSON.parse(data);
                         console.log(data);
                         if(datas.code==1){
-                            console.log('添加成功');
+                            //刷新常用联系人
+                            getMemberFriends(account);
                             $('.manageCancle').click();
                             new Window().alert({
                                 title   : '添加好友',
@@ -325,7 +311,53 @@ $(function(){
         }
     })
 })
+//获取常用联系人
+function getMemberFriends(account){
+    sendAjax('friend!getMemberFriends',{account:account},function(data){
+        //console.log(data);
+        window.localStorage.MemberFriends = data;
+        var myData = JSON.parse(data);
+        //var myData = changeFormat(data);
+        var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
+        var sHTML = '';
+        //var memberInfos = [];
+        //var member = {};
+        for(var i = 0;i<myData.length;i++){
+            var account = myData[i].account;
+            var fullname = myData[i].fullname;
+            var workno = myData[i].workno?' ('+myData[i].workno+')':''
+            var logo = myData[i].logo?myData[i].logo:'css/img/touxiang.png';
+            var curData = myData[i];
+            sHTML += ' <li account="'+account+'">'+
+            '<div>'+
+            '<img class="groupImg" src="'+logo+'" alt=""/>'+
+            '<span class="groupName">'+fullname+workno+'</span>'+
+            '</div>'+
+            '</li>';
+        }
+        $ParendtDom.html(sHTML);
+    })
+}
 
+function cancleRelation(account,friend){
+    sendAjax('friend!delFriend',{friend:friend,account:account},function(data){
+        var datas = JSON.parse(data);
+        console.log(data);
+        if(datas.code==1){
+            //刷新常用联系人
+            getMemberFriends(account);
+            new Window().alert({
+                title   : '解除成功',
+                content : '好友解除成功！',
+                hasCloseBtn : false,
+                hasImg : true,
+                textForSureBtn : false,
+                textForcancleBtn : false,
+                autoHide:true
+            });
+        }
+    })
+}
 
 function loop(data,small,temp){
     var tempdata = [];
