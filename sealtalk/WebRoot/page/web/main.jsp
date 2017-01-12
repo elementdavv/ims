@@ -22,6 +22,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
     <script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
     <%--<script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>--%>
@@ -415,7 +416,7 @@
                             <i></i>
                         </div>
                         <textarea placeholder="说点什么..."></textarea>
-                        <strong>发送</strong>
+                        <strong class="sendMsg">发送</strong>
                 </div>
             </div>
     <!--群组消息记录-->
@@ -455,7 +456,7 @@
             <i></i>
             </div>
             <textarea placeholder="说点什么..."></textarea>
-            <strong>发送</strong>
+            <strong class="sendMsg">发送</strong>
             </div>
             </div>
     <!--个人资料-->

@@ -111,7 +111,9 @@ $(function(){
         }else{
             switch (e.target.className){
                 case 'sendMsg'://发起聊天
-                    //conversationSelf();
+                    var targetID = $(e.target).parents('.showPersonalInfo').attr('targetid');
+                    var targeType = $(e.target).parents('.showPersonalInfo').attr('targettype');
+                    conversationSelf(targetID,targeType);
                     $('.orgNavClick').addClass('chatHide');
                     $('.mesContainerSelf').removeClass('chatHide');
                     break;
@@ -366,7 +368,7 @@ function changeClick2Content(data){
                 '<p>'+data.name+'</p>'+
                 '<ul class="selfImgOpera">'+
                     '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
-                '</ul></div></div><div class="showPersonalInfo" targetID="'+data.id+'">'+
+                '</ul></div></div><div class="showPersonalInfo" targetID="'+data.id+'" targetTpe="PRIVATE">'+
                 '<ul>'+
                     '<li><div>手机:</div><div>'+data.telephone+'</div></li>'+
                     '<li><div>邮箱:</div><div>'+data.email+'</div></li>'+
@@ -492,7 +494,7 @@ function showMemberInfo(data,pos){
                             '<div class="showImgInfo">'+
                                 '<img src="page/web/css/img/PersonImg.png" alt="">'+
                             '</div>'+
-                            '<div class="showPersonalInfo">'+
+                            '<div class="showPersonalInfo" targetID="'+data.id+'"targetType="PRIVATE">'+
                                 '<span>张三（产品总监）</span>'+
                                 '<ul class="personalOperaIcon">'+
                                     '<li class="sendMsg"></li>'+
