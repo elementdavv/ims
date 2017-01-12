@@ -78,13 +78,13 @@
                 </div>
                 <ul class="groupChatListUl">
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                 </ul>
                 <div class="selfCreatGroup listCtrl">
@@ -93,13 +93,13 @@
                 </div>
                 <ul class="groupChatListUl">
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                 </ul>
             </div>
@@ -110,13 +110,13 @@
                 </div>
                 <ul class="groupChatListUl">
                     <%--<li>--%>
-                        <%--<div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>--%>
+                        <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>--%>
                     <%--</li>--%>
                     <%--<li>--%>
-                        <%--<div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>--%>
+                        <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>--%>
                     <%--</li>--%>
                     <%--<li>--%>
-                        <%--<div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>--%>
+                        <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>--%>
                     <%--</li>--%>
                 </ul>
             </div>
@@ -127,13 +127,13 @@
                 <!--</div>-->
                 <ul class="groupChatListUl" style="margin: 6px 0px 35px 10px">
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                     <li>
-                        <div><img class="groupImg" src="css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
+                        <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span></div>
                     </li>
                 </ul>
             </div>
@@ -176,7 +176,7 @@
             <ul>
                 <li>
                     <div level="1">
-                        <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                         <span class="groupName">产品部</span>
                         <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
                     </div>
@@ -185,7 +185,7 @@
                     <li>
                         <div level="2">
                             <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                             <span class="groupName">adsfadsfadsf</span>
                             <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
                         </div>
@@ -194,21 +194,21 @@
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
@@ -216,7 +216,7 @@
                 </ul>
                 <li>
                     <div level="1">
-                        <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                         <span class="groupName">产品部</span>
                         <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
                     </div>
@@ -225,7 +225,7 @@
                     <li>
                         <div level="2">
                             <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                             <span class="groupName">adsfadsfadsf</span>
                             <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
                         </div>
@@ -234,21 +234,21 @@
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
@@ -256,7 +256,7 @@
                 </ul>
                 <li>
                     <div level="1">
-                        <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                         <span class="groupName">产品部</span>
                         <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
                     </div>
@@ -265,7 +265,7 @@
                     <li>
                         <div level="2">
                             <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                             <span class="groupName">adsfadsfadsf</span>
                             <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
                         </div>
@@ -274,21 +274,21 @@
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
                         <li>
                             <div level="3">
                                 <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                                <img class="groupImg" src="css/img/group_chart.png" alt=""/>
+                                <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
                                 <span class="groupName">人名</span>
                             </div>
                         </li>
@@ -328,7 +328,7 @@
                 <ul>
                     <li>
                         <div class="showImgInfo">
-                            <img src="css/img/PersonImg.png" alt=""/>
+                            <img src="page/web/css/img/PersonImg.png" alt=""/>
                         </div>
                         <div class="showPersonalInfo">
                             <span>张三（产品总监）</span>
@@ -346,7 +346,7 @@
 
                     <li>
                         <div class="showImgInfo">
-                            <img src="css/img/PersonImg.png" alt=""/>
+                            <img src="page/web/css/img/PersonImg.png" alt=""/>
                         </div>
                         <div class="showPersonalInfo">
                             <span>张三（产品总监）</span>
@@ -359,7 +359,7 @@
                     </li>
                     <li>
                         <div class="showImgInfo">
-                            <img src="css/img/PersonImg.png" alt=""/>
+                            <img src="page/web/css/img/PersonImg.png" alt=""/>
                         </div>
                         <div class="showPersonalInfo">
                             <span>张三（产品总监）</span>
@@ -372,7 +372,7 @@
                     </li>
                     <li>
                         <div class="showImgInfo">
-                            <img src="css/img/PersonImg.png" alt=""/>
+                            <img src="page/web/css/img/PersonImg.png" alt=""/>
                         </div>
                         <div class="showPersonalInfo">
                             <span>张三（产品总监）</span>
@@ -385,7 +385,7 @@
                     </li>
                     <li>
                         <div class="showImgInfo">
-                            <img src="css/img/PersonImg.png" alt=""/>
+                            <img src="page/web/css/img/PersonImg.png" alt=""/>
                         </div>
                         <div class="showPersonalInfo">
                             <span>张三（产品总监）</span>
@@ -402,7 +402,7 @@
                 <div class="personalDetailContent">
 
                     <div class="selfImgInfo">
-                        <img src="css/img/PersonImg.png" alt=""/>
+                        <img src="page/web/css/img/PersonImg.png" alt=""/>
                         <div>
                             <p>张三</p>
                             <ul class="selfImgOpera">
