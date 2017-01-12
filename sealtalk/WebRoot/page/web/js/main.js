@@ -46,13 +46,13 @@ $(function(){
         switch(nShowClass)
         {
             case 'news':
-                $('.chatBox').html('aaaaa')
+                //$('.chatBox').html('aaaaa')
                 break;
             case 'orgnized':
-                $('.chatBox').html('bbbb')
+                //$('.chatBox').html('bbbb')
                 break;
             case 'back':
-                $('.chatBox').html('cccc')
+                //$('.chatBox').html('cccc')
                 break;
         }
         nShowClass&&showPanel(nShowClass);

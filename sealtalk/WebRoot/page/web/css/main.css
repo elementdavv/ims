@@ -1038,7 +1038,7 @@ span.defaultText{
 
 
 /*鼠标悬停联系人*/
-.menberHover{
+.memberHover{
     position: absolute !important;
     top: 0px;
     left: 0px;
@@ -1052,6 +1052,9 @@ span.defaultText{
 }
 .memberInfoHover{
     padding: 0px 26px;
+}
+.memberInfoHover li:nth-child(2),.memberInfoHover li:nth-child(3),.memberInfoHover li:nth-child(4){
+    height: 44px;
 }
 .memberInfoHover .showPersonalInfo span{
     position: relative;

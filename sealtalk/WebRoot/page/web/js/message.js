@@ -5,10 +5,25 @@ $(function(){
 
     $('.organizationList').delegate('li','click',function(){
         var state = $(this).attr('class');
-        if(state=='member'){
-            console.log('点击的是成员');
-        }else{
-            console.log('点击的是部门');
+        var id = $(this).attr('id');
+        //从list中找到点击的这条信息
+        $('.orgNavClick').addClass('chatHide');
+
+        if(state=='member'){//点击的是成员
+            var data = searchFromList(1,id);
+            var sHTML = changeClick2Content(data);
+            //$('.orgNavClick2').html(sHTML);
+            //$('.orgNavClick2').removeClass('chatHide');
+
+        }else{//点击的是部门
+            //branch!getBranchMember查询部门结构
+            sendAjax('branch!getBranchMember',{branchId:id},function(data){
+                var datas = JSON.parse(data);
+                console.log(data);
+
+            })
+            $('.orgNavClick1').removeClass('chatHide');
+
         }
     })
 
@@ -69,8 +84,8 @@ $(function(){
             var account = _this.attr('account');
             var datas = localStorage.getItem('MemberFriends');
             var data = JSON.parse(datas);
-            console.log(data);
-            console.log('----------');
+            //console.log(data);
+            //console.log('----------');
             for(var i = 0;i<data.length;i++){
                 console.log(account,data[i].account);
                 if(data[i].account == account){
@@ -84,7 +99,7 @@ $(function(){
     })
     $('.usualChatList').delegate('li','mouseleave',function(e){
         clearTimeout(timer);
-        $('.menberHover').remove();
+        $('.memberHover').remove();
     })
     $(window).click(function(e){
         $('.myContextMenu').remove();
@@ -184,7 +199,7 @@ $(function(){
 
     //获取左侧组织树状图
     sendAjax('branch!getBranchTreeAndMember','',function(data){
-
+        window.localStorage.normalInfo = data;
         var myData = changeFormat(data);
         if(myData){
             window.localStorage.getBranchTree = JSON.stringify(myData);
@@ -240,6 +255,8 @@ $(function(){
                                 autoHide:true
                             });
 
+                        }else{
+                            alert('失败!'+datas.text);
                         }
                     })
                 });
@@ -311,6 +328,48 @@ $(function(){
         }
     })
 })
+
+
+function changeClick2Content(data){
+    console.log('------')
+    console.log(data);
+    //if()
+    var sHTML = '<div class="personalDetailContent">'+
+                '<div class="selfImgInfo">'+
+                    '<img src="'+data.logo+'" alt=""/><div>'+
+                '<p>'+data.name+'</p>'+
+                '<ul class="selfImgOpera">'+
+                    '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
+                '</ul></div></div><div class="showPersonalInfo">'+
+                '<ul>'+
+                    '<li><div>手机:</div><div>'+data.telephone+'</div></li>'+
+                    '<li><div>邮箱:</div><div>'+data.email+'</div></li>'+
+                    '<li><div>部门:</div><div>'+data.telephone+'</div></li>'+
+                    '<li><div>职位:</div><div>'+data.workno+'</div></li>'+
+                    '<li><div>组织:</div><div>'+data.groupuse+'</div></li>'+
+                    '<li><div>地址:</div><div>'+data.address+'</div></li>'+
+                '</ul></div></div></div></div>';
+    return sHTML;
+}
+
+
+//从组织结构中找到相应的成员、部门数据
+function searchFromList(flag,id){
+    var curList;
+    var normalInfo = localStorage.getItem('normalInfo');
+    if(normalInfo){
+        var data = JSON.parse(normalInfo);
+    }
+    console.log(flag,id,data);
+    for(var i = 0;i<data.length;i++){
+        if(data[i].id==id&&data[i].flag==flag){
+            curList = data[i];
+        }
+    }
+    return curList;
+}
+
+
 //获取常用联系人
 function getMemberFriends(account){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
@@ -326,7 +385,7 @@ function getMemberFriends(account){
             var account = myData[i].account;
             var fullname = myData[i].fullname;
             var workno = myData[i].workno?' ('+myData[i].workno+')':''
-            var logo = myData[i].logo?myData[i].logo:'css/img/touxiang.png';
+            var logo = myData[i].logo?myData[i].logo:'page/web/css/img/touxiang.png';
             var curData = myData[i];
             sHTML += ' <li account="'+account+'">'+
             '<div>'+
@@ -400,12 +459,12 @@ function remove(arr,dx)
 
 function showMemberInfo(data,pos){
     console.log('=================',data);
-    var sHTML = '<div class="menberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
+    var sHTML = '<div class="memberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
                     '<div class="contextTri"></div>'+
                     '<ul class="memberInfoHover">'+
                         '<li>'+
                             '<div class="showImgInfo">'+
-                                '<img src="css/img/PersonImg.png" alt="">'+
+                                '<img src="page/web/css/img/PersonImg.png" alt="">'+
                             '</div>'+
                             '<div class="showPersonalInfo">'+
                                 '<span>张三（产品总监）</span>'+
@@ -462,17 +521,17 @@ function createOrganizList(data,sHTML,level){
         var num = level
         var oData = data[i];
         var hasChild = oData.hasChild.length==0?false:true;
-        var state = oData.flag==1?'menber':'department';
+        var state = oData.flag==1?'member':'department';
         if(oData.flag==1||oData.hasChild.length==0){
             var collspan = ''
         }else{
             var collspan = '<span class="groupCollspanO chatLeftIcon groupCollspan"></span>'
 
         }
-        sHTML += '<li class="'+state+'">'+
+        sHTML += '<li class="'+state+'" id="'+oData.id+'">'+
                     '<div level="">'+
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
-                    '<img class="groupImg" src="css/img/group_chart.png" alt="">'+
+                    '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
                     '<span class="groupName">'+oData.name+'</span>'+collspan+''+
                     //'<span class="groupCollspanO chatLeftIcon groupCollspan"></span>'+collspan+''+
                     '</div>'+
