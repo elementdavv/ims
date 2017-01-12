@@ -95,6 +95,7 @@ function showPanel(panelClass){
     var eShowNode = $("."+panelClass);
     if(eShowNode){
         eShowNode.removeClass('chatHide');
+        eShowNode.find('#backstageMgId li').removeClass('active');
         eShowNode.siblings(".chatContent").addClass('chatHide');
         $('#chatBox').children().each(function(){
             if(!$(this).hasClass('chatHide')){

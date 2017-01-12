@@ -259,20 +259,20 @@
 
     <!--后台管理-->
     <div class="chatContent back chatHide" >
-    <ul class="backstageMg">
-        <li class="clearfix active">
-            <em class="bMg-personalSet"></em>
-            <span>个人设置</span>
-        </li>
-        <li class="clearfix">
-            <em class="bMg-systemSet"></em>
-            <span>系统设置</span>
-        </li>
-        <li class="clearfix">
-            <em class="bMg-changePw"></em>
-            <span>修改密码</span>
-        </li>
-    </ul>
+        <ul class="backstageMg" id="backstageMgId">
+            <li class="clearfix">
+                <em class="bMg-personalSet"></em>
+                <span>个人设置</span>
+            </li>
+            <li class="clearfix">
+                <em class="bMg-systemSet"></em>
+                <span>系统设置</span>
+            </li>
+            <li class="clearfix">
+                <em class="bMg-changePw"></em>
+                <span>修改密码</span>
+            </li>
+        </ul>
         <%--<div class="newsTabContent">--%>
             <%--<div class="orgnizedgroupChatList"></div>--%>
             <%--<div class="orgnizedusualChatList"></div>--%>
@@ -288,65 +288,65 @@
         <div class="chatBox" style="position:relative" id="chatBox">
 
     <!--个人设置-->
-                <div class="perSetBox orgNavClick chatHide" >
-                    <h3 class="perSetBox-title">个人设置</h3>
-                    <div class="perSetBox-content clearfix">
-                        <div class="perSetBox-leftCont">
-                            <ul class="perSetBox-contDetails">
-                                <li >
-                                    <span>成员账号:</span>
-                                    <p>王二虎</p>
-                                </li>
-                                <li>
-                                    <span>姓名：</span>
-                                    <p>王二虎</p>
-                                </li>
-                                <li>
-                                    <span>性别：</span>
-                                    <p>
-                                        <select class="perSetBox-selSex">
-                                            <option>男</option>
-                                            <option>女</option>
-                                        </select>
-                                    </p>
-                                </li>
-                                <li>
-                                    <span>职位：</span>
-                                    <p>王二虎</p>
-                                </li>
-                                <li>
-                                    <span>部门：</span>
-                                    <p>王二虎</p>
-                                </li>
-                                <li>
-                                    <span>邮箱：</span>
-                                    <p>
-                                        <input value="123456789" class="perSetBox-editText"/>
-                                    </p>
-                                </li>
-                                <li>
-                                    <span>电话：</span>
-                                    <p>
-                                        <input value="123456789" class="perSetBox-editText"/>
-                                    </p>
-                                </li>
-                                <li>
-                                    <span>工作签名：</span>
-                                    <p>
-                                        <textarea class="perSetBox-textarea">
+                <%--<div class="perSetBox orgNavClick chatHide" >--%>
+                    <%--<h3 class="perSetBox-title">个人设置</h3>--%>
+                    <%--<div class="perSetBox-content clearfix">--%>
+                        <%--<div class="perSetBox-leftCont">--%>
+                            <%--<ul class="perSetBox-contDetails">--%>
+                                <%--<li >--%>
+                                    <%--<span>成员账号:</span>--%>
+                                    <%--<p>王二虎</p>--%>
+                                <%--</li>--%>
+                                <%--<li>--%>
+                                    <%--<span>姓名：</span>--%>
+                                    <%--<p>王二虎</p>--%>
+                                <%--</li>--%>
+                                <%--<li>--%>
+                                    <%--<span>性别：</span>--%>
+                                    <%--<p>--%>
+                                        <%--<select class="perSetBox-selSex">--%>
+                                            <%--<option>男</option>--%>
+                                            <%--<option>女</option>--%>
+                                        <%--</select>--%>
+                                    <%--</p>--%>
+                                <%--</li>--%>
+                                <%--<li>--%>
+                                    <%--<span>职位：</span>--%>
+                                    <%--<p>王二虎</p>--%>
+                                <%--</li>--%>
+                                <%--<li>--%>
+                                    <%--<span>部门：</span>--%>
+                                    <%--<p>王二虎</p>--%>
+                                <%--</li>--%>
+                                <%--<li>--%>
+                                    <%--<span>邮箱：</span>--%>
+                                    <%--<p>--%>
+                                        <%--<input value="123456789" class="perSetBox-editText"/>--%>
+                                    <%--</p>--%>
+                                <%--</li>--%>
+                                <%--<li>--%>
+                                    <%--<span>电话：</span>--%>
+                                    <%--<p>--%>
+                                        <%--<input value="123456789" class="perSetBox-editText"/>--%>
+                                    <%--</p>--%>
+                                <%--</li>--%>
+                                <%--<li>--%>
+                                    <%--<span>工作签名：</span>--%>
+                                    <%--<p>--%>
+                                        <%--<textarea class="perSetBox-textarea">--%>
 
-                                        </textarea>
-                                    </p>
-                                </li>
-                            </ul>
-                            <button class="perSetBox-keep">保存</button>
-                        </div>
-                        <div class="perSetBox-rightCont">
-                            <img src="page/web/css/img/1.jpg" class="perSetBox-head"/>
-                            <p class="perSetBox-modifyHead">修改头像</p>
-                        </div>
-                    </div>
-                </div>
+                                        <%--</textarea>--%>
+                                    <%--</p>--%>
+                                <%--</li>--%>
+                            <%--</ul>--%>
+                            <%--<button class="perSetBox-keep">保存</button>--%>
+                        <%--</div>--%>
+                        <%--<div class="perSetBox-rightCont">--%>
+                            <%--<img src="page/web/css/img/1.jpg" class="perSetBox-head"/>--%>
+                            <%--<p class="perSetBox-modifyHead">修改头像</p>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
     <!--系统设置-->
                 <div class="perSetBox orgNavClick chatHide"  >
                         <h3 class="perSetBox-title">系统设置</h3>
