@@ -27,7 +27,7 @@ function Window(){
         handlerForClose : null,
         handlerForSure : null,
         autoHide:false,
-        dragHandle:'window_header'
+        //dragHandle:'window_header'
     };
 };
 
