@@ -259,20 +259,20 @@
 
     <!--后台管理-->
     <div class="chatContent back chatHide" >
-        <ul class="backstageMg" id="backstageMgId">
-            <li class="clearfix">
-                <em class="bMg-personalSet"></em>
-                <span>个人设置</span>
-            </li>
-            <li class="clearfix">
-                <em class="bMg-systemSet"></em>
-                <span>系统设置</span>
-            </li>
-            <li class="clearfix">
-                <em class="bMg-changePw"></em>
-                <span>修改密码</span>
-            </li>
-        </ul>
+    <ul class="backstageMg">
+        <li class="clearfix active">
+            <em class="bMg-personalSet"></em>
+            <span>个人设置</span>
+        </li>
+        <li class="clearfix">
+            <em class="bMg-systemSet"></em>
+            <span>系统设置</span>
+        </li>
+        <li class="clearfix">
+            <em class="bMg-changePw"></em>
+            <span>修改密码</span>
+        </li>
+    </ul>
         <%--<div class="newsTabContent">--%>
             <%--<div class="orgnizedgroupChatList"></div>--%>
             <%--<div class="orgnizedusualChatList"></div>--%>
@@ -286,8 +286,9 @@
     <!--聊天部分-->
     <div class="chatBoxOuter">
         <div class="chatBox" style="position:relative" id="chatBox">
+
     <!--个人设置-->
-                <div class="perSetBox chatHide" >
+                <div class="perSetBox orgNavClick chatHide" >
                     <h3 class="perSetBox-title">个人设置</h3>
                     <div class="perSetBox-content clearfix">
                         <div class="perSetBox-leftCont">
@@ -347,7 +348,7 @@
                     </div>
                 </div>
     <!--系统设置-->
-                <div class="perSetBox chatHide "  >
+                <div class="perSetBox orgNavClick chatHide"  >
                         <h3 class="perSetBox-title">系统设置</h3>
                         <div class="systemSetVoice clearfix">
                             <span>通知提示音：</span>
@@ -357,7 +358,7 @@
                         </div>
                         <b class="systemSet-keep">保存</b>
                 </div>
-                <div class="perSetBox chatHide " >
+                <div class="perSetBox orgNavClick chatHide" >
                     <h3 class="perSetBox-title">修改密码</h3>
                     <div class="changePassword">
                         <div class="clearfix cp-oldPassword">
@@ -380,8 +381,8 @@
                     </div>
                     <b class="systemSet-keep">保存</b>
                 </div>
-    <!--消息记录-->
-            <div class="mesContainer chatHide" id="perContainer">
+    <!--geren消息记录-->
+            <div class="mesContainerSelf mesContainer orgNavClick chatHide" id="perContainer">
                 <h3 class="perSetBox-title clearfix">
                     <span>张三</span>
                     <div class="messageRecord clearfix">
@@ -418,7 +419,7 @@
                 </div>
             </div>
     <!--群组消息记录-->
-            <div class="mesContainer chatHide" style="margin-right:341px;" >
+            <div class="mesContainerGroup mesContainer orgNavClick chatHide" style="margin-right:341px;" >
             <h3 class="perSetBox-title clearfix">
             <span>张三</span>
             <div class="messageRecord clearfix">
@@ -457,8 +458,8 @@
             <strong>发送</strong>
             </div>
             </div>
-            <!--个人资料-->
-            <div  class="personalData chatHide" id="personalData">
+    <!--个人资料-->
+            <div  class="orgNavClick personalData  chatHide" id="personalData">
                 <ul class="infoDetails clearfix" id="perInfo">
                     <li class="active">资料</li>
                     <li>聊天记录</li>
@@ -628,163 +629,174 @@
                 </div>
             </div>
     <!--群组资料-->
-            <div class="BreadcrumbsOuter chatHide">
+            <div class="BreadcrumbsOuter">
             <ul class="Breadcrumbs">
-                <li><a href=""> 1111 </a> ></li>
-                <li><a href=""> 2222 </a> ></li>
-                <li><a href=""> 3333 </a> ></li>
+            <li><a href=""> 1111 </a> ></li>
+            <li><a href=""> 2222 </a> ></li>
+            <li><a href=""> 3333 </a> ></li>
             </ul>
             <a class="chatLeftIcon seeOrgnizeTree"></a>
-    </div>
+            </div>
     <!--组织的层级导航-->
-            <div class="orgNavClick orgNavClick1 chatHide" id="orgnizedLevel">
-        <div class="orgNavTitle">标题</div>
-                <ul>
-                    <li>
-                        <div class="showImgInfo">
-                            <img src="page/web/css/img/PersonImg.png" alt=""/>
-                        </div>
-                       <div class="showPersonalInfo">
-                            <span>张三（产品总监）</span>
-                            <ul class="personalOperaIcon">
-                                <li class="sendMsg"></li>
-                                <li class="checkPosition"></li>
-                                <li class="addConver"></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-        <div class="orgNavTitle">标题</div>
-                <ul>
-                    <li>
-                            <div class="showImgInfo">
-                                <img src="page/web/css/img/PersonImg.png" alt=""/>
-                            </div>
-                            <div class="showPersonalInfo">
-                            <span>张三（产品总监）</span>
-                            <ul class="personalOperaIcon">
-                                <li class="sendMsg"></li>
-                                <li class="checkPosition"></li>
-                                <li class="addConver"></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="showImgInfo">
-                            <img src="css/img/PersonImg.png" alt=""/>
-                        </div>
-                        <div class="showPersonalInfo">
-                            <span>张三（产品总监）</span>
-                            <ul class="personalOperaIcon">
-                                <li class="sendMsg"></li>
-                                <li class="checkPosition"></li>
-                                <li class="addConver"></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="showImgInfo">
-                            <img src="page/web/css/img/PersonImg.png" alt=""/>
-                        </div>
-                        <div class="showPersonalInfo">
-                            <span>张三（产品总监）</span>
-                            <ul class="personalOperaIcon">
-                                <li class="sendMsg"></li>
-                                <li class="checkPosition"></li>
-                                <li class="addConver"></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                        </div>
-                        <div class="showPersonalInfo">
-                            <span>张三（产品总监）</span>
-                            <ul class="personalOperaIcon">
-                                <li class="sendMsg"></li>
-                                <li class="checkPosition"></li>
-                                <li class="addConver"></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+
+    <div class="orgNavClick orgNavClick1" id="orgnizedLevel">
+    <div class="orgNavTitle">标题</div>
+    <ul>
+    <li>
+    <div class="showImgInfo">
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
     </div>
-            <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
-        <div class="personalDetailContent">
-
-            <div class="selfImgInfo">
-                <img src="page/web/css/img/PersonImg.png" alt=""/>
-            <div>
-            <p>张三</p>
-                <ul class="selfImgOpera">
-                    <li class="sendMsg"></li>
-                    <li class="checkPosition"></li>
-                    <li class="addConver"></li>
-                </ul>
-            </div>
-            </div>
-            <div class="showPersonalInfo">
-                <ul>
-                    <li>
-                        <div>aaaaa:</div>
-                        <div>ddddd</div>
-                    </li>
-                    <li>
-                        <div>aaaaa:</div>
-                        <div>ddddd</div>
-                    </li>
-                    <li>
-                        <div>aaaaa:</div>
-                        <div>ddddd</div>
-                    </li>
-                    <li>
-                        <div>aaaaa:</div>
-                        <div>ddddd</div>
-                    </li>
-                    <li>
-                        <div>aaaaa:</div>
-                        <div>ddddd</div>
-                    </li>
-
-                </ul>
-            </div>
-
-         </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
     </div>
-            <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
-                <div class="organizeListOuter">
+    </li>
+
+    </ul>
+    <div class="orgNavTitle">标题</div>
+    <ul>
+
+    <li>
+    <div class="showImgInfo">
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </li>
+    <li>
+    <div class="showImgInfo">
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </li>
+    <li>
+    <div class="showImgInfo">
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </li>
+    <li>
+    <div class="showImgInfo">
+    <img src="page/web/css/img/PersonImg.png" alt=""/>
+    </div>
+    <div class="showPersonalInfo">
+    <span>张三（产品总监）</span>
+    <ul class="personalOperaIcon">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </li>
+    </ul>
+    </div>
+
+    <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
+    <div class="personalDetailContent">
+
+    <div class="selfImgInfo">
+    <img src="css/img/PersonImg.png" alt=""/>
+    <div>
+    <p>张三</p>
+    <ul class="selfImgOpera">
+    <li class="sendMsg"></li>
+    <li class="checkPosition"></li>
+    <li class="addConver"></li>
+    </ul>
+    </div>
+    </div>
+    <div class="showPersonalInfo">
+    <ul>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+    <li>
+    <div>aaaaa:</div>
+    <div>ddddd</div>
+
+    </li>
+
+    </ul>
+    </div>
+
+    </div>
+    </div>
+
+    <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
+    <div class="organizeListOuter">
     <!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->
     </div>
-            </div>
+
+    </div>
         </div>
     </div>
     <div class="WindowMask">
-        <div class="conversWindow groupConvers">
-            <span class="dialogClose">×</span>
-            <div class="dialogHeader">群组管理</div>
-            <div class="dialogBody">
-                <div class="contactListOuter">
-                    <p class="outerTitle">选择联系人：</p>
-                    <div class="contactBox">
-                    <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
-                    <div class="contactsList"></div>
-                    </div>
-                </div>
-                <div class="selectedContactOuter">
-                    <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
-                    <div class="contactBox">
-                        <input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>
-                        <div class="selectedList"></div>
-                    </div>
-                </div>
+    <div class="conversWindow groupConvers">
+    <span class="dialogClose">×</span>
+    <div class="dialogHeader">群组管理</div>
+    <div class="dialogBody">
+    <div class="contactListOuter">
+    <p class="outerTitle">选择联系人：</p>
+    <div class="contactBox">
+    <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
+    <div class="contactsList"></div>
+    </div>
+    </div>
+    <div class="selectedContactOuter">
+    <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
+    <div class="contactBox">
+    <input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>
+    <div class="selectedList"></div>
+    </div>
+    </div>
 
-            </div>
-            <div class="dialogFooter">
-                <input type="button" value="确定" class="manageSure">
-                <input type="button" value="取消" class="manageCancle">
-            </div>
-        </div>
+    </div>
+    <div class="dialogFooter">
+    <input type="button" value="确定" class="manageSure">
+    <input type="button" value="取消" class="manageCancle">
+    </div>
+    </div>
     </div>
     <%--修改头像部分--%>
     <%--<div class="bMgMask"></div>--%>
