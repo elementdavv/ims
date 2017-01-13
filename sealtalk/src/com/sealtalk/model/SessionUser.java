@@ -17,6 +17,16 @@ public class SessionUser
 	* @Fields accountName : TODO(名字) 
 	*/ 
 	private String fullname;
+	
+	private String token;
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getAccount() {
 		return account;

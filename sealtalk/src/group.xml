@@ -9,19 +9,17 @@
 
 
 	<!-- dao -->
-	<!--<bean id="memberDao" class="com.sealtalk.dao.member.impl.MemberDaoImpl" autowire="byName" />-->
+	<bean id="groupDao" class="com.sealtalk.dao.group.impl.GroupDaoImpl" autowire="byName" />
+	<bean id="groupMemberDao" class="com.sealtalk.dao.group.impl.GroupMemberDaoImpl" autowire="byName" />
 	
 	<!-- service -->
-	<bean id="userService" class="com.sealtalk.service.msg.impl.UserServiceServiceImpl" autowire="byName" >
-		<property name="memberDao" ref="memberDao" />
+	<bean id="groupService" class="com.sealtalk.service.group.impl.GroupServiceImpl" autowire="byName" >
+		<property name="groupDao" ref="groupDao" />
+		<property name="groupMemberDao" ref="groupMemberDao" />
 	</bean>
-	<bean id="msgService" class="com.sealtalk.service.msg.impl.MessageServiceImpl" autowire="byName" >
-	</bean>
-	
 	
 	<!-- action -->
-	<bean id="msgAction" class="com.sealtalk.action.msg.MessageAction" scope="prototype" autowire="byName" >
-		<property name="msgService" ref="msgService" />
+	<bean id="groupAction" class="com.sealtalk.action.Group.GroupAction" scope="prototype" autowire="byName" >
+		<property name="groupService" ref="groupService" />
 	</bean>
-	
 </beans>

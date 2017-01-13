@@ -18,6 +18,7 @@ import com.sealtalk.service.member.MemberService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PropertiesUtils;
 import com.sealtalk.utils.RongCloudUtils;
+import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
@@ -53,16 +54,26 @@ public class SystemAction extends BaseAction {
 	 */
 	@SuppressWarnings("unchecked")
 	public String afterLogin() throws IOException, ServletException {
-		if (account == null || "".equals(account)) {
-			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
-			return "loginPage";
+		JSONObject result = new JSONObject();
+		
+		if (StringUtils.getInstance().isBlank(account)) {
+			result.put("code", 0);
+			result.put("text", Tips.NULLUSER.getText());
+			//request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
+			//return "loginPage";
+			returnToClient(result.toString());
+			return "text";
 		}
 		
 		TMember member = memberService.searchSigleUser(account, userpwd);
 		
 		if(member == null) {
-			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
-			return "loginPage";
+			result.put("code", 0);
+			result.put("text", Tips.NULLUSER.getText());
+			//request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
+			//return "loginPage";
+			returnToClient(result.toString());
+			return "text";
 		}
 		
 		logger.debug("That logining account is " + account);
@@ -104,6 +115,7 @@ public class SystemAction extends BaseAction {
 		if (member != null) {
 			su.setAccount(member.getAccount());
 			su.setFullname(member.getFullname());
+			su.setToken(token);
 		}
 		
 		//2.相关权限信息
@@ -111,9 +123,9 @@ public class SystemAction extends BaseAction {
 		
 		setSessionUser(su);
 		
-		JSONObject result = new JSONObject();
 		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
 		
+		text.remove("password");
 		text.put("token", token);
 		
 		result.put("code", 1);
@@ -161,7 +173,7 @@ public class SystemAction extends BaseAction {
 		JSONObject text = new JSONObject();
 		
 		text.put("code", 1);
-		text.put("text", Tips.SENDTEXTS.getName());
+		text.put("text", Tips.SENDTEXTS.getText());
 		
 		returnToClient(text.toString());
 		
@@ -180,13 +192,13 @@ public class SystemAction extends BaseAction {
 		
 		if (textCode == null || "".equals(textCode)) {
 			text.put("code", -1);
-			text.put("text", Tips.NULLTEXTS.getName());
+			text.put("text", Tips.NULLTEXTS.getText());
 		} else if (!textCode.equals("9999")) {
 			text.put("code", 0);
-			text.put("text", Tips.ERRORTEXTS.getName());
+			text.put("text", Tips.ERRORTEXTS.getText());
 		} else {
 			text.put("code", 1);
-			text.put("text", Tips.TRUETEXTS.getName());
+			text.put("text", Tips.TRUETEXTS.getText());
 		}
 		
 		returnToClient(text.toString());
@@ -211,13 +223,13 @@ public class SystemAction extends BaseAction {
 			//request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
 			JSONObject jo = new JSONObject();
 			jo.put("code", "0");
-			jo.put("text", Tips.NULLUSER.getName());
+			jo.put("text", Tips.NULLUSER.getText());
 			returnToClient(jo.toString());
 			return "textText";
 		}
 		
 		if (!newPwd.equals(comparePwd)) {
-			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.FALSECOMPAREPWD.getName());
+			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.FALSECOMPAREPWD.getText());
 			return "fogetpwd";
 		}
 		
@@ -227,10 +239,10 @@ public class SystemAction extends BaseAction {
 		
 		if (updateState == true) {
 			text.put("code", "1");
-			text.put("text", Tips.CHANGEPWDSUC.getName());
+			text.put("text", Tips.CHANGEPWDSUC.getText());
 		} else {
 			text.put("code", "0");
-			text.put("text", Tips.CHANGEPWDFAIL.getName());
+			text.put("text", Tips.CHANGEPWDFAIL.getText());
 		}
 		
 		returnToClient(text.toString());

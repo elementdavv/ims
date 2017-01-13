@@ -9,6 +9,7 @@
    		<!-- 系统管理 -->
         <action name="system" class="com.sealtalk.action.sys.SystemAction">
            	<result name="loginPage">/page/web/signin.jsp</result>
+           	<result name="loginSuccess">/page/web/main.jsp</result>
 			<result name="forgetpwd" type="dispatcher">/page/web/forgotpassword.jsp</result>
 			<result name="text" type="stream">
 				<param name="contentType">text/plain</param>
