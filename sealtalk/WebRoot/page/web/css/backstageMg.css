@@ -502,9 +502,41 @@
     width:29px;
     height:19px;
 }
+
 .mr-chateditBox{
     position:relative;
     height:170px;
+}
+.rongyun-emoji{
+    height: 200px;
+    width: 390px;
+    background: white;
+    position: absolute;
+    bottom: 170px;
+    border: 3px solid rgba(51, 51, 51, 0.29);
+    padding: 5px 10px;
+    overflow: hidden;
+    display: none;
+}
+.textarea{
+    background: palegoldenrod;
+    height: 80px;
+    margin-top: 2px;
+}
+.rongyun-emoji span{
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    /* background: palegreen; */
+    text-align: center;
+    /* vertical-align: middle; */
+    margin-top: 3px;
+}
+.rongyun-emoji>span:hover {
+    background: #dfdfdf;
+}
+.rongyun-emoji>span.active {
+    background: #dfdfdf;
 }
 .mr-chateditBox textarea{
     margin-left:12px;

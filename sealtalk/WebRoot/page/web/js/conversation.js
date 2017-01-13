@@ -2,7 +2,8 @@
  * Created by zhu_jq on 2017/1/12.
  */
 $(function(){
-    //showConverList();
+
+
 })
 
 function conversationSelf(targetID,targetType){//群聊页面显示
@@ -12,10 +13,20 @@ function conversationSelf(targetID,targetType){//群聊页面显示
     $('.mesContainerSelf').attr('targetType',targetType)
 
 
+    //$('.rongyun-emoji span').off('click');
+    $('.rongyun-emoji>span').on('click',function(){
+        var name = $(this).find('span').attr('name');
+        //var newEmo = $(this).clone();
+        $('.textarea').append(name);
+    })
+    $('.showEmoji').click(function(){
 
-    $('.sendMsg').unbind('click')
-    $('.sendMsg').click(function(){
+        $('.rongyun-emoji').show();
+    });
+    $('.sendMsgBTN').unbind('click')
+    $('.sendMsgBTN').click(function(){
         var content = $(this).prev().val();
+
         //var targetID = targetId
         var targetId = $('.mesContainerSelf').attr('targetID');
         var targetType = $('.mesContainerSelf').attr('targetType');
@@ -27,17 +38,99 @@ function conversationSelf(targetID,targetType){//群聊页面显示
 
 }
 
+
+//获取历史消息、消息记录
+function historyMsg(Type,targetId){
+    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, null, 20, {
+        onSuccess: function(list, hasMsg) {
+            console.log('获取消息记录');
+            // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
+            // list 为拉取到的历史消息列表
+        },
+        onError: function(error) {
+            // APP未开启消息漫游或处理异常
+            // throw new ERROR ......
+        }
+    });
+}
+
+//显示会话列表
 function showConverList(){
     RongIMClient.getInstance().getConversationList({
         onSuccess: function(list) {
-            console.log('同步会话列表');
-            console.log(list);
+            usualChatList(list);
+            //console.log(list);
         },
         onError: function(error) {
             console.log('同步会话列表ERROR');
         }
     },null);
 }
+
+
+function changeTimeFormat(mSec){
+    //var oldTime = (new Date("2012/12/25 20:11:11")).getTime(); //得到毫秒数
+    var newTime = new Date(mSec); //就得到普通的时间了
+    var h = ifPlusZero(newTime.getHours()); //获取系统时，
+    var m = ifPlusZero(newTime.getMinutes()); //分
+    var s = ifPlusZero(newTime.getSeconds()); //秒
+    //console.log('+++++++++++++++++++++')
+    //if()
+    //console.log(h+':'+m+':'+s);
+    var time = h+':'+m+':'+s
+    return time;
+}
+function ifPlusZero(num){
+    if(num<10){
+        num = '0'+num;
+    }
+    return num;
+}
+
+function findMemberInList(targetId){
+    var normalInfo = localStorage.getItem('normalInfo');
+
+    if(normalInfo){
+        //console.log(normalInfo,'findMemberInList');
+        var aNormalInfo = JSON.parse(normalInfo);
+        for(var i = 0;i<aNormalInfo.length;i++){
+            var curInfo = aNormalInfo[i];
+            if(curInfo.id==targetId&&curInfo.flag!=0){
+                var targetInfo = curInfo;
+            }
+        }
+    }
+    return targetInfo;
+}
+
+//显示会话列表
+function usualChatList(list){
+    console.log(list);
+    var sHTML = '';
+    for(var i = 0;i<list.length;i++){
+        var curList = list[i];
+        var content = curList.latestMessage.content.content;
+        var targetId = curList.targetId
+        var lastTime = changeTimeFormat(curList.sentTime);
+        var member = findMemberInList(targetId);
+        //console.log('member',member);
+        var logo = member.logo;
+        var name = member.name;
+        var unreadMessageCount = curList.unreadMessageCount;
+
+        sHTML += ' <li targetid="'+targetId+'">'+
+        '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+        '<i class="notReadMsg">'+unreadMessageCount+'</i>'+
+        '<span class="groupName">'+name+'</span>'+
+        '<span class="usualLastMsg">'+content+'</span>'+
+        '<span class="lastTime">'+lastTime+'</span>'+
+        '</div>'+
+        '</li>'
+    }
+
+    $('.usualChatListUl').html(sHTML);
+}
+
 
 //包括单聊，群聊，聊天室
 function sendMsg(content,targetId,way){
@@ -87,8 +180,6 @@ function sendMsg(content,targetId,way){
 
 //发送出去的的信息显示在盒子里
 function sendInBox(msg){
-    console.log('%%%%%%%%%%%%%%%%%%%%%%')
-    console.log(msg);
     var sendMsg = msg.content.content;
     var sHTML = '<li class="mr-chatContentR">'+
                     '<div class="mr-ownChat">'+
@@ -98,6 +189,7 @@ function sendInBox(msg){
                 '</li>';
     var parentNode = $('.mr-chatview .mr-chatContent');
     parentNode.append($(sHTML));
+    $('.textarea').val('');
 }
 
 
@@ -117,6 +209,8 @@ function reciveInBox(msg){
                             '<i></i>'+
                         '</div>'+
                     '</li>';
+        var parentNode = $('.mesContainerSelf[targetid='+targetID+']').find('.mr-chatContent');
+        parentNode.append($(sHTML));
 
     }else{
         //消息列表里显示红色小圆圈

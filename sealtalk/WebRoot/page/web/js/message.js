@@ -14,15 +14,22 @@ $(function(){
             var sHTML = changeClick2Content(data);
             $('.orgNavClick2').html(sHTML);
             $('.orgNavClick2').removeClass('chatHide');
+            $('.BreadcrumbsOuter').removeClass('chatHide')
 
         }else{//点击的是部门
             //branch!getBranchMember查询部门结构
             sendAjax('branch!getBranchMember',{branchId:id},function(data){
                 var datas = JSON.parse(data);
-                console.log(data);
+                console.log(datas);
+                var sHTML = changeClick1Content(data);
+                $('.orgNavClick2').html(sHTML);
+                $('.orgNavClick2').removeClass('chatHide');
+                $('.BreadcrumbsOuter').removeClass('chatHide')
+
 
             })
             $('.orgNavClick1').removeClass('chatHide');
+            $('.BreadcrumbsOuter').removeClass('chatHide')
 
         }
     })
@@ -72,11 +79,10 @@ $(function(){
 
 
     //鼠标在联系人上悬停
-    var timer=null;
+    var timer=null,timer1 = null;
     $('.usualChatList').delegate('li','mouseenter',function(e){
         var _this = $(this);
         timer=setTimeout(function(){
-
             var pos = {};
             pos.top = e.clientY;
             pos.left = e.clientX;
@@ -87,7 +93,7 @@ $(function(){
             //console.log(data);
             //console.log('----------');
             for(var i = 0;i<data.length;i++){
-                console.log(account,data[i].account);
+                //console.log(account,data[i].account);
                 if(data[i].account == account){
                     showMemberInfo(data[i],pos);
                     console.log(i);
@@ -101,11 +107,17 @@ $(function(){
 
     $('.usualChatList').delegate('li','mouseleave',function(e){
         clearTimeout(timer);
-        //$('.memberHover').remove();
+        timer1 = setTimeout(function(){
+            $('.memberHover').remove();
+        },1000)
+    })
+    $('body').delegate('.memberHover','mouseenter',function(){
+        clearTimeout(timer1);
+    })
+    $('body').delegate('.memberHover','mouseleave',function(){
+        $('.memberHover').remove();
     })
     $(window).click(function(e){
-        console.log('---===---==-=-=memberHover')
-        console.log(e.target);
         if($(e.target).parents('.memberHover').length==0){
             $('.memberHover').remove();
         }else{
@@ -146,6 +158,7 @@ $(function(){
     }
     $('.newsChatList').delegate('li','mousedown',showMent);
     $('body').delegate('#newsLeftClick li','click',function(){
+        var targetID =
         $('.myContextMenu').remove();
         var index = $(this).closest('ul').find('li').index($(this));
         switch (index)
@@ -167,6 +180,7 @@ $(function(){
                 break;
             case 5:
                 //从消息列表删除
+                //removeConvers('PRIVATE',id);
                 break;
         }
     })
@@ -185,7 +199,7 @@ $(function(){
             //var memShip = JSON.stringify()
             fshowContexMenu(arr,style,id,friend);
         }else{//单击常用联系人
-            var targetID = $(this).attr('account');
+            var targetID = $(this).attr('targetid');
             var targeType = 'PRIVATE';
             conversationSelf(targetID,targeType);
             $('.orgNavClick').addClass('chatHide');
@@ -263,7 +277,7 @@ $(function(){
     /*
      * 点击加号 “+”
      * */
-
+    $('.operMenuList').unbind('click');
     $('.operMenuList').click(function(e){
         var getBranchTree = localStorage.getItem('getBranchTree');
         if(getBranchTree){
@@ -303,19 +317,18 @@ $(function(){
             case 1:
                 //发起聊天
                 creatDialogTree(data,'privateConvers','发起聊天',function(){
-                    console.log('-----=====---发起聊天--====------');
+                    var targetID = converseACount[0];
+                    $('.manageCancle').click();
 
                 })
                 break;
             case 2:
                 //创建群组
                 creatDialogTree(data,'groupConvers','创建群组',function(){
-                    console.log('-----=====---创建群组--====------');
-
-
-                    console.log(accountID,converseACount);
-                    sendAjax('group!createGroup',{userid:accountID,groupids:converseACount,groupname:''},function(data){
+                    var sConverseACount = JSON.stringify(converseACount);
+                    sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount,groupname:''},function(data){
                         if(data){
+                            $('.manageCancle').click();
                             var datas = JSON.parse(data);
                             if(datas.code==200){
                                 new Window().alert({
@@ -327,7 +340,10 @@ $(function(){
                                     textForcancleBtn : false,
                                     autoHide:true
                                 });
+                            }else{
+                                alert('失败',datas.text);
                             }
+
                         }
                     })
                 })
@@ -388,10 +404,48 @@ $(function(){
 })
 
 
+function removeConvers(type,id){
+    RongIMClient.getInstance().removeConversation(RongIMLib.ConversationType[type],id,{
+        onSuccess:function(bool){
+            // 删除会话成功。
+
+            console.log('删除会话列表成功')
+        },
+        onError:function(error){
+            // error => 删除会话的错误码
+        }
+    });
+}
+
+
+//点击的是部门
+function changeClick1Content(data){
+    var sHTML = '';
+
+    for(var i = 0;i<data.length;i++){
+        sHTML += ''
+    }
+        '<div class="personalDetailContent">'+
+        '<div class="selfImgInfo">'+
+        '<img src="'+data.logo+'" alt=""/><div>'+
+        '<p>'+data.name+'</p>'+
+        '<ul class="selfImgOpera">'+
+        '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
+        '</ul></div></div><div class="showPersonalInfo" targetID="'+data.id+'" targetTpe="PRIVATE">'+
+        '<ul>'+
+        '<li><div>手机:</div><div>'+data.telephone+'</div></li>'+
+        '<li><div>邮箱:</div><div>'+data.email+'</div></li>'+
+        '<li><div>部门:</div><div>'+data.telephone+'</div></li>'+
+        '<li><div>职位:</div><div>'+data.workno+'</div></li>'+
+        '<li><div>组织:</div><div>'+data.groupuse+'</div></li>'+
+        '<li><div>地址:</div><div>'+data.address+'</div></li>'+
+        '</ul></div></div></div></div>';
+    return sHTML;
+}
+
+
+//点击的是成员
 function changeClick2Content(data){
-    console.log('------')
-    console.log(data);
-    //if()
     var sHTML = '<div class="personalDetailContent">'+
                 '<div class="selfImgInfo">'+
                     '<img src="'+data.logo+'" alt=""/><div>'+
@@ -445,7 +499,7 @@ function getMemberFriends(account){
             var workno = myData[i].workno?' ('+myData[i].workno+')':''
             var logo = myData[i].logo?myData[i].logo:'page/web/css/img/touxiang.png';
             var curData = myData[i];
-            sHTML += ' <li account="'+account+'">'+
+            sHTML += ' <li account="'+account+'" targetid="'+myData[i].id+'">'+
             '<div>'+
             '<img class="groupImg" src="'+logo+'" alt=""/>'+
             '<span class="groupName">'+fullname+workno+'</span>'+
@@ -516,7 +570,7 @@ function remove(arr,dx)
 }
 
 function showMemberInfo(data,pos){
-    console.log('=================',data);
+    //console.log('=================',data);
     var sHTML = '<div class="memberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
                     '<div class="contextTri"></div>'+
                     '<ul class="memberInfoHover">'+
@@ -617,7 +671,7 @@ function creatDialogTree(data,className,title,callback,selected){
 
 
 
-
+    $('.manageSure').unbind('click');
     $('.manageSure').click(function(){
         callback&&callback();
     });

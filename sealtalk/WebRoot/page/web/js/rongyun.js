@@ -16,6 +16,8 @@ $(function(){
                     //链接成功
                     case RongIMLib.ConnectionStatus.CONNECTED:
                         console.log('链接成功');
+                        //显示会话列表
+                        showConverList();
                         break;
                     //正在链接
                     case RongIMLib.ConnectionStatus.CONNECTING:
@@ -123,5 +125,5 @@ $(function(){
             }
         });
     }
-
+    initEmoji();
 })

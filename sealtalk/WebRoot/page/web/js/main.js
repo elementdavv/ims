@@ -4,7 +4,8 @@
 $(function(){
 
 
-    //$('#contactsList').perfectScrollbar();
+
+    $('.contactsList').perfectScrollbar();
     //$('body').perfectScrollbar();
     $('.dialogClose,.manageCancle').click(function(){
         $('.WindowMask,.WindowMask2').hide();
@@ -76,6 +77,16 @@ $(function(){
         $(this).next('ul').slideToggle();
     })
 })
+
+
+function initEmoji(){
+    RongIMLib.RongIMEmoji.init();
+    var emojis = RongIMLib.RongIMEmoji.emojis;
+    console.log(emojis);
+    $('.rongyun-emoji').append($(emojis));
+    $('.rongyun-emoji').perfectScrollbar();
+}
+
 
 //memShip表示与此操作相关的人员account
 function fshowContexMenu(arr,style,id,memShip){
