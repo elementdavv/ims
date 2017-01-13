@@ -402,7 +402,7 @@
                                 <i></i>
                             </div>
                         </li>
-                        <li class="mr-chatContentR">
+                        <li class="mr-chatContentR clearfix">
                             <div class="mr-ownChat">
                                 <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
                                 <i></i>
@@ -442,7 +442,7 @@
             <i></i>
             </div>
             </li>
-            <li class="mr-chatContentR">
+            <li class="mr-chatContentR clearfix">
             <div class="mr-ownChat">
             <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
             <i></i>

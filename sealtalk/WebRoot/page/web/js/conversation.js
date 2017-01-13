@@ -2,7 +2,7 @@
  * Created by zhu_jq on 2017/1/12.
  */
 $(function(){
-    showConverList();
+    //showConverList();
 })
 
 function conversationSelf(targetID,targetType){//群聊页面显示

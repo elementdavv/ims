@@ -28,11 +28,11 @@ $(function(){
     $('.conversWindow').delegate('.dialogCheckBox','click',function(){
         converseACount = [];
         var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
-        var account =  $(this).closest('li').attr('account');
+        var id =  $(this).closest('li').attr('id');
         if(bPrivate){//创建个人的聊天页面
             $('.dialogCheckBox').removeClass('CheckBoxChecked');
             $(this).addClass('CheckBoxChecked');
-            converseACount.push(account);
+            converseACount.push(id);
         }else{//创建群组的聊天
 
             //首先自己的选中状态
@@ -65,9 +65,9 @@ $(function(){
             for(var i = 0;i<dialogCheckBox.length;i++){
                 var diacjeck = $(dialogCheckBox[i])
                 if(diacjeck.hasClass('CheckBoxChecked')&&diacjeck.closest('div').hasClass('member')){
-                    var account = diacjeck.closest('li').attr('account');
+                    var account = diacjeck.closest('li').attr('id');
                     var name = diacjeck.next().html();
-                    converseACount.push({account:account,name:name});
+                    converseACount.push(account);
                 }
             }
         }
