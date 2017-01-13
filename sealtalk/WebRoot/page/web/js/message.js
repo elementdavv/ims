@@ -170,9 +170,10 @@ $(function(){
                 break;
         }
     })
-
-    //右键常用联系人
     $('.usualChatList').delegate('li','mousedown',function(e){
+    })
+    //右键常用联系人
+    $('.usualChatList').delegate('li','click',function(e){
         $('.myContextMenu').remove();
         if(e.buttons==2){
             var left = e.clientX;
@@ -183,6 +184,12 @@ $(function(){
             var friend = $(this).attr('account');
             //var memShip = JSON.stringify()
             fshowContexMenu(arr,style,id,friend);
+        }else{//单击常用联系人
+            var targetID = $(this).attr('account');
+            var targeType = 'PRIVATE';
+            conversationSelf(targetID,targeType);
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerSelf').removeClass('chatHide');
         }
         $('.usualChatList li').removeClass('active');
         $(this).addClass('active');
@@ -218,7 +225,11 @@ $(function(){
 
     //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
+    var sdata = localStorage.getItem('datas');
     var account = JSON.parse(sAccount).account;
+    //console.log(JSON.parse(sdata));
+    //console.log('*********************');
+    var accountID = JSON.parse(sdata).text.id;
     getMemberFriends(account);
 
 
@@ -300,6 +311,25 @@ $(function(){
                 //创建群组
                 creatDialogTree(data,'groupConvers','创建群组',function(){
                     console.log('-----=====---创建群组--====------');
+
+
+                    console.log(accountID,converseACount);
+                    sendAjax('group!createGroup',{userid:accountID,groupids:converseACount,groupname:''},function(data){
+                        if(data){
+                            var datas = JSON.parse(data);
+                            if(datas.code==200){
+                                new Window().alert({
+                                    title   : '',
+                                    content : '创建群组成功！',
+                                    hasCloseBtn : false,
+                                    hasImg : true,
+                                    textForSureBtn : false,
+                                    textForcancleBtn : false,
+                                    autoHide:true
+                                });
+                            }
+                        }
+                    })
                 })
                 break;
         }
@@ -615,7 +645,7 @@ function DialogTreeLoop(data,sHTML,level){
                             '<span class="chatLeftIcon dialogCheckBox"></span>';
         }
         //console.log('*******************************');
-        sHTML +=  '<li account = '+data[i].account+'>'+
+        sHTML +=  '<li account = '+data[i].account+' id="'+data[i].id+'">'+
                         '<div level="1" class="'+department+'">'+
                             '<span style="height: 20px;width: '+level*22+'px;display:inline-block;float: left;"></span>'+
                             ''+collspan+'<span class="dialogGroupName">'+oData.name+'</span>'+

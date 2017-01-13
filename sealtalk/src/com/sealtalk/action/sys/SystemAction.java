@@ -179,9 +179,10 @@ public class SystemAction extends BaseAction {
 		
 		return "text";
 	}
+
 	
 	/**
-	 * 验证短信(暂时没有短信平台，模拟)
+	 * 验证短信(暂时没有短信平台，模拟,仅web端使用)
 	 * @return
 	 */
 	public String testText() throws ServletException {
@@ -214,37 +215,54 @@ public class SystemAction extends BaseAction {
 		String account = request.getParameter("account");
 		String newPwd = request.getParameter("newpwd");
 		String comparePwd = request.getParameter("comparepwd");
+		String textCode = request.getParameter("textcode");
 		
 		System.out.println("account: " + account);
 		System.out.println("newPwd: " + newPwd);
 		System.out.println("comparePwd: " + comparePwd);
 		
+		JSONObject text = new JSONObject();
+		
 		if (account == null || "".equals(account)) {
-			//request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
-			JSONObject jo = new JSONObject();
-			jo.put("code", "0");
-			jo.put("text", Tips.NULLUSER.getText());
-			returnToClient(jo.toString());
+			text.put("code", "0");
+			text.put("text", Tips.NULLUSER.getText());
+			returnToClient(text.toString());
 			return "textText";
 		}
 		
-		if (!newPwd.equals(comparePwd)) {
-			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.FALSECOMPAREPWD.getText());
-			return "fogetpwd";
+		boolean status = true;
+		
+		if (!StringUtils.getInstance().isBlank(textCode)) {
+			if (textCode == null || "".equals(textCode)) {
+				text.put("code", -1);
+				text.put("text", Tips.NULLTEXTS.getText());
+				status = false;
+			} else if (!textCode.equals("9999")) {
+				text.put("code", 0);
+				text.put("text", Tips.ERRORTEXTS.getText());
+				status = false;
+			} else {
+				text.put("code", 1);
+				text.put("text", Tips.TRUETEXTS.getText());
+			}
 		}
 		
-		boolean updateState = memberService.updateUserPwd(account, newPwd);
-		
-		JSONObject text = new JSONObject();
-		
-		if (updateState == true) {
-			text.put("code", "1");
-			text.put("text", Tips.CHANGEPWDSUC.getText());
-		} else {
-			text.put("code", "0");
-			text.put("text", Tips.CHANGEPWDFAIL.getText());
+		if (status) {
+			if (!newPwd.equals(comparePwd)) {
+				request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.FALSECOMPAREPWD.getText());
+				return "fogetpwd";
+			}
+			
+			boolean updateState = memberService.updateUserPwd(account, newPwd);
+			
+			if (updateState == true) {
+				text.put("code", "1");
+				text.put("text", Tips.CHANGEPWDSUC.getText());
+			} else {
+				text.put("code", "0");
+				text.put("text", Tips.CHANGEPWDFAIL.getText());
+			}
 		}
-		
 		returnToClient(text.toString());
 		
 		return "text";

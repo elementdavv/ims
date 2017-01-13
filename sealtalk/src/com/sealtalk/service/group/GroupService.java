@@ -11,13 +11,19 @@ public interface GroupService {
 	 * 创建群组
 	 * @param userid
 	 * @param groupids
-	 * @param groupname
 	 * @return
 	 */
-	public String createGroup(String userid, String groupids, String groupname);
+	public String createGroup(String userid, String groupids);
 	public String joinGroup();
 	public String leftGroup();
 	public String disslovedGroup();
 	public String refreshGroup();
 	public String listGroupMemebers();
+	
+	/**
+	 * 获取群组列表
+	 * @param userid
+	 * @return
+	 */
+	public String getGroupList(String userid);
 }
