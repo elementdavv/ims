@@ -1,4 +1,14 @@
+
+
+
+
 function seeOrgnizeTree(){
+
+
+
+
+
+
     $('.orgNavClick').addClass('chatHide');
     $('.orgNavClick3 ').removeClass('chatHide');
     var data =  [
@@ -7,64 +17,32 @@ function seeOrgnizeTree(){
             kChildDepart :
 
                 [   {
-                    kDepartName  : "总经理000",
-                    kChildDepart : [
-                        {
-                            kDepartName  : "部门_02-01",
-                            kChildDepart : [
-                                {
-                                    kDepartName  : "部门_02-01",
-                                    kChildDepart : []
-                                },
-
-                                {
-                                    kDepartName: "部门_02-02",
-                                    kChildDepart : []
-                                },
-                                {
-                                    kDepartName  : "部门_02-01",
-                                    kChildDepart : []
-                                }
-                            ]
-                        },
-
-                        {
-                            kDepartName: "部门_02-02",
-                            kChildDepart : []
-                        },
-                        {
-                            kDepartName  : "部门_02-01",
-                            kChildDepart : []
-                        },
-
-                        {
-                            kDepartName: "部门_02-02",
-                            kChildDepart : []
-                        },
-                        {
-                            kDepartName  : "部门_02-01",
-                            kChildDepart : []
-                        },
-
-                        {
-                            kDepartName  : "部门_02-01",
-                            kChildDepart : []
-                        }
-                    ]
-                },
-                    {
                         kDepartName  : "总经理000",
-                        kChildDepart : []
+                        kChildDepart : [
+                            {
+                                kDepartName  : "部门_02-01",
+                                kChildDepart : [
+                                    {
+                                        kDepartName  : "部门_02-01",
+                                        kChildDepart : []
+                                    },
+
+                                    {
+                                        kDepartName: "部门_02-02",
+                                        kChildDepart : []
+                                    },
+                                    {
+                                        kDepartName  : "部门_02-01",
+                                        kChildDepart : []
+                                    }
+                                ]
+                            },
+                        ]
                     },
                     {
                         kDepartName  : "总经理000",
                         kChildDepart : []
                     },
-                    {
-                        kDepartName  : "总经理000",
-                        kChildDepart : []
-                    }
-
                 ]
         }
     ];
@@ -77,17 +55,10 @@ function seeOrgnizeTree(){
 function showOrganizeList(data){
     var sHTML = '';
     var i = '';
-
-
     var HTML = loop(data,sHTML,i);
-
     $('.organizeListOuter').append(HTML);
 
-
     calaPosition();
-
-
-
 }
 
 

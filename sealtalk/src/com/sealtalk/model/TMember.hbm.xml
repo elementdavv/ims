@@ -50,6 +50,9 @@
         <property name="address" type="java.lang.String">
             <column name="address" length="1024" />
         </property>
+        <property name="organId" type="java.lang.Integer">
+            <column name="organ_id" not-null="true" />
+        </property>
         <property name="groupmax" type="java.lang.Integer">
             <column name="groupmax" not-null="true">
                 <comment>可建群数量</comment>
@@ -63,5 +66,12 @@
         <property name="intro" type="java.lang.String">
             <column name="intro" length="1024" />
         </property>
+        <property name="token" type="java.lang.String">
+            <column name="token" length="256" />
+        </property>
+        <property name="createtokendate" type="java.lang.Long">
+            <column name="createtokendate" length="11" />
+        </property>
+        
     </class>
 </hibernate-mapping>

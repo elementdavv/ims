@@ -14,6 +14,7 @@
 	<!-- service -->
 	<bean id="branchService" class="com.sealtalk.service.adm.impl.BranchServiceImpl" autowire="byName" >
 		<property name="branchDao" ref="branchDao" />
+		<property name="memberDao" ref="memberDao" />
 	</bean>
 	
 	<!-- action -->

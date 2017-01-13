@@ -9,42 +9,10 @@
     <!-- constant name="struts.multipart.maxSize" value="1000000000"/-->
 	
 	<include file="struts-default.xml" />
-    <package name="com.sealtalk.action" extends="struts-default">
-   		<!-- 系统管理 -->
-        <action name="system" class="com.sealtalk.action.SystemAction">
-           	<result name="loginPage">/page/web/signin.jsp</result>
-			<!--<result name="loginSuccess" type="redirect">/page/main.jsp</result>-->
-			<result name="forgetpwd" type="dispatcher">/page/web/forgotpassword.jsp</result>
-			<result name="text" type="stream">
-				<param name="contentType">text/plain</param>
-				<param name="inputName">inputStream</param>
-			</result>
-        </action>
-       
-        <!-- 成员管理 -->
-        <action name="member" class="com.sealtalk.action.MemberAction">
-			<result name="text" type="stream">
-				<param name="contentType">text/plain</param>
-				<param name="inputName">inputStream</param>
-			</result>
-        </action>
-        
-        <!-- 联系人管理  -->
-        <action name="friend" class="com.sealtalk.action.FriendAction">
-        	<result name="text" type="stream">
-        		<param name="contentType">text/plain</param>
-				<param name="inputName">inputStream</param>
-        	</result>
-        </action>
-        
-        <!-- 组织机构 -->
-        <action name="branch" class="com.sealtalk.action.adm.BranchAction">
-        	<result name="text" type="stream">
-        		<param name="contentType">text/plain</param>
-				<param name="inputName">inputStream</param>
-        	</result>
-        </action>
-    </package>
+    <include file="struts-system.xml" />
+    <include file="struts-member.xml" />
+    <include file="struts-friend.xml" />
+    <include file="struts-branch.xml" />
 
 </struts>
 

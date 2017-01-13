@@ -1,0 +1,17 @@
+/admin.xml
+/com/
+/common/
+/hibernate.cfg
+/io/
+/jsonsource/
+/log4j.properties
+/sealtalk.properties
+/spring.xml
+/struts.xml
+/member.xml
+/friend.xml
+/system.xml
+/struts-branch.xml
+/struts-friend.xml
+/struts-member.xml
+/struts-system.xml
