@@ -4,17 +4,13 @@
 
 function seeOrgnizeTree(){
 
-
-
-
-
-
     $('.orgNavClick').addClass('chatHide');
     $('.orgNavClick3 ').removeClass('chatHide');
     var data =  [
         {
-            kDepartName  : "董事长",
-            kChildDepart :
+            DepartName  : "董事长",
+            id:'',
+            ChildDepart :
 
                 [   {
                         kDepartName  : "总经理000",

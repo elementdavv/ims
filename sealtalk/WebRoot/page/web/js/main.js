@@ -2,14 +2,23 @@
  * Created by zhu_jq on 2017/1/4.
  */
 $(function(){
+
+
+    //$('#contactsList').perfectScrollbar();
+    //$('body').perfectScrollbar();
     $('.dialogClose,.manageCancle').click(function(){
         $('.WindowMask,.WindowMask2').hide();
     });
 
-    $('.newsTabContent').bind('contextmenu',function(){
+    $(document).bind('contextmenu',function(){
         event.preventDefault();
         return false;
     });
+
+    //document.oncontextmenu = function(){
+    //
+    //    return false;
+    //};
 
     $('.organizationList').delegate('ul li .groupCollspan','click',function(e){
         //按钮样式
@@ -37,13 +46,13 @@ $(function(){
         switch(nShowClass)
         {
             case 'news':
-                $('.chatBox').html('aaaaa')
+                //$('.chatBox').html('aaaaa')
                 break;
             case 'orgnized':
-                $('.chatBox').html('bbbb')
+                //$('.chatBox').html('bbbb')
                 break;
             case 'back':
-                $('.chatBox').html('cccc')
+                //$('.chatBox').html('cccc')
                 break;
         }
         nShowClass&&showPanel(nShowClass);
@@ -68,24 +77,31 @@ $(function(){
     })
 })
 
-
-function fshowContexMenu(arr,style,id){
+//memShip表示与此操作相关的人员account
+function fshowContexMenu(arr,style,id,memShip){
 
     var listHTML = '';
     for(var i = 0;i<arr.length;i++){
         listHTML+='<li>'+arr[i]+'</li>'
     }
-    var sHTML = '<div class="myContextMenu" id="'+id+'" style="'+style+'">'+
+    var sHTML = '<div memShip="'+memShip+'" class="myContextMenu" id="'+id+'" style="'+style+'">'+
         '<div class="contextTri"></div>'+
         '<ul>'+listHTML+'</ul>'+
         '</div>';
     $('body').append($(sHTML));
+    return false;
 }
 function showPanel(panelClass){
     var eShowNode = $("."+panelClass);
     if(eShowNode){
         eShowNode.removeClass('chatHide');
+        eShowNode.find('#backstageMgId li').removeClass('active');
         eShowNode.siblings(".chatContent").addClass('chatHide');
+        $('#chatBox').children().each(function(){
+            if(!$(this).hasClass('chatHide')){
+                $(this).addClass('chatHide');
+            }
+        });
     }
 }
 

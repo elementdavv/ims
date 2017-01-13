@@ -76,11 +76,13 @@ function signin(){
     var data = {account:accout,userpwd:userpwd};
     //验证
     sendAjax('system!afterLogin',data,function(datas){
+        window.localStorage.datas=datas;
         var datas = JSON.parse(datas);
         if(datas &&	datas.code == 1){
+            data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(data);
-            window.location.href = 'page/web/main.jsp';
         }
+        window.location.href = 'system!login';
     });
 }
 
