@@ -120,7 +120,7 @@
     top:0;
     background: rgba(0,0,0,0.5);
 }
-.bMg-cutPicture{
+.bMg-rotateDrag{
     width:680px;
     height:530px;
     border-radius:10px;
@@ -432,7 +432,6 @@
 }
 .mr-chatContent li{
     margin-bottom:18px;
-    overflow: hidden;
 }
 .mr-chatBox{
     background: #fff;
@@ -464,6 +463,8 @@
     height:12px;
 }
 .mr-ownChat{
+    word-wrap: break-word;
+    word-break:break-all;
    float:right;
     position: relative;
     background: rgb(245,245,245);
@@ -482,6 +483,7 @@
     height:12px;
 }
 .mr-chatview{
+    overflow-y:auto;
     height:calc(100% - 230px);
     border-bottom:1px solid #f0f0f0;
 }
@@ -872,4 +874,11 @@
     line-height:44px;
     font-size:13px;
     color:rgb(51,51,51);
+}
+#iqs_iframe{
+    width:100%;
+    height:100%;
+    position: absolute;
+    left:0;
+    top:0;
 }

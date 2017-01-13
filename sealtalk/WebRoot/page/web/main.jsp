@@ -404,7 +404,7 @@
                         </li>
                         <li class="mr-chatContentR clearfix">
                             <div class="mr-ownChat">
-                                <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
+                                <span>xxxxxxxxxxxxxxxxxxx大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
                                 <i></i>
                             </div>
                         </li>
@@ -799,6 +799,7 @@
     </div>
     </div>
     </div>
+    <iframe src="" frameborder="0" scrolling="no" class="chatHide" id="iqs_iframe" border="none"></iframe>
     <%--修改头像部分--%>
     <%--<div class="bMgMask"></div>--%>
     <%--<div class="bMg-cutPicture">--%>

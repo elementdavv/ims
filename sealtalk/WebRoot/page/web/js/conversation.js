@@ -2,7 +2,7 @@
  * Created by zhu_jq on 2017/1/12.
  */
 $(function(){
-    showConverList();
+    //showConverList();
 })
 
 function conversationSelf(targetID,targetType){//群聊页面显示
@@ -90,7 +90,7 @@ function sendInBox(msg){
     console.log('%%%%%%%%%%%%%%%%%%%%%%')
     console.log(msg);
     var sendMsg = msg.content.content;
-    var sHTML = '<li class="mr-chatContentR">'+
+    var sHTML = '<li class="mr-chatContentR clearfix">'+
                     '<div class="mr-ownChat">'+
                         '<span>'+sendMsg+'</span>'+
                         '<i></i>'+

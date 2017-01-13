@@ -31,7 +31,8 @@ $(document).ready(function(){
         }
     });
     $('#chatBox').on('click','#changeHeadImgId',function(){
-
+        $('#iqs_iframe').attr('src','page/web/clipImg.jsp');
+        $('#iqs_iframe').removeClass('chatHide');
     });
 });
 function fPersonalSet(){
