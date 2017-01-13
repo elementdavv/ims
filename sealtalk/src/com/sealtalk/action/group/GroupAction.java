@@ -30,7 +30,7 @@ public class GroupAction extends BaseAction {
 		String result = null;
 		
 		if (groupService != null) {
-			result = groupService.createGroup(userid, groupids, groupname);
+			result = groupService.createGroup(userid, groupids);
 		} else {
 			JSONObject jo = new JSONObject();
 			jo.put("code", 500);
@@ -86,6 +86,12 @@ public class GroupAction extends BaseAction {
 		return null;
 	}
 	
+	public String groupList() throws ServletException {
+		
+		String grouList = groupService.getGroupList(userid);
+		return null;
+	}
+	
 	private GroupService groupService;
 	
 	public GroupService getGroupService() {
@@ -98,7 +104,7 @@ public class GroupAction extends BaseAction {
 
 	private String userid;
 	private String groupids;
-	private String groupname;
+	//private String groupname;
 
 	public String getUserid() {
 		return userid;
@@ -116,11 +122,11 @@ public class GroupAction extends BaseAction {
 		this.groupids = groupids;
 	}
 
-	public String getGroupname() {
+/*	public String getGroupname() {
 		return groupname;
 	}
 
 	public void setGroupname(String groupname) {
 		this.groupname = groupname;
-	}
+	}*/
 }

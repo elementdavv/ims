@@ -14,6 +14,7 @@
 	
 	<!-- service -->
 	<bean id="groupService" class="com.sealtalk.service.group.impl.GroupServiceImpl" autowire="byName" >
+		<property name="memberDao" ref="memberDao" />
 		<property name="groupDao" ref="groupDao" />
 		<property name="groupMemberDao" ref="groupMemberDao" />
 	</bean>
