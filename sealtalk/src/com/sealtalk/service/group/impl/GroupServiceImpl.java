@@ -176,6 +176,11 @@ public class GroupServiceImpl implements GroupService {
 		return null;
 	}
 
+	@Override
+	public String getGroupList(String userid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	private MemberDao memberDao;
 	private GroupDao groupDao;
 	private GroupMemberDao groupMemberDao;
@@ -203,5 +208,5 @@ public class GroupServiceImpl implements GroupService {
 	public void setGroupDao(GroupDao groupDao) {
 		this.groupDao = groupDao;
 	}
-	
+
 }
