@@ -50,7 +50,7 @@ public enum  Tips {
 		JSONObject jo = new JSONObject();
 		
 		jo.put("context", getName());
-		jo.put("errorcode", getCode());
+		//jo.put("errorcode", getCode());
 		
 		return jo.toString();
 	}
