@@ -14,6 +14,7 @@
     <include file="struts-friend.xml" />
     <include file="struts-branch.xml" />
     <include file="struts-message.xml" />
+    <include file="struts-group.xml" />
 
 </struts>
 

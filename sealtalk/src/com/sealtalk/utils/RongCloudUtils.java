@@ -1,6 +1,7 @@
 package com.sealtalk.utils;
 
 import io.rong.RongCloud;
+import io.rong.messages.TxtMessage;
 import io.rong.models.CheckOnlineReslut;
 import io.rong.models.CodeSuccessReslut;
 import io.rong.models.TokenReslut;
@@ -118,6 +119,11 @@ public class RongCloudUtils {
 		return codeSuccessReslut.getCode();
 	}
 
+	/**
+	 * 检测在线状态
+	 * @param userId
+	 * @return
+	 */
 	public String checkOnLine(String userId) {
 		CheckOnlineReslut checkOnlineReslut = null;
 		JSONObject jo = new JSONObject();
@@ -143,5 +149,102 @@ public class RongCloudUtils {
 		
 		return jo.toString();
 	}
+	
+	/**
+	 * 发系统消息
+	 * @param fromId
+	 * @param targetIds
+	 * @param msg
+	 * @param extraMsg
+	 * @return
+	 */
+	public String sendSysMsg(String fromId, String[] targetIds, String msg, String extraMsg) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+
+			JSONObject pushMsg = new JSONObject();
+			jo.put("pushData", msg);
+			
+			TxtMessage messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
+			CodeSuccessReslut messagePublishSystemResult = 
+				rongCloud.message.PublishSystem(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), 0, 0);
+			if (messagePublishSystemResult != null) {
+				jo.put("code", messagePublishSystemResult.getCode());
+				jo.put("text", "ok");
+			} else {
+				jo.put("code", 0);
+				jo.put("text", "fail");
+			}
+		} catch (Exception e) {
+			jo.put("code", 0);
+			jo.put("text", "fail");
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	/**
+	 * 创建群组
+	 * @param userId	 加入群的用户id组
+	 * @param groupId
+	 * @param groupName
+	 * @return
+	 */
+	public String createGroup(String[] userIds, String groupId, String groupName) {
+		String result = null;
+		
+		try {
+			if (!StringUtils.getInstance().isArrayBlank(userIds) &&
+					!StringUtils.getInstance().isBlank(groupId) &&
+					!StringUtils.getInstance().isBlank(groupName)) {
+				
+				CodeSuccessReslut groupCreateResult = rongCloud.group.create(userIds, groupId, groupName);
+				
+				if (groupCreateResult != null) {
+					result = groupCreateResult.getCode().toString();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 加入群
+	 * @param userIds
+	 * @param groupId
+	 * @param groupName
+	 * @return
+	 */
+	public String joinGroup(String[] userIds, String groupId, String groupName) {
+		JSONObject jo = new JSONObject();
+		String result = null;
+		
+		try {
+			if (!StringUtils.getInstance().isArrayBlank(userIds) &&
+					!StringUtils.getInstance().isBlank(groupId) &&
+					!StringUtils.getInstance().isBlank(groupName)) {
+				
+				CodeSuccessReslut groupJoinResult = rongCloud.group.join(userIds, groupId, groupName);
+				
+				if (groupJoinResult != null) {
+					result = groupJoinResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 
 }

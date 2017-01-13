@@ -63,12 +63,12 @@ public class PropertiesUtils {
     }  
     
     public static boolean devsContains(String dev) {
-    	ArrayList<String> devs = getListByKey("db.dev");
+    	ArrayList<String> devs = getListByKey("cfg.dev");
     	return devs.contains(dev);
     }
 
     public static String getDomain() {
-		String domain = getStringByKey("db.domain");
+		String domain = getStringByKey("cfg.domain");
 		
 		if (domain.endsWith("/")) {
 			domain = domain.substring(0, domain.length() - 1);
@@ -78,7 +78,7 @@ public class PropertiesUtils {
     }
     
     public static String getUploadDir() {
-    	String uploadDir = getStringByKey("db.uploaddir");
+    	String uploadDir = getStringByKey("cfg.uploaddir");
 		
     	if (uploadDir.startsWith("/")) {
 			uploadDir = "/" + uploadDir;
@@ -93,6 +93,6 @@ public class PropertiesUtils {
     }
     
     public static String getDefaultLogo() {
-    	return getStringByKey("db.defaultlogo");
+    	return getStringByKey("cfg.defaultlogo");
     }
 }

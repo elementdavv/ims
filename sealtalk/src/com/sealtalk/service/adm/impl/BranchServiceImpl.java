@@ -92,6 +92,7 @@ public class BranchServiceImpl implements BranchService {
 		}
 		
 		logger.info(ja.toString());
+		
 		return ja.toString();
 	}
 	

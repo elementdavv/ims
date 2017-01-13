@@ -10,6 +10,7 @@ import com.sealtalk.service.msg.UserServiceService;
 import com.sealtalk.utils.PropertiesUtils;
 import com.sealtalk.utils.RongCloudUtils;
 import com.sealtalk.utils.StringUtils;
+import com.sealtalk.utils.TimeGenerator;
 
 public class UserServiceServiceImpl implements UserServiceService {
 
@@ -20,16 +21,30 @@ public class UserServiceServiceImpl implements UserServiceService {
 		try {
 			TMember tm = memberDao.getMemberForId(Integer.valueOf(id));
 			
-			String name = null;
-			String logo = null;
-			if (tm != null) {
-				name = tm.getFullname();
-				logo = tm.getLogo();
+			long tokenMaxAgeLong = 0;
+			long firstTokenDate = tm.getCreatetokendate();
+			long now = TimeGenerator.getInstance().getUnixTime();
+			
+			String tokenMaxAge = PropertiesUtils.getStringByKey("db.tokenMaxAge");
+			
+			if (tokenMaxAge != null && !"".equals(tokenMaxAge)) {
+				tokenMaxAgeLong = Long.valueOf(tokenMaxAge);
 			}
-			String domain = PropertiesUtils.getDomain();
-			String uploadDir = PropertiesUtils.getUploadDir();
-			String url = domain + uploadDir + logo;
-			String token = RongCloudUtils.getInstance().getToken(id, name, url);
+			
+			String token = tm.getToken();
+			
+			if ((now - firstTokenDate) > tokenMaxAgeLong) {
+				String name = null;
+				String logo = null;
+				if (tm != null) {
+					name = tm.getFullname();
+					logo = tm.getLogo();
+				}
+				String domain = PropertiesUtils.getDomain();
+				String uploadDir = PropertiesUtils.getUploadDir();
+				String url = domain + uploadDir + logo;
+				token = RongCloudUtils.getInstance().getToken(id, name, url);
+			}
 			
 			if (StringUtils.getInstance().isBlank(token)) {
 				jo.put("code", 0);

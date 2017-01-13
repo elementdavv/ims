@@ -1,36 +1,58 @@
 package com.sealtalk.common;
 
+import net.sf.json.JSONObject;
+
 public enum  Tips {
-	NULLUSER("用户名为空"),
-	NULLID("ID为空"),
-	ERRORUSERORPWD("用户名或密码错误"),
-	FALSECOMPAREPWD("密码不一致"),
-	CHANGEPWDSUC("密码修改成功"),
-	CHANGEPWDFAIL("密码修改失败"),
-	SENDTEXTS("短信验证码已发送"),
-	NULLTEXTS("短信验证码为空"),
-	ERRORTEXTS("短信验证码不正确"),
-	TRUETEXTS("短信验证通过"),
-	UNKNOWERR("未知错误"),
-	NOTFRIENDID("未选取好友"),
-	FAILADDFRIEND("好友添加失败"),
-	SUCADDFRIEND("好友添加成功"),
-	HAVEFRIENDRELATION("已存在好友关系"),
-	FAILDELFRIEND("好友删除失败"),
-	SUCDELFRIEND("好友删除成功"),
-	HAVEZEROFRIEND("没有好友"),
-	NOHAVEFRIENDRELATION("不存在好友关系");
+	NULLUSER("用户名为空", "00001"),
+	NULLID("ID为空", "00002"),
+	ERRORUSERORPWD("用户名或密码错误", "00003"),
+	FALSECOMPAREPWD("密码不一致", "00004"),
+	CHANGEPWDSUC("密码修改成功", "00005"),
+	CHANGEPWDFAIL("密码修改失败", "00006"),
+	SENDTEXTS("短信验证码已发送", "00007"),
+	NULLTEXTS("短信验证码为空", "00008"),
+	ERRORTEXTS("短信验证码不正确", "00009"),
+	TRUETEXTS("短信验证通过", "00010"),
+	UNKNOWERR("未知错误", "00011"),
+	NOTFRIENDID("未选取好友", "00012"),
+	FAILADDFRIEND("好友添加失败", "00013"),
+	SUCADDFRIEND("好友添加成功", "00014"),
+	HAVEFRIENDRELATION("已存在好友关系", "00015"),
+	FAILDELFRIEND("好友删除失败", "00016"),
+	SUCDELFRIEND("好友删除成功", "00017"),
+	HAVEZEROFRIEND("没有好友", "00018"),
+	NOHAVEFRIENDRELATION("不存在好友关系", "00019"),
+	NOSENDPERSON("消息发送或接收主体不存在", "00020"),
+	NULLGROUPMEMBER("没有组员", "00021"),
+	NULLGROUPNAME("没有组名", "00022");
 	
 	private String name;
+	private String code;
 	
-	private Tips(String name) {
+	private Tips(String name, String code) {
 		this.name = name;
+		this.code = code;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	public String getText() {
+		JSONObject jo = new JSONObject();
+		
+		jo.put("context", getName());
+		jo.put("errorcode", getCode());
+		
+		return jo.toString();
 	}
 	
 }

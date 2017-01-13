@@ -37,7 +37,7 @@ public class UserServiceAction extends BaseAction {
 			jo.put("text", Tips.NULLID.getName());
 			result = jo.toString();
 		} else {
-			result = msgService.getToken(userid);
+			result = userService.getToken(userid);
 		}
 		
 		return result;
@@ -57,7 +57,7 @@ public class UserServiceAction extends BaseAction {
 			jo.put("text", Tips.NULLID.getName());
 			result = jo.toString();
 		} else {
-			result = msgService.refreshUser(userid);
+			result = userService.refreshUser(userid);
 		}
 		
 		return result;
@@ -77,20 +77,20 @@ public class UserServiceAction extends BaseAction {
 			jo.put("text", Tips.NULLID.getName());
 			result = jo.toString();
 		} else {
-			result = msgService.checkOnline(userid);
+			result = userService.checkOnline(userid);
 		}
 		
 		return result;
 	}
 	
-	private UserServiceService msgService;
+	private UserServiceService userService;
 	
 	public UserServiceService getMsgService() {
-		return msgService;
+		return userService;
 	}
 
-	public void setMsgService(UserServiceService msgService) {
-		this.msgService = msgService;
+	public void setMsgService(UserServiceService userService) {
+		this.userService = userService;
 	}
 
 	private String userid;

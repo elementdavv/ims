@@ -60,6 +60,9 @@ public class FriendServiceImpl implements FriendService {
 					jo.put("code", 0);
 					jo.put("text", Tips.HAVEFRIENDRELATION.getName());
 				}
+				
+				//通知融云
+				
 			}
 			
 		} catch (Exception e) {
