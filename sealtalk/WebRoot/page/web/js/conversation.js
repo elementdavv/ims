@@ -181,7 +181,7 @@ function sendMsg(content,targetId,way){
 //发送出去的的信息显示在盒子里
 function sendInBox(msg){
     var sendMsg = msg.content.content;
-    var sHTML = '<li class="mr-chatContentR">'+
+    var sHTML = '<li class="mr-chatContentR clearfix">'+
                     '<div class="mr-ownChat">'+
                         '<span>'+sendMsg+'</span>'+
                         '<i></i>'+

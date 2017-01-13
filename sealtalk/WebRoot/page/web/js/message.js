@@ -180,7 +180,7 @@ $(function(){
                 break;
             case 5:
                 //从消息列表删除
-                //removeConvers('PRIVATE',id);
+                removeConvers('PRIVATE','admin1');
                 break;
         }
     })

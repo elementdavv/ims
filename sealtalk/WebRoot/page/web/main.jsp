@@ -979,9 +979,41 @@
         <%--<b>保存</b>--%>
         <%--
     </div>
-    --%>
-    <%--
-</div>
---%>
+    </div>
+    <iframe src="" frameborder="0" scrolling="no" class="chatHide" id="iqs_iframe" border="none"></iframe>
+    <%--修改头像部分--%>
+    <%--<div class="bMgMask"></div>--%>
+    <%--<div class="bMg-cutPicture">--%>
+        <%--<h5 class="clearfix">--%>
+            <%--<span class="bMg-changPic">修改头像</span>--%>
+            <%--<i class="bMg-closeBtn"></i>--%>
+        <%--</h5>--%>
+        <%--<p class="bMg-selectImg">使用下列所选照片</p>--%>
+        <%--<div class="clearfix">--%>
+            <%--<div class="bMg-changImgSize">--%>
+                <%--<div class="bMg-ImgContainer">--%>
+                    <%--<canvas id="canvas_bg" width="200" height="200"></canvas>--%>
+                    <%--<canvas id="canvas" width="200" height="200"></canvas>--%>
+                    <%--<div class="bMg-rotateDrag clearfix">--%>
+                        <%--<span></span>--%>
+                        <%--<i></i>--%>
+                        <%--<strong></strong>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="bMg-previewImg">--%>
+            <%--<canvas id="big" width="80" height="80" radius="40"></canvas>--%>
+                <%--&lt;%&ndash;<img src="css/img/1.jpg" class="bMg-selImg">&ndash;%&gt;--%>
+                <%--<div class="bMg-gravityImg">--%>
+                    <%--<span >添加</span>--%>
+                    <%--<span>删除</span>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="bMg-button clearfix">--%>
+            <%--<b>取消</b>--%>
+            <%--<b>保存</b>--%>
+         <%--</div>--%>
+    <%--</div>--%>
 </body>
 </html>
