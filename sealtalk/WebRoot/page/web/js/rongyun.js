@@ -44,7 +44,8 @@ $(function(){
                 switch(message.messageType){
                     case RongIMClient.MessageType.TextMessage:
                         // 发送的消息内容将会被打印
-                        console.log(message.content.content);
+                        //console.log('接收到的 信息',message);
+                        reciveInBox(message)
                         break;
                     case RongIMClient.MessageType.VoiceMessage:
                         // 对声音进行预加载
