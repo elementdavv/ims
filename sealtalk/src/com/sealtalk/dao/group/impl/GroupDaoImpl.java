@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
@@ -23,7 +24,9 @@ import com.sealtalk.utils.TimeGenerator;
 public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 
 	@Override
-	public String createGroup(int userId, String groupname) {
+	public int createGroup(int userId, String code, String groupname) {
+		int id = -1;
+		
 		try {
 			TGroup tg = new TGroup();
 			
@@ -39,8 +42,6 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 			spaceUse = spaceUse == -1 ? 0 : spaceUse;
 			annexLong = annexLong == -1 ? 0 : annexLong;
 			
-			String code = "G" + userId + "_" + TimeGenerator.getInstance().getUnixTime();
-			
 			tg.setCreatorId(userId);
 			tg.setCode(code);
 			tg.setName(groupname);
@@ -51,14 +52,17 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 			tg.setSpaceuse(spaceUse);
 			tg.setAnnexlong(annexLong);
 			tg.setNotice("");
-			
+			tg.setListorder(0);
 			save(tg);
-			return code;
+			
+			id = tg.getId();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 		
-		return null;
+		return id;
+		
 	}
 
 	@Override
@@ -75,7 +79,7 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 	}
 
 	@Override
-	public TGroup getGroupForIdAndCode(String userid, String code) {
+	public TGroup getGroupForIdAndCode(int userid, String code) {
 		try {
 			
 			Criteria ctr = getCriteria();
@@ -103,5 +107,47 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public TGroup getGroupForId(int groupId) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("id", groupId));
+			
+			List list = ctr.list();
+			
+			if (list.size() > 0) {
+				return (TGroup) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TGroup> getGroupList(int userId) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("id", userId));
+			
+			List<TGroup> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 
 }

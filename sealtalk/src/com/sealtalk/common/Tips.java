@@ -24,7 +24,10 @@ public enum  Tips {
 	NOHAVEFRIENDRELATION("不存在好友关系", "00019"),
 	NOSENDPERSON("消息发送或接收主体不存在", "00020"),
 	NULLGROUPMEMBER("没有组员", "00021"),
-	NULLGROUPNAME("没有组名", "00022");
+	NULLGROUPNAME("没有组名", "00022"),
+	NOSECGROUP("未选取群组", "00023"),
+	OK("OK", "00024"),
+	FAIL("fail", "00025");
 	
 	private String name;
 	private String code;

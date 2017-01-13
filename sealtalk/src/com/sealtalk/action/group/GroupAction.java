@@ -33,12 +33,14 @@ public class GroupAction extends BaseAction {
 			result = groupService.createGroup(userid, groupids);
 		} else {
 			JSONObject jo = new JSONObject();
-			jo.put("code", 500);
+			jo.put("code", -1);
 			jo.put("text", Tips.UNKNOWERR.getText());
 			result = jo.toString();
 		}
 		
-		return result;
+		returnToClient(result);
+		
+		return "text";
 	}
 	
 	/**
@@ -47,7 +49,20 @@ public class GroupAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String joinGroup() throws ServletException {
-		return null;
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.joinGroup(groupids, groupid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		
+		return "text";
 	}
 	
 	/**
@@ -56,7 +71,20 @@ public class GroupAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String leftGroup() throws ServletException {
-		return null;
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.leftGroup(groupids, groupid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		
+		return "text";
 	}
 	
 	/**
@@ -65,7 +93,8 @@ public class GroupAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String disslovedGroup() throws ServletException {
-		return null;
+		returnToClient("{}");
+		return "text";
 	}
 	
 	/**
@@ -74,7 +103,8 @@ public class GroupAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String refreshGroup() throws ServletException {
-		return null;
+		returnToClient("{}");
+		return "text";
 	}
 	
 	/**
@@ -83,13 +113,41 @@ public class GroupAction extends BaseAction {
 	 * @throws SevletException
 	 */
 	public String listGroupMemebers () throws ServletException {
-		return null;
+		returnToClient("{}");
+		return "text";
+	} 
+	
+	/**
+	 * 转移群
+	 * @return
+	 * @throws ServletException
+	 */
+	public String transferGroup() throws ServletException {
+		returnToClient("{}");
+		return "text";
 	}
 	
+	/**
+	 * 返回群组列表
+	 * @return
+	 * @throws ServletException
+	 */
 	public String groupList() throws ServletException {
 		
-		String grouList = groupService.getGroupList(userid);
-		return null;
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.getGroupList(userid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		
+		return "text";
 	}
 	
 	private GroupService groupService;
@@ -102,9 +160,17 @@ public class GroupAction extends BaseAction {
 		this.groupService = groupService;
 	}
 
-	private String userid;
-	private String groupids;
-	//private String groupname;
+	private String userid;			//自己
+	private String groupids;		//群成员
+	private String groupid;			//群id
+	
+	public String getGroupid() {
+		return groupid;
+	}
+
+	public void setGroupid(String groupid) {
+		this.groupid = groupid;
+	}
 
 	public String getUserid() {
 		return userid;
@@ -122,11 +188,4 @@ public class GroupAction extends BaseAction {
 		this.groupids = groupids;
 	}
 
-/*	public String getGroupname() {
-		return groupname;
-	}
-
-	public void setGroupname(String groupname) {
-		this.groupname = groupname;
-	}*/
 }
