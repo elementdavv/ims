@@ -6,7 +6,7 @@ $(document).ready(function(){
 	$('#zzgly').click(function(){
 		if (curpage != '110' && curmember == '10001') return;
 		if (curpage != '111') showpage('111');
-		var curmember = '10001';
+		curmember = '10001';
 		callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 	});
 	$('.addbranch').click(function(){
@@ -24,9 +24,9 @@ $(document).ready(function(){
 	});
 	
 	callajax("branch!getOrganTree", "", cb_11);
-	callajax("branch!getRole", "", cb_11_1);
-	callajax("branch!getSex", "", cb_11_2);
-	callajax("branch!getPosition", "", cb_11_3);
+	callajax("branch!getRole", "", cb_111_role);
+	callajax("branch!getSex", "", cb_111_sex);
+	callajax("branch!getPosition", "", cb_111_position);
 });
 
 function cb_11(data) {
@@ -57,30 +57,20 @@ var setting11 = {
 			if (treeNode.flag == 2 && curpage != '110' && treeNode.id == curmember) return;
 
 			if (treeNode.flag == 1 && curpage != '110') showpage('110');
-			if (treeNode.flag == 2 && curpage != '111') showpage('111');
+			if (treeNode.flag == 2 && curpage == '110') showpage('111');
 			
 			if (treeNode.flag == 1) {
-				var curbranch = treeNode.id;
+				curbranch = treeNode.id;
 				callajax("branch!getBranchById", {'id': curbranch}, cb_110);
 			}
 
 			if (treeNode.flag == 2) {
-				var curmember = treeNode.id;
+				curmember = treeNode.id;
 				callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 			}
 		}
 	}
 };
-
-function cb_11_1(data) {
-	alert(data);
-}
-function cb_11_2(data) {
-	alert(data);
-}
-function cb_11_3(data) {
-	alert(data);
-}
 
 function addHoverDom(treeId, treeNode) {
 	var aObj = $("#" + treeNode.tId + "_a");

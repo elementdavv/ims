@@ -3,12 +3,13 @@
 <div class="infopanel11" id="111">
 	<div class="info">
 		<div class="infotitle">
-			<div class="title">成员信息</div>
+			<div class="title" id='membertitle'>成员信息</div>
 			<div class="infotab">
 				<div class="infotabi tabactive">基本信息</div>
 				<div class="infotabi"><a href="#" onclick="showpage('112')">所属分支</a></div>
 			</div>
 		</div>
+		<form id='memberform'>
 		<div class="line111">
 			<div class="column1">
 				成员帐号：
@@ -67,6 +68,7 @@
 		<div class="line111" style="height: 240px">成员简介：
 			<textarea id="memberintro" name="memberintro"></textarea>
 		</div>
+		</form>
 		<div class="line111">
 			<button class="toleft">保存</button>
 			<button class="toright">重置密码</button>

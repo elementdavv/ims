@@ -27,12 +27,12 @@
 			<input type="text" id="branchfax" name="branchfax">
 		</div>
 		<div class="line11" style="height: 240px">部门简介：
-			<textarea id="intro" name="branchintro"></textarea>
+			<textarea id="branchintro" name="branchintro"></textarea>
 		</div>
+		</form>
 		<div class="line11">
 			<button id="branchsave">保存</button>
 		</div>
-		</form>
 		<p>&nbsp;</p>
 	</div>
 </div>

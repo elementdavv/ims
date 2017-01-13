@@ -91,31 +91,6 @@ public class BranchAction extends BaseAction {
 		return "text";
 	}
 	
-	/**
-	 * 取得部门+成员数据
-	 * @return
-	 * @throws ServletException
-	 */
-	public String getBranchTreeAndMember() throws ServletException {
-		String result = branchService.getBranchTreeAndMember();
-			
-		returnToClient(result);
-		
-		return "text";
-	}
-	
-	/**
-	 * 取得指定部门的成员
-	 * @return
-	 * @throws ServletException
-	 */
-	public String getBranchMember() throws ServletException {
-		String result = branchService.getBranchMember(branchId);
-		
-		returnToClient(result);
-		return "text";
-	}
-	
 	private BranchService branchService;
 	
 	public BranchService getBranchService() {
@@ -124,16 +99,6 @@ public class BranchAction extends BaseAction {
 
 	public void setBranchService(BranchService branchService) {
 		this.branchService = branchService;
-	}
-	
-	private String branchId;
-
-	public String getBranchId() {
-		return branchId;
-	}
-
-	public void setBranchId(String branchId) {
-		this.branchId = branchId;
 	}
 	
 }

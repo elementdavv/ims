@@ -6,8 +6,8 @@ function loadbranch(data) {
 	$('#branchname').val(data.name);
 	$('#branchmanagerid').val(data.managerId);
 	$('#branchmanager').val(data.manager);
-	$('#branchbranchaddress').val(data.address);
-	$('#branchtelephone').val(data.branchtelephone);
+	$('#branchaddress').val(data.address);
+	$('#branchtelephone').val(data.telephone);
 	$('#branchwebsite').val(data.website);
 	$('#branchfax').val(data.fax);
 	$('#branchintro').val(data.intro);

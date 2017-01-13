@@ -390,4 +390,16 @@ public class BaseDao<T, PK extends Serializable> extends HibernateDaoSupport imp
      public T mergeObj(T obj){
          return (T)this.getSession().merge(obj);
      }
+
+
+
+ 	/*
+ 	 * shorcut util
+ 	 * by alopex 2017.1.13
+ 	 */
+ 	protected List runSql(String sql) {
+ 		
+ 		return this.getSession().createSQLQuery(sql).list();
+ 		
+ 	}
 }

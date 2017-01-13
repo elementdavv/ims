@@ -35,18 +35,10 @@ public interface BranchDao extends IBaseDao<TBranch, Integer> {
 	public List getRole();
 	public List getSex();
 	public List getPosition();
-	
-	/**
-	 * 取部门关系树与成员信息
-	 * @return
-	 */
-	public List getBrancTreeAndMember();
 
-	/**
-	 * 获取指定部门的成员
-	 * @param branchId
-	 * @return
+	/*
+	 * 取人员所在部门
 	 */
-	public List getBranchMember(String branchId);
+	public List getBranchMember(Integer memberId);
 	
 }

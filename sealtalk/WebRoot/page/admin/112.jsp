@@ -21,7 +21,7 @@
 						<th width="20%">操作</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id='branchmember'>
 					<tr>
 						<td>主要职能</td>
 						<td>上海天坊信息科技公司</td>
@@ -29,7 +29,7 @@
 						<td><button>编辑</button><button>删除</button></td>
 					</tr>
 					<tr>
-						<td><button class="btnadmin">设为主要</button></td>
+						<td><button>设为主要</button></td>
 						<td>上海一特科技网络有限公司</td>
 						<td>高级程序员</td>
 						<td><button>编辑</button><button>删除</button></td>

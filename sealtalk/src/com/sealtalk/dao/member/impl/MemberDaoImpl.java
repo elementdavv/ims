@@ -3,6 +3,7 @@ package com.sealtalk.dao.member.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
@@ -18,6 +19,32 @@ import com.sealtalk.utils.TimeGenerator;
  * @since jdk1.7
  */
 public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDao {
+
+	@Override
+	public List getMemberPosition(Integer memberId) {
+
+		String sql = "select position_id from t_branch_member"
+				+ " where member_id = " + memberId 
+				+ " order by is_master desc";
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
+
+	@Override
+	public List getMemberRole(Integer memberId) {
+
+		String sql = "select role_id from t_member_role"
+				+ " where member_id = " + memberId;
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
+
 
 	@SuppressWarnings("unchecked")
 	@Override
