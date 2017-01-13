@@ -432,6 +432,7 @@
 }
 .mr-chatContent li{
     margin-bottom:18px;
+    overflow: hidden;
 }
 .mr-chatBox{
     background: #fff;
@@ -463,6 +464,7 @@
     height:12px;
 }
 .mr-ownChat{
+   float:right;
     position: relative;
     background: rgb(245,245,245);
     border:1px solid rgb(204,204,204);
