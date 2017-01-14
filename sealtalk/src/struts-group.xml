@@ -5,7 +5,7 @@
 
 <struts>
 
-    <package name="com.sealtalk.action.group" extends="struts-default">
+    <package name="com.sealtalk.action.group" extends="ssl-default">
         <action name="group" class="com.sealtalk.action.group.GroupAction">
 			<result name="text" type="stream">
 				<param name="contentType">text/plain</param>

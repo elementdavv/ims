@@ -251,12 +251,6 @@ public class GroupServiceImpl implements GroupService {
 		
 		return jo.toString();
 	}
-	
-	@Override
-	public String disslovedGroup() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String refreshGroup() {
@@ -268,6 +262,30 @@ public class GroupServiceImpl implements GroupService {
 	public String listGroupMemebers() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public String dissLovedGroup(String userId, String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (userIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getText());
+			} else if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else {
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
 	}
 	
 	@Override
@@ -288,7 +306,7 @@ public class GroupServiceImpl implements GroupService {
 					
 					for(int i = 0; i < groupList.size(); i++) {
 						JSONObject t = JSONUtils.getInstance().modelToJSONObj(groupList.get(i));
-						ja.add(ja);
+						ja.add(t);
 					}
 					
 					jo.put("code", 1);

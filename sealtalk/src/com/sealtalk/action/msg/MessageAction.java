@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
+import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.common.Tips;
 import com.sealtalk.service.msg.MessageService;
@@ -18,6 +19,7 @@ import com.sealtalk.utils.StringUtils;
  * @since jdk1.7
  * @date 2017/01/12
  */
+@Secured
 public class MessageAction extends BaseAction {
 
 	private static final long serialVersionUID = -1948853366651740073L;

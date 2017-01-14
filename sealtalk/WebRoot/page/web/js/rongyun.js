@@ -16,7 +16,7 @@ $(function(){
                     case RongIMLib.ConnectionStatus.CONNECTED:
                         console.log('链接成功');
                         //显示会话列表
-                        showConverList();
+                        getConverList()
                         break;
                     //正在链接
                     case RongIMLib.ConnectionStatus.CONNECTING:
@@ -46,7 +46,7 @@ $(function(){
                     case RongIMClient.MessageType.TextMessage:
                         // 发送的消息内容将会被打印
                         //console.log('接收到的 信息',message);
-                        reciveInBox(message)
+                        reciveInBox(message);
                         break;
                     case RongIMClient.MessageType.VoiceMessage:
                         // 对声音进行预加载

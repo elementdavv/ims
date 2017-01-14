@@ -30,7 +30,6 @@ public interface GroupService {
 	 * @return
 	 */
 	public String leftGroup(String groupids, String groupid);
-	public String disslovedGroup();
 	public String refreshGroup();
 	public String listGroupMemebers();
 	
@@ -40,4 +39,12 @@ public interface GroupService {
 	 * @return
 	 */
 	public String getGroupList(String userid);
+
+	/**
+	 * 解散群组
+	 * @param userid
+	 * @param groupid
+	 * @return
+	 */
+	public String dissLovedGroup(String userid, String groupid);
 }

@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
+import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.common.Tips;
 import com.sealtalk.service.group.GroupService;
@@ -16,6 +17,7 @@ import com.sealtalk.service.group.GroupService;
  * @since jdk1.7
  * @date 2017/01/07
  */
+@Secured
 public class GroupAction extends BaseAction {
 
 	private static final long serialVersionUID = 5512359170256277370L;
@@ -93,6 +95,18 @@ public class GroupAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String disslovedGroup() throws ServletException {
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.dissLovedGroup(userid, groupid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
 		returnToClient("{}");
 		return "text";
 	}

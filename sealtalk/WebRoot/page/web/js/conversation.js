@@ -6,9 +6,49 @@ $(function(){
 
 })
 
-function conversationSelf(targetID,targetType){//群聊页面显示
+function conversationGroup(targetID,targetType,groupName){
+    $('.perSetBox-title span').html(groupName);
+    $('.mesContainerGroup').attr('targetID',targetID)
+    $('.mesContainerGroup').attr('targetType',targetType)
+
+
+    $('.rongyun-emoji>span').on('click',function(){
+        var name = $(this).find('span').attr('name');
+        //var newEmo = $(this).clone();
+        $('.textarea').append(name);
+    })
+    $('.showEmoji').click(function(){
+        $('.rongyun-emoji').show();
+    });
+    $('.sendMsgBTN').unbind('click')
+    $('.sendMsgBTN').click(function(){
+        var content = $(this).prev().val();
+        var targetId = $('.mesContainerGroup').attr('targetID');
+        var targetType = $('.mesContainerGroup').attr('targetType');
+        //if()
+        sendMsg(content,targetId,targetType)
+    })
+    //$('.orgNavClick').addClass('chatHide');
+    //$('.mesContainerGroup').removeClass('chatHide');
+    $('.mr-record').addClass('active');
+    $('.mesContainerGroup').removeClass('mesContainer-translateL');
+    //获取右侧的联系人资料聊天记录
+    getInfoDetails();
+    //console.log(targetID);
+    //console.log(findMemberInList(targetID));
+    //findMemberInList(targetID)
+    clearNoReadMsg(targetType,targetID)
+    getConverList();
+}
+
+
+function conversationSelf(targetID,targetType){//聊天室页面显示
     //var target = targetID;
     //噗页面 把targetID放进去
+    var curTargetList = findMemberInList(targetID);
+    var name = curTargetList.name;
+    $('.perSetBox-title span').html(name);
+
     $('.mesContainerSelf').attr('targetID',targetID)
     $('.mesContainerSelf').attr('targetType',targetType)
 
@@ -37,10 +77,10 @@ function conversationSelf(targetID,targetType){//群聊页面显示
     $('.mesContainerSelf').removeClass('chatHide');
     $('.mr-record').addClass('active');
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
-    console.log(targetID);
-    console.log(findMemberInList(targetID));
-    getInfoDetails(targetID,targetType,findMemberInList(targetID));
-    //findMemberInList(targetID)
+    //获取右侧的联系人资料聊天记录
+    getInfoDetails();
+    clearNoReadMsg(targetType,targetID)
+    getConverList();
 }
 function getInfoDetails(argetID,targetType,oInfoDetails){
     getPerInfo(oInfoDetails);
@@ -170,7 +210,7 @@ function historyMsg(Type,targetId,timestrap,count,$eDom){
 }
 
 //显示会话列表
-function showConverList(){
+function getConverList(){
     RongIMClient.getInstance().getConversationList({
         onSuccess: function(list) {
             usualChatList(list);
@@ -243,10 +283,11 @@ function usualChatList(list){
         var logo = member.logo;
         var name = member.name;
         var unreadMessageCount = curList.unreadMessageCount;
+        var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
 
         sHTML += ' <li targetid="'+targetId+'">'+
         '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
-        '<i class="notReadMsg">'+unreadMessageCount+'</i>'+
+        sNum+
         '<span class="groupName">'+name+'</span>'+
         '<span class="usualLastMsg">'+content+'</span>'+
         '<span class="lastTime">'+lastTime+'</span>'+
@@ -271,6 +312,7 @@ function sendMsg(content,targetId,way){
             onSuccess: function (message) {
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
                 sendInBox(message);
+                getConverList();
                 console.log("Send successfully");
             },
             onError: function (errorCode,message) {
@@ -307,7 +349,7 @@ function sendMsg(content,targetId,way){
 //发送出去的的信息显示在盒子里
 function sendInBox(msg){
     var sendMsg = msg.content.content;
-    var sHTML = '<li class="mr-chatContentR clearfix">'+
+    var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
                     '<div class="mr-ownChat">'+
                         '<span>'+sendMsg+'</span>'+
                         '<i></i>'+
@@ -328,19 +370,86 @@ function reciveInBox(msg){
     if(!$MesContainerSelf.hasClass('chatHide')||$MesContainerSelf.attr('targetID')==targetID){
         //在盒子里显示
         //头像需要自己找？、？
-        var sHTML = '<li class="mr-chatContentL clearfix">'+
+        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentL clearfix">'+
                         '<img src="page/web/css/img/1.jpg">'+
                         '<div class="mr-chatBox">'+
                             '<span>'+content+'</span>'+
                             '<i></i>'+
                         '</div>'+
                     '</li>';
-        var parentNode = $('.mesContainerSelf[targetid='+targetID+']').find('.mr-chatContent');
+        var parentNode = $('.mesContainer').find('.mr-chatContent');
         parentNode.append($(sHTML));
+        //clearNoReadMsg($('.mesContainer').attr('targettype'),targetID);
+        //msgReaded(msg.messageUId,msg.sentTime,$('.mesContainer').attr('targettype'));
 
     }else{
         //消息列表里显示红色小圆圈
-
-
+        //刷新消息列表
+        getConverList();
     }
+}
+
+
+
+//已读通知消息
+
+function msgReaded(messageUId,lastMessageSendTime,converseType){
+    //var messageUId = "消息唯一 Id";
+    //var lastMessageSendTime = "最后一条消息的发送时间";
+    var type = "1";// 备用，默认赋值 1 即可。
+    // 以上 3 个属性在会话的最后一条消息中可以获得。
+    var msg = new RongIMLib.ReadReceiptMessage({ messageUId: messageUId, lastMessageSendTime: lastMessageSendTime, type: type });
+    //var conversationtype = RongIMLib.ConversationType[converseType]; // 私聊,其他会话选择相应的消息类型即可。
+    //var targetId = "xxx"; // 目标 Id
+    //RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+    //        onSuccess: function (message) {
+    //            //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+    //            console.log("Send successfully");
+    //        },
+    //        onError: function (errorCode,message) {
+    //            var info = '';
+    //            switch (errorCode) {
+    //                case RongIMLib.ErrorCode.TIMEOUT:
+    //                    info = '超时';
+    //                    break;
+    //                case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+    //                    info = '未知错误';
+    //                    break;
+    //                case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+    //                    info = '在黑名单中，无法向对方发送消息';
+    //                    break;
+    //                case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+    //                    info = '不在讨论组中';
+    //                    break;
+    //                case RongIMLib.ErrorCode.NOT_IN_GROUP:
+    //                    info = '不在群组中';
+    //                    break;
+    //                case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+    //                    info = '不在聊天室中';
+    //                    break;
+    //                default :
+    //                    info = x;
+    //                    break;
+    //            }
+    //            console.log('发送失败:' + info);
+    //        }
+    //    }
+    //);
+}
+
+
+
+//清除未读消息数
+
+function clearNoReadMsg(Type,targetId){
+    var conversationType = RongIMLib.ConversationType[Type];
+    //var targetId = "xxx";
+    RongIMClient.getInstance().clearUnreadCount(conversationType,targetId,{
+        onSuccess:function(){
+            // 清除未读消息成功。
+        },
+        onError:function(error){
+            // error => 清除未读消息数错误码。
+        }
+    });
 }
