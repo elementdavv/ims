@@ -3,13 +3,12 @@
  */
 $(function(){
     RongIMClient.init("e5t4ouvpe564a");
+    //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
     var sAccount = localStorage.getItem('account');
     if(sAccount){
         var oAccount = JSON.parse(sAccount);
         var token = oAccount.token;
         console.log(token);
-
-
         RongIMClient.setConnectionStatusListener({
             onChanged: function (status) {
                 switch (status) {
