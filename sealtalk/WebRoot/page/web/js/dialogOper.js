@@ -2,21 +2,16 @@
  * Created by zhu_jq on 2017/1/9.
  */
 $(function(){
-
-
-
-
     window.converseACount = [];
-
 
     $('.selectedList').delegate('.deleteMemberIcon','click',function(){
         var name = $(this).prev().html();
         var curObj = delObjFromArr(converseACount,'name',name);
         changeSelected(converseACount);
+        changeSelected(converseACount);
         var account = curObj.account;
         $('li[account='+account+']').find('.dialogCheckBox').click();
     })
-
 
     //弹窗中的树形结构的收起展开
     $('.conversWindow').delegate('.dialogCollspan','click',function(){
@@ -72,7 +67,6 @@ $(function(){
                 }
             }
         }
-        console.log(converseACount);
         changeSelected(converseACount);
     })
 

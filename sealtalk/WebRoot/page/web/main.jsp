@@ -18,7 +18,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/window.js"></script>
-    <script src="<%=request.getContextreciveInBoxPath() %>/page/web/js/seeOrgnizeTree.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/backstageMg.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/Class.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
@@ -26,7 +26,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
-    <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>--%>
 
     <%--
     <script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>
@@ -517,7 +517,7 @@
             </div>
         </div>
         <!--群组消息记录-->
-        <div class="mesContainerGroup mesContainer orgNavClick chatHide" style="margin-right:341px;">
+        <div class="mesContainerGroup mesContainer orgNavClick chatHide">
             <h3 class="perSetBox-title clearfix">
                 <span>张三</span>
 

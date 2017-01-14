@@ -15,12 +15,6 @@ $(function(){
         event.preventDefault();
         return false;
     });
-
-    //document.oncontextmenu = function(){
-    //
-    //    return false;
-    //};
-
     $('.organizationList').delegate('ul li .groupCollspan','click',function(e){
         //按钮样式
         var $groupCollspanO = $(this)
@@ -35,9 +29,6 @@ $(function(){
         //内容显示隐藏
         $(this).closest('li').next('ul').slideToggle();
     })
-
-
-
 
     /*顶部&&左侧导航切换*/
     $('.chatHeaderMenu,.chatMenu').click(function (e) {
@@ -58,9 +49,6 @@ $(function(){
         }
         nShowClass&&showPanel(nShowClass);
     })
-
-
-
 
     /*展开关闭子级列表*/
     $('.listCtrl').click(function(){
@@ -102,6 +90,8 @@ function fshowContexMenu(arr,style,id,memShip){
     $('body').append($(sHTML));
     return false;
 }
+
+
 function showPanel(panelClass){
     var eShowNode = $("."+panelClass);
     if(eShowNode){
