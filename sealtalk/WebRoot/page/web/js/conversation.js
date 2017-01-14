@@ -11,7 +11,6 @@ function conversationGroup(targetID,targetType,groupName){
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
 
-
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
         //var newEmo = $(this).clone();
@@ -49,8 +48,8 @@ function conversationSelf(targetID,targetType){//聊天室页面显示
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
 
-    $('.mesContainerSelf').attr('targetID',targetID)
-    $('.mesContainerSelf').attr('targetType',targetType)
+    $('.mesContainerSelf').attr('targetID',targetID);
+    $('.mesContainerSelf').attr('targetType',targetType);
 
 
     //$('.rongyun-emoji span').off('click');
@@ -148,15 +147,16 @@ function getChatRecord(aList,hasMsg){
     var aDate=[];
     if(aInfo.length>0){
         for(var i=0;i<aInfo.length;i++){
-            var sTargetId=aInfo[aInfo.length-1-i].targetId;
-            var sSentTime=aInfo[aInfo.length-1-i].sentTime;//发送时间
-            var sContent=aInfo[aInfo.length-1-i].content.content||'';
+            var sTargetId=aInfo[i].targetId;
+            var sSentTime=aInfo[i].sentTime;//发送时间
+            var sContent=aInfo[i].content.content||'';
+            var sMessageId=aInfo[i].messageId;//信息id
             var sSentTimeReg=changeTimeFormat(sSentTime);
             var sSentDate=changeTimeFormatYMD(sSentTime);
             aDate.push(sSentDate);
             if(aDate.length>1){
                 if(aDate[aDate.length-1] != aDate[aDate.length-2]){
-                    sLi+='<li>\
+                    sLi+='<li >\
                     <p class="infoDet-timeRecord">'+aDate[aDate.length-2]+'</p>\
                 </li>';
                 }
@@ -169,13 +169,13 @@ function getChatRecord(aList,hasMsg){
             if(sTargetId){
                var oThers=findMemberInList(sTargetId);
                 var sName=oThers.name || '';
-               sLi+='<li class="infoDet-OthersSay">\
+               sLi+='<li class="infoDet-OthersSay" data-time="'+sSentTime+'">\
                    <span>'+sName+'&nbsp&nbsp&nbsp'+sSentTimeReg+'</span>\
                 <p>'+sContent+'</p>\
                 </li>';
             }else{
                 var sSelfName=$('.perSetBox-title span').html();
-                sLi+='<li class="infoDet-selfSay">\
+                sLi+='<li class="infoDet-selfSay" data-time="'+sSentTime+'">\
                    <span>'+sSelfName+'&nbsp&nbsp&nbsp'+sSentTimeReg+'</span>\
                 <p>'+sContent+'</p>\
                 </li>';

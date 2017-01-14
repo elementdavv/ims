@@ -56,13 +56,14 @@ $(document).ready(function(){
             timestrap=0;
         }else if($(this).hasClass('infoDet-prePage')){
             timestrap=null;
-            $('.infoDet-firstPage').addClass('allowClick');
+            $('.infoDet-nextPage').addClass('allowClick');
             $('.infoDet-pageQuery').addClass('allowClick');
         }else if($(this).hasClass('infoDet-firstPage')){
             $('.infoDet-prePage').removeClass('allowClick');
             $('.infoDet-firstPage').removeClass('allowClick');
-        }else if($(this).hasClass('infoDet-prePage')){
-
+        }else if($(this).hasClass('infoDet-nextPage')){
+            //timestrap=null;
+            //timestrap=JSON.parse($('.infoDet-contentDet').find('li').last().attr('data-time'));
         }
         if($(this).hasClass('allowClick')){
             historyMsg(sTargettype,sTargetid,timestrap,20,$(this));
