@@ -33,11 +33,11 @@ function conversationGroup(targetID,targetType,groupName){
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
-    getInfoDetails();
+    //getInfoDetails();
     //console.log(targetID);
     //console.log(findMemberInList(targetID));
     //findMemberInList(targetID)
-    clearNoReadMsg(targetType,targetID)
+    clearNoReadMsg(targetType,targetID);
     getConverList();
 }
 
@@ -78,8 +78,8 @@ function conversationSelf(targetID,targetType){//聊天室页面显示
     $('.mr-record').addClass('active');
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
-    getInfoDetails();
-    clearNoReadMsg(targetType,targetID)
+    getInfoDetails(targetID,targetType,findMemberInList(targetID));
+    clearNoReadMsg(targetType,targetID);
     getConverList();
 }
 function getInfoDetails(argetID,targetType,oInfoDetails){
