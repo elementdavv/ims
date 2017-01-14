@@ -26,7 +26,6 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
-
     <%--
     <script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>
     --%>
@@ -562,9 +561,9 @@
         <!--个人资料-->
         <div class="orgNavClick personalData  chatHide" id="personalData">
             <ul class="infoDetails clearfix" id="perInfo">
-                <li class="active">资料</li>
-                <li>聊天记录</li>
-                <li>聊天文件</li>
+                <li class="active" data-type="d">资料</li>
+                <li data-type="r">聊天记录</li>
+                <li data-type="f">聊天文件</li>
             </ul>
             <div class="infoDetailsBox" id="infoDetailsBox">
                 <div class="infoDetails-data active">

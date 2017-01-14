@@ -30,9 +30,10 @@ $(function(){
         var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
         var id =  $(this).closest('li').attr('id');
         if(bPrivate){//创建个人的聊天页面
+            var account =  $(this).closest('li').attr('account');
             $('.dialogCheckBox').removeClass('CheckBoxChecked');
             $(this).addClass('CheckBoxChecked');
-            converseACount.push(id);
+            converseACount.push(account);
         }else{//创建群组的聊天
 
             //首先自己的选中状态
