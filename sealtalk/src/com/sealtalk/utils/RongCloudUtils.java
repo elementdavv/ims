@@ -270,5 +270,24 @@ public class RongCloudUtils {
 		return result;
 	}
 	
+	public String dissLoveGroup(String userId, String groupId) {
+		String result = null;
+		
+		try {
+			if (!StringUtils.getInstance().isBlank(userId) &&
+					!StringUtils.getInstance().isBlank(groupId)) {
+				CodeSuccessReslut groupDismissResult = rongCloud.group.dismiss(userId, groupId);
+				
+				if (groupDismissResult != null) {
+					result = groupDismissResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 
 }

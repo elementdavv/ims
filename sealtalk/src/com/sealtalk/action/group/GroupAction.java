@@ -98,7 +98,7 @@ public class GroupAction extends BaseAction {
 		String result = null;
 		
 		if (groupService != null) {
-			result = groupService.leftGroup(groupids, groupid);
+			result = groupService.dissLovedGroup(userid, groupid);
 		} else {
 			JSONObject jo = new JSONObject();
 			jo.put("code", -1);
