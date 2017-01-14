@@ -20,6 +20,7 @@ public class SpiltTest {
 		//handlePath = handlePath.substring(0, handlePath.length() - 1);
 		System.out.println(handlePath);
 	}
+	
 	private void jsonSplit() {
 		String jsonArray[];
 		String json = "[{id:0,'children':[{text:'系统维护',leaf:false},{text:'学员管理系统',leaf:false}]}]";

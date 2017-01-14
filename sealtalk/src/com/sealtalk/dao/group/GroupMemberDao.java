@@ -3,6 +3,7 @@ package com.sealtalk.dao.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sealtalk.model.TGroup;
 import com.sealtalk.model.TGroupMember;
 
 /**
@@ -25,5 +26,12 @@ public interface GroupMemberDao {
 	 * @return
 	 */
 	public List<TGroupMember> getTGroupMemberList(int groupId);
+
+	/**
+	 * 退出群组
+	 * @param userIdsInt
+	 * @param groupIdInt
+	 */
+	public void removeGroupMemeber(Integer[] userIdsInt, int groupIdInt);
 
 }

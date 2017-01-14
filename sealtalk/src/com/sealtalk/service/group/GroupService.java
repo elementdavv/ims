@@ -14,8 +14,22 @@ public interface GroupService {
 	 * @return
 	 */
 	public String createGroup(String userid, String groupids);
-	public String joinGroup();
-	public String leftGroup();
+	
+	/**
+	 * 加入群组
+	 * @param groupids
+	 * @param groupid
+	 * @return
+	 */
+	public String joinGroup(String groupids, String groupid);
+	
+	/**
+	 * 退出群
+	 * @param groupids
+	 * @param groupid
+	 * @return
+	 */
+	public String leftGroup(String groupids, String groupid);
 	public String disslovedGroup();
 	public String refreshGroup();
 	public String listGroupMemebers();

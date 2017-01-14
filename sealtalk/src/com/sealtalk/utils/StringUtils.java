@@ -31,6 +31,8 @@ public class StringUtils {
 	}
 	
 	public int strToInt(String str) {
+		str = str.replace("\"", "");
+		
 		if(isNumeric(str)) {
 			return Integer.parseInt(str);
 		} else {
@@ -45,5 +47,49 @@ public class StringUtils {
 	       return false; 
 	   } 
 	   return true; 
+	}
+	
+	public boolean isStartChar(String str, String seper) {
+		return str.startsWith(seper);
+	}
+	
+	public boolean isEndChar(String str, String seper) {
+		return str.endsWith(seper);
+	}
+
+	public String subString(String str, int start, int end) {
+		return str.substring(start, end);
+	}
+	
+	
+	public String[] stringSplit(String str, String seper) {
+		if (isBlank(str)) {
+			if (isStartChar(str, seper)) {
+				str = subString(str, 1, str.length());
+			} 
+			if (isEndChar(str, seper)) {
+				str = subString(str, 0, str.length() - 1);
+			}
+			
+			return str.split(seper);
+		}
+		
+		return null;
+	}
+	
+	public Integer[] stringArrToIntArr(String[] str) {
+		
+		if (!isArrayBlank(str)) {
+			Integer [] tempIds = new Integer[str.length];
+			
+			for(int i = 0; i < str.length; i++) {
+				tempIds[i] = strToInt(str[i]);	
+			}
+			
+			return tempIds;
+		}
+		
+		return null;
+		
 	}
 }
