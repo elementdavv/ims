@@ -209,12 +209,61 @@ function reciveInBox(msg){
                             '<i></i>'+
                         '</div>'+
                     '</li>';
-        var parentNode = $('.mesContainerSelf').find('.mr-chatContent');
+        var parentNode = $('.mesContainer').find('.mr-chatContent');
         parentNode.append($(sHTML));
+        msgReaded(msg.messageUId,msg.sentTime,$('.mesContainer').attr('targettype'));
 
     }else{
         //消息列表里显示红色小圆圈
 
 
     }
+}
+
+
+
+//已读通知消息
+
+function msgReaded(messageUId,lastMessageSendTime,converseType){
+    //var messageUId = "消息唯一 Id";
+    //var lastMessageSendTime = "最后一条消息的发送时间";
+    var type = "1";// 备用，默认赋值 1 即可。
+    // 以上 3 个属性在会话的最后一条消息中可以获得。
+    var msg = new RongIMLib.ReadReceiptMessage({ messageUId: messageUId, lastMessageSendTime: lastMessageSendTime, type: type });
+    //var conversationtype = RongIMLib.ConversationType[converseType]; // 私聊,其他会话选择相应的消息类型即可。
+    //var targetId = "xxx"; // 目标 Id
+    //RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+    //        onSuccess: function (message) {
+    //            //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+    //            console.log("Send successfully");
+    //        },
+    //        onError: function (errorCode,message) {
+    //            var info = '';
+    //            switch (errorCode) {
+    //                case RongIMLib.ErrorCode.TIMEOUT:
+    //                    info = '超时';
+    //                    break;
+    //                case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+    //                    info = '未知错误';
+    //                    break;
+    //                case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+    //                    info = '在黑名单中，无法向对方发送消息';
+    //                    break;
+    //                case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+    //                    info = '不在讨论组中';
+    //                    break;
+    //                case RongIMLib.ErrorCode.NOT_IN_GROUP:
+    //                    info = '不在群组中';
+    //                    break;
+    //                case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+    //                    info = '不在聊天室中';
+    //                    break;
+    //                default :
+    //                    info = x;
+    //                    break;
+    //            }
+    //            console.log('发送失败:' + info);
+    //        }
+    //    }
+    //);
 }
