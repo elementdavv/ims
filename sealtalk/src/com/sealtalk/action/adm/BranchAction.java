@@ -6,6 +6,7 @@ package com.sealtalk.action.adm;
 
 import javax.servlet.ServletException;
 
+import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.service.adm.BranchService;
 
@@ -13,6 +14,7 @@ import com.sealtalk.service.adm.BranchService;
  * @author alopex
  *
  */
+@Secured
 public class BranchAction extends BaseAction {
 
 	/**
