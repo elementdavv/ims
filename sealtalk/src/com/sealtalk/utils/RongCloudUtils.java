@@ -225,7 +225,6 @@ public class RongCloudUtils {
 	 * @return
 	 */
 	public String joinGroup(String[] userIds, String groupId, String groupName) {
-		JSONObject jo = new JSONObject();
 		String result = null;
 		
 		try {
@@ -237,6 +236,50 @@ public class RongCloudUtils {
 				
 				if (groupJoinResult != null) {
 					result = groupJoinResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 退出群
+	 * @param userId
+	 * @param groupId
+	 * @return
+	 */
+	public String leftGroup(String[] userIds, String groupId) {
+		String result = null;
+		
+		try {
+			if (!StringUtils.getInstance().isArrayBlank(userIds) &&
+					!StringUtils.getInstance().isBlank(groupId)) {
+				CodeSuccessReslut groupQuitResult = rongCloud.group.quit(userIds, groupId);
+				
+				if (groupQuitResult != null) {
+					result = groupQuitResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public String dissLoveGroup(String userId, String groupId) {
+		String result = null;
+		
+		try {
+			if (!StringUtils.getInstance().isBlank(userId) &&
+					!StringUtils.getInstance().isBlank(groupId)) {
+				CodeSuccessReslut groupDismissResult = rongCloud.group.dismiss(userId, groupId);
+				
+				if (groupDismissResult != null) {
+					result = groupDismissResult.getCode().toString();
 				}
 			}
 		} catch (Exception e) {

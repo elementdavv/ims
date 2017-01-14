@@ -2,6 +2,8 @@ package com.sealtalk.service.friend.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -12,6 +14,7 @@ import com.sealtalk.model.TFriend;
 import com.sealtalk.model.TMember;
 import com.sealtalk.service.friend.FriendService;
 import com.sealtalk.utils.JSONUtils;
+import com.sealtalk.utils.RongCloudUtils;
 
 /**
  * 好友关系
@@ -20,10 +23,15 @@ import com.sealtalk.utils.JSONUtils;
  */
 public class FriendServiceImpl implements FriendService {
 
+	private static final Logger logger = Logger.getLogger(FriendServiceImpl.class);
+	
 	@Override
 	public String addFriend(String account, String friend) {
 		
 		JSONObject jo = new JSONObject();
+		
+		System.out.println("account: " + account);
+		System.out.println("friend: " + friend);
 		
 		try {
 			//检查好友及用户是否存在
@@ -32,7 +40,7 @@ public class FriendServiceImpl implements FriendService {
 			
 			if (memberList == null || memberList.size() != 2) {
 				jo.put("code", -1);
-				jo.put("text", Tips.FAILADDFRIEND.getName());
+				jo.put("text", Tips.FAILADDFRIEND.getText());
 			} else {
 				int accountId = 0;
 				int friendId = 0;
@@ -61,8 +69,9 @@ public class FriendServiceImpl implements FriendService {
 					jo.put("text", Tips.HAVEFRIENDRELATION.getName());
 				}
 				
+				String[] targetIds = {friendId+""};
 				//通知融云
-				
+				RongCloudUtils.getInstance().sendSysMsg(accountId+"", targetIds, "", "");
 			}
 			
 		} catch (Exception e) {
@@ -123,6 +132,8 @@ public class FriendServiceImpl implements FriendService {
 		boolean status = true;
 		String result = null;
 		
+		logger.info(account);
+		
 		try {
 			TMember tm = memberDao.getOneOfMember(account);
 			if (tm == null) {
@@ -132,11 +143,10 @@ public class FriendServiceImpl implements FriendService {
 				
 				List<TFriend> friendList = friendDao.getFriendRelationForId(id);
 				
-				int len = friendList.size();
-				
 				if (friendList == null) {
 					status = false;
 				} else {
+					int len = friendList.size();
 					Integer[] accounts = new Integer[len];
 					
 					for(int i = 0; i < len; i++) {
@@ -144,24 +154,29 @@ public class FriendServiceImpl implements FriendService {
 					}
 					
 					List<TMember> memberList = memberDao.getMultipleMemberForIds(accounts);
-					int memberLen = memberList.size();
 					
-					if (memberList == null) {
-						status = false;
-					} else {
-						JSONArray ja = new JSONArray();
+					if (memberList != null) {
+						int memberLen = memberList.size();
 						
-						for(int i = 0; i < memberLen; i++) {
-							TMember tms = memberList.get(i);
-							JSONObject text = JSONUtils.getInstance().modelToJSONObj(tms);
-							if (i == 0) {
-								text.put("code", 1);
-								text.put("text", "ok");
+						if (memberList == null) {
+							status = false;
+						} else {
+							JSONArray ja = new JSONArray();
+							
+							for(int i = 0; i < memberLen; i++) {
+								TMember tms = memberList.get(i);
+								JSONObject text = JSONUtils.getInstance().modelToJSONObj(tms);
+								if (i == 0) {
+									text.put("code", 1);
+									text.put("text", "ok");
+								}
+								ja.add(text);
 							}
-							ja.add(text);
+							
+							result = ja.toString();
 						}
-						
-						result = ja.toString();
+					} else {
+						status = false;
 					}
 				}
 			}

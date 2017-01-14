@@ -204,8 +204,8 @@ $(function(){
                 break;
         }
     })
-    $('.usualChatList').delegate('li','mousedown',function(e){
-    })
+    //$('.usualChatList').delegate('li','mousedown',function(e){
+    //})
     //右键常用联系人
     $('.usualChatList').delegate('li','click',function(e){
         $('.myContextMenu').remove();

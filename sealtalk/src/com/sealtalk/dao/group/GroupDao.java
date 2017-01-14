@@ -17,10 +17,10 @@ public interface GroupDao {
 	/**
 	 * 创建群组
 	 * @param userid
-	 * @param groupIdsArr
+	 * @param tempIds
 	 * @param groupname
 	 */
-	public String createGroup(int userid, String groupname);
+	public int createGroup(int userid, String code, String groupname);
 	
 	/**
 	 * 获取群组数量
@@ -34,12 +34,25 @@ public interface GroupDao {
 	 * @param code
 	 * @return
 	 */
-	public TGroup getGroupForIdAndCode(String userid, String code);
+	public TGroup getGroupForIdAndCode(int userid, String code);
 
 	/**
 	 * 删除群组
 	 * @param groupId
 	 */
 	public void removeGroup(TGroup tg);
+
+	/**
+	 * 按id查找群组
+	 * @param groupId
+	 * @return
+	 */
+	public TGroup getGroupForId(int groupId);
+	
+	/**
+	 * 获取群列表
+	 * @param userIdInt
+	 */
+	public List<TGroup> getGroupList(int userIdInt);
 
 }

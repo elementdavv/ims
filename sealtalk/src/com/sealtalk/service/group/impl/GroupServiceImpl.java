@@ -3,7 +3,10 @@ package com.sealtalk.service.group.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
 
 import com.sealtalk.common.Tips;
 import com.sealtalk.dao.group.GroupDao;
@@ -16,78 +19,97 @@ import com.sealtalk.service.group.GroupService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.RongCloudUtils;
 import com.sealtalk.utils.StringUtils;
+import com.sealtalk.utils.TimeGenerator;
 
 public class GroupServiceImpl implements GroupService {
 
+	private static final Logger logger = Logger.getLogger(GroupServiceImpl.class);
+	
 	@Override
-	public String createGroup(String userId, String groupIds) {
+	public String createGroup(String userId, String groupIds){
 		JSONObject jo = new JSONObject();
 		String result = null;
 		
+		boolean status = true;
+		
 		try {
-			if (StringUtils.getInstance().isBlank(userId)) {
+			if (StringUtils.getInstance().isBlank(userId) || !StringUtils.getInstance().isNumeric(userId)) {
 				jo.put("code", -1);
 				jo.put("text", Tips.NULLUSER.getText());
-			} else if(StringUtils.getInstance().isBlank(groupIds)) {
+			} else if(StringUtils.getInstance().isBlank(groupIds) || 
+					!(groupIds.startsWith("[") && groupIds.endsWith("]"))) {
 				jo.put("code", -1);
 				jo.put("text", Tips.NULLGROUPMEMBER.getText());
 			} else {
-				int userIdInt = Integer.parseInt(userId);
-				
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+			
 				//保存群组成员关系
-				if (groupIds.startsWith("[") && groupIds.endsWith("]")) {
-					groupIds = groupIds.substring(1, groupIds.length() - 1);
-				}
+				groupIds = groupIds.substring(1, groupIds.length() - 1);
+
+				ArrayList<String> tempArrIds = new ArrayList<String>();
+				
 				String[] groupIdsArr = groupIds.split(",");
 				
-				Integer [] tempIds = new Integer[groupIdsArr.length];
-				
 				for(int i = 0; i < groupIdsArr.length; i++) {
-					tempIds[i] = Integer.parseInt(groupIdsArr[i]);
+					if (!StringUtils.getInstance().isBlank(groupIdsArr[i])) {
+						tempArrIds.add(groupIdsArr[i]);
+					}
+				}  
+				
+				int idsLen = 0;
+				
+				if (tempArrIds.contains(userId)) {
+					idsLen = groupIdsArr.length;
+				} else {
+					tempArrIds.add(userId);
+					idsLen = groupIdsArr.length + 1;
 				}
 				
-				//生成群组名称
-				List<TMember> memberList = memberDao.getMultipleMemberForIds(tempIds);
-				
-				StringBuilder groupName = new StringBuilder();
-				String groupNameStr = null;
-				
-				if (memberList != null) {
-					int len = 4;
-					
-					if (memberList.size() <= 4) {
-						len = memberList.size();
-					}
-					
-					for(int i = 0; i < len; i++) {
-						groupName.append(memberList.get(i).getFullname()).append(",");
-					}
-					
-					groupNameStr = groupName.toString();
-					
-					if (!StringUtils.getInstance().isBlank(groupNameStr)) {
-						groupNameStr = groupNameStr.substring(0, groupNameStr.length() - 1);
-					}
-				}
-				
-				//创建群组
-				String code = groupDao.createGroup(userIdInt, groupNameStr);
+				Integer [] tempIds = new Integer[idsLen];
 			
-				//查找群组id
-				TGroup tg = groupDao.getGroupForIdAndCode(userId, code);
+				for(int i = 0; i < tempArrIds.size(); i++) {
+					tempIds[i] = StringUtils.getInstance().strToInt(tempArrIds.get(i));	
+				}
 				
-				if (tg != null) {
-					int groupId = tg.getId();
+				if (status) {
+					//生成群组名称
+					List<TMember> memberList = memberDao.getMultipleMemberForIds(tempIds);
+					
+					StringBuilder groupName = new StringBuilder();
+					String groupNameStr = null;
+					
+					if (memberList != null) {
+						int len = 4;
+						
+						if (memberList.size() <= 4) {
+							len = memberList.size();
+						}
+						
+						for(int i = 0; i < len; i++) {
+							groupName.append(memberList.get(i).getFullname()).append(",");
+						}
+						
+						groupNameStr = groupName.toString();
+						
+						if (!StringUtils.getInstance().isBlank(groupNameStr)) {
+							groupNameStr = groupNameStr.substring(0, groupNameStr.length() - 1);
+						} else {
+							groupNameStr = "";
+						}
+					}
+					
+					//创建群组
+					String code = "G" + userId + "_" + TimeGenerator.getInstance().getUnixTime();
+				
+					int groupId = groupDao.createGroup(userIdInt, code, groupNameStr);
 					
 					ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
 					
-					for(int i = 0; i < groupIdsArr.length; i++) {
+					for(int i = 0; i < tempIds.length; i++) {
 						String flag = "0";
-						int id = Integer.parseInt(groupIdsArr[i]);
+						flag = (tempIds[i] == userIdInt) ? "1" : "0";
 						
-						flag = (id == userIdInt) ? "1" : "0";
-						
-						tgmList.add(new TGroupMember(groupId, id, flag, 0));
+						tgmList.add(new TGroupMember(groupId, tempIds[i], flag, 0));
 					}
 					
 					groupMemberDao.saveGroupMemeber(tgmList);
@@ -100,7 +122,9 @@ public class GroupServiceImpl implements GroupService {
 					
 					String[] delIdsArray = null;
 					String[] sendRCIds = null;
-					       
+					
+					TGroup tg = groupDao.getGroupForId(groupId);
+					
 					if (tgmMember != null) {
 						for(int i = 0; i < tgmMember.size(); i++) {
 							tgmIds.add(tgmMember.get(i).getId() + "");
@@ -132,11 +156,12 @@ public class GroupServiceImpl implements GroupService {
 						jo.put("text", Tips.NULLGROUPMEMBER.getText());
 					}
 					
-				} else {
-					jo.put("code", 0);
-					jo.put("text", "fail");
-				}
-				
+				} 
+			}
+			
+			if (!status) {
+				jo.put("code", 0);
+				jo.put("text", "fail");
 			}
 			result = jo.toString();
 		} catch (Exception e) {
@@ -145,29 +170,86 @@ public class GroupServiceImpl implements GroupService {
 			
 		return result;
 	}
-
+	
 	@Override
-	public String disslovedGroup() {
-		// TODO Auto-generated method stub
-		return null;
+	public String joinGroup(String groupIds, String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else if (StringUtils.getInstance().isBlank(groupIds) ||
+				!(groupIds.startsWith("[") && groupIds.endsWith("]"))) {
+					jo.put("code", -1);
+					jo.put("text", Tips.NULLGROUPMEMBER.getText());
+			} else {
+				TGroup tg = groupDao.getGroupForId(groupIdInt);
+				
+				String groupName = tg.getName();
+				
+				String[] groupIdsArr = StringUtils.getInstance().stringSplit(groupIds, ",");
+				
+				//保存数据库
+				ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
+				
+				for(int i = 0; i < groupIdsArr.length; i++) {
+					
+					int id = StringUtils.getInstance().strToInt(groupIdsArr[i]);
+					
+					tgmList.add(new TGroupMember(groupIdInt, id, "0", 0));
+				}
+				
+				groupMemberDao.saveGroupMemeber(tgmList);
+				
+				//通知融云
+				RongCloudUtils.getInstance().joinGroup(groupIdsArr, groupId, groupName);
+				
+				jo.put("code", 1);
+				jo.put("text", Tips.OK.getText());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
 	}
 
 	@Override
-	public String joinGroup() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String leftGroup() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String listGroupMemebers() {
-		// TODO Auto-generated method stub
-		return null;
+	public String leftGroup(String userId, String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (StringUtils.getInstance().isBlank(userId)) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getText());
+			} else if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else {
+				String[] userIds = StringUtils.getInstance().stringSplit(userId, ",");
+				
+				Integer[] userIdsInt = StringUtils.getInstance().stringArrToIntArr(userIds);
+				
+				groupMemberDao.removeGroupMemeber(userIdsInt, groupIdInt);
+				
+				//通知融云
+				RongCloudUtils.getInstance().leftGroup(userIds, groupId);
+				
+				jo.put("code", 1);
+				jo.put("text", Tips.OK.getText());
+			}
+		} catch (Exception e) {
+			jo.put("code", 0);
+			jo.put("text", Tips.FAIL.getText());
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
 	}
 
 	@Override
@@ -175,12 +257,72 @@ public class GroupServiceImpl implements GroupService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public String getGroupList(String userid) {
+	public String listGroupMemebers() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public String dissLovedGroup(String userId, String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (userIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getText());
+			} else if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else {
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public String getGroupList(String userId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			
+			if (userIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getText());
+			} else {
+				List<TGroup> groupList = groupDao.getGroupList(userIdInt);
+				
+				if (groupList != null) {
+					JSONArray ja = new JSONArray();
+					
+					for(int i = 0; i < groupList.size(); i++) {
+						JSONObject t = JSONUtils.getInstance().modelToJSONObj(groupList.get(i));
+						ja.add(t);
+					}
+					
+					jo.put("code", 1);
+					jo.put("text", ja.toString());
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.FAIL.getText());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();	
+	}
+
 	private MemberDao memberDao;
 	private GroupDao groupDao;
 	private GroupMemberDao groupMemberDao;

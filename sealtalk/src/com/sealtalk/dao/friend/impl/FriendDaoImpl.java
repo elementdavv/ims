@@ -3,6 +3,7 @@ package com.sealtalk.dao.friend.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
@@ -11,7 +12,7 @@ import com.sealtalk.model.TFriend;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
- * @功能  成员数据管理层
+ * @功能  好友关系数据管理层
  * @author hao_dy
  * @date 2017/01/04
  * @since jdk1.7
@@ -24,8 +25,7 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 		try {
 			
 			Criteria ctr = getCriteria();
-			ctr.add(Restrictions.eq("memberId", accountId));
-			ctr.add(Restrictions.eq("friendId", friendId));
+			ctr.add(Restrictions.or(Restrictions.and(Restrictions.eq("memberId", accountId), Restrictions.eq("friendId", friendId)), Restrictions.and(Restrictions.eq("friendId", accountId), Restrictions.eq("memberId", friendId))));
 			
 			List<TFriend> list = ctr.list();
 			
@@ -46,13 +46,19 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 			int countFriend = count("from TFriend");
 			
 			TFriend friend = new TFriend();
-			
 			friend.setFriendId(friendId);
 			friend.setMemberId(accountId);
 			friend.setCreatedate(TimeGenerator.getInstance().formatNow("yyyyMMdd"));
 			friend.setListorder(countFriend);
-			
 			save(friend);
+			
+			TFriend friend1 = new TFriend();
+			friend1.setFriendId(accountId);
+			friend1.setMemberId(accountId);
+			friend1.setCreatedate(TimeGenerator.getInstance().formatNow("yyyyMMdd"));
+			friend1.setListorder(countFriend + 1);
+			
+			save(friend1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

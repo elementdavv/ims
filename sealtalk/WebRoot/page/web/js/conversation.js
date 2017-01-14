@@ -35,15 +35,23 @@ function conversationSelf(targetID,targetType){//群聊页面显示
     })
     $('.orgNavClick').addClass('chatHide');
     $('.mesContainerSelf').removeClass('chatHide');
+    $('.mr-record').addClass('active');
+    $('.mesContainerSelf').removeClass('mesContainer-translateL');
+    getInfoDetails();
+    console.log(targetID);
+    console.log(findMemberInList(targetID));
+    //findMemberInList(targetID)
+}
+function getInfoDetails(){
 
 }
 
-
 //获取历史消息、消息记录
 function historyMsg(Type,targetId){
+    getConversation
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, null, 20, {
         onSuccess: function(list, hasMsg) {
-            console.log('获取消息记录');
+            console.log(list,hasMsg);
             // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
             // list 为拉取到的历史消息列表
         },
@@ -89,7 +97,6 @@ function ifPlusZero(num){
 
 function findMemberInList(targetId){
     var normalInfo = localStorage.getItem('normalInfo');
-
     if(normalInfo){
         //console.log(normalInfo,'findMemberInList');
         var aNormalInfo = JSON.parse(normalInfo);

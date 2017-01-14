@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
@@ -28,12 +29,13 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<TGroupMember> getTGroupMemberList(int groupId) {
 		try {
 			
 			Criteria ctr = getCriteria();
-			ctr.add(Restrictions.eq("group_id", groupId));
+			ctr.add(Restrictions.eq("groupId", groupId));
 			
 			List list = ctr.list();
 			
@@ -46,6 +48,20 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 		}	
 		
 		return null;
+	}
+
+	@Override
+	public void removeGroupMemeber(Integer[] userIds, int groupId) {
+		try {
+			String sql = "delete from t_group_member where group_id=" + groupId + " and userIds in (" + userIds + ")";
+			
+			System.out.println("removeGroupMember sql: " + sql);
+			
+			this.getSession().createSQLQuery(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HibernateException(e);
+		}
 	}
 
 }

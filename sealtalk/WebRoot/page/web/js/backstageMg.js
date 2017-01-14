@@ -6,6 +6,18 @@ $(document).ready(function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
        $('#infoDetailsBox>div').removeClass('active');
+       var sType=$(this).attr('data-type');
+       switch(sType){
+           case 'd':
+               break;
+           case 'r':
+               var sTargettype=$('#perContainer').attr('targettype');
+               var sTargetid=$('#perContainer').attr('targetid');
+               historyMsg(sTargettype,sTargetid);
+               break;
+           case 'f':
+               break;
+       }
        $('#infoDetailsBox>div').eq($(this).index()).addClass('active');
    });
     //点击侧边栏
