@@ -209,7 +209,7 @@ function reciveInBox(msg){
                             '<i></i>'+
                         '</div>'+
                     '</li>';
-        var parentNode = $('.mesContainerSelf[targetid='+targetID+']').find('.mr-chatContent');
+        var parentNode = $('.mesContainerSelf').find('.mr-chatContent');
         parentNode.append($(sHTML));
 
     }else{

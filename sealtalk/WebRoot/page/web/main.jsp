@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/backstageMg.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
-    <script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
-    <script src="http://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
+    <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
+    <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/window.js"></script>
-    <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
+    <script src="<%=request.getContextreciveInBoxPath() %>/page/web/js/seeOrgnizeTree.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/backstageMg.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/Class.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
@@ -26,6 +26,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
 
     <%--
     <script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>

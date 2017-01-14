@@ -8,13 +8,16 @@ $(function(){
         var id = $(this).attr('id');
         //从list中找到点击的这条信息
         $('.orgNavClick').addClass('chatHide');
-
+        var SHTML = BreadcrumbGuid($(this));
+        $('.Breadcrumbs').html(SHTML);
         if(state=='member'){//点击的是成员
             var data = searchFromList(1,id);
             var sHTML = changeClick2Content(data);
             $('.orgNavClick2').html(sHTML);
             $('.orgNavClick2').removeClass('chatHide');
             $('.BreadcrumbsOuter').removeClass('chatHide')
+            //更换面包屑导航
+
 
         }else{//点击的是部门
             //branch!getBranchMember查询部门结构
@@ -24,13 +27,13 @@ $(function(){
                 var sHTML = changeClick1Content(data);
                 $('.orgNavClick2').html(sHTML);
                 $('.orgNavClick2').removeClass('chatHide');
+                $('.BreadcrumbsOuter').removeClass('chatHide');
                 $('.BreadcrumbsOuter').removeClass('chatHide')
-
+                //var SHTML = BreadcrumbGuid($(this));
+                //更换面包屑导航
+                //$('.Breadcrumbs').html(SHTML);
 
             })
-            $('.orgNavClick1').removeClass('chatHide');
-            $('.BreadcrumbsOuter').removeClass('chatHide')
-
         }
     })
 
@@ -142,25 +145,30 @@ $(function(){
         $('.myContextMenu').remove();
     })
     //右键消息列表
-    var showMent = function(e){
+    //var showMent = function(e){
+    //
+    //}
+    $('.newsChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
         if(e.buttons==2){
             var left = e.clientX;
             var top = e.clientY;
             var arr = ['置顶会话','发送文件','查看资料','添加新成员','定位到所在组织','从消息列表删除'];
             var style = 'left:'+left+'px;top:'+top+'px';
-            var id = 'newsLeftClick'
-            fshowContexMenu(arr,style,id)
+            var id = 'newsLeftClick';
+            var memberShip = $(this).attr('targetid')
+            //var memberShip =
+                fshowContexMenu(arr,style,id,memberShip)
         }
         $('.newsChatList li').removeClass('active');
         $(this).addClass('active');
         return false;
-    }
-    $('.newsChatList').delegate('li','mousedown',showMent);
+    });
     $('body').delegate('#newsLeftClick li','click',function(){
-        var targetID =
+        //var targetID =
         $('.myContextMenu').remove();
         var index = $(this).closest('ul').find('li').index($(this));
+        var targetID = $(this).attr('memship');
         switch (index)
         {
             case 0:
@@ -180,7 +188,19 @@ $(function(){
                 break;
             case 5:
                 //从消息列表删除
-                removeConvers('PRIVATE','admin1');
+                new Window().alert({
+                    title   : '删除会话',
+                    content : '确定要从会话列表中删除么？',
+                    hasCloseBtn : true,
+                    hasImg : true,
+                    textForSureBtn : '确定',              //确定按钮
+                    textForcancleBtn : '取消',            //取消按钮
+                    handlerForCancle : null,
+                    handlerForSure : function(){
+                        removeConvers('PRIVATE',targetID);
+                    }
+                });
+
                 break;
         }
     })
@@ -403,8 +423,28 @@ $(function(){
     })
 })
 
+//更新面包屑导航
+function BreadcrumbGuid(target){
+    console.log(target);
+    var sHTML = '';
+    sHTML += findParentCatalog(target,sHTML);
+    return sHTML;
+}
+
+function findParentCatalog(target,sHTML){
+    var category = target.find('.groupName').html();
+    var sClass = target.attr('class');
+    var sID = target.attr('id');
+
+    sHTML = '<li class="'+sClass+'" id="'+sID+'"><a href=""> '+category+' </a> &gt;</li>';
+    if(target.parent().prev().length!=0&&target.parent().prev()[0].tagName=='LI'){
+        sHTML = findParentCatalog(target.parent().prev(),sHTML)+sHTML
+    }
+    return sHTML;
+}
 
 function removeConvers(type,id){
+
     RongIMClient.getInstance().removeConversation(RongIMLib.ConversationType[type],id,{
         onSuccess:function(bool){
             // 删除会话成功。

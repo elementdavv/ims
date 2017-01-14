@@ -82,7 +82,7 @@ $(function(){
 function initEmoji(){
     RongIMLib.RongIMEmoji.init();
     var emojis = RongIMLib.RongIMEmoji.emojis;
-    console.log(emojis);
+    //console.log(emojis);
     $('.rongyun-emoji').append($(emojis));
     $('.rongyun-emoji').perfectScrollbar();
 }
