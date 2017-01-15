@@ -15,7 +15,7 @@ function conversationGroup(targetID,targetType,groupName){
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
         //var newEmo = $(this).clone();
-        $('.textarea').append(name);
+        $('.textarea').append(newEmo);
     })
     $('.showEmoji').click(function(){
         $('.rongyun-emoji').show();
@@ -25,7 +25,6 @@ function conversationGroup(targetID,targetType,groupName){
         var content = $(this).prev().val();
         var targetId = $('.mesContainerGroup').attr('targetID');
         var targetType = $('.mesContainerGroup').attr('targetType');
-        //if()
         sendMsg(content,targetId,targetType)
     })
     //$('.orgNavClick').addClass('chatHide');
@@ -41,7 +40,21 @@ function conversationGroup(targetID,targetType,groupName){
     getConverList();
 }
 
-
+function po_Last_Div(obj) {
+    if (window.getSelection) {//ie11 10 9 ff safari
+        obj.focus(); //解决ff不获取焦点无法定位问题
+        var range = window.getSelection();//创建range
+        range.selectAllChildren(obj);//range 选择obj下所有子内容
+        range.collapseToEnd();//光标移至最后
+    }
+    else if (document.selection) {//ie10 9 8 7 6 5
+        var range = document.selection.createRange();//创建选择对象
+        //var range = document.body.createTextRange();
+        range.moveToElementText(obj);//range定位到obj
+        range.collapse(false);//光标移至最后
+        range.select();
+    }
+}
 function conversationSelf(targetID,targetType){//聊天室页面显示
     //var target = targetID;
     //噗页面 把targetID放进去
@@ -52,21 +65,40 @@ function conversationSelf(targetID,targetType){//聊天室页面显示
     $('.mesContainerSelf').attr('targetID',targetID)
     $('.mesContainerSelf').attr('targetType',targetType)
 
-
+    //$('.textarea').click(function(){
+    //    $(this).attr('contenteditable','true')
+    //})
     //$('.rongyun-emoji span').off('click');
     $('.rongyun-emoji>span').on('click',function(){
+        $('.textarea b').attr('contenteditable','false');
         var name = $(this).find('span').attr('name');
         //var newEmo = $(this).clone();
         $('.textarea').append(name);
+        var textarea = document.getElementById('message-content')
+        //po_Last_Div(textarea);
     })
     $('.showEmoji').click(function(){
 
         $('.rongyun-emoji').show();
+        $('.rongyun-emoji').blur(function(){
+            console.log(1);
+        })
+
     });
+    var rimerEmoji = null;
+    $('.rongyun-emoji').on('mouseenter',function(){
+        clearTimeout(rimerEmoji);
+    })
+    $('.rongyun-emoji').on('mouseleave',function(){
+        rimerEmoji = setTimeout(function(){
+            $('.rongyun-emoji').hide();
+        },1000)
+    })
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
-        var content = $(this).prev().val();
-
+        //var content = $(this).prev().val();
+        var content = $(this).prev().html();
+        //var str = RongIMLib.RongIMEmoji.symbolToEmoji(content);
         //var targetID = targetId
         var targetId = $('.mesContainerSelf').attr('targetID');
         var targetType = $('.mesContainerSelf').attr('targetType');
@@ -230,15 +262,17 @@ function sendMsg(content,targetId,way){
 //发送出去的的信息显示在盒子里
 function sendInBox(msg){
     var sendMsg = msg.content.content;
+    var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
+    //var str = RongIMLib.RongIMEmoji.symbolToEmoji(sendMsg);
     var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
                     '<div class="mr-ownChat">'+
-                        '<span>'+sendMsg+'</span>'+
+                        '<span>'+str+'</span>'+
                         '<i></i>'+
                     '</div>'+
                 '</li>';
     var parentNode = $('.mr-chatview .mr-chatContent');
     parentNode.append($(sHTML));
-    $('.textarea').val('');
+    $('.textarea').html('');
 }
 
 
@@ -247,6 +281,9 @@ function reciveInBox(msg){
     console.log(msg);
     var targetID = msg.targetId;
     var content = msg.content.content;
+    var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
+
+
     var $MesContainerSelf = $('.mesContainerSelf')
     if(!$MesContainerSelf.hasClass('chatHide')||$MesContainerSelf.attr('targetID')==targetID){
         //在盒子里显示
@@ -254,7 +291,7 @@ function reciveInBox(msg){
         var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentL clearfix">'+
                         '<img src="page/web/css/img/1.jpg">'+
                         '<div class="mr-chatBox">'+
-                            '<span>'+content+'</span>'+
+                            '<span>'+str+'</span>'+
                             '<i></i>'+
                         '</div>'+
                     '</li>';
