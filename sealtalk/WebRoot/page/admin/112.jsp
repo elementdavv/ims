@@ -2,14 +2,14 @@
 <div class="infopanel11" id="112">
 	<div class="info">
 		<div class="infotitle">
-			<div class="title">成员信息</div>
+			<div class="title" id='membertitle2'>成员信息</div>
 			<div class="infotab">
 				<div class="infotabi"><a href="#" onclick="showpage('111')">基本信息</a></div>
 				<div class="infotabi tabactive">所属分支</div>
 			</div>
 		</div>
 		<div class="line112">
-			<button class="toright" >+</button>
+			<button class="toright addposition">+</button>
 		</div>
 		<div style="width:100%;padding-left:30px;">
 			<table class="t112">

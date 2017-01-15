@@ -9,7 +9,10 @@
 				<div class="infotabi"><a href="#" onclick="showpage('112')">所属分支</a></div>
 			</div>
 		</div>
-		<form id='memberform'>
+		<form id="memberform" name="memberform">
+		<input type="hidden" id="memberid" name="memberid">
+		<input type="hidden" id="memberbranchid" name="memberbranchid">
+		<input type="hidden" id="branchmemberid" name="branchmemberid">
 		<div class="line111">
 			<div class="column1">
 				成员帐号：
@@ -28,8 +31,6 @@
 			<div class="column2">
 				性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<select id="membersex" name="membersex">
-					<option value="1">男</option>
-					<option value="2">女</option>
 				</select>
 			</div>
 		</div>
@@ -40,9 +41,7 @@
 			</div>
 			<div class="column2">
 				职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<select id="memberposition" name="memberposition">
-					<option value="1">男</option>
-					<option value="2">女</option>
+				<select id="memberpositionid" name="memberpositionid">
 				</select>
 			</div>
 		</div>
@@ -59,9 +58,7 @@
 		<div class="line111">
 			<div class="column1">
 				身份权限：
-				<select id="memberrole" name="memberrole">
-					<option value="1">男</option>
-					<option value="2">女</option>
+				<select id="memberroleid" name="memberroleid">
 				</select>
 			</div>
 		</div>
@@ -70,8 +67,8 @@
 		</div>
 		</form>
 		<div class="line111">
-			<button class="toleft">保存</button>
-			<button class="toright">重置密码</button>
+			<button id="membersave">保存</button>
+			<button class="toright" id="reset111">重置密码</button>
 		</div>
 		<p>&nbsp;</p>
 	</div>

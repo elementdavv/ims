@@ -6,6 +6,8 @@
 <script src="js/11.js"></script>
 </head>
 <body>
+<div id='container'>
+
 <div class="admheader">
 	<ul class="admheadermenu">
 		<li class="active">基本设置</li>
@@ -37,7 +39,7 @@
 		<div class="organline" >
 			<input type="text" placeholder="搜索人员" />
 		</div>
-		<div class="organline ztree" id="tree"></div>
+		<div class="organline ztree" id="tree11"></div>
 	</div>
 </div>
 
@@ -60,11 +62,8 @@
 </div>
 
 <div id="position" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style="width: 300px">
 		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
 		</div>
 	</div>
 </div>
@@ -80,11 +79,8 @@
 </div>
 
 <div id="reset" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
+	<div class="modal-dialog" style="width: 400px;">
+		<div class="modal-content" style="height: 200px;">
 		</div>
 	</div>
 </div>
@@ -129,5 +125,6 @@
 	</div>
 </div>
 
+</div>
 </body>
 </html>

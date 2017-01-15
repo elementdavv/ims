@@ -2,11 +2,14 @@ package com.sealtalk.dao.adm.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.adm.BranchDao;
 import com.sealtalk.model.TBranch;
+import com.sealtalk.model.TBranchMember;
 import com.sealtalk.model.TMember;
 
 public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDao {
@@ -51,17 +54,6 @@ public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDa
 		return runSql(sql);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.sealtalk.dao.adm.BranchDao#getBranchById(java.lang.Integer)
-	 * by alopex
-	 */
-	@Override
-	public TBranch getBranchById(Integer branchId) {
-		
-		return this.get(branchId);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see com.sealtalk.dao.adm.BranchDao#getMemberById(java.lang.Integer)

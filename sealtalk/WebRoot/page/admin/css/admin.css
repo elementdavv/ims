@@ -312,3 +312,39 @@ button {
 .priv {
 	margin: 0 20px 0 30px;
 }
+
+/* 下拉相关 */
+.treewrap {
+	position: absolute;
+	background-color: white;
+	border: solid 1px #cbcbcb;
+	display: none;
+}
+.treeopenwrap {
+	background-color: white;
+	border: solid 1px #cbcbcb;
+}
+
+.line112_position {
+	float: left;
+	margin: 10px;
+	width: 100%;
+}
+
+.line111reset {
+	margin: 0 0 10px 0;
+}
+.grade {
+	float: left;
+	width: 60px;
+	height: 20px;
+}
+.weak {
+	background-color: #ccc;
+}
+.soso {
+	background-color: #aaa;
+}
+.good {
+	background-color: #888;
+}

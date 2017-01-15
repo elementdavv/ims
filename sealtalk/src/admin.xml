@@ -10,11 +10,15 @@
 
 	<!-- dao -->
 	<bean id="branchDao" class="com.sealtalk.dao.adm.impl.BranchDaoImpl" autowire="byName" />
-	
+	<bean id="branchMemberDao" class="com.sealtalk.dao.adm.impl.BranchMemberDaoImpl" autowire="byName" />
+	<bean id="memberRoleDao" class="com.sealtalk.dao.adm.impl.MemberRoleDaoImpl" autowire="byName" />
+
 	<!-- service -->
 	<bean id="branchService" class="com.sealtalk.service.adm.impl.BranchServiceImpl" autowire="byName" >
 		<property name="branchDao" ref="branchDao" />
 		<property name="memberDao" ref="memberDao" />
+		<property name="branchMemberDao" ref="branchMemberDao" />
+		<property name="memberRoleDao" ref="memberRoleDao" />
 	</bean>
 	
 	<!-- action -->

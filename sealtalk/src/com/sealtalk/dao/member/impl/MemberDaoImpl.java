@@ -23,7 +23,7 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 	@Override
 	public List getMemberPosition(Integer memberId) {
 
-		String sql = "select position_id from t_branch_member"
+		String sql = "select position_id, branch_id, id from t_branch_member"
 				+ " where member_id = " + memberId 
 				+ " order by is_master desc";
 		SQLQuery query = this.getSession().createSQLQuery(sql);

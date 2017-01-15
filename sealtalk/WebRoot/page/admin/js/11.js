@@ -10,7 +10,6 @@ $(document).ready(function(){
 		callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 	});
 	$('.addbranch').click(function(){
-		alert(path);
 		$('#branch').modal({
 			backdrop: false,
 			remote: '11_branch.jsp'
@@ -31,8 +30,11 @@ $(document).ready(function(){
 
 function cb_11(data) {
 
-	$.fn.zTree.init($('#tree'), setting11, data);
-	
+	$.fn.zTree.init($('#tree11'), setting11, data);
+	$.fn.zTree.init($('#tree110'), setting110, data);
+	var t = $.fn.zTree.getZTreeObj('tree11');
+	var ns = t.getNodesByParam('id', 1, null);
+	t.expandNode(ns[0], true);
 }
 
 var setting11 = {
@@ -67,6 +69,29 @@ var setting11 = {
 			if (treeNode.flag == 2) {
 				curmember = treeNode.id;
 				callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
+			}
+		}
+	}
+};
+
+var setting110 = {
+	view: {
+		showLine: false,
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pid",
+			rootPId: null
+		}
+	},
+	callback: {
+		onClick: function(event, treeId, treeNode, clickFlag) {
+			if (treeNode.flag == 2) {
+				$('#branchmanager').val(treeNode.name);
+				$('#branchmanagerid').val(treeNode.id);
+				$('#tree110wrap').hide();
 			}
 		}
 	}

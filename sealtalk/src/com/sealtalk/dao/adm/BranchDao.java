@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.sealtalk.common.IBaseDao;
 import com.sealtalk.model.TBranch;
+import com.sealtalk.model.TBranchMember;
 import com.sealtalk.model.TMember;
 
 /**
@@ -23,12 +24,6 @@ public interface BranchDao extends IBaseDao<TBranch, Integer> {
 	public List getBranch(Integer organId);
 	public List getMember(Integer organId);
 
-	/*
-	 * 取部门通过部门id
-	 * by alopex
-	 */
-	public TBranch getBranchById(Integer branchId);
-	
 	/*
 	 * 取字典
 	 */
