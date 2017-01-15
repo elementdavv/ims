@@ -11,7 +11,6 @@ function conversationGroup(targetID,targetType,groupName){
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
 
-
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
         //var newEmo = $(this).clone();
@@ -32,11 +31,11 @@ function conversationGroup(targetID,targetType,groupName){
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
-    getInfoDetails();
+    //getInfoDetails();
     //console.log(targetID);
     //console.log(findMemberInList(targetID));
     //findMemberInList(targetID)
-    clearNoReadMsg(targetType,targetID)
+    clearNoReadMsg(targetType,targetID);
     getConverList();
 }
 
@@ -62,8 +61,8 @@ function conversationSelf(targetID,targetType){//聊天室页面显示
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
 
-    $('.mesContainerSelf').attr('targetID',targetID)
-    $('.mesContainerSelf').attr('targetType',targetType)
+    $('.mesContainerSelf').attr('targetID',targetID);
+    $('.mesContainerSelf').attr('targetType',targetType);
 
     //$('.textarea').click(function(){
     //    $(this).attr('contenteditable','true')
@@ -110,20 +109,128 @@ function conversationSelf(targetID,targetType){//聊天室页面显示
     $('.mr-record').addClass('active');
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
-    getInfoDetails();
-    clearNoReadMsg(targetType,targetID)
+    getInfoDetails(targetID,targetType,findMemberInList(targetID));
+    clearNoReadMsg(targetType,targetID);
     getConverList();
 }
-function getInfoDetails(){
-
+function getInfoDetails(argetID,targetType,oInfoDetails){
+    getPerInfo(oInfoDetails);
 }
-
+/**
+ *
+ * @param oInfoDetails 个人资料
+ */
+function getPerInfo(oInfoDetails){
+    var sName=oInfoDetails.name || '';//姓名
+    var sLogo=oInfoDetails.logo || 'PersonImg.png';//头像
+    var sMobile=oInfoDetails.mobile || '';//手机
+    var sEmail=oInfoDetails.email || '';//邮箱
+    var sBranch=oInfoDetails.sex || '';//部门
+    var sJob=oInfoDetails.sex || '';//职位
+    var sOrg=oInfoDetails.sex || '';//组织
+    var sAddress=oInfoDetails.address || '';//地址
+    var sDom='\
+        <div class="infoDet-personal clearfix">\
+    <img src="upload/images/'+sLogo+'">\
+    <div class="infoDet-text">\
+    <p>'+sName+'</p>\
+    <div class="clearfix">\
+    <span class="infoDet-postInfo"></span>\
+    <span class="infoDet-position"></span>\
+    <span class="infoDet-addPer"></span>\
+    </div>\
+    </div>\
+    </div>\
+    <ul class="infoDetList clearfix">\
+    <li>\
+    <span>手机：</span>\
+    <b>'+sMobile+'</b>\
+    </li>\
+    <li>\
+    <span>邮箱：</span>\
+    <b>'+sEmail+'</b>\
+    </li>\
+    <li>\
+    <span>部门：</span>\
+    <b>'+sBranch+'</b>\
+    </li>\
+    <li>\
+    <span>职位：</span>\
+    <b>'+sJob+'</b>\
+    </li>\
+    <li>\
+    <span>组织：</span>\
+    <b>'+sOrg+'</b>\
+    </li>\
+    <li>\
+    <span>地址：</span>\
+    <b>'+sAddress+'</b>\
+    </li>\
+    </ul>\
+    ';
+    $('.infoDetails-data').empty();
+    $('.infoDetails-data').append(sDom);
+}
+function getChatRecord(aList,hasMsg){
+    var sDom='<ul class="infoDet-contentDet">';
+    var sLi='';
+    var aInfo=aList;
+    $('.chatRecordSel').empty();
+    var aDate=[];
+    if(aInfo.length>0){
+        for(var i=0;i<aInfo.length;i++){
+            var sTargetId=aInfo[i].targetId;
+            var sSentTime=aInfo[i].sentTime;//发送时间
+            var sContent=aInfo[i].content.content||'';
+            var sMessageId=aInfo[i].messageId;//信息id
+            var sSentTimeReg=changeTimeFormat(sSentTime);
+            var sSentDate=changeTimeFormatYMD(sSentTime);
+            aDate.push(sSentDate);
+            if(aDate.length>1){
+                if(aDate[aDate.length-1] != aDate[aDate.length-2]){
+                    sLi+='<li >\
+                    <p class="infoDet-timeRecord">'+aDate[aDate.length-2]+'</p>\
+                </li>';
+                }
+            }
+            //if(i==aInfo.length-1){
+            //    sLi+='<li>\
+            //       <p class="infoDet-timeRecord">'+sSentDate+'</p>\
+            //    </li>';
+            //}
+            if(sTargetId){
+               var oThers=findMemberInList(sTargetId);
+                var sName=oThers.name || '';
+               sLi+='<li class="infoDet-OthersSay" data-time="'+sSentTime+'">\
+                   <span>'+sName+'&nbsp&nbsp&nbsp'+sSentTimeReg+'</span>\
+                <p>'+sContent+'</p>\
+                </li>';
+            }else{
+                var sSelfName=$('.perSetBox-title span').html();
+                sLi+='<li class="infoDet-selfSay" data-time="'+sSentTime+'">\
+                   <span>'+sSelfName+'&nbsp&nbsp&nbsp'+sSentTimeReg+'</span>\
+                <p>'+sContent+'</p>\
+                </li>';
+            }
+        }
+        sDom+=sLi+'</ul>';
+    }
+    $('.chatRecordSel').append(sDom);
+    var eDom=document.querySelector('.chatRecordSel');
+    eDom.scrollTop = eDom.scrollHeight;
+}
+function scrollTop(eDom){
+    eDom.scrollTop = eDom.scrollHeight;
+}
 //获取历史消息、消息记录
-function historyMsg(Type,targetId){
-    //getConversation
-    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, '0', 20, {
+function historyMsg(Type,targetId,timestrap,count,$eDom){
+    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, timestrap, count, {
         onSuccess: function(list, hasMsg) {
             console.log(list,hasMsg);
+            if(!hasMsg){
+                $eDom.removeClass('allowClick');
+            }
+            getChatRecord(list,hasMsg);
             // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
             // list 为拉取到的历史消息列表
         },
@@ -157,7 +264,19 @@ function changeTimeFormat(mSec){
     //console.log('+++++++++++++++++++++')
     //if()
     //console.log(h+':'+m+':'+s);
-    var time = h+':'+m+':'+s
+    var time = h+':'+m+':'+s;
+    return time;
+}
+function changeTimeFormatYMD(mSec){
+    //var oldTime = (new Date("2012/12/25 20:11:11")).getTime(); //得到毫秒数
+    var newTime = new Date(mSec); //就得到普通的时间了
+    var y=ifPlusZero(newTime.getFullYear());
+    var m=ifPlusZero(newTime.getMonth()+1);
+    var d=ifPlusZero(newTime.getDate());
+    //console.log('+++++++++++++++++++++')
+    //if()
+    //console.log(h+':'+m+':'+s);
+    var time = y+'-'+m+'-'+d;
     return time;
 }
 function ifPlusZero(num){

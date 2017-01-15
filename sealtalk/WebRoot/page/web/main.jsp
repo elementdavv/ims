@@ -598,72 +598,70 @@
             </ul>
             <div class="infoDetailsBox" id="infoDetailsBox">
                 <div class="infoDetails-data active">
-                    <div class="infoDet-personal clearfix">
-                        <img src="page/web/css/img/1.jpg">
+                    <%--<div class="infoDet-personal clearfix">--%>
+                        <%--<img src="page/web/css/img/1.jpg">--%>
 
-                        <div class="infoDet-text">
-                            <p>张三</p>
+                        <%--<div class="infoDet-text">--%>
+                            <%--<p>张三</p>--%>
 
-                            <div class="clearfix">
-                                <span class="infoDet-postInfo"></span>
-                                <span class="infoDet-position"></span>
-                                <span class="infoDet-addPer"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="infoDetList clearfix">
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                    </ul>
+                            <%--<div class="clearfix">--%>
+                                <%--<span class="infoDet-postInfo"></span>--%>
+                                <%--<span class="infoDet-position"></span>--%>
+                                <%--<span class="infoDet-addPer"></span>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<ul class="infoDetList clearfix">--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                    <%--</ul>--%>
                 </div>
                 <div class="infoDet-chatRecord">
-                    <div class="infoDet-search">
+                    <div class="infoDet-search active">
                         <input type="text" placeholder="查找信息..."/>
                         <i></i>
                     </div>
-                    <div class="infoDet-recordAll">
-                        <p class="infoDet-timeRecord">2016-09-28</p>
-                        <ul class="infoDet-contentDet">
-                            <li class="infoDet-OthersSay">
-                                <span>张三&nbsp&nbsp&nbsp17:10:10</span>
+                    <div class="infoDet-recordAll chatRecordSel">
+                        <%--<p class="infoDet-timeRecord">2016-09-28</p>--%>
+                        <%--<ul class="infoDet-contentDet">--%>
+                            <%--<li class="infoDet-OthersSay">--%>
+                                <%--<span>张三&nbsp&nbsp&nbsp17:10:10</span>--%>
+                                <%--<p>11111111111</p>--%>
+                            <%--</li>--%>
+                            <%--<li class="infoDet-selfSay">--%>
+                                <%--<span>张三&nbsp&nbsp&nbsp17:10:10</span>--%>
 
-                                <p>11111111111</p>
-                            </li>
-                            <li class="infoDet-selfSay">
-                                <span>张三&nbsp&nbsp&nbsp17:10:10</span>
-
-                                <p>11111111111</p>
-                            </li>
-                        </ul>
+                                <%--<p>11111111111</p>--%>
+                            <%--</li>--%>
+                        <%--</ul>--%>
                     </div>
                     <div class="infoDet-page">
                         <span></span>
-
                         <div class="infoDet-pageQuery">
-                            <i class="infoDet-firstPage"></i>
-                            <i class="infoDet-prePage"></i>
+                            <i class="infoDet-firstPage allowClick"></i>
+                            <i class="infoDet-prePage allowClick"></i>
                             <i class="infoDet-nextPage"></i>
                             <i class="infoDet-lastPage"></i>
                         </div>
