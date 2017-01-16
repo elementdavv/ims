@@ -30,8 +30,14 @@ public interface GroupService {
 	 * @return
 	 */
 	public String leftGroup(String groupids, String groupid);
-	public String refreshGroup();
-	public String listGroupMemebers();
+	
+	/**
+	 * 刷新群信息（名称）
+	 * @param groupid
+	 * @param groupname
+	 * @return
+	 */
+	public String refreshGroup(String groupid, String groupname);
 	
 	/**
 	 * 获取群组列表
@@ -47,4 +53,34 @@ public interface GroupService {
 	 * @return
 	 */
 	public String dissLovedGroup(String userid, String groupid);
+
+	/**
+	 * 与融云同步用户群列表
+	 * @param userid
+	 * @return
+	 */
+	public String syncUserGroup(String userid);
+
+	/**
+	 * 转移群组
+	 * @param userid
+	 * @param groupid
+	 * @return
+	 */
+	public String transferGroup(String userid, String groupid);
+
+	/**
+	 * 获取群成员
+	 * @param groupid
+	 * @return
+	 */
+	public String listGroupMembers(String groupid);
+
+	/**
+	 * 统一管理群成员
+	 * @param groupid
+	 * @param groupids
+	 * @return
+	 */
+	public String manageGroupMem(String groupid, String groupids);
 }

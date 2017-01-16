@@ -130,9 +130,9 @@ public class Example {
 		} 
 		
 		// 发送群组消息方法（以一个用户身份向群组发送消息，单条消息最大 128k.每秒钟最多发送 20 条消息，每次最多向 3 个群组发送，如：一次向 3 个群组发送消息，示为 3 条消息。） 
-		String[] messagePublishGroupToGroupId = {"groupId1","groupId2","groupId3"};
+		String[] messagePublishGroupToGroupId = {"1","3","5"};
 		TxtMessage messagePublishGroupTxtMessage = new TxtMessage("hello", "helloExtra");
-		CodeSuccessReslut messagePublishGroupResult = rongCloud.message.publishGroup("userId", messagePublishGroupToGroupId, messagePublishGroupTxtMessage, "thisisapush", "{\"pushData\":\"hello\"}", 1, 1);
+		CodeSuccessReslut messagePublishGroupResult = rongCloud.message.publishGroup("28", messagePublishGroupToGroupId, messagePublishGroupTxtMessage, "thisisapush", "{\"pushData\":\"hello\"}", 1, 1);
 		System.out.println("publishGroup:  " + messagePublishGroupResult.toString());
 		
 		// 发送讨论组消息方法（以一个用户身份向讨论组发送消息，单条消息最大 128k，每秒钟最多发送 20 条消息.） 
@@ -197,7 +197,7 @@ public class Example {
 		System.out.println("join:  " + groupJoinResult.toString());
 		
 		// 查询群成员方法 
-		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("groupId1");
+		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("29");
 		System.out.println("queryUser:  " + groupQueryUserResult.toString());
 		
 		// 退出群组方法（将用户从群中移除，不再接收该群组的消息.） 

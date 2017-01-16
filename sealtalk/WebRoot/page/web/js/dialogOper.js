@@ -3,14 +3,17 @@
  */
 $(function(){
     window.converseACount = [];
-
+    //删除群租种的成员
     $('.selectedList').delegate('.deleteMemberIcon','click',function(){
         var name = $(this).prev().html();
-        var curObj = delObjFromArr(converseACount,'name',name);
+        var memberID = $(this).parent().attr('memberID');
+        deleteElement(converseACount,memberID);
+        //changeSelected(converseACount);
         changeSelected(converseACount);
-        changeSelected(converseACount);
-        var account = curObj.account;
-        $('li[account='+account+']').find('.dialogCheckBox').click();
+        for(var i = 0;i<converseACount.length;i++){
+            var memberID = converseACount[i];
+            //$('li[id='+memberID+']').find('.dialogCheckBox').click();
+        }
     })
 
     //弹窗中的树形结构的收起展开
@@ -66,13 +69,15 @@ $(function(){
                     converseACount.push(account);
                 }
             }
+            changeSelected(converseACount);
+
         }
-        changeSelected(converseACount);
     })
 
 })
 
-function delObjFromArr(arr,name,value){
+//删除数组中的某个对象
+function deleteElement(arr,name,value){
     for(var i = 0;i<arr.length;i++){
         var curObj = arr[i];
         for(var key in curObj){
@@ -84,12 +89,13 @@ function delObjFromArr(arr,name,value){
     return curObj;
 }
 
-
+//修改select里面的成员
 function changeSelected(converseACount){
     var dom = $('.selectedList ul');
     var sHTML = '';
     for(var i = 0;i<converseACount.length;i++){
-        sHTML+='<li><span class="memberName">'+converseACount[i].name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
+        var name = findMemberInList(converseACount[i]).name;
+        sHTML+='<li memberID="'+converseACount[i]+'"><span class="memberName">'+name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
     }
     dom.html($(sHTML));
 }

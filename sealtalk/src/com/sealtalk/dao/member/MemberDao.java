@@ -27,7 +27,7 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @param account
 	 * @return
 	 */
-	public TMember getOneOfMember(String account);
+	public Object[] getOneOfMember(String account);
 
 	/**
 	 * in 查询多个用户按账号
@@ -57,5 +57,12 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @return
 	 */
 	public TMember getMemberForId(int valueOf);
+
+	/**
+	 * 按账号查询id
+	 * @param account
+	 * @return
+	 */
+	public int getMemberIdForAccount(String account);
 	
 } 

@@ -13,6 +13,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
     <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
+    <%--<script src="http://cdn.ronghub.com/plupload.min.js"></script>--%>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
@@ -26,7 +27,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>--%>
+    <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
 
     <%--
     <script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>
@@ -409,7 +410,7 @@
                         <li>--%>
                             <%--<span>工作签名：</span>--%>
                             <%--<p>--%>
-                                <%--<textarea class="perSetBox-textarea">--%>
+                                <%--<showEmoji class="perSetBox-textarea">--%>
 
                                         <%--</textarea>--%>
                                 <%--</p>--%>
@@ -485,7 +486,7 @@
                     <i class="mr-record active" id="mr-record"></i>
                 </div>
             </h3>
-            <div class="mr-chatview">
+            <div class="mr-chatview" id="upload_conainer">
                 <p class="mr-Date">-11月11日 星期五-</p>
 
                 <p class="mr-time">9:28</p>
@@ -510,9 +511,37 @@
                 <div class="rongyun-emoji"></div>
                 <div class="mr-expresFile clearfix">
                     <span class="showEmoji"></span>
-                    <i></i>
+                    <i id="upload_file"></i>
                 </div>
-                <textarea placeholder="说点什么..." class="textarea"></textarea>
+                <%--<pre placeholder="说点什么..." class="textarea"></pre>--%>
+
+
+
+
+
+
+
+
+    <pre id="message-content" contenteditable-directive
+    contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
+    atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
+    ondrop="return false;" class="textarea"></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <strong class="sendMsgBTN">发送</strong>
             </div>
         </div>
@@ -569,72 +598,70 @@
             </ul>
             <div class="infoDetailsBox" id="infoDetailsBox">
                 <div class="infoDetails-data active">
-                    <div class="infoDet-personal clearfix">
-                        <img src="page/web/css/img/1.jpg">
+                    <%--<div class="infoDet-personal clearfix">--%>
+                        <%--<img src="page/web/css/img/1.jpg">--%>
 
-                        <div class="infoDet-text">
-                            <p>张三</p>
+                        <%--<div class="infoDet-text">--%>
+                            <%--<p>张三</p>--%>
 
-                            <div class="clearfix">
-                                <span class="infoDet-postInfo"></span>
-                                <span class="infoDet-position"></span>
-                                <span class="infoDet-addPer"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="infoDetList clearfix">
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                        <li>
-                            <span>手机：</span>
-                            <b>123123123123</b>
-                        </li>
-                    </ul>
+                            <%--<div class="clearfix">--%>
+                                <%--<span class="infoDet-postInfo"></span>--%>
+                                <%--<span class="infoDet-position"></span>--%>
+                                <%--<span class="infoDet-addPer"></span>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<ul class="infoDetList clearfix">--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<span>手机：</span>--%>
+                            <%--<b>123123123123</b>--%>
+                        <%--</li>--%>
+                    <%--</ul>--%>
                 </div>
                 <div class="infoDet-chatRecord">
-                    <div class="infoDet-search">
+                    <div class="infoDet-search active">
                         <input type="text" placeholder="查找信息..."/>
                         <i></i>
                     </div>
-                    <div class="infoDet-recordAll">
-                        <p class="infoDet-timeRecord">2016-09-28</p>
-                        <ul class="infoDet-contentDet">
-                            <li class="infoDet-OthersSay">
-                                <span>张三&nbsp&nbsp&nbsp17:10:10</span>
+                    <div class="infoDet-recordAll chatRecordSel">
+                        <%--<p class="infoDet-timeRecord">2016-09-28</p>--%>
+                        <%--<ul class="infoDet-contentDet">--%>
+                            <%--<li class="infoDet-OthersSay">--%>
+                                <%--<span>张三&nbsp&nbsp&nbsp17:10:10</span>--%>
+                                <%--<p>11111111111</p>--%>
+                            <%--</li>--%>
+                            <%--<li class="infoDet-selfSay">--%>
+                                <%--<span>张三&nbsp&nbsp&nbsp17:10:10</span>--%>
 
-                                <p>11111111111</p>
-                            </li>
-                            <li class="infoDet-selfSay">
-                                <span>张三&nbsp&nbsp&nbsp17:10:10</span>
-
-                                <p>11111111111</p>
-                            </li>
-                        </ul>
+                                <%--<p>11111111111</p>--%>
+                            <%--</li>--%>
+                        <%--</ul>--%>
                     </div>
                     <div class="infoDet-page">
                         <span></span>
-
                         <div class="infoDet-pageQuery">
-                            <i class="infoDet-firstPage"></i>
-                            <i class="infoDet-prePage"></i>
+                            <i class="infoDet-firstPage allowClick"></i>
+                            <i class="infoDet-prePage allowClick"></i>
                             <i class="infoDet-nextPage"></i>
                             <i class="infoDet-lastPage"></i>
                         </div>
@@ -905,9 +932,11 @@
                 <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
 
                 <div class="contactBox">
-                    <input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>
+                    <%--<input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>--%>
 
-                    <div class="selectedList"></div>
+                    <div class="selectedList">
+                        <ul></ul>
+                    </div>
                 </div>
             </div>
 

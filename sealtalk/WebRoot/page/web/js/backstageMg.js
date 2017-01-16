@@ -9,11 +9,12 @@ $(document).ready(function(){
        var sType=$(this).attr('data-type');
        switch(sType){
            case 'd':
+               //$('.infoDetailsBox').find('.infoDetails-data').removeClass('chatHide');
                break;
            case 'r':
                var sTargettype=$('#perContainer').attr('targettype');
                var sTargetid=$('#perContainer').attr('targetid');
-               historyMsg(sTargettype,sTargetid);
+               historyMsg(sTargettype,sTargetid,0,20);
                break;
            case 'f':
                break;
@@ -46,6 +47,43 @@ $(document).ready(function(){
         $('#iqs_iframe').attr('src','page/web/clipImg.jsp');
         $('#iqs_iframe').removeClass('chatHide');
     });
+    //首页
+    $('#infoDetailsBox').on('click','.infoDet-pageQuery i',function(){
+        var sTargettype=$('#perContainer').attr('targettype');
+        var sTargetid=$('#perContainer').attr('targetid');
+        var timestrap;
+        if($(this).hasClass('infoDet-pageQuery')){
+            timestrap=0;
+        }else if($(this).hasClass('infoDet-prePage')){
+            timestrap=null;
+            $('.infoDet-nextPage').addClass('allowClick');
+            $('.infoDet-pageQuery').addClass('allowClick');
+        }else if($(this).hasClass('infoDet-firstPage')){
+            $('.infoDet-prePage').removeClass('allowClick');
+            $('.infoDet-firstPage').removeClass('allowClick');
+        }else if($(this).hasClass('infoDet-nextPage')){
+            //timestrap=null;
+            //timestrap=JSON.parse($('.infoDet-contentDet').find('li').last().attr('data-time'));
+        }
+        if($(this).hasClass('allowClick')){
+            historyMsg(sTargettype,sTargetid,timestrap,20,$(this));
+        }
+    });
+    //$('#infoDetailsBox').on('click','.infoDet-prePage',function(){
+    //    var sTargettype=$('#perContainer').attr('targettype');
+    //    var sTargetid=$('#perContainer').attr('targetid');
+    //    historyMsg(sTargettype,sTargetid,0,20);
+    //});
+    //$('#infoDetailsBox').on('click','.infoDet-firstPage',function(){
+    //    var sTargettype=$('#perContainer').attr('targettype');
+    //    var sTargetid=$('#perContainer').attr('targetid');
+    //    historyMsg(sTargettype,sTargetid,0,20);
+    //});
+    //$('#infoDetailsBox').on('click','.infoDet-prePage',function(){
+    //    var sTargettype=$('#perContainer').attr('targettype');
+    //    var sTargetid=$('#perContainer').attr('targetid');
+    //    historyMsg(sTargettype,sTargetid,0,20);
+    //});
 });
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");

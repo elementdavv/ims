@@ -47,45 +47,48 @@ public class BranchServiceImpl implements BranchService {
 		ArrayList<Object> branchList = new ArrayList<Object>();
 		
 		try {
-			for(int i = 0; i < list.size(); i++) {
-				Object[] o = (Object[])list.get(i);
-				JSONObject jm = new JSONObject();
-				
-				if (!StringUtils.getInstance().isNull(o[0])) {
-					jm.put("flag", 1);
-					jm.put("pid", isBlank(o[4]));
-					jm.put("id", isBlank(o[7]));
-					jm.put("account", isBlank(o[8]));
-					jm.put("name", isBlank(o[9]));
-					jm.put("logo", isBlank(o[10]));
-					jm.put("telephone", isBlank(o[11]));
-					jm.put("email", isBlank(o[12]));
-					jm.put("address", isBlank(o[13]));
-					jm.put("token", isBlank(o[14]));
-					jm.put("sex", isBlank(o[15]));
-					jm.put("birthday", isBlank(o[16]));
-					jm.put("workno", isBlank(o[17]));
-					jm.put("mobile", isBlank(o[18]));
-					jm.put("groupmax", isBlank(o[19]));
-					jm.put("groupuse", isBlank(o[20]));
-					jm.put("intro", isBlank(o[21]));
+			if (branchList != null) {
+				for(int i = 0; i < list.size(); i++) {
+					Object[] o = (Object[])list.get(i);
+					JSONObject jm = new JSONObject();
 					
-					if (!branchList.contains(o[4])) {
-						JSONObject jb = new JSONObject();
-						jb.put("flag", 0);
-						jb.put("id", isBlank(o[4]));
-						jb.put("pid", isBlank(o[5]));
-						jb.put("name", isBlank(o[6]));
-						ja.add(jb);
-						branchList.add(o[4]);
+					if (!StringUtils.getInstance().isNull(o[0])) {
+						jm.put("flag", 1);
+						jm.put("pid", isBlank(o[4]));
+						jm.put("id", isBlank(o[7]));
+						jm.put("account", isBlank(o[8]));
+						jm.put("name", isBlank(o[9]));
+						jm.put("logo", isBlank(o[10]));
+						jm.put("telephone", isBlank(o[11]));
+						jm.put("email", isBlank(o[12]));
+						jm.put("address", isBlank(o[13]));
+						jm.put("token", isBlank(o[14]));
+						jm.put("sex", isBlank(o[15]));
+						jm.put("birthday", isBlank(o[16]));
+						jm.put("workno", isBlank(o[17]));
+						jm.put("mobile", isBlank(o[18]));
+						jm.put("groupmax", isBlank(o[19]));
+						jm.put("groupuse", isBlank(o[20]));
+						jm.put("intro", isBlank(o[21]));
+						jm.put("postitionname", isBlank(o[23]));
+						
+						if (!branchList.contains(o[4])) {
+							JSONObject jb = new JSONObject();
+							jb.put("flag", 0);
+							jb.put("id", isBlank(o[4]));
+							jb.put("pid", isBlank(o[5]));
+							jb.put("name", isBlank(o[6]));
+							ja.add(jb);
+							branchList.add(o[4]);
+						}
+					} else {
+						jm.put("id", isBlank(o[4]));
+						jm.put("pid", isBlank(o[5]));
+						jm.put("name", isBlank(o[6]));
+						jm.put("flag", 0);  
 					}
-				} else {
-					jm.put("id", isBlank(o[4]));
-					jm.put("pid", isBlank(o[5]));
-					jm.put("name", isBlank(o[6]));
-					jm.put("flag", 0);  
+					ja.add(jm);
 				}
-				ja.add(jm);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,30 +113,33 @@ public class BranchServiceImpl implements BranchService {
 			JSONArray ja = new JSONArray();
 			
 			try {
-				for(int i = 0; i < list.size(); i++) {
-					Object[] o = (Object[])list.get(i);
-				
-					if (!StringUtils.getInstance().isBlank((String)o[1])) {
-						JSONObject jm = new JSONObject();
-						jm.put("code", 1);
-						jm.put("text", "ok");
-						jm.put("id", isBlank(o[0]));
-						jm.put("account", isBlank(o[1]));
-						jm.put("fullname", isBlank(o[2]));
-						jm.put("logo", isBlank(o[3]));
-						jm.put("telephone", isBlank(o[4]));
-						jm.put("email", isBlank(o[5]));
-						jm.put("address", isBlank(o[6]));
-						jm.put("token", isBlank(o[7]));
-						jm.put("sex", isBlank(o[8]));
-						jm.put("birthday", isBlank(o[9]));
-						jm.put("workno", isBlank(o[10]));
-						jm.put("mobile", isBlank(o[11]));
-						jm.put("groupmax", isBlank(o[12]));
-						jm.put("groupuse", isBlank(o[13]));
-						jm.put("intro", isBlank(o[14]));
-						ja.add(jm);
-						jm = null;
+				if( list != null) {
+					for(int i = 0; i < list.size(); i++) {
+						Object[] o = (Object[])list.get(i);
+					
+						if (!StringUtils.getInstance().isBlank((String)o[1])) {
+							JSONObject jm = new JSONObject();
+							jm.put("code", 1);
+							jm.put("text", "ok");
+							jm.put("id", isBlank(o[0]));
+							jm.put("account", isBlank(o[1]));
+							jm.put("fullname", isBlank(o[2]));
+							jm.put("logo", isBlank(o[3]));
+							jm.put("telephone", isBlank(o[4]));
+							jm.put("email", isBlank(o[5]));
+							jm.put("address", isBlank(o[6]));
+							jm.put("token", isBlank(o[7]));
+							jm.put("sex", isBlank(o[8]));
+							jm.put("birthday", isBlank(o[9]));
+							jm.put("workno", isBlank(o[10]));
+							jm.put("mobile", isBlank(o[11]));
+							jm.put("groupmax", isBlank(o[12]));
+							jm.put("groupuse", isBlank(o[13]));
+							jm.put("intro", isBlank(o[14]));
+							jm.put("postitionname", isBlank(o[16]));
+							ja.add(jm); 
+							jm = null;
+						}
 					}
 				}
 				result = ja.toString();
