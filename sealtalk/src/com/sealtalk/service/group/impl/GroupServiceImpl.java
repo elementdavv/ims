@@ -1,5 +1,7 @@
 package com.sealtalk.service.group.impl;
 
+import io.rong.models.GroupInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,14 +58,14 @@ public class GroupServiceImpl implements GroupService {
 					}
 				}  
 				
-				int idsLen = 0;
-				
+				int idsLen = groupIdsArr.length;
+				/*
 				if (tempArrIds.contains(userId)) {
 					idsLen = groupIdsArr.length;
 				} else {
 					tempArrIds.add(userId);
 					idsLen = groupIdsArr.length + 1;
-				}
+				}*/
 				
 				Integer [] tempIds = new Integer[idsLen];
 			
@@ -100,8 +102,8 @@ public class GroupServiceImpl implements GroupService {
 					
 					//创建群组
 					String code = "G" + userId + "_" + TimeGenerator.getInstance().getUnixTime();
-				
-					int groupId = groupDao.createGroup(userIdInt, code, groupNameStr);
+					
+					int groupId = groupDao.createGroup(userIdInt, code, groupNameStr, memberList.size());
 					
 					ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
 					
@@ -147,8 +149,10 @@ public class GroupServiceImpl implements GroupService {
 							groupIdsArr = sendRCIds;
 						} 
 						
-						RongCloudUtils.getInstance().createGroup(groupIdsArr, groupId + "", groupNameStr);
-						jo.put("code", 200);
+						String createCGcode = RongCloudUtils.getInstance().createGroup(groupIdsArr, groupId + "", groupNameStr);
+						RongCloudUtils.getInstance().sendSysMsg(userId, groupIdsArr, "hello", "");
+						
+						jo.put("code", createCGcode);
 						jo.put("text", JSONUtils.getInstance().modelToJSONObj(tg));
 					} else {
 						groupDao.removeGroup(tg);
@@ -188,27 +192,40 @@ public class GroupServiceImpl implements GroupService {
 			} else {
 				TGroup tg = groupDao.getGroupForId(groupIdInt);
 				
+				int volumeUse = tg.getVolumeuse();
+				int volume = tg.getVolume();
+				int memberVolume = 0;
+			
 				String groupName = tg.getName();
 				
 				String[] groupIdsArr = StringUtils.getInstance().stringSplit(groupIds, ",");
-				
-				//保存数据库
-				ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
-				
-				for(int i = 0; i < groupIdsArr.length; i++) {
+
+				memberVolume = groupIdsArr.length;
 					
-					int id = StringUtils.getInstance().strToInt(groupIdsArr[i]);
+				if (volumeUse >= volume ||
+						(volume + memberVolume) > volume) {
+					jo.put("code", 0);
+					jo.put("text", Tips.GROUPMOREVOLUME.getText());
+				} else {
+					//保存数据库
+					ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
 					
-					tgmList.add(new TGroupMember(groupIdInt, id, "0", 0));
+					for(int i = 0; i < groupIdsArr.length; i++) {
+						
+						int id = StringUtils.getInstance().strToInt(groupIdsArr[i]);
+						
+						tgmList.add(new TGroupMember(groupIdInt, id, "0", 0));
+					}
+					
+					groupMemberDao.saveGroupMemeber(tgmList);
+					groupDao.updateGroupMemberNum(groupIdInt, memberVolume);
+					
+					//通知融云
+					RongCloudUtils.getInstance().joinGroup(groupIdsArr, groupId, groupName);
+					
+					jo.put("code", 1);
+					jo.put("text", Tips.OK.getText());
 				}
-				
-				groupMemberDao.saveGroupMemeber(tgmList);
-				
-				//通知融云
-				RongCloudUtils.getInstance().joinGroup(groupIdsArr, groupId, groupName);
-				
-				jo.put("code", 1);
-				jo.put("text", Tips.OK.getText());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -236,6 +253,7 @@ public class GroupServiceImpl implements GroupService {
 				Integer[] userIdsInt = StringUtils.getInstance().stringArrToIntArr(userIds);
 				
 				groupMemberDao.removeGroupMemeber(userIdsInt, groupIdInt);
+				groupDao.updateGroupMemberNum(groupIdInt, userIds.length);
 				
 				//通知融云
 				RongCloudUtils.getInstance().leftGroup(userIds, groupId);
@@ -253,18 +271,6 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public String refreshGroup() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public String listGroupMemebers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
 	public String dissLovedGroup(String userId, String groupId) {
 		JSONObject jo = new JSONObject();
 		
@@ -279,7 +285,24 @@ public class GroupServiceImpl implements GroupService {
 				jo.put("code", -1);
 				jo.put("text", Tips.NOSECGROUP.getText());
 			} else {
+				int count = groupMemberDao.getGroupMemberCountForGoupId(groupId);
+				int delNum = groupMemberDao.removeGroupMember(groupIdInt);
 				
+				if (count == delNum) {
+					int delGroupNum = groupDao.removeGroupForGroupId(groupId);
+					
+					if (delGroupNum > 0) {
+						jo.put("code", 1);
+						jo.put("text", Tips.OK.getText());
+						RongCloudUtils.getInstance().dissLoveGroup(userId, groupId);
+					} else {
+						jo.put("code", 0);
+						jo.put("text", Tips.FAIL.getText());
+					}
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.NOTCLEARALLMEMBER.getText());
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -299,7 +322,18 @@ public class GroupServiceImpl implements GroupService {
 				jo.put("code", -1);
 				jo.put("text", Tips.NULLUSER.getText());
 			} else {
-				List<TGroup> groupList = groupDao.getGroupList(userIdInt);
+				List<TGroupMember> groupMembers = groupMemberDao.getGroupMemberForUserId(userIdInt);
+				ArrayList<Integer> temp = new ArrayList<Integer>();
+				
+				Integer[] groups = new Integer[groupMembers.size()];
+				
+				for(int i = 0; i < groupMembers.size(); i++) {
+					int id = groupMembers.get(i).getGroupId();
+					if (temp.contains(id)) continue ;
+					groups[i] = id;
+				}
+				
+				List<TGroup> groupList = groupDao.getGroupList(groups);
 				
 				if (groupList != null) {
 					JSONArray ja = new JSONArray();
@@ -321,6 +355,249 @@ public class GroupServiceImpl implements GroupService {
 		}
 		
 		return jo.toString();	
+	}
+	
+	@Override
+	public String syncUserGroup(String userId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			
+			if (userIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getText());
+			} else {
+				List<TGroupMember> groupMembers = groupMemberDao.getGroupMemberForUserId(userIdInt);
+				ArrayList<Integer> temp = new ArrayList<Integer>();
+				
+				Integer[] groups = new Integer[groupMembers.size()];
+				
+				for(int i = 0; i < groupMembers.size(); i++) {
+					int id = groupMembers.get(i).getGroupId();
+					if (temp.contains(id)) continue ;
+					groups[i] = id;
+				}
+				
+				List<TGroup> groupList = groupDao.getGroupList(groups);
+				
+				if (groupList != null) {
+					GroupInfo[] gi = new GroupInfo[groupList.size()];
+					
+					for(int i = 0; i < groupList.size(); i++) {
+						TGroup t = groupList.get(i);
+						
+						gi[i] = new GroupInfo(t.getId() + "", t.getName());
+					}
+					String code = RongCloudUtils.getInstance().syncGroup(gi, userId);
+					jo.put("code", code);
+					jo.put("text", code.equals("200") ? Tips.OK.getText() : Tips.FAIL.getText());
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.FAIL.getText());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();	
+	}
+	
+
+	@Override
+	public String transferGroup(String userId, String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			boolean b = true;
+			
+			if (userIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getText());
+			} else if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else {
+				TGroupMember tgm = groupMemberDao.getGroupMemberCreator(groupId);
+				
+				if (tgm != null) {
+					//更新群组成员关系表
+					int resut1 = groupMemberDao.transferGroup(userIdInt, groupIdInt, tgm.getId());
+					
+					if (resut1 > 0) {
+						//更新群组表
+						int result = groupDao.transferGroup(userIdInt, groupIdInt);
+						if (result > 0) {
+							jo.put("code", 1);
+							jo.put("text", Tips.OK.getText());
+						} else {
+							b = false;
+						}
+					} else {
+						b = false;
+					}
+				} else {
+					b = false;
+				}
+				
+			}
+			
+			if (!b) {
+				jo.put("code", 0);
+				jo.put("text", Tips.FAIL.getText());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();	
+	}
+	
+	@Override
+	public String listGroupMembers(String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else {
+				List<TGroupMember> groupMember = groupMemberDao.listGroupMembers(groupIdInt);
+				int[] ids = new int[groupMember.size()];
+				
+				for(int i = 0; i < groupMember.size(); i++) {
+					ids[i] = groupMember.get(i).getMemberId();
+				}
+				jo.put("code", 1);
+				jo.put("text", ids);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public String refreshGroup(String groupId, String groupName) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else if (StringUtils.getInstance().isBlank(groupName)) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLGROUPNAME.getText());
+			} else {
+				int result = groupDao.changeGroupName(groupIdInt, groupName);
+				
+				if (result > 0) {
+					RongCloudUtils.getInstance().refreshGroup(groupId, groupName);
+					jo.put("code", 1);
+					jo.put("text", Tips.OK.getText());
+				} else {
+					jo.put("code", 1);
+					jo.put("text", Tips.FAIL.getText());
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public String manageGroupMem(String groupId, String groupIds) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else if (StringUtils.getInstance().isBlank(groupIds) ||
+				!(groupIds.startsWith("[") && groupIds.endsWith("]"))) {
+					jo.put("code", -1);
+					jo.put("text", Tips.NULLGROUPMEMBER.getText());
+			} else {
+				TGroup tg = groupDao.getGroupForId(groupIdInt);
+				
+				int volume = tg.getVolume();
+				int memberVolume = 0;
+			
+				String[] groupIdsArr = StringUtils.getInstance().stringSplit(groupIds, ",");
+				ArrayList<Integer> grouIdsListInt = (ArrayList<Integer>) StringUtils.getInstance().stringArrToListInt(groupIdsArr);
+
+				memberVolume = groupIdsArr.length;
+					
+				if (memberVolume >= volume) {
+					jo.put("code", 0);
+					jo.put("text", Tips.GROUPMOREVOLUME.getText());
+				} else {
+					//获取群组成员
+					List<TGroupMember> groupMember = groupMemberDao.listGroupMembers(groupIdInt);
+					List<Integer> dbGroupMemIds = new ArrayList<Integer>();
+					//要增加的id
+					List<Integer> needAddIds = new ArrayList<Integer>();		
+					//要删除的id
+					List<Integer> needDelIds = new ArrayList<Integer>();
+					
+					//所有现有群组id
+					for(int i = 0; i < groupMember.size(); i++) {
+						dbGroupMemIds.add(groupMember.get(i).getMemberId());
+					}
+					
+					for (int i = 0; i < grouIdsListInt.size(); i++) {
+						if (!dbGroupMemIds.contains(grouIdsListInt.get(i))) {
+							needAddIds.add(grouIdsListInt.get(i));
+						}
+					}
+					
+					for (int i = 0; i < dbGroupMemIds.size(); i++) {
+						if (!grouIdsListInt.contains(dbGroupMemIds.get(i))) {
+							needDelIds.add(dbGroupMemIds.get(i));
+						}
+					}
+					
+					Integer[] needDelIdsArr = new Integer[needDelIds.size()];
+					
+					needDelIds.toArray(needDelIdsArr);
+					
+					//删除多余数据
+					groupMemberDao.delGroupMemberForMemberIdsAndGroupId(groupIdInt, needDelIdsArr);
+					//保存新增数据 
+					
+					ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
+					
+					for(int i = 0; i < needAddIds.size(); i++) {
+						tgmList.add(new TGroupMember(groupIdInt, needAddIds.get(i), "0", 0));
+					}
+					
+					groupMemberDao.saveGroupMemeber(tgmList);
+					groupDao.updateGroupMemberNum(groupIdInt, groupIdsArr.length);
+					
+					//通知融云
+					
+					jo.put("code", 1);
+					jo.put("text", Tips.OK.getText());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
 	}
 
 	private MemberDao memberDao;

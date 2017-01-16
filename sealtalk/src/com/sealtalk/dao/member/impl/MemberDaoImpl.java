@@ -3,12 +3,12 @@ package com.sealtalk.dao.member.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
-import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
@@ -61,16 +61,39 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TMember getOneOfMember(String account) {
+	public Object[] getOneOfMember(String account) {
 		try {
+			String hql = "select " +
+				"M.id MID," + 
+				"M.account," +
+				"M.fullname," +
+				"M.logo," +
+				"M.telephone," +
+				"M.email," +
+				"M.address," +
+				"M.token," +
+				"M.sex," +
+				"M.birthday," +
+				"M.workno," +
+				"M.mobile," +
+				"M.groupmax," +
+				"M.groupuse," +
+				"M.intro," +
+				"B.name BNAME," +
+				"P.name PNAME," +
+				"O.name ONAME " +
+				"from t_member M left join t_branch_member BM on M.id=BM.member_id " +
+				"left join t_branch B on BM.branch_id=B.id " +
+				"left join t_position P on BM.position_id=P.id " +
+				"inner join t_organ O on M.organ_id=O.id " +
+				"where account='" + account + "'";
 			
-			Criteria ctr = getCriteria();
-			ctr.add(Restrictions.eq("account", account));
+			SQLQuery query = this.getSession().createSQLQuery(hql);
 			
-			List<TMember> list = ctr.list();
+			List list = query.list();
 			
 			if (list.size() > 0) {
-				return (TMember) list.get(0);
+				return (Object[]) list.get(0);
 			}
 			
 		} catch (Exception e) {
@@ -139,6 +162,7 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TMember getMemberForId(int id) {
 		try {
@@ -157,6 +181,27 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		}
 		
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getMemberIdForAccount(String account) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("account", account));
+			
+			List<TMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list.get(0).getId();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 
 }

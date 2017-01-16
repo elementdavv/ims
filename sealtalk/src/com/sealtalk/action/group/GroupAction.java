@@ -107,17 +107,27 @@ public class GroupAction extends BaseAction {
 		}
 		
 		returnToClient(result);
-		returnToClient("{}");
 		return "text";
 	}
 	
 	/**
-	 * 刷新群组
+	 * 刷新群组信息(名称)
 	 * @return
 	 * @throws ServletException
 	 */
 	public String refreshGroup() throws ServletException {
-		returnToClient("{}");
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.refreshGroup(groupid, groupname);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
 		return "text";
 	}
 	
@@ -127,17 +137,60 @@ public class GroupAction extends BaseAction {
 	 * @throws SevletException
 	 */
 	public String listGroupMemebers () throws ServletException {
-		returnToClient("{}");
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.listGroupMembers(groupid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
 		return "text";
 	} 
 	
 	/**
-	 * 转移群
+	 * 群主转移
 	 * @return
 	 * @throws ServletException
 	 */
 	public String transferGroup() throws ServletException {
-		returnToClient("{}");
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.transferGroup(userid, groupid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 同步用户所属群组(第一次连接融云服务器时)
+	 * @return
+	 * @throws ServletException
+	 */
+	public String syncUserGroup() throws ServletException {
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.syncUserGroup(userid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
 		return "text";
 	}
 	
@@ -164,6 +217,23 @@ public class GroupAction extends BaseAction {
 		return "text";
 	}
 	
+	public String manageGroupMem() throws ServletException {
+		
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.manageGroupMem(groupid, groupids);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		return "text";
+	}
+	
 	private GroupService groupService;
 	
 	public GroupService getGroupService() {
@@ -177,9 +247,18 @@ public class GroupAction extends BaseAction {
 	private String userid;			//自己
 	private String groupids;		//群成员
 	private String groupid;			//群id
+	private String groupname;		//群名称
 	
 	public String getGroupid() {
 		return groupid;
+	}
+
+	public String getGroupname() {
+		return groupname;
+	}
+
+	public void setGroupname(String groupname) {
+		this.groupname = groupname;
 	}
 
 	public void setGroupid(String groupid) {

@@ -9,11 +9,10 @@ import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.group.GroupMemberDao;
-import com.sealtalk.model.TGroup;
 import com.sealtalk.model.TGroupMember;
 
 /**
- * @功能  成员数据管理层
+ * @功能  群、成员关第管理层
  * @author hao_dy
  * @date 2017/01/04
  * @since jdk1.7
@@ -61,6 +60,116 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new HibernateException(e);
+		}
+	}
+
+	@Override
+	public int removeGroupMember(int groupId) {
+		try {
+			String sql = "delete TGroupMember t where t.groupId=" + groupId;
+			int result = delete(sql);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HibernateException(e);
+		}
+	}
+
+	@Override
+	public int getGroupMemberCountForGoupId(String groupId) {
+		try {
+			int count = count("from TGroupMember where groupId=" + groupId);
+			return count;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int transferGroup(int userIdInt, int groupIdInt, Integer id) {
+		try {
+			String hql = "update TGroupMember t set t.isCreator=0 where t.id=" + id;
+			update(hql);
+			
+			hql = "update TGroupMember t set t.isCreator=1 where t.groupId=" + groupIdInt + " and t.memberId=" + userIdInt;
+			
+			int result = update(hql);
+			
+			return result;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public TGroupMember getGroupMemberCreator(String groupId) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.and(Restrictions.eq("groupId", groupId), Restrictions.eq("isCreator", 1)));
+			
+			List<TGroupMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TGroupMember> listGroupMembers(int groupId) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("groupId", groupId));
+			
+			List<TGroupMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List<TGroupMember> getGroupMemberForUserId(int userId) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("memberId", userId));
+			
+			List<TGroupMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public void delGroupMemberForMemberIdsAndGroupId(int groupIdInt,
+			Integer[] needDelIdsArr) {
+		try {
+			String hql = "delete TGroupMember where groupId=" + groupIdInt + " and memberId in (" + needDelIdsArr + ")";
+			delete(hql);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 

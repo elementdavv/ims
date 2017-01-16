@@ -47,8 +47,12 @@ public class BranchDaoImpl extends BaseDao<TBranch, Long> implements BranchDao {
 				"M.mobile," +
 				"M.groupmax," +
 				"M.groupuse," +
-				"M.intro " +
-				"from t_branch_member BM right join t_branch BC on BM.branch_id=BC.id left join t_member M on BM.member_id=M.id"; 
+				"M.intro," +
+				"P.id PID," +
+				"P.name " +
+				"from t_branch_member BM right join t_branch BC on BM.branch_id=BC.id " +
+				"left join t_member M on BM.member_id=M.id " +
+				"left join t_position P on BM.position_id=P.id"; 
 		
 		try {
 			SQLQuery query = this.getSession().createSQLQuery(sql);
@@ -73,9 +77,25 @@ public class BranchDaoImpl extends BaseDao<TBranch, Long> implements BranchDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List getBranchMember(String branchId) {
-		String sql = "select M.id,M.account,M.fullname,M.logo,M.telephone,M.email," +
-			"M.address,M.token,M.sex,M.birthday,M.workno,M.mobile,M.groupmax,M.groupuse," +
-			"M.intro from t_branch_member BM inner join t_member M on BM.member_id=M.id where BM.branch_id=" + branchId;	
+		String sql = "select " +
+				"M.id," +
+				"M.account," +
+				"M.fullname," +
+				"M.logo," +
+				"M.telephone," +
+				"M.email," +
+				"M.address," +
+				"M.token," +
+				"M.sex," +
+				"M.birthday," +
+				"M.workno," +
+				"M.mobile," +
+				"M.groupmax," +
+				"M.groupuse," +
+				"M.intro," +
+				"P.id PID," +
+				"P.name " +
+				"from t_branch_member BM left join t_position P on BM.position_id=P.id inner join t_member M on BM.member_id=M.id where BM.branch_id=" + branchId;	
 		
 		try {
 			SQLQuery query = this.getSession().createSQLQuery(sql);

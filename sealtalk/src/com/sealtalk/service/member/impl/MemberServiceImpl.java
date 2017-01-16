@@ -38,28 +38,37 @@ public class MemberServiceImpl implements MemberService {
 		return status;
 	}
 
-
 	@Override
 	public String getOneOfMember(String account) {
 
 		JSONObject jo = new JSONObject();
 		
 		try {
-			TMember member = memberDao.getOneOfMember(account);
+			Object[] member = memberDao.getOneOfMember(account);
 			
 			if (member == null) {
 				jo.put("code", 0);
 				jo.put("text", Tips.NULLUSER);
 			} else {
-				jo.put("code", 1);
-				jo.put("fullname", member.getFullname());
-				jo.put("logo", member.getLogo());
-				jo.put("telephone", member.getTelephone());
-				jo.put("email", member.getEmail());
-				jo.put("address", member.getAddress());
-				jo.put("organname", "组织暂定");
-				jo.put("branchname", "部门暂定");
-				jo.put("positionname", "职位暂定");
+				for(int i = 0; i < member.length; i++) {
+					jo.put("id", isBlank(member[0]));
+					jo.put("account", isBlank(member[1]));
+					jo.put("fullname", isBlank(member[2]));
+					jo.put("logo", isBlank(member[3]));
+					jo.put("telephone", isBlank(member[4]));
+					jo.put("email", isBlank(member[5]));
+					jo.put("address", isBlank(member[6]));
+					jo.put("birthday", isBlank(member[7]));
+					jo.put("workno", isBlank(member[8]));
+					jo.put("mobile", isBlank(member[9]));
+					jo.put("groupmax", isBlank(member[10]));
+					jo.put("groupuse", isBlank(member[11]));
+					jo.put("intro", isBlank(member[12]));
+					jo.put("branchname", isBlank(member[13]));
+					jo.put("positionname", isBlank(member[14]));
+					jo.put("organname", isBlank(member[15]));
+					jo.put("sex", isBlank(member[16]));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,6 +87,10 @@ public class MemberServiceImpl implements MemberService {
 		}
 	
 		return row;
+	}
+	
+	private String isBlank(Object o) {
+		return o == null ? "" : o + "";
 	}
 	
 	private MemberDao memberDao;

@@ -6,7 +6,7 @@
 <struts>
     <constant name="struts.enable.DynamicMethodInvocation" value="true" />
     <constant name="struts.i18n.encoding" value="UTF-8"/>
-    <constant name="struts2.sslplugin.httpPort" value="8085" />
+   <!-- <constant name="struts2.sslplugin.httpPort" value="8085" />-->
     <constant name="struts2.sslplugin.httpsPort" value="8443" />
     <!-- constant name="struts.multipart.maxSize" value="1000000000"/-->
 	

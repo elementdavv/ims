@@ -1,9 +1,11 @@
 package com.sealtalk.utils;
 
+
 import io.rong.RongCloud;
 import io.rong.messages.TxtMessage;
 import io.rong.models.CheckOnlineReslut;
 import io.rong.models.CodeSuccessReslut;
+import io.rong.models.GroupInfo;
 import io.rong.models.TokenReslut;
 import net.sf.json.JSONObject;
 
@@ -15,7 +17,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class RongCloudUtils {
-	private static final String JSONFILE = RongCloudUtils.class.getClassLoader().getResource("jsonsource").getPath()+"/";
+	//private static final String JSONFILE = RongCloudUtils.class.getClassLoader().getResource("jsonsource").getPath()+"/";
 	private static RongCloud rongCloud = null;
 	
 	private RongCloudUtils(){}
@@ -172,7 +174,9 @@ public class RongCloudUtils {
 			TxtMessage messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
 			CodeSuccessReslut messagePublishSystemResult = 
 				rongCloud.message.PublishSystem(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), 0, 0);
+			
 			if (messagePublishSystemResult != null) {
+				System.out.println("sendSysMsg->code: " + messagePublishSystemResult.toString());
 				jo.put("code", messagePublishSystemResult.getCode());
 				jo.put("text", "ok");
 			} else {
@@ -198,13 +202,26 @@ public class RongCloudUtils {
 	public String createGroup(String[] userIds, String groupId, String groupName) {
 		String result = null;
 		
+		
+		/*for(int j = 0; j < userIds.length;j++) {
+			System.out.println("+++++++++++++++++++++++++++++++: " + userIds[j]);
+		}
+		System.out.println("++++++++++++++++++ groupId: " + groupId);
+		System.out.println("++++++++++++++++++ groupName: " + groupName);*/
+		
+		
 		try {
+			if (rongCloud == null) {
+				this.init();
+			}
 			if (!StringUtils.getInstance().isArrayBlank(userIds) &&
 					!StringUtils.getInstance().isBlank(groupId) &&
 					!StringUtils.getInstance().isBlank(groupName)) {
 				
 				CodeSuccessReslut groupCreateResult = rongCloud.group.create(userIds, groupId, groupName);
 				
+				
+				System.out.println("-----------------------------: " + groupCreateResult.toString());
 				if (groupCreateResult != null) {
 					result = groupCreateResult.getCode().toString();
 				}
@@ -228,6 +245,10 @@ public class RongCloudUtils {
 		String result = null;
 		
 		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+
 			if (!StringUtils.getInstance().isArrayBlank(userIds) &&
 					!StringUtils.getInstance().isBlank(groupId) &&
 					!StringUtils.getInstance().isBlank(groupName)) {
@@ -255,6 +276,10 @@ public class RongCloudUtils {
 		String result = null;
 		
 		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+
 			if (!StringUtils.getInstance().isArrayBlank(userIds) &&
 					!StringUtils.getInstance().isBlank(groupId)) {
 				CodeSuccessReslut groupQuitResult = rongCloud.group.quit(userIds, groupId);
@@ -270,10 +295,20 @@ public class RongCloudUtils {
 		return result;
 	}
 	
+	/**
+	 * 解散群
+	 * @param userId
+	 * @param groupId
+	 * @return
+	 */
 	public String dissLoveGroup(String userId, String groupId) {
 		String result = null;
 		
 		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+
 			if (!StringUtils.getInstance().isBlank(userId) &&
 					!StringUtils.getInstance().isBlank(groupId)) {
 				CodeSuccessReslut groupDismissResult = rongCloud.group.dismiss(userId, groupId);
@@ -289,5 +324,60 @@ public class RongCloudUtils {
 		return result;
 	}
 	
+	/**
+	 * 同步群信息(首次连接融云服务器)
+	 * @param groupSyncGroupInfo
+	 * @param userId
+	 * @return
+	 */
+	public String syncGroup(GroupInfo[] groupSyncGroupInfo, String userId) {
+		String result = null;
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
 
+			if (!StringUtils.getInstance().isBlank(userId)) {
+				CodeSuccessReslut groupSyncResult = rongCloud.group.sync(userId, groupSyncGroupInfo);
+				
+				if (groupSyncResult != null) {
+					result = groupSyncResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	/**
+	 * 刷新群组信息(名称)
+	 * @param groupId
+	 * @param groupName
+	 * @return
+	 */
+	public String refreshGroup(String groupId, String groupName) {
+		String result = null;
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+			
+			if (!StringUtils.getInstance().isBlank(groupId) && 
+					!StringUtils.getInstance().isBlank(groupName)) {
+				CodeSuccessReslut groupRefreshResult = rongCloud.group.refresh(groupId, groupName);
+				
+				if (groupRefreshResult != null) {
+					result = groupRefreshResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }
