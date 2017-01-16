@@ -19,8 +19,9 @@ public interface GroupDao {
 	 * @param userid
 	 * @param tempIds
 	 * @param groupname
+	 * @param i 
 	 */
-	public int createGroup(int userid, String code, String groupname);
+	public int createGroup(int userid, String code, String groupname, int i);
 	
 	/**
 	 * 获取群组数量
@@ -51,8 +52,38 @@ public interface GroupDao {
 	
 	/**
 	 * 获取群列表
-	 * @param userIdInt
+	 * @param groups
 	 */
-	public List<TGroup> getGroupList(int userIdInt);
+	public List<TGroup> getGroupList(Integer[] groups);
+
+	/**
+	 * 按id删除群组
+	 * @param groupId
+	 */
+	public int removeGroupForGroupId(String groupId);
+
+	/**
+	 * 转移群组
+	 * @param userIdInt
+	 * @param groupIdInt
+	 * @return
+	 */
+	public int transferGroup(int userIdInt, int groupIdInt);
+
+	/**
+	 * 修改群名称
+	 * @param groupIdInt
+	 * @param groupName
+	 * @return
+	 */
+	public int changeGroupName(int groupIdInt, String groupName);
+
+	/**
+	 * 更新群人数
+	 * @param groupId
+	 * @param memberVolume 
+	 * @return
+	 */
+	public int updateGroupMemberNum(int groupId, int memberVolume);
 
 }

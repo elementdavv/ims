@@ -1,7 +1,5 @@
 package com.sealtalk.service.msg.impl;
 
-import java.util.List;
-
 import net.sf.json.JSONObject;
 
 import com.sealtalk.dao.member.MemberDao;

@@ -135,12 +135,11 @@ public class FriendServiceImpl implements FriendService {
 		logger.info(account);
 		
 		try {
-			TMember tm = memberDao.getOneOfMember(account);
-			if (tm == null) {
+			int id = memberDao.getMemberIdForAccount(account);
+			
+			if (id == 0) {
 				status = false;
 			} else {
-				int id = tm.getId();
-				
 				List<TFriend> friendList = friendDao.getFriendRelationForId(id);
 				
 				if (friendList == null) {

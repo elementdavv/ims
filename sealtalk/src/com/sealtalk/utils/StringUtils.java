@@ -1,5 +1,7 @@
 package com.sealtalk.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,6 +86,21 @@ public class StringUtils {
 			
 			for(int i = 0; i < str.length; i++) {
 				tempIds[i] = strToInt(str[i]);	
+			}
+			
+			return tempIds;
+		}
+		
+		return null;
+	}
+	
+	public List<Integer> stringArrToListInt(String[] str) {
+		
+		if (!isArrayBlank(str)) {
+			List<Integer> tempIds = new ArrayList<Integer>();
+			
+			for(int i = 0; i < str.length; i++) {
+				tempIds.add(strToInt(str[i]));	
 			}
 			
 			return tempIds;
