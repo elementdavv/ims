@@ -96,7 +96,7 @@ $(function(){
 
         RongIMClient.connect(token, {
             onSuccess: function(userId) {
-                console.log("Login successfully." + userId);
+               console.log('连接成功');
             },
             onTokenIncorrect: function() {
                 console.log('token无效');
