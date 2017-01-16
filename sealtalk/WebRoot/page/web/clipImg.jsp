@@ -17,7 +17,7 @@
             <div class="avatar-view" title="Change the avatar">
             <img src="css/img/1.jpg" alt="Avatar">
             </div>
-            <form class="avatar-form" enctype="multipart/form-data" method="post">
+            <form class="avatar-form"action="crop.php" enctype="multipart/form-data" method="post">
                 <div class="bMg-cutPicture">
                     <h5 class="clearfix">
                         <span class="bMg-changPic">修改头像</span>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="bMg-button clearfix">
                 <b>取消</b>
-                <b>保存</b>
+                <button class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
                 </div>
                 </div>
             </form>

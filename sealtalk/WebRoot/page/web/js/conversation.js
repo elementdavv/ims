@@ -29,10 +29,11 @@ function conversationGroup(targetID,targetType,groupName){
     })
     //$('.orgNavClick').addClass('chatHide');
     //$('.mesContainerGroup').removeClass('chatHide');
-    $('.mr-record').addClass('active');
+   // $('.mr-record').removeClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
     //getInfoDetails();
+    getGroupDetails(targetID);
     //console.log(targetID);
     //console.log(findMemberInList(targetID));
     //findMemberInList(targetID)
@@ -41,7 +42,8 @@ function conversationGroup(targetID,targetType,groupName){
 }
 
 
-function conversationSelf(targetID,targetType){//聊天室页面显示
+function conversationSelf(targetID,targetType){
+        //聊天室页面显示
     //var target = targetID;
     //噗页面 把targetID放进去
     var curTargetList = findMemberInList(targetID);
@@ -74,15 +76,87 @@ function conversationSelf(targetID,targetType){//聊天室页面显示
     })
     $('.orgNavClick').addClass('chatHide');
     $('.mesContainerSelf').removeClass('chatHide');
-    $('.mr-record').addClass('active');
+   // $('.mr-record').addClass('active');
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
     getInfoDetails(targetID,targetType,findMemberInList(targetID));
     clearNoReadMsg(targetType,targetID);
     getConverList();
 }
-function getInfoDetails(argetID,targetType,oInfoDetails){
+function getInfoDetails(targetID,targetType,oInfoDetails){
     getPerInfo(oInfoDetails);
+}
+/*获取群组资料*/
+function getGroupDetails(groupId){
+    var datas = localStorage.getItem('groupInfo');
+    var data = JSON.parse(datas);
+    var aText=data.text;
+    var sDom='';
+    //var sId=$('#groupContainer').attr('targetid');
+    for(var i = 0;i<aText.length;i++){
+        if(aText[i].id==groupId){
+             var sName=aText[i].name || '';//群名称
+            var sCreatorId=aText[i].creatorId;//群创建者id
+            var sCreatedate=subTimer(aText[i].createdate);//创建时间
+            var oCreator=findMemberInList(sCreatorId);
+            var sImg=oCreator.logo || 'PersonImg.png';
+            sDom+='<ul class="groupInfo">\
+                <li class="groupInfo-name">\
+            <span>群组名称：</span>\
+            <b>'+sName+'</b>\
+            </li>\
+            <li class="groupInfo-setTime">\
+            <span>创建时间：</span>\
+            <b>'+sCreatedate+'</b>\
+            </li>\
+            <li class="groupInfo-Controller">\
+            <span>群主/管理员：</span>\
+            <img src="upload/images/'+sImg+'">\
+            </li>\
+            <li class="groupInfo-disturb">\
+            <span>消息免打扰：</span>\
+            <p>\
+            <i></i>\
+            <i></i>\
+            </p>\
+            </li>\
+            </ul><div class="groupInfo-memberList"></div>';
+            $('#groupData .group-data').empty();
+            $('#groupData .group-data').append(sDom);
+            //showGroupMemberInfo(aText[i],pos);
+        }
+    }
+    getGroupMembersList(groupId);
+}
+function getGroupMembersList(groupid){
+    sendAjax('group!listGroupMemebers',{groupid:groupid},function(data) {
+        var oGroupidList = JSON.parse(data);
+        var aMember=oGroupidList.text;
+        var sDom='<div class="groupInfo-number clearfix">\
+            <span>成员('+aMember.length+')</span>\
+            <p class="clearfix">\
+        <i class="groupInfo-noChat"></i>\
+        <i></i>\
+        </p>\
+        </div>\
+        <ul class="groupInfo-memberAll">';
+        if(aMember.length>0){
+            for(var i=0;i<aMember.length;i++){
+                var oCreator=findMemberInList(aMember[i]);
+                var sMemberName=oCreator.name;
+                var sJob=oCreator.account;
+                var sImg=oCreator.logo || 'PersonImg.png';
+                sDom+=' <li>\
+                            <img src="upload/images/'+sImg+'">\
+                            <p>'+sMemberName+'('+sJob+')</p>\
+                            </li>';
+            }
+        }
+        sDom+='</ul>';
+        $('#groupData .group-data .groupInfo-memberList').empty();
+        $('#groupData .group-data .groupInfo-memberList').append(sDom);
+        console.log(oGroupidList)
+    });
 }
 /**
  *
@@ -143,7 +217,7 @@ function getChatRecord(aList,hasMsg){
     var sDom='<ul class="infoDet-contentDet">';
     var sLi='';
     var aInfo=aList;
-    $('.chatRecordSel').empty();
+    $('#personalData .chatRecordSel').empty();
     var aDate=[];
     if(aInfo.length>0){
         for(var i=0;i<aInfo.length;i++){
@@ -183,8 +257,8 @@ function getChatRecord(aList,hasMsg){
         }
         sDom+=sLi+'</ul>';
     }
-    $('.chatRecordSel').append(sDom);
-    var eDom=document.querySelector('.chatRecordSel');
+    $('#personalData .chatRecordSel').append(sDom);
+    var eDom=document.querySelector('#personalData .chatRecordSel');
     eDom.scrollTop = eDom.scrollHeight;
 }
 function scrollTop(eDom){
@@ -194,7 +268,10 @@ function scrollTop(eDom){
 function historyMsg(Type,targetId,timestrap,count,$eDom){
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, timestrap, count, {
         onSuccess: function(list, hasMsg) {
-            console.log(list,hasMsg);
+            //console.log(list,hasMsg);
+            //if($eDom.hasClass('infoDet-prePage')){
+            //
+            //}localStorage.setItem('prePage',list);
             if(!hasMsg){
                 $eDom.removeClass('allowClick');
             }

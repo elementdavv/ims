@@ -27,13 +27,19 @@ $(function(){
             }
 
         },1000);
-    })
+    });
     $('.usualChatList').delegate('li','mouseleave',function(e){
         clearTimeout(timer);
         timer1 = setTimeout(function(){
             $('.memberHover').remove();
         },1000)
-    })
+    });
+    $('.usualChatList').delegate('li','mouseleave',function(e){
+        clearTimeout(timer);
+        timer1 = setTimeout(function(){
+            $('.memberHover').remove();
+        },1000)
+    });
     $('body').delegate('.memberHover','mouseenter',function(){
         clearTimeout(timer1);
     })
@@ -215,7 +221,7 @@ $(function(){
         if(e.buttons==2){
             var left = e.clientX;
             var top = e.clientY;
-            var arr = ['群成员管理','解散群','转让群']
+            var arr = ['群成员管理','解散群','转让群'];
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'groupLeftClick'
             fshowContexMenu(arr,style,id);
@@ -230,7 +236,7 @@ $(function(){
         $('.groupChatListUl li').removeClass('active');
         $(this).addClass('active');
         return false;
-    })
+    });
     //群组右键菜单
     $('body').delegate('#groupLeftClick li','click',function(){
         $('.myContextMenu').remove();
@@ -363,22 +369,23 @@ $(function(){
     $('.footerPlus').click(function(){
         $(this).find('.operMenuList').slideToggle();
     })
-})
+});
 
-
+/*获取群组*/
 function getGroupList(accountID){
     var dom = $('.groupChatList .groupChatListUl');
     var sHTML = '';
     sendAjax('group!groupList',{userid:accountID},function(data){
         //window.localStorage.normalInfo = data;
         if(data){
+            window.localStorage.groupInfo = data;
             var datas = JSON.parse(data);
             var groupArr = datas.text;
             for(var i = 0;i<groupArr.length;i++){
                 var curGroup = groupArr[i];
                 sHTML+='<li targetid="'+curGroup.id+'">'+
                             '<div>'+
-                                '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
+                                '<img class="groupImg"  src="page/web/css/img/group_chart.png" alt="">'+
                                 '<span class="groupName">'+curGroup.name+
                                     '<em>(15/20)'+
                                     '</em>'+
@@ -621,7 +628,6 @@ function showMemberInfo(data,pos){
                 '</div>';
     $('body').append($(sHTML));
 }
-
 
 function changeFormat(data){
 
