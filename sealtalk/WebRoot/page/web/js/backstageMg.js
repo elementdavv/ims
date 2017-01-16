@@ -399,17 +399,12 @@ function editOldPassword(sNewPw){
         return false;
     }
 }
-function keerNewPw(oldpwd,newPw,comparepwd){
+function keerNewPw(newPw){
     var sAccount=localStorage.getItem('account');
     var oAccount=JSON.parse(sAccount);
     var sPassword=oAccount.userpwd;
     var sAccNum=oAccount.account;
-    sendAjax('system!newPassword',{account:sAccNum,oldpwd:oldpwd,newpwd:newPw,comparepwd:comparepwd},function(data){
+    sendAjax('system!newPassword',{account:sAccNum,oldpwd:sPassword,newpwd:newPw,comparepwd:comparepwd},function(data){
        console.log(JSON.parse(data));
-        var oData=JSON.parse(data);
-        if(oData.code==1){
-            oAccount.userpwd=newPw;
-            window.localStorage.account=JSON.stringify(oAccount);
-        }
     });
 }
