@@ -63,5 +63,6 @@ public interface BranchService {
 	
 	public void delBranchMember(Integer branchMemberId);
 	public void setMaster(Integer branchMemberId);
+	public void reset(Integer memberId, String password);
 	
 }

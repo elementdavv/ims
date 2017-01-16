@@ -62,8 +62,8 @@
 </div>
 
 <div id="position" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style="width: 300px">
-		<div class="modal-content">
+	<div class="modal-dialog" style="width: 320px">
+		<div class="modal-content" style="height: 600px;">
 		</div>
 	</div>
 </div>

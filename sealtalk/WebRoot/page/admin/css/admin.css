@@ -322,15 +322,12 @@ button {
 }
 .treeopenwrap {
 	background-color: white;
-	border: solid 1px #cbcbcb;
+	border: solid 1px #ccc;
 }
 
-.line112_position {
-	float: left;
-	margin: 10px;
-	width: 100%;
+.dialogtitle {
+	margin: 0 15px;
 }
-
 .line111reset {
 	margin: 0 0 10px 0;
 }
@@ -342,9 +339,45 @@ button {
 .weak {
 	background-color: #ccc;
 }
-.soso {
-	background-color: #aaa;
-}
 .good {
 	background-color: #888;
+}
+.leftspace15 {
+	margin-left: 15px;
+}
+.leftspace8 {
+	margin-left: 8px;
+}
+.leftspace1 {
+	margin-left: 1px;
+}
+.w100pc {
+	width: 100%;
+}
+.w200px {
+	width: 200px;
+}
+.h5px {
+	height: 5px;
+}
+.h10px {
+	height: 10px;
+}
+.h20px {
+	height: 20px;
+}
+.h30px {
+	height: 30px;
+}
+.h40px {
+	height: 40px;
+}
+.h50px {
+	height: 50px;
+}
+.h60px {
+	height: 60px;
+}
+.h400px {
+	height: 400px;
 }

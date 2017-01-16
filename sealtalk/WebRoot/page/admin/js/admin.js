@@ -74,7 +74,13 @@ function formtojson(form) {
 	astring += '}';
 	return $.parseJSON(astring);
 }
-
+/*
+0~10分：不合格（弱）
+11~20分：一般
+21~30分：中
+31~40分：强
+41~50分：安全
+*/
 function passwordGrade(pwd) {
     var score = 0;
     var regexArr = ['[0-9]', '[a-z]', '[A-Z]', '[\\W_]'];

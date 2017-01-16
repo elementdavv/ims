@@ -6,33 +6,39 @@
 </head>
 <body>
 <div class="modal-body">
+	<div class='h5px'></div>
 	<div>
-		<div id='title112position'>添加用户职位信息</div>
-		<div class='toright'>×</div>
-	</div>
-	<div class='line112position'>
-		<div>
-			<input type='text' id='search112position'>
+		<div class='dialogtitle'>
+			<div id='title112position' class='toleft'>添加用户职位信息</div>
+			<div class='toright'>×</div>
 		</div>
 	</div>
-	<div class='line112_position'>
-		<div>
-			<div class='treeopenwrap' id='tree112positionwrap' style='height: 400px'>
+	<div class='h40px'></div>
+	<div>
+		<div class='dialogtitle'>
+			<input type='text' id='search112position' class='w100pc'>
+		</div>
+	</div>
+	<div>
+		<div class='dialogtitle' style='margin-right: 7px'>
+			<div class='treeopenwrap h400px' id='tree112positionwrap' style='margin-top: -1px'>
 				<div id='tree112position' class='ztree'></div>
 			</div>
 		</div>
 	</div>
-	<div class='line112_position'>
-		<div>职务：
-			<select id="select112position">
+	<div class='h20px'></div>
+	<div>
+		<div class='dialogtitle'>职务：
+			<select id="select112position" class='toright w200px'>
 				<option>部门</option>
 			</select>
 		</div>
 	</div>
-	<div class='line112_position'>
-		<div>
-			<button id='save112position'>确定</button>
-			<button onclick="$('#position').modal('hide');">取消</button>
+	<div class='h30px'></div>
+	<div>
+		<div class='dialogtitle'>
+			<button onclick="$('#position').modal('hide');" class='leftspace15 toright'>取消</button>
+			<button id='save112position' class='leftspace15 toright'>确定</button>
 		</div>
 	</div>	
 </div>

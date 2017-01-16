@@ -54,6 +54,11 @@ var setting11 = {
 	},
 	callback: {
 		onClick: function(event, treeId, treeNode, clickFlag) {
+			if (!treeNode.open)
+				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, true);
+			else
+				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, false);
+
 			if (treeNode.flag == 0) return;
 			if (treeNode.flag == 1 && curpage == '110' && treeNode.id == curbranch) return;
 			if (treeNode.flag == 2 && curpage != '110' && treeNode.id == curmember) return;
@@ -92,6 +97,12 @@ var setting110 = {
 				$('#branchmanager').val(treeNode.name);
 				$('#branchmanagerid').val(treeNode.id);
 				$('#tree110wrap').hide();
+			}
+			else {
+				if (!treeNode.open)
+					$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, true);
+				else
+					$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, false);
 			}
 		}
 	}

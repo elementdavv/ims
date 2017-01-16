@@ -369,5 +369,14 @@ public class BranchServiceImpl implements BranchService {
 		branchMember.setIsMaster("1");
 		branchMemberDao.update(branchMember);
 	}
+	@Override
+	public void reset(Integer memberId, String password) {
+		
+		TMember member = memberDao.get(memberId);
+		member.setPassword(password);
+		memberDao.update(member);
+		
+		// 发短信
+	}
 
 }

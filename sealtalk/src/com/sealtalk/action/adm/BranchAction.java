@@ -16,6 +16,7 @@ import com.sealtalk.model.TBranchMember;
 import com.sealtalk.model.TMember;
 import com.sealtalk.model.TMemberRole;
 import com.sealtalk.service.adm.BranchService;
+import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
 
@@ -332,7 +333,22 @@ public class BranchAction extends BaseAction {
 		returnToClient(jo.toString());
 		return "text";
 	}
-
+	
+	public String reset() throws ServletException {
+		
+		String memberid = this.request.getParameter("memberid");
+		String newpassword = this.request.getParameter("newpassword");
+		
+		String md5password = PasswordGenerator.getInstance().getMD5Str(newpassword);
+		
+		branchService.reset(Integer.parseInt(memberid), md5password);
+		
+		JSONObject jo = new JSONObject();
+		jo.put("branchmemberid", memberid );
+		returnToClient(jo.toString());
+		return "text";
+	}
+	
 	private BranchService branchService;
 
 	public BranchService getBranchService() {
