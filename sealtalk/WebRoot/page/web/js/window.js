@@ -52,7 +52,7 @@ Window.prototype = {
                 hasParent?mask.prependTo($("body", parent.document)):mask.prependTo($("body"));
             }
         }else{
-            $('.window_mask',parent.document).remove();
+            //$('.window_mask',parent.document).remove();
         }
         var hasInput = '';
         var inputText = '';
@@ -97,6 +97,7 @@ Window.prototype = {
         if(config.textForSureBtn){
             var sureBtn = $('<input type="button" value="'+config.textForSureBtn+'" class="window_alertBtn" />');
             hasParent?$('.window_footer', parent.document).append(sureBtn):$('.window_footer').append(sureBtn);
+            sureBtn.unbind('click');
             sureBtn.click(function(){
                 config.handlerForSure && config.handlerForSure();
                 mask && mask.remove();
@@ -109,6 +110,7 @@ Window.prototype = {
         if(config.textForcancleBtn){
             var cancleBtn = $('<input type="button" value="'+config.textForcancleBtn+'" class="window_cancleBtn" />');
             hasParent?$('.window_footer', parent.document).append(cancleBtn):$('.window_footer').append(cancleBtn);
+            cancleBtn.unbind('click');
             cancleBtn.click(function(){
                 config.handlerForCancle && config.handlerForCancle();
                 boundingBox.remove();

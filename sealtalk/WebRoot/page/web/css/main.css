@@ -614,13 +614,50 @@ span.defaultText{
 .orgNavClick1 ul li img{
     height: 80px;width: 80px;border-radius: 80px;
 }
+#bgCanvas{
+    width: 100%;
+    height: 100%;
+}
+
+.upload-img{
+    position: absolute;
+    /* float: right; */
+    margin: 7px 20px 0 0;
+    overflow: hidden;
+    /* background: red; */
+    display: inline-block;
+    height: 20px;
+    width: 32px;
+    left: 75px;
+    top: 7px;
+}
+
+
+.comment-pic-upd{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 100;
+    width: 58px;
+    height: 58px;
+
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+    filter:alpha(opacity=0);
+    -moz-opacity:0;
+    -khtml-opacity: 0;
+    opacity:0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
 [contenteditable=true]:empty:before {
     content: attr(placeholder);
     display: block;
     color: #a9a9a9;
     position: absolute;
-    top: 45px;
+    top: 46px;
 }
 
 .showPersonalInfo{
@@ -800,8 +837,11 @@ span.defaultText{
 
 .organizeListOuter>div{
     position: absolute;
-    /*height: 30px;*/
-    /*width: 50px;*/
+    /* height: 30px; */
+    /* width: 50px; */
+    top: -35px;
+    margin: 0px auto;
+    left: 100px;
 }
 .outerHorizontal{
     height:56px;

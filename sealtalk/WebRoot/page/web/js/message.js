@@ -135,10 +135,13 @@ $(function(){
         return false;
     })
     //消息列表右键菜单
-    $('body').delegate('#usualLeftClick li','click',function(){
+    $('body').undelegate('#usualLeftClick li','click')
+    $('body').delegate('#usualLeftClick li','click',function(ev){
+        console.info('____', ev);
         var memShip = $('.myContextMenu').attr('memship');
-        $('.myContextMenu').remove();
         var index = $(this).closest('ul').find('li').index($(this));
+        $('.myContextMenu').remove();
+
         switch (index)
         {
             case 0:
@@ -181,32 +184,32 @@ $(function(){
         return false;
     })
     //常用联系人右键菜单
-    $('body').delegate('#usualLeftClick li','click',function(){
-        var memShip = $('.myContextMenu').attr('memship');
-        $('.myContextMenu').remove();
-        var index = $(this).closest('ul').find('li').index($(this));
-        switch (index)
-        {
-            case 0:
-                //解除好友
-                //if(memShip){
-                //    var friend = JSON.parse(memShip);
-                //}
-                new Window().alert({
-                    title   : '解除好友',
-                    content : '确定要解除好友吗？',
-                    hasCloseBtn : true,
-                    hasImg : true,
-                    textForSureBtn : '确定',              //确定按钮
-                    textForcancleBtn : '取消',            //取消按钮
-                    handlerForCancle : null,
-                    handlerForSure : function(){
-                        cancleRelation(account,memShip);
-                    }
-                });
-                break;
-        }
-    })
+    //$('body').delegate('#usualLeftClick li','click',function(){
+    //    var memShip = $('.myContextMenu').attr('memship');
+    //    $('.myContextMenu').remove();
+    //    var index = $(this).closest('ul').find('li').index($(this));
+    //    switch (index)
+    //    {
+    //        case 0:
+    //            //解除好友
+    //            //if(memShip){
+    //            //    var friend = JSON.parse(memShip);
+    //            //}
+    //            new Window().alert({
+    //                title   : '解除好友',
+    //                content : '确定要解除好友吗？',
+    //                hasCloseBtn : true,
+    //                hasImg : true,
+    //                textForSureBtn : '确定',              //确定按钮
+    //                textForcancleBtn : '取消',            //取消按钮
+    //                handlerForCancle : null,
+    //                handlerForSure : function(){
+    //                    cancleRelation(account,memShip);
+    //                }
+    //            });
+    //            break;
+    //    }
+    //})
     //点击群组
     $('.groupChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
@@ -361,8 +364,42 @@ $(function(){
             case 1:
                 //发起聊天
                 creatDialogTree(data,'privateConvers','发起聊天',function(){
-                    var targetID = converseACount[0];
-                    $('.manageCancle').click();
+                    var targetAccount = converseACount[0];
+                    if($('.usualChatList').find('li[account='+targetAccount+']').length==0){
+                            sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
+                                var datas = JSON.parse(data);
+                                console.log(data);
+                                //if(datas.code==1){
+                                    //刷新常用联系人
+                                    getMemberFriends(account,function(){
+                                        $('.manageCancle').click();
+                                        $('.chatMenu .chatLeftIcon')[1].click();
+                                        var targetDon = $('.usualChatList').find('li')
+                                        targetDon.removeClass('active');
+                                        var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+                                        targetMember.addClass('active');
+                                        var targetID = targetMember.attr('targetid');
+                                        var targeType = 'PRIVATE';
+                                        conversationSelf(targetID,targeType);
+                                        $('.orgNavClick').addClass('chatHide');
+                                        $('.mesContainerSelf').removeClass('chatHide');
+                                    });
+                                    //$('.manageCancle').click();
+
+                                //}else{
+                                //    $('.manageCancle').click();
+                                //    $('.chatMenu .chatLeftIcon')[1].click();
+                                //    var targetDon = $('.usualChatList').find('li')
+                                //    targetDon.removeClass('active');
+                                //    $('.usualChatList').find('li[account='+targetID+']').addClass('active');
+                                //    //var targetID = targetDon.attr('targetid');
+                                //    var targeType = 'PRIVATE';
+                                //    conversationSelf(targetID,targeType);
+                                //    $('.orgNavClick').addClass('chatHide');
+                                //    $('.mesContainerSelf').removeClass('chatHide');
+                                //}
+                            })
+                    }
 
                 })
                 break;
@@ -549,7 +586,7 @@ function getBranchTreeAndMember(){
     })
 }
 //获取常用联系人
-function getMemberFriends(account){
+function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
         //console.log(data);
         window.localStorage.MemberFriends = data;
@@ -573,6 +610,10 @@ function getMemberFriends(account){
             '</li>';
         }
         $ParendtDom.html(sHTML);
+        callback&&callback();
+
+    },function(){
+        callback&&callback();
     })
 }
 

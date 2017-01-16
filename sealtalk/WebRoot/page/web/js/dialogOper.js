@@ -18,24 +18,34 @@ $(function(){
 
     //弹窗中的树形结构的收起展开
     $('.conversWindow').delegate('.dialogCollspan','click',function(){
-        $(this).toggleClass('dialogCollspanC','dialogCollspanO');
         $(this).closest('li').next('ul').slideToggle();
+        $(this).toggleClass('dialogCollspanC','dialogCollspanO');
     });
 
     //弹窗中树形结构的选中
+    $('.conversWindow').undelegate('.dialogCheckBox','click')
     $('.conversWindow').delegate('.dialogCheckBox','click',function(){
         converseACount = [];
+        //bPrivate是私聊还是群聊
         var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
         var id =  $(this).closest('li').attr('id');
-        if(bPrivate){//创建个人的聊天页面
+        if(bPrivate){//创建个人的聊天页面 单选模式
             var account =  $(this).closest('li').attr('account');
             $('.dialogCheckBox').removeClass('CheckBoxChecked');
             $(this).addClass('CheckBoxChecked');
             converseACount.push(account);
-        }else{//创建群组的聊天
-
+        }else{//创建群组的聊天 多选模式
             //首先自己的选中状态
-            $(this).toggleClass('CheckBoxChecked','dialogCheckBox');
+            //$(this).toggleClass('CheckBoxChecked','dialogCheckBox');
+            if($(this).hasClass('CheckBoxChecked')){
+                $(this).removeClass('CheckBoxChecked');
+                //$(this).addClass('dialogCheckBox');
+
+            }else{
+                //$(this).removeClass('dialogCheckBox');
+                $(this).addClass('CheckBoxChecked');
+
+            }
             //然后子级的选中状态
             var member = $(this).closest('li').next('ul').find('div.member');
             if(member){
@@ -56,7 +66,9 @@ $(function(){
                     allBox++;
                 }
             }
-            if(allBox==0){
+            if(allBox==0){//全没选中
+                $(this).closest('ul').prev('li').find('.chatLeftIcon').removeClass('CheckBoxChecked');
+            }else if(allBox==sonBox.length){//全选中
                 $(this).closest('ul').prev('li').find('.chatLeftIcon').removeClass('CheckBoxChecked');
             }
             var dialogCheckBox = $('.contactBox').find('.dialogCheckBox');

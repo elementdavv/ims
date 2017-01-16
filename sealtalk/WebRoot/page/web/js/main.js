@@ -107,13 +107,16 @@ function showPanel(panelClass){
 }
 
 
-function sendAjax(url,data,callback){
+function sendAjax(url,data,callback,callbackB){
     $.ajax({
         type: "POST",
         url: url,
         data:data,
         success: function(data){
             callback && callback(data);
+        },
+        error:function(){
+            callbackB&&callbackB();
         }
     })
 }

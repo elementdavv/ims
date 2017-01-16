@@ -9,11 +9,17 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/main.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/window.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/jquery.jOrgChart.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/OrgChart.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/backstageMg.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
     <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
-    <%--<script src="http://cdn.ronghub.com/plupload.min.js"></script>--%>
+    <%--<script src="https://cdn.ronghub.com/RongUploadLib-2.2.4.min.js"></script>--%>
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/upload.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>
+
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
@@ -28,6 +34,8 @@
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery.jOrgChart.js"></script>
 
     <%--
     <script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>
@@ -56,18 +64,18 @@
                 <span class="discrib">我的组群</span>
             </div>
             <ul class="groupChatListUl">
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
+                <%--<li>--%>
+                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
             </ul>
             <%--
             <div class="selfCreatGroup listCtrl">--%>
@@ -115,18 +123,18 @@
                 <span class="discrib">我的常用联系人</span>
             </div>
             <ul class="groupChatListUl">
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
+                <%--<li>--%>
+                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
             </ul>
         </div>
         <div class="chatContent newsChatList chatHide">
@@ -166,126 +174,126 @@
 
     <div class="organizationList">
         <ul>
-            <li>
-                <div level="1">
-                    <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                    <span class="groupName">产品部</span>
-                    <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                </div>
-            </li>
-            <ul>
-                <li>
-                    <div level="2">
-                        <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                        <span class="groupName">adsfadsfadsf</span>
-                        <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                    </div>
-                </li>
-                <ul>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                </ul>
-            </ul>
-            <li>
-                <div level="1">
-                    <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                    <span class="groupName">产品部</span>
-                    <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                </div>
-            </li>
-            <ul>
-                <li>
-                    <div level="2">
-                        <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                        <span class="groupName">adsfadsfadsf</span>
-                        <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                    </div>
-                </li>
-                <ul>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                </ul>
-            </ul>
-            <li>
-                <div level="1">
-                    <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                    <span class="groupName">产品部</span>
-                    <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                </div>
-            </li>
-            <ul>
-                <li>
-                    <div level="2">
-                        <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                        <span class="groupName">adsfadsfadsf</span>
-                        <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                    </div>
-                </li>
-                <ul>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                </ul>
-            </ul>
+            <%--<li>--%>
+                <%--<div level="1">--%>
+                    <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                    <%--<span class="groupName">产品部</span>--%>
+                    <%--<span class="groupCollspanO chatLeftIcon groupCollspan"></span>--%>
+                <%--</div>--%>
+            <%--</li>--%>
+            <%--<ul>--%>
+                <%--<li>--%>
+                    <%--<div level="2">--%>
+                        <%--<span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>--%>
+                        <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                        <%--<span class="groupName">adsfadsfadsf</span>--%>
+                        <%--<span class="groupCollspanO chatLeftIcon groupCollspan"></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<ul>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</ul>--%>
+            <%--<li>--%>
+                <%--<div level="1">--%>
+                    <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                    <%--<span class="groupName">产品部</span>--%>
+                    <%--<span class="groupCollspanO chatLeftIcon groupCollspan"></span>--%>
+                <%--</div>--%>
+            <%--</li>--%>
+            <%--<ul>--%>
+                <%--<li>--%>
+                    <%--<div level="2">--%>
+                        <%--<span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>--%>
+                        <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                        <%--<span class="groupName">adsfadsfadsf</span>--%>
+                        <%--<span class="groupCollspanO chatLeftIcon groupCollspan"></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<ul>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</ul>--%>
+            <%--<li>--%>
+                <%--<div level="1">--%>
+                    <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                    <%--<span class="groupName">产品部</span>--%>
+                    <%--<span class="groupCollspanO chatLeftIcon groupCollspan"></span>--%>
+                <%--</div>--%>
+            <%--</li>--%>
+            <%--<ul>--%>
+                <%--<li>--%>
+                    <%--<div level="2">--%>
+                        <%--<span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>--%>
+                        <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                        <%--<span class="groupName">adsfadsfadsf</span>--%>
+                        <%--<span class="groupCollspanO chatLeftIcon groupCollspan"></span>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<ul>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<div level="3">--%>
+                            <%--<span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>--%>
+                            <%--<img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>--%>
+                            <%--<span class="groupName">人名</span>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</ul>--%>
         </ul>
     </div>
 </div>
@@ -511,7 +519,11 @@
                 <div class="rongyun-emoji"></div>
                 <div class="mr-expresFile clearfix">
                     <span class="showEmoji"></span>
-                    <i id="upload_file"></i>
+                    <i></i>
+                    <div class="upload-img">
+                        <input type="file" class="comment-pic-upd" id="upload_file"/>
+                        <%--<img src="images/upload-pic.png" alt="上传照片" title="">--%>
+                    </div>
                 </div>
                 <%--<pre placeholder="说点什么..." class="textarea"></pre>--%>
 
@@ -546,49 +558,49 @@
             </div>
         </div>
         <!--群组消息记录-->
-        <div class="mesContainerGroup mesContainer orgNavClick chatHide">
-            <h3 class="perSetBox-title clearfix">
-                <span>张三</span>
+        <%--<div class="mesContainerGroup mesContainer orgNavClick chatHide">--%>
+            <%--<h3 class="perSetBox-title clearfix">--%>
+                <%--<span>张三</span>--%>
 
-                <div class="messageRecord clearfix">
-                    <i class="mr-Location"></i>
-                    <i class="mr-record"></i>
-                </div>
-            </h3>
-            <div class="mr-chatview">
-                <p class="mr-Date">-11月11日 星期五-</p>
+                <%--<div class="messageRecord clearfix">--%>
+                    <%--<i class="mr-Location"></i>--%>
+                    <%--<i class="mr-record"></i>--%>
+                <%--</div>--%>
+            <%--</h3>--%>
+            <%--<div class="mr-chatview">--%>
+                <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
 
-                <p class="mr-time">9:28</p>
+                <%--<p class="mr-time">9:28</p>--%>
 
-                <p class="group-addPerson clearfix">
-                    <span>谁将谁拉进群组<i></i></span>
-                </p>
-                <ul class="mr-chatContent">
-                    <li class="mr-chatContentL clearfix">
-                        <img src="page/web/css/img/1.jpg">
+                <%--<p class="group-addPerson clearfix">--%>
+                    <%--<span>谁将谁拉进群组<i></i></span>--%>
+                <%--</p>--%>
+                <%--<ul class="mr-chatContent">--%>
+                    <%--<li class="mr-chatContentL clearfix">--%>
+                        <%--<img src="page/web/css/img/1.jpg">--%>
 
-                        <div class="mr-chatBox">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                    <li class="mr-chatContentR clearfix">
-                        <div class="mr-ownChat">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="mr-chateditBox">
-                <div class="mr-expresFile clearfix">
-                    <span></span>
-                    <i></i>
-                </div>
-                <textarea placeholder="说点什么..." class="textarea"></textarea>
-                <strong class="sendMsgBTN">发送</strong>
-            </div>
-        </div>
+                        <%--<div class="mr-chatBox">--%>
+                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li class="mr-chatContentR clearfix">--%>
+                        <%--<div class="mr-ownChat">--%>
+                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</div>--%>
+            <%--<div class="mr-chateditBox">--%>
+                <%--<div class="mr-expresFile clearfix">--%>
+                    <%--<span></span>--%>
+                    <%--<i></i>--%>
+                <%--</div>--%>
+                <%--<textarea placeholder="说点什么..." class="textarea"></textarea>--%>
+                <%--<strong class="sendMsgBTN">发送</strong>--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <!--个人资料-->
         <div class="orgNavClick personalData  chatHide" id="personalData">
             <ul class="infoDetails clearfix" id="perInfo">
@@ -773,141 +785,140 @@
         <!--群组资料-->
         <div class="orgNavClick BreadcrumbsOuter chatHide">
             <ul class="Breadcrumbs">
-                <li><a href=""> 1111 </a> ></li>
-                <li><a href=""> 2222 </a> ></li>
-                <li><a href=""> 3333 </a> ></li>
+                <%--<li><a href=""> 1111 </a> ></li>--%>
+                <%--<li><a href=""> 2222 </a> ></li>--%>
+                <%--<li><a href=""> 3333 </a> ></li>--%>
             </ul>
             <a class="chatLeftIcon seeOrgnizeTree"></a>
         </div>
         <!--组织的层级导航-->
 
         <div class="orgNavClick orgNavClick1" id="orgnizedLevel">
-            <div class="orgNavTitle">标题</div>
-            <ul>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-            <div class="orgNavTitle">标题</div>
-            <ul>
+            <%--<div class="orgNavTitle">标题</div>--%>
+            <%--<ul>--%>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="page/web/css/img/PersonImg.png" alt=""/>--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+            <%--</ul>--%>
+            <%--<div class="orgNavTitle">标题</div>--%>
+            <%--<ul>--%>
 
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="page/web/css/img/PersonImg.png" alt=""/>--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="page/web/css/img/PersonImg.png" alt=""/>--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="page/web/css/img/PersonImg.png" alt=""/>--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="page/web/css/img/PersonImg.png" alt=""/>--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+            <%--</ul>--%>
         </div>
 
         <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
             <div class="personalDetailContent">
 
-                <div class="selfImgInfo">
-                    <img src="css/img/PersonImg.png" alt=""/>
+                <%--<div class="selfImgInfo">--%>
+                    <%--<img src="css/img/PersonImg.png" alt=""/>--%>
 
-                    <div>
-                        <p>张三</p>
-                        <ul class="selfImgOpera">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="showPersonalInfo">
-                    <ul>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                    <%--<div>--%>
+                        <%--<p>张三</p>--%>
+                        <%--<ul class="selfImgOpera">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="showPersonalInfo">--%>
+                    <%--<ul>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
+                        <%--</li>--%>
 
-                    </ul>
-                </div>
+                    <%--</ul>--%>
+                <%--</div>--%>
 
             </div>
         </div>
 
         <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
-            <div class="organizeListOuter">
-                <!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->
+            <div class="organizeListOuter" id="organizeListOuter">
             </div>
 
         </div>
@@ -1046,4 +1057,7 @@
          <%--</div>--%>
     <%--</div>--%>
 </body>
+    <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
+
+
 </html>

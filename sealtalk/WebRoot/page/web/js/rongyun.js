@@ -96,44 +96,7 @@ $(function(){
 
         RongIMClient.connect(token, {
             onSuccess: function(userId) {
-                console.log("Login successfully." + userId);
-                var imageOpts = {
-                    drop_element:'message-content',
-                    container:'upload_conainer',
-                    browse_button:'upload_file'
-                }
-
-                var fileOpts = {
-                    drop_element:'message-content',
-                    container:'upload_conainer',
-                    browse_button:'upload_file'
-                }
-
-                // 初始化 Upload 插件。
-                //console.log('初始化 Upload 插件。',imageOpts,fileOpts);
-                //RongIMLib.RongUploadLib.init(imageOpts,fileOpts);
-                //
-                //// 设置 RongUploadLib 监听器。
-                //RongIMLib.RongUploadLib.getInstance().setListeners({
-                //    onFileAdded:function(file){
-                //        // 触发时机：每个文件被添加后。
-                //    },
-                //    onBeforeUpload:function(file){
-                //        // 触发时机：每个文件上传之前。
-                //    },
-                //    onUploadProgress:function(file){
-                //        // 触发时机：每个文件上传中。
-                //    },
-                //    onFileUploaded:function(file,message,type){
-                //        // 触发时机：每个文件上传完成。
-                //    },
-                //    onError:function(err, errTip){
-                //        // 触发时机：每个文件上传失败。
-                //    },
-                //    onUploadComplete:function(){
-                //        // 触发时机：所有文件上传完成。
-                //    }
-                //});
+               console.log('连接成功');
             },
             onTokenIncorrect: function() {
                 console.log('token无效');

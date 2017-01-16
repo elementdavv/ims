@@ -10,7 +10,7 @@ function conversationGroup(targetID,targetType,groupName){
     $('.perSetBox-title span').html(groupName);
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
-
+    $('.rongyun-emoji>span').unbind('click');
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
         //var newEmo = $(this).clone();

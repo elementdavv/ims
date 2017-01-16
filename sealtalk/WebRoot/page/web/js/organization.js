@@ -2,7 +2,7 @@
  * Created by zhu_jq on 2017/1/14.
  */
 $(function(){
-    $('.BreadcrumbsOuter').delegate('ul li','click')
+    $('.BreadcrumbsOuter').undelegate('ul li','click')
     $('.BreadcrumbsOuter').delegate('ul li','click',function(){
         var targetID = $(this).attr('id');
         var className = $(this).attr('class');
@@ -16,8 +16,16 @@ $(function(){
         $('.chatContent ul li')[1].click();
         //会话区显示
     })
+
     //点击查看组织结构图
     $('.seeOrgnizeTree').click(function(){
+        //var getBranchTree = localStorage.getItem('getBranchTree');
+        //var datas = JSON.parse(getBranchTree);
+        //var sCanvas = $('<canvas id="bgCanvas" height="800" width="800">');
+        //$('.orgNavClick').addClass('chatHide');
+        //$('.orgNavClick3').removeClass('chatHide');
+        //$('.orgNavClick3').append(sCanvas);
+        //console.log(datas);
         seeOrgnizeTree();
     })
 
