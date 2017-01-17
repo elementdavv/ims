@@ -10,10 +10,9 @@ function conversationGroup(targetID,targetType,groupName){
     $('.perSetBox-title span').html(groupName);
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
-
+    $('.rongyun-emoji>span').unbind('click');
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
-        //var newEmo = $(this).clone();
         $('.textarea').append(name);
     })
     $('.showEmoji').click(function(){
@@ -24,28 +23,35 @@ function conversationGroup(targetID,targetType,groupName){
         var content = $(this).prev().val();
         var targetId = $('.mesContainerGroup').attr('targetID');
         var targetType = $('.mesContainerGroup').attr('targetType');
-        //if()
         sendMsg(content,targetId,targetType)
     })
-    //$('.orgNavClick').addClass('chatHide');
-    //$('.mesContainerGroup').removeClass('chatHide');
-   // $('.mr-record').removeClass('active');
+    $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
-    //获取右侧的联系人资料聊天记录
-    //getInfoDetails();
-    getGroupDetails(targetID);
-    //console.log(targetID);
-    //console.log(findMemberInList(targetID));
-    //findMemberInList(targetID)
     clearNoReadMsg(targetType,targetID);
     getConverList();
 }
 
-
+function po_Last_Div(obj) {
+    if (window.getSelection) {//ie11 10 9 ff safari
+        obj.focus(); //解决ff不获取焦点无法定位问题
+        var range = window.getSelection();//创建range
+        range.selectAllChildren(obj);//range 选择obj下所有子内容
+        range.collapseToEnd();//光标移至最后
+    }
+    else if (document.selection) {//ie10 9 8 7 6 5
+        var range = document.selection.createRange();//创建选择对象
+        //var range = document.body.createTextRange();
+        range.moveToElementText(obj);//range定位到obj
+        range.collapse(false);//光标移至最后
+        range.select();
+    }
+}
 function conversationSelf(targetID,targetType){
-        //聊天室页面显示
     //var target = targetID;
     //噗页面 把targetID放进去
+
+    var history = historyMsg(targetType,targetID);
+    console.log(history);
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
@@ -53,21 +59,41 @@ function conversationSelf(targetID,targetType){
     $('.mesContainerSelf').attr('targetID',targetID);
     $('.mesContainerSelf').attr('targetType',targetType);
 
-
+    //$('.textarea').click(function(){
+    //    $(this).attr('contenteditable','true')
+    //})
     //$('.rongyun-emoji span').off('click');
+    $('.rongyun-emoji>span').off('click')
     $('.rongyun-emoji>span').on('click',function(){
+        $('.textarea b').attr('contenteditable','false');
         var name = $(this).find('span').attr('name');
         //var newEmo = $(this).clone();
         $('.textarea').append(name);
+        var textarea = document.getElementById('message-content')
+        //po_Last_Div(textarea);
     })
     $('.showEmoji').click(function(){
 
         $('.rongyun-emoji').show();
+        $('.rongyun-emoji').blur(function(){
+            console.log(1);
+        })
+
     });
+    var rimerEmoji = null;
+    $('.rongyun-emoji').on('mouseenter',function(){
+        clearTimeout(rimerEmoji);
+    })
+    $('.rongyun-emoji').on('mouseleave',function(){
+        rimerEmoji = setTimeout(function(){
+            $('.rongyun-emoji').hide();
+        },1000)
+    })
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
-        var content = $(this).prev().val();
-
+        //var content = $(this).prev().val();
+        var content = $(this).prev().html();
+        //var str = RongIMLib.RongIMEmoji.symbolToEmoji(content);
         //var targetID = targetId
         var targetId = $('.mesContainerSelf').attr('targetID');
         var targetType = $('.mesContainerSelf').attr('targetType');
@@ -76,7 +102,7 @@ function conversationSelf(targetID,targetType){
     })
     $('.orgNavClick').addClass('chatHide');
     $('.mesContainerSelf').removeClass('chatHide');
-   // $('.mr-record').addClass('active');
+    $('.mr-record').addClass('active');
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
     getInfoDetails(targetID,targetType,findMemberInList(targetID));
@@ -265,17 +291,12 @@ function scrollTop(eDom){
     eDom.scrollTop = eDom.scrollHeight;
 }
 //获取历史消息、消息记录
-function historyMsg(Type,targetId,timestrap,count,$eDom){
-    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, timestrap, count, {
+function historyMsg(Type,targetId){
+    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, null, 20, {
         onSuccess: function(list, hasMsg) {
-            //console.log(list,hasMsg);
-            //if($eDom.hasClass('infoDet-prePage')){
-            //
-            //}localStorage.setItem('prePage',list);
-            if(!hasMsg){
-                $eDom.removeClass('allowClick');
-            }
-            getChatRecord(list,hasMsg);
+
+
+            console.log(list,hasMsg);
             // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
             // list 为拉取到的历史消息列表
         },
@@ -363,7 +384,7 @@ function findMemberInList(targetId){
 
 //显示会话列表
 function usualChatList(list){
-    console.log(list);
+    //console.log(list);
     var sHTML = '';
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
@@ -371,20 +392,22 @@ function usualChatList(list){
         var targetId = curList.targetId
         var lastTime = changeTimeFormat(curList.sentTime);
         var member = findMemberInList(targetId);
-        //console.log('member',member);
-        var logo = member.logo;
-        var name = member.name;
-        var unreadMessageCount = curList.unreadMessageCount;
-        var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
+        if(member){
+            //console.log('member',member);
+            var logo = member.logo;
+            var name = member.name;
+            var unreadMessageCount = curList.unreadMessageCount;
+            var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
 
-        sHTML += ' <li targetid="'+targetId+'">'+
-        '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
-        sNum+
-        '<span class="groupName">'+name+'</span>'+
-        '<span class="usualLastMsg">'+content+'</span>'+
-        '<span class="lastTime">'+lastTime+'</span>'+
-        '</div>'+
-        '</li>'
+            sHTML += ' <li targetid="'+targetId+'">'+
+            '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+            sNum+
+            '<span class="groupName">'+name+'</span>'+
+            '<span class="usualLastMsg">'+content+'</span>'+
+            '<span class="lastTime">'+lastTime+'</span>'+
+            '</div>'+
+            '</li>'
+        }
     }
 
     $('.usualChatListUl').html(sHTML);
@@ -439,15 +462,17 @@ function sendMsg(content,targetId,way){
 //发送出去的的信息显示在盒子里
 function sendInBox(msg){
     var sendMsg = msg.content.content;
+    var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
+    //var str = RongIMLib.RongIMEmoji.symbolToEmoji(sendMsg);
     var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
-                    '<div class="mr-ownChat">'+
-                        '<span>'+sendMsg+'</span>'+
-                        '<i></i>'+
-                    '</div>'+
-                '</li>';
+        '<div class="mr-ownChat">'+
+        '<span>'+str+'</span>'+
+        '<i></i>'+
+        '</div>'+
+        '</li>';
     var parentNode = $('.mr-chatview .mr-chatContent');
     parentNode.append($(sHTML));
-    $('.textarea').val('');
+    $('.textarea').html('');
 }
 
 
@@ -456,6 +481,7 @@ function reciveInBox(msg){
     console.log(msg);
     var targetID = msg.targetId;
     var content = msg.content.content;
+    var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
     var $MesContainerSelf = $('.mesContainerSelf')
     if(!$MesContainerSelf.hasClass('chatHide')||$MesContainerSelf.attr('targetID')==targetID){
         //在盒子里显示
@@ -463,7 +489,7 @@ function reciveInBox(msg){
         var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentL clearfix">'+
                         '<img src="page/web/css/img/1.jpg">'+
                         '<div class="mr-chatBox">'+
-                            '<span>'+content+'</span>'+
+                            '<span>'+str+'</span>'+
                             '<i></i>'+
                         '</div>'+
                     '</li>';

@@ -85,6 +85,9 @@ $(function(){
                     if(!targetID){
                         var targetID = $(e.target).parents('.selfImgInfo').next().attr('targetid');
                     }
+                    if(!targetID){
+                        var targetID = $(e.target).parents('li').attr('id');
+                    }
                     var memShipArr = [targetID];
                     //console.log('addConver');
                     creatDialogTree(datas,'groupConvers','添加会话',function(){
@@ -357,7 +360,13 @@ $(function(){
                             break;
                         case 2:
                             //转让群
-                            transfer();
+
+                            sendAjax('group!listGroupMemebers',{groupid:groupid},function(data){
+                                var datas = JSON.parse(data).text;
+                                transferGroup(datas,function(){
+                                    console.log(111);
+                                });
+                            })
                             break;
                     }
                 }
@@ -501,20 +510,24 @@ function getGroupList(accountID){
     sendAjax('group!groupList',{userid:accountID},function(data){
         //window.localStorage.normalInfo = data;
         if(data){
-            window.localStorage.groupFile = data;
+            window.localStorage.groupInfo = data;
             var datas = JSON.parse(data);
             var groupArr = datas.text;
-            for(var i = 0;i<groupArr.length;i++){
-                var curGroup = groupArr[i];
-                sHTML+='<li targetid="'+curGroup.id+'">'+
-                '<div>'+
-                '<img class="groupImg"  src="page/web/css/img/group_chart.png" alt="">'+
-                '<span class="groupName">'+curGroup.name+
-                '<em>(15/20)'+
-                '</em>'+
-                '</span>'+
-                '</div>'+
-                '</li>'
+            if(groupArr){
+                for(var i = 0;i<groupArr.length;i++){
+                    var curGroup = groupArr[i];
+                    sHTML+='<li targetid="'+curGroup.id+'">'+
+                    '<div>'+
+                    '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
+                    '<span class="groupName">'+curGroup.name+
+                    '<em>(15/20)'+
+                    '</em>'+
+                    '</span>'+
+                    '</div>'+
+                    '</li>'
+                }
+            }else{
+                sHTML = '';
             }
             dom.html(sHTML);
 
@@ -630,7 +643,10 @@ function getBranchTreeAndMember(){
         window.localStorage.normalInfo = data;
         var datas = JSON.parse(data);
         if(datas && data.length!=0){
+            console.log(data);
             var myData = changeFormat(data);
+            console.log(myData);
+
             if(myData){
                 window.localStorage.getBranchTree = JSON.stringify(myData);
             }
@@ -673,7 +689,7 @@ function getMemberFriends(account,callback){
         callback&&callback();
     })
 }
-
+//解除好友
 function cancleRelation(account,friend){
     sendAjax('friend!delFriend',{friend:friend,account:account},function(data){
         var datas = JSON.parse(data);
@@ -830,6 +846,7 @@ function creatDialogTree(data,className,title,callback,selected){
     var sHTML = '';
     var level = 0
     var HTML = DialogTreeLoop(data,sHTML,level);
+    $('.contactsList').html(HTML);
     var dom = $('.selectedList ul');
     if(selected){
         console.log('selected',selected);
@@ -844,9 +861,13 @@ function creatDialogTree(data,className,title,callback,selected){
             if(selected[i]==userID){
                 continue;
             }else{
+
                 converseACount.push(selected[i]);
                 var targetList = findMemberInList(selected[i]);
+                if (targetList != null) {
                 sHTML += '<li memberID="'+selected[i]+'"><span class="memberName">'+targetList.name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
+                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
+                }
             }
         }
         dom.html(sHTML);
@@ -854,7 +875,7 @@ function creatDialogTree(data,className,title,callback,selected){
         dom.html('');
     }
     //console.log(HTML);
-    $('.contactsList').html(HTML);
+
     $('.manageSure').unbind('click');
     $('.manageSure').click(function(){
         callback&&callback();
@@ -883,7 +904,7 @@ function DialogTreeLoop(data,sHTML,level){
                             '<span class="chatLeftIcon dialogCheckBox"></span>';
         }
         //console.log('*******************************');
-        sHTML +=  '<li account = '+data[i].account+' id="'+data[i].id+'">'+
+        sHTML +=  '<li account = '+data[i].account+' id="'+data[i].id+'" class="'+department+'">'+
                         '<div level="1" class="'+department+'">'+
                             '<span style="height: 20px;width: '+level*22+'px;display:inline-block;float: left;"></span>'+
                             ''+collspan+'<span class="dialogGroupName">'+oData.name+'</span>'+
@@ -902,6 +923,31 @@ function DialogTreeLoop(data,sHTML,level){
 
 
 
-function transfer(data){
+function transferGroup(data,callback){
     $('.WindowMask2').show();
+    var sHTML = createTransforContent(data);
+    var dom = $('.transferInfoBox tbody');
+    dom.html(sHTML);
+    $('.manageSure').unbind('click');
+    $('.manageSure').click(function(){
+        callback&&callback();
+    });
+}
+
+
+function createTransforContent(data){
+    console.log('......+++++++.......'.data);
+    var sHTML = '';
+
+    for(var i = 0;i<data.length;i++){
+        var curList = searchFromList(1,data[i]);
+        sHTML+='<tr>'+
+                    '<td><img src="" alt="">'+curList.name+'</td>'+
+                    '<td>'+curList.postitionname+'</td>'+
+                    '<td>'+'data[i].是否有权限'+'</td>'+
+                    '<td class="operate"><span>转让群</span></td>'+
+                '</tr>'
+    }
+    return sHTML;
+
 }

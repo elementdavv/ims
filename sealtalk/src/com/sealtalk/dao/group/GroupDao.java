@@ -86,4 +86,11 @@ public interface GroupDao {
 	 */
 	public int updateGroupMemberNum(int groupId, int memberVolume);
 
+	/**
+	 * 群信息
+	 * @param id
+	 * @return
+	 */
+	public TGroup groupInfo(int id);
+
 }

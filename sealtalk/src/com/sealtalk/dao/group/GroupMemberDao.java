@@ -81,8 +81,8 @@ public interface GroupMemberDao {
 	/**
 	 * 依据组id，及成员id删除成员关系
 	 * @param groupIdInt
-	 * @param needDelIdsArr
+	 * @param needDelStr
 	 */
 	public void delGroupMemberForMemberIdsAndGroupId(int groupIdInt,
-			Integer[] needDelIdsArr);
+			String needDelStr);
 }

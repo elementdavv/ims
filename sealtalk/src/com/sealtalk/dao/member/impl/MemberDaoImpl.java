@@ -187,7 +187,6 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 	@Override
 	public int getMemberIdForAccount(String account) {
 		try {
-			
 			Criteria ctr = getCriteria();
 			ctr.add(Restrictions.eq("account", account));
 			
@@ -202,6 +201,67 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		}
 		
 		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List searchUser(String account) {
+		try {
+			String hql = "select " +
+				"M.id MID," + 
+				"M.account," +
+				"M.fullname," +
+				"M.logo," +
+				"M.telephone," +
+				"M.email," +
+				"M.address," +
+				"M.token," +
+				"M.sex," +
+				"M.birthday," +
+				"M.workno," +
+				"M.mobile," +
+				"M.groupmax," +
+				"M.groupuse," +
+				"M.intro," +
+				"B.name BNAME," +
+				"P.name PNAME," +
+				"O.name ONAME " +
+				"from t_member M left join t_branch_member BM on M.id=BM.member_id " +
+				"left join t_branch B on BM.branch_id=B.id " +
+				"left join t_position P on BM.position_id=P.id " +
+				"inner join t_organ O on M.organ_id=O.id " +
+				"where account like '%" + account + "%' or fullname like '%" + account + "%' or pinyin like '%" + account + "%'";
+			
+			SQLQuery query = this.getSession().createSQLQuery(hql);
+			
+			List list = query.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public boolean valideOldPwd(String account, String oldPwd) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.and(Restrictions.eq("account", account), Restrictions.eq("password", oldPwd)));
+			
+			List<TMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

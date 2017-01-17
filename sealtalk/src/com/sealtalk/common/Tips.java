@@ -28,8 +28,10 @@ public enum  Tips {
 	NOSECGROUP("未选取群组", "00023"),
 	NOTCLEARALLMEMBER("有成员未删除，重试或手动删除", "00024"),
 	GROUPMOREVOLUME("成员超出上限", "00025"),
-	OK("OK", "00026"),
-	FAIL("fail", "00027");
+	WRONGOLDPWD("旧密码错误", "00026"),
+	NOTSETFUN("未设置功能", "00027"),
+	OK("OK", "00028"),
+	FAIL("fail", "00029");
 	
 	private String name;
 	private String code;
@@ -55,7 +57,7 @@ public enum  Tips {
 		JSONObject jo = new JSONObject();
 		
 		jo.put("context", getName());
-		//jo.put("errorcode", getCode());
+		jo.put("code", getCode());
 		
 		return jo.toString();
 	}

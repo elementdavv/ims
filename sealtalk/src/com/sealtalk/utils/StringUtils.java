@@ -42,6 +42,13 @@ public class StringUtils {
 		}
 	}
 	
+	public String replaceChar(String str, String srcChars, String distChars) {
+		if (!isBlank(str) && !isBlank(srcChars) && !isNull(distChars)) {
+			return str.replace(srcChars, distChars);
+		} 
+		return str;
+	}
+	
 	public boolean isNumeric(String str){ 
 	   Pattern pattern = Pattern.compile("[0-9]*"); 
 	   Matcher isNum = pattern.matcher(str);
@@ -63,15 +70,14 @@ public class StringUtils {
 		return str.substring(start, end);
 	}
 	
-	
 	public String[] stringSplit(String str, String seper) {
-		if (isBlank(str)) {
-			if (isStartChar(str, seper)) {
-				str = subString(str, 1, str.length());
-			} 
-			if (isEndChar(str, seper)) {
-				str = subString(str, 0, str.length() - 1);
-			}
+ 		if (!isBlank(str)) {
+			//if (isStartChar(str, "[")) {
+			//	str = subString(str, 1, str.length());
+			//} 
+			//if (isEndChar(str, "]")) {
+			//	str = subString(str, 0, str.length() - 1);
+			//}
 			
 			return str.split(seper);
 		}

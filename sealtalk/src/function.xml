@@ -9,20 +9,16 @@
 
 
 	<!-- dao -->
-	<bean id="groupDao" class="com.sealtalk.dao.group.impl.GroupDaoImpl" autowire="byName" />
-	<bean id="groupMemberDao" class="com.sealtalk.dao.group.impl.GroupMemberDaoImpl" autowire="byName" />
 	<bean id="dontDistrubDao" class="com.sealtalk.dao.fun.impl.DontDistrubDaoImpl" autowire="byName" />
 	
 	<!-- service -->
-	<bean id="groupService" class="com.sealtalk.service.group.impl.GroupServiceImpl" autowire="byName" >
-		<property name="memberDao" ref="memberDao" />
-		<property name="groupDao" ref="groupDao" />
-		<property name="groupMemberDao" ref="groupMemberDao" />
+	<bean id="functionService" class="com.sealtalk.service.fun.impl.FunctionServiceImpl" autowire="byName" >
 		<property name="dontDistrubDao" ref="dontDistrubDao" />
 	</bean>
 	
 	<!-- action -->
-	<bean id="groupAction" class="com.sealtalk.action.Group.GroupAction" scope="prototype" autowire="byName" >
-		<property name="groupService" ref="groupService" />
+	<bean id="functionAction" class="com.sealtalk.action.fun.FunctionAction" scope="prototype" autowire="byName" >
+		<property name="functionService" ref="functionService" />
 	</bean>
+	
 </beans>
