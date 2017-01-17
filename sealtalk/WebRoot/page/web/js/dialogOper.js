@@ -8,12 +8,14 @@ $(function(){
         var name = $(this).prev().html();
         var memberID = $(this).parent().attr('memberID');
         deleteElement(converseACount,memberID);
+        $('.contactsList li.member[id='+memberID+']').find('.dialogCheckBox').removeClass('CheckBoxChecked');
+
+
         //changeSelected(converseACount);
         changeSelected(converseACount);
-        for(var i = 0;i<converseACount.length;i++){
-            var memberID = converseACount[i];
-            //$('li[id='+memberID+']').find('.dialogCheckBox').click();
-        }
+        //for(var i = 0;i<converseACount.length;i++){
+        //    var memberID = converseACount[i];
+        //}
     })
 
     //弹窗中的树形结构的收起展开
@@ -26,6 +28,19 @@ $(function(){
     $('.conversWindow').undelegate('.dialogCheckBox','click')
     $('.conversWindow').delegate('.dialogCheckBox','click',function(){
         converseACount = [];
+        if($('.selectedList').find('li').length!=0){
+            var selected = $('.selectedList').find('li');
+            for(var i = 0;i<selected.length;i++){
+                var account = $(selected[i]).attr('memberid')
+                if(!$(this).hasClass('CheckBoxChecked')){
+                    converseACount.push(account);
+
+                }else{
+                    deleteElement(converseACount,account)
+
+                }
+            }
+        }
         //bPrivate是私聊还是群聊
         var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
         var id =  $(this).closest('li').attr('id');
@@ -33,7 +48,11 @@ $(function(){
             var account =  $(this).closest('li').attr('account');
             $('.dialogCheckBox').removeClass('CheckBoxChecked');
             $(this).addClass('CheckBoxChecked');
-            converseACount.push(account);
+            //var bhas = arrHasElement(converseACount,account);
+            //if(bhas){
+                converseACount.push(account);
+
+            //}
         }else{//创建群组的聊天 多选模式
             //首先自己的选中状态
             //$(this).toggleClass('CheckBoxChecked','dialogCheckBox');
@@ -78,7 +97,11 @@ $(function(){
                 if(diacjeck.hasClass('CheckBoxChecked')&&diacjeck.closest('div').hasClass('member')){
                     var account = diacjeck.closest('li').attr('id');
                     var name = diacjeck.next().html();
-                    converseACount.push(account);
+                    var bhas = arrHasElement(converseACount,account);
+                    if(!bhas){
+                        converseACount.push(account);
+                    }
+                    //converseACount.push(account);
                 }
             }
             changeSelected(converseACount);
@@ -87,6 +110,19 @@ $(function(){
     })
 
 })
+
+
+//数组中是否包含某个元素
+function arrHasElement(converseACount,account){
+    var bHas = false;
+    for(var i = 0;i<converseACount.length;i++){
+        if(converseACount[i]==account){
+            bHas = true;
+            break;
+        }
+    }
+    return bHas;
+}
 
 //删除数组中的某个对象
 function deleteElement(arr,name,value){
