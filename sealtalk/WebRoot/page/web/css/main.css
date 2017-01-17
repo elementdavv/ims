@@ -507,7 +507,7 @@ span.defaultText{
 
 
 .organizationList{
-    padding: 20px 32px 0px 24px;
+    padding: 14px 10px 0px 10px;
     overflow: scroll;
     height: inherit;
 }
@@ -533,11 +533,17 @@ span.defaultText{
     /* background: palegoldenrod; */
     position: relative;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 14px;
+    padding-right: 12px;
+}
+.organizationList li.active{
+    background: #f0fdff;
 }
 .organizationList li div{
     position: relative;
-    top: 4px;
+    top: 1px;
 }
 .groupCollspanO{
     float: right;
@@ -730,9 +736,19 @@ span.defaultText{
 }
 .selfImgInfo img,.selfImgInfo div{
     float: left;
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
 }
 .selfImgInfo div{
     margin-left:18px;
+    width: 120px;
+}
+
+
+.mr-chatContent{
+    height: 100%;
+    width: 100%;
 }
 .selfImgInfo div .selfImgOpera{
     overflow: hidden;
@@ -744,7 +760,7 @@ span.defaultText{
     margin-top: 18px;
 }
 .selfImgOpera{
-    margin-top: 10px;;
+    margin-top: 5px;;
 }
 .showPersonalInfo ul li{
     overflow: hidden;

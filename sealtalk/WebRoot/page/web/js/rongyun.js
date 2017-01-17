@@ -46,6 +46,12 @@ $(function(){
                     case RongIMClient.MessageType.TextMessage:
                         // 发送的消息内容将会被打印
                         //console.log('接收到的 信息',message);
+                        //var bOnSound = true;
+                        //if(bOnSound){
+                        //    var systemSound_recive = document.getElementById('systemSound_recive');
+                        //    systemSound_recive.play();
+                        //}
+                        //console.log('message',message)
                         reciveInBox(message);
                         break;
                     case RongIMClient.MessageType.VoiceMessage:
