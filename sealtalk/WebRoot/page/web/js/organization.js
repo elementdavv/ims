@@ -7,7 +7,10 @@ $(function(){
         var targetID = $(this).attr('id');
         var className = $(this).attr('class');
         console.log('.organizationList li.'+className+'[id='+targetID+']')
-        $('.organizationList li.'+className+'[id='+targetID+']').click();
+        var targetNode = $('.organizationList li.'+className+'[id='+targetID+']');
+        $('.organizationList').find('li').removeClass('active');
+        targetNode.addClass('active');
+        targetNode.click();
     })
 
     $('.orgNavClick2,.orgNavClick1').delegate('.sendMsg','click',function(){
@@ -32,13 +35,15 @@ $(function(){
     //点击组织通讯录
     $('.organizationList').undelegate('li','click')
     $('.organizationList').delegate('li','click',function(){
-        var state = $(this).attr('class');
+        $('.organizationList').find('li').removeClass('active')
+        $(this).addClass('active');
+        var state = $(this).hasClass('member');
         var id = $(this).attr('id');
         //从list中找到点击的这条信息
         $('.orgNavClick').addClass('chatHide');
         var SHTML = BreadcrumbGuid($(this));
         $('.Breadcrumbs').html(SHTML);
-        if(state=='member'){//点击的是成员
+        if(state){//点击的是成员
             var data = searchFromList(1,id);
             var sHTML = changeClick2Content(data);
             $('.orgNavClick2').html(sHTML);

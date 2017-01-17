@@ -5,11 +5,17 @@ $(function(){
         var className = $(this).attr('class');
         var classArr = className.split(' ');
         deleteElement(classArr,'node');
-        console.log(classArr);
-        console.log('********');
+        //console.log(classArr);
+        //console.log('********');
         var className = classArr[0];
         var idName = classArr[1];
         var targetNode = $('.organizationList').find('ul li.'+className+'[id='+idName+']');
+
+        $('.organizationList').find('li').removeClass('active');
+        targetNode.addClass('active');
+        if(targetNode.find('.groupCollspan').hasClass('groupCollspanC')){
+            targetNode.find('.groupCollspan').click();
+        }
         targetNode.click();
 
     })
