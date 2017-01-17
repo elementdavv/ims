@@ -31,9 +31,9 @@ public class MemberServiceImpl implements MemberService {
 		boolean status = false;
 		
 		try {
-			String md5Pwd = PasswordGenerator.getInstance().getMD5Str(newPwd);
+			//String md5Pwd = PasswordGenerator.getInstance().getMD5Str(newPwd);
 			
-			status = memberDao.updateUserPwd(account, md5Pwd);
+			status = memberDao.updateUserPwd(account, newPwd);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

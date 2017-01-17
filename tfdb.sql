@@ -103,8 +103,9 @@ CREATE TABLE `t_member` (
   `intro` VARCHAR(1024),
   `token` VARCHAR(256),	'验证token'
   `createtokendate` int(11), '创建token时间到秒'
+  `organ_id` int(11), '组织id'
    PRIMARY KEY(id)
-) ENGINE=InnoDB;
+) ENGINE =InnoDB;
 
 -- --------------------------------------------------------
 
@@ -349,6 +350,21 @@ CREATE TABLE `t_sex` (
 CREATE TABLE `t_function` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(256),
+  `is_open` CHAR(1) NOT NULL DEFAULT '0',
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_function`：群组消息免打扰
+--
+
+CREATE TABLE `t_dontdistrub` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `group_id` INT NOT NULL DEFAULT '0',
+  `member_id` INT NOT NULL DEFAULT '0',
   `is_open` CHAR(1) NOT NULL DEFAULT '0',
   `listorder` INT NOT NULL DEFAULT 0,
    PRIMARY KEY(id)

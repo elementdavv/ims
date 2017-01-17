@@ -12,7 +12,7 @@ import com.sealtalk.common.Tips;
 import com.sealtalk.service.fun.FunctionService;
 
 /**
- * 辅助功能action 
+ * 消息免打扰action 
  * @author hao_dy
  * @since jdk1.7
  * @date 2017/01/07
@@ -33,7 +33,7 @@ public class FunctionAction extends BaseAction {
 		
 		try {
 			if (functionService != null) {
-				result = functionService.setNotRecieveMsg(status);
+				result = functionService.setNotRecieveMsg(status, groupid, userid);
 			} else {
 				JSONObject jo = new JSONObject();
 				jo.put("code", -1);
@@ -48,14 +48,16 @@ public class FunctionAction extends BaseAction {
 	}
 	
 	/**
-	 * 获取消息名打扰状态
+	 * 设置系统提示音功能
+	 * @return
+	 * @throws ServletException
 	 */
-	public String getNotRecieveMsg() throws ServletException {
+	public String setSysTipVoice() throws ServletException {
 		String result = null;
 		
 		try {
 			if (functionService != null) {
-				result = functionService.getNotRecieveMsg();
+				result = functionService.setSysTipVoice(status);
 			} else {
 				JSONObject jo = new JSONObject();
 				jo.put("code", -1);
@@ -69,15 +71,46 @@ public class FunctionAction extends BaseAction {
 		return result;
 	}
 	
-	private String name;
-	private String status;
+	/**
+	 * 获取系统提示音状态
+	 */
+	public String getSysTipVoice() throws ServletException {
+		String result = null;
+		
+		try {
+			if (functionService != null) {
+				result = functionService.getSysTipVoice();
+			} else {
+				JSONObject jo = new JSONObject();
+				jo.put("code", -1);
+				jo.put("text", Tips.UNKNOWERR.getText());
+				result = jo.toString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
-	public String getName() {
-		return name;
+	private String status;
+	private String groupid;
+	private String userid;
+
+	public String getGroupid() {
+		return groupid;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setGroupid(String groupid) {
+		this.groupid = groupid;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public String getStatus() {

@@ -164,8 +164,6 @@ public class SystemAction extends BaseAction {
 	 * @throws Exception
 	 */
 	public String requestText() throws IOException, ServletException {
-		String phone = request.getParameter("phone");
-		
 		//中转代码
 		//.....
 		
@@ -185,15 +183,15 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 */
 	public String testText() throws ServletException {
-		String phone = request.getParameter("phone");
-		String textCode = request.getParameter("textcode");
+		//String phone = request.getParameter("phoneNum");
+		//String textCode = request.getParameter("textcode");
 		
 		JSONObject text = new JSONObject();
 		
-		if (textCode == null || "".equals(textCode)) {
+		if (textcode == null || "".equals(textcode)) {
 			text.put("code", -1);
 			text.put("text", Tips.NULLTEXTS.getText());
-		} else if (!textCode.equals("9999")) {
+		} else if (!textcode.equals("9999")) {
 			text.put("code", 0);
 			text.put("text", Tips.ERRORTEXTS.getText());
 		} else {
@@ -211,10 +209,10 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 */
 	public String newPassword() throws ServletException {
-		String account = request.getParameter("account");
+		/*String account = request.getParameter("account");
 		String newPwd = request.getParameter("newpwd");
 		String comparePwd = request.getParameter("comparepwd");
-		String textCode = request.getParameter("textcode");
+		String textCode = request.getParameter("textcode");*/
 		
 		JSONObject text = new JSONObject();
 		
@@ -228,19 +226,19 @@ public class SystemAction extends BaseAction {
 		boolean status = true;
 		
 		if (!StringUtils.getInstance().isBlank(oldpwd)) {
-			boolean validOldPwd = memberService.valideOldPwd(account, newPwd);
+			boolean validOldPwd = memberService.valideOldPwd(account, oldpwd);
 			if (!validOldPwd) {
 				text.put("code", -1);
 				text.put("text", Tips.WRONGOLDPWD.getText());
 				status = false;
 			}
 		} else {
-			if (!StringUtils.getInstance().isBlank(textCode)) {
-				if (textCode == null || "".equals(textCode)) {
+			if (!StringUtils.getInstance().isBlank(textcode)) {
+				if (textcode == null || "".equals(textcode)) {
 					text.put("code", -1);
 					text.put("text", Tips.NULLTEXTS.getText());
 					status = false;
-				} else if (!textCode.equals("9999")) {
+				} else if (!textcode.equals("9999")) {
 					text.put("code", 0);
 					text.put("text", Tips.ERRORTEXTS.getText());
 					status = false;
@@ -252,12 +250,12 @@ public class SystemAction extends BaseAction {
 		}
 		
 		if (status) {
-			if (!newPwd.equals(comparePwd)) {
+			if (!newpwd.equals(comparepwd)) {
 				request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.FALSECOMPAREPWD.getText());
 				return "fogetpwd";
 			}
 			
-			boolean updateState = memberService.updateUserPwd(account, newPwd);
+			boolean updateState = memberService.updateUserPwd(account, newpwd);
 			
 			if (updateState == true) {
 				text.put("code", "1");
@@ -281,7 +279,11 @@ public class SystemAction extends BaseAction {
 	private String account;
 	private String userpwd;
 	private String oldpwd;
+	private String newpwd;
+	private String textcode;
+	private String comparepwd;
 	private String dataSource;
+	private String phone;
 
 	public String getAccount() {
 		return account;
@@ -298,14 +300,6 @@ public class SystemAction extends BaseAction {
 	public void setUserpwd(String userpwd) {
 		this.userpwd = userpwd;
 	}
-	
-	public String getDataSource() {
-		return dataSource;
-	}
-
-	public void setDataSource(String dataSource) {
-		this.dataSource = dataSource;
-	}
 
 	public String getOldpwd() {
 		return oldpwd;
@@ -314,5 +308,49 @@ public class SystemAction extends BaseAction {
 	public void setOldpwd(String oldpwd) {
 		this.oldpwd = oldpwd;
 	}
-	
+
+	public String getNewpwd() {
+		return newpwd;
+	}
+
+	public void setNewpwd(String newpwd) {
+		this.newpwd = newpwd;
+	}
+
+	public String getTextcode() {
+		return textcode;
+	}
+
+	public void setTextcode(String textcode) {
+		this.textcode = textcode;
+	}
+
+	public String getComparepwd() {
+		return comparepwd;
+	}
+
+	public void setComparepwd(String comparepwd) {
+		this.comparepwd = comparepwd;
+	}
+
+	public String getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public MemberService getMemberService() {
+		return memberService;
+	}
+
 }

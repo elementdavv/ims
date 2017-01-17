@@ -1,6 +1,9 @@
 package com.sealtalk.dao.fun;
 
+import java.util.List;
+
 import com.sealtalk.common.IBaseDao;
+import com.sealtalk.model.TDontDistrub;
 import com.sealtalk.model.TFunction;
 
 /**
@@ -12,17 +15,16 @@ import com.sealtalk.model.TFunction;
 public interface FunctionDao extends IBaseDao<TFunction, Long> {
 
 	/**
-	 * 设置消息免打扰功能
-	 * @param tf
-	 */
-	public void setNotRecieveMsg(TFunction tf);
-
-	/**
-	 * 获取消息免打扰功能 
-	 * @param name
+	 * 获取系统提示音状态
+	 * @param string
 	 * @return
 	 */
-	public TFunction getNotRecieveMsg(String name);
+	public TFunction getFunctionStatus(String string);
 
+	/**
+	 * 设置系统提示音状态
+	 * @param tf
+	 */
+	public void setFunctionStatus(TFunction tf);
 	
 } 
