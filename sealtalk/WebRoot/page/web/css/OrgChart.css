@@ -17,11 +17,12 @@
 }
 .jOrgChart .left {
     border-right: 1px solid #30c0da;
+    padding-right: 1px;
 }
 .jOrgChart .top {
     border-top: 1px solid #30c0da;
 }
 .jOrgChart .right {
-    border-left: 2px solid #30c0da;
+    border-left: 1px solid #30c0da;
     /*padding-left: -2px;*/
 }

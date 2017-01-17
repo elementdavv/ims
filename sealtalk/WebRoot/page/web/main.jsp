@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/main.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/window.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/jquery.jOrgChart.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/OrgChart.css"/>
+
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/backstageMg.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
@@ -27,6 +30,14 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>--%>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>--%>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/upload.js"></script>--%>
+    <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery.jOrgChart.js"></script>
+
     <%--<script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>--%>
 
     <%--
@@ -34,6 +45,9 @@
     --%>
 </head>
 <body>
+    <audio src="page/web/css/sound/msg.wav" id="systemSound_recive"  type="audio/wav">
+    您的浏览器不支持 audio 标签。
+    </audio>
 <div class="chatHeader">
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
@@ -510,55 +524,67 @@
                 <div class="mr-expresFile clearfix">
                     <span class="showEmoji"></span>
                     <i></i>
+                    <div class="upload-img">
+                    <input type="file" class="comment-pic-upd" id="upload_file"/>
+                    <%--<img src="images/upload-pic.png" alt="上传照片" title="">--%>
+                    </div>
                 </div>
-                <textarea placeholder="说点什么..." class="textarea"></textarea>
+                <%--<textarea placeholder="说点什么..." class="textarea"></textarea>--%>
+                <pre id="message-content" contenteditable-directive
+                contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
+                atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
+                ondrop="return false;" class="textarea"></pre>
                 <strong class="sendMsgBTN">发送</strong>
             </div>
         </div>
         <!--群组消息记录-->
-        <div class="mesContainerGroup mesContainer orgNavClick chatHide" id="groupContainer">
-            <h3 class="perSetBox-title clearfix">
-                <span>张三</span>
+        <%--<div class="mesContainerGroup mesContainer orgNavClick chatHide" id="groupContainer">--%>
+            <%--<h3 class="perSetBox-title clearfix">--%>
+                <%--<span>张三</span>--%>
 
-                <div class="messageRecord clearfix">
-                    <i class="mr-Location"></i>
-                    <i class="mr-record" id="groupRecord"></i>
-                </div>
-            </h3>
-            <div class="mr-chatview">
-                <p class="mr-Date">-11月11日 星期五-</p>
+                <%--<div class="messageRecord clearfix">--%>
+                    <%--<i class="mr-Location"></i>--%>
+                    <%--<i class="mr-record" id="groupRecord"></i>--%>
+                <%--</div>--%>
+            <%--</h3>--%>
+            <%--<div class="mr-chatview">--%>
+                <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
 
-                <p class="mr-time">9:28</p>
+                <%--<p class="mr-time">9:28</p>--%>
 
-                <p class="group-addPerson clearfix">
-                    <span>谁将谁拉进群组<i></i></span>
-                </p>
-                <ul class="mr-chatContent">
-                    <li class="mr-chatContentL clearfix">
-                        <img src="page/web/css/img/1.jpg">
+                <%--<p class="group-addPerson clearfix">--%>
+                    <%--<span>谁将谁拉进群组<i></i></span>--%>
+                <%--</p>--%>
+                <%--<ul class="mr-chatContent">--%>
+                    <%--<li class="mr-chatContentL clearfix">--%>
+                        <%--<img src="page/web/css/img/1.jpg">--%>
 
-                        <div class="mr-chatBox">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                    <li class="mr-chatContentR clearfix">
-                        <div class="mr-ownChat">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="mr-chateditBox">
-                <div class="mr-expresFile clearfix">
-                    <span></span>
-                    <i></i>
-                </div>
-                <textarea placeholder="说点什么..." class="textarea"></textarea>
-                <strong class="sendMsgBTN">发送</strong>
-            </div>
-        </div>
+                        <%--<div class="mr-chatBox">--%>
+                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li class="mr-chatContentR clearfix">--%>
+                        <%--<div class="mr-ownChat">--%>
+                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</div>--%>
+            <%--<div class="mr-chateditBox">--%>
+                <%--<div class="mr-expresFile clearfix">--%>
+                    <%--<span></span>--%>
+                    <%--<i></i>--%>
+                    <%--<div class="upload-img">--%>
+                    <%--<input type="file" class="comment-pic-upd" id="upload_file"/>--%>
+                    <%--&lt;%&ndash;<img src="images/upload-pic.png" alt="上传照片" title="">&ndash;%&gt;--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<textarea placeholder="说点什么..." class="textarea"></textarea>--%>
+                <%--<strong class="sendMsgBTN">发送</strong>--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <!--个人资料-->
         <div class="orgNavClick personalData  chatHide" id="personalData">
             <ul class="infoDetails clearfix" id="perInfo">
@@ -974,7 +1000,7 @@
         </div>
 
         <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
-            <div class="organizeListOuter">
+            <div class="organizeListOuter" id="organizeListOuter">
                 <!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->
             </div>
 
@@ -1002,7 +1028,9 @@
                 <div class="contactBox">
                     <%--<input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>--%>
 
-                    <div class="selectedList"></div>
+                    <div class="selectedList">
+                    <ul></ul>
+                    </div>
                 </div>
             </div>
 
@@ -1129,5 +1157,70 @@
             <%--<b>保存</b>--%>
          <%--</div>--%>
     <%--</div>--%>
+
+
+
+
+<div class="WindowMask2">
+    <div class="conversWindow groupConvers"><!--//privateConvers-->
+        <span class="dialogClose">×</span>
+        <div class="dialogHeader">群组管理</div>
+        <div class="dialogBody">
+            <div class="transferInfo">
+                <table class="transferInfoBox">
+                    <thead>
+                    <tr>
+                        <th>群成员</th>
+                        <th>职位</th>
+                        <th>是否具有管理权限</th>
+                        <th>群成员</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src="" alt=""/>王二虎
+                        </td>
+                        <td>产品经理</td>
+                        <td>是</td>
+                        <td class="operate"><span>转让群</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="" alt=""/>王二虎
+                        </td>
+                        <td>产品经理</td>
+                        <td>是</td>
+                        <td class="operate"><span>转让群</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="" alt=""/>王二虎
+                        </td>
+                        <td>产品经理</td>
+                        <td>是</td>
+                        <td class="operate"><span>转让群</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="" alt=""/>王二虎
+                        </td>
+                        <td>产品经理</td>
+                        <td>是</td>
+                        <td class="operate"><span>转让群</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="dialogFooter">
+            <input type="button" value="确定" class="manageSure">
+            <input type="button" value="取消" class="manageCancle">
+        </div>
+    </div>
+
+
+</div>
 </body>
 </html>

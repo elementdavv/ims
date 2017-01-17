@@ -5,7 +5,7 @@ window.onload = function(){
 
     //点击发送验证码
     $('.SendCheakCode').click(function(){
-        fSendCheakCode();
+        //fSendCheakCode();
         var phoneNum = $('#phoneNum').val();
         var data = JSON.stringify({phoneNum:phoneNum});
         sendAjax('system!requestText',data,function(){
@@ -35,12 +35,17 @@ function sendAjax(url,data,callback){
 * 跳转到第二部
 * */
 function fToStep2(dom){
-    var phoneNum = $('#username').val();
+    var phoneNum = $('#phoneNum').val();
     var textcode = $('#checkCode').val();
     var data = JSON.stringify({'phone':phoneNum,textcode:textcode});
     $('.sealtalk-forgetpassword').attr('account',phoneNum);
     sendAjax('system!testText',data,function(){
-        fToNext(dom)
+        //if(data){
+        //    var datas = JSON.parse(data);
+        //    if(datas.text.code=='0000'){
+                fToNext(dom)
+            //}
+        //}
     });
 }
 function fToStep3(dom){
@@ -49,8 +54,9 @@ function fToStep3(dom){
     var account = $('.sealtalk-forgetpassword').attr('account');
     var data = JSON.stringify({'newpwd':newpwd,comparepwd:comparepwd})
     sendAjax('system!newPassword',data,function(){
-        fToNext(dom)
     });
+    fToNext(dom)
+
 }
 
 
@@ -59,11 +65,11 @@ function fToStep3(dom){
 * 发送验证码
 *
 */
-function fSendCheakCode(){
-    var phoneNum = $('#username').val();
-    var data = JSON.stringify({'phoneNum':phoneNum})
-    sendAjax('system!requestText',data);
-}
+//function fSendCheakCode(){
+//    var phoneNum = $('#username').val();
+//    var data = JSON.stringify({'phoneNum':phoneNum})
+//    sendAjax('system!requestText',data);
+//}
 
 /*
 *
