@@ -95,8 +95,8 @@ public class BranchDaoImpl extends BaseDao<TBranch, Long> implements BranchDao {
 				"S.name " +
 				"from t_branch_member BM " +
 				"left join t_position P on BM.position_id=P.id " +
-				"left join t_sex S on S.id=M.sex " +
 				"inner join t_member M on BM.member_id=M.id " +
+				"left join t_sex S on S.id=M.sex " +
 				"where BM.branch_id=" + branchId;	
 		
 		try {

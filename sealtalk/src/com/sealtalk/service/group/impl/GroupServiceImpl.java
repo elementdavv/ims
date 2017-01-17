@@ -356,7 +356,7 @@ public class GroupServiceImpl implements GroupService {
 							JSONObject t = JSONUtils.getInstance().modelToJSONObj(tp);
 							
 							for(int j = 0; j < lenDistrub; j++) {
-								TDontDistrub tdd = dontDistrubList.get(i);
+								TDontDistrub tdd = dontDistrubList.get(j);
 								if (tp.getId() == tdd.getId()) {
 									t.put("dontdistrub", tdd.getIsOpen());
 								} else {
@@ -567,6 +567,9 @@ public class GroupServiceImpl implements GroupService {
 				int volume = tg.getVolume();
 				int memberVolume = 0;
 			
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "\"", "");
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "[", "");
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "]", "");
 				String[] groupIdsArr = StringUtils.getInstance().stringSplit(groupIds, ",");
 				ArrayList<Integer> grouIdsListInt = (ArrayList<Integer>) StringUtils.getInstance().stringArrToListInt(groupIdsArr);
 
@@ -601,12 +604,16 @@ public class GroupServiceImpl implements GroupService {
 						}
 					}
 					
-					Integer[] needDelIdsArr = new Integer[needDelIds.size()];
+					String needDelStr = needDelIds.toString();
 					
-					needDelIds.toArray(needDelIdsArr);
+					if (!StringUtils.getInstance().isBlank(needDelStr)) {
+						needDelStr = needDelStr.substring(1, needDelStr.length() -1);
+					}
 					
 					//删除多余数据
-					groupMemberDao.delGroupMemberForMemberIdsAndGroupId(groupIdInt, needDelIdsArr);
+					if (needDelIds.size() > 0) {
+						groupMemberDao.delGroupMemberForMemberIdsAndGroupId(groupIdInt, needDelStr);
+					}
 					//保存新增数据 
 					
 					ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
@@ -615,8 +622,11 @@ public class GroupServiceImpl implements GroupService {
 						tgmList.add(new TGroupMember(groupIdInt, needAddIds.get(i), "0", 0));
 					}
 					
-					groupMemberDao.saveGroupMemeber(tgmList);
-					groupDao.updateGroupMemberNum(groupIdInt, groupIdsArr.length);
+					if (tgmList.size() > 0) {
+						groupMemberDao.saveGroupMemeber(tgmList);
+					}
+					
+					groupDao.updateGroupMemberNum(groupIdInt, needAddIds.size() - needDelIds.size());
 					
 					//通知融云
 					

@@ -856,8 +856,10 @@ function creatDialogTree(data,className,title,callback,selected){
 
                 converseACount.push(selected[i]);
                 var targetList = findMemberInList(selected[i]);
+                if (targetList != null) {
                 sHTML += '<li memberID="'+selected[i]+'"><span class="memberName">'+targetList.name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
                 $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
+                }
             }
         }
         dom.html(sHTML);
