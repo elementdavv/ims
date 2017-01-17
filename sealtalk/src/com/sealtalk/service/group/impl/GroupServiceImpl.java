@@ -116,6 +116,7 @@ public class GroupServiceImpl implements GroupService {
 					
 					groupMemberDao.saveGroupMemeber(tgmList);
 					
+					
 					//查询成员关系是否正确
 					List<TGroupMember> tgmMember = groupMemberDao.getTGroupMemberList(groupId);
 					List<String> tgmIds = new ArrayList<String>();
@@ -599,6 +600,28 @@ public class GroupServiceImpl implements GroupService {
 		
 		return jo.toString();
 	}
+	
+	@Override
+	public String groupInfo(String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (StringUtils.getInstance().isBlank(groupId)) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else {
+				int id = StringUtils.getInstance().strToInt(groupId);
+				
+				TGroup t = groupDao.groupInfo(id);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+
 
 	private MemberDao memberDao;
 	private GroupDao groupDao;

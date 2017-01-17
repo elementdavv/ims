@@ -41,4 +41,19 @@ public interface MemberService {
 	 */
 	public int updateUserTokenForId(String userId, String token);
 
+	/**
+	 * 搜索用户按账号或拼音
+	 * @param account
+	 * @return
+	 */
+	public String searchUser(String account);
+
+	/**
+	 * 验证旧密码
+	 * @param account
+	 * @param newPwd
+	 * @return
+	 */
+	public boolean valideOldPwd(String account, String newPwd);
+
 }

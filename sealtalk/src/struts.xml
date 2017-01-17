@@ -17,6 +17,7 @@
     <include file="struts-branch.xml" />
     <include file="struts-message.xml" />
     <include file="struts-group.xml" />
+    <include file="struts-fun.xml" />
 
 </struts>
 

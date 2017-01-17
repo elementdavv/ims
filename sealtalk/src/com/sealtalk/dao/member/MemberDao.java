@@ -64,5 +64,20 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @return
 	 */
 	public int getMemberIdForAccount(String account);
+
+	/**
+	 * 按 账号或名称或全拼查找用户
+	 * @param account
+	 * @return
+	 */
+	public List searchUser(String account);
+
+	/**
+	 * 验证旧密码
+	 * @param account
+	 * @param oldPwd
+	 * @return
+	 */
+	public boolean valideOldPwd(String account, String oldPwd);
 	
 } 

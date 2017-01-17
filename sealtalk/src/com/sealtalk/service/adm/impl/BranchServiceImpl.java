@@ -63,7 +63,7 @@ public class BranchServiceImpl implements BranchService {
 						jm.put("email", isBlank(o[12]));
 						jm.put("address", isBlank(o[13]));
 						jm.put("token", isBlank(o[14]));
-						jm.put("sex", isBlank(o[15]));
+						jm.put("sex", isBlank(o[25]));
 						jm.put("birthday", isBlank(o[16]));
 						jm.put("workno", isBlank(o[17]));
 						jm.put("mobile", isBlank(o[18]));
@@ -123,7 +123,7 @@ public class BranchServiceImpl implements BranchService {
 							jm.put("text", "ok");
 							jm.put("id", isBlank(o[0]));
 							jm.put("account", isBlank(o[1]));
-							jm.put("fullname", isBlank(o[2]));
+							jm.put("name", isBlank(o[2]));
 							jm.put("logo", isBlank(o[3]));
 							jm.put("telephone", isBlank(o[4]));
 							jm.put("email", isBlank(o[5]));

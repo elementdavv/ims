@@ -202,4 +202,25 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public TGroup groupInfo(int id) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("id", id));
+			
+			List<TGroup> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }
