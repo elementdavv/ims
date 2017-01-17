@@ -11,9 +11,12 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import com.sealtalk.common.Tips;
+import com.sealtalk.dao.fun.DontDistrubDao;
 import com.sealtalk.dao.group.GroupDao;
 import com.sealtalk.dao.group.GroupMemberDao;
 import com.sealtalk.dao.member.MemberDao;
+import com.sealtalk.model.TDontDistrub;
+import com.sealtalk.model.TFunction;
 import com.sealtalk.model.TGroup;
 import com.sealtalk.model.TGroupMember;
 import com.sealtalk.model.TMember;
@@ -324,28 +327,55 @@ public class GroupServiceImpl implements GroupService {
 				jo.put("text", Tips.NULLUSER.getText());
 			} else {
 				List<TGroupMember> groupMembers = groupMemberDao.getGroupMemberForUserId(userIdInt);
-				ArrayList<Integer> temp = new ArrayList<Integer>();
 				
-				Integer[] groups = new Integer[groupMembers.size()];
-				
-				for(int i = 0; i < groupMembers.size(); i++) {
-					int id = groupMembers.get(i).getGroupId();
-					if (temp.contains(id)) continue ;
-					groups[i] = id;
-				}
-				
-				List<TGroup> groupList = groupDao.getGroupList(groups);
-				
-				if (groupList != null) {
-					JSONArray ja = new JSONArray();
+				if (groupMembers != null) {
+					ArrayList<Integer> temp = new ArrayList<Integer>();
 					
-					for(int i = 0; i < groupList.size(); i++) {
-						JSONObject t = JSONUtils.getInstance().modelToJSONObj(groupList.get(i));
-						ja.add(t);
+					Integer[] groups = new Integer[groupMembers.size()];
+					
+					for(int i = 0; i < groupMembers.size(); i++) {
+						int id = groupMembers.get(i).getGroupId();
+						if (temp.contains(id)) continue ;
+						groups[i] = id;
 					}
 					
-					jo.put("code", 1);
-					jo.put("text", ja.toString());
+					List<TGroup> groupList = groupDao.getGroupList(groups);
+					List<TDontDistrub> dontDistrubList = dontDistrubDao.getDistrubListForUserId(userIdInt);
+					
+					int lenDistrub = 0;
+					
+					if (dontDistrubList != null) {
+						lenDistrub = dontDistrubList.size();
+					} 
+					
+					if (groupList != null) {
+						JSONArray ja = new JSONArray();
+						
+						for(int i = 0; i < groupList.size(); i++) {
+							TGroup tp = groupList.get(i);
+							JSONObject t = JSONUtils.getInstance().modelToJSONObj(tp);
+							
+							for(int j = 0; j < lenDistrub; j++) {
+								TDontDistrub tdd = dontDistrubList.get(i);
+								if (tp.getId() == tdd.getId()) {
+									t.put("dontdistrub", tdd.getIsOpen());
+								} else {
+									t.put("dontdistrub", 0);
+								}
+							}
+							
+							if (dontDistrubList == null) {
+								t.put("dontdistrub", 0);
+							}
+							ja.add(t);
+						}
+						
+						jo.put("code", 1);
+						jo.put("text", ja.toString());
+					} else {
+						jo.put("code", 0);
+						jo.put("text", Tips.FAIL.getText());
+					}
 				} else {
 					jo.put("code", 0);
 					jo.put("text", Tips.FAIL.getText());
@@ -626,7 +656,16 @@ public class GroupServiceImpl implements GroupService {
 	private MemberDao memberDao;
 	private GroupDao groupDao;
 	private GroupMemberDao groupMemberDao;
+	private DontDistrubDao dontDistrubDao;
 	
+	public DontDistrubDao getDontDistrubDao() {
+		return dontDistrubDao;
+	}
+
+	public void setDontDistrubDao(DontDistrubDao DontDistrubDao) {
+		this.dontDistrubDao = DontDistrubDao;
+	}
+
 	public MemberDao getMemberDao() {
 		return memberDao;
 	}

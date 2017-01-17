@@ -54,21 +54,14 @@ public class BranchDaoImpl extends BaseDao<TBranch, Long> implements BranchDao {
 				"S.name " +
 				"from t_branch_member BM right join t_branch BC on BM.branch_id=BC.id " +
 				"left join t_member M on BM.member_id=M.id " +
-				"left join t_position P on BM.position_id=P.id" +
+				"left join t_position P on BM.position_id=P.id " +
 				"left join t_sex S on M.sex=S.id"; 
 		
 		try {
 			SQLQuery query = this.getSession().createSQLQuery(sql);
 			
 			List list = query.list();
-			/*
-			for(int i = 0; i < list.size(); i++) {
-				Object [] k = (Object[]) list.get(i);
-				for(int j = 0; j < k.length;j++) {
-					System.out.println(i + "--" + j + "--" + k[j]);
-				}
-			}
-			*/
+			
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();

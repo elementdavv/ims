@@ -54,7 +54,7 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 			
 			TFriend friend1 = new TFriend();
 			friend1.setFriendId(accountId);
-			friend1.setMemberId(accountId);
+			friend1.setMemberId(friendId);
 			friend1.setCreatedate(TimeGenerator.getInstance().formatNow("yyyyMMdd"));
 			friend1.setListorder(countFriend + 1);
 			

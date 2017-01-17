@@ -17,21 +17,12 @@ import com.sealtalk.model.TFunction;
  */
 public class FunctionDaoImpl extends BaseDao<TFunction, Long> implements FunctionDao {
 
-	@Override
-	public void setNotRecieveMsg(TFunction tf) {
-		try {
-			saveOrUpdate(tf);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public TFunction getNotRecieveMsg(String code) {
+	public TFunction getFunctionStatus(String string) {
 		try {
 			Criteria ctr = getCriteria();
-			ctr.add(Restrictions.eq("name", code));
+			ctr.add(Restrictions.eq("name", string));
 			
 			List<TFunction> list = ctr.list();
 			
@@ -45,4 +36,13 @@ public class FunctionDaoImpl extends BaseDao<TFunction, Long> implements Functio
 		return null;
 	}
 
+	@Override
+	public void setFunctionStatus(TFunction tf) {
+		try {
+			saveOrUpdate(tf);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
