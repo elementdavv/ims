@@ -49,6 +49,49 @@ public class MemberAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 搜索用户(账号、拼音)
+	 * @return
+	 * @throws Servlet
+	 */
+	public String searchUser() throws ServletException {
+		String result = null;
+		
+		try {
+			if (account == null || "".equals(account)) {
+				JSONObject jo = new JSONObject();
+				jo.put("code", 0);
+				jo.put("text", Tips.NULLUSER);
+			} else {
+				result = memberService.searchUser(account);
+			}
+			
+			logger.info(result);
+			returnToClient(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "text";
+	}
+	
+	/**
+	 * 个人设置保存
+	 * @return
+	 * @throws ServletException
+	 */
+	public String updateMemberInfo() throws ServletException {
+		String result = null;
+		
+		if (memberService == null) {
+			
+		} else {
+			returnToClient(result);
+		}
+		
+		return "text";
+	}
+	
 	private MemberService memberService;
 	
 	public void setMemberService(MemberService ms) {
@@ -56,6 +99,14 @@ public class MemberAction extends BaseAction {
 	}
 	
 	private String account;
+	private String fullname;
+	private String sex;
+	private String position;
+	private String branch;
+	private String email;
+	private String phone;
+	private String sign;
+	private String logo;
 
 	public String getAccount() {
 		return account;
@@ -63,6 +114,74 @@ public class MemberAction extends BaseAction {
 
 	public void setAccount(String account) {
 		this.account = account;
+	}
+
+	public String getFullname() {
+		return fullname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public MemberService getMemberService() {
+		return memberService;
 	}
 	
 }

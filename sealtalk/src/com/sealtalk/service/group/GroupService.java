@@ -83,4 +83,11 @@ public interface GroupService {
 	 * @return
 	 */
 	public String manageGroupMem(String groupid, String groupids);
+
+	/**
+	 * 查看群信息
+	 * @param groupid
+	 * @return
+	 */
+	public String groupInfo(String groupid);
 }

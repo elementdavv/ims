@@ -19,7 +19,8 @@
 	    	classpath:friend.xml,
 	    	classpath:system.xml,
 	    	classpath:message.xml,
-	    	classpath:group.xml
+	    	classpath:group.xml,
+	    	classpath:function.xml
 	    </param-value>
 	</context-param>
 	
@@ -58,7 +59,6 @@
        <url-pattern>/*</url-pattern>
    </filter-mapping>
      
-    --><welcome-file-list>
     <filter>       
        <filter-name>CORS</filter-name>
        <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
@@ -88,7 +88,7 @@
        <filter-name>CORS</filter-name>
        <url-pattern>/*</url-pattern>
    </filter-mapping>
-     
+     -->
     <welcome-file-list>
       <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

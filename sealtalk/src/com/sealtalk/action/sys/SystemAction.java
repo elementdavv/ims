@@ -1,8 +1,6 @@
 package com.sealtalk.action.sys;
 
 import java.io.IOException;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 
 import net.sf.json.JSONObject;
@@ -54,7 +52,6 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public String afterLogin() throws IOException, ServletException {
 		JSONObject result = new JSONObject();
 		
@@ -71,7 +68,7 @@ public class SystemAction extends BaseAction {
 		
 		if(member == null) {
 			result.put("code", 0);
-			result.put("text", Tips.NULLUSER.getText());
+			result.put("text", Tips.ERRORUSERORPWD.getText());
 			//request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
 			//return "loginPage";
 			returnToClient(result.toString());
@@ -219,10 +216,6 @@ public class SystemAction extends BaseAction {
 		String comparePwd = request.getParameter("comparepwd");
 		String textCode = request.getParameter("textcode");
 		
-		System.out.println("account: " + account);
-		System.out.println("newPwd: " + newPwd);
-		System.out.println("comparePwd: " + comparePwd);
-		
 		JSONObject text = new JSONObject();
 		
 		if (account == null || "".equals(account)) {
@@ -234,18 +227,27 @@ public class SystemAction extends BaseAction {
 		
 		boolean status = true;
 		
-		if (!StringUtils.getInstance().isBlank(textCode)) {
-			if (textCode == null || "".equals(textCode)) {
+		if (!StringUtils.getInstance().isBlank(oldpwd)) {
+			boolean validOldPwd = memberService.valideOldPwd(account, newPwd);
+			if (!validOldPwd) {
 				text.put("code", -1);
-				text.put("text", Tips.NULLTEXTS.getText());
+				text.put("text", Tips.WRONGOLDPWD.getText());
 				status = false;
-			} else if (!textCode.equals("9999")) {
-				text.put("code", 0);
-				text.put("text", Tips.ERRORTEXTS.getText());
-				status = false;
-			} else {
-				text.put("code", 1);
-				text.put("text", Tips.TRUETEXTS.getText());
+			}
+		} else {
+			if (!StringUtils.getInstance().isBlank(textCode)) {
+				if (textCode == null || "".equals(textCode)) {
+					text.put("code", -1);
+					text.put("text", Tips.NULLTEXTS.getText());
+					status = false;
+				} else if (!textCode.equals("9999")) {
+					text.put("code", 0);
+					text.put("text", Tips.ERRORTEXTS.getText());
+					status = false;
+				} else {
+					text.put("code", 1);
+					text.put("text", Tips.TRUETEXTS.getText());
+				}
 			}
 		}
 		
@@ -278,6 +280,7 @@ public class SystemAction extends BaseAction {
 	
 	private String account;
 	private String userpwd;
+	private String oldpwd;
 	private String dataSource;
 
 	public String getAccount() {
@@ -302,6 +305,14 @@ public class SystemAction extends BaseAction {
 
 	public void setDataSource(String dataSource) {
 		this.dataSource = dataSource;
+	}
+
+	public String getOldpwd() {
+		return oldpwd;
+	}
+
+	public void setOldpwd(String oldpwd) {
+		this.oldpwd = oldpwd;
 	}
 	
 }

@@ -217,12 +217,38 @@ public class GroupAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 管理群成员
+	 * @return
+	 * @throws ServletException
+	 */
 	public String manageGroupMem() throws ServletException {
 		
 		String result = null;
 		
 		if (groupService != null) {
 			result = groupService.manageGroupMem(groupid, groupids);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 查看群信息
+	 * @return
+	 * @throws ServletException
+	 */
+	public String groupInfo() throws ServletException {
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.groupInfo(groupid);
 		} else {
 			JSONObject jo = new JSONObject();
 			jo.put("code", -1);

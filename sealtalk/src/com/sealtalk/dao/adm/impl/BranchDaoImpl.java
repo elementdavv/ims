@@ -49,10 +49,13 @@ public class BranchDaoImpl extends BaseDao<TBranch, Long> implements BranchDao {
 				"M.groupuse," +
 				"M.intro," +
 				"P.id PID," +
-				"P.name " +
+				"P.name," +
+				"S.id," +
+				"S.name " +
 				"from t_branch_member BM right join t_branch BC on BM.branch_id=BC.id " +
 				"left join t_member M on BM.member_id=M.id " +
-				"left join t_position P on BM.position_id=P.id"; 
+				"left join t_position P on BM.position_id=P.id" +
+				"left join t_sex S on M.sex=S.id"; 
 		
 		try {
 			SQLQuery query = this.getSession().createSQLQuery(sql);
@@ -94,8 +97,14 @@ public class BranchDaoImpl extends BaseDao<TBranch, Long> implements BranchDao {
 				"M.groupuse," +
 				"M.intro," +
 				"P.id PID," +
-				"P.name " +
-				"from t_branch_member BM left join t_position P on BM.position_id=P.id inner join t_member M on BM.member_id=M.id where BM.branch_id=" + branchId;	
+				"P.name," +
+				"S.id," + 
+				"S.name " +
+				"from t_branch_member BM " +
+				"left join t_position P on BM.position_id=P.id " +
+				"left join t_sex S on S.id=M.sex " +
+				"inner join t_member M on BM.member_id=M.id " +
+				"where BM.branch_id=" + branchId;	
 		
 		try {
 			SQLQuery query = this.getSession().createSQLQuery(sql);
