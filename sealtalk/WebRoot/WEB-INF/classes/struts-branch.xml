@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <package name="com.sealtalk.action.adm" extends="ssl-default">
+        <!-- 组织机构 -->
+        <action name="branch" class="com.sealtalk.action.adm.BranchAction">
+        	<result name="text" type="stream">
+        		<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+        	</result>
+        </action>
+    </package>
+   
+</struts>
+

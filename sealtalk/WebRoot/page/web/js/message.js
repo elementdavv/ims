@@ -501,19 +501,20 @@ function getGroupList(accountID){
     sendAjax('group!groupList',{userid:accountID},function(data){
         //window.localStorage.normalInfo = data;
         if(data){
+            window.localStorage.groupFile = data;
             var datas = JSON.parse(data);
             var groupArr = datas.text;
             for(var i = 0;i<groupArr.length;i++){
                 var curGroup = groupArr[i];
                 sHTML+='<li targetid="'+curGroup.id+'">'+
-                            '<div>'+
-                                '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
-                                '<span class="groupName">'+curGroup.name+
-                                    '<em>(15/20)'+
-                                    '</em>'+
-                                '</span>'+
-                            '</div>'+
-                        '</li>'
+                '<div>'+
+                '<img class="groupImg"  src="page/web/css/img/group_chart.png" alt="">'+
+                '<span class="groupName">'+curGroup.name+
+                '<em>(15/20)'+
+                '</em>'+
+                '</span>'+
+                '</div>'+
+                '</li>'
             }
             dom.html(sHTML);
 

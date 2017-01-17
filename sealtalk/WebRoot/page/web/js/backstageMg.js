@@ -183,6 +183,30 @@ $(document).ready(function(){
         }
 
     });
+    /*系统提示音*/
+    $('#chatBox').on('click','#systemSet .systemVoiceBtn i',function(){
+        var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
+        var eParent=$(this).parent();
+        switch(status){
+            case 0:
+                eParent.addClass('active');
+                break;
+            case 1:
+                eParent.removeClass('active');
+                break;
+        }
+    });
+    $('#chatBox').on('click','#systemSet .systemSet-keep',function(){
+       // var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
+        var status;
+        var eVoice=$('#chatBox #systemSet .systemVoiceBtn');
+        if(eVoice.hasClass('active')){
+            status=0;
+        }else{
+            status=1;
+        }
+        systemBeep(status);
+    });
     //getGroupMembersList(1);
 });
 function fPersonalSet(){
@@ -399,12 +423,35 @@ function editOldPassword(sNewPw){
         return false;
     }
 }
-function keerNewPw(newPw){
+function keerNewPw(oldpwd,newPw,comparepwd){
     var sAccount=localStorage.getItem('account');
     var oAccount=JSON.parse(sAccount);
     var sPassword=oAccount.userpwd;
     var sAccNum=oAccount.account;
-    sendAjax('system!newPassword',{account:sAccNum,oldpwd:sPassword,newpwd:newPw,comparepwd:comparepwd},function(data){
-       console.log(JSON.parse(data));
+    sendAjax('system!newPassword',{account:sAccNum,oldpwd:oldpwd,newpwd:newPw,comparepwd:comparepwd},function(data){
+        console.log(JSON.parse(data));
+        var oData=JSON.parse(data);
+        if(oData.code==1){
+            oAccount.userpwd=newPw;
+            window.localStorage.account=JSON.stringify(oAccount);
+        }
+    });
+}
+/*系统提示音*/
+function systemBeep(status){
+    sendAjax('function!setSysTipVoice',{status:status},function(data){
+        var oData=JSON.parse(data);
+        var eParent=$('#chatBox #systemSet .systemVoiceBtn');
+        if(oData.code==1){
+            globalVar.SYSTEMSOUND=status;
+          /*  switch(status){
+                case 0:
+                    eParent.addClass('active');
+                    break;
+                case 1:
+                    eParent.removeClass('active');
+                    break;
+            }*/
+        }
     });
 }

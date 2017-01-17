@@ -1,0 +1,3 @@
+1、不同模块要写独立的struts、spring配置文件，struts要在struts.xml中include新的struts配置文件;spring并在web.xml中配置spring配置文件，
+	注意如果自己的spring中引用的类在其它spring文件中有，是可以直接使用的，或者再配置一项也可。
+2、action、service、dao层不同模块需要建不同的包目录。

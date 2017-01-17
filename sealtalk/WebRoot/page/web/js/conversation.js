@@ -300,16 +300,31 @@ function getConverList(){
 }
 
 
-function changeTimeFormat(mSec){
+function changeTimeFormat(mSec,format){
     //var oldTime = (new Date("2012/12/25 20:11:11")).getTime(); //得到毫秒数
+    var time;
     var newTime = new Date(mSec); //就得到普通的时间了
+    var y=ifPlusZero(newTime.getFullYear());
+    var month=ifPlusZero(newTime.getMonth()+1);
+    var d=ifPlusZero(newTime.getDate());
+    var w=ifPlusZero(newTime.getDay());
     var h = ifPlusZero(newTime.getHours()); //获取系统时，
     var m = ifPlusZero(newTime.getMinutes()); //分
     var s = ifPlusZero(newTime.getSeconds()); //秒
+    switch(format){
+        case 'y':
+          time = y+'-'+m+'-'+d;
+            break;
+        case 'h':
+            time = h+':'+m+':'+s;
+            break;
+        case 'yh':
+            time=y+'-'+m+'-'+d+' '+h+':'+m+':'+s;
+    }
     //console.log('+++++++++++++++++++++')
     //if()
     //console.log(h+':'+m+':'+s);
-    var time = h+':'+m+':'+s;
+    //var time = h+':'+m+':'+s;
     return time;
 }
 function changeTimeFormatYMD(mSec){
@@ -374,8 +389,6 @@ function usualChatList(list){
 
     $('.usualChatListUl').html(sHTML);
 }
-
-
 //包括单聊，群聊，聊天室
 function sendMsg(content,targetId,way){
     // 定义消息类型,文字消息使用 RongIMLib.TextMessage

@@ -19,7 +19,8 @@
 	    	classpath:friend.xml,
 	    	classpath:system.xml,
 	    	classpath:message.xml,
-	    	classpath:group.xml
+	    	classpath:group.xml,
+	    	classpath:function.xml
 	    </param-value>
 	</context-param>
 	
