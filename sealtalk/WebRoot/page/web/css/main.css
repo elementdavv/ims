@@ -744,6 +744,12 @@ span.defaultText{
     margin-left:18px;
     width: 120px;
 }
+
+
+.mr-chatContent{
+    height: 100%;
+    width: 100%;
+}
 .selfImgInfo div .selfImgOpera{
     overflow: hidden;
 }
