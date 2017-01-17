@@ -510,19 +510,24 @@ function getGroupList(accountID){
     sendAjax('group!groupList',{userid:accountID},function(data){
         //window.localStorage.normalInfo = data;
         if(data){
+            window.localStorage.groupInfo = data;
             var datas = JSON.parse(data);
             var groupArr = datas.text;
-            for(var i = 0;i<groupArr.length;i++){
-                var curGroup = groupArr[i];
-                sHTML+='<li targetid="'+curGroup.id+'">'+
-                            '<div>'+
-                                '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
-                                '<span class="groupName">'+curGroup.name+
-                                    '<em>(15/20)'+
-                                    '</em>'+
-                                '</span>'+
-                            '</div>'+
-                        '</li>'
+            if(groupArr){
+                for(var i = 0;i<groupArr.length;i++){
+                    var curGroup = groupArr[i];
+                    sHTML+='<li targetid="'+curGroup.id+'">'+
+                    '<div>'+
+                    '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
+                    '<span class="groupName">'+curGroup.name+
+                    '<em>(15/20)'+
+                    '</em>'+
+                    '</span>'+
+                    '</div>'+
+                    '</li>'
+                }
+            }else{
+                sHTML = '';
             }
             dom.html(sHTML);
 
@@ -638,7 +643,10 @@ function getBranchTreeAndMember(){
         window.localStorage.normalInfo = data;
         var datas = JSON.parse(data);
         if(datas && data.length!=0){
+            console.log(data);
             var myData = changeFormat(data);
+            console.log(myData);
+
             if(myData){
                 window.localStorage.getBranchTree = JSON.stringify(myData);
             }

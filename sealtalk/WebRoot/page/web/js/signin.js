@@ -37,25 +37,37 @@ function sendAjax(url,data,callback){
 function fToStep2(dom){
     var phoneNum = $('#phoneNum').val();
     var textcode = $('#checkCode').val();
-    var data = JSON.stringify({'phone':phoneNum,textcode:textcode});
+    //var data = JSON.stringify({'phone':phoneNum,textcode:textcode});
     $('.sealtalk-forgetpassword').attr('account',phoneNum);
-    sendAjax('system!testText',data,function(){
-        //if(data){
-        //    var datas = JSON.parse(data);
-        //    if(datas.text.code=='0000'){
+    sendAjax('system!testText',{phone:phoneNum,textcode:textcode},function(data){
+        if(data){
+            var datas = JSON.parse(data);
+            if(datas.code=='1'){
                 fToNext(dom)
-            //}
-        //}
+            }
+        }
     });
 }
 function fToStep3(dom){
     var newpwd = $('#newpassword').val();
     var comparepwd = $('#newpasswordCertain').val();
-    var account = $('.sealtalk-forgetpassword').attr('account');
-    var data = JSON.stringify({'newpwd':newpwd,comparepwd:comparepwd})
-    sendAjax('system!newPassword',data,function(){
-    });
-    fToNext(dom)
+    var newPWD = hex_md5(newpwd);
+    var comparePWD = hex_md5(comparepwd);
+    if(newPWD!=comparePWD){
+        alert('两次密码不一致')
+    }else{
+        var account = $('.sealtalk-forgetpassword').attr('account');
+        sendAjax('system!newPassword',{newpwd:newPWD,comparepwd:comparePWD,account:account},function(data){
+            if(data){
+                var datas = JSON.parse(data);
+                if(datas.code=='1'){
+                    fToNext(dom)
+                }
+            }
+        });
+    }
+
+
 
 }
 

@@ -25,15 +25,8 @@ function conversationGroup(targetID,targetType,groupName){
         var targetType = $('.mesContainerGroup').attr('targetType');
         sendMsg(content,targetId,targetType)
     })
-    //$('.orgNavClick').addClass('chatHide');
-    //$('.mesContainerGroup').removeClass('chatHide');
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
-    //获取右侧的联系人资料聊天记录
-    //getInfoDetails();
-    //console.log(targetID);
-    //console.log(findMemberInList(targetID));
-    //findMemberInList(targetID)
     clearNoReadMsg(targetType,targetID);
     getConverList();
 }
@@ -56,6 +49,9 @@ function po_Last_Div(obj) {
 function conversationSelf(targetID,targetType){
     //var target = targetID;
     //噗页面 把targetID放进去
+
+    var history = historyMsg(targetType,targetID);
+    console.log(history);
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
@@ -295,17 +291,12 @@ function scrollTop(eDom){
     eDom.scrollTop = eDom.scrollHeight;
 }
 //获取历史消息、消息记录
-function historyMsg(Type,targetId,timestrap,count,$eDom){
-    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, timestrap, count, {
+function historyMsg(Type,targetId){
+    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, null, 20, {
         onSuccess: function(list, hasMsg) {
-            //console.log(list,hasMsg);
-            //if($eDom.hasClass('infoDet-prePage')){
-            //
-            //}localStorage.setItem('prePage',list);
-            if(!hasMsg){
-                $eDom.removeClass('allowClick');
-            }
-            getChatRecord(list,hasMsg);
+
+
+            console.log(list,hasMsg);
             // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
             // list 为拉取到的历史消息列表
         },
@@ -378,7 +369,7 @@ function findMemberInList(targetId){
 
 //显示会话列表
 function usualChatList(list){
-    console.log(list);
+    //console.log(list);
     var sHTML = '';
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
@@ -386,20 +377,22 @@ function usualChatList(list){
         var targetId = curList.targetId
         var lastTime = changeTimeFormat(curList.sentTime);
         var member = findMemberInList(targetId);
-        //console.log('member',member);
-        var logo = member.logo;
-        var name = member.name;
-        var unreadMessageCount = curList.unreadMessageCount;
-        var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
+        if(member){
+            //console.log('member',member);
+            var logo = member.logo;
+            var name = member.name;
+            var unreadMessageCount = curList.unreadMessageCount;
+            var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
 
-        sHTML += ' <li targetid="'+targetId+'">'+
-        '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
-        sNum+
-        '<span class="groupName">'+name+'</span>'+
-        '<span class="usualLastMsg">'+content+'</span>'+
-        '<span class="lastTime">'+lastTime+'</span>'+
-        '</div>'+
-        '</li>'
+            sHTML += ' <li targetid="'+targetId+'">'+
+            '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+            sNum+
+            '<span class="groupName">'+name+'</span>'+
+            '<span class="usualLastMsg">'+content+'</span>'+
+            '<span class="lastTime">'+lastTime+'</span>'+
+            '</div>'+
+            '</li>'
+        }
     }
 
     $('.usualChatListUl').html(sHTML);

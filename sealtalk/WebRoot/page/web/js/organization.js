@@ -69,6 +69,7 @@ $(function(){
     })
 
     //搜索
+    $('.defaultText').unbind('click');
     $('.defaultText').click(function(){
         $('.searchInput').focus();
     })
