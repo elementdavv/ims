@@ -682,6 +682,11 @@ span.defaultText{
     width: 80px;
     display: inline-block;
 }
+.showImgInfo img{
+    height: 80px;
+    width: 80px;
+    border-radius: 80px;
+}
 .personalOperaIcon{
     height: 30px;
     width: 130px;
@@ -1165,6 +1170,7 @@ span.defaultText{
     border: 1px solid #e6e6e6;
     box-shadow: 0px 0px 10px #e6e6e6;
     /* display: none; */
+    padding-top: 24px;
 }
 .memberInfoHover{
     padding: 0px 26px;

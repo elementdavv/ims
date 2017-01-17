@@ -75,7 +75,7 @@ $(function(){
                 console.log(111);
                 var inputVal = $(this).val();
                 if(inputVal){
-                    sendAjax('member!getOneOfMember',{account:inputVal},function(data){
+                    sendAjax('member!searchUser',{account:inputVal},function(data){
                         var datas = JSON.parse(data);
                         console.log(data);
                         if(datas.code==0){
