@@ -11,12 +11,24 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/jquery.jOrgChart.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/OrgChart.css"/>
-
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/backstageMg.css"/>
+
+
+
+
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
+
+
+    <%--七牛上传--%>
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/upload.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>
+
+
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
     <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
     <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
+    <%--是否需要融云--%>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
@@ -30,13 +42,14 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>--%>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>--%>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/upload.js"></script>--%>
+
+
     <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-ui.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.jOrgChart.js"></script>
+
+
 
     <%--<script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>--%>
 

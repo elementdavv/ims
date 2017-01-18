@@ -537,7 +537,7 @@
     display: none;
 }
 .textarea{
-    background: palegoldenrod;
+    /*background: palegoldenrod;*/
     height: 80px;
     margin-top: 2px;
 }

@@ -9,6 +9,9 @@ $(function(){
         var oAccount = JSON.parse(sAccount);
         var token = oAccount.token;
         console.log(token);
+
+        // 设置连接监听状态 （ status 标识当前连接状态）
+        // 连接状态监听器
         RongIMClient.setConnectionStatusListener({
             onChanged: function (status) {
                 switch (status) {
@@ -99,7 +102,7 @@ $(function(){
             }
         });
 
-
+        // 连接融云服务器。
         RongIMClient.connect(token, {
             onSuccess: function(userId) {
                console.log('连接成功');
