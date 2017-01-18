@@ -7,6 +7,9 @@ $(function(){
 })
 
 function conversationGroup(targetID,targetType,groupName){
+
+
+
     $('.perSetBox-title span').html(groupName);
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
@@ -46,11 +49,115 @@ function po_Last_Div(obj) {
         range.select();
     }
 }
+/*function transdate(endTime){
+    var date=new Date();
+    date.setFullYear(endTime.substring(0,4));
+    date.setMonth(endTime.substring(5,7)-1);
+    date.setDate(endTime.substring(8,10));
+    date.setHours(endTime.substring(11,13));
+    date.setMinutes(endTime.substring(14,16));
+    date.setSeconds(endTime.substring(17,19));
+    return Date.parse(date)/1000;
+}*/
+function ondayTime(sCurrentTime,sContrastTime){
+   // var sDateTime=changeTimeFormat(sContrastTime,'y');
+    //var sDateHoursTime=changeTimeFormat(sContrastTime,'yh');
+}
+function sessionContent(sDoM,sTargetId,sContent){
+    if (sTargetId) {
+        var oData=findMemberInList(sTargetId);
+        var sImg=oData.logo || 'PersonImg.png';
+        sDoM += ' <li class="mr-chatContentL clearfix">\
+                    <img src="upload/images/'+sImg+'">\
+                    <div class="mr-chatBox">\
+                    <span>' + sContent + '</span>\
+                    <i></i>\
+                    </div>\
+                    </li>';
+    } else {
+        sDoM += ' <li class="mr-chatContentR clearfix">\
+                    <div class="mr-ownChat">\
+                    <span>' + sContent + '</span>\
+                    <i></i>\
+                    </div>\
+                    </li>';
+    }
+    return sDoM;
+
+}
 function conversationSelf(targetID,targetType){
     //var target = targetID;
     //噗页面 把targetID放进去
 
-    var history = historyMsg(targetType,targetID);
+   // var history = historyMsg(targetType,targetID);
+    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, 0, 20, {
+        onSuccess: function(list, hasMsg) {
+            var timestamp = new Date().getTime();//获取当前时间戳
+            var sStartTime=0;
+            var sCurrentTime = changeTimeFormat(timestamp, 'yh');
+            var sCurrentDateTime = changeTimeFormat(timestamp, 'y');
+            //var sfiveBeforeTime=changeTimeFormat(timestamp+300000,'yh');
+            var sDoM = '<ul class="mr-chatContent">';
+            for (var i = 0; i < list.length; i++) {
+                var sSentTime = list[i].sentTime;
+                var sContent = list[i].content.content || '';
+                var sTargetId = list[i].targetId;
+                var sDateTime = changeTimeFormat(sSentTime, 'y');
+                var sDateHoursTime = changeTimeFormat(sSentTime, 'yh');
+                var sHoursTime=changeTimeFormat(sSentTime, 'h');
+                if (sDateTime != sCurrentDateTime) {
+                    sCurrentDateTime = sDateTime;
+                    sCurrentTime = sDateHoursTime;
+                    sStartTime=sSentTime;
+                    var sNowTime = new Date().getTime();//获取当前时间戳
+                    var sNowCurrentTime = changeTimeFormat(sNowTime, 'y');
+                    if(sNowCurrentTime == sDateTime){
+                        sDoM += ' <li>\
+                    <p class="mr-Date">' + sHoursTime + '</p>\
+                    </li>';
+                    }else{
+                        sDoM += ' <li>\
+                    <p class="mr-Date">' + sCurrentTime + '</p>\
+                    </li>';
+                    }
+                    sDoM=sessionContent(sDoM,sTargetId,sContent);
+                } else {
+                    var sNowTime1 = new Date().getTime();//获取当前时间戳
+                    var sNowCurrentTime1 = changeTimeFormat(sNowTime, 'y');
+                    //var sCurrentDateTime = changeTimeFormat(timestamp, 'y');
+                    if (sSentTime - sStartTime >300000) {
+                        //sStartTime=sSentTime;
+                        if(sNowCurrentTime1==sDateTime){
+                            var sfiveBeforeTime = changeTimeFormat(sSentTime, 'h');
+                        }else{
+                            var sfiveBeforeTime = changeTimeFormat(sSentTime, 'yh');
+                        }
+                        //var sfiveBeforeTime = changeTimeFormat(sSentTime, 'yh');
+                        sDoM += '<li>\
+                        <p class="mr-Date">' + sfiveBeforeTime + '</p>\
+                        </li>';
+                        sDoM=sessionContent(sDoM,sTargetId,sContent)
+                    } else {
+                        sDoM=sessionContent(sDoM,sTargetId,sContent)
+                    }
+                    sStartTime=sSentTime;
+                }
+                //aList=list;
+                // return list;
+                // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
+                // list 为拉取到的历史消息列表
+            }
+            sDoM+='</ul>';
+            $('#perContainer .mr-chatview').empty();
+            $('#perContainer .mr-chatview').append(sDoM);
+            var eDom=document.querySelector('#perContainer .mr-chatview');
+            eDom.scrollTop = eDom.scrollHeight;
+        },
+        onError: function(error) {
+            // APP未开启消息漫游或处理异常
+            // throw new ERROR ......
+        }
+    });
     console.log(history);
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
@@ -292,11 +399,12 @@ function scrollTop(eDom){
 }
 //获取历史消息、消息记录
 function historyMsg(Type,targetId){
+    var aList;
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, null, 20, {
         onSuccess: function(list, hasMsg) {
-
-
             console.log(list,hasMsg);
+           //aList=list;
+           // return list;
             // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
             // list 为拉取到的历史消息列表
         },
@@ -334,13 +442,13 @@ function changeTimeFormat(mSec,format){
     var s = ifPlusZero(newTime.getSeconds()); //秒
     switch(format){
         case 'y':
-          time = y+'-'+m+'-'+d;
+          time = y+'-'+month+'-'+d;
             break;
         case 'h':
             time = h+':'+m+':'+s;
             break;
         case 'yh':
-            time=y+'-'+m+'-'+d+' '+h+':'+m+':'+s;
+            time=y+'-'+month+'-'+d+' '+h+':'+m+':'+s;
     }
     //console.log('+++++++++++++++++++++')
     //if()
