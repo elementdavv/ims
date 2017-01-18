@@ -32,17 +32,23 @@ public class TextHttpSender {
 	 * @param extrno扩展码
 	 * @return
 	 */
-	public String sendPrivateText(String uri, String account, String pswd, String mobiles, String content, boolean needstatus, String product, String extno) {
+	public String sendPrivateText(String mobiles, String content, boolean needstatus, String product, String extno) {
 		try {
+			String uri = PropertiesUtils.getStringByKey("code.uri");
+			String account = PropertiesUtils.getStringByKey("code.account");
+			String pswd = PropertiesUtils.getStringByKey("code.pswd");
+			
 			String returnString = HttpSender.send(uri, account, pswd, mobiles, content, needstatus, product, extno);
 			System.out.println(returnString);
 			//TODO 处理返回值,参见HTTP协议文档
+			
+			return "0";
 		} catch (Exception e) {
 			//TODO 处理异常
 			e.printStackTrace();
 		}
 		
-		return extno;
+		return null;
 	}
 	
 	/**

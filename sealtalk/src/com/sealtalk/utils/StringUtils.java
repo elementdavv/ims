@@ -42,6 +42,16 @@ public class StringUtils {
 		}
 	}
 	
+	public long strToLong(String str) {
+		str = str.replace("\"", "");
+		
+		if(isNumeric(str)) {
+			return Long.parseLong(str);
+		} else {
+			return -1;
+		}
+	}
+	
 	public String replaceChar(String str, String srcChars, String distChars) {
 		if (!isBlank(str) && !isBlank(srcChars) && !isNull(distChars)) {
 			return str.replace(srcChars, distChars);
@@ -115,4 +125,5 @@ public class StringUtils {
 		return null;
 		
 	}
+
 }

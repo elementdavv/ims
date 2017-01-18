@@ -19,6 +19,7 @@ import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.sealtalk.model.TextCode;
 import com.sealtalk.model.SessionUser;
 
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware
@@ -173,11 +174,10 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 			return (SessionUser) request.getSession().getAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONUSER);
 		}
 	}
-	
-	
+
 	protected void setSessionAttribute(String key, Object o)
 	{
-	/*	if (request == null)
+		if (request == null)
 		{
 			WebContext ctx = WebContextFactory.get();
 			HttpSession session = ctx.getSession(false);
@@ -185,11 +185,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		} else
 		{
 			request.getSession().setAttribute(key, o);
-		}*/
+		}
 	}
 	
 	
-/*	protected Object getSessionAttribute(String key)
+	protected Object getSessionAttribute(String key)
 	{
 		if (request == null)
 		{
@@ -200,7 +200,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		{
 			return request.getSession().getAttribute(key);
 		}
-	}*/
+	}
 	
 /*	
 	protected String getApplicaitonQueryFilter()
