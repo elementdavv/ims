@@ -457,15 +457,18 @@
 }
 .mr-chatContent li{
     margin-bottom:18px;
-}
+    position: relative;
+    }
 .mr-chatBox{
+    float:left;
     background: #fff;
     border:1px solid rgb(204,204,204);
     padding:8px 10px;
     position: relative;
     border-radius: 5px;
     margin:2px 36px 0 98px;
-
+    word-wrap: break-word;
+    word-break:break-all;
 }
 .mr-chatContentL img{
     position:absolute;
