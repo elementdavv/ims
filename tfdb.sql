@@ -370,6 +370,19 @@ CREATE TABLE `t_dontdistrub` (
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_textcode`：手机验证码保存
+--
+CREATE TABLE `t_textcode` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `phone_number` INT NOT NULL DEFAULT '0',
+  `text_code` VARCHAR(256) NOT NULL DEFAULT '0',
+  `create_time` int(11) NOT NULL DEFAULT '0',
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

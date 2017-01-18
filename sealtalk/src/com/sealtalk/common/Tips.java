@@ -13,6 +13,7 @@ public enum  Tips {
 	NULLTEXTS("短信验证码为空", "00008"),
 	ERRORTEXTS("短信验证码不正确", "00009"),
 	TRUETEXTS("短信验证通过", "00010"),
+	SENDERR("短信验证码发送未成功", "00011"),
 	UNKNOWERR("未知错误", "00011"),
 	NOTFRIENDID("未选取好友", "00012"),
 	FAILADDFRIEND("好友添加失败", "00013"),
@@ -30,8 +31,9 @@ public enum  Tips {
 	GROUPMOREVOLUME("成员超出上限", "00025"),
 	WRONGOLDPWD("旧密码错误", "00026"),
 	NOTSETFUN("未设置功能", "00027"),
-	OK("OK", "00028"),
-	FAIL("fail", "00029");
+	NULLPHONE("手机号为空", "00028"),
+	OK("OK", "00029"),
+	FAIL("fail", "00030");
 	
 	private String name;
 	private String code;

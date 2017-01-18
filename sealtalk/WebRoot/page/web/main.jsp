@@ -17,7 +17,7 @@
 
 
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
-
+    <script src="<%=request.getContextPath() %>/page/web/js/globalVar.js"></script>
 
     <%--七牛上传--%>
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>
@@ -28,7 +28,8 @@
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
     <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
     <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
-    <%--是否需要融云--%>
+    <script src="https://webapi.amap.com/js/marker.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=acafe737e6344c4ce19d101b9f3b1d03"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
@@ -42,8 +43,11 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
+<script src="<%=request.getContextPath() %>/page/web/js/map.js"></script>
 
-
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>--%>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>--%>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/upload.js"></script>--%>
     <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-ui.min.js"></script>
@@ -357,7 +361,35 @@
 <!--聊天部分-->
 <div class="chatBoxOuter">
     <div class="chatBox" style="position:relative" id="chatBox">
-
+    <!--地图-->
+        <div class="orgNavClick groupMap" id="groupMap">
+            <h3 class="perSetBox-title clearfix">
+                <span>天方产品部</span>
+                <div class="messageRecord clearfix"></div>
+            </h3>
+            <div class="groupMapBox">
+                <div id="container" ></div>
+                <div class="groupMapMember">
+                    <ul>
+                        <li>
+                            <img src="page/web/css/img/1.jpg">
+                        </li>
+                        <li>
+                            <img src="page/web/css/img/1.jpg">
+                        </li>
+                        <li>
+                            <img src="page/web/css/img/1.jpg">
+                        </li>
+                        <li>
+                            <img src="page/web/css/img/1.jpg">
+                        </li>
+                        <li>
+                            <img src="page/web/css/img/1.jpg">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <!--个人设置-->
         <div class="perSetBox orgNavClick chatHide" id="personSettingId">
             <%--<h3 class="perSetBox-title">个人设置</h3>--%>
@@ -464,14 +496,14 @@
             --%>
         </div>
         <!--系统设置-->
-        <div class="perSetBox orgNavClick chatHide">
+        <div class="perSetBox orgNavClick chatHide" id="systemSet">
             <h3 class="perSetBox-title">系统设置</h3>
 
             <div class="systemSetVoice clearfix">
                 <span>通知提示音：</span>
-
-                <p>
-                    <i></i>
+                <p class="clearfix systemVoiceBtn">
+                    <i class="VoiceBtn_L" data-state="0"></i>
+                    <i class="VoiceBtn_R" data-state="1"></i>
                 </p>
             </div>
             <b class="systemSet-keep">保存</b>
@@ -495,7 +527,7 @@
                 </ul>
                 <div class="clearfix cp-reNewPassword">
                     <span>新密码：</span>
-                    <input type="password">
+                    <input type="password" id="comparepwd">
                 </div>
                 <p class="retMewPw"></p>
             </div>
@@ -512,25 +544,25 @@
                 </div>
             </h3>
             <div class="mr-chatview">
-                <p class="mr-Date">-11月11日 星期五-</p>
+                <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
 
-                <p class="mr-time">9:28</p>
-                <ul class="mr-chatContent">
-                    <li class="mr-chatContentL clearfix">
-                        <img src="page/web/css/img/1.jpg">
+                <%--<p class="mr-time">9:28</p>--%>
+                <%--<ul class="mr-chatContent">--%>
+                    <%--<li class="mr-chatContentL clearfix">--%>
+                        <%--<img src="page/web/css/img/1.jpg">--%>
 
-                        <div class="mr-chatBox">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                    <li class="mr-chatContentR clearfix">
-                        <div class="mr-ownChat">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                </ul>
+                        <%--<div class="mr-chatBox">--%>
+                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li class="mr-chatContentR clearfix">--%>
+                        <%--<div class="mr-ownChat">--%>
+                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
             </div>
             <div class="mr-chateditBox">
                 <div class="rongyun-emoji"></div>
@@ -889,7 +921,7 @@
     </div>
         <!--组织的层级导航-->
 
-        <div class="orgNavClick orgNavClick1" id="orgnizedLevel">
+        <div class="orgNavClick orgNavClick1 chatHide" id="orgnizedLevel">
             <div class="orgNavTitle">标题</div>
             <ul>
                 <li>

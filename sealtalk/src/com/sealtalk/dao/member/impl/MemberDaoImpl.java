@@ -43,9 +43,26 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 	}
 
 	@Override
-	public boolean updateUserPwd(String account, String md5Pwd) {
+	public boolean updateUserPwdForAccount(String account, String md5Pwd) {
 		
 		String hql = "update TMember set password='" + md5Pwd + "' where account='" + account + "'";
+		
+		boolean status = true;
+		
+		try {
+			executeUpdate(hql);
+		} catch (Exception e) {
+			status = false;
+			e.printStackTrace();
+		}
+		
+		return status;
+	}
+	
+	@Override
+	public boolean updateUserPwdForPhone(String phone, String md5Pwd) {
+		
+		String hql = "update TMember set password='" + md5Pwd + "' where mobile='" + phone + "'";
 		
 		boolean status = true;
 		

@@ -89,6 +89,7 @@
 				<value>com/sealtalk/model/TRolePriv.hbm.xml</value>
 				<value>com/sealtalk/model/TSex.hbm.xml</value>
 				<value>com/sealtalk/model/TDontDistrub.hbm.xml</value>
+				<value>com/sealtalk/model/TextCode.hbm.xml</value>
 			</list>
 		</property>
 		

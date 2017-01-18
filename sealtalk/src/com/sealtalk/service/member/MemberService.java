@@ -1,6 +1,7 @@
 package com.sealtalk.service.member;
 
 import com.sealtalk.model.TMember;
+import com.sealtalk.model.TextCode;
 
 /**
  * 用户逻辑处理接口
@@ -19,12 +20,20 @@ public interface MemberService {
 	public TMember searchSigleUser(String name, String password);
 
 	/**
-	 * 更新密码
+	 * 更新密码按账号
 	 * @param userName
 	 * @param newPwd
 	 * @return
 	 */
-	public boolean updateUserPwd(String account, String newPwd);
+	public boolean updateUserPwdForAccount(String account, String newPwd);
+	
+	/**
+	 * 更新密码按手机号
+	 * @param userName
+	 * @param newPwd
+	 * @return
+	 */
+	public boolean updateUserPwdForPhone(String phone, String newPwd);
 
 	/**
 	 * 获取单个成员
@@ -55,5 +64,18 @@ public interface MemberService {
 	 * @return
 	 */
 	public boolean valideOldPwd(String account, String newPwd);
+
+	/**
+	 * 保存短信验证码
+	 * @param stc
+	 */
+	public void saveTextCode(TextCode stc);
+
+	/**
+	 * 获取短信验证码
+	 * @param phone
+	 * @return
+	 */
+	public String getTextCode(String phone);
 
 }

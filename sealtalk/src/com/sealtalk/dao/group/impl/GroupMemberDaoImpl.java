@@ -163,10 +163,9 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 	}
 
 	@Override
-	public void delGroupMemberForMemberIdsAndGroupId(int groupIdInt,
-			Integer[] needDelIdsArr) {
+	public void delGroupMemberForMemberIdsAndGroupId(int groupIdInt, String needDelIdsStr) {
 		try {
-			String hql = "delete TGroupMember where groupId=" + groupIdInt + " and memberId in (" + needDelIdsArr + ")";
+			String hql = "delete TGroupMember where groupId=" + groupIdInt + " and memberId in (" + needDelIdsStr + ")";
 			delete(hql);
 		} catch(Exception e) {
 			e.printStackTrace();

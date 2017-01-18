@@ -20,7 +20,15 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @param md5Pwd
 	 * @return
 	 */
-	public boolean updateUserPwd(String account, String md5Pwd);
+	public boolean updateUserPwdForAccount(String account, String md5Pwd);
+	
+	/**
+	 * 更新用户密码
+	 * @param userName
+	 * @param md5Pwd
+	 * @return
+	 */
+	public boolean updateUserPwdForPhone(String account, String md5Pwd);
 
 	/**
 	 *	获取单用户 

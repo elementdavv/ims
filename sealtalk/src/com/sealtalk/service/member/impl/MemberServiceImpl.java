@@ -7,9 +7,14 @@ import net.sf.json.JSONObject;
 
 import com.sealtalk.common.Tips;
 import com.sealtalk.dao.member.MemberDao;
+import com.sealtalk.dao.member.TextCodeDao;
 import com.sealtalk.model.TMember;
+import com.sealtalk.model.TextCode;
 import com.sealtalk.service.member.MemberService;
 import com.sealtalk.utils.PasswordGenerator;
+import com.sealtalk.utils.PropertiesUtils;
+import com.sealtalk.utils.StringUtils;
+import com.sealtalk.utils.TimeGenerator;
 
 public class MemberServiceImpl implements MemberService {
 
@@ -27,13 +32,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public boolean updateUserPwd(String account, String newPwd) {
+	public boolean updateUserPwdForAccount(String account, String newPwd) {
 		boolean status = false;
 		
 		try {
 			//String md5Pwd = PasswordGenerator.getInstance().getMD5Str(newPwd);
 			
-			status = memberDao.updateUserPwd(account, newPwd);
+			status = memberDao.updateUserPwdForAccount(account, newPwd);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -41,6 +46,19 @@ public class MemberServiceImpl implements MemberService {
 		return status;
 	}
 
+	@Override
+	public boolean updateUserPwdForPhone(String phone, String newPwd) {
+		boolean status = false;
+		
+		try {
+			status = memberDao.updateUserPwdForPhone(phone, newPwd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return status;
+	}
+	
 	@Override
 	public String getOneOfMember(String account) {
 
@@ -147,14 +165,63 @@ public class MemberServiceImpl implements MemberService {
 		return b;
 	}
 	
+	@Override
+	public String getTextCode(String phone) {
+		String code = null;
+		
+		try {
+			TextCode tc = textCodeDao.getTextCode(phone);
+			
+			if (tc != null) {
+				long now = TimeGenerator.getInstance().getUnixTime();
+				long createTime = tc.getCreateTime();
+				long valideTime = StringUtils.getInstance().strToLong(PropertiesUtils.getStringByKey("code.validetime"));
+				
+				if ((now - createTime) >= valideTime) {
+					textCodeDao.deleteTextCode(tc);
+					code = "-1";
+				} else {
+					code = tc.getTextCode();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return code;
+	}
+
+	@Override
+	public void saveTextCode(TextCode stc) {
+		try {
+			textCodeDao.saveTextCode(stc);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
 	private String isBlank(Object o) {
 		return o == null ? "" : o + "";
 	}
 	
+	private TextCodeDao textCodeDao;
 	private MemberDao memberDao;
 	
 	public void setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
 	}
 
+	public TextCodeDao getTextCodeDao() {
+		return textCodeDao;
+	}
+
+	public void setTextCodeDao(TextCodeDao textCodeDao) {
+		this.textCodeDao = textCodeDao;
+	}
+
+	public MemberDao getMemberDao() {
+		return memberDao;
+	}
+	
 }
