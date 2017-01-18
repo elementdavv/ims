@@ -5,17 +5,13 @@ $(function(){
     window.converseACount = [];
     //删除群租种的成员
     $('.selectedList').delegate('.deleteMemberIcon','click',function(){
-        var name = $(this).prev().html();
-        var memberID = $(this).parent().attr('memberID');
-        deleteElement(converseACount,memberID);
-        $('.contactsList li.member[id='+memberID+']').find('.dialogCheckBox').removeClass('CheckBoxChecked');
-
-
-        //changeSelected(converseACount);
-        changeSelected(converseACount);
-        //for(var i = 0;i<converseACount.length;i++){
-        //    var memberID = converseACount[i];
-        //}
+        if($(this).parents('li').attr('editable')=='true'){
+            var name = $(this).prev().html();
+            var memberID = $(this).parent().attr('memberID');
+            deleteElement(converseACount,memberID);
+            $('.contactsList li.member[id='+memberID+']').find('.dialogCheckBox').removeClass('CheckBoxChecked');
+            changeSelected(converseACount);
+        }
     })
 
     //弹窗中的树形结构的收起展开
@@ -27,88 +23,98 @@ $(function(){
     //弹窗中树形结构的选中
     $('.conversWindow').undelegate('.dialogCheckBox','click')
     $('.conversWindow').delegate('.dialogCheckBox','click',function(){
-        converseACount = [];
-        if($('.selectedList').find('li').length!=0){
-            var selected = $('.selectedList').find('li');
-            for(var i = 0;i<selected.length;i++){
-                var account = $(selected[i]).attr('memberid')
-                if(!$(this).hasClass('CheckBoxChecked')){
-                    converseACount.push(account);
+        if($(this).parents('li').attr('editable')=='true'){
+            converseACount = [];
+            if($('.selectedList').find('li').length!=0){
+                var selected = $('.selectedList').find('li');
+                for(var i = 0;i<selected.length;i++){
+                    var account = $(selected[i]).attr('memberid')
+                    if(!$(this).hasClass('CheckBoxChecked')){
+                        converseACount.push(account);
 
-                }else{
-                    deleteElement(converseACount,account)
+                    }else{
+                        deleteElement(converseACount,account)
 
+                    }
                 }
             }
-        }
-        //bPrivate是私聊还是群聊
-        var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
-        var id =  $(this).closest('li').attr('id');
-        if(bPrivate){//创建个人的聊天页面 单选模式
-            var account =  $(this).closest('li').attr('account');
-            $('.dialogCheckBox').removeClass('CheckBoxChecked');
-            $(this).addClass('CheckBoxChecked');
-            //var bhas = arrHasElement(converseACount,account);
-            //if(bhas){
+
+
+            //bPrivate是私聊还是群聊
+            var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
+            var id =  $(this).closest('li').attr('id');
+            if(bPrivate){//创建个人的聊天页面 单选模式
+                var account =  $(this).closest('li').attr('account');
+                $('.dialogCheckBox').removeClass('CheckBoxChecked');
+                $(this).addClass('CheckBoxChecked');
+                //var bhas = arrHasElement(converseACount,account);
+                //if(bhas){
                 converseACount.push(account);
 
-            //}
-        }else{//创建群组的聊天 多选模式
-            //首先自己的选中状态
-            //$(this).toggleClass('CheckBoxChecked','dialogCheckBox');
-            if($(this).hasClass('CheckBoxChecked')){
-                $(this).removeClass('CheckBoxChecked');
-                //$(this).addClass('dialogCheckBox');
-
-            }else{
-                //$(this).removeClass('dialogCheckBox');
-                $(this).addClass('CheckBoxChecked');
-
-            }
-            //然后子级的选中状态
-            var member = $(this).closest('li').next('ul').find('div.member');
-            if(member){
-                for(var i = 0;i<member.length;i++){
-                    $(member[i]).parent().attr('account');
+                //}
+            }else{//创建群组的聊天 多选模式
+                //首先自己的选中状态
+                //$(this).toggleClass('CheckBoxChecked','dialogCheckBox');
+                if($(this).hasClass('CheckBoxChecked')){
+                    $(this).removeClass('CheckBoxChecked');
+                }else{
+                    $(this).addClass('CheckBoxChecked');
                 }
-            }
-            if($(this).hasClass('CheckBoxChecked')){//选中的push
-                $(this).closest('li').next('ul').find('.dialogCheckBox').addClass('CheckBoxChecked');
-            }else{//未选中，移出数组
-                $(this).closest('li').next('ul').find('.dialogCheckBox').removeClass('CheckBoxChecked');
-            }
-            //父级的选中状态
-            var sonBox = $(this).closest('ul').find('.dialogCheckBox');
-            var allBox = 0;
-            for(var i = 0;i<sonBox.length;i++){
-                if($(sonBox[i]).hasClass('CheckBoxChecked')){
-                    allBox++;
-                }
-            }
-            if(allBox==0){//全没选中
-                $(this).closest('ul').prev('li').find('.chatLeftIcon').removeClass('CheckBoxChecked');
-            }else if(allBox==sonBox.length){//全选中
-                $(this).closest('ul').prev('li').find('.chatLeftIcon').removeClass('CheckBoxChecked');
-            }
-            var dialogCheckBox = $('.contactBox').find('.dialogCheckBox');
 
-            for(var i = 0;i<dialogCheckBox.length;i++){
-                var diacjeck = $(dialogCheckBox[i])
-                if(diacjeck.hasClass('CheckBoxChecked')&&diacjeck.closest('div').hasClass('member')){
-                    var account = diacjeck.closest('li').attr('id');
-                    var name = diacjeck.next().html();
-                    var bhas = arrHasElement(converseACount,account);
-                    if(!bhas){
-                        converseACount.push(account);
+
+                //然后子级的选中状态
+                var member = $(this).closest('li').next('ul').find('div.member');
+                if(member){
+                    for(var i = 0;i<member.length;i++){
+                        $(member[i]).parent().attr('account');
                     }
-                    //converseACount.push(account);
                 }
-            }
-            changeSelected(converseACount);
+                if($(this).hasClass('CheckBoxChecked')){//选中的push
+                    $(this).closest('li').next('ul').find('.dialogCheckBox').addClass('CheckBoxChecked');
+                }else{//未选中，移出数组
+                    //if($(this).closest('li').attr('editable')=='true'){
+                    var $dialogCheckBox = $(this).closest('li').next('ul').find('.dialogCheckBox');
+                    for(var i = 0;i<$dialogCheckBox.length;i++){
+                        if($($dialogCheckBox[i]).closest('li').attr('editable')=='true'){
+                            $($dialogCheckBox[i]).removeClass('CheckBoxChecked');
+                        }
+                    }
+                    //}
+                }
 
+
+                //父级的选中状态
+                var sonBox = $(this).closest('ul').find('.dialogCheckBox');
+                var allBox = 0;
+                for(var i = 0;i<sonBox.length;i++){
+                    if($(sonBox[i]).hasClass('CheckBoxChecked')){
+                        allBox++;
+                    }
+                }
+                if(allBox==0){//全没选中
+                    $(this).closest('ul').prev('li').find('.chatLeftIcon').removeClass('CheckBoxChecked');
+                }else if(allBox==sonBox.length){//全选中
+                    $(this).closest('ul').prev('li').find('.chatLeftIcon').removeClass('CheckBoxChecked');
+                }
+                var dialogCheckBox = $('.contactBox').find('.dialogCheckBox');
+
+                for(var i = 0;i<dialogCheckBox.length;i++){
+                    var diacjeck = $(dialogCheckBox[i])
+                    if(diacjeck.hasClass('CheckBoxChecked')&&diacjeck.closest('div').hasClass('member')){
+                        var account = diacjeck.closest('li').attr('id');
+                        var name = diacjeck.next().html();
+                        var bhas = arrHasElement(converseACount,account);
+                        if(!bhas){
+                            converseACount.push(account);
+                        }
+                        //converseACount.push(account);
+                    }
+                }
+                changeSelected(converseACount);
+
+            }
         }
     })
-
 })
 
 
@@ -122,6 +128,57 @@ function arrHasElement(converseACount,account){
         }
     }
     return bHas;
+}
+
+
+
+function creatDialogTree(data,className,title,callback,selected){
+    //console.log('00000');
+    //console.log(data);
+    $('.WindowMask').find('.conversWindow').attr('class','conversWindow '+className);
+    $('.WindowMask').find('.dialogHeader').html(title);
+    $('.WindowMask').show();
+    var sHTML = '';
+    var level = 0;
+    var dataAll = localStorage.getItem('datas');
+    var datasAll = JSON.parse(dataAll);
+    var userID = datasAll.text.id;
+
+    var HTML = DialogTreeLoop(data,sHTML,level,userID);
+    $('.contactsList').html(HTML);
+    var dom = $('.selectedList ul');
+    if(selected){
+        console.log('selected',selected);
+        //找到自己的id 不用放到左侧管理
+
+        var sHTML = '';
+
+        converseACount = [];
+        for(var i = 0;i<selected.length;i++){
+            converseACount.push(selected[i]);
+            var targetList = findMemberInList(selected[i]);
+            if(selected[i]==userID){
+                var editable = false;
+                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
+                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').attr('editable','false');
+
+            }else {
+                var editable = true;
+                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
+            }
+                sHTML += '<li memberID="'+selected[i]+'" editable="'+editable+'"><span class="memberName">'+targetList.name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
+
+        }
+        dom.html(sHTML);
+    }else{
+        dom.html('');
+    }
+    //console.log(HTML);
+
+    $('.manageSure').unbind('click');
+    $('.manageSure').click(function(){
+        callback&&callback();
+    });
 }
 
 //删除数组中的某个对象

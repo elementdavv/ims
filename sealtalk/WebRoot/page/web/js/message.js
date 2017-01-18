@@ -88,8 +88,9 @@ $(function(){
                     if(!targetID){
                         var targetID = $(e.target).parents('li').attr('id');
                     }
-                    var memShipArr = [targetID];
+                    var memShipArr = [targetID,accountID];
                     //console.log('addConver');
+                    converseACount.push(accountID);
                     creatDialogTree(datas,'groupConvers','添加会话',function(){
                         var sConverseACount = JSON.stringify(converseACount);
                         sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount},function(data){
@@ -316,7 +317,7 @@ $(function(){
                                     if(data){
                                         $('.manageCancle').click();
                                         var datas = JSON.parse(data);
-                                        if(datas.code==200){
+                                        if(datas.code==1){
                                             new Window().alert({
                                                 title   : '',
                                                 content : '修改群组成功！',
@@ -434,23 +435,7 @@ $(function(){
                                         var targetID = targetMember.attr('targetid');
                                         var targeType = 'PRIVATE';
                                         conversationSelf(targetID,targeType);
-                                        //$('.orgNavClick').addClass('chatHide');
-                                        //$('.mesContainerSelf').removeClass('chatHide');
                                     });
-                                    //$('.manageCancle').click();
-
-                                //}else{
-                                //    $('.manageCancle').click();
-                                //    $('.chatMenu .chatLeftIcon')[1].click();
-                                //    var targetDon = $('.usualChatList').find('li')
-                                //    targetDon.removeClass('active');
-                                //    $('.usualChatList').find('li[account='+targetID+']').addClass('active');
-                                //    //var targetID = targetDon.attr('targetid');
-                                //    var targeType = 'PRIVATE';
-                                //    conversationSelf(targetID,targeType);
-                                //    $('.orgNavClick').addClass('chatHide');
-                                //    $('.mesContainerSelf').removeClass('chatHide');
-                                //}
                             })
                     }else{
                         $('.manageCancle').click();
@@ -470,8 +455,11 @@ $(function(){
                 break;
             case 2:
                 //创建群组
+                converseACount.push(accountID);
                 creatDialogTree(data,'groupConvers','创建群组',function(){
+
                     var sConverseACount = JSON.stringify(converseACount);
+
                     sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount,groupname:''},function(data){
                         if(data){
                             $('.manageCancle').click();
@@ -492,8 +480,8 @@ $(function(){
                             }
 
                         }
-                    })
-                })
+                    });
+                },converseACount)
                 break;
         }
     })
@@ -776,20 +764,22 @@ function showMemberInfo(data,pos){
     $('body').append($(sHTML));
 }
 
-
+function compare(property){
+    return function(a,b){
+        var value1 = a[property];
+        var value2 = b[property];
+        return value1 - value2;
+    }
+}
 function changeFormat(data){
 
     var data = JSON.parse(data);
-    for(var i = 0;i<data.length;i++){
-        for(var j = 0;j<data.length;j++){
-            if(data[j]&&data[j+1]&&data[j].pid>data[j+1].pid) {
-                var num = data[j+1];
-                data[j+1] = data[j];
-                data[j] = num;
-            }
-            data[j].hasChild = [];
 
-        }
+    data.sort(compare('pid'))
+    console.log('sort');
+    console.log(data);
+    for(var i = 0;i<data.length;i++){
+        data[i].hasChild = [];
     }
     var small = [];
     small.push(data[0]);
@@ -837,58 +827,20 @@ function createOrganizList(data,sHTML,level){
     return sHTML;
 }
 
-function creatDialogTree(data,className,title,callback,selected){
-    //console.log('00000');
-    //console.log(data);
-    $('.WindowMask').find('.conversWindow').attr('class','conversWindow '+className);
-    $('.WindowMask').find('.dialogHeader').html(title);
-    $('.WindowMask').show();
-    var sHTML = '';
-    var level = 0
-    var HTML = DialogTreeLoop(data,sHTML,level);
-    $('.contactsList').html(HTML);
-    var dom = $('.selectedList ul');
-    if(selected){
-        console.log('selected',selected);
-        //找到自己的id 不用放到左侧管理
-        var data = localStorage.getItem('datas');
-        var datas = JSON.parse(data);
-        var userID = datas.text.id;
-        var sHTML = '';
-
-        converseACount = [];
-        for(var i = 0;i<selected.length;i++){
-            if(selected[i]==userID){
-                continue;
-            }else{
-
-                converseACount.push(selected[i]);
-                var targetList = findMemberInList(selected[i]);
-                if (targetList != null) {
-                sHTML += '<li memberID="'+selected[i]+'"><span class="memberName">'+targetList.name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
-                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
-                }
-            }
-        }
-        dom.html(sHTML);
-    }else{
-        dom.html('');
-    }
-    //console.log(HTML);
-
-    $('.manageSure').unbind('click');
-    $('.manageSure').click(function(){
-        callback&&callback();
-    });
-}
 
 
-function DialogTreeLoop(data,sHTML,level){
+
+function DialogTreeLoop(data,sHTML,level,userID){
     sHTML += '<ul>';
     var k = data.length;
     for(var i = 0;i<data.length;i++){
         var num = level
         var oData = data[i];
+        //if(oData.id==userID&&oData.flag!=0){
+            //var editable = false
+        //}else{
+            var editable = true;
+        //}
         var hasChild = oData.hasChild.length==0?false:true;
         if(oData.flag==1){//成员
             var collspan =  '<span class="dialogCollspan chatLeftIcon"></span>'+
@@ -904,7 +856,7 @@ function DialogTreeLoop(data,sHTML,level){
                             '<span class="chatLeftIcon dialogCheckBox"></span>';
         }
         //console.log('*******************************');
-        sHTML +=  '<li account = '+data[i].account+' id="'+data[i].id+'" class="'+department+'">'+
+        sHTML +=  '<li account = '+data[i].account+' id="'+data[i].id+'" class="'+department+'" editable="'+editable+'">'+
                         '<div level="1" class="'+department+'">'+
                             '<span style="height: 20px;width: '+level*22+'px;display:inline-block;float: left;"></span>'+
                             ''+collspan+'<span class="dialogGroupName">'+oData.name+'</span>'+
@@ -912,7 +864,7 @@ function DialogTreeLoop(data,sHTML,level){
                     '</li>';
         if(hasChild){
             num ++;
-            sHTML = DialogTreeLoop(oData.hasChild,sHTML,num);
+            sHTML = DialogTreeLoop(oData.hasChild,sHTML,num,userID);
         }
     }
     sHTML += '</ul>';

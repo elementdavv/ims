@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/signin.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/signin.js"></script>
-</head>
+    <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
+
+    </head>
 <body>
 <div class="signin-bg">
 
