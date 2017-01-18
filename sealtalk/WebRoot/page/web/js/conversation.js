@@ -384,13 +384,21 @@ function findMemberInList(targetId){
 
 //显示会话列表
 function usualChatList(list){
-    //console.log(list);
+    console.log(list);
     var sHTML = '';
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
         var content = curList.latestMessage.content.content;
         var targetId = curList.targetId
-        var lastTime = changeTimeFormat(curList.sentTime);
+        var timeNow = new Date().getTime();
+        var deltTime = timeNow-curList.sentTime;
+        if(deltTime>=86400000){
+            var lastTime = changeTimeFormat(curList.sentTime,'yh');
+
+        }else{
+            var lastTime = changeTimeFormat(curList.sentTime,'h');
+        }
+        //changeTimeFormat(mSec,format)
         var member = findMemberInList(targetId);
         if(member){
             //console.log('member',member);
@@ -568,4 +576,9 @@ function clearNoReadMsg(Type,targetId){
             // error => 清除未读消息数错误码。
         }
     });
+}
+
+
+function drop(event){
+    console.log('ondrop',event);
 }

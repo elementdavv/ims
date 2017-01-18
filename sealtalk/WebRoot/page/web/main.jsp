@@ -579,14 +579,13 @@
                 contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
                 atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
                 ondrop="return false;" class="textarea"></pre>
-                <strong class="sendMsgBTN">发送</strong>
+                <strong class="sendMsgBTN" draggable="draggable">发送</strong>
             </div>
         </div>
         <!--群组消息记录-->
         <div class="mesContainerGroup mesContainer orgNavClick chatHide" id="groupContainer">
             <h3 class="perSetBox-title clearfix">
                 <span>张三</span>
-
                 <div class="messageRecord clearfix">
                     <i class="mr-Location"></i>
                     <i class="mr-record" id="groupRecord"></i>
