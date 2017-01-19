@@ -2,14 +2,32 @@
  * Created by zhu_jq on 2017/1/12.
  */
 $(function(){
-
-
+    var messageContent = document.getElementById('message-content');
+    messageContent.ondragover = function(e){
+        if (e.preventDefault) e.preventDefault();
+        else e.returnValue = false;
+    }
+    messageContent.ondrop = function(e){
+        if (e.preventDefault) e.preventDefault();
+        else e.returnValue = false;
+        //console.log(e);
+        var file = e.dataTransfer.files[0];
+        //console.log(file);
+        var filedetail = {};
+        filedetail.name = file.name;
+        filedetail.uniqueName = file.uniqueName;
+        filedetail.size = file.size;
+        filedetail.type = file.type;
+        var content = JSON.stringify(filedetail);
+        var extra = "uploadFile";
+        //{content:"hello",extra:"附加信息"}
+        var targetId = $(this).parents('.mesContainer').attr('targetid');
+        var targetType = $(this).parents('.mesContainer').attr('targettype');
+        sendMsg(content,targetId,targetType,extra);
+    }
 })
 
 function conversationGroup(targetID,targetType,groupName){
-
-
-
     $('.perSetBox-title span').html(groupName);
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
@@ -63,27 +81,73 @@ function ondayTime(sCurrentTime,sContrastTime){
    // var sDateTime=changeTimeFormat(sContrastTime,'y');
     //var sDateHoursTime=changeTimeFormat(sContrastTime,'yh');
 }
-function sessionContent(sDoM,sTargetId,sContent){
-    if (sTargetId) {
+function sessionContent(sDoM,sTargetId,sContent,extra){
+    if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
         var sImg=oData.logo || 'PersonImg.png';
-        sDoM += ' <li class="mr-chatContentL clearfix">\
+        if(extra=="uploadFile"){
+            //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+            var sendMsg = JSON.parse(sContent);
+            var imgSrc = '';
+            var Msize = KBtoM(sendMsg.size);
+            switch (sendMsg.type){
+                case 'image/png':
+                    var imgSrc = 'page/web/css/img/backstage.png';
+                    break;
+            }
+            sDoM += '<li class="mr-chatContentLFile clearfix">'+
+                        '<div class="mr-ownChat">'+
+                        '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                        '<div class="file_content fl">' +
+                        '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+                        '<p class="p2 file_size">'+Msize+'</p>' +
+                        '<div id="up_process"><div id="up_precent"></div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</li>';
+
+        }else{
+            var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
+            sDoM += ' <li class="mr-chatContentL clearfix">\
                     <img src="upload/images/'+sImg+'">\
                     <div class="mr-chatBox">\
-                    <span>' + sContent + '</span>\
+                    <span>' + str + '</span>\
                     <i></i>\
                     </div>\
                     </li>';
-    } else {
-        sDoM += ' <li class="mr-chatContentR clearfix">\
+        }
+    } else {//自己的
+        if(extra=="uploadFile"){
+            var sendMsg = JSON.parse(sContent);
+            var imgSrc = '';
+            var Msize = KBtoM(sendMsg.size);
+            switch (sendMsg.type){
+                case 'image/png':
+                    var imgSrc = 'page/web/css/img/backstage.png';
+                    break;
+            }
+            sDoM += '<li class="mr-chatContentRFile clearfix">'+
+                        '<div class="mr-ownChat">'+
+                        '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                        '<div class="file_content fl">' +
+                        '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+                        '<p class="p2 file_size">'+Msize+'</p>' +
+                        '<div id="up_process"><div id="up_precent"></div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</li>';
+        }else{
+            var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
+
+            sDoM += ' <li class="mr-chatContentR clearfix">\
                     <div class="mr-ownChat">\
-                    <span>' + sContent + '</span>\
+                    <span>' + str + '</span>\
                     <i></i>\
                     </div>\
                     </li>';
+        }
     }
     return sDoM;
-
 }
 function conversationSelf(targetID,targetType){
     //var target = targetID;
@@ -101,6 +165,7 @@ function conversationSelf(targetID,targetType){
             for (var i = 0; i < list.length; i++) {
                 var sSentTime = list[i].sentTime;
                 var sContent = list[i].content.content || '';
+                var extra = list[i].content.extra || '';
                 var sTargetId = list[i].targetId;
                 var sDateTime = changeTimeFormat(sSentTime, 'y');
                 var sDateHoursTime = changeTimeFormat(sSentTime, 'yh');
@@ -120,7 +185,7 @@ function conversationSelf(targetID,targetType){
                     <p class="mr-Date">' + sCurrentTime + '</p>\
                     </li>';
                     }
-                    sDoM=sessionContent(sDoM,sTargetId,sContent);
+                    sDoM=sessionContent(sDoM,sTargetId,sContent,extra);
                 } else {
                     var sNowTime1 = new Date().getTime();//获取当前时间戳
                     var sNowCurrentTime1 = changeTimeFormat(sNowTime, 'y');
@@ -136,9 +201,9 @@ function conversationSelf(targetID,targetType){
                         sDoM += '<li>\
                         <p class="mr-Date">' + sfiveBeforeTime + '</p>\
                         </li>';
-                        sDoM=sessionContent(sDoM,sTargetId,sContent)
+                        sDoM=sessionContent(sDoM,sTargetId,sContent,extra)
                     } else {
-                        sDoM=sessionContent(sDoM,sTargetId,sContent)
+                        sDoM=sessionContent(sDoM,sTargetId,sContent,extra)
                     }
                     sStartTime=sSentTime;
                 }
@@ -497,12 +562,15 @@ function usualChatList(list){
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
         var content = curList.latestMessage.content.content;
+        var extra = curList.latestMessage.content.extra;
+        if(extra=="uploadFile"){
+            content="发送文件";
+        }
         var targetId = curList.targetId
         var timeNow = new Date().getTime();
         var deltTime = timeNow-curList.sentTime;
         if(deltTime>=86400000){
             var lastTime = changeTimeFormat(curList.sentTime,'yh');
-
         }else{
             var lastTime = changeTimeFormat(curList.sentTime,'h');
         }
@@ -529,9 +597,9 @@ function usualChatList(list){
     $('.usualChatListUl').html(sHTML);
 }
 //包括单聊，群聊，聊天室
-function sendMsg(content,targetId,way){
+function sendMsg(content,targetId,way,extra){
     // 定义消息类型,文字消息使用 RongIMLib.TextMessage
-    var msg = new RongIMLib.TextMessage({content:content,extra:"附加信息"});
+    var msg = new RongIMLib.TextMessage({content:content,extra:extra});
     //或者使用RongIMLib.TextMessage.obtain 方法.具体使用请参见文档
     //var msg = RongIMLib.TextMessage.obtain("hello");
     var conversationtype = RongIMLib.ConversationType[way]; // 私聊
@@ -577,48 +645,113 @@ function sendMsg(content,targetId,way){
 
 //发送出去的的信息显示在盒子里
 function sendInBox(msg){
+
     var sendMsg = msg.content.content;
-    var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
-    //var str = RongIMLib.RongIMEmoji.symbolToEmoji(sendMsg);
-    var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
-        '<div class="mr-ownChat">'+
-        '<span>'+str+'</span>'+
-        '<i></i>'+
-        '</div>'+
-        '</li>';
+    var extra = msg.content.extra;
+
+    if(extra=='uploadFile'){
+        var sendMsg = JSON.parse(sendMsg);
+        console.log('sendMsg',sendMsg);
+
+        var imgSrc = '';
+        var Msize = KBtoM(sendMsg.size);
+        switch (sendMsg.type){
+
+            case 'image/png':
+                var imgSrc = 'page/web/css/img/backstage.png';
+                break;
+        }
+
+
+        var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentRFile clearfix">'+
+                        '<div class="mr-ownChat">'+
+                            '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                            '<div class="file_content fl">' +
+                                '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+                                '<p class="p2 file_size">'+Msize+'</p>' +
+                                '<div id="up_process"><div id="up_precent"></div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</li>';
+    }else{
+        //console.log('sendMsg',sendMsg);
+        var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
+        //var str = RongIMLib.RongIMEmoji.symbolToEmoji(sendMsg);
+        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
+            '<div class="mr-ownChat">'+
+            '<span>'+str+'</span>'+
+            '<i></i>'+
+            '</div>'+
+            '</li>';
+
+    }
     var parentNode = $('.mr-chatview .mr-chatContent');
     parentNode.append($(sHTML));
+    var eDom=document.querySelector('#perContainer .mr-chatview');
+    eDom.scrollTop = eDom.scrollHeight;
     $('.textarea').html('');
 }
 
-
+function KBtoM(kb){
+    return kb/1024;
+}
 //接收到的消息显示在盒子里或者在消息列表中显示
 function reciveInBox(msg){
     console.log(msg);
     var targetID = msg.targetId;
     var content = msg.content.content;
-    var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
-    var $MesContainerSelf = $('.mesContainerSelf')
-    if(!$MesContainerSelf.hasClass('chatHide')||$MesContainerSelf.attr('targetID')==targetID){
-        //在盒子里显示
-        //头像需要自己找？、？
-        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentL clearfix">'+
-                        '<img src="page/web/css/img/1.jpg">'+
-                        '<div class="mr-chatBox">'+
-                            '<span>'+str+'</span>'+
-                            '<i></i>'+
-                        '</div>'+
-                    '</li>';
-        var parentNode = $('.mesContainer').find('.mr-chatContent');
-        parentNode.append($(sHTML));
-        //clearNoReadMsg($('.mesContainer').attr('targettype'),targetID);
-        //msgReaded(msg.messageUId,msg.sentTime,$('.mesContainer').attr('targettype'));
+    var extra = msg.content.extra;
+    if(extra=='uploadFile'){
+        var content = JSON.parse(content);
+        console.log('sendMsg',content);
 
-    }else{
-        //消息列表里显示红色小圆圈
-        //刷新消息列表
-        getConverList();
+        var imgSrc = '';
+        var Msize = KBtoM(content.size);
+        switch (content.type){
+            case 'image/png':
+                var imgSrc = 'page/web/css/img/backstage.png';
+                break;
+        }
+        var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentLFile clearfix">'+
+            '<div class="mr-chatBox">'+
+            '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+            '<div class="file_content fl">' +
+            '<p class="p1 file_name">'+content.name+'</p>' +
+            '<p class="p2 file_size">'+Msize+'</p>' +
+            '<div id="up_process"><div id="up_precent"></div>' +
+            '</div>' +
+            '</div>' +
+            '</li>';
+
+    }else {
+        var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
+        var $MesContainerSelf = $('.mesContainerSelf')
+        if (!$MesContainerSelf.hasClass('chatHide') || $MesContainerSelf.attr('targetID') == targetID) {
+            //在盒子里显示
+            //头像需要自己找？、？
+            var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
+                '<img src="page/web/css/img/1.jpg">' +
+                '<div class="mr-chatBox">' +
+                '<span>' + str + '</span>' +
+                '<i></i>' +
+                '</div>' +
+                '</li>';
+
+            //clearNoReadMsg($('.mesContainer').attr('targettype'),targetID);
+            //msgReaded(msg.messageUId,msg.sentTime,$('.mesContainer').attr('targettype'));
+
+        } else {
+            //消息列表里显示红色小圆圈
+            //刷新消息列表
+        }
     }
+    var parentNode = $('.mr-chatview .mr-chatContent');
+    parentNode.append($(sHTML));
+    var eDom=document.querySelector('#perContainer .mr-chatview');
+    eDom.scrollTop = eDom.scrollHeight;
+
 }
 
 
@@ -688,5 +821,6 @@ function clearNoReadMsg(Type,targetId){
 
 
 function drop(event){
+    event.preventDefault();
     console.log('ondrop',event);
 }

@@ -12,7 +12,7 @@ $(function(){
 
     //点击button上传
     //var sAccount = localStorage.getItem('account');
-    var token = 'iN7NgwM31j4-BZacMjPrOQBs34UG1maYCAQmhdCV:4IStvK3nVJGbF-bpZ6vjoLr8rCE=:eyJzY29wZSI6InF0ZXN0YnVja2V0IiwiZGVhZGxpbmUiOjE0ODQ3Mjk3ODF9'
+    var token = '5aZfPtTZP10rsriqnktyCKXjq99EX9z9wUAq-Yll:XvXrY7dEI5TZ9_NfQ2yPYNBz-dw=:eyJlbmRVc2VyIjoieSIsInNjb3BlIjoiZWR1cGljdHVyZTpxaW5pdTEyMzQiLCJkZWFkbGluZSI6OTIyMzM3MjAzNjg1NDc3NTgwN30='
     var config = {
         domain: 'https://up.qbox.me',                              // default : '' ,必须设置文件服务器地址。
         file_data_name  : 'file',                                       // default : file , 文件对象的 key 。
@@ -32,7 +32,15 @@ $(function(){
             console.log(errorCode);
         },
         onProgress : function (loaded, total) {
-            console.log('onProgress',loaded, total);
+            //console.log('onProgress',loaded, total);
+            //console.log('onProgress',loaded, total);
+            var percent = Math.floor(loaded/total*100);
+            var progressBar 	= $('#up_process:last'),
+                progressContent = $('#up_precent:last');
+
+            progressBar.width(percent + '%');
+            progressContent.html(percent + "%");
+
         },
         onCompleted : function (data) {
             document.getElementById('showImage').src = 'data:image/png;base64,' + data.thumbnail;
@@ -45,10 +53,30 @@ $(function(){
     var file = document.getElementById("upload_file");
     console.log(file);
     file.onchange = function(){
+        var _this = this;
         var _file = this.files[0];
         UploadClient.initImage(config, function(uploadFile){
-            console.log('_file',_file);
+            //console.log('_file',_file);
             uploadFile.upload(_file, callback);
+            sendFile(_file,_this)
         });
     };
 })
+
+
+
+function sendFile(_file,_this){
+    var filedetail = {};
+    filedetail.name = _file.name;
+    filedetail.uniqueName = _file.uniqueName;
+    filedetail.size = _file.size;
+    filedetail.type = _file.type;
+    var content = JSON.stringify(filedetail);
+    var extra = "uploadFile";
+    //{content:"hello",extra:"附加信息"}
+
+
+    var targetId = $(_this).parents('.mesContainer').attr('targetid');
+    var targetType = $(_this).parents('.mesContainer').attr('targettype');
+    sendMsg(content,targetId,targetType,extra);
+}

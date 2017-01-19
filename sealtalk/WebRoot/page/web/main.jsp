@@ -580,8 +580,8 @@
                 <pre id="message-content" contenteditable-directive
                 contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
                 atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
-                ondrop="return false;" class="textarea"></pre>
-                <strong class="sendMsgBTN" draggable="draggable">发送</strong>
+                 class="textarea" draggable="draggable"></pre>
+                <strong class="sendMsgBTN">发送</strong>
             </div>
         </div>
         <!--群组消息记录-->
