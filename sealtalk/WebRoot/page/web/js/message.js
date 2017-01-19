@@ -218,6 +218,7 @@ $(function(){
                 break;
         }
     })
+    var oChatList=null;
     //点击常用联系人（左右键）
     $('.usualChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
@@ -231,16 +232,69 @@ $(function(){
             //var memShip = JSON.stringify()
             fshowContexMenu(arr,style,id,friend);
         }else{//单击常用联系人
-            var targetID = $(this).attr('targetid');
-            var targeType = 'PRIVATE';
-            conversationSelf(targetID,targeType);
-            $('.orgNavClick').addClass('chatHide');
-            $('.mesContainerSelf').removeClass('chatHide');
+            clearTimeout(oChatList);
+            var sThis=$(this);
+            oChatList=setTimeout(function(){
+                var targetID = sThis.attr('targetid');
+                var targeType = 'PRIVATE';
+                conversationSelf(targetID,targeType);
+                $('.orgNavClick').addClass('chatHide');
+                $('.mesContainerSelf').removeClass('chatHide');
+            },200);
         }
         $('.usualChatList li').removeClass('active');
         $(this).addClass('active');
         return false;
-    })
+    });
+    $('.usualChatList').delegate('li','dblclick',function(){
+        clearTimeout(oChatList);
+        var targetID = $(this).attr('targetid');
+        var targeType = 'PRIVATE';
+        $('.orgNavClick').addClass('chatHide');
+        $('.groupMap').removeClass('chatHide');
+        creatMemberMap(targetID,targeType);
+    });
+    function creatMemberMap(targetID,targeType){
+        var curTargetList = findMemberInList(targetID);
+        var name = curTargetList.name;
+        $('.perSetBox-title span').html(name);
+        $('.groupMap').attr('targetID',targetID);
+        $('.groupMap').attr('targetType',targeType);
+        var map = new AMap.Map('container', {
+            center: [116.480983, 39.989628],
+            zoom: 10
+        });
+        var _onClick = function(position){
+            map.setZoomAndCenter(18, position);
+        };
+        var lnglats=[
+            [116.368904,39.923423],
+            [116.382122,39.921176],
+            [116.387271,39.922501],
+            [116.398258,39.914600]
+        ];
+        for(var i=0;i<5;i++){
+            var marker;
+            var content= '<div class="perPos">' +
+                '<img src="page/web/css/img/'+(i+1)+'.jpg"></div>';
+            marker = new AMap.Marker({
+                content: content,
+                position: lnglats[i],
+                offset: new AMap.Pixel(0,0),
+                map: map
+            });
+            var t=[116.480983+i, 39.989628];
+            marker.index=i;
+            marker.t=lnglats[i];
+            marker.setMap(map);
+            AMap.event.addListener(marker,'dblclick',function(e){
+                _onClick(e.target.t);
+                $('.perPos').removeClass('active');
+                $('.perPos').eq(e.target.index).addClass('active');
+            });
+        }
+        map.setFitView();
+    }
     //常用联系人右键菜单
     //$('body').delegate('#usualLeftClick li','click',function(){
     //    var memShip = $('.myContextMenu').attr('memship');

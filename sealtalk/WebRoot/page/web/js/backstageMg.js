@@ -207,6 +207,13 @@ $(document).ready(function(){
         }
         systemBeep(status);
     });
+    $('#groupMap').on('click','.messageRecord b',function(e){
+        var targetID = $(e.target).closest('.groupMap').attr('targetid');
+        var targeType = $(e.target).parents('.groupMap').attr('targettype');
+        conversationSelf(targetID,targeType);
+        $('.orgNavClick').addClass('chatHide');
+        $('.mesContainerSelf').removeClass('chatHide');
+    });
     //getGroupMembersList(1);
 });
 function fPersonalSet(){
