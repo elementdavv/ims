@@ -396,6 +396,12 @@
     float:right;
     padding:14px 20px 0 0;
 }
+.messageRecord b{
+    display: inline-block;
+    background: url('img/backstage.png')no-repeat 0 -548px;
+    width:29px;
+    height:29px;
+}
 .messageRecord i{
     background: url('img/backstage.png')no-repeat;
     float:left;

@@ -43,7 +43,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
-<script src="<%=request.getContextPath() %>/page/web/js/map.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/map.js"></script>--%>
 
     <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>--%>
     <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>--%>
@@ -362,13 +362,15 @@
 <div class="chatBoxOuter">
     <div class="chatBox" style="position:relative" id="chatBox">
     <!--地图-->
-        <div class="orgNavClick groupMap" id="groupMap">
+        <div class="orgNavClick groupMap chatHide" id="groupMap">
             <h3 class="perSetBox-title clearfix">
                 <span>天方产品部</span>
-                <div class="messageRecord clearfix"></div>
+                <div class="messageRecord clearfix">
+                    <b></b>
+                </div>
             </h3>
             <div class="groupMapBox">
-                <div id="container" ></div>
+                <div id="container"></div>
                 <div class="groupMapMember">
                     <ul>
                         <li>
@@ -680,7 +682,7 @@
                         <%--</li>--%>
                     <%--</ul>--%>
                 </div>
-                <div class="infoDet-chatRecord">
+                <div class="infoDet-chatRecord chatHide">
                     <div class="infoDet-search ">
                         <input type="text" placeholder="查找信息..."/>
                         <i></i>
@@ -709,7 +711,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="infoDet-flieRecord">
+                <div class="infoDet-flieRecord chatHide">
                     <div class="infoDet-search">
                         <input type="text" placeholder="查找信息..."/>
                         <i></i>
