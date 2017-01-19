@@ -16,7 +16,6 @@ import com.sealtalk.dao.group.GroupDao;
 import com.sealtalk.dao.group.GroupMemberDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TDontDistrub;
-import com.sealtalk.model.TFunction;
 import com.sealtalk.model.TGroup;
 import com.sealtalk.model.TGroupMember;
 import com.sealtalk.model.TMember;
@@ -48,6 +47,7 @@ public class GroupServiceImpl implements GroupService {
 			} else {
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
 			
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "\"", "");
 				//保存群组成员关系
 				groupIds = groupIds.substring(1, groupIds.length() - 1);
 

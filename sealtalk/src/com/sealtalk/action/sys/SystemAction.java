@@ -37,7 +37,6 @@ public class SystemAction extends BaseAction {
 	private static final long serialVersionUID = -3901445181785461508L;
 	private static final String LOGIN_ERROR_MESSAGE = "loginErrorMsg";
 	private static final Logger logger = Logger.getLogger(SystemAction.class);
-	private static final String TEXTVALIDECODE = "textValideCode";
 	
 	/**
 	 * 跳转登陆页面(仅web使用)
@@ -175,32 +174,23 @@ public class SystemAction extends BaseAction {
 		
 		if (!StringUtils.getInstance().isBlank(phone)) {
 			String dbCode = memberService.getTextCode(phone);
-			String code = null;
+			String endText = PropertiesUtils.getStringByKey("code.endtext");
+			String code = "";
+			String context = "";
 			
 			if (dbCode == null || dbCode.equals("-1")) {
-				String endText = PropertiesUtils.getStringByKey("code.endtext");
 				int codeBit = StringUtils.getInstance().strToInt(PropertiesUtils.getStringByKey("code.bit"));
-				code = MathUtils.getInstance().getRandomSpecBit(codeBit) + endText;
+				code = String.valueOf(MathUtils.getInstance().getRandomSpecBit(codeBit));
+				context = code + endText;
+				memberService.saveTextCode(phone, code);
 			} else {
-				code = dbCode;
+				context = dbCode + endText;
 			}
 			
-			boolean needstatus = true;
-			String product = "";
-			String extno = "";
-			
-			//中转代码
-			String sendText = TextHttpSender.getInstance().sendPrivateText(phone, code, needstatus, product, extno);
+			//发送短信代码
+			String sendText = TextHttpSender.getInstance().sendText(phone, context);
 			
 			if ("0".equals(sendText)) {
-				
-				TextCode stc = new TextCode();
-				stc.setPhoneNum(phone);
-				stc.setTextCode(code);
-				stc.setCreateTime(TimeGenerator.getInstance().getUnixTime());
-				
-				memberService.saveTextCode(stc);
-				
 				text.put("code", 1);
 				text.put("text", Tips.SENDTEXTS.getText());
 			} else {
@@ -219,7 +209,7 @@ public class SystemAction extends BaseAction {
 
 	
 	/**
-	 * 验证短信(暂时没有短信平台，模拟,仅web端使用)
+	 * 验证短信(仅web端使用)
 	 * @return
 	 */
 	public String testText() throws ServletException {
@@ -233,8 +223,7 @@ public class SystemAction extends BaseAction {
 			text.put("code", -1);
 			text.put("text", Tips.NULLTEXTS.getText());
 		} else {
-			//String dbCode = memberService.getTextCode(phone);
-			String dbCode = "9999";		//development mode
+			String dbCode = memberService.getTextCode(phone);
 			
 			if (dbCode != null && !dbCode.equals("-1") && dbCode.equals(textcode)) {
 				text.put("code", 1);
@@ -282,8 +271,7 @@ public class SystemAction extends BaseAction {
 					text.put("text", Tips.NULLTEXTS.getText());
 					status = false;
 				} else {
-					//String dbCode = memberService.getTextCode(phone);
-					String dbCode = "9999";		//development mode
+					String dbCode = memberService.getTextCode(phone);
 					
 					if (dbCode != null && !dbCode.equals("-1") && dbCode.equals(textcode)) {
 						text.put("code", 1);

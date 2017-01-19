@@ -67,9 +67,10 @@ public interface MemberService {
 
 	/**
 	 * 保存短信验证码
-	 * @param stc
+	 * @param code
+	 * @param code2 
 	 */
-	public void saveTextCode(TextCode stc);
+	public void saveTextCode(String phone, String code);
 
 	/**
 	 * 获取短信验证码

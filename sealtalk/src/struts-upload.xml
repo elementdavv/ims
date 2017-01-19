@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <package name="com.sealtalk.action.upload" extends="ssl-default">
+    	<!-- 七牛相关 -->
+        <action name="qiniu" class="com.sealtalk.action.upload.QiNiuAboutAction">
+			<result name="text" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+			</result>
+        </action>
+        <!-- 上传管理 -->
+        <action name="upload" class="com.sealtalk.action.upload.UploadAction">
+        	<interceptor-ref name="fileUpload">   
+		     <!--拦截器strut2自带的, 指定上传文件的格式,如果不符合规定，将会自动拦截下来 -->  
+		        <param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg,image/jpg</param> 
+		        <param name="maximumSize">20000000000</param>   
+		    </interceptor-ref>  
+		    <interceptor-ref name="defaultStack" />   
+			<result name="text" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+			</result>
+        </action>
+    </package>
+   
+</struts>
+

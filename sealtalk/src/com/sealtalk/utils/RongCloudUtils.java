@@ -203,11 +203,11 @@ public class RongCloudUtils {
 		String result = null;
 		
 		
-		/*for(int j = 0; j < userIds.length;j++) {
+		for(int j = 0; j < userIds.length;j++) {
 			System.out.println("+++++++++++++++++++++++++++++++: " + userIds[j]);
 		}
 		System.out.println("++++++++++++++++++ groupId: " + groupId);
-		System.out.println("++++++++++++++++++ groupName: " + groupName);*/
+		System.out.println("++++++++++++++++++ groupName: " + groupName);
 		
 		
 		try {
