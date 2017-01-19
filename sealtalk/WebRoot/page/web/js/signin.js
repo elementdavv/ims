@@ -7,8 +7,8 @@ window.onload = function(){
     $('.SendCheakCode').click(function(){
         //fSendCheakCode();
         var phoneNum = $('#phoneNum').val();
-        var data = JSON.stringify({phoneNum:phoneNum});
-        sendAjax('system!requestText',data,function(){
+        //var data = JSON.stringify({phoneNum:phoneNum});
+        sendAjax('system!requestText',{phone:phoneNum},function(){
             console.log('验证码发送成功')
         })
     })

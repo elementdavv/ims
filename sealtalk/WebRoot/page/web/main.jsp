@@ -11,10 +11,20 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/jquery.jOrgChart.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/OrgChart.css"/>
-
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/backstageMg.css"/>
+
+
+
+
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/globalVar.js"></script>
+
+    <%--七牛上传--%>
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/upload.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>
+
+
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
     <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
     <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
@@ -33,7 +43,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
-<script src="<%=request.getContextPath() %>/page/web/js/map.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/map.js"></script>--%>
 
     <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>--%>
     <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>--%>
@@ -42,6 +52,8 @@
     <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-ui.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.jOrgChart.js"></script>
+
+
 
     <%--<script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>--%>
 
@@ -350,13 +362,15 @@
 <div class="chatBoxOuter">
     <div class="chatBox" style="position:relative" id="chatBox">
     <!--地图-->
-        <div class="orgNavClick groupMap" id="groupMap">
+        <div class="orgNavClick groupMap chatHide" id="groupMap">
             <h3 class="perSetBox-title clearfix">
                 <span>天方产品部</span>
-                <div class="messageRecord clearfix"></div>
+                <div class="messageRecord clearfix">
+                    <b></b>
+                </div>
             </h3>
             <div class="groupMapBox">
-                <div id="container" ></div>
+                <div id="container"></div>
                 <div class="groupMapMember">
                     <ul>
                         <li>
@@ -532,7 +546,6 @@
                 </div>
             </h3>
             <div class="mr-chatview">
-                <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
 
                 <%--<p class="mr-time">9:28</p>--%>
                 <%--<ul class="mr-chatContent">--%>
@@ -540,13 +553,16 @@
                         <%--<img src="page/web/css/img/1.jpg">--%>
 
                         <%--<div class="mr-chatBox">--%>
-                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<span>大家好</span>--%>
                             <%--<i></i>--%>
                         <%--</div>--%>
                     <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
+                    <%--</li>--%>
                     <%--<li class="mr-chatContentR clearfix">--%>
                         <%--<div class="mr-ownChat">--%>
-                            <%--<span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>--%>
+                            <%--<span>大家好，，请多多指教大家好，请多多指教大家好</span>--%>
                             <%--<i></i>--%>
                         <%--</div>--%>
                     <%--</li>--%>
@@ -566,7 +582,7 @@
                 <pre id="message-content" contenteditable-directive
                 contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
                 atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
-                ondrop="return false;" class="textarea"></pre>
+                 class="textarea" draggable="draggable"></pre>
                 <strong class="sendMsgBTN">发送</strong>
             </div>
         </div>
@@ -574,7 +590,6 @@
         <div class="mesContainerGroup mesContainer orgNavClick chatHide" id="groupContainer">
             <h3 class="perSetBox-title clearfix">
                 <span>张三</span>
-
                 <div class="messageRecord clearfix">
                     <i class="mr-Location"></i>
                     <i class="mr-record" id="groupRecord"></i>
@@ -667,7 +682,7 @@
                         <%--</li>--%>
                     <%--</ul>--%>
                 </div>
-                <div class="infoDet-chatRecord">
+                <div class="infoDet-chatRecord chatHide">
                     <div class="infoDet-search ">
                         <input type="text" placeholder="查找信息..."/>
                         <i></i>
@@ -696,7 +711,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="infoDet-flieRecord">
+                <div class="infoDet-flieRecord chatHide">
                     <div class="infoDet-search">
                         <input type="text" placeholder="查找信息..."/>
                         <i></i>

@@ -28,7 +28,7 @@
                 y: -y
             };
         };
-        
+
         var ltScale = function() {
             if (isheight) {
                 zoom = height / opts.maxHeight;

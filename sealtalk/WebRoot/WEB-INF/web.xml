@@ -5,6 +5,11 @@
         <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
     </filter>
     
+    <filter>  
+	    <filter-name>CORSFilter</filter-name>  
+	    <filter-class>com.sealtalk.action.filter.CROSFilter</filter-class>  
+	</filter>
+    
     <!-- 设置Spring IOC容器:WebApplicationContext -->
 	<listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -20,7 +25,8 @@
 	    	classpath:system.xml,
 	    	classpath:message.xml,
 	    	classpath:group.xml,
-	    	classpath:function.xml
+	    	classpath:function.xml,
+	    	classpath:upload.xml
 	    </param-value>
 	</context-param>
 	
