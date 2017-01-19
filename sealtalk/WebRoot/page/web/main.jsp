@@ -582,7 +582,7 @@
                 <pre id="message-content" contenteditable-directive
                 contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
                 atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
-                ondrop="return false;" class="textarea"></pre>
+                 class="textarea" draggable="draggable"></pre>
                 <strong class="sendMsgBTN">发送</strong>
             </div>
         </div>
@@ -590,7 +590,6 @@
         <div class="mesContainerGroup mesContainer orgNavClick chatHide" id="groupContainer">
             <h3 class="perSetBox-title clearfix">
                 <span>张三</span>
-
                 <div class="messageRecord clearfix">
                     <i class="mr-Location"></i>
                     <i class="mr-record" id="groupRecord"></i>
