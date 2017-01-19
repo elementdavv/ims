@@ -104,6 +104,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
                         '<div id="up_process"><div id="up_precent"></div>' +
                         '</div>' +
                         '</div>' +
+                        '<a class="downLoadFile"></a>'+
                         '</li>';
 
         }else{
@@ -135,6 +136,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
                         '<div id="up_process"><div id="up_precent"></div>' +
                         '</div>' +
                         '</div>' +
+                        '<a class="downLoadFile"></a>'
                         '</li>';
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
@@ -673,6 +675,7 @@ function sendInBox(msg){
                                 '<div id="up_process"><div id="up_precent"></div>' +
                             '</div>' +
                         '</div>' +
+                        '<a class="downLoadFile"></a>'+
                     '</li>';
     }else{
         //console.log('sendMsg',sendMsg);
@@ -723,6 +726,7 @@ function reciveInBox(msg){
             '<div id="up_process"><div id="up_precent"></div>' +
             '</div>' +
             '</div>' +
+            '<a class="downLoadFile"></a>'+
             '</li>';
 
     }else {

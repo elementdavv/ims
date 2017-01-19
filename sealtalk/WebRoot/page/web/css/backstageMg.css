@@ -568,6 +568,30 @@
     width: 7px;
     height: 12px;
 }
+.downLoadFile{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background:url('img/uploadbtn.png') no-repeat;
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    border-radius: 30px;
+    background-size: 70px 70px;
+    background-position: -2px -38px;
+}
+.downLoadFile:hover{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background:url('img/uploadbtn.png') no-repeat;
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    border-radius: 30px;
+    background-size: 70px 70px;
+    background-position: -37px -38px;
+}
 .mr-chatContentLFile .file_name{
 
 }
@@ -586,7 +610,7 @@
     word-break:break-all;
    float:right;
     position: relative;
-    background: rgb(245,245,245);
+    /*background: rgb(245,245,245);*/
     border:1px solid rgb(204,204,204);
     padding:8px 10px;
     margin-right:36px;
