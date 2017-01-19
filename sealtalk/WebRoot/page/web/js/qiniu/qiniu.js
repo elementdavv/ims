@@ -128,7 +128,7 @@
 			domain: url,
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/octet-stream',
+				'Content-Type': 'application/octet-stream'
 			},
 			multi_parmas: opts.multi_parmas,
 			support_options: true,
@@ -219,8 +219,8 @@
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4) {
-				var responseText = xhr.responseText || "{}";
-				var result = JSON.parse(responseText.replace(/'/g, '"'));
+				xhr.responseText = xhr.responseText || "{}";
+				var result = JSON.parse(xhr.responseText.replace(/'/g, '"'));
 				result.filename = options.unique_value;
 				callback.onCompleted(result);
 			}

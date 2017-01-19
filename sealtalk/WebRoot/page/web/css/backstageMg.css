@@ -524,10 +524,13 @@
 
 }
 .mr-chatContentRFile #up_process{
-
+    background: red;
+    height: 2px;
+    margin-top: 10px;
 }
 .mr-chatContentRFile #up_precent{
-
+    height: 2px;
+    background: palegreen;
 }
 
 .mr-chatContentLFile .mr-ownChat{

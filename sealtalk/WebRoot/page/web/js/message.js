@@ -629,7 +629,7 @@ function changeClick1Content(data){
         imgHTML+
         '</div>'+
         '<div class="showPersonalInfo">'+
-        '<span>'+data[i].fullname+'</span>'+
+        '<span>'+data[i].name+'</span>'+
         '<ul class="personalOperaIcon">'+
         '<li class="sendMsg"></li>'+
         '<li class="checkPosition"></li>'+
@@ -656,7 +656,7 @@ function changeClick2Content(data){
                     '<li><div>手机:</div><div>'+data.telephone+'</div></li>'+
                     '<li><div>邮箱:</div><div>'+data.email+'</div></li>'+
                     '<li><div>部门:</div><div>'+data.telephone+'</div></li>'+
-                    '<li><div>职位:</div><div>'+data.workno+'</div></li>'+
+                    '<li><div>职位:</div><div>'+data.postitionname+'</div></li>'+
                     '<li><div>组织:</div><div>'+data.groupuse+'</div></li>'+
                     '<li><div>地址:</div><div>'+data.address+'</div></li>'+
                 '</ul></div></div></div></div>';
@@ -761,12 +761,9 @@ function loop(data,small,temp){
         for(var j = 0;j<small.length;j++){
             if(data[i].pid==small[j].id&&small[j].flag!=1){
                 small[j].hasChild.push(data[i]);
-                remove(tempdata,0);
-
+                removeObj(tempdata,data[i]);
             }
         }
-
-
     }
     //console.log(small);
     for(var k = 0;k<small.length;k++){
@@ -812,7 +809,7 @@ function showMemberInfo(data,pos){
                         '<li><span>手机：</span><span>'+data.telephone+'</span></li>'+
                         '<li><span>邮箱：</span><span>'+data.email+'</span></li>'+
                         '<li><span>部门：</span><span>'+data.email+'</span></li>'+
-                        '<li><span>职位：</span><span>'+data.workno+'</span></li>'+
+                        '<li><span>职位：</span><span>'+data.postitionname+'</span></li>'+
                     '</ul>'+
                 '</div>';
     $('body').append($(sHTML));
@@ -837,18 +834,34 @@ function changeFormat(data){
     }
     var small = [];
     small.push(data[0]);
-    remove(data,0)
+    remove(data,0);
+    var delArr = [];
+
+    for(var i = 0;i<data.length;i++){
+        delArr[i] = data[i];
+    }
+
     for(var i = 0;i<data.length;i++){
         if(small[0].pid==data[i].pid){
             small.push(data[i]);
-            remove(data,i)
+            //delArr.push(i);
+            removeObj(delArr,data[i]);
         }
     }
+    //for(var i = 0;i<delArr.length;i++){
+    //    remove(data,i);
+    //}
 
 
-    return loop(data,small);
+    return loop(delArr,small);
 }
-
+function removeObj(delArr,ele){
+    for(var i = 0;i<delArr.length;i++){
+        if(delArr[i]==ele){
+            delArr.splice(i,1);
+        }
+    }
+}
 
 function createOrganizList(data,sHTML,level){
     sHTML += '<ul>';

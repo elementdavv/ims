@@ -90,6 +90,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
             var sendMsg = JSON.parse(sContent);
             var imgSrc = '';
             var Msize = KBtoM(sendMsg.size);
+            var uniqueTime = sendMsg.uniqueTime;
             switch (sendMsg.type){
                 case 'image/png':
                     var imgSrc = 'page/web/css/img/backstage.png';
@@ -101,7 +102,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
                         '<div class="file_content fl">' +
                         '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                         '<p class="p2 file_size">'+Msize+'</p>' +
-                        '<div id="up_process"><div id="up_precent"></div>' +
+                        '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         '</div>' +
                         '</div>' +
                         '<a class="downLoadFile"></a>'+
@@ -122,6 +123,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
             var sendMsg = JSON.parse(sContent);
             var imgSrc = '';
             var Msize = KBtoM(sendMsg.size);
+            var uniqueTime = sendMsg.uniqueTime
             switch (sendMsg.type){
                 case 'image/png':
                     var imgSrc = 'page/web/css/img/backstage.png';
@@ -133,7 +135,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
                         '<div class="file_content fl">' +
                         '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                         '<p class="p2 file_size">'+Msize+'</p>' +
-                        '<div id="up_process"><div id="up_precent"></div>' +
+                        '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         '</div>' +
                         '</div>' +
                         '<a class="downLoadFile"></a>'
@@ -225,7 +227,7 @@ function conversationSelf(targetID,targetType){
             // throw new ERROR ......
         }
     });
-    console.log(history);
+    //console.log(history);
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
@@ -559,7 +561,7 @@ function findMemberInList(targetId){
 
 //显示会话列表
 function usualChatList(list){
-    console.log(list);
+    //console.log(list);
     var sHTML = '';
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
@@ -599,7 +601,7 @@ function usualChatList(list){
     $('.usualChatListUl').html(sHTML);
 }
 //包括单聊，群聊，聊天室
-function sendMsg(content,targetId,way,extra){
+function sendMsg(content,targetId,way,extra,callback){
     // 定义消息类型,文字消息使用 RongIMLib.TextMessage
     var msg = new RongIMLib.TextMessage({content:content,extra:extra});
     //或者使用RongIMLib.TextMessage.obtain 方法.具体使用请参见文档
@@ -610,7 +612,7 @@ function sendMsg(content,targetId,way,extra){
             // 发送消息成功
             onSuccess: function (message) {
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
-                sendInBox(message);
+                sendInBox(message,callback);
                 getConverList();
                 console.log("Send successfully");
             },
@@ -646,7 +648,7 @@ function sendMsg(content,targetId,way,extra){
 }
 
 //发送出去的的信息显示在盒子里
-function sendInBox(msg){
+function sendInBox(msg,callback){
 
     var sendMsg = msg.content.content;
     var extra = msg.content.extra;
@@ -654,7 +656,8 @@ function sendInBox(msg){
     if(extra=='uploadFile'){
         var sendMsg = JSON.parse(sendMsg);
         console.log('sendMsg',sendMsg);
-
+        var uniqueTime = sendMsg.uniqueTime;
+        var name = sendMsg.name;
         var imgSrc = '';
         var Msize = KBtoM(sendMsg.size);
         switch (sendMsg.type){
@@ -666,34 +669,34 @@ function sendInBox(msg){
 
 
         var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+        //var className = uniqueName.uniqueName;
+        //var class0 = uniqueName.split('.')[0];
         var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentRFile clearfix">'+
                         '<div class="mr-ownChat">'+
                             '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                             '<div class="file_content fl">' +
                                 '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                                 '<p class="p2 file_size">'+Msize+'</p>' +
-                                '<div id="up_process"><div id="up_precent"></div>' +
+                                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                             '</div>' +
                         '</div>' +
-                        '<a class="downLoadFile"></a>'+
+                        '<a class="downLoadFile" src="http://ocsys6mwy.bkt.clouddn.com/'+sendMsg.name+'"></a>'+
                     '</li>';
     }else{
-        //console.log('sendMsg',sendMsg);
         var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
-        //var str = RongIMLib.RongIMEmoji.symbolToEmoji(sendMsg);
         var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
             '<div class="mr-ownChat">'+
             '<span>'+str+'</span>'+
             '<i></i>'+
             '</div>'+
             '</li>';
-
     }
-    var parentNode = $('.mr-chatview .mr-chatContent');
+    var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
     parentNode.append($(sHTML));
     var eDom=document.querySelector('#perContainer .mr-chatview');
     eDom.scrollTop = eDom.scrollHeight;
     $('.textarea').html('');
+    callback&&callback();
 }
 
 function KBtoM(kb){
