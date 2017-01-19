@@ -18,6 +18,7 @@
     <include file="struts-message.xml" />
     <include file="struts-group.xml" />
     <include file="struts-fun.xml" />
+    <include file="struts-upload.xml" />
 
 </struts>
 
