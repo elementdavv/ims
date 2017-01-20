@@ -35,10 +35,10 @@ function conversationGroup(targetID,targetType,groupName){
                 $('#groupContainer .mr-chatview').attr('data-on',1);
             }
             var sDoM = '<ul class="mr-chatContent">';
-            sDoM+=createConversationList(sDoM,list);
+            sDoM=createConversationList(sDoM,list,targetType);
             sDoM+='</ul>';
-            $('#perContainer .mr-chatview').empty();
-            $('#perContainer .mr-chatview').append(sDoM);
+            $('#groupContainer .mr-chatview').empty();
+            $('#groupContainer .mr-chatview').append(sDoM);
             var eDom=document.querySelector('#groupContainer .mr-chatview');
             eDom.scrollTop = eDom.scrollHeight;
         },
@@ -117,7 +117,7 @@ function po_Last_Div(obj) {
         range.select();
     }
 }
-function createConversationList(sDoM,list){
+function createConversationList(sDoM,list,targetType){
     var timestamp = new Date().getTime();//获取当前时间戳
     var sStartTime=0;
     var sCurrentTime = changeTimeFormat(timestamp, 'yh');
@@ -127,7 +127,24 @@ function createConversationList(sDoM,list){
         var sSentTime = list[i].sentTime;
         var sContent = list[i].content.content || '';
         var extra = list[i].content.extra || '';
-        var sTargetId = list[i].targetId;
+        switch(targetType){
+                case 'GROUP':
+                    var sTargetId = list[i].senderUserId;
+                    var sData=window.localStorage.getItem("datas");
+                    var oData= JSON.parse(sData);
+                    var sId=oData.text.id;
+                    if(sId==sTargetId){
+                        sTargetId='';
+                    }
+                   /*sendAjax('group!listGroupMemebers',{groupid:sTargetId},function(data) {
+                        var oGroupidList = JSON.parse(data);
+                        var aMember=oGroupidList.text;
+                    });*/
+                    break;
+                case 'PRIVATE':
+                    var sTargetId = list[i].targetId;
+                    break;
+            }
         var sDateTime = changeTimeFormat(sSentTime, 'y');
         var sDateHoursTime = changeTimeFormat(sSentTime, 'yh');
         var sHoursTime=changeTimeFormat(sSentTime, 'h');
@@ -146,7 +163,7 @@ function createConversationList(sDoM,list){
                     <p class="mr-Date">' + sCurrentTime + '</p>\
                     </li>';
             }
-            sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime);
+            sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType);
         } else {
             var sNowTime1 = new Date().getTime();//获取当前时间戳
             var sNowCurrentTime1 = changeTimeFormat(sNowTime, 'y');
@@ -162,9 +179,9 @@ function createConversationList(sDoM,list){
                 sDoM += '<li data-t="'+sSentTime+'">\
                         <p class="mr-Date">' + sfiveBeforeTime + '</p>\
                         </li>';
-                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime)
+                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
             } else {
-                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime)
+                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
             }
             sStartTime=sSentTime;
         }
@@ -179,7 +196,18 @@ function ondayTime(sCurrentTime,sContrastTime){
    // var sDateTime=changeTimeFormat(sContrastTime,'y');
     //var sDateHoursTime=changeTimeFormat(sContrastTime,'yh');
 }
-function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime){
+function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
+    //switch(targetType){
+    //    case 'GROUP':
+    //        sendAjax('group!listGroupMemebers',{groupid:sTargetId},function(data) {
+    //            var oGroupidList = JSON.parse(data);
+    //            var aMember=oGroupidList.text;
+    //
+    //        });
+    //        break;
+    //    case 'PRIVATE':
+    //        break;
+    //}
     if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
         var sImg=oData.logo || 'PersonImg.png';
@@ -264,7 +292,7 @@ function conversationSelf(targetID,targetType){
                 $('#description').attr('data-on',1);
             }
             var sDoM = '<ul class="mr-chatContent">';
-            sDoM+=createConversationList(sDoM,list);
+            sDoM+=createConversationList(sDoM,list,targetType);
             sDoM+='</ul>';
             $('#perContainer .mr-chatview').empty();
             $('#perContainer .mr-chatview').append(sDoM);
@@ -300,7 +328,7 @@ function conversationSelf(targetID,targetType){
                         $('#perContainer .mr-chatview').attr('data-on',0)
                     }
                     var sDoM = '';
-                    sDoM=createConversationList(sDoM,list);
+                    sDoM=createConversationList(sDoM,list,targetType);
                     //$('#perContainer .mr-chatview').empty();
                     $('#perContainer .mr-chatview ul').prepend(sDoM);
                     /*var eDom=document.querySelector('#perContainer .mr-chatview');
