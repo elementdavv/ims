@@ -295,6 +295,45 @@ $(function(){
         }
         map.setFitView();
     }
+    function creatGroupMap(targetID,targeType,groupName){
+        $('.perSetBox-title span').html(groupName);
+        $('.groupMap').attr('targetID',targetID);
+        $('.groupMap').attr('targetType',targeType);
+        var map = new AMap.Map('container', {
+            center: [116.480983, 39.989628],
+            zoom: 10
+        });
+        var _onClick = function(position){
+            map.setZoomAndCenter(18, position);
+        };
+        var lnglats=[
+            [116.368904,39.923423],
+            [116.382122,39.921176],
+            [116.387271,39.922501],
+            [116.398258,39.914600]
+        ];
+        for(var i=0;i<5;i++){
+            var marker;
+            var content= '<div class="perPos">' +
+                '<img src="page/web/css/img/'+(i+1)+'.jpg"></div>';
+            marker = new AMap.Marker({
+                content: content,
+                position: lnglats[i],
+                offset: new AMap.Pixel(0,0),
+                map: map
+            });
+            var t=[116.480983+i, 39.989628];
+            marker.index=i;
+            marker.t=lnglats[i];
+            marker.setMap(map);
+            AMap.event.addListener(marker,'dblclick',function(e){
+                _onClick(e.target.t);
+                $('.perPos').removeClass('active');
+                $('.perPos').eq(e.target.index).addClass('active');
+            });
+        }
+        map.setFitView();
+    }
     //常用联系人右键菜单
     //$('body').delegate('#usualLeftClick li','click',function(){
     //    var memShip = $('.myContextMenu').attr('memship');
@@ -323,6 +362,7 @@ $(function(){
     //    }
     //})
     //点击群组
+    var groupTimer=null;
     $('.groupChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
         if(e.buttons==2){
@@ -334,17 +374,30 @@ $(function(){
             var id = 'groupLeftClick'
             fshowContexMenu(arr,style,id,memship);
         }else{//点击群组
+            clearTimeout(groupTimer);
+            //var sThis=$(this);
             var targetID = $(this).attr('targetid');
             var targeType = 'GROUP';
             var groupName = $(this).find('.groupName').html();
-            conversationGroup(targetID,targeType,groupName)
-            $('.orgNavClick').addClass('chatHide');
-            $('.mesContainerGroup').removeClass('chatHide');
+            groupTimer=setTimeout(function (){
+                conversationGroup(targetID,targeType,groupName);
+                $('.orgNavClick').addClass('chatHide');
+                $('.mesContainerGroup').removeClass('chatHide');
+            },200);
         }
         $('.groupChatListUl li').removeClass('active');
         $(this).addClass('active');
         return false;
     })
+    $('.groupChatList').delegate('li','dblclick',function(e){
+        clearTimeout(groupTimer);
+        var targetID = $(this).attr('targetid');
+        var targeType = 'GROUP';
+        var groupName = $(this).find('.groupName').html();
+        $('.orgNavClick').addClass('chatHide');
+        $('.groupMap').removeClass('chatHide');
+        creatGroupMap(targetID,targeType,groupName);
+    });
     //群组右键菜单
     $('body').delegate('#groupLeftClick li','click',function(){
         $('.myContextMenu').remove();

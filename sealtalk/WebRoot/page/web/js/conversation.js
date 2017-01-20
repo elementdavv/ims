@@ -26,11 +26,62 @@ $(function(){
         sendMsg(content,targetId,targetType,extra);
     }
 })
-
 function conversationGroup(targetID,targetType,groupName){
+    RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, 0, 20, {
+        onSuccess: function(list, hasMsg) {
+            if(list.length==0 && !hasMsg){
+                $('#groupContainer .mr-chatview').attr('data-on',0);
+            }else{
+                $('#groupContainer .mr-chatview').attr('data-on',1);
+            }
+            var sDoM = '<ul class="mr-chatContent">';
+            sDoM=createConversationList(sDoM,list,targetType);
+            sDoM+='</ul>';
+            $('#groupContainer .mr-chatview').empty();
+            $('#groupContainer .mr-chatview').append(sDoM);
+            var eDom=document.querySelector('#groupContainer .mr-chatview');
+            eDom.scrollTop = eDom.scrollHeight;
+        },
+        onError: function(error) {
+            // APP未开启消息漫游或处理异常
+            // throw new ERROR ......
+        }
+    });
     $('.perSetBox-title span').html(groupName);
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
+    var $container = $('#groupContainer .mr-chatview');
+    //var targetID=$('.mesContainerSelf').attr('targetid');
+    //var targetType=$('.mesContainerSelf').attr('targettype');
+    $container.perfectScrollbar();
+    $container.scroll(function(e) {
+        if($container.scrollTop() === 0) {
+            if($container.attr('data-on')==0){
+                return;
+            }
+            var stampTime=parseInt($('#groupContainer .mr-chatview').find('ul li').first().attr('data-t'));
+            RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
+                onSuccess: function(list, hasMsg) {
+                    /*  console.log(list);
+                     console.log(hasMsg);*/
+                    if(list.length==0 && !hasMsg){
+                        $('#groupContainer .mr-chatview').attr('data-on',0)
+                    }
+                    var sDoM = '';
+                    sDoM=createConversationList(sDoM,list);
+                    //$('#perContainer .mr-chatview').empty();
+                    $('#groupContainer .mr-chatview ul').prepend(sDoM);
+                    /*var eDom=document.querySelector('#perContainer .mr-chatview');
+                     eDom.scrollTop = eDom.scrollHeight;*/
+                },
+                onError: function(error) {
+                    // APP未开启消息漫游或处理异常
+                    // throw new ERROR ......
+                }
+            });
+            //$status.text('it reaches the top!');
+        }
+    });
     $('.rongyun-emoji>span').unbind('click');
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
@@ -54,7 +105,6 @@ function conversationGroup(targetID,targetType,groupName){
     clearNoReadMsg(targetType,targetID);
     getConverList();
 }
-
 function po_Last_Div(obj) {
     if (window.getSelection) {//ie11 10 9 ff safari
         obj.focus(); //解决ff不获取焦点无法定位问题
@@ -70,21 +120,97 @@ function po_Last_Div(obj) {
         range.select();
     }
 }
-/*function transdate(endTime){
-    var date=new Date();
-    date.setFullYear(endTime.substring(0,4));
-    date.setMonth(endTime.substring(5,7)-1);
-    date.setDate(endTime.substring(8,10));
-    date.setHours(endTime.substring(11,13));
-    date.setMinutes(endTime.substring(14,16));
-    date.setSeconds(endTime.substring(17,19));
-    return Date.parse(date)/1000;
-}*/
+function createConversationList(sDoM,list,targetType){
+    var timestamp = new Date().getTime();//获取当前时间戳
+    var sStartTime=0;
+    var sCurrentTime = changeTimeFormat(timestamp, 'yh');
+    var sCurrentDateTime = changeTimeFormat(timestamp, 'y');
+    //var sfiveBeforeTime=changeTimeFormat(timestamp+300000,'yh');
+    for (var i = 0; i < list.length; i++) {
+        var sSentTime = list[i].sentTime;
+        var sContent = list[i].content.content || '';
+        var extra = list[i].content.extra || '';
+        switch(targetType){
+                case 'GROUP':
+                    var sTargetId = list[i].senderUserId;
+                    var sData=window.localStorage.getItem("datas");
+                    var oData= JSON.parse(sData);
+                    var sId=oData.text.id;
+                    if(sId==sTargetId){
+                        sTargetId='';
+                    }
+                   /*sendAjax('group!listGroupMemebers',{groupid:sTargetId},function(data) {
+                        var oGroupidList = JSON.parse(data);
+                        var aMember=oGroupidList.text;
+                    });*/
+                    break;
+                case 'PRIVATE':
+                    var sTargetId = list[i].targetId;
+                    break;
+            }
+        var sDateTime = changeTimeFormat(sSentTime, 'y');
+        var sDateHoursTime = changeTimeFormat(sSentTime, 'yh');
+        var sHoursTime=changeTimeFormat(sSentTime, 'h');
+        if (sDateTime != sCurrentDateTime) {
+            sCurrentDateTime = sDateTime;
+            sCurrentTime = sDateHoursTime;
+            sStartTime=sSentTime;
+            var sNowTime = new Date().getTime();//获取当前时间戳
+            var sNowCurrentTime = changeTimeFormat(sNowTime, 'y');
+            if(sNowCurrentTime == sDateTime){
+                sDoM += ' <li data-t="'+sSentTime+'">\
+                    <p class="mr-Date">' + sHoursTime + '</p>\
+                    </li>';
+            }else{
+                sDoM += ' <li data-t="'+sSentTime+'">\
+                    <p class="mr-Date">' + sCurrentTime + '</p>\
+                    </li>';
+            }
+            sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType);
+        } else {
+            var sNowTime1 = new Date().getTime();//获取当前时间戳
+            var sNowCurrentTime1 = changeTimeFormat(sNowTime, 'y');
+            //var sCurrentDateTime = changeTimeFormat(timestamp, 'y');
+            if (sSentTime - sStartTime >300000) {
+                //sStartTime=sSentTime;
+                if(sNowCurrentTime1==sDateTime){
+                    var sfiveBeforeTime = changeTimeFormat(sSentTime, 'h');
+                }else{
+                    var sfiveBeforeTime = changeTimeFormat(sSentTime, 'yh');
+                }
+                //var sfiveBeforeTime = changeTimeFormat(sSentTime, 'yh');
+                sDoM += '<li data-t="'+sSentTime+'">\
+                        <p class="mr-Date">' + sfiveBeforeTime + '</p>\
+                        </li>';
+                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
+            } else {
+                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
+            }
+            sStartTime=sSentTime;
+        }
+        //aList=list;
+        // return list;
+        // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
+        // list 为拉取到的历史消息列表
+    }
+    return sDoM;
+}
 function ondayTime(sCurrentTime,sContrastTime){
    // var sDateTime=changeTimeFormat(sContrastTime,'y');
     //var sDateHoursTime=changeTimeFormat(sContrastTime,'yh');
 }
-function sessionContent(sDoM,sTargetId,sContent,extra){
+function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
+    //switch(targetType){
+    //    case 'GROUP':
+    //        sendAjax('group!listGroupMemebers',{groupid:sTargetId},function(data) {
+    //            var oGroupidList = JSON.parse(data);
+    //            var aMember=oGroupidList.text;
+    //
+    //        });
+    //        break;
+    //    case 'PRIVATE':
+    //        break;
+    //}
     if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
         var sImg=oData.logo || 'PersonImg.png';
@@ -99,7 +225,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
                     var imgSrc = 'page/web/css/img/backstage.png';
                     break;
             }
-            sDoM += '<li class="mr-chatContentLFile clearfix">'+
+            sDoM += '<li class="mr-chatContentLFile clearfix" data-t="'+sSentTime+'">'+
                         '<div class="mr-ownChat">'+
                         '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                         '<div class="file_content fl">' +
@@ -113,7 +239,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
 
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
-            sDoM += ' <li class="mr-chatContentL clearfix">\
+            sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">\
                     <img src="upload/images/'+sImg+'">\
                     <div class="mr-chatBox">\
                     <span>' + str + '</span>\
@@ -132,7 +258,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
                     var imgSrc = 'page/web/css/img/backstage.png';
                     break;
             }
-            sDoM += '<li class="mr-chatContentRFile clearfix">'+
+            sDoM += '<li class="mr-chatContentRFile clearfix" data-t="'+sSentTime+'">'+
                         '<div class="mr-ownChat">'+
                         '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                         '<div class="file_content fl">' +
@@ -146,7 +272,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
 
-            sDoM += ' <li class="mr-chatContentR clearfix">\
+            sDoM += ' <li class="mr-chatContentR clearfix" data-t="'+sSentTime+'">\
                     <div class="mr-ownChat">\
                     <span>' + str + '</span>\
                     <i></i>\
@@ -160,62 +286,13 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
 function fillSelfPage(targetID,targetType){
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, 0, 20, {
         onSuccess: function(list, hasMsg) {
-            var timestamp = new Date().getTime();//获取当前时间戳
-            var sStartTime=0;
-            var sCurrentTime = changeTimeFormat(timestamp, 'yh');
-            var sCurrentDateTime = changeTimeFormat(timestamp, 'y');
-            //var sfiveBeforeTime=changeTimeFormat(timestamp+300000,'yh');
-            var sDoM = '<ul class="mr-chatContent">';
-            for (var i = 0; i < list.length; i++) {
-                var sSentTime = list[i].sentTime;
-                var sContent = list[i].content.content || '';
-                var extra = list[i].content.extra || '';
-                var sTargetId = list[i].targetId;
-                var sDateTime = changeTimeFormat(sSentTime, 'y');
-                var sDateHoursTime = changeTimeFormat(sSentTime, 'yh');
-                var sHoursTime=changeTimeFormat(sSentTime, 'h');
-                if (sDateTime != sCurrentDateTime) {
-                    sCurrentDateTime = sDateTime;
-                    sCurrentTime = sDateHoursTime;
-                    sStartTime=sSentTime;
-                    var sNowTime = new Date().getTime();//获取当前时间戳
-                    var sNowCurrentTime = changeTimeFormat(sNowTime, 'y');
-                    if(sNowCurrentTime == sDateTime){
-                        sDoM += ' <li>\
-                    <p class="mr-Date">' + sHoursTime + '</p>\
-                    </li>';
-                    }else{
-                        sDoM += ' <li>\
-                    <p class="mr-Date">' + sCurrentTime + '</p>\
-                    </li>';
-                    }
-                    sDoM=sessionContent(sDoM,sTargetId,sContent,extra);
-                } else {
-                    var sNowTime1 = new Date().getTime();//获取当前时间戳
-                    var sNowCurrentTime1 = changeTimeFormat(sNowTime, 'y');
-                    //var sCurrentDateTime = changeTimeFormat(timestamp, 'y');
-                    if (sSentTime - sStartTime >300000) {
-                        //sStartTime=sSentTime;
-                        if(sNowCurrentTime1==sDateTime){
-                            var sfiveBeforeTime = changeTimeFormat(sSentTime, 'h');
-                        }else{
-                            var sfiveBeforeTime = changeTimeFormat(sSentTime, 'yh');
-                        }
-                        //var sfiveBeforeTime = changeTimeFormat(sSentTime, 'yh');
-                        sDoM += '<li>\
-                        <p class="mr-Date">' + sfiveBeforeTime + '</p>\
-                        </li>';
-                        sDoM=sessionContent(sDoM,sTargetId,sContent,extra)
-                    } else {
-                        sDoM=sessionContent(sDoM,sTargetId,sContent,extra)
-                    }
-                    sStartTime=sSentTime;
-                }
-                //aList=list;
-                // return list;
-                // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
-                // list 为拉取到的历史消息列表
+            if(list.length==0 && !hasMsg){
+                $('#description').attr('data-on',0);
+            }else{
+                $('#description').attr('data-on',1);
             }
+            var sDoM = '<ul class="mr-chatContent">';
+            sDoM+=createConversationList(sDoM,list,targetType);
             sDoM+='</ul>';
             $('#perContainer .mr-chatview').empty();
             $('#perContainer .mr-chatview').append(sDoM);
@@ -236,9 +313,44 @@ function conversationSelf(targetID,targetType){
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
-
     $('.mesContainerSelf').attr('targetID',targetID);
     $('.mesContainerSelf').attr('targetType',targetType);
+   var $container = $('#perContainer .mr-chatview');
+   // var targetID=$('.mesContainerSelf').attr('targetid');
+    //var targetType=$('.mesContainerSelf').attr('targettype');
+    $container.perfectScrollbar();
+    $container.scroll(function(e) {
+        if($container.scrollTop() === 0) {
+            if($container.attr('data-on')==0){
+                return;
+            }
+            var stampTime=parseInt($('#perContainer .mr-chatview').find('ul li').first().attr('data-t'));
+            RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
+                onSuccess: function(list, hasMsg) {
+                  /*  console.log(list);
+                   console.log(hasMsg);*/
+                    if(list.length==0 && !hasMsg){
+                        $('#perContainer .mr-chatview').attr('data-on',0)
+                    }
+                    var sDoM = '';
+                    sDoM=createConversationList(sDoM,list,targetType);
+                    //$('#perContainer .mr-chatview').empty();
+                    $('#perContainer .mr-chatview ul').prepend(sDoM);
+                    /*var eDom=document.querySelector('#perContainer .mr-chatview');
+                    eDom.scrollTop = eDom.scrollHeight;*/
+                },
+                onError: function(error) {
+                    // APP未开启消息漫游或处理异常
+                    // throw new ERROR ......
+                }
+            });
+            //$status.text('it reaches the top!');
+        }
+    });
+    //$('.textarea').click(function(){
+    //    $(this).attr('contenteditable','true')
+    //})
+    //$('.rongyun-emoji span').off('click');
     $('.rongyun-emoji>span').off('click')
     $('.rongyun-emoji>span').on('click',function(){
         $('.textarea b').attr('contenteditable','false');
