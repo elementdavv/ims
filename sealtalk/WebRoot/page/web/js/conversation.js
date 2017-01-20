@@ -41,7 +41,7 @@ function conversationGroup(targetID,targetType,groupName){
     });
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
-        var content = $(this).prev().val();
+        var content = $(this).prev().html();
         var targetId = $('.mesContainerGroup').attr('targetID');
         var targetType = $('.mesContainerGroup').attr('targetType');
         sendMsg(content,targetId,targetType)
@@ -611,8 +611,9 @@ function sendMsg(content,targetId,way,extra,callback){
     RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
             // 发送消息成功
             onSuccess: function (message) {
+                //var
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
-                sendInBox(message,callback);
+                sendInBox(message,way,callback);
                 getConverList();
                 console.log("Send successfully");
             },
@@ -648,11 +649,11 @@ function sendMsg(content,targetId,way,extra,callback){
 }
 
 //发送出去的的信息显示在盒子里
-function sendInBox(msg,callback){
+function sendInBox(msg,way,callback){
 
     var sendMsg = msg.content.content;
     var extra = msg.content.extra;
-
+    console.log(msg);
     if(extra=='uploadFile'){
         var sendMsg = JSON.parse(sendMsg);
         console.log('sendMsg',sendMsg);
@@ -691,11 +692,19 @@ function sendInBox(msg,callback){
             '</div>'+
             '</li>';
     }
-    var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
+    if(way=='PRIVATE'){
+        var parent = $('.mesContainerSelf');
+        var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
+    }else{
+        var parent = $('.mesContainerGroup');
+
+        var parentNode = $('.mesContainerGroup .mr-chatview .mr-chatContent');
+    }
+
     parentNode.append($(sHTML));
     var eDom=document.querySelector('#perContainer .mr-chatview');
     eDom.scrollTop = eDom.scrollHeight;
-    $('.textarea').html('');
+    parent.find('.textarea').html('');
     callback&&callback();
 }
 
@@ -708,34 +717,46 @@ function reciveInBox(msg){
     var targetID = msg.targetId;
     var content = msg.content.content;
     var extra = msg.content.extra;
+    var targetType = msg.conversationType;
+    if(targetType==3){//qunliao
+        var $MesContainer = $('.mesContainerGroup')
+    }else if(targetType==1){//个人聊天
+        var $MesContainer = $('.mesContainerSelf')
+    }
     if(extra=='uploadFile'){
-        var content = JSON.parse(content);
-        console.log('sendMsg',content);
+        if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
+            var content = JSON.parse(content);
+            console.log('sendMsg',content);
 
-        var imgSrc = '';
-        var Msize = KBtoM(content.size);
-        switch (content.type){
-            case 'image/png':
-                var imgSrc = 'page/web/css/img/backstage.png';
-                break;
+            var imgSrc = '';
+            var Msize = KBtoM(content.size);
+            switch (content.type){
+                case 'image/png':
+                    var imgSrc = 'page/web/css/img/backstage.png';
+                    break;
+            }
+            var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+            var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentLFile clearfix">'+
+                '<div class="mr-chatBox">'+
+                '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                '<div class="file_content fl">' +
+                '<p class="p1 file_name">'+content.name+'</p>' +
+                '<p class="p2 file_size">'+Msize+'</p>' +
+                '<div id="up_process"><div id="up_precent"></div>' +
+                '</div>' +
+                '</div>' +
+                '<a class="downLoadFile"></a>'+
+                '</li>';
+            var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
+            parentNode.append($(sHTML));
+            var eDom=document.querySelector('#perContainer .mr-chatview');
+            eDom.scrollTop = eDom.scrollHeight;
+        }else{
+
         }
-        var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentLFile clearfix">'+
-            '<div class="mr-chatBox">'+
-            '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
-            '<div class="file_content fl">' +
-            '<p class="p1 file_name">'+content.name+'</p>' +
-            '<p class="p2 file_size">'+Msize+'</p>' +
-            '<div id="up_process"><div id="up_precent"></div>' +
-            '</div>' +
-            '</div>' +
-            '<a class="downLoadFile"></a>'+
-            '</li>';
-
     }else {
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
-        var $MesContainerSelf = $('.mesContainerSelf')
-        if (!$MesContainerSelf.hasClass('chatHide') || $MesContainerSelf.attr('targetID') == targetID) {
+        if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
             //在盒子里显示
             //头像需要自己找？、？
             var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
@@ -748,16 +769,15 @@ function reciveInBox(msg){
 
             //clearNoReadMsg($('.mesContainer').attr('targettype'),targetID);
             //msgReaded(msg.messageUId,msg.sentTime,$('.mesContainer').attr('targettype'));
-
+            var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
+            parentNode.append($(sHTML));
+            var eDom=document.querySelector('#perContainer .mr-chatview');
+            eDom.scrollTop = eDom.scrollHeight;
         } else {
             //消息列表里显示红色小圆圈
             //刷新消息列表
         }
     }
-    var parentNode = $('.mr-chatview .mr-chatContent');
-    parentNode.append($(sHTML));
-    var eDom=document.querySelector('#perContainer .mr-chatview');
-    eDom.scrollTop = eDom.scrollHeight;
 
 }
 
