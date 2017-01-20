@@ -13,7 +13,18 @@
 })(function ($) {
 
     'use strict';
-
+   //点击是否显示网格
+    $('#showGrid').click(function(){
+        if($('.cropper-crop-box').hasClass('cropper-hidden')){
+            $('.cropper-crop-box').removeClass('cropper-hidden');
+        }else{
+            $('.cropper-crop-box').addClass('cropper-hidden');
+        }
+    });
+    $('#bMg-closeBtn').click(function(){
+        $('#iqs_iframe',parent.document).attr('src','');
+        $('#iqs_iframe',parent.document).addClass('chatHide');
+    });
     var console = window.console || { log: function () {} };
     function CropAvatar($element) {
         this.$container = $element;
@@ -233,11 +244,37 @@
 
         ajaxUpload: function () {
             var url = this.$avatarForm.attr('action'),
-                data = new FormData(this.$avatarForm[0]),
+                data = null,
                 _this = this;
+            var fileInput = document.getElementById("Uploader");
+            var imageFile = fileInput[0].files[0];
+            var nW=$('.preview-lg').find('img').width();
+            var nH=$('.preview-lg').find('img').height();
+            var sD=$('.preview-lg').find('img').css('transform');
+            var deg;
+            if(sD == "none"){
+                deg=0;
+            }else{
+                var sM=sD.split('(')[1].split(')')[0];
+                var aM=sM.split(',');
+                deg=getmatrix(aM[0],aM[1],aM[2],aM[3],aM[4],aM[5]);
+            }
+            var sL=parseFloat($('.preview-lg').find('img').css('marginLeft'));
+            var nL=-sL;
+            console.log( nL);
+            var sT=parseFloat($('.preview-lg').find('img').css('marginTop'));
+            var nT=-sT;
+            var formData = new FormData();
+            formData.append("file", imageFile);
+            formData.append("width", nW);
+            formData.append("height", nH);
+            formData.append("x", nL);
+            formData.append("y", nT);
+            formData.append("degree", deg);
+            formData.append("userid", 0);
             $.ajax(url, {
                 type: 'post',
-                data: data,
+                data: formData,
                 dataType: 'json',
                 processData: false,
                 contentType: false,
@@ -270,7 +307,6 @@
 
         submitDone: function (data) {
             console.log(data);
-
             if ($.isPlainObject(data) && data.state === 200) {
                 if (data.result) {
                     this.url = data.result;
@@ -325,3 +361,19 @@
     });
 
 });
+function getmatrix(a,b,c,d,e,f){
+    var aa=Math.round(180*Math.asin(a)/ Math.PI);
+    var bb=Math.round(180*Math.acos(b)/ Math.PI);
+    var cc=Math.round(180*Math.asin(c)/ Math.PI);
+    var dd=Math.round(180*Math.acos(d)/ Math.PI);
+    var deg=0;
+    if(aa==bb||-aa==bb){
+        deg=dd;
+    }else if(-aa+bb==180){
+        deg=180+cc;
+    }else if(aa+bb==180){
+        deg=360-cc||360-dd;
+    }
+    return deg>=360?0:deg;
+    //return (aa+','+bb+','+cc+','+dd);
+}

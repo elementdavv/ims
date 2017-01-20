@@ -17,11 +17,11 @@
             <div class="avatar-view" title="Change the avatar">
             <img src="css/img/1.jpg" alt="Avatar">
             </div>
-            <form class="avatar-form"action="crop.php" enctype="multipart/form-data" method="post">
+            <form class="avatar-form" action="<%=request.getContextPath() %>/upload!uploadUserLogo" enctype="multipart/form-data" method="post"  id="Uploader">
                 <div class="bMg-cutPicture">
                     <h5 class="clearfix">
                         <span class="bMg-changPic">修改头像</span>
-                        <i class="bMg-closeBtn"></i>
+                        <i class="bMg-closeBtn" id="bMg-closeBtn"></i>
                     </h5>
                 <p class="bMg-selectImg">使用下列所选照片</p>
                 <div class="clearfix">
@@ -37,7 +37,7 @@
                                 <div class="btn-group">
                                     <i class="" data-method="rotate" data-option="90"  title="Rotate 90 degrees"></i>
                                 </div>
-                                <strong></strong>
+                                <strong id="showGrid"></strong>
                             </div>
                             </div>
                     </div>
@@ -51,8 +51,8 @@
                         <span >
                             添加
                             <div class="avatar-upload">
-                                <input class="avatar-src" name="avatar_src" type="hidden">
-                                <input class="avatar-data" name="avatar_data" type="hidden">
+                                <%--<input class="avatar-src" name="avatar_src" type="hidden">--%>
+                                <%--<input class="avatar-data" name="avatar_data" type="hidden">--%>
                                 <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
                             </div>
                          </span>

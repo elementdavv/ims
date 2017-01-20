@@ -545,8 +545,7 @@
                     <i class="mr-record" id="mr-record"></i>
                 </div>
             </h3>
-            <div class="mr-chatview">
-
+            <div class="mr-chatview " id="description">
                 <%--<p class="mr-time">9:28</p>--%>
                 <%--<ul class="mr-chatContent">--%>
                     <%--<li class="mr-chatContentL clearfix">--%>
@@ -596,29 +595,29 @@
                 </div>
             </h3>
             <div class="mr-chatview">
-                <p class="mr-Date">-11月11日 星期五-</p>
+                <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
 
-                <p class="mr-time">9:28</p>
+                <%--<p class="mr-time">9:28</p>--%>
 
-                <p class="group-addPerson clearfix">
-                    <span>谁将谁拉进群组<i></i></span>
-                </p>
-                <ul class="mr-chatContent">
-                    <li class="mr-chatContentL clearfix">
-                        <img src="page/web/css/img/1.jpg">
+                <%--<p class="group-addPerson clearfix">--%>
+                    <%--<span>谁将谁拉进群组<i></i></span>--%>
+                <%--</p>--%>
+                <%--<ul class="mr-chatContent">--%>
+                    <%--<li class="mr-chatContentL clearfix">--%>
+                        <%--<img src="page/web/css/img/1.jpg">--%>
 
-                        <div class="mr-chatBox">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                    <li class="mr-chatContentR clearfix">
-                        <div class="mr-ownChat">
-                            <span>大家好，请多多指教大家好大家好，请多多指教大家好大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好，请多多指教大家好</span>
-                            <i></i>
-                        </div>
-                    </li>
-                </ul>
+                        <%--<div class="mr-chatBox">--%>
+                            <%--<span>大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                    <%--<li class="mr-chatContentR clearfix">--%>
+                        <%--<div class="mr-ownChat">--%>
+                            <%--<span>大家好</span>--%>
+                            <%--<i></i>--%>
+                        <%--</div>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
             </div>
             <div class="mr-chateditBox">
                 <div class="mr-expresFile clearfix">

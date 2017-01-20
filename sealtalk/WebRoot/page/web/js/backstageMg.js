@@ -210,9 +210,19 @@ $(document).ready(function(){
     $('#groupMap').on('click','.messageRecord b',function(e){
         var targetID = $(e.target).closest('.groupMap').attr('targetid');
         var targeType = $(e.target).parents('.groupMap').attr('targettype');
-        conversationSelf(targetID,targeType);
-        $('.orgNavClick').addClass('chatHide');
-        $('.mesContainerSelf').removeClass('chatHide');
+        var grounpName = $(e.target).prev('span').html();
+        switch(targeType){
+            case 'GROUP':
+                conversationGroup(targetID,targeType,grounpName);
+                $('.orgNavClick').addClass('chatHide');
+                $('.mesContainerGroup').removeClass('chatHide');
+                break;
+            case 'PRIVATE':
+                conversationSelf(targetID,targeType);
+                $('.orgNavClick').addClass('chatHide');
+                $('.mesContainerSelf').removeClass('chatHide');
+                break;
+        }
     });
     //getGroupMembersList(1);
 });
