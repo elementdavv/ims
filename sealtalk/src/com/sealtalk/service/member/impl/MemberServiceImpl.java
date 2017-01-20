@@ -178,7 +178,6 @@ public class MemberServiceImpl implements MemberService {
 				long valideTime = StringUtils.getInstance().strToLong(PropertiesUtils.getStringByKey("code.validetime"));
 				
 				if ((now - createTime) >= valideTime) {
-					textCodeDao.deleteTextCode(tc);
 					code = "-1";
 				} else {
 					code = tc.getTextCode();
@@ -192,8 +191,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void saveTextCode(TextCode stc) {
+	public void saveTextCode(String phone, String code) {
 		try {
+			textCodeDao.deleteTextCode(phone);
+			
+			TextCode stc = new TextCode();
+			stc.setPhoneNum(phone);
+			stc.setTextCode(code);
+			stc.setCreateTime(TimeGenerator.getInstance().getUnixTime());
 			textCodeDao.saveTextCode(stc);
 		} catch(Exception e) {
 			e.printStackTrace();

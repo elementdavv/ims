@@ -49,9 +49,15 @@
         return scale > opts.scale ? gtScale() : ltScale();
     };
 
-    var getBlobUrl = function(file) {
+    var getBlobUrl = function(file,callback) {
         var URL = window.URL || window.webkitURL;
-        return URL ? URL.createObjectURL(file) : "";
+        if(URL){
+            var obj = URL.createObjectURL(file)
+            callback(obj);
+        }else{
+
+        }
+        return obj||"";
     };
 
     var getThumbnail = function(file, opts, callback) {
@@ -72,7 +78,7 @@
                 throw new Error(e);
             }
         };
-        img.src = typeof file == 'string' ? 'data:image/png;base64,' + file : getBlobUrl(file);
+        img.src = typeof file == 'string' ? 'data:image/png;base64,' + file : getBlobUrl(file,callback);
     };
 
     var _compress = function(data, callback) {

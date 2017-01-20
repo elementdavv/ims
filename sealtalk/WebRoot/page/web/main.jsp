@@ -195,6 +195,7 @@
         </input>
     </div>
 
+
     <div class="organizationList">
         <ul>
             <li>
@@ -628,7 +629,11 @@
                     <%--<img src="images/upload-pic.png" alt="上传照片" title="">--%>
                     </div>
                 </div>
-                <textarea placeholder="说点什么..." class="textarea"></textarea>
+                <%--<textarea placeholder="说点什么..." class="textarea"></textarea>--%>
+                <pre id="message-content" contenteditable-directive
+                contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
+                atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
+                class="textarea" draggable="draggable"></pre>
                 <strong class="sendMsgBTN">发送</strong>
             </div>
         </div>

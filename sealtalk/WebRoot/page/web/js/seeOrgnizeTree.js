@@ -5,8 +5,6 @@ $(function(){
         var className = $(this).attr('class');
         var classArr = className.split(' ');
         deleteElement(classArr,'node');
-        //console.log(classArr);
-        //console.log('********');
         var className = classArr[0];
         var idName = classArr[1];
         var targetNode = $('.organizationList').find('ul li.'+className+'[id='+idName+']');
@@ -38,6 +36,9 @@ function seeOrgnizeTree(){
         //,
         //dragAndDrop  : true
     });
+
+
+    //console.log($('.jOrgChart table').width());
 }
 
 function loopTree(data,sHTML,level){
