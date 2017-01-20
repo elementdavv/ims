@@ -42,9 +42,12 @@ function conversationGroup(targetID,targetType,groupName){
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
         var content = $(this).prev().html();
-        var targetId = $('.mesContainerGroup').attr('targetID');
-        var targetType = $('.mesContainerGroup').attr('targetType');
-        sendMsg(content,targetId,targetType)
+        if(content){
+            var targetId = $('.mesContainerGroup').attr('targetID');
+            var targetType = $('.mesContainerGroup').attr('targetType');
+            sendMsg(content,targetId,targetType)
+        }
+
     })
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
@@ -153,11 +156,8 @@ function sessionContent(sDoM,sTargetId,sContent,extra){
     }
     return sDoM;
 }
-function conversationSelf(targetID,targetType){
-    //var target = targetID;
-    //噗页面 把targetID放进去
 
-   // var history = historyMsg(targetType,targetID);
+function fillSelfPage(targetID,targetType){
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, 0, 20, {
         onSuccess: function(list, hasMsg) {
             var timestamp = new Date().getTime();//获取当前时间戳
@@ -227,18 +227,18 @@ function conversationSelf(targetID,targetType){
             // throw new ERROR ......
         }
     });
-    //console.log(history);
+}
+function conversationSelf(targetID,targetType){
+    //var target = targetID;
+    //噗页面 把targetID放进去
+    fillSelfPage(targetID,targetType);
+
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
 
     $('.mesContainerSelf').attr('targetID',targetID);
     $('.mesContainerSelf').attr('targetType',targetType);
-
-    //$('.textarea').click(function(){
-    //    $(this).attr('contenteditable','true')
-    //})
-    //$('.rongyun-emoji span').off('click');
     $('.rongyun-emoji>span').off('click')
     $('.rongyun-emoji>span').on('click',function(){
         $('.textarea b').attr('contenteditable','false');
@@ -267,14 +267,12 @@ function conversationSelf(targetID,targetType){
     })
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
-        //var content = $(this).prev().val();
         var content = $(this).prev().html();
-        //var str = RongIMLib.RongIMEmoji.symbolToEmoji(content);
-        //var targetID = targetId
-        var targetId = $('.mesContainerSelf').attr('targetID');
-        var targetType = $('.mesContainerSelf').attr('targetType');
-        //if()
-        sendMsg(content,targetId,targetType)
+        if(content){
+            var targetId = $('.mesContainerSelf').attr('targetID');
+            var targetType = $('.mesContainerSelf').attr('targetType');
+            sendMsg(content,targetId,targetType)
+        }
     })
     $('.orgNavClick').addClass('chatHide');
     $('.mesContainerSelf').removeClass('chatHide');
@@ -437,11 +435,6 @@ function getChatRecord(aList,hasMsg){
                 </li>';
                 }
             }
-            //if(i==aInfo.length-1){
-            //    sLi+='<li>\
-            //       <p class="infoDet-timeRecord">'+sSentDate+'</p>\
-            //    </li>';
-            //}
             if(sTargetId){
                var oThers=findMemberInList(sTargetId);
                 var sName=oThers.name || '';
@@ -519,10 +512,6 @@ function changeTimeFormat(mSec,format){
         case 'yh':
             time=y+'-'+month+'-'+d+' '+h+':'+m+':'+s;
     }
-    //console.log('+++++++++++++++++++++')
-    //if()
-    //console.log(h+':'+m+':'+s);
-    //var time = h+':'+m+':'+s;
     return time;
 }
 function changeTimeFormatYMD(mSec){
@@ -531,9 +520,6 @@ function changeTimeFormatYMD(mSec){
     var y=ifPlusZero(newTime.getFullYear());
     var m=ifPlusZero(newTime.getMonth()+1);
     var d=ifPlusZero(newTime.getDate());
-    //console.log('+++++++++++++++++++++')
-    //if()
-    //console.log(h+':'+m+':'+s);
     var time = y+'-'+m+'-'+d;
     return time;
 }
@@ -547,7 +533,6 @@ function ifPlusZero(num){
 function findMemberInList(targetId){
     var normalInfo = localStorage.getItem('normalInfo');
     if(normalInfo){
-        //console.log(normalInfo,'findMemberInList');
         var aNormalInfo = JSON.parse(normalInfo);
         for(var i = 0;i<aNormalInfo.length;i++){
             var curInfo = aNormalInfo[i];
@@ -561,7 +546,6 @@ function findMemberInList(targetId){
 
 //显示会话列表
 function usualChatList(list){
-    //console.log(list);
     var sHTML = '';
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
@@ -695,14 +679,14 @@ function sendInBox(msg,way,callback){
     if(way=='PRIVATE'){
         var parent = $('.mesContainerSelf');
         var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
+        var eDom=document.querySelector('#perContainer .mr-chatview');
+
     }else{
         var parent = $('.mesContainerGroup');
-
         var parentNode = $('.mesContainerGroup .mr-chatview .mr-chatContent');
+        var eDom=document.querySelector('#groupContainer .mr-chatview');
     }
-
     parentNode.append($(sHTML));
-    var eDom=document.querySelector('#perContainer .mr-chatview');
     eDom.scrollTop = eDom.scrollHeight;
     parent.find('.textarea').html('');
     callback&&callback();
@@ -745,7 +729,7 @@ function reciveInBox(msg){
                 '<div id="up_process"><div id="up_precent"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a class="downLoadFile"></a>'+
+                '<a class="downLoadFile" href="https://ocsys6mwy.bkt.clouddn.com/'+data.filename+'"></a>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));

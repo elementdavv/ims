@@ -4,6 +4,15 @@
 window.onload = function(){
 
     //点击发送验证码
+    $('#pwdIn').unbind('focus');
+    $('#pwdIn').focus(function(){
+        $(this).keypress(function(event) {
+            if (event.which == 13) {
+                signin();
+            }
+        })
+    })
+
     $('.SendCheakCode').click(function(){
         //fSendCheakCode();
         var phoneNum = $('#phoneNum').val();

@@ -545,12 +545,11 @@ $(function(){
     })
 })
 
-
+//创建群组列表
 function getGroupList(accountID){
     var dom = $('.groupChatList .groupChatListUl');
     var sHTML = '';
     sendAjax('group!groupList',{userid:accountID},function(data){
-        //window.localStorage.normalInfo = data;
         if(data){
             window.localStorage.groupInfo = data;
             var datas = JSON.parse(data);
@@ -562,9 +561,8 @@ function getGroupList(accountID){
                     '<div>'+
                     '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
                     '<span class="groupName">'+curGroup.name+
-                    '<em>(15/20)'+
-                    '</em>'+
                     '</span>'+
+                    '<em class="groupInlineNum">(15/'+curGroup.volumeuse+')</em>'+
                     '</div>'+
                     '</li>'
                 }
