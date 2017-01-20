@@ -12,16 +12,19 @@ $(function(){
     var uploading = false;
     //点击button上传
     //var sAccount = localStorage.getItem('account');
-    var token = '5aZfPtTZP10rsriqnktyCKXjq99EX9z9wUAq-Yll:XvXrY7dEI5TZ9_NfQ2yPYNBz-dw=:eyJlbmRVc2VyIjoieSIsInNjb3BlIjoiZWR1cGljdHVyZTpxaW5pdTEyMzQiLCJkZWFkbGluZSI6OTIyMzM3MjAzNjg1NDc3NTgwN30='
+    //var token = "CddrKW5AbOMQaDRwc3ReDNvo3-sL_SO1fSUBKV3H:0ZIWXsNEMmwHFSWKb2F_I_jBV2Y=:eyJzY29wZSI6InJvbmdjbG91ZC1pbWFnZSIsInJldHVybkJvZHkiOiJ7XCJuYW1lXCI6ICQoZm5hbWUpLFwic2l6ZVwiOiAkKGZzaXplKSxcIndcIjogJChpbWFnZUluZm8ud2lkdGgpLFwiaFwiOiAkKGltYWdlSW5mby5oZWlnaHQpLFwiaGFzaFwiOiAkKGV0YWcpfSIsImRlYWRsaW5lIjoxNDg0MTI2NTU2fQ==";
+    var token = '5aZfPtTZP10rsriqnktyCKXjq99EX9z9wUAq-Yll:DJMQqJxwhqRWzVkLE2AVDD6DJ_4=:eyJlbmRVc2VyIjoieSIsInNjb3BlIjoiZWR1cGljdHVyZSIsImRlYWRsaW5lIjo5MjIzMzcyMDM2ODU0Nzc1ODA3fQ=='
     var config = {
         domain: 'https://up.qbox.me',                              // default : '' ,必须设置文件服务器地址。
         file_data_name  : 'file',                                       // default : file , 文件对象的 key 。
-        base64_size     : 10,                                           // default : 10 单位 MB 。
-        chunk_size      : 10,                                           // default : 10 单位 MB 。
+        base64_size     : 4096,
+        //headers         : { 'Content-Type' : 'multipart/form-data'},
+        //max_file_size: '100mb',                                           // default : 10 单位 MB 。
+        chunk_size      : '4M',                                           // default : 10 单位 MB 。
         multi_parmas    : { },                                          // default : {} 扩展上传属性 。
         query           : { },                                          // default : {} 扩展 url 参数 e.g. http://rongcloud.cn?name=zhangsan 。
         support_options : true,                                         // default : true, 文件服务器不支持 OPTIONS 请求需设置为 false。
-        data            : UploadClient.dataType.form,                   // default : 默认提供：form、json、data 数据直传三种方式。
+        //data            : 'default',                   // default : 默认提供：form、json、data 数据直传三种方式。
         getToken: function(callback){
             callback(token);
         }
@@ -55,9 +58,9 @@ $(function(){
                     return percent;
                 },
                 onCompleted: function (data) {
-                    //var className = this._self.uniqueTime;
-                    //var downloadLink = 'http://ocsys6mwy.bkt.clouddn.com/'+this._self.uniqueName;
-                    //$('#up_process[uniquetime="'+className+'"]').parent().next().attr('src',downloadLink)
+                    var className = this._self.uniqueTime;
+                    var downloadLink = 'https://ocsys6mwy.bkt.clouddn.com/'+data.filename;
+                    $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink)
                     //document.getElementById('showImage').src = 'data:image/png;base64,' + data.thumbnail;
                     console.log(data);
                     uploading = false;

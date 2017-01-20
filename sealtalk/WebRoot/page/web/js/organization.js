@@ -76,19 +76,39 @@ $(function(){
     $('.searchInput').focus(function(){
         $('.defaultText').hide();
         $(this).css({backgroundPosition:'-380px -365px'});
+        $(this).unbind('keypress');
         $(this).keypress(function(event) {
             if (event.which == 13) {
-                console.log(111);
+                //console.log(111);
                 var inputVal = $(this).val();
                 if(inputVal){
                     sendAjax('member!searchUser',{account:inputVal},function(data){
                         var datas = JSON.parse(data);
-                        console.log(data);
-                        if(datas.code==0){
+                        //console.log(data);
+                        var parentDom = $('.orgnized');
+                        if(datas.length==0){
                             //没有用户
-
-                        }else if(datas.code==1){
+                            var sHTML = '<div class="searchResult">'+
+                                        '<ul class="searchResultUL">'+
+                                        '<li class="searchNoResult">'+
+                                        '<span>没有搜索结果</span>'+
+                                        '</li>'+
+                                        '</ul>'+
+                                        '</div>';
+                            parentDom.append($(sHTML));
+                        }else if(datas.length!=0){
                             //生成搜索结果
+                            for(var i = 0;i<datas.length;i++){
+                                var liHTML = '<li><img src="'+datas[i].logo+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
+                            }
+
+                            var sHTML = ' <div class="searchResult">'+
+                                        '<ul class="searchResultUL">'+
+                                        +liHTML+
+                                        '</ul>'+
+                                        '</div>'
+                            parentDom.append($(sHTML));
+
                         }else{
                             console.log(datas.text);
                         }
