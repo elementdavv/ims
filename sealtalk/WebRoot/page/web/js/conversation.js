@@ -252,7 +252,7 @@ function ondayTime(sCurrentTime,sContrastTime){
 function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
     if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
-        var sImg=globalVar.imgSrc+oData.logo || globalVar.defaultLogo;
+        var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
         if(extra=="uploadFile"){
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sendMsg = JSON.parse(sContent);
