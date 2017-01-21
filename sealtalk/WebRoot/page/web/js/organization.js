@@ -22,13 +22,6 @@ $(function(){
 
     //点击查看组织结构图
     $('.seeOrgnizeTree').click(function(){
-        //var getBranchTree = localStorage.getItem('getBranchTree');
-        //var datas = JSON.parse(getBranchTree);
-        //var sCanvas = $('<canvas id="bgCanvas" height="800" width="800">');
-        //$('.orgNavClick').addClass('chatHide');
-        //$('.orgNavClick3').removeClass('chatHide');
-        //$('.orgNavClick3').append(sCanvas);
-        //console.log(datas);
         seeOrgnizeTree();
     })
 
@@ -59,10 +52,6 @@ $(function(){
                 $('.orgNavClick1').html(sHTML);
                 $('.orgNavClick1').removeClass('chatHide');
                 $('.BreadcrumbsOuter').removeClass('chatHide');
-                //$('.BreadcrumbsOuter').removeClass('chatHide')
-                //var SHTML = BreadcrumbGuid($(this));
-                //更换面包屑导航
-                //$('.Breadcrumbs').html(SHTML);
 
             })
         }
@@ -102,8 +91,14 @@ $(function(){
                         }else if(datas.length!=0){
                             //生成搜索结果
                             var liHTML = '';
+
                             for(var i = 0;i<datas.length;i++){
-                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+globalVar.imgSrc+datas[i].logo+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
+                                if(datas[i].logo){
+                                    var imgsrc = datas[i].logo
+                                }else{
+                                    imgsrc = globalVar.defaultLogo;
+                                }
+                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+globalVar.imgSrc+imgsrc+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
                             }
                             var sHTML = ' <div class="searchResult">'+
                                         '<ul class="searchResultUL">'+liHTML+
