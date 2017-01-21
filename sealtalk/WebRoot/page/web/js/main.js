@@ -3,12 +3,19 @@
  */
 $(function(){
 
-
+    $('.chatHeaderOper li')[0].onclick = function(){
+        sendAjax('system!logOut','',function(){
+            alert('登出成功');
+            window.location.href = window.location.href;
+        });
+    }
 
     $('.contactsList').perfectScrollbar();
     //$('body').perfectScrollbar();
     $('.dialogClose,.manageCancle').click(function(){
         $('.WindowMask,.WindowMask2').hide();
+        $('.contactsSearch').val('');
+        $('.contactSearchResult').remove();
     });
 
     $(document).bind('contextmenu',function(){
@@ -77,13 +84,17 @@ function initEmoji(){
 
 
 //memShip表示与此操作相关的人员account
-function fshowContexMenu(arr,style,id,memShip){
+function fshowContexMenu(arr,style,id,memShip,targettype){
 
     var listHTML = '';
     for(var i = 0;i<arr.length;i++){
         listHTML+='<li>'+arr[i]+'</li>'
     }
-    var sHTML = '<div memShip="'+memShip+'" class="myContextMenu" id="'+id+'" style="'+style+'">'+
+    var targetType = '';
+    if(targettype){
+        targetType = targettype;
+    }
+    var sHTML = '<div memShip="'+memShip+'" class="myContextMenu" id="'+id+'" style="'+style+'" targetType="'+targetType+'">'+
         '<div class="contextTri"></div>'+
         '<ul>'+listHTML+'</ul>'+
         '</div>';

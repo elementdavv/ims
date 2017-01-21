@@ -4,11 +4,13 @@
 $(function(){
     RongIMClient.init("e5t4ouvpe564a");
     //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
+    //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
     var sAccount = localStorage.getItem('account');
     if(sAccount){
         var oAccount = JSON.parse(sAccount);
         var token = oAccount.token;
         console.log(token);
+
 
         // 设置连接监听状态 （ status 标识当前连接状态）
         // 连接状态监听器
@@ -47,14 +49,13 @@ $(function(){
                 // 判断消息类型
                 switch(message.messageType){
                     case RongIMClient.MessageType.TextMessage:
-                        // 发送的消息内容将会被打印
-                        //console.log('接收到的 信息',message);
-                        //var bOnSound = true;
-                        //if(bOnSound){
-                        //    var systemSound_recive = document.getElementById('systemSound_recive');
-                        //    systemSound_recive.play();
-                        //}
-                        //console.log('message',message)
+
+                        //1.获取系统提示音接口
+                        //2.获取单独的群消息设置
+                        if(globalVar.SYSTEMSOUND){
+                            var systemSound_recive = document.getElementById('systemSound_recive');
+                            systemSound_recive.play();
+                        }
                         reciveInBox(message);
                         break;
                     case RongIMClient.MessageType.VoiceMessage:
@@ -133,5 +134,21 @@ $(function(){
             }
         });
     }
+
     initEmoji();
 })
+
+//setConverToTop('PRIVATE','1',true);
+function setConverToTop(Type,targetId,isTop) {
+    var conversationtype = RongIMLib.ConversationType[Type]; // 私聊
+    RongIMLib.RongIMClient.getInstance().setConversationToTop(conversationtype, targetId, {isTop:isTop,
+        onSuccess: function (bool) {
+           console.log(11111);
+        },
+        onError: function (errorCode) {
+            console.log(222);
+
+        }
+    });
+}
+

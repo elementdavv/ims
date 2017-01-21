@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/OrgChart.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/backstageMg.css"/>
 
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>
 
 
 
@@ -48,7 +49,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.jOrgChart.js"></script>
 </head>
 <body>
-    <audio src="page/web/css/sound/msg.wav" id="systemSound_recive"  type="audio/wav">
+    <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
 <div class="chatHeader">
@@ -56,6 +57,11 @@
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
         <li bindPanel="back">后台管理</li>
+    </ul>
+    <ul class="chatHeaderOper">
+        <li class="chatLeftIcon"></li>
+        <li class="chatLeftIcon"></li>
+        <li class="chatLeftIcon"></li>
     </ul>
 </div>
 
@@ -718,9 +724,12 @@
             <div class="contactListOuter">
                 <p class="outerTitle">选择联系人：</p>
 
-                <div class="contactBox">
+                <div class="contactBox" id="contactBox">
                     <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
-
+                    <%--<div class="contactSearchResult">没有搜索结果</div>--%>
+                    <%--<ul class="contactSearchResult">--%>
+                        <%--<li>sssssssssssssssssssssssss</li>--%>
+                    <%--</ul>--%>
                     <div class="contactsList"></div>
                 </div>
             </div>
@@ -728,8 +737,6 @@
                 <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
 
                 <div class="contactBox">
-                    <%--<input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>--%>
-
                     <div class="selectedList">
                     <ul></ul>
                     </div>
