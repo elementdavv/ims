@@ -167,7 +167,7 @@
             <div class="groupMapBox">
                 <div id="container"></div>
                 <div class="groupMapMember">
-                    <%--<ul>--%>
+                    <ul>
                         <%--<li>--%>
                             <%--<img src="page/web/css/img/1.jpg">--%>
                         <%--</li>--%>
@@ -183,7 +183,7 @@
                         <%--<li>--%>
                             <%--<img src="page/web/css/img/1.jpg">--%>
                         <%--</li>--%>
-                    <%--</ul>--%>
+                    </ul>
                 </div>
             </div>
         </div>

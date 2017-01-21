@@ -1,39 +1,6 @@
 /**
  * Created by gao_yn on 2017/1/21.
  */
-    //if (window.navigator.geolocation) {
-    //    var options = {
-    //        enableHighAccuracy: true
-    //    };
-    //    window.navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
-    //} else {
-    //    alert("浏览器不支持html5来获取地理位置信息");
-    //}
-    //
-    //function handleSuccess(position){
-    //    // 获取到当前位置经纬度  本例中是chrome浏览器取到的是google地图中的经纬度
-    //    var lng = position.coords.longitude;
-    //    var lat = position.coords.latitude;
-    //    console.log(lng,lat);
-    //    // 调用百度地图api显示
-    //    var map = new AMap.Map('map', {
-    //        center: [116.480983, 39.989628],
-    //        zoom: 10
-    //    });
-    //    //var map = new BMap.Map("map");
-    //    // var ggPoint = new BMap.Point(lng, lat);
-    //    // 将google地图中的经纬度转化为百度地图的经纬度
-    //    /* BMap.Convertor.translate(ggPoint, 2, function(point){
-    //     var marker = new BMap.Marker(point);
-    //     map.addOverlay(marker);
-    //     map.centerAndZoom(point, 15);
-    //     });*/
-    //}
-    //
-    //function handleError(error){
-    //
-    //}
-
     setInterval(function (){
         var map, geolocation;
         //加载地图，调用浏览器定位服务

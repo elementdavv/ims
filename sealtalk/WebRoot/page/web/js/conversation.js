@@ -148,10 +148,10 @@ function conversationGroup(targetID,targetType,groupName){
             var targetType = $('.mesContainerGroup').attr('targetType');
             sendMsg(content,targetId,targetType)
         }
-
     })
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
+    getGroupDetails(targetID);
     clearNoReadMsg(targetType,targetID);
     getConverList();
 }
