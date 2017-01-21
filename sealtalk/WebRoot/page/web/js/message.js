@@ -434,7 +434,7 @@ $(function(){
                     for(var i=0;i<aText.length;i++){
                         var sLatitude=aText[i].latitude;//经度
                         var sLongtitude=aText[i].longtitude;//纬度
-                        var sLogo=aText[i].logo || 'PersonImg.png';//用户头像
+                        var sLogo=globalVar.imgSrc+aText[i].logo || globalVar.defaultLogo;//用户头像
                         var sUserID=aText[i].userID;//用户id
                         var marker;
                         var lnglats=[];
@@ -442,7 +442,7 @@ $(function(){
                         lnglats.push(sLongtitude);
                         if(!$('.groupMapMember').hasClass('chatHide')){
                             var sDom='<li>\
-                            <img src="upload/images/'+sLogo+'">\
+                            <img src="'+sLogo+'">\
                         </li>';
                             $('.groupMapMember ul').append(sDom);
                         }
@@ -762,7 +762,7 @@ function getGroupList(accountID){
                     var curGroup = groupArr[i];
                     sHTML+='<li targetid="'+curGroup.id+'">'+
                     '<div>'+
-                    '<img class="groupImg" src="'+globalVar.imgSrc+'group_chart.png" alt="">'+
+                    '<img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
                     '<em class="groupInlineNum">(15/'+curGroup.volumeuse+')</em>'+
@@ -824,7 +824,7 @@ function changeClick1Content(data){
         if(data[i].logo){
             var imgHTML = '<img src="'+globalVar.imgSrc+sHeadImg+'" alt="">';
         }else{
-            var imgHTML = '<img src="'+globalVar.imgSrc+'PersonImg.png" alt="">';
+            var imgHTML = '<img src="'+globalVar.defaultLogo+'" alt="">';
 
         }
         sHTML += '<li id="'+data[i].id+'" account="'+data[i].account+'">'+
@@ -849,7 +849,7 @@ function changeClick1Content(data){
 //点击的是成员
 function changeClick2Content(data){
     var sName=data.name ||'';
-    var sHeadImg=data.logo ||'PersonImg.png';
+    var sHeadImg=globalVar.imgSrc+data.logo ||globalVar.defaultLogo;
     var sTel=data.telephone ||'';
     var sEmail=data.email ||'';
     var sJob=data.postitionname ||'';
@@ -857,7 +857,7 @@ function changeClick2Content(data){
     var sAddress=data.address||'';
     var sHTML = '<div class="personalDetailContent">'+
                 '<div class="selfImgInfo">'+
-                    '<img src="'+globalVar.imgSrc+sHeadImg+'" alt=""/><div>'+
+                    '<img src="'+sHeadImg+'" alt=""/><div>'+
                 '<p>'+sName+'</p>'+
                 '<ul class="selfImgOpera">'+
                     '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
@@ -921,7 +921,7 @@ function getMemberFriends(account,callback){
             var account = myData[i].account;
             var fullname = myData[i].fullname;
             var workno = myData[i].workno?' ('+myData[i].workno+')':''
-            var logo = myData[i].logo?globalVar.imgSrc+myData[i].logo:'page/web/css/img/touxiang.png';
+            var logo = myData[i].logo?globalVar.imgSrc+myData[i].logo:globalVar.defaultLogo;
             var curData = myData[i];
             sHTML += ' <li account="'+account+'" targetid="'+myData[i].id+'">'+
             '<div>'+
@@ -1089,7 +1089,7 @@ function createOrganizList(data,sHTML,level){
         }
         if(oData.flag==1){
             if(oData.logo){
-                var imgSrc = oData.logo;
+                var imgSrc = globalVar.imgSrc+imgSrc;
 
             }else{
                 var imgSrc = globalVar.defaultLogo;
@@ -1097,14 +1097,14 @@ function createOrganizList(data,sHTML,level){
 
 
         }else{
-            var imgSrc = globalVar.defaultDepLogo
+            var imgSrc = globalVar.defaultDepLogo;
 
         }
         console.log('oData',oData);
         sHTML += '<li class="'+state+'" id="'+oData.id+'">'+
                     '<div level="">'+
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
-                    '<img class="groupImg" src="'+globalVar.imgSrc+imgSrc+'" alt="">'+
+                    '<img class="groupImg" src="'+imgSrc+'" alt="">'+
                     '<span class="groupName">'+oData.name+'</span>'+collspan+''+
                     //'<span class="groupCollspanO chatLeftIcon groupCollspan"></span>'+collspan+''+
                     '</div>'+

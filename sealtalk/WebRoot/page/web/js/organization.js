@@ -94,11 +94,11 @@ $(function(){
 
                             for(var i = 0;i<datas.length;i++){
                                 if(datas[i].logo){
-                                    var imgsrc = datas[i].logo
+                                    var imgsrc = globalVar.imgSrc+datas[i].logo
                                 }else{
                                     imgsrc = globalVar.defaultLogo;
                                 }
-                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+globalVar.imgSrc+imgsrc+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
+                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+imgsrc+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
                             }
                             var sHTML = ' <div class="searchResult">'+
                                         '<ul class="searchResultUL">'+liHTML+

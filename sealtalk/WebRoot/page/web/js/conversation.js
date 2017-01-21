@@ -250,20 +250,9 @@ function ondayTime(sCurrentTime,sContrastTime){
     //var sDateHoursTime=changeTimeFormat(sContrastTime,'yh');
 }
 function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
-    //switch(targetType){
-    //    case 'GROUP':
-    //        sendAjax('group!listGroupMemebers',{groupid:sTargetId},function(data) {
-    //            var oGroupidList = JSON.parse(data);
-    //            var aMember=oGroupidList.text;
-    //
-    //        });
-    //        break;
-    //    case 'PRIVATE':
-    //        break;
-    //}
     if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
-        var sImg=oData.logo || 'PersonImg.png';
+        var sImg=globalVar.imgSrc+oData.logo || globalVar.defaultLogo;
         if(extra=="uploadFile"){
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sendMsg = JSON.parse(sContent);
@@ -290,7 +279,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
             sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">\
-                    <img src="upload/images/'+sImg+'">\
+                    <img src="'+sImg+'">\
                     <div class="mr-chatBox">\
                     <span>' + str + '</span>\
                     <i></i>\
@@ -459,7 +448,7 @@ function getGroupDetails(groupId){
             var sCreatorId=aText[i].creatorId;//群创建者id
             var sCreatedate=subTimer(aText[i].createdate);//创建时间
             var oCreator=findMemberInList(sCreatorId);
-            var sImg=oCreator.logo || 'PersonImg.png';
+            var sImg=globalVar.imgSrc+oCreator.logo || globalVar.defaultLogo;
             sDom+='<ul class="groupInfo">\
                 <li class="groupInfo-name">\
             <span>群组名称：</span>\
@@ -471,7 +460,7 @@ function getGroupDetails(groupId){
             </li>\
             <li class="groupInfo-Controller">\
             <span>群主/管理员：</span>\
-            <img src="'+globalVar.imgSrc+sImg+'">\
+            <img src="'+sImg+'">\
             </li>\
             <li class="groupInfo-disturb">\
             <span>消息免打扰：</span>\
@@ -505,9 +494,9 @@ function getGroupMembersList(groupid){
                 var oCreator=findMemberInList(aMember[i]);
                 var sMemberName=oCreator.name;
                 var sJob=oCreator.account;
-                var sImg=oCreator.logo || 'PersonImg.png';
+                var sImg=globalVar.imgSrc+oCreator.logo || globalVar.defaultLogo;
                 sDom+=' <li>\
-                            <img src="'+globalVar.imgSrc+sImg+'">\
+                            <img src="'+sImg+'">\
                             <p>'+sMemberName+'('+sJob+')</p>\
                             </li>';
             }
@@ -734,10 +723,10 @@ function usualChatList(list){
             var member = findMemberInList(targetId);
             if(member){
                 //console.log('member',member);
-                var logo = member.logo || 'PersonImg.png';
+                var logo = member.logo?globalVar.imgSrc+member.logo:globalVar.defaultLogo;
                 var name = member.name || '';
                 sHTML += ' <li targetid="'+targetId+'" targetType="PRIVATE">'+
-                '<div><img class="groupImg" src="'+globalVar.imgSrc+logo+'" alt=""/>'+
+                '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
                 sNum+
                 '<span class="groupName">'+name+'</span>'+
                 '<span class="usualLastMsg">'+content+'</span>'+
@@ -749,7 +738,7 @@ function usualChatList(list){
             var curGroup = groupInfo(targetId);
             //if(curGroup){
                 sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-                '<div><img class="groupImg" src="'+globalVar.imgSrc+'group_chart.png" alt=""/>'+
+                '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
                 sNum+
                 '<span class="groupName">'+curGroup.name+'</span>'+
                 '<span class="usualLastMsg">'+content+'</span>'+
