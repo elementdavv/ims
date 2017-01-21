@@ -407,9 +407,10 @@ $(function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.text.id;
-        /*sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:0},function(data){
+        sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:0},function(data){
             var aDatas=JSON.parse(data);
-        });*/
+            console.log(aDatas);
+        });
         var map = new AMap.Map('container', {
             center: [116.480983, 39.989628],
             zoom: 10
@@ -449,6 +450,13 @@ $(function(){
         $('.perSetBox-title span').html(groupName);
         $('.groupMap').attr('targetID',targetID);
         $('.groupMap').attr('targetType',targeType);
+        var sData=window.localStorage.getItem("datas");
+        var oData= JSON.parse(sData);
+        var sId=oData.text.id;
+        sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:1},function(data){
+            var aDatas=JSON.parse(data);
+            console.log(aDatas);
+        });
         var map = new AMap.Map('container', {
             center: [116.480983, 39.989628],
             zoom: 10
@@ -827,8 +835,10 @@ function changeClick1Content(data){
     var sHTML = '<div class="orgNavTitle">标题</div><ul>';
         //console.log('+++++++++++++++++++',data);
     for(var i = 0;i<data.length;i++){
+        var sHeadImg=data[i].logo || 'PersonImg.png';//头像
+        var sName=data[i].name||'';//姓名
         if(data[i].logo){
-            var imgHTML = '<img src="'+data[i].logo+'" alt="">';
+            var imgHTML = '<img src="'+sHeadImg+'" alt="">';
         }else{
             var imgHTML = '<img src="/sealtalk/page/web/css/img/PersonImg.png" alt="">';
 
@@ -838,7 +848,7 @@ function changeClick1Content(data){
         imgHTML+
         '</div>'+
         '<div class="showPersonalInfo">'+
-        '<span>'+data[i].name+'</span>'+
+        '<span>'+sName+'</span>'+
         '<ul class="personalOperaIcon">'+
         '<li class="sendMsg"></li>'+
         '<li class="checkPosition"></li>'+
@@ -854,20 +864,27 @@ function changeClick1Content(data){
 
 //点击的是成员
 function changeClick2Content(data){
+    var sName=data.name ||'';
+    var sHeadImg=data.logo ||'PersonImg.png';
+    var sTel=data.telephone ||'';
+    var sEmail=data.email ||'';
+    var sJob=data.postitionname ||'';
+    var sGroupuse=data.groupuse ||'';
+    var sAddress=data.address||'';
     var sHTML = '<div class="personalDetailContent">'+
                 '<div class="selfImgInfo">'+
-                    '<img src="'+data.logo+'" alt=""/><div>'+
-                '<p>'+data.name+'</p>'+
+                    '<img src="'+sHeadImg+'" alt=""/><div>'+
+                '<p>'+sName+'</p>'+
                 '<ul class="selfImgOpera">'+
                     '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
                 '</ul></div></div><div class="showPersonalInfo" targetID="'+data.id+'" targetTpe="PRIVATE">'+
                 '<ul>'+
-                    '<li><div>手机:</div><div>'+data.telephone+'</div></li>'+
-                    '<li><div>邮箱:</div><div>'+data.email+'</div></li>'+
-                    '<li><div>部门:</div><div>'+data.telephone+'</div></li>'+
-                    '<li><div>职位:</div><div>'+data.postitionname+'</div></li>'+
-                    '<li><div>组织:</div><div>'+data.groupuse+'</div></li>'+
-                    '<li><div>地址:</div><div>'+data.address+'</div></li>'+
+                    '<li><div>手机:</div><div>'+sTel+'</div></li>'+
+                    '<li><div>邮箱:</div><div>'+sEmail+'</div></li>'+
+                    '<li><div>部门:</div><div>'+sTel+'</div></li>'+
+                    '<li><div>职位:</div><div>'+sJob+'</div></li>'+
+                    '<li><div>组织:</div><div>'+sGroupuse+'</div></li>'+
+                    '<li><div>地址:</div><div>'+ sAddress+'</div></li>'+
                 '</ul></div></div></div></div>';
     return sHTML;
 }
@@ -995,15 +1012,20 @@ function remove(arr,dx)
 
 function showMemberInfo(data,pos){
     //console.log('=================',data);
+    var sName=data.name ||'';
+    var sHeadImg=data.logo ||'PersonImg.png';
+    var sTel=data.telephone ||'';
+    var sEmail=data.email ||'';
+    var sJob=data.postitionname ||'';
     var sHTML = '<div class="memberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
                     '<div class="contextTri"></div>'+
                     '<ul class="memberInfoHover">'+
                         '<li>'+
                             '<div class="showImgInfo">'+
-                                '<img src="'+data.logo+'" alt="">'+
+                                '<img src="upload/images/'+sHeadImg+'" alt="">'+
                             '</div>'+
                             '<div class="showPersonalInfo" targetID="'+data.id+'"targetType="PRIVATE">'+
-                                '<span>'+data.name+'</span>'+
+                                '<span>'+sName+'</span>'+
                                 '<ul class="personalOperaIcon">'+
                                     '<li class="sendMsg"></li>'+
                                     '<li class="checkPosition"></li>'+
@@ -1011,10 +1033,10 @@ function showMemberInfo(data,pos){
                                 '</ul>'+
                             '</div>'+
                         '</li>'+
-                        '<li><span>手机：</span><span>'+data.telephone+'</span></li>'+
-                        '<li><span>邮箱：</span><span>'+data.email+'</span></li>'+
-                        '<li><span>部门：</span><span>'+data.email+'</span></li>'+
-                        '<li><span>职位：</span><span>'+data.postitionname+'</span></li>'+
+                        '<li><span>手机：</span><span>'+sTel+'</span></li>'+
+                        '<li><span>邮箱：</span><span>'+sEmail+'</span></li>'+
+                        '<li><span>部门：</span><span>'+sEmail+'</span></li>'+
+                        '<li><span>职位：</span><span>'+sJob+'</span></li>'+
                     '</ul>'+
                 '</div>';
     $('body').append($(sHTML));

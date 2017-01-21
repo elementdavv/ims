@@ -238,11 +238,12 @@ $(document).ready(function(){
                 $('.bMg-preserve').addClass('chatHide');
             }
         });
+    //点击保存头像
     $('#crop-avatar').on('click','.bMg-preserve .bMg-keepImg',function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.text.id;
-        var picname;
+        var picname='';
         var nDelImg;
         $('.bMg-cropImgSet .bMg-imgList li').each(function(index){
             if($(this).hasClass('active')){
@@ -250,15 +251,31 @@ $(document).ready(function(){
                 nDelImg=index;
             }
         });
-        sendAjax('upload!secUserLogos',{userid:sId,picname:picname},function(data){
-            var oDatas=JSON.parse(data);
-            if(oDatas.code==1){
-                $('#personSettingId .perSetBox-head').attr('src','upload/images/'+picname);
-                $('.bMgMask').addClass('chatHide');
-                $('#crop-avatar').addClass('chatHide');
+       if(!picname){
+           new Window().alert({
+               title   : '',
+               content : '请选择一个照片作为您的头像！！！',
+               hasCloseBtn : false,
+               hasImg : true,
+               textForSureBtn : false,
+               textForcancleBtn : false,
+               autoHide:true
+           });
+           return false;
+       }else{
+           sendAjax('upload!secUserLogos',{userid:sId,picname:picname},function(data){
+               var oDatas=JSON.parse(data);
+               if(oDatas.code==1){
+                   $('#personSettingId .perSetBox-head').attr('src','upload/images/'+picname);
+                   $('.bMgMask').addClass('chatHide');
+                   $('#crop-avatar').addClass('chatHide');
+                   oData.text.logo=picname;
+                   var sNewData=JSON.stringify(oData);
+                   localStorage.setItem("datas",sNewData);
 
-            }
-        });
+               }
+           });
+       }
     });
     $('#crop-avatar').on('click','.bMg-confirm .bMg-cancel',function(){
         $('.bMg-cropImgSet').removeClass('chatHide');
@@ -293,6 +310,8 @@ $(document).ready(function(){
     $('#crop-avatar').on('click','.bMg-cropImgSet .bMg-imgList li',function(){
         $('.bMg-cropImgSet .bMg-imgList li').removeClass('active');
         $(this).addClass('active');
+        var sSelImg=$(this).attr('data-name');
+        $('.avatar-preview img').attr('src','upload/images/'+sSelImg);
     });
     //getGroupMembersList(1);
 });
@@ -546,6 +565,7 @@ function getHeadImgList(){
     var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
     var sId=oData.text.id;
+    var sSelfImg=oData.text.logo;
     sendAjax('upload!getUserLogos',{userid:sId},function(data){
         var oDatas=JSON.parse(data);
         var aImgList=oDatas.text;
@@ -554,9 +574,15 @@ function getHeadImgList(){
            if(aImgList.length>0){
                for(var i=0;i<aImgList.length;i++){
                    var sImg=aImgList[i];
-                   sDom+='<li data-name="'+sImg+'">\
+                   if(sSelfImg==sImg){
+                       sDom+='<li data-name="'+sImg+'" class="active">\
                    <img src="upload/images/'+sImg+'"/>\
                    </li>';
+                   }else{
+                       sDom+='<li data-name="'+sImg+'">\
+                   <img src="upload/images/'+sImg+'"/>\
+                   </li>';
+                   }
                }
                $('.bMg-cropImgSet .bMg-imgList').empty();
                $('.bMg-cropImgSet .bMg-imgList').append(sDom);

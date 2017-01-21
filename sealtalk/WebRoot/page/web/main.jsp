@@ -675,9 +675,8 @@
         </div>
         <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
             <div class="personalDetailContent">
-
-                <%--<div class="selfImgInfo">--%>
-                    <%--<img src="css/img/PersonImg.png" alt=""/>--%>
+                <div class="selfImgInfo">
+                    <img src="page/web/css/img/1.jpg" alt=""/>
 
                     <%--<div>--%>
                         <%--<p>张三</p>--%>
@@ -838,7 +837,7 @@
                     </div>
                     <div class="bMg-button clearfix bMg-confirm chatHide">
                         <b class="bMg-cancel">取消</b>
-                        <button class="avatar-save btnSave" type="submit">确认</button>
+                        <button class="avatar-save btnSave" type="submit">保存</button>
                     </div>
                     <div class="bMg-button clearfix  bMg-preserve">
                         <b class="bMg-cancel">取消</b>
