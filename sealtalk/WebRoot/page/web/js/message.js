@@ -619,7 +619,8 @@ $(function(){
                                         var data = JSON.parse(datas);
                                         var userid = data.text.id;
                                     sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
-                                        getGroupList(userid)
+                                        getGroupList(userid);
+                                        removeConvers("GROUP",groupid);
                                     },function(){
                                         console.log('失败');
                                     })
@@ -930,15 +931,10 @@ function getBranchTreeAndMember(){
 //获取常用联系人
 function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
-        //console.log(data);
         window.localStorage.MemberFriends = data;
         var myData = JSON.parse(data);
-        //console.log('获取常用联系人',myData);
-        //var myData = changeFormat(data);
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
-        //var memberInfos = [];
-        //var member = {};
         for(var i = 0;i<myData.length;i++){
             var account = myData[i].account;
             var fullname = myData[i].fullname;

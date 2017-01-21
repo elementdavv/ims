@@ -820,8 +820,8 @@
                         </div>
                         <div class="bMg-previewImg">
                             <div class="avatar-preview preview-lg">
-                                    <img src="" class="bMg-selImg">
-                            </div>
+    <img src="/sealtalk/page/web/css/img/1.jpg" class="bMg-selImg">
+    </div>
                             <div class="bMg-gravityImg">
                         <span >
                             添加
@@ -869,7 +869,7 @@
             </div>
                 <div class="bMg-previewImg">
                     <div class="avatar-preview preview-lg">
-                        <img src="page/web/css/img/1.jpg" class="bMg-selImg">
+                        <img src="/sealtalk/page/web/css/img/1.jpg" class="bMg-selImg">
                     </div>
                     <div class="bMg-gravityImg">
                         <span >

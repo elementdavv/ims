@@ -70,6 +70,7 @@ function conversationGroup(targetID,targetType,groupName){
             // throw new ERROR ......
         }
     });
+    $('.message-content').html();
     $('.perSetBox-title span').html(groupName);
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
@@ -397,10 +398,7 @@ function conversationSelf(targetID,targetType){
             }
         });
    }
-    //$('.textarea').click(function(){
-    //    $(this).attr('contenteditable','true')
-    //})
-    //$('.rongyun-emoji span').off('click');
+    $('.message-content').html();
     $('.rongyun-emoji>span').off('click')
     $('.rongyun-emoji>span').on('click',function(){
         $('.textarea b').attr('contenteditable','false');
@@ -749,19 +747,18 @@ function usualChatList(list){
             }
         }else if(conversationType==3){
             var curGroup = groupInfo(targetId);
-            //console.log(curGroup)
-            sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-            '<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>'+
-            sNum+
-            '<span class="groupName">'+curGroup.name+'</span>'+
-            '<span class="usualLastMsg">'+content+'</span>'+
-            '<span class="lastTime">'+lastTime+'</span>'+
-            '</div>'+
-            '</li>'
+            //if(curGroup){
+                sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
+                '<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>'+
+                sNum+
+                '<span class="groupName">'+curGroup.name+'</span>'+
+                '<span class="usualLastMsg">'+content+'</span>'+
+                '<span class="lastTime">'+lastTime+'</span>'+
+                '</div>'+
+                '</li>'
+            //}
         }
-
     }
-
     $('.usualChatListUl').html(sHTML);
 }
 
