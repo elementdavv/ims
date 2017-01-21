@@ -19,7 +19,7 @@ import com.sealtalk.utils.StringUtils;
  * @date 2017/01/11
  *
  */
-@Secured
+
 public class UserServiceAction extends BaseAction {
 
 	private static final long serialVersionUID = 7812442221327984861L;

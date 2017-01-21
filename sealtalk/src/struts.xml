@@ -8,7 +8,7 @@
     <constant name="struts.i18n.encoding" value="UTF-8"/>
     <!-- @Secured -->
    <!-- <constant name="struts2.sslplugin.httpPort" value="8085" />-->
-    <constant name="struts2.sslplugin.httpsPort" value="8443" />
+   <!-- <constant name="struts2.sslplugin.httpsPort" value="8443" /> --> 
     <!-- constant name="struts.multipart.maxSize" value="1000000000"/-->
 	
 	<include file="struts-default.xml" />
@@ -22,6 +22,7 @@
     <include file="struts-upload.xml" />
     <include file="struts-map.xml" />
     <include file="strutst-test.xml" />
+    <include file="strutst-privilege.xml" />
     
 </struts>
 

@@ -22,6 +22,7 @@
 	    	classpath:admin.xml,
 	    	classpath:member.xml,
 	    	classpath:friend.xml,
+		    classpath:privilege.xml,
 	    	classpath:system.xml,
 	    	classpath:message.xml,
 	    	classpath:group.xml,

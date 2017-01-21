@@ -19,12 +19,27 @@ public interface MapDao extends IBaseDao<TMap, Long> {
 	 * @param targetIdInt
 	 * @return
 	 */
-	public List<Object[]> getLocationForGroupId(int[] targetIdInt);
+	public List<Object[]> getLocationForMultId(String targetIdInt);
 
 	/**
 	 * 提交个人位置
 	 * @param tm
 	 */
-	public void subLocation(TMap tm);
+	public void saveLocation(TMap tm);
+
+	/**
+	 * 获取坐标模型
+	 * @param userId
+	 * @return
+	 */
+	public TMap getLaLongtitudeForUserId(int userId);
+
+	/**
+	 * 更新坐标
+	 * @param userId
+	 * @param latitude
+	 * @param longtitude
+	 */
+	public void updateLocation(int userId, String latitude, String longtitude);
 
 }

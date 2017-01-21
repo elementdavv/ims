@@ -91,6 +91,7 @@
 				<value>com/sealtalk/model/TDontDistrub.hbm.xml</value>
 				<value>com/sealtalk/model/TextCode.hbm.xml</value>
 				<value>com/sealtalk/model/TCutLogoTemp.hbm.xml</value>
+				<value>com/sealtalk/model/TMap.hbm.xml</value>
 			</list>
 		</property>
 		

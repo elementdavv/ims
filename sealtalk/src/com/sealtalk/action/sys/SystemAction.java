@@ -1,7 +1,6 @@
 package com.sealtalk.action.sys;
 
 import java.io.IOException;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 
@@ -13,10 +12,11 @@ import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.common.Constants;
 import com.sealtalk.common.Tips;
-import com.sealtalk.model.TextCode;
+import com.sealtalk.model.SessionPrivilege;
 import com.sealtalk.model.SessionUser;
 import com.sealtalk.model.TMember;
 import com.sealtalk.service.member.MemberService;
+import com.sealtalk.service.privilege.PrivilegeService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.MathUtils;
 import com.sealtalk.utils.PropertiesUtils;
@@ -31,7 +31,7 @@ import com.sealtalk.utils.TimeGenerator;
  * @author hao_dy
  *
  */
-@Secured
+
 public class SystemAction extends BaseAction {
 	
 	private static final long serialVersionUID = -3901445181785461508L;
@@ -122,8 +122,9 @@ public class SystemAction extends BaseAction {
 			su.setToken(token);
 		}
 		
-		//2.相关权限信息
-		//code...
+		//2.相关权限信息	
+		SessionPrivilege sp = privilegeService.setPrivilege(account);
+		
 		
 		setSessionUser(su);
 		
@@ -312,11 +313,16 @@ public class SystemAction extends BaseAction {
 	}
 	
 	private MemberService memberService;
+	private PrivilegeService privilegeService;
 	
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
 	
+	public void setPrivilegeService(PrivilegeService privilegeService) {
+		this.privilegeService = privilegeService;
+	}
+
 	private String account;
 	private String userpwd;
 	private String oldpwd;

@@ -5,14 +5,13 @@
 
 <struts>
 
-    <!--  <package name="com.sealtalk.action.map" extends="ssl-default">-->
-   <package name="com.sealtalk.action.adm" extends="struts-default">
-        <!-- 地图-->
-        <action name="map" class="com.sealtalk.action.map.MapAction">
+   <!--  <package name="com.sealtalk.action.test" extends="ssl-default">-->
+    <package name="com.sealtalk.action.upload" extends="struts-default">
+        <action name="privilege" class="com.sealtalk.action.test.PrivilegeAction">
         	<result name="text" type="stream">
-        		<param name="contentType">text/plain</param>
+				<param name="contentType">text/plain</param>
 				<param name="inputName">inputStream</param>
-        	</result>
+			</result>
         </action>
     </package>
    

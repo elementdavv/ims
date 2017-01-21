@@ -1,9 +1,10 @@
 package com.sealtalk.dao.map.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.map.MapDao;
@@ -37,9 +38,8 @@ public class MapDaoImpl extends BaseDao<TMap, Long> implements MapDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> getLocationForGroupId(int[] targetIdInt) {
+	public List<Object[]> getLocationForMultId(String targetIdInt) {
 		try {
-			List<Object[]> ret = new ArrayList<Object[]>();
 			String hql = "select MEM.id, MEM.logo, MAP.latitude, MAP.longitude from t_member MEM inner join t_map MAP on MEM.id=MAP.user_id where MEM.id in(" + targetIdInt + ")";
 			
 			SQLQuery query = getSession().createSQLQuery(hql);
@@ -59,12 +59,46 @@ public class MapDaoImpl extends BaseDao<TMap, Long> implements MapDao {
 
 
 	@Override
-	public void subLocation(TMap tm) {
+	public void saveLocation(TMap tm) {
 		try {
 			save(tm);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public TMap getLaLongtitudeForUserId(int userId) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("userId", userId));
+			
+			List<TMap> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list.get(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+
+	@Override
+	public void updateLocation(int userId, String latitude, String longtitude) {
+		try {
+			String hql = "update TMap tm set tm.latitude='" + latitude + "', tm.longitude='" + longtitude + "' where userId=" + userId;
+			
+			update(hql);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 

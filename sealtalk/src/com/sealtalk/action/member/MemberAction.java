@@ -17,7 +17,7 @@ import com.sealtalk.service.member.MemberService;
  * @since jdk1.7
  * @date 2017/01/07
  */
-@Secured
+
 public class MemberAction extends BaseAction {
 
 	private static final long serialVersionUID = -9024506148523628104L;

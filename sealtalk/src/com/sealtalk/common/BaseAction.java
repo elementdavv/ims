@@ -3,7 +3,6 @@ package com.sealtalk.common;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.sealtalk.model.TextCode;
+import com.sealtalk.model.SessionPrivilege;
 import com.sealtalk.model.SessionUser;
 import com.sealtalk.utils.StringUtils;
 
@@ -160,7 +159,17 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		}
 	}
 	
-	
+	/** 设置当前会话的用户包装类 */
+	protected void setSessionPrivilege(SessionPrivilege su)
+	{
+		if (request == null) {
+			WebContext ctx = WebContextFactory.get();
+			HttpSession session = ctx.getSession(false);
+			session.setAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGECODE, su);
+		} else {
+			request.getSession().setAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGECODE, su);
+		}
+	}
 	
 	/** 设置当前会话的用户包装类 */
 	protected void setSessionUser(SessionUser su)
