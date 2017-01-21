@@ -9,7 +9,6 @@ $(function(){
     if(sAccount){
         var oAccount = JSON.parse(sAccount);
         var token = oAccount.token;
-        console.log(token);
 
 
         // 设置连接监听状态 （ status 标识当前连接状态）

@@ -307,7 +307,7 @@ function fPersonalSet(){
     var sEmail=oData.text.email;//邮箱
     var sTelephone=oData.text.telephone;//电话
     var sSign=oData.text.sex;//工作签名
-    var sHeaderImg=oData.text.logo|| 'PersonImg.png';//头像
+    var sHeaderImg=oData.text.logo|| '/sealtalk/page/web/css/img/PersonImg.png';//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
@@ -372,7 +372,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     var sCreatorId=oGroupInfo.creatorId;//群创建者id
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
     var oCreator=findMemberInList(sCreatorId);
-    var sImg=oCreator.logo || 'PersonImg.png';
+    var sImg=oCreator.logo || '/sealtalk/page/web/css/img/PersonImg.png';
     //console.log(findMemberInList(sCreatorId));
     //var aCreatedate=sCreatedate.join('-');
     var sHTML ='<div class="groupDataBox" style="left:'+pos.left+'px;top:'+pos.top+'px">\

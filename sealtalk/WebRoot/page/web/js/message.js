@@ -829,7 +829,7 @@ function changeClick1Content(data){
         if(data[i].logo){
             var imgHTML = '<img src="'+data[i].logo+'" alt="">';
         }else{
-            var imgHTML = '<img src="page/web/css/img/PersonImg.png" alt="">';
+            var imgHTML = '<img src="/sealtalk/page/web/css/img/PersonImg.png" alt="">';
 
         }
         sHTML += '<li id="'+data[i].id+'" account="'+data[i].account+'">'+
@@ -893,9 +893,9 @@ function getBranchTreeAndMember(){
         window.localStorage.normalInfo = data;
         var datas = JSON.parse(data);
         if(datas && data.length!=0){
-            console.log(data);
+            //console.log(data);
             var myData = changeFormat(data);
-            console.log(myData);
+            //console.log(myData);
 
             if(myData){
                 window.localStorage.getBranchTree = JSON.stringify(myData);
@@ -914,7 +914,7 @@ function getMemberFriends(account,callback){
         //console.log(data);
         window.localStorage.MemberFriends = data;
         var myData = JSON.parse(data);
-        console.log('获取常用联系人',myData);
+        //console.log('获取常用联系人',myData);
         //var myData = changeFormat(data);
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
@@ -1036,8 +1036,8 @@ function changeFormat(data){
     var data = JSON.parse(data);
 
     data.sort(compare('pid'))
-    console.log('sort');
-    console.log(data);
+    //console.log('sort');
+    //console.log(data);
     for(var i = 0;i<data.length;i++){
         data[i].hasChild = [];
     }
