@@ -14,17 +14,6 @@
 
     'use strict';
    //点击是否显示网格
-    $('#showGrid').click(function(){
-        if($('.cropper-crop-box').hasClass('cropper-hidden')){
-            $('.cropper-crop-box').removeClass('cropper-hidden');
-        }else{
-            $('.cropper-crop-box').addClass('cropper-hidden');
-        }
-    });
-    $('#bMg-closeBtn').click(function(){
-        $('#iqs_iframe',parent.document).attr('src','');
-        $('#iqs_iframe',parent.document).addClass('chatHide');
-    });
     var console = window.console || { log: function () {} };
     function CropAvatar($element) {
         this.$container = $element;
