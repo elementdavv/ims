@@ -77,6 +77,16 @@ body{
     margin-left:42px;
     float:left;
 }
+.bMg-changImgSize .bMg-promptExp{
+    width:100%;
+    font-size:12px;
+  line-height:12px;
+    padding-top:18px;
+    color:rgb(128,128,128);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .bMg-previewImg{
     margin-right:42px;
     float:right;
@@ -93,15 +103,21 @@ body{
     border-radius: 100%;
     margin-bottom:90px;
 }
+.bMg-gravityImg{
+    visibility: visible;
+}
+.bMg-gravityImg.active{
+    visibility: hidden;
+}
 .bMg-gravityImg span{
     position: relative;
     overflow: hidden;
     display:block;
     width:88px;
-    height:30px;
+    height:32px;
     border:1px solid #e6e6e6;
     text-align: center;
-    line-height:30px;
+    line-height:32px;
     background: #fff;
     font-size:14px;
     color:rgb(51,51,51);
@@ -132,6 +148,23 @@ body{
     margin-left:20px;
     border-radius: 5px;
     color:#30c0da;
+}
+.bMg-button .btnSave{
+    float: left;
+    width:108px;
+    height:32px;
+    border:1px solid #30c0da;
+    text-align: center;
+    line-height:32px;
+    background: #fff;
+    margin-left:20px;
+    border-radius: 5px;
+    color:#30c0da;
+    outline: none;
+}
+.bMg-button .btnSave:hover{
+    background:#30c0da;
+    color:#fff;
 }
 .bMg-button b:hover{
     background:#30c0da;
@@ -272,12 +305,10 @@ body{
 }
 
 .avatar-preview {
-    float: left;
-    margin-top: 15px;
-    margin-right: 15px;
-    border: 1px solid #eee;
     border-radius: 4px;
-    background-color: #fff;
+    float: right;
+   /* float: left;
+    background-color: #fff;*/
     overflow: hidden;
 }
 
@@ -293,8 +324,8 @@ body{
 .preview-lg {
     height:80px;
     width: 80px;
-    margin-top: 15px;
     border-radius: 50%;
+    margin:0 0 100px;
 }
 
 .preview-md {
@@ -308,9 +339,9 @@ body{
 }
 
 @media (min-width: 992px) {
-    .avatar-preview {
+    /*.preview-lg {
         float: none;
-    }
+    }*/
 }
 
 .avatar-btns {
@@ -351,4 +382,19 @@ body{
 .cropper-modal{
     /*background-color: #fff !important;*/
     /*opacity:0 !important;*/
+}
+.bMg-ImgContainer .bMg-imgList li{
+    float:left;
+    width:50px;
+    height:50px;
+    margin-left:8px;
+    margin-top:8px;
+}
+.bMg-ImgContainer .bMg-imgList li.active{
+    box-shadow: 0 0  5px 2px #000;
+}
+.bMg-ImgContainer .bMg-imgList li img{
+    display: block;
+    width:100%;
+    height:100%;
 }

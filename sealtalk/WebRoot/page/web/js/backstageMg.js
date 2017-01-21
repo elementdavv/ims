@@ -43,8 +43,12 @@ $(document).ready(function(){
         $('.perSetBox').eq($(this).index()).removeClass('chatHide');
     });
     $('#chatBox').on('click','#changeHeadImgId',function(){
-        $('#iqs_iframe').attr('src','page/web/clipImg.jsp');
-        $('#iqs_iframe').removeClass('chatHide');
+        $('.bMgMask').removeClass('chatHide');
+        $('#crop-avatar').removeClass('chatHide');
+        var sImgsrc=$('.perSetBox-rightCont img').attr('src');
+        $('#crop-avatar .avatar-view img').attr('src',sImgsrc);
+        $('.avatar-preview img').attr('src',sImgsrc);
+       getHeadImgList();
     });
     //首页
     $('#infoDetailsBox').on('click','.infoDet-pageQuery i',function(){
@@ -223,6 +227,72 @@ $(document).ready(function(){
                 $('.mesContainerSelf').removeClass('chatHide');
                 break;
         }
+    });
+        $('#avatarInput').change(function(e){
+            var file=e.target.files || e.dataTransfer.files;
+            if(file){
+                $('.bMg-cropImgSet').addClass('chatHide');
+                $('.bMg-cropImgBox').removeClass('chatHide');
+                $('.bMg-gravityImg').addClass('active');
+                $('.bMg-confirm').removeClass('chatHide');
+                $('.bMg-preserve').addClass('chatHide');
+            }
+        });
+    $('#crop-avatar').on('click','.bMg-preserve .bMg-keepImg',function(){
+        var sData=window.localStorage.getItem("datas");
+        var oData= JSON.parse(sData);
+        var sId=oData.text.id;
+        var picname;
+        var nDelImg;
+        $('.bMg-cropImgSet .bMg-imgList li').each(function(index){
+            if($(this).hasClass('active')){
+                picname=$(this).attr('data-name');
+                nDelImg=index;
+            }
+        });
+        sendAjax('upload!secUserLogos',{userid:sId,picname:picname},function(data){
+            var oDatas=JSON.parse(data);
+            if(oDatas.code==1){
+                $('#personSettingId .perSetBox-head').attr('src','upload/images/'+picname);
+                $('.bMgMask').addClass('chatHide');
+                $('#crop-avatar').addClass('chatHide');
+
+            }
+        });
+    });
+    $('#crop-avatar').on('click','.bMg-confirm .bMg-cancel',function(){
+        $('.bMg-cropImgSet').removeClass('chatHide');
+        $('.bMg-cropImgBox').addClass('chatHide');
+        $('.bMg-gravityImg').removeClass('active');
+        $('.bMg-confirm').addClass('chatHide');
+        $('.bMg-preserve').removeClass('chatHide');
+    });
+    $('#crop-avatar').on('click','.bMg-preserve .bMg-cancel,#bMg-closeBtn',function(){
+        $('.bMgMask').addClass('chatHide');
+        $('#crop-avatar').addClass('chatHide');
+    });
+    $('#crop-avatar').on('click','.bMg-gravityImg .bMg-delImg',function(){
+        var picname;
+        var nDelImg;
+        $('.bMg-cropImgSet .bMg-imgList li').each(function(index){
+            if($(this).hasClass('active')){
+                picname=$(this).attr('data-name');
+                nDelImg=index;
+            }
+        });
+        var sData=window.localStorage.getItem("datas");
+        var oData= JSON.parse(sData);
+        var sId=oData.text.id;
+        sendAjax('upload!delUserLogos',{userid:sId,picname:picname},function(data){
+            var oDatas=JSON.parse(data);
+            if(oDatas.code==1){
+                $('.bMg-cropImgSet .bMg-imgList li').eq(nDelImg).remove();
+            }
+        });
+    });
+    $('#crop-avatar').on('click','.bMg-cropImgSet .bMg-imgList li',function(){
+        $('.bMg-cropImgSet .bMg-imgList li').removeClass('active');
+        $(this).addClass('active');
     });
     //getGroupMembersList(1);
 });
@@ -469,6 +539,28 @@ function systemBeep(status){
                     eParent.removeClass('active');
                     break;
             }*/
+        }
+    });
+}
+function getHeadImgList(){
+    var sData=window.localStorage.getItem("datas");
+    var oData= JSON.parse(sData);
+    var sId=oData.text.id;
+    sendAjax('upload!getUserLogos',{userid:sId},function(data){
+        var oDatas=JSON.parse(data);
+        var aImgList=oDatas.text;
+        var sDom='';
+        if(oDatas.code==1){
+           if(aImgList.length>0){
+               for(var i=0;i<aImgList.length;i++){
+                   var sImg=aImgList[i];
+                   sDom+='<li data-name="'+sImg+'">\
+                   <img src="upload/images/'+sImg+'"/>\
+                   </li>';
+               }
+               $('.bMg-cropImgSet .bMg-imgList').empty();
+               $('.bMg-cropImgSet .bMg-imgList').append(sDom);
+           }
         }
     });
 }
