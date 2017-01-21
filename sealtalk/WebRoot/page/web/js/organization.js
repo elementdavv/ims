@@ -84,7 +84,6 @@ $(function(){
                 if(inputVal){
                     sendAjax('member!searchUser',{account:inputVal},function(data){
                         var datas = JSON.parse(data);
-                        //console.log(data);
                         var parentDom = $('.orgnized');
                         if(datas.length==0){
                             //没有用户
@@ -96,19 +95,22 @@ $(function(){
                                         '</ul>'+
                                         '</div>';
                             parentDom.append($(sHTML));
+                            $('.searchResult').show();
+                            setTimeout(function(){
+                                $('.searchResult').remove();
+                            },1000)
                         }else if(datas.length!=0){
                             //生成搜索结果
+                            var liHTML = '';
                             for(var i = 0;i<datas.length;i++){
-                                var liHTML = '<li><img src="'+datas[i].logo+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
+                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+datas[i].logo+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
                             }
-
                             var sHTML = ' <div class="searchResult">'+
-                                        '<ul class="searchResultUL">'+
-                                        +liHTML+
+                                        '<ul class="searchResultUL">'+liHTML+
                                         '</ul>'+
                                         '</div>'
                             parentDom.append($(sHTML));
-
+                            $('.searchResult').show();
                         }else{
                             console.log(datas.text);
                         }
@@ -118,6 +120,57 @@ $(function(){
             }
         })
     });
+    //targetAccount account
+
+    $('.orgnized').delegate('.searchResult','mouseleave',function(){
+        var _this = $(this)
+
+        setTimeout(function(){
+            _this.remove();
+        },1000)
+    })
+    $('.orgnized').delegate('.searchResultUL li','click',function(){
+        var targetAccount = $(this).attr('targetaccount');
+        var account = localStorage.getItem('account');
+        if(account){
+            var accpunts = JSON.parse(account);
+            var account = accpunts.account
+        }
+        if($('.usualChatList').find('li[account='+targetAccount+']').length==0){
+            sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
+                //var datas = JSON.parse(data);
+                //console.log(data);
+                //if(datas.code==1){
+                //刷新常用联系人
+                getMemberFriends(account,function(){
+                    $('.searchResult').remove();
+                    $('.chatHeaderMenu li')[0].click();
+                    $('.chatMenu .chatLeftIcon')[1].click();
+                    var targetDon = $('.usualChatList').find('li')
+                    targetDon.removeClass('active');
+                    var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+                    targetMember.addClass('active').click();
+                    var targetID = targetMember.attr('targetid');
+                    var targeType = 'PRIVATE';
+                    conversationSelf(targetID,targeType);
+                });
+            })
+        }else{
+            $('.searchResult').remove();
+            $('.chatHeaderMenu li')[0].click();
+            $('.chatMenu .chatLeftIcon')[1].click();
+            var targetDon = $('.usualChatList').find('li')
+            targetDon.removeClass('active');
+            var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+            targetMember.addClass('active').click();
+            var targetID = targetMember.attr('targetid');
+            var targeType = 'PRIVATE';
+            conversationSelf(targetID,targeType);
+        }
+    })
+
+
+
     $('.searchInput').blur(function(){
         $(this).val('');
         $('.defaultText').show();

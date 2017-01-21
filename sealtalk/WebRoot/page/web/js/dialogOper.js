@@ -2,6 +2,89 @@
  * Created by zhu_jq on 2017/1/9.
  */
 $(function(){
+
+    $('.contactBox').delegate('.contactSearchResult','mouseleave',function(){
+        var _this = $(this);
+        setTimeout(function(){
+            _this.remove();
+        },1000)
+    })
+    $('.contactBox').delegate('.contactSearchResult .dialogCheckBox','click',function(){
+        if($(this).parents('li').attr('editable')=='true'){
+            var targetId = $(this).closest('li').attr('id');
+            var targetLi = $('#contactBox .contactsList').find('li.member[id="'+targetId+'"]');
+
+            if($(this).hasClass('CheckBoxChecked')){//现状态是选中，取消选中（树中）并从已选联系人中移出
+                //converseACount.push(targetId);
+                targetLi.find('.dialogCheckBox').removeClass('CheckBoxChecked');
+                deleteElement(converseACount,targetId)
+                changeSelected(converseACount);
+            }else{//现状态是未选中，选中（树中）并添加到已选联系人
+                targetLi.find('.dialogCheckBox').addClass('CheckBoxChecked');
+                converseACount.push(targetId);
+                changeSelected(converseACount);
+            }
+        }
+    })
+
+    $('.contactsSearch').focus(function(){
+        var sAccount = localStorage.getItem('account');
+        var sdata = localStorage.getItem('datas');
+        var account = JSON.parse(sAccount).account;
+        var accountID = JSON.parse(sdata).text.id;
+        var _this = $(this);
+        _this.keypress(function(event) {
+            if (event.which == 13) {
+                $('.contactSearchResult').remove();
+                var keyWord = _this.val();
+                sendAjax('member!searchUser',{account:keyWord},function(data){
+                    var datas = JSON.parse(data);
+                    var parentDom = $('#contactBox');
+                    if(datas.length==0){
+                        //没有用户
+                        var sHTML = '';
+                        //for(var i = 0;i<datas.length;i++){
+                        sHTML = '<div class="contactSearchResult">没有搜索结果</div>'
+                        //}
+                        parentDom.append($(sHTML));
+                    }else if(datas.length!=0){
+                        //生成搜索结果
+                        var sHTML = '';
+                        console.log('converseACount',converseACount);
+
+                        for(var i = 0;i<datas.length;i++){
+                            if(hasItem(converseACount,datas[i].id)){
+                                var className = 'CheckBoxChecked'
+                            }else{
+                                var className = ''
+                            }
+                            if(accountID==datas[i].id){
+                                var editable = 'false';
+                            }else{
+                                var editable = 'true';
+                            }
+                            sHTML += '<li account="'+datas[i].account+'" id="'+datas[i].id+'" class="member" editable="'+editable+'">' +
+                            '<div level="1" class="department">' +
+                            '<span style="height: 20px;width: 0px;display:inline-block;float: left;"></span>' +
+                            '<span class="chatLeftIcon dialogCheckBox '+className+'"></span>' +
+                            '<span class="dialogGroupName">'+datas[i].name+'</span>' +
+                            '</div>' +
+                            '</li>';
+                        }
+                        var pHTML = '<ul class="contactSearchResult">'+sHTML+'</ul>';
+                        parentDom.append($(pHTML));
+
+                    }else{
+                        console.log(datas.text);
+                    }
+
+                })
+
+            }
+        })
+    })
+
+
     window.converseACount = [];
     //删除群租种的成员
     $('.selectedList').delegate('.deleteMemberIcon','click',function(){
@@ -130,7 +213,15 @@ function arrHasElement(converseACount,account){
     return bHas;
 }
 
-
+function hasItem(parentLevelarr,parentLevel){
+    var bhas = 0;
+    for(i = 0;i<parentLevelarr.length;i++){
+        if(parentLevel==parentLevelarr[i]){
+            bhas = 1;
+        }
+    }
+    return bhas;
+}
 
 function creatDialogTree(data,className,title,callback,selected){
     //console.log('00000');
@@ -170,6 +261,7 @@ function creatDialogTree(data,className,title,callback,selected){
 
         }
         dom.html(sHTML);
+        selectedNum(selected)
     }else{
         dom.html('');
     }
@@ -194,15 +286,32 @@ function deleteElement(arr,name,value){
     return curObj;
 }
 
-//修改select里面的成员
+//修改select里面的成员 以及已选联系人数量
 function changeSelected(converseACount){
+    //var sAccount = localStorage.getItem('account');
+    var sdata = localStorage.getItem('datas');
+    //var account = JSON.parse(sAccount).account;
+    var accountID = JSON.parse(sdata).text.id;
     var dom = $('.selectedList ul');
     var sHTML = '';
     for(var i = 0;i<converseACount.length;i++){
+        if(accountID==converseACount[i]){
+            var editable = 'false';
+        }else{
+            var editable = 'true';
+        }
         var name = findMemberInList(converseACount[i]).name;
-        sHTML+='<li memberID="'+converseACount[i]+'"><span class="memberName">'+name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
+        sHTML+='<li memberID="'+converseACount[i]+'" editable="'+editable+'"><span class="memberName">'+name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
     }
     dom.html($(sHTML));
+    selectedNum(converseACount);
+}
+
+function selectedNum(converseACount){
+    var selectNum = converseACount.length;
+    var parentDom = $('.selectedContactOuter .outerTitle em');
+    var sHTML = '('+selectNum+'/99)';
+    parentDom.html(sHTML);
 }
 
 

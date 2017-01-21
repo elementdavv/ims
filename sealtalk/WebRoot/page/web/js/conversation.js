@@ -2,6 +2,26 @@
  * Created by zhu_jq on 2017/1/12.
  */
 $(function(){
+
+    //点击会话标题上的地图跳到定位
+    $('.mr-Location').click(function(){
+        var $parentNode = $(this).parents('.mesContainer');
+        var targetType = $parentNode.attr('targettype');
+        var targetId = $parentNode.attr('targetid');
+        if(targetType=='PRIVATE'){
+            $('.chatMenu li')[1].click();
+            $('.usualChatList').find('li[targetid='+targetId+']').dblclick();
+        }else if(targetType=='GROUP'){
+            $('.chatMenu li')[1].click();
+            $('.groupChatList').find('li[targetid='+targetId+']').dblclick();
+        }
+
+
+    })
+
+
+
+    //文件拖拽上传
     var messageContent = document.getElementById('message-content');
     messageContent.ondragover = function(e){
         if (e.preventDefault) e.preventDefault();
@@ -97,12 +117,23 @@ function conversationGroup(targetID,targetType,groupName){
     $('.showEmoji').click(function(){
         $('.rongyun-emoji').show();
     });
+    //$('#message-content').unbind('click');
+    $('#message-content').click(function(){
+        $(this).keypress(function(event) {
+            if (event.which == 13) {
+                console.log(1111);
+            }
+        })
+    })
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
         var content = $(this).prev().html();
-        var targetId = $('.mesContainerGroup').attr('targetID');
-        var targetType = $('.mesContainerGroup').attr('targetType');
-        sendMsg(content,targetId,targetType)
+        if(content){
+            var targetId = $('.mesContainerGroup').attr('targetID');
+            var targetType = $('.mesContainerGroup').attr('targetType');
+            sendMsg(content,targetId,targetType)
+        }
+
     })
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
@@ -286,11 +317,8 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
     }
     return sDoM;
 }
-function conversationSelf(targetID,targetType){
-    //var target = targetID;
-    //噗页面 把targetID放进去
 
-   // var history = historyMsg(targetType,targetID);
+function fillSelfPage(targetID,targetType){
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, 0, 20, {
         onSuccess: function(list, hasMsg) {
             if(list.length==0 && !hasMsg){
@@ -311,7 +339,12 @@ function conversationSelf(targetID,targetType){
             // throw new ERROR ......
         }
     });
-    //console.log(history);
+}
+function conversationSelf(targetID,targetType){
+    //var target = targetID;
+    //噗页面 把targetID放进去
+    fillSelfPage(targetID,targetType);
+
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
@@ -382,14 +415,12 @@ function conversationSelf(targetID,targetType){
     })
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
-        //var content = $(this).prev().val();
         var content = $(this).prev().html();
-        //var str = RongIMLib.RongIMEmoji.symbolToEmoji(content);
-        //var targetID = targetId
-        var targetId = $('.mesContainerSelf').attr('targetID');
-        var targetType = $('.mesContainerSelf').attr('targetType');
-        //if()
-        sendMsg(content,targetId,targetType)
+        if(content){
+            var targetId = $('.mesContainerSelf').attr('targetID');
+            var targetType = $('.mesContainerSelf').attr('targetType');
+            sendMsg(content,targetId,targetType)
+        }
     })
     $('.orgNavClick').addClass('chatHide');
     $('.mesContainerSelf').removeClass('chatHide');
@@ -552,11 +583,6 @@ function getChatRecord(aList,hasMsg){
                 </li>';
                 }
             }
-            //if(i==aInfo.length-1){
-            //    sLi+='<li>\
-            //       <p class="infoDet-timeRecord">'+sSentDate+'</p>\
-            //    </li>';
-            //}
             if(sTargetId){
                var oThers=findMemberInList(sTargetId);
                 var sName=oThers.name || '';
@@ -634,10 +660,6 @@ function changeTimeFormat(mSec,format){
         case 'yh':
             time=y+'-'+month+'-'+d+' '+h+':'+m+':'+s;
     }
-    //console.log('+++++++++++++++++++++')
-    //if()
-    //console.log(h+':'+m+':'+s);
-    //var time = h+':'+m+':'+s;
     return time;
 }
 function changeTimeFormatYMD(mSec){
@@ -646,9 +668,6 @@ function changeTimeFormatYMD(mSec){
     var y=ifPlusZero(newTime.getFullYear());
     var m=ifPlusZero(newTime.getMonth()+1);
     var d=ifPlusZero(newTime.getDate());
-    //console.log('+++++++++++++++++++++')
-    //if()
-    //console.log(h+':'+m+':'+s);
     var time = y+'-'+m+'-'+d;
     return time;
 }
@@ -662,7 +681,6 @@ function ifPlusZero(num){
 function findMemberInList(targetId){
     var normalInfo = localStorage.getItem('normalInfo');
     if(normalInfo){
-        //console.log(normalInfo,'findMemberInList');
         var aNormalInfo = JSON.parse(normalInfo);
         for(var i = 0;i<aNormalInfo.length;i++){
             var curInfo = aNormalInfo[i];
@@ -676,10 +694,11 @@ function findMemberInList(targetId){
 
 //显示会话列表
 function usualChatList(list){
-    //console.log(list);
     var sHTML = '';
+    console.log('list',list);
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
+        var conversationType = curList.conversationType
         var content = curList.latestMessage.content.content;
         var extra = curList.latestMessage.content.extra;
         if(extra=="uploadFile"){
@@ -693,28 +712,59 @@ function usualChatList(list){
         }else{
             var lastTime = changeTimeFormat(curList.sentTime,'h');
         }
-        //changeTimeFormat(mSec,format)
-        var member = findMemberInList(targetId);
-        if(member){
-            //console.log('member',member);
-            var logo = member.logo;
-            var name = member.name;
-            var unreadMessageCount = curList.unreadMessageCount;
-            var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
+        var unreadMessageCount = curList.unreadMessageCount;
+        var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
 
-            sHTML += ' <li targetid="'+targetId+'">'+
-            '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+        //changeTimeFormat(mSec,format)
+        if(conversationType==1){
+            var member = findMemberInList(targetId);
+            if(member){
+                //console.log('member',member);
+                var logo = member.logo;
+                var name = member.name;
+                sHTML += ' <li targetid="'+targetId+'" targetType="PRIVATE">'+
+                '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+                sNum+
+                '<span class="groupName">'+name+'</span>'+
+                '<span class="usualLastMsg">'+content+'</span>'+
+                '<span class="lastTime">'+lastTime+'</span>'+
+                '</div>'+
+                '</li>'
+            }
+        }else if(conversationType==3){
+            var curGroup = groupInfo(targetId);
+            console.log(curGroup)
+            sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
+            '<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>'+
             sNum+
-            '<span class="groupName">'+name+'</span>'+
+            '<span class="groupName">'+curGroup.name+'</span>'+
             '<span class="usualLastMsg">'+content+'</span>'+
             '<span class="lastTime">'+lastTime+'</span>'+
             '</div>'+
             '</li>'
         }
+
     }
 
     $('.usualChatListUl').html(sHTML);
 }
+
+//查询单个群信息
+function groupInfo(id){
+    var groupInfo = localStorage.getItem('groupInfo');
+    if(groupInfo){
+        groupInfo = JSON.parse(groupInfo);
+    }
+    var curInfo = '';
+    for(var i = 0;i<groupInfo.text.length;i++){
+        if(groupInfo.text[i].id==id){
+            curInfo = groupInfo.text[i]
+        }
+    }
+    return curInfo;
+    //sendAjax(url,data,callback)
+}
+
 //包括单聊，群聊，聊天室
 function sendMsg(content,targetId,way,extra,callback){
     // 定义消息类型,文字消息使用 RongIMLib.TextMessage
@@ -810,14 +860,14 @@ function sendInBox(msg,way,callback){
     if(way=='PRIVATE'){
         var parent = $('.mesContainerSelf');
         var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
+        var eDom=document.querySelector('#perContainer .mr-chatview');
+
     }else{
         var parent = $('.mesContainerGroup');
-
         var parentNode = $('.mesContainerGroup .mr-chatview .mr-chatContent');
+        var eDom=document.querySelector('#groupContainer .mr-chatview');
     }
-
     parentNode.append($(sHTML));
-    var eDom=document.querySelector('#perContainer .mr-chatview');
     eDom.scrollTop = eDom.scrollHeight;
     parent.find('.textarea').html('');
     callback&&callback();
@@ -860,7 +910,7 @@ function reciveInBox(msg){
                 '<div id="up_process"><div id="up_precent"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a class="downLoadFile"></a>'+
+                '<a class="downLoadFile" href="https://ocsys6mwy.bkt.clouddn.com/'+data.filename+'"></a>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));

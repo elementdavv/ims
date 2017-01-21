@@ -37,8 +37,8 @@ $(function(){
 
 
 
-    var file = document.getElementById("upload_file");
-    file.onchange = function(){
+    var $file = $(".comment-pic-upd");
+    $file.on('change',function(){
         var _this = this;
         var _file = this.files[0];
         UploadClient.initImage(config, function(uploadFile){
@@ -74,9 +74,7 @@ $(function(){
                 uploadFile.upload(_file, callback);
             });
         });
-    };
-
-
+    })
 })
 
 

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/clipImg.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/cropper.min.css"/>
 
+    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>
 
 
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
@@ -46,12 +47,6 @@
     <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/map.js"></script>--%>
-
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>--%>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>--%>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/upload.js"></script>--%>
-    <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-ui.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.jOrgChart.js"></script>
@@ -66,7 +61,7 @@
     --%>
 </head>
 <body>
-    <audio src="page/web/css/sound/msg.wav" id="systemSound_recive"  type="audio/wav">
+    <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
 <div class="chatHeader">
@@ -74,6 +69,11 @@
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
         <li bindPanel="back">后台管理</li>
+    </ul>
+    <ul class="chatHeaderOper">
+        <li class="chatLeftIcon"></li>
+        <li class="chatLeftIcon"></li>
+        <li class="chatLeftIcon"></li>
     </ul>
 </div>
 
@@ -91,58 +91,7 @@
                 <span class="discrib">我的组群</span>
             </div>
             <ul class="groupChatListUl">
-                <%--<li>--%>
-                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
-                    <%--</div>--%>
-                <%--</li>--%>
-                <%--<li>--%>
-                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
-                    <%--</div>--%>
-                <%--</li>--%>
-                <%--<li>--%>
-                    <%--<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>--%>
-                    <%--</div>--%>
-                <%--</li>--%>
             </ul>
-            <%--
-            <div class="selfCreatGroup listCtrl">--%>
-                <%--<span class="triOpen chatLeftIcon"></span>--%>
-                <%--<span class="discrib">我创建的组群</span>--%>
-                <%--
-            </div>
-            --%>
-            <%--
-            <ul class="groupChatListUl">--%>
-                <%--
-                <li>--%>
-                    <%--
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                    --%>
-                    <%--
-                </li>
-                --%>
-                <%--
-                <li>--%>
-                    <%--
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                    --%>
-                    <%--
-                </li>
-                --%>
-                <%--
-                <li>--%>
-                    <%--
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                    --%>
-                    <%--
-                </li>
-                --%>
-                <%--
-            </ul>
-            --%>
         </div>
         <div class="chatContent usualChatList chatHide">
             <div class="listCtrl myGroup">
@@ -150,31 +99,11 @@
                 <span class="discrib">我的常用联系人</span>
             </div>
             <ul class="groupChatListUl">
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/><span class="groupName">产品部<em>(15/20)</em></span>
-                    </div>
-                </li>
+
             </ul>
         </div>
         <div class="chatContent newsChatList chatHide">
             <ul class="groupChatListUl usualChatListUl" style="margin: 6px 0px 35px 10px">
-                <li>
-                    <div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                        <i class="notReadMsg">1</i>
-                        <span class="groupName">产品部</span>
-                        <span class="usualLastMsg">是最后一条消息</span>
-                        <span class="lastTime">星期五</span>
-                    </div>
-                </li>
-
             </ul>
         </div>
     </div>
@@ -198,131 +127,8 @@
         <span class="defaultText">搜索人员</span>
         </input>
     </div>
-
-
     <div class="organizationList">
-        <ul>
-            <li>
-                <div level="1">
-                    <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                    <span class="groupName">产品部</span>
-                    <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                </div>
-            </li>
-            <ul>
-                <li>
-                    <div level="2">
-                        <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                        <span class="groupName">adsfadsfadsf</span>
-                        <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                    </div>
-                </li>
-                <ul>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                </ul>
-            </ul>
-            <li>
-                <div level="1">
-                    <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                    <span class="groupName">产品部</span>
-                    <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                </div>
-            </li>
-            <ul>
-                <li>
-                    <div level="2">
-                        <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                        <span class="groupName">adsfadsfadsf</span>
-                        <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                    </div>
-                </li>
-                <ul>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                </ul>
-            </ul>
-            <li>
-                <div level="1">
-                    <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                    <span class="groupName">产品部</span>
-                    <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                </div>
-            </li>
-            <ul>
-                <li>
-                    <div level="2">
-                        <span style="height: 20px;width: 32px;display:inline-block;float: left;"></span>
-                        <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                        <span class="groupName">adsfadsfadsf</span>
-                        <span class="groupCollspanO chatLeftIcon groupCollspan"></span>
-                    </div>
-                </li>
-                <ul>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div level="3">
-                            <span style="height: 20px;width: 64px;display:inline-block;float: left;"></span>
-                            <img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>
-                            <span class="groupName">人名</span>
-                        </div>
-                    </li>
-                </ul>
-            </ul>
-        </ul>
+
     </div>
 </div>
 
@@ -342,24 +148,6 @@
             <span>修改密码</span>
         </li>
     </ul>
-    <%--
-    <div class="newsTabContent">--%>
-        <%--
-        <div class="orgnizedgroupChatList"></div>
-        --%>
-        <%--
-        <div class="orgnizedusualChatList"></div>
-        --%>
-        <%--
-        <div class="orgnizednewsChatList"></div>
-        --%>
-        <%--
-    </div>
-    --%>
-    <%--
-    <div class="footerPlus"></div>
-    --%>
-
 </div>
 
 
@@ -401,108 +189,6 @@
         </div>
         <!--个人设置-->
         <div class="perSetBox orgNavClick chatHide" id="personSettingId">
-            <%--<h3 class="perSetBox-title">个人设置</h3>--%>
-            <%--
-            <div class="perSetBox-content clearfix">--%>
-                <%--
-                <div class="perSetBox-leftCont">--%>
-                    <%--
-                    <ul class="perSetBox-contDetails">--%>
-                        <%--
-                        <li>--%>
-                            <%--<span>成员账号:</span>--%>
-                            <%--<p>王二虎</p>--%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                        <li>--%>
-                            <%--<span>姓名：</span>--%>
-                            <%--<p>王二虎</p>--%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                        <li>--%>
-                            <%--<span>性别：</span>--%>
-                            <%--
-                            <p>--%>
-                                <%--<select class="perSetBox-selSex">--%>
-                                    <%--
-                                    <option>男</option>
-                                    --%>
-                                    <%--
-                                    <option>女</option>
-                                    --%>
-                                    <%--</select>--%>
-                                <%--
-                            </p>
-                            --%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                        <li>--%>
-                            <%--<span>职位：</span>--%>
-                            <%--<p>王二虎</p>--%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                        <li>--%>
-                            <%--<span>部门：</span>--%>
-                            <%--<p>王二虎</p>--%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                        <li>--%>
-                            <%--<span>邮箱：</span>--%>
-                            <%--<p>--%>
-                                <%--<input value="123456789" class="perSetBox-editText"/>--%>
-                                <%--</p>--%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                        <li>--%>
-                            <%--<span>电话：</span>--%>
-                            <%--<p>--%>
-                                <%--<input value="123456789" class="perSetBox-editText"/>--%>
-                                <%--</p>--%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                        <li>--%>
-                            <%--<span>工作签名：</span>--%>
-                            <%--<p>--%>
-                                <%--<textarea class="perSetBox-textarea">--%>
-
-                                        <%--</textarea>--%>
-                                <%--</p>--%>
-                            <%--
-                        </li>
-                        --%>
-                        <%--
-                    </ul>
-                    --%>
-                    <%--
-                    <button class="perSetBox-keep">保存</button>
-                    --%>
-                    <%--
-                </div>
-                --%>
-                <%--
-                <div class="perSetBox-rightCont">--%>
-                    <%--<img src="page/web/css/img/1.jpg" class="perSetBox-head"/>--%>
-                    <%--<p class="perSetBox-modifyHead">修改头像</p>--%>
-                    <%--
-                </div>
-                --%>
-                <%--
-            </div>
-            --%>
         </div>
         <!--系统设置-->
         <div class="perSetBox orgNavClick chatHide" id="systemSet">
@@ -552,27 +238,7 @@
                     <i class="mr-record" id="mr-record"></i>
                 </div>
             </h3>
-            <div class="mr-chatview " id="description">
-                <%--<p class="mr-time">9:28</p>--%>
-                <%--<ul class="mr-chatContent">--%>
-                    <%--<li class="mr-chatContentL clearfix">--%>
-                        <%--<img src="page/web/css/img/1.jpg">--%>
-
-                        <%--<div class="mr-chatBox">--%>
-                            <%--<span>大家好</span>--%>
-                            <%--<i></i>--%>
-                        <%--</div>--%>
-                    <%--</li>--%>
-                    <%--<li>--%>
-                        <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
-                    <%--</li>--%>
-                    <%--<li class="mr-chatContentR clearfix">--%>
-                        <%--<div class="mr-ownChat">--%>
-                            <%--<span>大家好，，请多多指教大家好，请多多指教大家好</span>--%>
-                            <%--<i></i>--%>
-                        <%--</div>--%>
-                    <%--</li>--%>
-                <%--</ul>--%>
+            <div class="mr-chatview">
             </div>
             <div class="mr-chateditBox">
                 <div class="rongyun-emoji"></div>
@@ -580,11 +246,9 @@
                     <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
-                    <input type="file" class="comment-pic-upd" id="upload_file"/>
-                    <%--<img src="images/upload-pic.png" alt="上传照片" title="">--%>
+                    <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
                     </div>
                 </div>
-                <%--<textarea placeholder="说点什么..." class="textarea"></textarea>--%>
                 <pre id="message-content" contenteditable-directive
                 contenteditable="true" contenteditable-dire="" ctrl-enter-keys=""
                 atshow-dire=""  ctrlenter="false" placeholder="请输入文字..."
@@ -1074,9 +738,12 @@
             <div class="contactListOuter">
                 <p class="outerTitle">选择联系人：</p>
 
-                <div class="contactBox">
+                <div class="contactBox" id="contactBox">
                     <input class="contactsSearch chatLeftIcon" placeholder="查找联系人..."/>
-
+                    <%--<div class="contactSearchResult">没有搜索结果</div>--%>
+                    <%--<ul class="contactSearchResult">--%>
+                        <%--<li>sssssssssssssssssssssssss</li>--%>
+                    <%--</ul>--%>
                     <div class="contactsList"></div>
                 </div>
             </div>
@@ -1084,8 +751,6 @@
                 <p class="outerTitle">已选择联系人 <em>(2/99)</em>：</p>
 
                 <div class="contactBox">
-                    <%--<input class="selectedSearch chatLeftIcon" placeholder="查找联系人..."/>--%>
-
                     <div class="selectedList">
                     <ul></ul>
                     </div>
@@ -1388,4 +1053,6 @@
 
 </div>
 </body>
-</html>
+    <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
+
+    </html>
