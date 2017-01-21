@@ -434,7 +434,7 @@ $(function(){
                     for(var i=0;i<aText.length;i++){
                         var sLatitude=aText[i].latitude;//经度
                         var sLongtitude=aText[i].longtitude;//纬度
-                        var sLogo=aText[i].logo || 'PersonImg.png';//用户头像
+                        var sLogo=globalVar.imgSrc+aText[i].logo || globalVar.imgSrc+globalVar.defaultDepLogo;//用户头像
                         var sUserID=aText[i].userID;//用户id
                         var marker;
                         var lnglats=[];
@@ -442,16 +442,16 @@ $(function(){
                         lnglats.push(sLongtitude);
                         if(!$('.groupMapMember').hasClass('chatHide')){
                             var sDom='<li>\
-                            <img src="upload/images/'+sLogo+'">\
+                            <img src="'+sLogo+'">\
                         </li>';
                             $('.groupMapMember ul').append(sDom);
                         }
                         if(sId==sUserID){
                             var content= '<div class="selfPrPos">' +
-                                '<img src="upload/images/'+sLogo+'"></div>';
+                                '<img src="'+sLogo+'"></div>';
                         }else{
                             var content= '<div class="perPos">' +
-                                '<img src="upload/images/'+sLogo+'"></div>';
+                                '<img src="'+sLogo+'"></div>';
                         }
                         marker = new AMap.Marker({
                             content: content,
