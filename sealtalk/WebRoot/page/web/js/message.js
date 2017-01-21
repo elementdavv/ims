@@ -1093,7 +1093,7 @@ function createOrganizList(data,sHTML,level){
         }
         if(oData.flag==1){
             if(oData.logo){
-                var imgSrc = globalVar.imgSrc+imgSrc;
+                var imgSrc = globalVar.imgSrc+oData.logo;
 
             }else{
                 var imgSrc = globalVar.defaultLogo;
