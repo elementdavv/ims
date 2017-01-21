@@ -77,4 +77,4 @@
         function onError(data) {
             document.getElementById('tip').innerHTML = '定位失败';
         }
-    },36000000);
+    },3600000);
