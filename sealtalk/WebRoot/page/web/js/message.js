@@ -448,10 +448,10 @@ $(function(){
                         }
                         if(sId==sUserID){
                             var content= '<div class="selfPrPos">' +
-                                '<img src="upload/images/'+sLogo+'"></div>';
+                                '<img src="'+sLogo+'"></div>';
                         }else{
                             var content= '<div class="perPos">' +
-                                '<img src="upload/images/'+sLogo+'"></div>';
+                                '<img src="'+sLogo+'"></div>';
                         }
                         marker = new AMap.Marker({
                             content: content,
