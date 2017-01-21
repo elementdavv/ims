@@ -821,7 +821,7 @@
                         </div>
                         <div class="bMg-previewImg">
                             <div class="avatar-preview preview-lg">
-    <img src="css/img/1.jpg" class="bMg-selImg">
+    <img src="/sealtalk/page/web/css/img/1.jpg" class="bMg-selImg">
     </div>
                             <div class="bMg-gravityImg">
                         <span >
@@ -870,7 +870,7 @@
             </div>
                 <div class="bMg-previewImg">
                     <div class="avatar-preview preview-lg">
-                        <img src="css/img/1.jpg" class="bMg-selImg">
+                        <img src="/sealtalk/page/web/css/img/1.jpg" class="bMg-selImg">
                     </div>
                     <div class="bMg-gravityImg">
                         <span >

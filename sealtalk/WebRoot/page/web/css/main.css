@@ -395,7 +395,7 @@ input::-ms-clear{display:none;}
     /* line-height: 44px; */
     text-indent: 18px;
     position: absolute;
-    top: 7px;
+    top: 12px;
     left: 50px;
     font-size: 14px;
     line-height: 12px;
@@ -411,11 +411,13 @@ input::-ms-clear{display:none;}
     left: 50px;
     color: #666666;
     font-size: 12px;
+    transform: scale(0.9,0.9);
 }
 .groupChatListUl li .lastTime{
     float: right;
     color: #666666;
     transform: scale(0.8,0.8);
+    margin-top: -4px;
 }
 .operMenuList {
     position: absolute;
