@@ -272,7 +272,6 @@ $(document).ready(function(){
                    oData.text.logo=picname;
                    var sNewData=JSON.stringify(oData);
                    localStorage.setItem("datas",sNewData);
-
                }
            });
        }
@@ -311,10 +310,11 @@ $(document).ready(function(){
         $('.bMg-cropImgSet .bMg-imgList li').removeClass('active');
         $(this).addClass('active');
         var sSelImg=$(this).attr('data-name');
-        $('.avatar-preview img').attr('src','upload/images/'+sSelImg);
+        $('.avatar-preview img').attr('src',globalVar.imgSrc+sSelImg);
     });
     //getGroupMembersList(1);
 });
+
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
@@ -326,7 +326,7 @@ function fPersonalSet(){
     var sEmail=oData.text.email;//邮箱
     var sTelephone=oData.text.telephone;//电话
     var sSign=oData.text.sex;//工作签名
-    var sHeaderImg=oData.text.logo|| '/sealtalk/page/web/css/img/PersonImg.png';//头像
+    var sHeaderImg=oData.text.logo|| globalVar.imgSrc+'PersonImg.png';//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
@@ -379,7 +379,7 @@ function fPersonalSet(){
     <button class="perSetBox-keep">保存</button>\
     </div>\
     <div class="perSetBox-rightCont">\
-    <img src="upload/images/'+sHeaderImg+'" class="perSetBox-head"/>\
+    <img src="'+sHeaderImg+'" class="perSetBox-head"/>\
     <p class="perSetBox-modifyHead" id="changeHeadImgId">修改头像</p>\
     </div>\
     </div>';
@@ -391,7 +391,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     var sCreatorId=oGroupInfo.creatorId;//群创建者id
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
     var oCreator=findMemberInList(sCreatorId);
-    var sImg=oCreator.logo || '/sealtalk/page/web/css/img/PersonImg.png';
+    var sImg=oCreator.logo || 'PersonImg.png';
     //console.log(findMemberInList(sCreatorId));
     //var aCreatedate=sCreatedate.join('-');
     var sHTML ='<div class="groupDataBox" style="left:'+pos.left+'px;top:'+pos.top+'px">\
@@ -407,7 +407,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     <li>\
     <span>群主/管理员:</span>\
     <i>\
-    <img src="upload/images/'+sImg+'">\
+    <img src="'+globalVar.imgSrc+sImg+'">\
     </i>\
     </li>\
     </ul>\
@@ -576,11 +576,11 @@ function getHeadImgList(){
                    var sImg=aImgList[i];
                    if(sSelfImg==sImg){
                        sDom+='<li data-name="'+sImg+'" class="active">\
-                   <img src="upload/images/'+sImg+'"/>\
+                   <img src="'+globalVar.imgSrc+sImg+'"/>\
                    </li>';
                    }else{
                        sDom+='<li data-name="'+sImg+'">\
-                   <img src="upload/images/'+sImg+'"/>\
+                   <img src="'+globalVar.imgSrc+sImg+'"/>\
                    </li>';
                    }
                }

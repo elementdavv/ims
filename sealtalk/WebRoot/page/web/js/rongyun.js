@@ -2,15 +2,13 @@
  * Created by zhu_jq on 2017/1/9.
  */
 $(function(){
-    RongIMClient.init("e5t4ouvpe564a");
+    RongIMClient.init(globalVar.rongKey);
     //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
     //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
     var sAccount = localStorage.getItem('account');
     if(sAccount){
         var oAccount = JSON.parse(sAccount);
         var token = oAccount.token;
-
-
         // 设置连接监听状态 （ status 标识当前连接状态）
         // 连接状态监听器
         RongIMClient.setConnectionStatusListener({

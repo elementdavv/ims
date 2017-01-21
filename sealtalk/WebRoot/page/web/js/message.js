@@ -762,7 +762,7 @@ function getGroupList(accountID){
                     var curGroup = groupArr[i];
                     sHTML+='<li targetid="'+curGroup.id+'">'+
                     '<div>'+
-                    '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
+                    '<img class="groupImg" src="'+globalVar.imgSrc+'group_chart.png" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
                     '<em class="groupInlineNum">(15/'+curGroup.volumeuse+')</em>'+
@@ -822,9 +822,9 @@ function changeClick1Content(data){
         var sHeadImg=data[i].logo || 'PersonImg.png';//头像
         var sName=data[i].name||'';//姓名
         if(data[i].logo){
-            var imgHTML = '<img src="upload/images/'+sHeadImg+'" alt="">';
+            var imgHTML = '<img src="'+globalVar.imgSrc+sHeadImg+'" alt="">';
         }else{
-            var imgHTML = '<img src="/sealtalk/page/web/css/img/PersonImg.png" alt="">';
+            var imgHTML = '<img src="'+globalVar.imgSrc+'PersonImg.png" alt="">';
 
         }
         sHTML += '<li id="'+data[i].id+'" account="'+data[i].account+'">'+
@@ -857,7 +857,7 @@ function changeClick2Content(data){
     var sAddress=data.address||'';
     var sHTML = '<div class="personalDetailContent">'+
                 '<div class="selfImgInfo">'+
-                    '<img src="'+sHeadImg+'" alt=""/><div>'+
+                    '<img src="'+globalVar.imgSrc+sHeadImg+'" alt=""/><div>'+
                 '<p>'+sName+'</p>'+
                 '<ul class="selfImgOpera">'+
                     '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
@@ -925,7 +925,7 @@ function getMemberFriends(account,callback){
             var curData = myData[i];
             sHTML += ' <li account="'+account+'" targetid="'+myData[i].id+'">'+
             '<div>'+
-            '<img class="groupImg" src="'+logo+'" alt=""/>'+
+            '<img class="groupImg" src="'+globalVar.imgSrc+logo+'" alt=""/>'+
             '<span class="groupName">'+fullname+workno+'</span>'+
             '</div>'+
             '</li>';
@@ -1006,7 +1006,7 @@ function showMemberInfo(data,pos){
                     '<ul class="memberInfoHover">'+
                         '<li>'+
                             '<div class="showImgInfo">'+
-                                '<img src="upload/images/'+sHeadImg+'" alt="">'+
+                                '<img src="'+globalVar.imgSrc+sHeadImg+'" alt="">'+
                             '</div>'+
                             '<div class="showPersonalInfo" targetID="'+data.id+'"targetType="PRIVATE">'+
                                 '<span>'+sName+'</span>'+
@@ -1086,12 +1086,19 @@ function createOrganizList(data,sHTML,level){
             var collspan = ''
         }else{
             var collspan = '<span class="groupCollspanO chatLeftIcon groupCollspan"></span>'
+        }
+        if(oData.flag==1){
+            var imgSrc = oData.logo
+
+        }else{
+            var imgSrc = 'group_chart.png'
 
         }
+        console.log('oData',oData);
         sHTML += '<li class="'+state+'" id="'+oData.id+'">'+
                     '<div level="">'+
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
-                    '<img class="groupImg" src="page/web/css/img/group_chart.png" alt="">'+
+                    '<img class="groupImg" src="'+globalVar.imgSrc+imgSrc+'" alt="">'+
                     '<span class="groupName">'+oData.name+'</span>'+collspan+''+
                     //'<span class="groupCollspanO chatLeftIcon groupCollspan"></span>'+collspan+''+
                     '</div>'+
