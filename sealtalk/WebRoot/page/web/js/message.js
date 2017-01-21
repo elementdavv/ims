@@ -404,95 +404,77 @@ $(function(){
         $('.perSetBox-title span').html(name);
         $('.groupMap').attr('targetID',targetID);
         $('.groupMap').attr('targetType',targeType);
-        var sData=window.localStorage.getItem("datas");
-        var oData= JSON.parse(sData);
-        var sId=oData.text.id;
-        $('.groupMapMember').removeClass('chatHide');
-        sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:0},function(data){
-            var aDatas=JSON.parse(data);
-            console.log(aDatas);
-        });
-        var map = new AMap.Map('container', {
-            center: [116.480983, 39.989628],
-            zoom: 10
-        });
-        var _onClick = function(position){
-            map.setZoomAndCenter(18, position);
-        };
-        var lnglats=[
-            [116.368904,39.923423],
-            [116.382122,39.921176],
-            [116.387271,39.922501],
-            [116.398258,39.914600]
-        ];
-        for(var i=0;i<5;i++){
-            var marker;
-            var content= '<div class="perPos">' +
-                '<img src="'+globalVar.imgSrc+(i+1)+'.jpg"></div>';
-            marker = new AMap.Marker({
-                content: content,
-                position: lnglats[i],
-                offset: new AMap.Pixel(0,0),
-                map: map
-            });
-            var t=[116.480983+i, 39.989628];
-            marker.index=i;
-            marker.t=lnglats[i];
-            marker.setMap(map);
-            AMap.event.addListener(marker,'dblclick',function(e){
-                _onClick(e.target.t);
-                $('.perPos').removeClass('active');
-                $('.perPos').eq(e.target.index).addClass('active');
-            });
-        }
-        map.setFitView();
+        $('.groupMapMember').addClass('chatHide');
+        getGroupMap(targetID,0);
     }
     function creatGroupMap(targetID,targeType,groupName){
+        $('.groupMapMember ul').empty();
         $('.perSetBox-title span').html(groupName);
         $('.groupMap').attr('targetID',targetID);
         $('.groupMap').attr('targetType',targeType);
+        $('.groupMapMember').removeClass('chatHide');
+        getGroupMap(targetID,1);
+    }
+    function getGroupMap(targetID,count){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.text.id;
-        $('.groupMapMember').addClass('chatHide');
-        sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:1},function(data){
-            var aDatas=JSON.parse(data);
-            console.log(aDatas);
-        });
         var map = new AMap.Map('container', {
-            center: [116.480983, 39.989628],
+            resizeEnable: true,
             zoom: 10
         });
         var _onClick = function(position){
             map.setZoomAndCenter(18, position);
         };
-        var lnglats=[
-            [116.368904,39.923423],
-            [116.382122,39.921176],
-            [116.387271,39.922501],
-            [116.398258,39.914600]
-        ];
-        for(var i=0;i<5;i++){
-            var marker;
-            var content= '<div class="perPos">' +
-                '<img src="'+globalVar.imgSrc+(i+1)+'.jpg"></div>';
-            marker = new AMap.Marker({
-                content: content,
-                position: lnglats[i],
-                offset: new AMap.Pixel(0,0),
-                map: map
-            });
-            var t=[116.480983+i, 39.989628];
-            marker.index=i;
-            marker.t=lnglats[i];
-            marker.setMap(map);
-            AMap.event.addListener(marker,'dblclick',function(e){
-                _onClick(e.target.t);
-                $('.perPos').removeClass('active');
-                $('.perPos').eq(e.target.index).addClass('active');
-            });
-        }
-        map.setFitView();
+        sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:count},function(data){
+            var aDatas=JSON.parse(data);
+            var aText=aDatas.text;
+            if(aDatas.code==1) {
+                if(aText.length>0){
+                    for(var i=0;i<aText.length;i++){
+                        var sLatitude=aText[i].latitude;//经度
+                        var sLongtitude=aText[i].longtitude;//纬度
+                        var sLogo=aText[i].logo || 'PersonImg.png';//用户头像
+                        var sUserID=aText[i].userID;//用户id
+                        var marker;
+                        var lnglats=[];
+                        lnglats.push(sLatitude);
+                        lnglats.push(sLongtitude);
+                        if(!$('.groupMapMember').hasClass('chatHide')){
+                            var sDom='<li>\
+                            <img src="upload/images/'+sLogo+'">\
+                        </li>';
+                            $('.groupMapMember ul').append(sDom);
+                        }
+                        if(sId==sUserID){
+                            var content= '<div class="selfPrPos">' +
+                                '<img src="upload/images/'+sLogo+'"></div>';
+                        }else{
+                            var content= '<div class="perPos">' +
+                                '<img src="upload/images/'+sLogo+'"></div>';
+                        }
+                        marker = new AMap.Marker({
+                            content: content,
+                            position: lnglats,
+                            offset: new AMap.Pixel(0,0),
+                            map: map
+                        });
+                        //var t=[116.480983+i, 39.989628];
+                        marker.index=i;
+                        marker.t=lnglats;
+                        marker.setMap(map);
+                        AMap.event.addListener(marker,'dblclick',function(e){
+                            _onClick(e.target.t);
+                            $('.perPos').removeClass('active');
+                            $('.perPos').eq($(this).index()).addClass('active');
+                        });
+                    }
+                }
+            }
+
+            // console.log(aDatas);
+            map.setFitView();
+        });
     }
     //常用联系人右键菜单
     //$('body').delegate('#usualLeftClick li','click',function(){
