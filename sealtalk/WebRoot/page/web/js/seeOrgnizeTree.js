@@ -51,9 +51,9 @@ function loopTree(data,sHTML,level){
     for(var i = 0;i<data.length;i++){
         var datas = data[i];
         var className = datas.flag==0?'department':'member';
-
-        sHTML +='<li class="'+className+' '+datas.id+'" targetid="'+datas.id+'">'+btnShu(datas.name,10);
-
+        if(className=='department'){
+            sHTML +='<li class="'+className+' '+datas.id+'" targetid="'+datas.id+'">'+btnShu(datas.name,10);
+        }
         if(datas.hasChild.length!=0){//有子级
             sHTML =loopTree(datas.hasChild,sHTML,0)
         }else{

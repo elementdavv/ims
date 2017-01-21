@@ -538,7 +538,7 @@ function getPerInfo(oInfoDetails){
     <img src="'+globalVar.imgSrc+sLogo+'">\
     <div class="infoDet-text">\
     <p>'+sName+'</p>\
-    <ul class="clearfix showPersonalInfo" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
+    <ul class="clearfix showPersonalInfo1" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
     <li class="sendMsg"></li>\
     <li class="checkPosition"></li>\
     <li class="addConver"></li>\
@@ -895,10 +895,14 @@ function reciveInBox(msg){
     var content = msg.content.content;
     var extra = msg.content.extra;
     var targetType = msg.conversationType;
+    //var
     if(targetType==3){//qunliao
+
         var $MesContainer = $('.mesContainerGroup')
+        var eDom = document.querySelector('#groupContainer .mr-chatview');
     }else if(targetType==1){//个人聊天
         var $MesContainer = $('.mesContainerSelf')
+        var eDom = document.querySelector('#perContainer .mr-chatview');
     }
     if(extra=='uploadFile'){
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
@@ -936,7 +940,6 @@ function reciveInBox(msg){
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
             //在盒子里显示
             //头像需要自己找？、？
-
             var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
                 '<img src="'+globalVar.imgSrc+'PersonImg.png">' +
                 '<div class="mr-chatBox">' +
@@ -947,7 +950,7 @@ function reciveInBox(msg){
 
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
-            var eDom=document.querySelector('#perContainer .mr-chatview');
+
             eDom.scrollTop = eDom.scrollHeight;
         } else {
             //消息列表里显示红色小圆圈

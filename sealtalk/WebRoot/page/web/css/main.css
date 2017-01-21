@@ -743,13 +743,19 @@ span.defaultText{
     top: 18px;
     padding-left: 18px;
 }
-.personalOperaIcon li,.selfImgOpera li,.showPersonalInfo li{
+.personalOperaIcon li,.selfImgOpera li,.showPersonalInfo1 li{
     float: left;
     width: 34px;
     background-image: url("img/chatLeftIcon.png");
     height: 30px;
     line-height: 30px;
 }
+/*.showPersonalInfo1 li{*/
+    /*width: 34px;*/
+    /*background-image: url("img/chatLeftIcon.png");*/
+    /*height: 30px;*/
+    /*line-height: 30px;*/
+/*}*/
 .personalInfoUl{
 
 }
