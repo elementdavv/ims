@@ -674,9 +674,8 @@
         </div>
         <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
             <div class="personalDetailContent">
-
                 <div class="selfImgInfo">
-                    <img src="css/img/PersonImg.png" alt=""/>
+                    <img src="page/web/css/img/1.jpg" alt=""/>
 
                     <div>
                         <p>张三</p>
@@ -820,8 +819,8 @@
                         </div>
                         <div class="bMg-previewImg">
                             <div class="avatar-preview preview-lg">
-    <img src="css/img/1.jpg" class="bMg-selImg">
-    </div>
+                                    <img src="" class="bMg-selImg">
+                            </div>
                             <div class="bMg-gravityImg">
                         <span >
                             添加
@@ -837,7 +836,7 @@
                     </div>
                     <div class="bMg-button clearfix bMg-confirm chatHide">
                         <b class="bMg-cancel">取消</b>
-                        <button class="avatar-save btnSave" type="submit">确认</button>
+                        <button class="avatar-save btnSave" type="submit">保存</button>
                     </div>
                     <div class="bMg-button clearfix  bMg-preserve">
                         <b class="bMg-cancel">取消</b>
@@ -869,7 +868,7 @@
             </div>
                 <div class="bMg-previewImg">
                     <div class="avatar-preview preview-lg">
-                        <img src="css/img/1.jpg" class="bMg-selImg">
+                        <img src="page/web/css/img/1.jpg" class="bMg-selImg">
                     </div>
                     <div class="bMg-gravityImg">
                         <span >
