@@ -1001,7 +1001,7 @@ function remove(arr,dx)
 function showMemberInfo(data,pos){
     //console.log('=================',data);
     var sName=data.name ||'';
-    var sHeadImg=data.logo ||'PersonImg.png';
+    var sHeadImg=data.logo?globalVar.imgSrc+data.logo :globalVar.defaultLogo;
     var sTel=data.telephone ||'';
     var sEmail=data.email ||'';
     var sJob=data.postitionname ||'';
@@ -1010,7 +1010,7 @@ function showMemberInfo(data,pos){
                     '<ul class="memberInfoHover">'+
                         '<li>'+
                             '<div class="showImgInfo">'+
-                                '<img src="'+globalVar.imgSrc+sHeadImg+'" alt="">'+
+                                '<img src="'+sHeadImg+'" alt="">'+
                             '</div>'+
                             '<div class="showPersonalInfo" targetID="'+data.id+'"targetType="PRIVATE">'+
                                 '<span>'+sName+'</span>'+

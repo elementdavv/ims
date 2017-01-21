@@ -317,6 +317,13 @@ $(document).ready(function(){
         var sSelImg=$(this).attr('data-name');
         $('.avatar-preview img').attr('src',globalVar.imgSrc+sSelImg);
     });
+    $('#Uploader').delegate('#showGrid','click',function(){
+        if($('.cropper-crop-box').hasClass('cropper-hidden')){
+            $('.cropper-crop-box').removeClass('cropper-hidden');
+        }else{
+            $('.cropper-crop-box').addClass('cropper-hidden');
+        }
+    });
     //getGroupMembersList(1);
 });
 
@@ -397,7 +404,12 @@ function showGroupMemberInfo(oGroupInfo,pos){
     var sCreatorId=oGroupInfo.creatorId;//群创建者id
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
     var oCreator=findMemberInList(sCreatorId);
-    var sImg=oCreator.logo || 'PersonImg.png';
+    if(!oCreator.logo){
+        var sImg=globalVar.defaultLogo;
+    }else{
+        var sImg=globalVar.imgSrc+oCreator.logo;
+    }
+   /* var sImg=oCreator.logo || globalVar.defaultLogo;*/
     //console.log(findMemberInList(sCreatorId));
     //var aCreatedate=sCreatedate.join('-');
     var sHTML ='<div class="groupDataBox" style="left:'+pos.left+'px;top:'+pos.top+'px">\
@@ -413,7 +425,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     <li>\
     <span>群主/管理员:</span>\
     <i>\
-    <img src="'+globalVar.imgSrc+sImg+'">\
+    <img src="'+sImg+'">\
     </i>\
     </li>\
     </ul>\
