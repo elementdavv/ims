@@ -849,7 +849,7 @@ function changeClick1Content(data){
 //点击的是成员
 function changeClick2Content(data){
     var sName=data.name ||'';
-    var sHeadImg=globalVar.imgSrc+data.logo ||globalVar.defaultLogo;
+    var sHeadImg=data.logo?globalVar.imgSrc+data.logo:globalVar.defaultLogo;
     var sTel=data.telephone ||'';
     var sEmail=data.email ||'';
     var sJob=data.postitionname ||'';

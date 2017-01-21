@@ -44,7 +44,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/Class.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/dialogOper.js"></script>
-    <script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/creatGroup.js"></script>--%>
     <script src="<%=request.getContextPath() %>/page/web/js/message.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/conversation.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>

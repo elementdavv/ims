@@ -338,7 +338,7 @@ function fPersonalSet(){
     var sEmail=oData.text.email;//邮箱
     var sTelephone=oData.text.telephone;//电话
     var sSign=oData.text.sex;//工作签名
-    var sHeaderImg=globalVar.imgSrc+oData.text.logo|| globalVar.imgSrc+globalVar.defaultDepLogo;//头像
+    var sHeaderImg=oData.text.logo?globalVar.imgSrc+oData.text.logo:globalVar.defaultLogo;//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
@@ -563,19 +563,11 @@ function keerNewPw(oldpwd,newPw,comparepwd){
 }
 /*系统提示音*/
 function systemBeep(status){
-    sendAjax('function!setSysTipVoice',{status:status},function(data){
+    sendAjax('fun!setSysTipVoice',{status:status},function(data){
         var oData=JSON.parse(data);
         var eParent=$('#chatBox #systemSet .systemVoiceBtn');
         if(oData.code==1){
             globalVar.SYSTEMSOUND=status;
-          /*  switch(status){
-                case 0:
-                    eParent.addClass('active');
-                    break;
-                case 1:
-                    eParent.removeClass('active');
-                    break;
-            }*/
         }
     });
 }
