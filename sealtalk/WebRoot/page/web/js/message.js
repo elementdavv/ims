@@ -307,7 +307,8 @@ $(function(){
             //var memberShip =
             fshowContexMenu(arr,style,id,memberShip,targeType);
         }else{//单击常用联系人
-
+            $('.newsChatList').find('li').removeClass('active');
+            $(this).addClass('active');
             if(targeType=='PRIVATE'){
                 conversationSelf(targetID,targeType);
                 $('.orgNavClick').addClass('chatHide');
@@ -741,9 +742,14 @@ $(function(){
 function getSysTipVoice(userid){
     sendAjax('fun!getSysTipVoice',{userid:userid},function(data){
         var oData=JSON.parse(data);
-        //var eParent=$('#chatBox #systemSet .systemVoiceBtn');
         if(oData.code==1){
             globalVar.SYSTEMSOUND=status;
+            if(status==1){
+                $('.systemVoiceBtn').removeClass('active');
+            }else{
+                $('.systemVoiceBtn').addClass('active');
+            }
+
         }
     })
 }

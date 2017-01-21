@@ -3,6 +3,12 @@
  */
 $(document).ready(function(){
     var groupTimer=null,groupTimer1 = null;
+
+
+    var sAccount = localStorage.getItem('account');
+    var sdata = localStorage.getItem('datas');
+    var account = JSON.parse(sAccount).account;
+    var accountID = JSON.parse(sdata).text.id;
    $('#perInfo').on('click','li',function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
@@ -214,7 +220,7 @@ $(document).ready(function(){
         }else{
             status=1;
         }
-        systemBeep(status);
+        systemBeep(status,accountID);
     });
     $('#groupMap').on('click','.messageRecord b',function(e){
         var targetID = $(e.target).closest('.groupMap').attr('targetid');
@@ -562,12 +568,12 @@ function keerNewPw(oldpwd,newPw,comparepwd){
     });
 }
 /*系统提示音*/
-function systemBeep(status){
-    sendAjax('fun!setSysTipVoice',{status:status},function(data){
+function systemBeep(status,accountID){
+    sendAjax('fun!setSysTipVoice',{status:status,userid:accountID},function(data){
         var oData=JSON.parse(data);
-        var eParent=$('#chatBox #systemSet .systemVoiceBtn');
+        //var eParent=$('#chatBox #systemSet .systemVoiceBtn');
         if(oData.code==1){
-            globalVar.SYSTEMSOUND=status;
+            globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
         }
     });
 }
