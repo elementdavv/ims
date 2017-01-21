@@ -11,10 +11,10 @@
         <property name="userId" type="java.lang.Integer">
             <column name="user_id" not-null="true" />
         </property>
-        <property name="latitude" type="java.lang.Long">
+        <property name="latitude" type="java.lang.String">
             <column name="latitude" not-null="true" />
         </property>
-        <property name="longitude" type="java.lang.Long">
+        <property name="longitude" type="java.lang.String">
             <column name="longitude" not-null="true" />
         </property>
     </class>

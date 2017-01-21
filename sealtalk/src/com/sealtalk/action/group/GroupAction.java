@@ -17,7 +17,7 @@ import com.sealtalk.service.group.GroupService;
  * @since jdk1.7
  * @date 2017/01/07
  */
-@Secured
+
 public class GroupAction extends BaseAction {
 
 	private static final long serialVersionUID = 5512359170256277370L;

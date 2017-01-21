@@ -28,44 +28,58 @@ public class MapServiceImpl implements MapService {
 		} else {
 			boolean status = true;
 			int targetIdInt = StringUtils.getInstance().strToInt(targetId);
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
 			
 			try {
+				StringBuilder sb = new StringBuilder();
+				String idStr = null;
+				
 				if (type.equals("1")) {		//群
 					List<TGroupMember>  memberList = groupMemeberDao.listGroupMembers(targetIdInt);
 					
 					if (memberList != null) {
-						int[] ids = new int[memberList.size()];
 						
 						for(int i = 0; i < memberList.size(); i++) {
-							ids[i] = memberList.get(i).getMemberId();
+							sb.append(memberList.get(i).getMemberId()).append(",");
 						}
-						
-						List<Object[]> locations = mapDao.getLocationForGroupId(ids);
-						
-						if (locations != null) {
-							for(int i = 0; i < locations.size(); i++) {
-								Object[] ret = locations.get(i);
-								JSONObject t = new JSONObject();
-								t.put("userID", ret[0]);
-								t.put("logo", ret[1]);
-								t.put("latitude", ret[2]);
-								t.put("longtitude", ret[3]);
-								ja.add(t);
-								
-							}
-						} else {
-							status = false;
-						}
-					} else {
-						status = false;
 					}
-				} else {					//人
+				} else {
+					sb.append(targetIdInt).append(",").append(userIdInt);
+				}
+				
+				idStr = sb.toString();
+				
+				System.out.println("map->type: " + type + "->ids: " + idStr);
+				
+				if (StringUtils.getInstance().isEndChar(idStr, ",")) {
+					idStr = idStr.substring(0, idStr.length() - 1);
+				}
+				
+				List<Object[]> locations = mapDao.getLocationForMultId(idStr);
+				
+				if (locations != null) {
+					for(int i = 0; i < locations.size(); i++) {
+						Object[] ret = locations.get(i);
+						JSONObject t = new JSONObject();
+						t.put("userID", ret[0]);
+						t.put("logo", ret[1]);
+						t.put("latitude", ret[2]);
+						t.put("longtitude", ret[3]);
+						ja.add(t);
+						
+					}
+					jo.put("code", 1);
+					jo.put("text", ja.toString());
+				} else {
+					status = false;
+				}
+				/*} else {					//人
 					Object[] tmap = mapDao.getLocation(targetIdInt);
 					
 					if (tmap != null) {
 						
 						JSONObject m = new JSONObject();
-						m.put("userID", userId);
+						m.put("userID", targetIdInt);
 						m.put("logo", tmap[0]);
 						m.put("latitude", tmap[1]);
 						m.put("longtitude", tmap[2]);
@@ -78,7 +92,7 @@ public class MapServiceImpl implements MapService {
 						status = false;
 					}
 				}
-				
+				*/
 				if (!status) {
 					jo.put("code", 0);
 					jo.put("text", Tips.FAIL.getText());
@@ -104,13 +118,24 @@ public class MapServiceImpl implements MapService {
 		} else {
 			try {
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
-				TMap tm = new TMap();
 				
-				tm.setUserId(userIdInt);
-				tm.setLatitude(latitude);
-				tm.setLongitude(longtitude);
+				TMap t = mapDao.getLaLongtitudeForUserId(userIdInt);
 				
-				mapDao.subLocation(tm);
+				if (t != null) {
+					String la = t.getLatitude();
+					String longt = t.getLongitude();
+					
+					if (!la.equals(latitude) || !longt.equals(longtitude)) {
+						mapDao.updateLocation(userIdInt, latitude, longtitude);
+					}
+				} else {
+					TMap tm = new TMap();
+					tm.setUserId(userIdInt);
+					tm.setLatitude(latitude);
+					tm.setLongitude(longtitude);
+					mapDao.saveLocation(tm);
+				}
+				
 				jo.put("code", 1);
 				jo.put("text", Tips.OK.getText());
 			} catch (Exception e) {
