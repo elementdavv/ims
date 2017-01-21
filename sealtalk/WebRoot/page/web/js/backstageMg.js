@@ -551,19 +551,11 @@ function keerNewPw(oldpwd,newPw,comparepwd){
 }
 /*系统提示音*/
 function systemBeep(status){
-    sendAjax('function!setSysTipVoice',{status:status},function(data){
+    sendAjax('fun!setSysTipVoice',{status:status},function(data){
         var oData=JSON.parse(data);
         var eParent=$('#chatBox #systemSet .systemVoiceBtn');
         if(oData.code==1){
             globalVar.SYSTEMSOUND=status;
-          /*  switch(status){
-                case 0:
-                    eParent.addClass('active');
-                    break;
-                case 1:
-                    eParent.removeClass('active');
-                    break;
-            }*/
         }
     });
 }
