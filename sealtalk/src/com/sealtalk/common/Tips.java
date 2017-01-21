@@ -32,8 +32,11 @@ public enum  Tips {
 	WRONGOLDPWD("旧密码错误", "00026"),
 	NOTSETFUN("未设置功能", "00027"),
 	NULLPHONE("手机号为空", "00028"),
-	OK("OK", "00029"),
-	FAIL("fail", "00030");
+	WRONGPARAMS("参数不正确", "00029"),
+	NOLOGOERR("没有头像", "00030"),
+	USEDLOGO("头像正在被使用", "00031"),
+	OK("OK", "10000"),
+	FAIL("fail", "20000");
 	
 	private String name;
 	private String code;

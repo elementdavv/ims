@@ -247,31 +247,21 @@
                 data = null,
                 _this = this;
             var fileInput = document.getElementById("Uploader");
-            var imageFile = fileInput[0].files[0];
-            var nW=$('.preview-lg').find('img').width();
-            var nH=$('.preview-lg').find('img').height();
-            var sD=$('.preview-lg').find('img').css('transform');
-            var deg;
-            if(sD == "none"){
-                deg=0;
-            }else{
-                var sM=sD.split('(')[1].split(')')[0];
-                var aM=sM.split(',');
-                deg=getmatrix(aM[0],aM[1],aM[2],aM[3],aM[4],aM[5]);
-            }
-            var sL=parseFloat($('.preview-lg').find('img').css('marginLeft'));
-            var nL=-sL;
-            console.log( nL);
-            var sT=parseFloat($('.preview-lg').find('img').css('marginTop'));
-            var nT=-sT;
+            var file = fileInput[2].files[0];
+                data=JSON.parse(_this.$avatarData.val());
+            console.log(data);
+            console.log(data);
             var formData = new FormData();
-            formData.append("file", imageFile);
-            formData.append("width", nW);
-            formData.append("height", nH);
-            formData.append("x", nL);
-            formData.append("y", nT);
-            formData.append("degree", deg);
-            formData.append("userid", 0);
+            formData.append("file", file);
+            formData.append("width", data.width);
+            formData.append("height", data.height);
+            formData.append("x", data.x);
+            formData.append("y", data.y);
+            formData.append("degree", data.rotate);
+            var sData=window.localStorage.getItem("datas");
+            var oData= JSON.parse(sData);
+            var sId=oData.text.id;
+            formData.append("userid",sId);
             $.ajax(url, {
                 type: 'post',
                 data: formData,
@@ -292,7 +282,7 @@
                 },
 
                 complete: function () {
-                    _this.submitEnd();
+                    //_this.submitEnd();
                 }
             });
         },
@@ -306,8 +296,36 @@
         },
 
         submitDone: function (data) {
+            var _this=this;
             console.log(data);
-            if ($.isPlainObject(data) && data.state === 200) {
+            if(data.code === 1){
+                if (data.text) {
+                    this.url = 'upload/images/'+data.text;
+                    if (this.support.datauri || this.uploaded) {
+                        this.uploaded = false;
+                        this.cropDone();
+                    } else {
+                        this.uploaded = true;
+                        this.$avatarSrc.val(this.url);
+                        this.startCropper();
+                    }
+                    this.$avatarInput.val('');
+                    $('.bMg-cropImgSet').removeClass('chatHide');
+                    $('.bMg-cropImgBox').addClass('chatHide');
+                    $('.bMg-gravityImg').removeClass('active');
+                    $('.bMg-confirm').addClass('chatHide');
+                    $('.bMg-preserve').removeClass('chatHide');
+                    $('.bMg-imgList li').removeClass('active');
+                    _this.initPreview();
+                    var sDom=' <li class="active" data-name="'+data.text+'">\
+                        <img src="'+this.url+'"/>\
+                    </li>';
+                    $('.bMg-imgList').append(sDom);
+                }
+            }else{
+                this.alert('Failed to response');
+            }
+           /* if ($.isPlainObject(data) && data.code === 1) {
                 if (data.result) {
                     this.url = data.result;
 
@@ -326,7 +344,7 @@
                 }
             } else {
                 this.alert('Failed to response');
-            }
+            }*/
         },
 
         submitFail: function (msg) {
@@ -340,7 +358,7 @@
         cropDone: function () {
             this.$avatarForm.get(0).reset();
             this.$avatar.attr('src', this.url);
-            this.stopCropper();
+            //this.stopCropper();
             //this.$avatarModal.modal('hide');
         },
 

@@ -9,11 +9,13 @@
 
 
 	<!-- dao -->
-	<!--<bean id="uploadDao" class="com.sealtalk.dao.upload.impl.UploadDaoImpl" autowire="byName" />-->
+	<bean id="cutLogoTempDao" class="com.sealtalk.dao.upload.impl.CutLogoTempDaoImpl" autowire="byName" />
+	<bean id="memberDao" class="com.sealtalk.dao.member.impl.MemberDaoImpl" autowire="byName" />
 	
 	<!-- service -->
 	<bean id="uploadService" class="com.sealtalk.service.upload.impl.UploadServiceImpl" autowire="byName" >
-		<!--<property name="uploadDao" ref="uploadDao" />-->
+		<property name="cutLogoTempDao" ref="cutLogoTempDao" />
+		<property name="memberDao" ref="memberDao" />
 	</bean>
 	
 	<!-- action -->

@@ -404,6 +404,12 @@ $(function(){
         $('.perSetBox-title span').html(name);
         $('.groupMap').attr('targetID',targetID);
         $('.groupMap').attr('targetType',targeType);
+        var sData=window.localStorage.getItem("datas");
+        var oData= JSON.parse(sData);
+        var sId=oData.text.id;
+        /*sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:0},function(data){
+            var aDatas=JSON.parse(data);
+        });*/
         var map = new AMap.Map('container', {
             center: [116.480983, 39.989628],
             zoom: 10

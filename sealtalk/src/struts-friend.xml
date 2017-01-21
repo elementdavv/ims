@@ -6,6 +6,7 @@
 <struts>
 
     <package name="com.sealtalk.action.friend" extends="ssl-default">
+   <!--  <package name="com.sealtalk.action.friend" extends="struts-default">-->
   		<!-- 联系人管理  -->
         <action name="friend" class="com.sealtalk.action.friend.FriendAction">
         	<result name="text" type="stream">

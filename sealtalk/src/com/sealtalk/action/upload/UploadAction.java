@@ -4,81 +4,160 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.multipart.MultipartFile;
 
+import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
-import com.sealtalk.utils.ImageUtils;
-import com.sealtalk.utils.TimeGenerator;
+import com.sealtalk.service.upload.UploadService;
 
+@Secured
 public class UploadAction extends BaseAction {  
  
 	private static final long serialVersionUID = 74195611146343183L;
-
-	public String test() throws ServletException {
-		returnToClient("{a:1}");
+	
+	/**
+	 * 选择头像
+	 * @return
+	 * @throws ServletException
+	 */
+	public String secUserLogos() throws ServletException {
+		String result = null;
+		
+		try {
+			result = uploadService.saveSelectedPic(userid, picname);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		returnToClient(result);
+		
 		return "text";
 	}
 	
-	public String uploadUserLogo(String userId, Integer x, Integer y, Integer width, Integer height,Integer degree, MultipartFile imageFile) 
-						throws IOException, ServletException {  
-		response.setContentType("text/html;charset=utf-8");
-		//获取服务器的实际路径  
-        String realPath = request.getSession().getServletContext().getRealPath("/");  
-        
-        System.out.println("x:"+x+"y:"+y+"width:"+width+"height:"+height+"degree:"+degree);  
-        System.out.println(realPath);  
-        
-        String resourcePath="upload/images";  
-      
-        if(imageFile!=null){  
-             try{  
-	            //文件名  
-	             String name= imageFile.getOriginalFilename();  
-	             
-	             int suffixPos = name.lastIndexOf(".");
-	             
-	             String suffixAfter = name.substring(suffixPos, name.length());
-	             
-	             name = userId + "-" + TimeGenerator.getInstance().getUnixTime(); 
-	             
-	             File dir = new File(realPath + resourcePath);  
-	             
-	             if (!dir.exists()){  
-	                 dir.mkdirs();  
-	             }  
-	             
-	             //先把用户上传到原图保存到服务器上  
-	             File file=new File(dir, name + suffixAfter);  
-	             
-	             imageFile.transferTo(file);  
-	             
-	             if(file.exists()){  
-	                 String src = realPath + resourcePath + name;  
-	                 String srcImg = src + suffixAfter;
-	                 String destImg = "_s" + suffixAfter;
-	                 
-	                 boolean[] flag=new boolean[6];  
-	                 
-	                 //旋转后剪裁图片  
-	                 flag[0] = ImageUtils.cutAndRotateImage(srcImg, destImg, x, y, width, height, degree); 
-	                 
-	                 //缩放图片,生成不同大小的图片，应用于不同的大小的头像显示  
-	                 flag[1] = ImageUtils.scale2(destImg, src + "_s_200" + suffixAfter, 200, 200, true);  
-	                 flag[2] = ImageUtils.scale2(destImg, src+"_s_100" + suffixAfter, 100, 100, true);  
-	                 flag[3] = ImageUtils.scale2(destImg, src+"_s_50" + suffixAfter, 50, 50, true);  
-	                 flag[4] = ImageUtils.scale2(destImg, src+"_s_30" + suffixAfter, 30, 30, true);  
-	                 flag[5] = ImageUtils.scale2(file.getPath(), src + "_200" + suffixAfter, 200, 200, true);  
-	                   
-	                 if(flag[0]&&flag[1]&&flag[2]&&flag[3]&&flag[4]&&flag[5]){  
-	                     //图像处理完成，将数据写入数据库中  
-	                	 System.out.println("suc");
-	                 }  
-	             }  
-             }catch (Exception e) {  
-                 e.printStackTrace();  
-            }  
-  
-         }  
-        return null;  
+	/**
+	 * 上传头像
+	 * @return
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	public String uploadUserLogo() throws IOException, ServletException {  
+		String result = null;
+		
+		try {
+			//获取服务器的实际路径  
+		    String realPath = request.getSession().getServletContext().getRealPath("/");  
+		    
+			result = uploadService.cutImage(userid, x, y, width, height, degree, file, realPath);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		returnToClient(result);
+		return "text";
     }  
+	
+	/**
+	 * 删除头像从头像库
+	 * @return
+	 * @throws ServletException
+	 */
+	public String delUserLogos() throws ServletException {
+		String result = null;
+		
+		try {
+			result = uploadService.delUserLogos(userid, picname);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 拉取头像库列表 
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getUserLogos() throws ServletException {
+		String result = null;
+		
+		try {
+			result = uploadService.getUserLogos(userid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		returnToClient(result);
+		return "text";
+	}
+	
+
+	private UploadService uploadService;
+	private String userid;
+	private String x;
+	private String y;
+	private String width;
+	private String height;
+	private String degree;
+	private File file;
+	private String picname;
+	
+	public String getPicname() {
+		return picname;
+	}
+
+	public void setPicname(String picname) {
+		this.picname = picname;
+	}
+
+	public UploadService getUploadService() {
+		return uploadService;
+	}
+	public void setUploadService(UploadService uploadService) {
+		this.uploadService = uploadService;
+	}
+	public String getX() {
+		return x;
+	}
+	public void setX(String x) {
+		this.x = x;
+	}
+	public String getY() {
+		return y;
+	}
+	public void setY(String y) {
+		this.y = y;
+	}
+	public String getWidth() {
+		return width;
+	}
+	public void setWidth(String width) {
+		this.width = width;
+	}
+	public String getHeight() {
+		return height;
+	}
+	public void setHeight(String height) {
+		this.height = height;
+	}
+	public File getFile() {
+		return file;
+	}
+	public void setFile(File file) {
+		this.file = file;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public String getDegree() {
+		return degree;
+	}
+	public void setDegree(String degree) {
+		this.degree = degree;
+	}
+	
 }  

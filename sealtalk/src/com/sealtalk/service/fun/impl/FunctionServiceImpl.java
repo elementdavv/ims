@@ -79,11 +79,12 @@ public class FunctionServiceImpl implements FunctionService {
 	}
 	
 	@Override
-	public String getSysTipVoice() {
+	public String getSysTipVoice(String userId) {
 		JSONObject jo = new JSONObject();
 		
 		try {
-			TFunction tf = functionDao.getFunctionStatus(FunctionName.SYSTIPVOICE.getName());
+			String name = userId + "_" + FunctionName.SYSTIPVOICE.getName();
+			TFunction tf = functionDao.getFunctionStatus(name);
 			
 			jo.put("code", 1);
 			
@@ -100,7 +101,7 @@ public class FunctionServiceImpl implements FunctionService {
 	}
 
 	@Override
-	public String setSysTipVoice(String status) {
+	public String setSysTipVoice(String userId, String status) {
 		JSONObject jo = new JSONObject();
 		
 		try {
@@ -108,7 +109,7 @@ public class FunctionServiceImpl implements FunctionService {
 				TFunction tf = new TFunction();
 				
 				tf.setIsOpen(status);
-				tf.setName(FunctionName.SYSTIPVOICE.getName());
+				tf.setName(userId + "_" + FunctionName.SYSTIPVOICE.getName());
 				tf.setListorder(0);
 				
 				functionDao.setFunctionStatus(tf);

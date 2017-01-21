@@ -44,6 +44,7 @@ public class FunctionAction extends BaseAction {
 			e.printStackTrace();
 		}
 		
+		returnToClient(result);
 		return result;
 	}
 	
@@ -57,7 +58,7 @@ public class FunctionAction extends BaseAction {
 		
 		try {
 			if (functionService != null) {
-				result = functionService.setSysTipVoice(status);
+				result = functionService.setSysTipVoice(userid, status);
 			} else {
 				JSONObject jo = new JSONObject();
 				jo.put("code", -1);
@@ -67,6 +68,8 @@ public class FunctionAction extends BaseAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		returnToClient(result);
 		
 		return result;
 	}
@@ -79,7 +82,7 @@ public class FunctionAction extends BaseAction {
 		
 		try {
 			if (functionService != null) {
-				result = functionService.getSysTipVoice();
+				result = functionService.getSysTipVoice(userid);
 			} else {
 				JSONObject jo = new JSONObject();
 				jo.put("code", -1);
@@ -89,7 +92,7 @@ public class FunctionAction extends BaseAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		returnToClient(result);
 		return result;
 	}
 	

@@ -6,8 +6,8 @@
         <head lang="en">
         <meta charset="UTF-8">
         <title></title>
+        <%--<link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/bootstrap.min.css"/>--%>
         <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/clipImg.css"/>
-        <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/cropper.min.css"/>
         </head>
         <body>
@@ -40,6 +40,7 @@
                                 <strong id="showGrid"></strong>
                             </div>
                             </div>
+                        <p class="bMg-promptExp">* 选择上面中的一个做为你的照片，或点击"添加"来添加您电脑中的照片来作为您的照片...</p>
                     </div>
                     <div class="bMg-previewImg">
                         <%--<canvas id="big" width="80" height="80" radius="40"></canvas>--%>
@@ -51,8 +52,8 @@
                         <span >
                             添加
                             <div class="avatar-upload">
-                                <%--<input class="avatar-src" name="avatar_src" type="hidden">--%>
-                                <%--<input class="avatar-data" name="avatar_data" type="hidden">--%>
+                                <input class="avatar-src" name="avatar_src" type="hidden">
+                                <input class="avatar-data" name="avatar_data" type="hidden">
                                 <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
                             </div>
                          </span>
@@ -62,7 +63,7 @@
                 </div>
                 <div class="bMg-button clearfix">
                 <b>取消</b>
-                <button class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
+                <button class="avatar-save btnSave" type="submit">保存</button>
                 </div>
                 </div>
             </form>

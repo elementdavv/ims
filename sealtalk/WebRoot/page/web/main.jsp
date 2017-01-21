@@ -12,9 +12,10 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/jquery.jOrgChart.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/OrgChart.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/backstageMg.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/clipImg.css"/>
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/cropper.min.css"/>
 
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>
-
 
 
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
@@ -31,6 +32,8 @@
     <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
     <script src="https://webapi.amap.com/js/marker.js"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=acafe737e6344c4ce19d101b9f3b1d03"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/getCurrentPos.js"></script>
+    <%--<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>--%>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
@@ -47,6 +50,15 @@
     <script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-ui.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.jOrgChart.js"></script>
+
+    <script src="<%=request.getContextPath() %>/page/web/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>--%>
+
+    <%--
+    <script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>
+    --%>
 </head>
 <body>
     <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
@@ -142,6 +154,8 @@
 <!--聊天部分-->
 <div class="chatBoxOuter">
     <div class="chatBox" style="position:relative" id="chatBox">
+        <div id="map"></div>
+        <div id="tip"></div>
     <!--地图-->
         <div class="orgNavClick groupMap chatHide" id="groupMap">
             <h3 class="perSetBox-title clearfix">
@@ -768,7 +782,114 @@
             <%--</li>--%>
         <%--</ul>--%>
     <%--</div>--%>
-    <iframe src="" frameborder="0" scrolling="no" class="chatHide" id="iqs_iframe" border="none"></iframe>
+    <%--<iframe src="" frameborder="0" scrolling="no" class="chatHide" id="iqs_iframe" border="none"></iframe>--%>
+    <div class="bMgMask chatHide"></div>
+    <div class="container chatHide" id="crop-avatar">
+            <div class="avatar-view">
+                    <img src="" alt="Avatar">
+            </div>
+            <form class="avatar-form" action="<%=request.getContextPath() %>/upload!uploadUserLogo" enctype="multipart/form-data" method="post"  id="Uploader">
+                <div class="bMg-cutPicture">
+                    <h5 class="clearfix">
+                        <span class="bMg-changPic">修改头像</span>
+                        <i class="bMg-closeBtn" id="bMg-closeBtn"></i>
+                    </h5>
+                     <p class="bMg-selectImg">使用下列所选照片</p>
+                    <div class="clearfix">
+                        <div class="bMg-changImgSize">
+                            <div class="bMg-ImgContainer chatHide bMg-cropImgBox">
+                                <div class="avatar-wrapper"></div>
+                                <div class="bMg-rotateDrag clearfix avatar-btns">
+    <div class="btn-group bMg-leftRotate">
+    <span class="" data-method="rotate" data-option="-90"  title="Rotate -90 degrees"></span>
+    </div>
+    <div class="btn-group">
+    <i class="" data-method="rotate" data-option="90"  title="Rotate 90 degrees"></i>
+    </div>
+    <strong id="showGrid"></strong>
+    </div>
+                            </div>
+                            <div class="bMg-ImgContainer bMg-cropImgSet">
+                                <ul class="bMg-imgList">
+                                    <li class="active">
+                                    <img src="page/web/css/img/1.jpg"/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <p class="bMg-promptExp">* 选择上面中的一个做为你的照片，或点击"添加"来添加您电脑中的照片来作为您的照片...</p>
+                        </div>
+                        <div class="bMg-previewImg">
+                            <div class="avatar-preview preview-lg">
+    <img src="css/img/1.jpg" class="bMg-selImg">
+    </div>
+                            <div class="bMg-gravityImg">
+                        <span >
+                            添加
+                            <div class="avatar-upload">
+                            <input class="avatar-src" name="avatar_src" type="hidden">
+                            <input class="avatar-data" name="avatar_data" type="hidden">
+                            <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                            </div>
+                    </span>
+                <span class="bMg-delImg">删除</span>
+            </div>
+                        </div>
+                    </div>
+                    <div class="bMg-button clearfix bMg-confirm chatHide">
+                        <b class="bMg-cancel">取消</b>
+                        <button class="avatar-save btnSave" type="submit">确认</button>
+                    </div>
+                    <div class="bMg-button clearfix  bMg-preserve">
+                        <b class="bMg-cancel">取消</b>
+                        <b class="bMg-keepImg">保存</b>
+                    </div>
+                </div>
+            </form>
+    <!-- Loading state -->
+    <%--<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>--%>
+    </div>
+    <div class="showAllHeadImg chatHide">
+        <div class="bMg-cutPicture">
+            <h5 class="clearfix">
+                <span class="bMg-changPic">修改头像</span>
+                <i class="bMg-closeBtn" id="bMg-closeBtn1"></i>
+            </h5>
+            <p class="bMg-selectImg">使用下列所选照片</p>
+            <div class="clearfix">
+                <div class="bMg-changImgSize">
+            <div class="bMg-ImgContainer">
+                <ul class="bMg-imgList">
+                    <li class="active">
+                        <img src="page/web/css/img/1.jpg"/>
+                    </li>
+                    <li></li>
+                </ul>
+            </div>
+            <p class="bMg-promptExp">* 选择上面中的一个做为你的照片，或点击"添加"来添加您电脑中的照片来作为您的照片...</p>
+            </div>
+                <div class="bMg-previewImg">
+                    <div class="avatar-preview preview-lg">
+                        <img src="css/img/1.jpg" class="bMg-selImg">
+                    </div>
+                    <div class="bMg-gravityImg">
+                        <span >
+                            添加
+                            <div class="avatar-upload">
+                            <input class="avatar-src" name="avatar_src" type="hidden">
+                            <input class="avatar-data" name="avatar_data" type="hidden">
+                            <input class="avatar-input" id="avatarInput1" name="avatar_file" type="file">
+                            </div>
+                        </span>
+                        <span>删除</span>
+                    </div>
+                 </div>
+            </div>
+            <div class="bMg-button clearfix">
+                <b>取消</b>
+                <b>确认</b>
+            </div>
+        </div>
+    </div>
 <%--修改头像部分--%>
 <%--
 <div class="bMgMask"></div>
