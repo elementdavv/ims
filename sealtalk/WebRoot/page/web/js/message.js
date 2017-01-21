@@ -23,27 +23,28 @@ $(function(){
 
     //鼠标在联系人上悬停
     var timer=null,timer1 = null;
+
+    function showPersonDetailDia(e,CurList){
+        var pos = {};
+        pos.top = e.clientY;
+        pos.left = e.clientX;
+        var data = '';
+        var account = CurList.attr('account');
+        var datas = localStorage.getItem('MemberFriends');
+        var data = JSON.parse(datas);
+        for(var i = 0;i<data.length;i++){
+            if(data[i].account == account){
+                showMemberInfo(data[i],pos);
+                console.log(i);
+                break;
+            }
+        }
+    }
+
     $('.usualChatList').delegate('li','mouseenter',function(e){
         var _this = $(this);
         timer=setTimeout(function(){
-            var pos = {};
-            pos.top = e.clientY;
-            pos.left = e.clientX;
-            var data = '';
-            var account = _this.attr('account');
-            var datas = localStorage.getItem('MemberFriends');
-            var data = JSON.parse(datas);
-            //console.log(data);
-            //console.log('----------');
-            for(var i = 0;i<data.length;i++){
-                //console.log(account,data[i].account);
-                if(data[i].account == account){
-                    showMemberInfo(data[i],pos);
-                    console.log(i);
-                    break;
-                }
-            }
-
+            showPersonDetailDia(e,_this);
         },1000);
     })
     $('.usualChatList').delegate('li','mouseleave',function(e){
@@ -65,7 +66,7 @@ $(function(){
 
         //console.log(e.target)
         if($('.memberHover').length!=0&&$(e.target).parents('.memberHover').length==0){
-            $('.memberHover').remove();
+            //$('.memberHover').remove();
         }else{
             var targetID = $(e.target).closest('.showPersonalInfo').attr('targetid');
             if(!targetID){
@@ -83,27 +84,18 @@ $(function(){
             var datas = JSON.parse(data);
             switch (e.target.className){
                 case 'sendMsg'://发起聊天
-                    //var targetID = $(e.target).closest('.showPersonalInfo').attr('targetid');
-                    //if(!targetID){
-                    //    var targetID = $(e.target).parents('.selfImgInfo').next().attr('targetid');
-                    //}
+                    if(targeType=='member'){
+                        targeType = 'PRIVATE';
+                    }
                     conversationSelf(targetID,targeType);
                     $('.orgNavClick').addClass('chatHide');
                     $('.mesContainerSelf').removeClass('chatHide');
                     break;
                 case 'checkPosition'://查看位置
-                    //console.log('checkPosition');
                     console.log(targeType,targetID,datas);
-                    //$('.chatHeaderMenu li')[0].click();
-                    //$('.chatMenu li')[1].click();
-                    //$('.usualChatList').find('li[targetid='+targetID+']').dblclick();
                     break;
                 case 'addConver'://添加群聊
-                    //var data = localStorage.getItem('getBranchTree');
-                    //var datas = JSON.parse(data);
-
                     var memShipArr = [targetID,accountID];
-                    //console.log('addConver');
                     converseACount.push(accountID);
                     creatDialogTree(datas,'groupConvers','添加会话',function(){
                         var sConverseACount = JSON.stringify(converseACount);
@@ -127,22 +119,18 @@ $(function(){
                                 }else{
                                     alert('失败',datas.text);
                                 }
-
                             }
                         })
                     },memShipArr);
-
-
                     break;
                 default :
-                    //console.log(';;;;;');
             }
         }
         $('.myContextMenu').remove();
     })
 
     $('body').undelegate('#newsLeftClick li','click');
-    $('body').delegate('#newsLeftClick li','click',function(){
+    $('body').delegate('#newsLeftClick li','click',function(e){
         //var targetID =
         var targetID = $(this).parents('.myContextMenu').attr('memship');
         var targetType = $(this).parents('.myContextMenu').attr('targettype');
@@ -152,15 +140,51 @@ $(function(){
         {
             case 0:
                 //置顶会话
-                setConverToTop('PRIVATE',targetID,true);
+                setConverToTop(targetType,targetID);
                 break;
             case 1:
                 //发送文件
-
-                bindSenfFile($('#newsLeftClick li')[1]);
+                var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
+                eDom.click();
                 break;
             case 2:
                 //查看资料
+                if(targetType=='PRIVATE'){
+                    var memberid = $(this).parents('.myContextMenu').attr('memship');
+                    var CurList = $('[targetid='+memberid+'][targettype=PRIVATE]');
+                    //showPersonDetailDia(e,CurList)
+                    var pos = {};
+                    pos.top = parseInt(e.clientY)-100;
+                    pos.left = e.clientX;
+                    var data = '';
+                    var targerID = memberid;
+                    var datas = localStorage.getItem('MemberFriends');
+                    var data = JSON.parse(datas);
+                    for(var i = 0;i<data.length;i++){
+                        if(data[i].id == targerID){
+                            showMemberInfo(data[i],pos);
+                            console.log(i);
+                            break;
+                        }
+                    }
+                }else{
+                    //var data = '';
+                    var memberid = $(this).parents('.myContextMenu').attr('memship');  //39
+                    var CurList = $('[targetid='+memberid+'][targettype=GROUP]');
+                    var pos = {};
+                    pos.top = parseInt(e.clientY)-100;
+                    pos.left = e.clientX;
+                    var account = CurList.attr('account');
+                    var datas = localStorage.getItem('groupInfo');
+                    var data = JSON.parse(datas);
+                    var aText=data.text;
+                    for(var i = 0;i<aText.length;i++){
+                        if(aText[i].id==memberid){
+                            showGroupMemberInfo(aText[i],pos);
+                        }
+                    }
+                }
+
                 break;
             case 3:
                 //添加新成员

@@ -511,16 +511,18 @@ function getPerInfo(oInfoDetails){
     var sJob=oInfoDetails.sex || '';//职位
     var sOrg=oInfoDetails.sex || '';//组织
     var sAddress=oInfoDetails.address || '';//地址
+    var sTargetId=oInfoDetails.id || '';//ID
+    var sTargetType=oInfoDetails.flag==1?'PRIVATE':'GROUP';//成员类型
     var sDom='\
         <div class="infoDet-personal clearfix">\
     <img src="upload/images/'+sLogo+'">\
     <div class="infoDet-text">\
     <p>'+sName+'</p>\
-    <div class="clearfix">\
-    <span class="infoDet-postInfo"></span>\
-    <span class="infoDet-position"></span>\
-    <span class="infoDet-addPer"></span>\
-    </div>\
+    <ul class="clearfix showPersonalInfo" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
+    <li class="sendMsg"></li>\
+    <li class="checkPosition"></li>\
+    <li class="addConver"></li>\
+    </ul>\
     </div>\
     </div>\
     <ul class="infoDetList clearfix">\
