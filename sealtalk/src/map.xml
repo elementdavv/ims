@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+	<!-- dao -->
+	<bean id="mapDao" class="com.sealtalk.dao.map.impl.MapDaoImpl" autowire="byName" />
+	<bean id="groupMemeberDao" class="com.sealtalk.dao.group.impl.GroupMemberDaoImpl" autowire="byName" />
+	
+	<!-- service -->
+	<bean id="mapService" class="com.sealtalk.service.map.impl.MapServiceImpl" autowire="byName" >
+		<property name="mapDao" ref="mapDao" />
+		<property name="groupMemeberDao" ref="groupMemeberDao" />
+	</bean>
+	
+	<!-- action -->
+	<bean id="mapAction" class="com.sealtalk.action.map.MapAction" scope="prototype" autowire="byName" >
+		<property name="mapService" ref="mapService" />
+	</bean>
+	
+</beans>

@@ -1,5 +1,6 @@
 package io.rong;
 
+import io.rong.messages.LBSMessage;
 import io.rong.messages.TxtMessage;
 import io.rong.messages.VoiceMessage;
 import io.rong.models.ChatRoomInfo;
@@ -110,7 +111,8 @@ public class Example {
 		
 		// 发送系统消息方法（一个用户向一个或多个用户发送系统消息，单条消息最大 128k，会话类型为 SYSTEM。每秒钟最多发送 100 条消息，每次最多同时向 100 人发送，如：一次发送 100 人时，示为 100 条消息。） 
 		String[] messagePublishSystemToUserId = {"userId2","userid3","userId4"};
-		TxtMessage messagePublishSystemTxtMessage = new TxtMessage("hello", "helloExtra");
+		//TxtMessage messagePublishSystemTxtMessage = new TxtMessage("hello", "helloExtra");
+		LBSMessage messagePublishSystemTxtMessage = new LBSMessage("abcxfeadfbdzdik", "hello", 24.114,334.221, "北京市朝阳区北苑路北辰泰岳大厦");
 		CodeSuccessReslut messagePublishSystemResult = rongCloud.message.PublishSystem("userId1", messagePublishSystemToUserId, messagePublishSystemTxtMessage, "thisisapush", "{\"pushData\":\"hello\"}", 0, 0);
 		System.out.println("PublishSystem:  " + messagePublishSystemResult.toString());
 		

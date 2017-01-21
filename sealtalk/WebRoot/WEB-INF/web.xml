@@ -26,7 +26,8 @@
 	    	classpath:message.xml,
 	    	classpath:group.xml,
 	    	classpath:function.xml,
-	    	classpath:upload.xml
+	    	classpath:upload.xml,
+	    	classpath:map.xml
 	    </param-value>
 	</context-param>
 	

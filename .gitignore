@@ -98,3 +98,6 @@ DerivedData
 Code/node_modules/SimpleMySQL/cache
 /desktop.ini
 /sealtalk/WebRoot/WEB-INF/classes
+/sealtalk/test
+/sealtalk/.myeclipse
+/sealtalk/.settings

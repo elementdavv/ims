@@ -5,10 +5,10 @@
 
 <struts>
 
-    <package name="com.sealtalk.action.friend" extends="ssl-default">
-   <!--  <package name="com.sealtalk.action.friend" extends="struts-default">-->
-  		<!-- 联系人管理  -->
-        <action name="friend" class="com.sealtalk.action.friend.FriendAction">
+    <package name="com.sealtalk.action.map" extends="ssl-default">
+   <!--  <package name="com.sealtalk.action.adm" extends="struts-default">-->
+        <!-- 地图-->
+        <action name="map" class="com.sealtalk.action.map.MapAction">
         	<result name="text" type="stream">
         		<param name="contentType">text/plain</param>
 				<param name="inputName">inputStream</param>

@@ -29,15 +29,17 @@ public interface FunctionService {
 	
 	/**
 	 * 设置系统提示音功能
-	 * @param status
+	 * @param userId
+	 * @param status 
 	 * @return
 	 */
-	public String setSysTipVoice(String status);
+	public String setSysTipVoice(String userId, String status);
 
 	/**
 	 * 获取系统提示音状态 
+	 * @param userId
 	 * @return
 	 */
-	public String getSysTipVoice();
+	public String getSysTipVoice(String userId);
 
 }
