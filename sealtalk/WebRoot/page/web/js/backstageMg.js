@@ -188,17 +188,22 @@ $(document).ready(function(){
 
     });
     /*系统提示音*/
-    $('#chatBox').on('click','#systemSet .systemVoiceBtn i',function(){
-        var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
-        var eParent=$(this).parent();
-        switch(status){
+    $('#chatBox').on('click','#systemSet .systemVoiceBtn',function(){
+        //var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
+        //var eParent=$(this);
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+        }else{
+            $(this).addClass('active');
+        }
+        /*switch(status){
             case 0:
                 eParent.addClass('active');
                 break;
             case 1:
                 eParent.removeClass('active');
                 break;
-        }
+        }*/
     });
     $('#chatBox').on('click','#systemSet .systemSet-keep',function(){
        // var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
@@ -385,6 +390,7 @@ function fPersonalSet(){
     </div>';
     $('#chatBox #personSettingId').empty();
     $('#chatBox #personSettingId').append(sHtml);
+    $('.perSetBox-selSex').val(sSex);
 }
 function showGroupMemberInfo(oGroupInfo,pos){
     var sName=oGroupInfo.name || '';//群名称
