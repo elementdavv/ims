@@ -103,7 +103,7 @@ $(function(){
                             //生成搜索结果
                             var liHTML = '';
                             for(var i = 0;i<datas.length;i++){
-                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+datas[i].logo+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
+                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+globalVar.imgSrc+datas[i].logo+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
                             }
                             var sHTML = ' <div class="searchResult">'+
                                         '<ul class="searchResultUL">'+liHTML+

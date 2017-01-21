@@ -263,7 +263,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
     //}
     if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
-        var sImg=oData.logo || '/sealtalk/page/web/css/img/PersonImg.png';
+        var sImg=oData.logo || 'PersonImg.png';
         if(extra=="uploadFile"){
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sendMsg = JSON.parse(sContent);
@@ -459,7 +459,7 @@ function getGroupDetails(groupId){
             var sCreatorId=aText[i].creatorId;//群创建者id
             var sCreatedate=subTimer(aText[i].createdate);//创建时间
             var oCreator=findMemberInList(sCreatorId);
-            var sImg=oCreator.logo || '/sealtalk/page/web/css/img/PersonImg.png';
+            var sImg=oCreator.logo || 'PersonImg.png';
             sDom+='<ul class="groupInfo">\
                 <li class="groupInfo-name">\
             <span>群组名称：</span>\
@@ -471,7 +471,7 @@ function getGroupDetails(groupId){
             </li>\
             <li class="groupInfo-Controller">\
             <span>群主/管理员：</span>\
-            <img src="upload/images/'+sImg+'">\
+            <img src="'+globalVar.imgSrc+sImg+'">\
             </li>\
             <li class="groupInfo-disturb">\
             <span>消息免打扰：</span>\
@@ -505,9 +505,9 @@ function getGroupMembersList(groupid){
                 var oCreator=findMemberInList(aMember[i]);
                 var sMemberName=oCreator.name;
                 var sJob=oCreator.account;
-                var sImg=oCreator.logo || '/sealtalk/page/web/css/img/PersonImg.png';
+                var sImg=oCreator.logo || 'PersonImg.png';
                 sDom+=' <li>\
-                            <img src="upload/images/'+sImg+'">\
+                            <img src="'+globalVar.imgSrc+sImg+'">\
                             <p>'+sMemberName+'('+sJob+')</p>\
                             </li>';
             }
@@ -535,7 +535,7 @@ function getPerInfo(oInfoDetails){
     var sTargetType=oInfoDetails.flag==1?'PRIVATE':'GROUP';//成员类型
     var sDom='\
         <div class="infoDet-personal clearfix">\
-    <img src="upload/images/'+sLogo+'">\
+    <img src="'+globalVar.imgSrc+sLogo+'">\
     <div class="infoDet-text">\
     <p>'+sName+'</p>\
     <ul class="clearfix showPersonalInfo" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
@@ -737,7 +737,7 @@ function usualChatList(list){
                 var logo = member.logo || 'PersonImg.png';
                 var name = member.name || '';
                 sHTML += ' <li targetid="'+targetId+'" targetType="PRIVATE">'+
-                '<div><img class="groupImg" src="upload/images/'+logo+'" alt=""/>'+
+                '<div><img class="groupImg" src="'+globalVar.imgSrc+logo+'" alt=""/>'+
                 sNum+
                 '<span class="groupName">'+name+'</span>'+
                 '<span class="usualLastMsg">'+content+'</span>'+
@@ -749,7 +749,7 @@ function usualChatList(list){
             var curGroup = groupInfo(targetId);
             //if(curGroup){
                 sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-                '<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>'+
+                '<div><img class="groupImg" src="'+globalVar.imgSrc+'group_chart.png" alt=""/>'+
                 sNum+
                 '<span class="groupName">'+curGroup.name+'</span>'+
                 '<span class="usualLastMsg">'+content+'</span>'+
@@ -840,7 +840,6 @@ function sendInBox(msg,way,callback){
         var imgSrc = '';
         var Msize = KBtoM(sendMsg.size);
         switch (sendMsg.type){
-
             case 'image/png':
                 var imgSrc = 'page/web/css/img/backstage.png';
                 break;
@@ -859,7 +858,7 @@ function sendInBox(msg,way,callback){
                                 '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                             '</div>' +
                         '</div>' +
-                        '<a class="downLoadFile" src="http://ocsys6mwy.bkt.clouddn.com/'+sendMsg.name+'"></a>'+
+                        '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
                     '</li>';
     }else{
         var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
@@ -937,8 +936,9 @@ function reciveInBox(msg){
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
             //在盒子里显示
             //头像需要自己找？、？
+
             var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
-                '<img src="/sealtalk/page/web/css/img/PersonImg.png">' +
+                '<img src="'+globalVar.imgSrc+'PersonImg.png">' +
                 '<div class="mr-chatBox">' +
                 '<span>' + str + '</span>' +
                 '<i></i>' +

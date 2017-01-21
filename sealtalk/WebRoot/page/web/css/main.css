@@ -557,6 +557,9 @@ span.defaultText{
     float: left;
     width: 32px;
     margin-top: 5px;
+    height: 32px;
+    width: 32px;
+    border-radius: 32px;
 }
 .organizationList li .groupName{
     display: inline-block;

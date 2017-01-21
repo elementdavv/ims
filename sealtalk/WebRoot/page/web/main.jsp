@@ -668,6 +668,12 @@
                 <%--</li>--%>
             <%--</ul>--%>
         </div>
+    <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
+    <div class="organizeListOuter" id="organizeListOuter">
+    <!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->
+    </div>
+
+    </div>
         <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
             <div class="personalDetailContent">
                 <div class="selfImgInfo">
@@ -716,12 +722,7 @@
             </div>
         </div>
 
-        <div class="orgNavClick orgNavClick3 chatHide" id="organizeList">
-            <div class="organizeListOuter" id="organizeListOuter">
-                <!--<div class="topOuter"><p class="horizontal">董事长</p></div>-->
-            </div>
 
-        </div>
     </div>
 </div>
 <div class="WindowMask">

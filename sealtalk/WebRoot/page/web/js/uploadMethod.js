@@ -31,11 +31,11 @@ $(function(){
             uploading = true;
             var callback = {
                 onError: function (errorCode) {
-                    console.log(errorCode);
+                    //console.log(errorCode);
                     uploading = false;
                 },
                 onProgress: function (loaded, total) {
-                    console.log('onProgress', loaded, total, this);
+                    //console.log('onProgress', loaded, total, this);
                     var className = this._self.uniqueTime;
                     var percent = Math.floor(loaded / total * 100);
                     var progressContent = $('#up_precent[uniquetime="'+className+'"]');
