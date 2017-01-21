@@ -33,7 +33,12 @@ function seeOrgnizeTree(){
     //console.log(SHTML);
     $("#orgTree").jOrgChart({
         chartElement : '#organizeListOuter'
+        //,
+        //dragAndDrop  : true
     });
+
+
+    console.log($('.jOrgChart table').width());
 }
 
 function loopTree(data,sHTML,level){
@@ -41,6 +46,7 @@ function loopTree(data,sHTML,level){
         sHTML += '<ul id="orgTree" style="display:none">';
     }else{
         sHTML += '<ul>';
+
     }
     for(var i = 0;i<data.length;i++){
         var datas = data[i];
