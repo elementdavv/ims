@@ -921,11 +921,11 @@ function getMemberFriends(account,callback){
             var account = myData[i].account;
             var fullname = myData[i].fullname;
             var workno = myData[i].workno?' ('+myData[i].workno+')':''
-            var logo = myData[i].logo?myData[i].logo:'page/web/css/img/touxiang.png';
+            var logo = myData[i].logo?globalVar.imgSrc+myData[i].logo:'page/web/css/img/touxiang.png';
             var curData = myData[i];
             sHTML += ' <li account="'+account+'" targetid="'+myData[i].id+'">'+
             '<div>'+
-            '<img class="groupImg" src="'+globalVar.imgSrc+logo+'" alt=""/>'+
+            '<img class="groupImg" src="'+logo+'" alt=""/>'+
             '<span class="groupName">'+fullname+workno+'</span>'+
             '</div>'+
             '</li>';
