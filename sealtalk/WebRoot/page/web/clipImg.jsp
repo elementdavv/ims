@@ -15,7 +15,7 @@
         <div class="bMgMask"></div>
         <div class="container" id="crop-avatar">
             <div class="avatar-view" title="Change the avatar">
-            <img src="css/img/1.jpg" alt="Avatar">
+            <img src="" alt="Avatar">
             </div>
             <form class="avatar-form" action="<%=request.getContextPath() %>/upload!uploadUserLogo" enctype="multipart/form-data" method="post"  id="Uploader">
                 <div class="bMg-cutPicture">
@@ -45,7 +45,7 @@
                     <div class="bMg-previewImg">
                         <%--<canvas id="big" width="80" height="80" radius="40"></canvas>--%>
                         <div class="avatar-preview preview-lg">
-                            <img src="css/img/1.jpg" class="bMg-selImg">
+                            <img src="" class="bMg-selImg">
                         </div>
                         <%--<img src="css/img/1.jpg" class="bMg-selImg">--%>
                         <div class="bMg-gravityImg">

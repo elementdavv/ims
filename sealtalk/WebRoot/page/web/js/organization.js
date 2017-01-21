@@ -94,7 +94,7 @@ $(function(){
 
                             for(var i = 0;i<datas.length;i++){
                                 if(datas[i].logo){
-                                    var imgsrc = globalVar.imgSrc+datas[i].logo
+                                    var imgsrc = globalVar.imgSrc+datas[i].logo;
                                 }else{
                                     imgsrc = globalVar.defaultLogo;
                                 }

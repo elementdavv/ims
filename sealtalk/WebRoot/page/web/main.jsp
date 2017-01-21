@@ -676,7 +676,7 @@
         <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
             <div class="personalDetailContent">
                 <div class="selfImgInfo">
-                    <img src="page/web/css/img/1.jpg" alt=""/>
+                    <img src="" alt=""/>
 
                     <%--<div>--%>
                         <%--<p>张三</p>--%>
@@ -807,7 +807,7 @@
                             <div class="bMg-ImgContainer bMg-cropImgSet">
                                 <ul class="bMg-imgList">
                                     <li class="active">
-                                    <img src="page/web/css/img/1.jpg"/>
+                                    <img src=""/>
                                     </li>
                                 </ul>
                             </div>
@@ -815,7 +815,7 @@
                         </div>
                         <div class="bMg-previewImg">
                             <div class="avatar-preview preview-lg">
-    <img src="/sealtalk/page/web/css/img/1.jpg" class="bMg-selImg">
+    <img src="" class="bMg-selImg">
     </div>
                             <div class="bMg-gravityImg">
                         <span >
@@ -855,7 +855,7 @@
             <div class="bMg-ImgContainer">
                 <ul class="bMg-imgList">
                     <li class="active">
-                        <img src="page/web/css/img/1.jpg"/>
+                        <img src=""/>
                     </li>
                     <li></li>
                 </ul>
@@ -864,7 +864,7 @@
             </div>
                 <div class="bMg-previewImg">
                     <div class="avatar-preview preview-lg">
-                        <img src="/sealtalk/page/web/css/img/1.jpg" class="bMg-selImg">
+                        <img src="" class="bMg-selImg">
                     </div>
                     <div class="bMg-gravityImg">
                         <span >
