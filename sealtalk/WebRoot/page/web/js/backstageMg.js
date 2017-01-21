@@ -331,7 +331,7 @@ function fPersonalSet(){
     var sEmail=oData.text.email;//邮箱
     var sTelephone=oData.text.telephone;//电话
     var sSign=oData.text.sex;//工作签名
-    var sHeaderImg=globalVar.imgSrc+oData.text.logo|| globalVar.imgSrc+globalVar.defaultDepLogo;//头像
+    var sHeaderImg=oData.text.logo?globalVar.imgSrc+oData.text.logo:globalVar.defaultLogo;//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
