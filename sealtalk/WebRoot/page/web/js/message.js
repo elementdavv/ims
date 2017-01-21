@@ -434,7 +434,7 @@ $(function(){
                     for(var i=0;i<aText.length;i++){
                         var sLatitude=aText[i].latitude;//经度
                         var sLongtitude=aText[i].longtitude;//纬度
-                        var sLogo=globalVar.imgSrc+aText[i].logo || globalVar.defaultLogo;//用户头像
+                        var sLogo=aText[i].logo?globalVar.imgSrc+aText[i].logo : globalVar.defaultLogo;//用户头像
                         var sUserID=aText[i].userID;//用户id
                         var marker;
                         var lnglats=[];

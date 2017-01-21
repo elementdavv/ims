@@ -311,6 +311,26 @@ $(document).ready(function(){
             }
         });
     });
+    /*$('#personSettingId').on('click','.perSetBox-keep',function(){
+        var sAccountNum=$('#personSettingId .perSetBox-account').html() ||'1';
+        var sName=$('#personSettingId .perSetBox-name').html() ||'1';
+        var sPosition=$('#personSettingId .perSetBox-position').html() ||'1';
+        var sBranch=$('#personSettingId .perSetBox-branch').html()||'1';
+        var sEmail=$('#personSettingId .perSetBox-email').val()||'1';
+        var sSex=$('#personSettingId .perSetBox-selSex').val()||'1';
+        var sTelephone=$('#personSettingId .perSetBox-telephone').html()||'1';
+        var sSign=$('#personSettingId .perSetBox-textarea').text()|| '44444';
+        sendAjax('member!updateMemberInfo',{account:sAccountNum,fullname:sName,sex:sSex,position:sPosition,branch:sBranch,email:sEmail,phone:sTelephone,sign:sSign},function(data){
+            var oDatas=JSON.parse(data);
+           if(oDatas.code==1){
+               var sData=window.localStorage.getItem("datas");
+               var oData= JSON.parse(sData);
+               var sId=oData.text.id;
+               var sSelfImg=oData.text.logo;
+           }
+        });
+
+    });*/
     $('#crop-avatar').on('click','.bMg-cropImgSet .bMg-imgList li',function(){
         $('.bMg-cropImgSet .bMg-imgList li').removeClass('active');
         $(this).addClass('active');
@@ -345,45 +365,45 @@ function fPersonalSet(){
     <ul class="perSetBox-contDetails">\
     <li >\
     <span>成员账号:</span>\
-    <p>'+sAccountNum+'</p>\
+    <p class="perSetBox-account">'+sAccountNum+'</p>\
     </li>\
     <li>\
     <span>姓名：</span>\
-    <p>'+sName+'</p>\
+    <p class="perSetBox-name">'+sName+'</p>\
     </li>\
     <li>\
     <span>性别：</span>\
     <p>\
     <select class="perSetBox-selSex">\
-    <option value="男">男</option>\
+    <option value="男" selected>男</option>\
     <option value="女">女</option>\
     </select>\
     </p>\
     </li>\
     <li>\
     <span>职位：</span>\
-    <p>'+sPosition+'</p>\
+    <p class="perSetBox-position">'+sPosition+'</p>\
     </li>\
     <li>\
     <span>部门：</span>\
-    <p>'+sBranch+'</p>\
+    <p class="perSetBox-branch">'+sBranch+'</p>\
     </li>\
     <li>\
     <span>邮箱：</span>\
     <p>\
-    <input value="'+sEmail+'" class="perSetBox-editText"/>\
+    <input value="'+sEmail+'" class="perSetBox-editText perSetBox-email"/>\
     </p>\
     </li>\
     <li>\
     <span>电话：</span>\
     <p>\
-    <input value="'+sTelephone+'" class="perSetBox-editText"/>\
+    <input value="'+sTelephone+'" class="perSetBox-editText perSetBox-telephone"/>\
     </p>\
     </li>\
     <li>\
     <span>工作签名：</span>\
     <p>\
-    <textarea class="perSetBox-textarea" value="'+sSign+' readonly="readonly">\
+    <textarea class="perSetBox-textarea" value="'+sSign+'">\
     </textarea>\
     </p>\
     </li>\
