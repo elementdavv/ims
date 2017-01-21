@@ -734,10 +734,10 @@ function usualChatList(list){
             var member = findMemberInList(targetId);
             if(member){
                 //console.log('member',member);
-                var logo = member.logo;
-                var name = member.name;
+                var logo = member.logo || 'PersonImg.png';
+                var name = member.name || '';
                 sHTML += ' <li targetid="'+targetId+'" targetType="PRIVATE">'+
-                '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+                '<div><img class="groupImg" src="upload/images/'+logo+'" alt=""/>'+
                 sNum+
                 '<span class="groupName">'+name+'</span>'+
                 '<span class="usualLastMsg">'+content+'</span>'+

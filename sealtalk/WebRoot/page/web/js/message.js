@@ -407,6 +407,7 @@ $(function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.text.id;
+        $('.groupMapMember').removeClass('chatHide');
         sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:0},function(data){
             var aDatas=JSON.parse(data);
             console.log(aDatas);
@@ -453,6 +454,7 @@ $(function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.text.id;
+        $('.groupMapMember').addClass('chatHide');
         sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:1},function(data){
             var aDatas=JSON.parse(data);
             console.log(aDatas);
@@ -838,7 +840,7 @@ function changeClick1Content(data){
         var sHeadImg=data[i].logo || 'PersonImg.png';//头像
         var sName=data[i].name||'';//姓名
         if(data[i].logo){
-            var imgHTML = '<img src="'+sHeadImg+'" alt="">';
+            var imgHTML = '<img src="upload/images/'+sHeadImg+'" alt="">';
         }else{
             var imgHTML = '<img src="/sealtalk/page/web/css/img/PersonImg.png" alt="">';
 
