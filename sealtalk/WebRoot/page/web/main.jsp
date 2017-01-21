@@ -6,6 +6,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/main.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/window.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
@@ -15,17 +16,17 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/clipImg.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/cropper.min.css"/>
 
+    <script src="<%=request.getContextPath() %>/page/web/js/config.js"></script>
+
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>
 
-
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
-    <script src="<%=request.getContextPath() %>/page/web/js/globalVar.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/globalVar.js"></script>--%>
 
     <%--七牛上传--%>
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/upload.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>
-
 
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
     <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
@@ -33,7 +34,6 @@
     <script src="https://webapi.amap.com/js/marker.js"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=acafe737e6344c4ce19d101b9f3b1d03"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/getCurrentPos.js"></script>
-    <%--<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>--%>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/perfect-scrollbar.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/rongyun.js"></script>
@@ -54,11 +54,6 @@
     <script src="<%=request.getContextPath() %>/page/web/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/organization.js"></script>--%>
-
-    <%--
-    <script src="<%=request.getContextPath() %>/page/web/js/clip.js"></script>
-    --%>
 </head>
 <body>
     <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
