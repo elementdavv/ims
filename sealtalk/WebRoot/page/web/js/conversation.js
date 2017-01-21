@@ -898,7 +898,7 @@ function reciveInBox(msg){
             var content = JSON.parse(content);
             console.log('sendMsg',content);
 
-            var imgSrc = '';
+            //var imgSrc = '';
             var Msize = KBtoM(content.size);
             switch (content.type){
                 case 'image/png':
@@ -929,8 +929,9 @@ function reciveInBox(msg){
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
             //在盒子里显示
             //头像需要自己找？、？
+
             var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
-                '<img src="'+globalVar.imgSrc+'PersonImg.png">' +
+                '<img src="'+globalVar.defaultLogo+'">' +
                 '<div class="mr-chatBox">' +
                 '<span>' + str + '</span>' +
                 '<i></i>' +

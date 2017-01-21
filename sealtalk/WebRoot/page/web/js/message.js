@@ -740,7 +740,11 @@ $(function(){
 })
 function getSysTipVoice(userid){
     sendAjax('fun!getSysTipVoice',{userid:userid},function(data){
-        console.log('getSysTipVoice',data);
+        var oData=JSON.parse(data);
+        //var eParent=$('#chatBox #systemSet .systemVoiceBtn');
+        if(oData.code==1){
+            globalVar.SYSTEMSOUND=status;
+        }
     })
 }
 
