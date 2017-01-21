@@ -1088,10 +1088,16 @@ function createOrganizList(data,sHTML,level){
             var collspan = '<span class="groupCollspanO chatLeftIcon groupCollspan"></span>'
         }
         if(oData.flag==1){
-            var imgSrc = oData.logo;
+            if(oData.logo){
+                var imgSrc = oData.logo;
+
+            }else{
+                var imgSrc = globalVar.defaultLogo;
+            }
+
 
         }else{
-            var imgSrc = 'group_chart.png'
+            var imgSrc = globalVar.defaultDepLogo
 
         }
         console.log('oData',oData);
