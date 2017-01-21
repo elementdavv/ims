@@ -87,5 +87,21 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @return
 	 */
 	public boolean valideOldPwd(String account, String oldPwd);
-	
+
+	/**
+	 * 更新用户头像
+	 * @param userId
+	 * @param picName
+	 * @return
+	 */
+	public int updateUserLogo(int userId, String picName);
+
+	/**
+	 * 查看头像是否在使用中
+	 * @param userIdInt 
+	 * @param userId
+	 * @return
+	 */
+	public boolean isUsedPic(int userIdInt, String userId);
+
 } 

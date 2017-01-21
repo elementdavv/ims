@@ -21,6 +21,7 @@ import org.directwebremoting.WebContextFactory;
 import com.opensymphony.xwork2.ActionSupport;
 import com.sealtalk.model.TextCode;
 import com.sealtalk.model.SessionUser;
+import com.sealtalk.utils.StringUtils;
 
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware
 {
@@ -94,6 +95,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	/** 返回客户端JSON格式数据 */
 	public void returnToClient(String jsonString)
 	{
+		if (StringUtils.getInstance().isBlank(jsonString)) {
+			jsonString = "{}";
+		}
 		try {
 			response.addHeader("pragma", "NO-cache");
 			response.addHeader("Cache-Control", "no-cache");

@@ -167,23 +167,23 @@
             <div class="groupMapBox">
                 <div id="container"></div>
                 <div class="groupMapMember">
-                    <ul>
-                        <li>
-                            <img src="page/web/css/img/1.jpg">
-                        </li>
-                        <li>
-                            <img src="page/web/css/img/1.jpg">
-                        </li>
-                        <li>
-                            <img src="page/web/css/img/1.jpg">
-                        </li>
-                        <li>
-                            <img src="page/web/css/img/1.jpg">
-                        </li>
-                        <li>
-                            <img src="page/web/css/img/1.jpg">
-                        </li>
-                    </ul>
+                    <%--<ul>--%>
+                        <%--<li>--%>
+                            <%--<img src="page/web/css/img/1.jpg">--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<img src="page/web/css/img/1.jpg">--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<img src="page/web/css/img/1.jpg">--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<img src="page/web/css/img/1.jpg">--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<img src="page/web/css/img/1.jpg">--%>
+                        <%--</li>--%>
+                    <%--</ul>--%>
                 </div>
             </div>
         </div>
@@ -291,8 +291,9 @@
                 <%--</ul>--%>
             </div>
             <div class="mr-chateditBox">
+                <div class="rongyun-emoji"></div>
                 <div class="mr-expresFile clearfix">
-                    <span></span>
+                    <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
                     <input type="file" class="comment-pic-upd" id="upload_file"/>
@@ -466,26 +467,26 @@
         <div class="infoDetailsBox" >
             <div class="group-data">
                 <ul class="groupInfo">
-                    <li class="groupInfo-name">
-                    <span>群组名称：</span>
-                    <b>天方产品部</b>
-                    </li>
-                    <li class="groupInfo-setTime">
-                    <span>群组名称：</span>
-                    <b>天方产品部</b>
-                    </li>
-                    <li class="groupInfo-Controller">
-                    <span>群主/管理员：</span>
-                    <img src="page/web/css/img/1.jpg">
-                    </li>
-                    <li class="groupInfo-disturb">
-                    <span>消息免打扰：</span>
+                    <%--<li class="groupInfo-name">--%>
+                    <%--<span>群组名称：</span>--%>
+                    <%--<b>天方产品部</b>--%>
+                    <%--</li>--%>
+                    <%--<li class="groupInfo-setTime">--%>
+                    <%--<span>群组名称：</span>--%>
+                    <%--<b>天方产品部</b>--%>
+                    <%--</li>--%>
+                    <%--<li class="groupInfo-Controller">--%>
+                    <%--<span>群主/管理员：</span>--%>
+                    <%--<img src="page/web/css/img/1.jpg">--%>
+                    <%--</li>--%>
+                    <%--<li class="groupInfo-disturb">--%>
+                    <%--<span>消息免打扰：</span>--%>
 
-                    <p>
-                    <i></i>
-                    <i></i>
-                    </p>
-                    </li>
+                    <%--<p>--%>
+                    <%--<i></i>--%>
+                    <%--<i></i>--%>
+                    <%--</p>--%>
+                    <%--</li>--%>
                 </ul>
                 <div class="groupInfo-memberList">
                     <div class="groupInfo-number clearfix">
@@ -497,11 +498,11 @@
                     </p>
                     </div>
                     <ul class="groupInfo-memberAll">
-                        <li>
-                        <img src="page/web/css/img/1.jpg">
+                        <%--<li>--%>
+                        <%--<img src="page/web/css/img/1.jpg">--%>
 
-                        <p>张三(产品经理)</p>
-                        </li>
+                        <%--<p>张三(产品经理)</p>--%>
+                        <%--</li>--%>
                     </ul>
                 </div>
             </div>
@@ -600,121 +601,121 @@
 
         <div class="orgNavClick orgNavClick1 chatHide" id="orgnizedLevel">
             <div class="orgNavTitle">标题</div>
-            <ul>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+            <%--<ul>--%>
+                <%--<li>--%>
+                    <%--&lt;%&ndash;<div class="showImgInfo">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<img src="page/web/css/img/PersonImg.png" alt=""/>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<div class="showPersonalInfo">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<span>张三（产品总监）</span>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<ul class="personalOperaIcon">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="sendMsg"></li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="checkPosition"></li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="addConver"></li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</ul>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--</li>--%>
+            <%--</ul>--%>
             <div class="orgNavTitle">标题</div>
-            <ul>
+            <%--<ul>--%>
 
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="showImgInfo">
-                        <img src="page/web/css/img/PersonImg.png" alt=""/>
-                    </div>
-                    <div class="showPersonalInfo">
-                        <span>张三（产品总监）</span>
-                        <ul class="personalOperaIcon">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+                <%--<li>--%>
+                    <%--&lt;%&ndash;<div class="showImgInfo">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<img src="page/web/css/img/PersonImg.png" alt=""/>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<div class="showPersonalInfo">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<span>张三（产品总监）</span>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<ul class="personalOperaIcon">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="sendMsg"></li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="checkPosition"></li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="addConver"></li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</ul>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--&lt;%&ndash;<div class="showImgInfo">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<img src="page/web/css/img/PersonImg.png" alt=""/>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<div class="showPersonalInfo">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<span>张三（产品总监）</span>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<ul class="personalOperaIcon">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="sendMsg"></li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="checkPosition"></li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<li class="addConver"></li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</ul>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="page/web/css/img/PersonImg.png" alt=""/>--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+                <%--<li>--%>
+                    <%--<div class="showImgInfo">--%>
+                        <%--<img src="page/web/css/img/PersonImg.png" alt=""/>--%>
+                    <%--</div>--%>
+                    <%--<div class="showPersonalInfo">--%>
+                        <%--<span>张三（产品总监）</span>--%>
+                        <%--<ul class="personalOperaIcon">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</li>--%>
+            <%--</ul>--%>
         </div>
         <div class="orgNavClick orgNavClick2 chatHide" id="personalDetail ">
             <div class="personalDetailContent">
                 <div class="selfImgInfo">
                     <img src="page/web/css/img/1.jpg" alt=""/>
 
-                    <div>
-                        <p>张三</p>
-                        <ul class="selfImgOpera">
-                            <li class="sendMsg"></li>
-                            <li class="checkPosition"></li>
-                            <li class="addConver"></li>
-                        </ul>
-                    </div>
-                </div>
+                    <%--<div>--%>
+                        <%--<p>张三</p>--%>
+                        <%--<ul class="selfImgOpera">--%>
+                            <%--<li class="sendMsg"></li>--%>
+                            <%--<li class="checkPosition"></li>--%>
+                            <%--<li class="addConver"></li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <div class="showPersonalInfo">
-                    <ul>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                    <%--<ul>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
-                        <li>
-                            <div>aaaaa:</div>
-                            <div>ddddd</div>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                            <%--<div>aaaaa:</div>--%>
+                            <%--<div>ddddd</div>--%>
 
-                        </li>
+                        <%--</li>--%>
 
-                    </ul>
+                    <%--</ul>--%>
                 </div>
 
             </div>
@@ -1006,38 +1007,38 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <img src="" alt=""/>王二虎
-                        </td>
-                        <td>产品经理</td>
-                        <td>是</td>
-                        <td class="operate"><span>转让群</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="" alt=""/>王二虎
-                        </td>
-                        <td>产品经理</td>
-                        <td>是</td>
-                        <td class="operate"><span>转让群</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="" alt=""/>王二虎
-                        </td>
-                        <td>产品经理</td>
-                        <td>是</td>
-                        <td class="operate"><span>转让群</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="" alt=""/>王二虎
-                        </td>
-                        <td>产品经理</td>
-                        <td>是</td>
-                        <td class="operate"><span>转让群</span></td>
-                    </tr>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<img src="" alt=""/>王二虎--%>
+                        <%--</td>--%>
+                        <%--<td>产品经理</td>--%>
+                        <%--<td>是</td>--%>
+                        <%--<td class="operate"><span>转让群</span></td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<img src="" alt=""/>王二虎--%>
+                        <%--</td>--%>
+                        <%--<td>产品经理</td>--%>
+                        <%--<td>是</td>--%>
+                        <%--<td class="operate"><span>转让群</span></td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<img src="" alt=""/>王二虎--%>
+                        <%--</td>--%>
+                        <%--<td>产品经理</td>--%>
+                        <%--<td>是</td>--%>
+                        <%--<td class="operate"><span>转让群</span></td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<img src="" alt=""/>王二虎--%>
+                        <%--</td>--%>
+                        <%--<td>产品经理</td>--%>
+                        <%--<td>是</td>--%>
+                        <%--<td class="operate"><span>转让群</span></td>--%>
+                    <%--</tr>--%>
                     </tbody>
                 </table>
 

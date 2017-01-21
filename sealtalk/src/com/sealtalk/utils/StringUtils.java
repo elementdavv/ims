@@ -80,15 +80,20 @@ public class StringUtils {
 		return str.substring(start, end);
 	}
 	
+	public String clearNumPoint(String str) {
+		if (str != null) {
+			int pos = str.lastIndexOf(".");
+			
+			if (pos == -1) {
+				return str;
+			} 
+			return str.substring(0,pos);
+		}
+		return str;
+	}
+	
 	public String[] stringSplit(String str, String seper) {
  		if (!isBlank(str)) {
-			//if (isStartChar(str, "[")) {
-			//	str = subString(str, 1, str.length());
-			//} 
-			//if (isEndChar(str, "]")) {
-			//	str = subString(str, 0, str.length() - 1);
-			//}
-			
 			return str.split(seper);
 		}
 		

@@ -6,6 +6,7 @@
 <struts>
     <constant name="struts.enable.DynamicMethodInvocation" value="true" />
     <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!-- @Secured -->
    <!-- <constant name="struts2.sslplugin.httpPort" value="8085" />-->
     <constant name="struts2.sslplugin.httpsPort" value="8443" />
     <!-- constant name="struts.multipart.maxSize" value="1000000000"/-->
@@ -19,6 +20,8 @@
     <include file="struts-group.xml" />
     <include file="struts-fun.xml" />
     <include file="struts-upload.xml" />
-
+    <include file="struts-map.xml" />
+    <include file="strutst-test.xml" />
+    
 </struts>
 

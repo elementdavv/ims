@@ -9,7 +9,6 @@ $(function(){
     if(sAccount){
         var oAccount = JSON.parse(sAccount);
         var token = oAccount.token;
-        console.log(token);
 
 
         // 设置连接监听状态 （ status 标识当前连接状态）
@@ -138,16 +137,15 @@ $(function(){
     initEmoji();
 })
 
-//setConverToTop('PRIVATE','1',true);
-function setConverToTop(Type,targetId,isTop) {
-    var conversationtype = RongIMLib.ConversationType[Type]; // 私聊
-    RongIMLib.RongIMClient.getInstance().setConversationToTop(conversationtype, targetId, {isTop:isTop,
-        onSuccess: function (bool) {
-           console.log(11111);
-        },
-        onError: function (errorCode) {
-            console.log(222);
 
+function setConverToTop(Type,targetId) {
+    var conversationtype = RongIMLib.ConversationType[Type]; // 私聊
+    RongIMLib.RongIMClient.getInstance().setConversationToTop(conversationtype, targetId, {
+        onSuccess: function() {
+            console.log("setDiscussionInviteStatus Successfully");
+        },
+        onError: function(error) {
+            console.log("setDiscussionInviteStatus:errorcode:" + error);
         }
     });
 }

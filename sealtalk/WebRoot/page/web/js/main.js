@@ -11,7 +11,6 @@ $(function(){
     }
 
     $('.contactsList').perfectScrollbar();
-    //$('body').perfectScrollbar();
     $('.dialogClose,.manageCancle').click(function(){
         $('.WindowMask,.WindowMask2').hide();
         $('.contactsSearch').val('');

@@ -115,8 +115,22 @@ function conversationGroup(targetID,targetType,groupName){
         $('.textarea').append(name);
     })
     $('.showEmoji').click(function(){
+
         $('.rongyun-emoji').show();
+        $('.rongyun-emoji').blur(function(){
+            console.log(1);
+        })
+
     });
+    var rimerEmoji = null;
+    $('.rongyun-emoji').on('mouseenter',function(){
+        clearTimeout(rimerEmoji);
+    })
+    $('.rongyun-emoji').on('mouseleave',function(){
+        rimerEmoji = setTimeout(function(){
+            $('.rongyun-emoji').hide();
+        },1000)
+    })
     //$('#message-content').unbind('click');
     $('#message-content').click(function(){
         $(this).keypress(function(event) {
@@ -248,7 +262,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
     //}
     if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
-        var sImg=oData.logo || 'PersonImg.png';
+        var sImg=oData.logo || '/sealtalk/page/web/css/img/PersonImg.png';
         if(extra=="uploadFile"){
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sendMsg = JSON.parse(sContent);
@@ -447,7 +461,7 @@ function getGroupDetails(groupId){
             var sCreatorId=aText[i].creatorId;//群创建者id
             var sCreatedate=subTimer(aText[i].createdate);//创建时间
             var oCreator=findMemberInList(sCreatorId);
-            var sImg=oCreator.logo || 'PersonImg.png';
+            var sImg=oCreator.logo || '/sealtalk/page/web/css/img/PersonImg.png';
             sDom+='<ul class="groupInfo">\
                 <li class="groupInfo-name">\
             <span>群组名称：</span>\
@@ -493,7 +507,7 @@ function getGroupMembersList(groupid){
                 var oCreator=findMemberInList(aMember[i]);
                 var sMemberName=oCreator.name;
                 var sJob=oCreator.account;
-                var sImg=oCreator.logo || 'PersonImg.png';
+                var sImg=oCreator.logo || '/sealtalk/page/web/css/img/PersonImg.png';
                 sDom+=' <li>\
                             <img src="upload/images/'+sImg+'">\
                             <p>'+sMemberName+'('+sJob+')</p>\
@@ -519,16 +533,18 @@ function getPerInfo(oInfoDetails){
     var sJob=oInfoDetails.sex || '';//职位
     var sOrg=oInfoDetails.sex || '';//组织
     var sAddress=oInfoDetails.address || '';//地址
+    var sTargetId=oInfoDetails.id || '';//ID
+    var sTargetType=oInfoDetails.flag==1?'PRIVATE':'GROUP';//成员类型
     var sDom='\
         <div class="infoDet-personal clearfix">\
     <img src="upload/images/'+sLogo+'">\
     <div class="infoDet-text">\
     <p>'+sName+'</p>\
-    <div class="clearfix">\
-    <span class="infoDet-postInfo"></span>\
-    <span class="infoDet-position"></span>\
-    <span class="infoDet-addPer"></span>\
-    </div>\
+    <ul class="clearfix showPersonalInfo" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
+    <li class="sendMsg"></li>\
+    <li class="checkPosition"></li>\
+    <li class="addConver"></li>\
+    </ul>\
     </div>\
     </div>\
     <ul class="infoDetList clearfix">\
@@ -733,7 +749,7 @@ function usualChatList(list){
             }
         }else if(conversationType==3){
             var curGroup = groupInfo(targetId);
-            console.log(curGroup)
+            //console.log(curGroup)
             sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
             '<div><img class="groupImg" src="page/web/css/img/group_chart.png" alt=""/>'+
             sNum+
@@ -910,7 +926,7 @@ function reciveInBox(msg){
                 '<div id="up_process"><div id="up_precent"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a class="downLoadFile" href="https://ocsys6mwy.bkt.clouddn.com/'+data.filename+'"></a>'+
+                '<a class="downLoadFile" href="https://ocsys6mwy.bkt.clouddn.com/fileName"></a>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
@@ -925,15 +941,13 @@ function reciveInBox(msg){
             //在盒子里显示
             //头像需要自己找？、？
             var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
-                '<img src="page/web/css/img/1.jpg">' +
+                '<img src="/sealtalk/page/web/css/img/PersonImg.png">' +
                 '<div class="mr-chatBox">' +
                 '<span>' + str + '</span>' +
                 '<i></i>' +
                 '</div>' +
                 '</li>';
 
-            //clearNoReadMsg($('.mesContainer').attr('targettype'),targetID);
-            //msgReaded(msg.messageUId,msg.sentTime,$('.mesContainer').attr('targettype'));
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
             var eDom=document.querySelector('#perContainer .mr-chatview');

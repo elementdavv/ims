@@ -6,6 +6,7 @@
 <struts>
 
     <package name="com.sealtalk.action.upload" extends="ssl-default">
+   <!--  <package name="com.sealtalk.action.upload" extends="struts-default">-->
     	<!-- 七牛相关 -->
         <action name="qiniu" class="com.sealtalk.action.upload.QiNiuAboutAction">
 			<result name="text" type="stream">

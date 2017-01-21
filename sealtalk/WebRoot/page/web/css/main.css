@@ -738,12 +738,15 @@ span.defaultText{
     top: 18px;
     padding-left: 18px;
 }
-.personalOperaIcon li,.selfImgOpera li{
+.personalOperaIcon li,.selfImgOpera li,.showPersonalInfo li{
     float: left;
     width: 34px;
     background-image: url("img/chatLeftIcon.png");
     height: 30px;
     line-height: 30px;
+}
+.personalInfoUl{
+
 }
 .sendMsg{
     background-position: -398px -200px

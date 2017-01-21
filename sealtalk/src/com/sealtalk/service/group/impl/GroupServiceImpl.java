@@ -154,7 +154,7 @@ public class GroupServiceImpl implements GroupService {
 						} 
 						
 						String createCGcode = RongCloudUtils.getInstance().createGroup(groupIdsArr, groupId + "", groupNameStr);
-						RongCloudUtils.getInstance().sendSysMsg(userId, groupIdsArr, "hello", "");
+						RongCloudUtils.getInstance().sendSysMsg(userId, groupIdsArr, "你创建了群组", "");
 						
 						jo.put("code", createCGcode);
 						jo.put("text", JSONUtils.getInstance().modelToJSONObj(tg));
@@ -226,7 +226,7 @@ public class GroupServiceImpl implements GroupService {
 					
 					//通知融云
 					RongCloudUtils.getInstance().joinGroup(groupIdsArr, groupId, groupName);
-					
+					RongCloudUtils.getInstance().sendSysMsg(groupId, groupIdsArr, "加入群组", "");
 					jo.put("code", 1);
 					jo.put("text", Tips.OK.getText());
 				}

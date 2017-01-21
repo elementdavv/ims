@@ -281,4 +281,35 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		return false;
 	}
 
+	@Override
+	public int updateUserLogo(int userId, String picName) {
+		
+		try {
+			String hql = "update TMember mem set mem.logo='" + picName + "' where id=" + userId;
+			int ret = update(hql);
+			return ret;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean isUsedPic(int userId, String picName) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.and(Restrictions.eq("id", userId), Restrictions.eq("logo", picName)));
+			
+			List<TMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

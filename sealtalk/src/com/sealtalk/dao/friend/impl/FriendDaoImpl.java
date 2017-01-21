@@ -67,7 +67,8 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 	@Override
 	public void delFriend(int accountId, int friendId) {
 		try {
-			String hql = "delete from TFriend where memberId=" + accountId + " and friendId=" + friendId;
+			String hql = "delete from TFriend where memberId=" + accountId + " and friendId=" + friendId + "" +
+					" or memberId=" + friendId + " and friendId=" + accountId;
 			delete(hql);
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -143,6 +143,7 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<TGroupMember> getGroupMemberForUserId(int userId) {
 		try {

@@ -58,6 +58,8 @@ public class RongCloudUtils {
 		
 		TokenReslut userGetTokenResult = null;
 		
+		userName = StringUtils.getInstance().isBlank(userName) ? "" : userName;
+		
 		try {
 			if (url == null || "".equals(url)) {
 				String domain = PropertiesUtils.getDomain();
@@ -169,7 +171,7 @@ public class RongCloudUtils {
 			}
 
 			JSONObject pushMsg = new JSONObject();
-			jo.put("pushData", msg);
+			pushMsg.put("pushData", msg);
 			
 			TxtMessage messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
 			CodeSuccessReslut messagePublishSystemResult = 
