@@ -59,6 +59,7 @@ function callajax(url, data, cb){
 }
 
 function showdate(data) {
+	if (data.length == 0) return '';
 	return data.substr(0,4) + '-' + data.substr(4,2) + '-' + data.substr(6,2);
 }
 function formtojson(form) {

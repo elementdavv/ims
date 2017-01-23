@@ -1,4 +1,4 @@
-var branch112position = 0;
+var searchnodes112position = null;
 $(document).ready(function(){
 
 	//下拉相关
@@ -12,43 +12,12 @@ $(document).ready(function(){
 		callajax('branch!savePosition', data, cb_112_position_save);
 	});
 
-	callajax("branch!getOrganOnlyTree", "", cb_112_position_tree);
-	callajax("branch!getPosition", "", cb_112_position_select);
+	$('#search112position').keyup(function(e) {
+		if (e.keyCode == 13) {
+			searchnodes112position = dosearch('search112position', 'tree112position', searchnodes112position);
+		}
+	});
 })
-function cb_112_position_tree(data) {
-
-	$.fn.zTree.init($('#tree112position'), setting112_position, data);
-	$.fn.zTree.getZTreeObj('tree112position').expandAll(true);
-}
-function cb_112_position_select(data) {
-	
-	$('#select112position').empty();
-	var i = data.length;
-	while(i--) {
-		$('#select112position').append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
-	}
-}
-var setting112_position = {
-	view: {
-		showLine: false,
-	},
-	data: {
-		simpleData: {
-			enable:true,
-			idKey: "id",
-			pIdKey: "pid",
-			rootPId: null
-		}
-	},
-	async: {
-		enable: false
-	},
-	callback: {
-		onClick: function(event, treeId, treeNode, clickFlag) {
-			branch112position = treeNode.id;
-		}
-	}
-}
 function cb_112_position_save(data) {
 
 	if (data.branchmemberid == '0') {

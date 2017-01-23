@@ -1,17 +1,3 @@
-/admin.xml
 /com/
 /common/
-/friend.xml
-/hibernate.cfg
 /io/
-/jsonsource/
-/log4j.properties
-/member.xml
-/sealtalk.properties
-/spring.xml
-/struts-branch.xml
-/struts-friend.xml
-/struts-member.xml
-/struts-system.xml
-/struts.xml
-/system.xml

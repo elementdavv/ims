@@ -14,7 +14,7 @@
 			<input type="text" id="branchmanager" name="branchmanager" readonly class='treeedit'>
 			<img src="images/下拉.png" id='xiala10' class='treeedit'>
 			<input type="hidden" id="branchmanagerid" name="branchmanagerid">
-			<button id="branchaddmember">+添加人员</button>
+			<span id="branchaddmember">+添加人员</span>
 			<div class='treewrap' id='tree110wrap'>
 				<div id='tree110' class='ztree'></div>
 			</div>

@@ -16,9 +16,12 @@ var branchmembertemplate=[
 		"<button onclick='delbranchmember(branchmemberid)'>删除</button>" +
 		"</td></tr>"];
 var branchmemberid;
+var branch112position = 0;
 $(document).ready(function(){
 	
 	$('#position').on('shown.bs.modal', function(e) {
+		callajax("branch!getOrganOnlyTree", "", cb_112_position_tree);
+		callajax("branch!getPosition", "", cb_112_position_select);
 		if (branchmemberid > 0) {
 			$('#title112position').text('编辑用户职位信息');
 			callajax("branch!getBranchMemberById", {branchmemberid: branchmemberid}, cb_112_position_fresh);
@@ -47,76 +50,6 @@ $(document).ready(function(){
 	});
 })
 
-function cb_111_role(data) {
-
-	$('#memberroleid').empty();
-	var i = data.length;
-	while(i--) {
-		$('#memberroleid').append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
-	}
-	$("#memberroleid option[value='1']").attr('disabled', 'disabled');
-}
-function cb_111_sex(data) {
-
-	$('#membersex').empty();
-	var i = data.length;
-	while(i--) {
-		$('#membersex').append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
-	}
-}
-function cb_111_position(data) {
-
-	$('#memberpositionid').empty();
-	var i = data.length;
-	while(i--) {
-		$('#memberpositionid').append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
-	}
-}
-
-function cb_111_112(data) {
-	loadmember(data);
-}
-function loadmember(data) {
-	
-	$('#memberid').val(curmember);
-	$('#memberaccount').val(data.account);
-	$('#memberfullname').val(data.fullname);
-	$('#membermobile').val(data.mobile);
-	$('#membersex').val(data.sex);
-	$('#memberbirthday').val(showdate(data.birthday));
-	$('#memberpositionid').val(data.positionId);
-	$('#memberbranchid').val(data.branchId);
-	$('#branchmemberid').val(data.branchMemberId);
-	$('#membertelephone').val(data.telephone);
-	$('#memberemail').val(data.email);
-	$('#memberroleid').val(data.roleId);
-	$('#memberintro').val(data.intro);
-
-	$('#membertitle').empty();
-	$('#membertitle2').empty();
-	if (data.roleId == '1') {
-		$('#membertitle').append('超级管理员信息');
-		$('#membertitle2').append('超级管理员信息');
-		$('#memberrole').attr('disabled', 'disabled');
-	}
-	else {
-		$('#membertitle').append('员工信息');
-		$('#membertitle2').append('员工信息');
-		$('#memberrole').removeAttr('disabled');
-	}
-	
-	loadbranchmember(data.branchmember);
-}
-function loadbranchmember(data) {
-	$('#branchmember').empty();
-	var i = data.length;
-	while(i--) {
-		$('#branchmember').append(branchmembertemplate[data[i].ismaster]
-				.replace(/branchmemberid/g, data[i].branchmemberid)
-				.replace('branch', data[i].branchname)
-				.replace('position', data[i].positionname));
-	}
-}
 function editbranchmember(bmid) {
 	branchmemberid = bmid;
 	$('#position').modal({
@@ -132,14 +65,56 @@ function delbranchmember(bmid) {
 function setmaster(bmid) {
 	callajax("branch!setMaster", {branchmemberid: bmid}, cb_112_position_master);
 }
+function cb_112_position_tree(data) {
+
+	$.fn.zTree.init($('#tree112position'), setting112_position, data);
+	$.fn.zTree.getZTreeObj('tree112position').expandAll(true);
+}
+function cb_112_position_select(data) {
+	
+	$('#select112position').empty();
+	var i = data.length;
+	while(i--) {
+		$('#select112position').append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+	}
+}
 function cb_112_position_fresh(data) {
 	$('#select112position').val(data.positionid);
 	var o = $.fn.zTree.getZTreeObj('tree112position');
 	o.selectNode(o.getNodeByParam('id', data.branchid));
 	branch112position = data.branchid;
 }
+var setting112_position = {
+	view: {
+		showLine: false,
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pid",
+			rootPId: null
+		}
+	},
+	async: {
+		enable: false
+	},
+	callback: {
+		onClick: function(event, treeId, treeNode, clickFlag) {
+			branch112position = treeNode.id;
+		}
+	}
+}
 function cb_112_position_del(data) {
-	update_112_position();
+	if (data.branchmemberid == '-1') {
+		
+	}
+	else if (data.branchmemberid > 0) {
+		alert('最后一个职位不能删除.')
+	}
+	else {
+		update_112_position();
+	}
 }
 function cb_112_position_master(data) {
 	update_112_position();

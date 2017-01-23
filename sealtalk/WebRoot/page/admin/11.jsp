@@ -28,7 +28,7 @@
             	<a class="btn  btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
             	添加
             	</a>
-            	<ul id="admadd" class="dropdown-menu pull-right" style="padding: 5px; min-width: 200%">
+            	<ul id="admadd" class="dropdown-menu pull-right" style="padding: 5px; min-width: 350%">
             		<li class="admadd addbranch">添加部门</li>
             		<li class="admadd addmember">添加人员</li>
             		<li class="admadd addbatch" style="padding-bottom: 5px">批量导入</li>
@@ -37,7 +37,7 @@
 			
 		</div>
 		<div class="organline" >
-			<input type="text" placeholder="搜索人员" />
+			<input type="text" placeholder="搜索人员" id="search11" />
 		</div>
 		<div class="organline ztree" id="tree11"></div>
 	</div>
@@ -48,14 +48,14 @@
 <jsp:include page="112.jsp" flush="true" />
 
 <div id="branch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style='width: 420px'>
 		<div class="modal-content">
 		</div>	
 	</div>
 </div>
 
 <div id="member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style='width: 420px'>
 		<div class="modal-content">
 		</div>
 	</div>
@@ -69,11 +69,8 @@
 </div>
 
 <div id="move" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
+	<div class="modal-dialog" style="width: 320px">
+		<div class="modal-content" style="height: 560px;">
 		</div>
 	</div>
 </div>
@@ -81,16 +78,6 @@
 <div id="reset" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
 	<div class="modal-dialog" style="width: 400px;">
 		<div class="modal-content" style="height: 200px;">
-		</div>
-	</div>
-</div>
-
-<div id="logo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
 		</div>
 	</div>
 </div>

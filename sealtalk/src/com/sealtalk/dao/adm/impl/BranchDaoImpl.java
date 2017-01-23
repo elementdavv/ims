@@ -102,4 +102,34 @@ public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDa
 		return runSql(sql);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public TBranch getOneOfBranch(String name) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("name", name));
+			
+			List<TBranch> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return (TBranch) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List getChildren(Integer branchId) {
+
+		Criteria ctr = getCriteria();
+		ctr.add(Restrictions.eq("parentId", branchId));
+			
+		return ctr.list();
+	}
+
 }

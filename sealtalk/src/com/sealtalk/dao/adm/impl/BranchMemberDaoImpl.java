@@ -27,6 +27,26 @@ public class BranchMemberDaoImpl extends BaseDao<TBranchMember, Integer> impleme
 	}
 
 	@Override
+	public List<TBranchMember> getBranchMemberByMember(Integer memberId) {
+
+		Criteria c = getCriteria();
+		c.add(Restrictions.eq("memberId", memberId));
+		
+		List list = c.list();
+		return list; 
+	}
+
+	@Override
+	public List<TBranchMember> getBranchMemberByBranch(Integer branchId) {
+
+		Criteria c = getCriteria();
+		c.add(Restrictions.eq("branchId", branchId));
+		
+		List list = c.list();
+		return list; 
+	}
+
+	@Override
 	public void selectMaster(Integer memberId) {
 		
 		Criteria c = getCriteria();
@@ -40,6 +60,20 @@ public class BranchMemberDaoImpl extends BaseDao<TBranchMember, Integer> impleme
 		TBranchMember bm = (TBranchMember)list.get(0);
 		bm.setIsMaster("1");
 		update(bm);
+	}
+
+	@Override
+	public TBranchMember getBranchMemberByBranchMember(Integer branchId, Integer memberId) {
+
+		Criteria c = getCriteria();
+		c.add(Restrictions.eq("branchId", branchId));
+		c.add(Restrictions.eq("memberId", memberId));
+		
+		List list = c.list();
+		if (list.isEmpty()) {
+			return null;
+		}
+		return (TBranchMember)list.get(0); 
 	}
 
 }

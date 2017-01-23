@@ -132,6 +132,7 @@ public class BranchServiceImpl implements BranchService {
 			jo.put("pid", (Integer)br[1] == 0 ? organId : br[1]);
 			jo.put("name", br[2]);
 			jo.put("flag", 1);
+			jo.put("isParent", "true");
 			jl.add(jo);
 		}
 		
@@ -212,7 +213,7 @@ public class BranchServiceImpl implements BranchService {
 			JSONObject j = new JSONObject();
 			Object[] bm = (Object[])it3.next();
 			j.put("branchmemberid", bm[0]);
-			j.put("branchname", bm[1]);
+			j.put("branchname", bm[1] != null ? bm[1] : "（未分组人员）");
 			j.put("positionname", bm[2]);
 			j.put("ismaster", bm[3]);
 			js.add(j);
@@ -220,6 +221,28 @@ public class BranchServiceImpl implements BranchService {
 		jo.put("branchmember", js);
 		
 		return jo.toString();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.sealtalk.service.adm.BranchService#getMemberByAccount(java.lang.String)
+	 * by alopex
+	 */
+	@Override
+	public TMember getMemberByAccount(String account) {
+		
+		return memberDao.getOneOfMember(account);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.sealtalk.service.adm.BranchService#getMemberByAccount(java.lang.String)
+	 * by alopex
+	 */
+	@Override
+	public TBranch getBranchByName(String name) {
+		
+		return branchDao.getOneOfBranch(name);
 	}
 
 	@Override
@@ -232,6 +255,12 @@ public class BranchServiceImpl implements BranchService {
 	public TBranchMember getBranchMemberByBranchPosition(Integer branchId, Integer positionId) {
 		
 		return branchMemberDao.getBranchMemberByBranchPosition(branchId, positionId);
+	}
+
+	@Override
+	public TBranchMember getBranchMemberByBranchMember(Integer branchId, Integer memberId) {
+		
+		return branchMemberDao.getBranchMemberByBranchMember(branchId, memberId);
 	}
 
 	/*
@@ -307,13 +336,10 @@ public class BranchServiceImpl implements BranchService {
 	}
 
 	@Override
-	public String saveBranch(TBranch branch) {
+	public Integer saveBranch(TBranch branch) {
 		
 		branchDao.saveOrUpdate(branch);
-		JSONObject jo = new JSONObject();
-		jo.put("branchid", branch.getId());
-		
-		return jo.toString();
+		return branch.getId();
 	}
 
 	@Override
@@ -333,7 +359,7 @@ public class BranchServiceImpl implements BranchService {
 		
 		List list = memberRoleDao.find("from TMemberRole where member_id = " + memberId);
 		
-		if (list == null) return null;
+		if (list.isEmpty()) return null;
 		return (TMemberRole)list.get(0);
 	}
 	@Override
@@ -349,15 +375,23 @@ public class BranchServiceImpl implements BranchService {
 		return memberRole.getId();
 	}
 	@Override
-	public void delBranchMember(Integer branchMemberId) {
+	public Integer delBranchMember(Integer branchMemberId) {
 		
 		TBranchMember branchMember = branchMemberDao.get(branchMemberId);
-		if (branchMember == null) return;
+		
+		//不存在，不能删除
+		if (branchMember == null) return -1;
+		List list = branchMemberDao.getBranchMemberByMember(branchMember.getMemberId());
+		
+		//只有一个，不能删除
+		if (list.size() == 1) return branchMemberId;
 		
 		if ("1".equals(branchMember.getIsMaster())) {
 			branchMemberDao.selectMaster(branchMember.getMemberId());
 		}
 		branchMemberDao.delete(branchMember);
+		
+		return 0;
 	}
 	@Override
 	public void setMaster(Integer branchMemberId) {
@@ -378,5 +412,85 @@ public class BranchServiceImpl implements BranchService {
 		
 		// 发短信
 	}
+	@Override
+	public void delMember(Integer memberId) {
+		
+		branchMemberDao.executeUpdate("delete from TBranchMember where memberId = " + memberId);
+		memberRoleDao.executeUpdate("delete from TMemberRole where memberId = " + memberId);
+		memberDao.executeUpdate("delete from TMember where id = " + memberId);
+	}
+	@Override
+	public void delBranch(Integer branchId, Integer r, Integer organId) {
+		
+		TBranch branch = branchDao.get(branchId);
+		
+		List list = branchMemberDao.getBranchMemberByBranch(branchId);
+		Iterator it = list.iterator();
+		while(it.hasNext()) {
+			TBranchMember bm = (TBranchMember)it.next();
+			List list2 = branchMemberDao.getBranchMemberByMember(bm.getMemberId());
+			if (list2.size() == 1) {
+				TBranchMember bm2 = (TBranchMember)list2.get(0);
+				bm2.setBranchId(organId);
+				branchMemberDao.saveOrUpdate(bm2);
+			}
+			else {
+				if (bm.getIsMaster().equals("1")) {
+					branchMemberDao.selectMaster(bm.getMemberId());
+				}
+				branchMemberDao.delete(bm);
+			}
+		}
+		
+		List list3 = branchDao.getChildren(branchId);
+		Iterator it3 = list3.iterator();
 
+		while(it3.hasNext()) {
+			TBranch b = (TBranch)it3.next();
+			
+			if (r == 1) {
+				this.delBranch(b.getId(), r, organId);
+			}
+			else {
+				b.setParentId(branch.getParentId());
+				branchDao.saveOrUpdate(b);
+			}
+		}
+		
+		branchDao.delete(branch);
+	}
+	@Override
+	public void movMember(Integer memberId, Integer pId, Integer toId) {
+		
+		TBranchMember bm = this.getBranchMemberByBranchMember(pId, memberId);
+
+		TBranchMember tobm = this.getBranchMemberByBranchMember(toId, memberId);
+		if (tobm == null) {
+			bm.setBranchId(toId);
+			branchMemberDao.saveOrUpdate(bm);
+		}
+		else {
+			branchMemberDao.delete(bm);
+		}
+	}
+	@Override
+	public Integer movBranch(Integer branchId, Integer toId) {
+		
+		if (this.isDecendant(toId, branchId)) return 0;
+		
+		TBranch branch = branchDao.get(branchId);
+		branch.setParentId(toId);
+		branchDao.saveOrUpdate(branch);
+		
+		return branchId;
+	}
+	
+	private boolean isDecendant(Integer branchId, Integer pId) {
+		
+		TBranch branch = branchDao.get(branchId);
+		
+		if (branch.getParentId().intValue() == pId.intValue()) return true;
+		if (branch.getParentId().intValue() == 0) return false;
+		return this.isDecendant(branch.getParentId(), pId);
+	}
 }

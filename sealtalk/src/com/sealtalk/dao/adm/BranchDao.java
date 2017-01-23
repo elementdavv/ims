@@ -35,5 +35,15 @@ public interface BranchDao extends IBaseDao<TBranch, Integer> {
 	 * 取人员所在部门
 	 */
 	public List getBranchMember(Integer memberId);
+
+	/*
+	 * 取部门通过部门名称
+	 */
+	public TBranch getOneOfBranch(String name);
+	
+	/*
+	 * 取子部门
+	 */
+	public List getChildren(Integer branchId);
 	
 }

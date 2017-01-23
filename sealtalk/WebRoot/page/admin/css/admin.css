@@ -72,6 +72,9 @@ button {
 	width: 80px;
 	height: 25px;
 }
+.btn {
+	padding: 0px;
+}
 .btn6 {
 	width: 100px;
 }
@@ -314,7 +317,7 @@ button {
 }
 
 /* 下拉相关 */
-.treewrap {
+.treewrap, .treewrap1, .treewrap2 {
 	position: absolute;
 	background-color: white;
 	border: solid 1px #cbcbcb;
@@ -343,7 +346,7 @@ button {
 	background-color: #888;
 }
 .leftspace15 {
-	margin-left: 15px;
+	margin-left: 10px;
 }
 .leftspace8 {
 	margin-left: 8px;
@@ -351,11 +354,20 @@ button {
 .leftspace1 {
 	margin-left: 1px;
 }
+.rightspace60 {
+	margin-right: 60px;
+}
 .w100pc {
 	width: 100%;
 }
 .w200px {
 	width: 200px;
+}
+.w220px {
+	width: 220px;
+}
+.w280px {
+	width: 280px;
 }
 .h5px {
 	height: 5px;
@@ -378,6 +390,18 @@ button {
 .h60px {
 	height: 60px;
 }
+.h100px {
+	height: 100px;
+}
+.h110px {
+	height: 110px;
+}
 .h400px {
 	height: 400px;
+}
+.linespace {
+	height: 30px;
+}
+.searchcolor {
+	color: red;
 }

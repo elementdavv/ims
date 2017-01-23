@@ -1,8 +1,16 @@
+var fillmember = 0;
 $(document).ready(function(){
 	
 	//下拉相关
 	treeplace($('#branchmanager'), $('#tree110wrap'));
 	
+	$('#branchaddmember').click(function() {
+		fillmember = 1;
+		$('#member').modal({
+			backdrop: false,
+			remote: '11_member.jsp'
+		});
+	});
 	$('#branchsave').click(function(){
 		var data = formtojson($('#branchform'));
 		callajax('branch!saveBranch', data, cb_110_1);

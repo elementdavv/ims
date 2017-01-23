@@ -32,7 +32,9 @@ public interface BranchService {
 	 */
 	public String getMemberById(Integer memberId);
 	public List getMemberBranchById(Integer memberId);
-	
+	public TMember getMemberByAccount(String account);
+	public TBranch getBranchByName(String name);	
+
 	/*
 	 * 取人员对象通过人员id
 	 */
@@ -50,19 +52,24 @@ public interface BranchService {
 	public TBranchMember getBranchMemberById(Integer branchMemberId);
 
 	public TBranchMember getBranchMemberByBranchPosition(Integer branchId, Integer positionId);	
+	public TBranchMember getBranchMemberByBranchMember(Integer branchId, Integer memberId);
 	
 	/*
 	 * 取人员角色通过人员id
 	 */
 	public TMemberRole getMemberRoleByMemberId(Integer memberId);
 	
-	public String saveBranch(TBranch branch);
+	public Integer saveBranch(TBranch branch);
 	public Integer saveMember(TMember member);
 	public Integer saveBranchMember(TBranchMember branchMember);
 	public Integer saveMemberRole(TMemberRole memberRole);
 	
-	public void delBranchMember(Integer branchMemberId);
+	public Integer delBranchMember(Integer branchMemberId);
 	public void setMaster(Integer branchMemberId);
 	public void reset(Integer memberId, String password);
 	
+	public void delMember(Integer memberid);
+	public void delBranch(Integer branchId, Integer r, Integer organId);
+	public void movMember(Integer memberId, Integer pId, Integer toId);
+	public Integer movBranch(Integer branchId, Integer toId);
 }

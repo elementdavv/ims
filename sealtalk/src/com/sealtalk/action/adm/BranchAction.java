@@ -11,6 +11,7 @@ import java.util.ListIterator;
 import javax.servlet.ServletException;
 
 import com.sealtalk.common.BaseAction;
+import com.sealtalk.dao.adm.BranchMemberDao;
 import com.sealtalk.model.TBranch;
 import com.sealtalk.model.TBranchMember;
 import com.sealtalk.model.TMember;
@@ -164,9 +165,24 @@ public class BranchAction extends BaseAction {
 		String id = this.request.getParameter("branchid");
 		if (id != null) {
 			branch = branchService.getBranchObjectById(Integer.parseInt(id));
+			if (!branch.getName().equalsIgnoreCase(this.request.getParameter("branchname"))) {
+				if (branchService.getBranchByName(this.request.getParameter("branchname")) != null) {
+					JSONObject jo = new JSONObject();
+					jo.put("branchid", 0);
+					returnToClient(jo.toString());
+					return "text";
+				}
+			}
 		}
 		else {
+			if (branchService.getBranchByName(this.request.getParameter("branchname")) != null) {
+				JSONObject jo = new JSONObject();
+				jo.put("branchid", 0);
+				returnToClient(jo.toString());
+				return "text";
+			}
 			branch = new TBranch();
+			branch.setListorder(0);
 		}
 		if (this.request.getParameter("branchaddress") != null)
 			branch.setAddress(this.request.getParameter("branchaddress"));
@@ -174,8 +190,6 @@ public class BranchAction extends BaseAction {
 			branch.setFax(this.request.getParameter("branchfax"));
 		if (this.request.getParameter("branchintro") != null)
 			branch.setIntro(this.request.getParameter("branchintro"));
-		if (this.request.getParameter("listorder") != null)
-			branch.setListorder(Integer.parseInt(this.request.getParameter("listorder")));
 		if (this.request.getParameter("branchmanagerid") != null)
 			branch.setManagerId(Integer.parseInt(this.request.getParameter("branchmanagerid")));
 		if (this.request.getParameter("branchname") != null)
@@ -188,9 +202,13 @@ public class BranchAction extends BaseAction {
 			branch.setWebsite(this.request.getParameter("branchwebsite"));
 		branch.setOrganId(organId);
 		
-		id = branchService.saveBranch(branch);
-		returnToClient(id);
+		Integer branchId = branchService.saveBranch(branch);
 		
+		JSONObject jo = new JSONObject();
+		jo.put("branchid", branchId);
+		
+		returnToClient(jo.toString());
+
 		return "text";
 	}
 	
@@ -201,15 +219,32 @@ public class BranchAction extends BaseAction {
 		String id = this.request.getParameter("memberid");
 		if (id != null) {
 			member = branchService.getMemberObjectById(Integer.parseInt(id));
+			if (!member.getAccount().equalsIgnoreCase(this.request.getParameter("memberaccount"))) {
+				if (branchService.getMemberByAccount(this.request.getParameter("memberaccount")) != null) {
+					JSONObject jo = new JSONObject();
+					jo.put("memberid", 0);
+					returnToClient(jo.toString());
+					return "text";
+				}
+			}
 		}
 		else {
+			if (branchService.getMemberByAccount(this.request.getParameter("memberaccount")) != null) {
+				JSONObject jo = new JSONObject();
+				jo.put("memberid", 0);
+				returnToClient(jo.toString());
+				return "text";
+			}
 			member = new TMember();
+			member.setGroupmax(0);
+			member.setGroupuse(0);
+			member.setPassword(PasswordGenerator.getInstance().getMD5Str("111111"));
 		}
 		if (this.request.getParameter("memberaccount") != null)
 			member.setAccount(this.request.getParameter("memberaccount"));
 		if (this.request.getParameter("memberaddress") != null)
 			member.setAddress(this.request.getParameter("memberaddress"));
-		if (this.request.getParameter("memberbirthday") != null) {
+		if (!"".equals(this.request.getParameter("memberbirthday"))) {
 			String bd = this.request.getParameter("memberbirthday");
 			member.setBirthday(bd.substring(0,4) + bd.substring(5,7) + bd.substring(8,10));
 		}
@@ -258,13 +293,15 @@ public class BranchAction extends BaseAction {
 		memberRole = branchService.getMemberRoleByMemberId(memberId);
 		if (memberRole == null) {
 			memberRole = new TMemberRole();
-			memberRole.setMemberId(Integer.parseInt(id));
+			memberRole.setMemberId(memberId);
 			memberRole.setListorder(0);
 		}
 		if (this.request.getParameter("memberroleid") != null) {
 			memberRole.setRoleId(Integer.parseInt(this.request.getParameter("memberroleid")));
 		}
 		branchService.saveMemberRole(memberRole);
+		
+		//发短信
 		
 		JSONObject jo = new JSONObject();
 		jo.put("memberid", memberId);
@@ -315,10 +352,10 @@ public class BranchAction extends BaseAction {
 	public String delBranchMember() throws ServletException {
 
 		String branchmemberid = this.request.getParameter("branchmemberid");
-		branchService.delBranchMember(Integer.parseInt(branchmemberid));
+		Integer result = branchService.delBranchMember(Integer.parseInt(branchmemberid));
 		
 		JSONObject jo = new JSONObject();
-		jo.put("branchmemberid", branchmemberid );
+		jo.put("branchmemberid", result);
 		returnToClient(jo.toString());
 		return "text";
 	}
@@ -342,9 +379,57 @@ public class BranchAction extends BaseAction {
 		String md5password = PasswordGenerator.getInstance().getMD5Str(newpassword);
 		
 		branchService.reset(Integer.parseInt(memberid), md5password);
+
+		// 发短信
 		
 		JSONObject jo = new JSONObject();
 		jo.put("branchmemberid", memberid );
+		returnToClient(jo.toString());
+		return "text";
+	}
+	
+	public String del() throws ServletException {
+		
+		Integer id = Integer.parseInt(this.request.getParameter("id"));
+		Integer r = Integer.parseInt(this.request.getParameter("r"));
+		
+		// 删除组织
+		if (id < 101) {
+		}
+		// 删除部门
+		else if (id < 10001) {
+			branchService.delBranch(id, r, organId);
+		}
+		// 删除人员
+		else {
+			branchService.delMember(id);
+		}
+		
+		JSONObject jo = new JSONObject();
+		jo.put("id", id);
+		returnToClient(jo.toString());
+		return "text";
+	}
+
+	public String mov() throws ServletException {
+		
+		Integer id = Integer.parseInt(this.request.getParameter("id"));
+		Integer pid = Integer.parseInt(this.request.getParameter("pid"));
+		Integer toid = Integer.parseInt(this.request.getParameter("toid"));
+
+		// 移动组织
+		if (id < 101) {
+		}
+		// 移动部门
+		else if (id < 10001) {
+			id = branchService.movBranch(id, toid);
+		}
+		// 移动人员
+		else {
+			branchService.movMember(id, pid, toid);
+		}
+		JSONObject jo = new JSONObject();
+		jo.put("id", id);
 		returnToClient(jo.toString());
 		return "text";
 	}
