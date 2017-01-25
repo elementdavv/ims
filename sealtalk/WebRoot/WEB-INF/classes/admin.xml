@@ -15,6 +15,7 @@
 	<bean id="privDao" class="com.sealtalk.dao.adm.impl.PrivDaoImpl" autowire="byName" />
 	<bean id="roleDao" class="com.sealtalk.dao.adm.impl.RoleDaoImpl" autowire="byName" />
 	<bean id="rolePrivDao" class="com.sealtalk.dao.adm.impl.RolePrivDaoImpl" autowire="byName" />
+	<bean id="positionDao" class="com.sealtalk.dao.adm.impl.PositionDaoImpl" autowire="byName" />
 
 	<!-- service -->
 	<bean id="branchService" class="com.sealtalk.service.adm.impl.BranchServiceImpl" autowire="byName" >
@@ -29,6 +30,9 @@
 		<property name="memberRoleDao" ref="memberRoleDao" />
 		<property name="rolePrivDao" ref="rolePrivDao" />
 	</bean>
+	<bean id="positionService" class="com.sealtalk.service.adm.impl.PositionServiceImpl" autowire="byName" >
+		<property name="positionDao" ref="positionDao" />
+	</bean>
 	
 	<!-- action -->
 	<bean id="branchAction" class="com.sealtalk.action.adm.BranchAction" scope="prototype" autowire="byName" >
@@ -36,6 +40,9 @@
 	</bean>
 	<bean id="privAction" class="com.sealtalk.action.adm.PrivAction" scope="prototype" autowire="byName" >
 		<property name="privService" ref="privService" />
+	</bean>
+	<bean id="posAction" class="com.sealtalk.action.adm.PosAction" scope="prototype" autowire="byName" >
+		<property name="positionService" ref="positionService" />
 	</bean>
 	
 </beans>

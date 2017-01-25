@@ -214,7 +214,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] bm = (Object[])it3.next();
 			j.put("branchmemberid", bm[0]);
 			j.put("branchname", bm[1] != null ? bm[1] : "（未分组人员）");
-			j.put("positionname", bm[2]);
+			j.put("positionname", bm[2] == null ? "(未知职务)" : bm[2]);
 			j.put("ismaster", bm[3]);
 			js.add(j);
 		}

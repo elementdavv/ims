@@ -238,5 +238,14 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	{
 		//QueryConditionHandler.queryConditionHandler(where, order, criteria);
 	}*/
+
+	protected String returnajaxid(Integer id) {
+		
+		JSONObject jo = new JSONObject();
+		jo.put("id", id);
+		returnToClient(jo.toString());
+		return "text";
+	}
+	
 	
 }

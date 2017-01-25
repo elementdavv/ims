@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-<%@ include file="0.jsp" %>
+<jsp:include page="0.jsp" flush="true" />
 <script src="js/21.js"></script>
 </head>
 <body>

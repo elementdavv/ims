@@ -2,9 +2,12 @@
 <!doctype html>
 <html>
 <head>
-<%@ include file="0.jsp" %>
+<jsp:include page="0.jsp" flush="true" />
+<script src="js/13.js"></script>
 </head>
 <body>
+<div id='container'>
+
 <div class="admheader">
 	<ul class="admheadermenu">
 		<li class="active">基本设置</li>
@@ -51,6 +54,8 @@
 				
 		<p>&nbsp;</p>
 	</div>
+</div>
+
 </div>
 </body>
 </html>

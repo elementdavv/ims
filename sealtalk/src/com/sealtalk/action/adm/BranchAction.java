@@ -124,7 +124,7 @@ public class BranchAction extends BaseAction {
 			JSONObject jo = new JSONObject();
 			jo.put("branchmemberid", o[0]);
 			jo.put("branchname", o[1]);
-			jo.put("positionname", o[2]);
+			jo.put("positionname", o[2] == null ? "(未知职务)" : o[2]);
 			jo.put("ismaster", o[3]);
 			joa.add(jo);
 		}

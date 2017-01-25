@@ -18,6 +18,11 @@ public class PrivAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/*
+	 * this value should comes from login info, just for test this time
+	 */
+	Integer organId = 1;
+	
 	public String getRoleList() {
 		
 		List list = privService.getRoleList();
@@ -135,14 +140,6 @@ public class PrivAction extends BaseAction {
 		Integer roleId = Integer.parseInt(this.request.getParameter("roleid"));
 
 		return returnajaxid(0);
-	}
-	
-	private String returnajaxid(Integer id) {
-		
-		JSONObject jo = new JSONObject();
-		jo.put("id", id);
-		returnToClient(jo.toString());
-		return "text";
 	}
 	
 	PrivService privService;

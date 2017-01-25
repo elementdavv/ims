@@ -2,9 +2,12 @@
 <!doctype html>
 <html>
 <head>
-<%@ include file="0.jsp" %>
+<jsp:include page="0.jsp" flush="true" />
+<script src="js/23.js"></script>
 </head>
 <body>
+<div id='container'>
+
 <div class="admheader">
 	<ul class="admheadermenu">
 		<li><a href="11.jsp">基本设置</a></li>
@@ -26,11 +29,11 @@
 		</div>
 		<div class="line23">
 			职务职位
-			<input type="text">
-			<button class="save">添加</button>
+			<input type="text" id="posname">
+			<button id="save23">添加</button>
 		</div>
-		<div class="line23">
-			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
+		<div class="line23" id='positionlist'>
+			<div class="pos">系统工程师&nbsp;&nbsp;<a href="#" onclick="delpos(1)">x</a></div>
 			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
 			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
 			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
@@ -42,5 +45,6 @@
 	</div>
 </div>
 
+</div>
 </body>
 </html>

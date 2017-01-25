@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 <head>
-<%@ include file="0.jsp" %>
+<jsp:include page="0.jsp" flush="true" />
 <script src="js/organ.js"></script>
 </head>
 <body>
