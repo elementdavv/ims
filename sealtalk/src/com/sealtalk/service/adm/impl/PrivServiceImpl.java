@@ -6,6 +6,7 @@ import com.sealtalk.dao.adm.MemberRoleDao;
 import com.sealtalk.dao.adm.PrivDao;
 import com.sealtalk.dao.adm.RoleDao;
 import com.sealtalk.dao.adm.RolePrivDao;
+import com.sealtalk.model.TMemberRole;
 import com.sealtalk.model.TRole;
 import com.sealtalk.model.TRolePriv;
 import com.sealtalk.service.adm.PrivService;
@@ -56,9 +57,9 @@ public class PrivServiceImpl implements PrivService {
 	}
 
 	@Override
-	public void delMemberRole(Integer roleId) {
+	public void delMemberRole(Integer id) {
 
-		memberRoleDao.deleteById(roleId);
+		memberRoleDao.deleteById(id);
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class PrivServiceImpl implements PrivService {
 		if (role == null) {
 			role = new TRole();
 			role.setName(roleName);
-			role.setListorder(roleDao.count("id") + 1);
+			role.setListorder(roleDao.getMax("listorder", "from TRole") + 1);
 			roleDao.save(role);
 		}
 		
@@ -84,7 +85,7 @@ public class PrivServiceImpl implements PrivService {
 		Integer i = pa.length;
 		while(i-- > 0) {
 			TRolePriv rolePriv = new TRolePriv();
-			rolePriv.setRoleId(roleId);
+			rolePriv.setRoleId(role.getId());
 			rolePriv.setPrivId(Integer.parseInt(pa[i]));
 			rolePrivDao.save(rolePriv);
 		}
@@ -93,8 +94,23 @@ public class PrivServiceImpl implements PrivService {
 	public void delRole(Integer roleId) {
 		
 		rolePrivDao.delete("delete from TRolePriv where roleId = " + roleId);
-		memberRoleDao.delete("delete from TMemberRole where roleId =" + roleId);
+		memberRoleDao.delete("delete from TMemberRole where roleId = " + roleId);
 		roleDao.deleteById(roleId);
+	}
+	@Override
+	public void saveRoleMember(Integer roleId, String memberlist) {
+		
+		memberRoleDao.delete("delete from TMemberRole where roleId = " + roleId);
+		
+		String[] ms = memberlist.split(",");
+		Integer i = ms.length;
+		while (i-- > 0) {
+			TMemberRole mr = new TMemberRole();
+			mr.setMemberId(Integer.parseInt(ms[i]));
+			mr.setRoleId(roleId);
+			mr.setListorder(0);
+			memberRoleDao.save(mr);
+		}
 	}
 	
 }

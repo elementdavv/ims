@@ -1,9 +1,25 @@
 var curpage = '';
 var currole = 0;
+var pagenumber = 0;
+var curpage = 0;
+var itemsperpage = 10;
+var membertemplate = '<div id="mmemberid" name="membername" class="member21">'
+						+ '<div class="toleft">membername</div>'
+						+ '<div class="toright" onclick="delmember(memberid)">删</div>'
+						+ '</div>';
 $(document).ready(function(){
 
 	showpage('210');
 	
+	$('#role').on('shown.bs.modal', function(e) {
+		callajax('priv!getRoleList', '', cb_21_role_role);
+		callajax('priv!getPrivByRole', {roleid: 0}, cb_21_role_priv)
+	});
+
+	$('#member').on('shown.bs.modal', function(e) {
+		callajax("branch!getOrganTree", "", cb_21_member_tree);
+	});
+
 	callajax('priv!getRoleList', '', cb_21_fresh);
 	
 	$('body').on('click', '#list21 li', function() {
@@ -20,7 +36,126 @@ $(document).ready(function(){
 	$('body').on('click', '.privgroup', function() {
 		$(this).parent().parent().find('input').prop('checked', $(this).prop('checked'));
 	});
+	$('#addrole').click(function(){
+		$('#role').modal({
+			backdrop: false,
+			remote: '21_role.jsp'
+		});
+	});
+	$('#editmember').click(function(){
+		if (currole == 1) {
+			bootbox.alert({'title':'提示', 'message':'不能修改组织管理员人员.'});
+			return;
+		}
+		$('#member').modal({
+			backdrop: false,
+			remote: '21_member.jsp'
+		});
+	});
 });
+function cb_21_role_role(data) {
+	$('#21_roletemplate').empty();
+	var i = data.length;
+	while(i--) {
+		$('#21_roletemplate').append("<option value='rt" + data[i].id + "'>" + data[i].name + "</option>");
+	}
+	$('#21_roletemplate').val('rt');
+}
+function cb_21_role_priv(data) {
+	$('#21_list').empty();
+	var i = data.length;
+	while (i--) {
+		if (data[i].parentid == 0) {
+			$('#21_list').append('<div class="line211">' + data[i].privname + '</div>');
+			var j = data.length;
+			var x = 0;
+			while (j--) {
+				if (data[j].parentid == data[i].privid) {
+					if (x++ % 2 == 0)
+						$('#21_list').append('<div class="line21_a"></div>');
+					else
+						$('#21_list').append('<div class="line21_b"></div>');
+					var a = $('#21_list').children().last();
+					$(a).append('<div class="line2111"><input type="checkbox" class="privgroup" id="pr' + data[j].privid + '" /> ' + data[j].privname + '</div>');
+					$(a).append('<div class="line2112"></div>');
+					var b = $(a).children().last();
+					var k = data.length;
+					while (k--) {
+						if (data[k].parentid == data[j].privid) {
+							$(b).append('<div class="priv toleft"><input type="checkbox" id="pr' + data[k].privid + '" /> ' + data[k].privname + '</div>');
+						}
+					}
+				}
+			}
+		}
+	}	
+}
+function cb_21_member_tree(data) {
+	$.fn.zTree.init($('#tree21member'), setting21, data);
+	var t = $.fn.zTree.getZTreeObj('tree21member');
+	var ns = t.getNodesByParam('id', 1, null);
+	t.expandNode(ns[0], true);
+
+	$('#21_memberlist').empty();
+	callajax('priv!getMemberByRole', {roleid: currole}, cb_21_member_check)
+}
+var setting21 = {
+	view: {
+		showLine: false,
+		nameIsHTML: true,
+	},
+	check: {
+		autoCheckTrigger: true,
+		chkboxType: { "Y": "ps", "N": "ps" },
+		chkStyle: "checkbox",
+		enable: true
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pid",
+			rootPId: null
+		}
+	},
+	callback: {
+		onClick: function(event, treeId, treeNode, clickFlag) {
+			if (!treeNode.open) {
+				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, true);
+			}
+			else
+				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, false);
+			if (treeNode.flag == 2) {
+				
+			}
+		},
+		onCheck: function(event, treeId, treeNode) {
+			if (treeNode.flag < 2) return;
+			var sellist = $('#21_memberlist').find('div.member21');
+			var i = sellist.length;
+			while(i--) {
+				if ($(sellist[i]).prop('id') == 'm' + treeNode.id){
+					$(sellist[i].remove());
+					return;
+				}
+			}
+			$('#21_memberlist').append(membertemplate
+					.replace(/memberid/g, treeNode.id)
+					.replace(/membername/g, treeNode.name));
+		}
+	}
+};
+function cb_21_member_check(data) {
+	var t = $.fn.zTree.getZTreeObj('tree21member');
+	var j = data.length;
+	while(j--) {
+		var ns = t.getNodesByParam('id', data[j].memberid);
+		var i = ns.length;
+		while(i--) {
+			t.checkNode(ns[i], true, false, true);
+		}
+	}
+}
 function load210() {
 	callajax('priv!getMemberByRole', {roleid: currole}, cb_210_fresh)
 }

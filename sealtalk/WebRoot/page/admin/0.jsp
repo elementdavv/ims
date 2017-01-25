@@ -7,6 +7,7 @@
 <script src="../../js/jquery-3.1.1.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/jquery.ztree.core.min.js"></script>
+<script src="../../js/jquery.ztree.excheck.min.js"></script>
 <script src="../../js/bootbox.min.js"></script>
 <script src="js/admin.js"></script>
 <script language="javascript">

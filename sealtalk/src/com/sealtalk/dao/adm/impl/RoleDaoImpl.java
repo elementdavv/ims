@@ -11,7 +11,11 @@ public class RoleDaoImpl extends BaseDao<TRole, Integer> implements RoleDao {
 	@Override
 	public List getMemberByRole(Integer roleId) {
 		
-		String sql = "select mr.id memberroleid, m.fullname membername, b.name branchname, p.name positionname"
+		String sql = "select mr.id memberroleid,"
+				+ " m.fullname membername,"
+				+ " b.name branchname,"
+				+ " p.name positionname,"
+				+ " m.id memberid"
 				+ " from t_member_role mr"
 				+ " left join t_member m on m.id = mr.member_id"
 				+ " left join t_branch_member bm on m.id = bm.member_id"

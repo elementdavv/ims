@@ -51,6 +51,7 @@ public class PrivAction extends BaseAction {
 			js.put("membername", o[1]);
 			js.put("branchname", o[2] == null ? "(未分组人员)" : o[2]);
 			js.put("positionname", o[3]);
+			js.put("memberid", o[4]);
 			ja.add(js);
 		}
 		
@@ -94,7 +95,7 @@ public class PrivAction extends BaseAction {
 	public String saveRole() {
 		
 		String id = this.request.getParameter("roleid");
-		Integer roleId = ("".equals(id) ? 0 : Integer.parseInt(id));
+		Integer roleId = (id == null ? 0 : Integer.parseInt(id));
 		String roleName = this.request.getParameter("rolename");
 		String privs = this.request.getParameter("privs");
 
@@ -103,6 +104,16 @@ public class PrivAction extends BaseAction {
 		return returnajaxid(0);
 	}
 
+	public String saveRoleMember() {
+		
+		Integer roleId = Integer.parseInt(this.request.getParameter("roleid"));
+		String memberlist = this.request.getParameter("memberlist");
+		
+		privService.saveRoleMember(roleId, memberlist);
+		
+		return returnajaxid(0);
+	}
+	
 	public String delRole() {
 		
 		Integer roleId = Integer.parseInt(this.request.getParameter("roleid"));

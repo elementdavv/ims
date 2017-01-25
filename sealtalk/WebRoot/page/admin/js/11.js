@@ -217,7 +217,6 @@ var setting11 = {
 			});
 		},
 		onClick: function(event, treeId, treeNode, clickFlag) {
-			treeNode.name = '<span colr="red">' + treeNode.name + '</span>';
 			if (!treeNode.open) {
 				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, true);
 				$('#tree11 li').hover(function(){
@@ -457,27 +456,4 @@ function showpage(cp) {
 	$('#111').hide();
 	$('#112').hide();
 	$('#' + cp).show();
-}
-function dosearch(search, tree, nodes) {
-	var i;
-	if (nodes != null) {
-		i = nodes.length;
-		while (i--) {
-			$('#' + nodes[i].tId + '_a').removeAttr('style');
-		}
-	}
-
-	var text = $('#' + search).val();
-	if (text == '') return;
-	
-	var t = $.fn.zTree.getZTreeObj(tree);
-	t.expandAll(true);
-	nodes = t.getNodesByParamFuzzy('name', text);
-	i = nodes.length;
-	while (i--) {
-		$('#' + nodes[i].tId + '_a').attr('style', 'color: red');
-		t.expandNode(nodes[i].getParentNode(), true);
-	}
-	
-	return nodes;
 }

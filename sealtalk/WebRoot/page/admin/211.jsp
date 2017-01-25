@@ -5,7 +5,7 @@
 			<div class="infotabi"><a href="#" onclick='showpage("210")'>人员管理</a></div>
 			<div class="infotabi tabactive">所有权限</div>
 		</div>
-		<div class="infotabr"><a href="#" onclick='showpage("212")'>修改权限</a></div>
+		<div class="infotabr"><a href="#" onclick='if(currole==1){bootbox.alert({"title":"提示","message":"不能修改组织管理员权限."});return;}showpage("212")'>修改权限</a></div>
 	</div>
 	<div id='list211'>
 		<div class="line211">后台管理</div>

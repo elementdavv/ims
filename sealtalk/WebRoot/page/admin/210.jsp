@@ -28,5 +28,12 @@
 				</tr>
 			</tbody>
 		</table>
+		<div style='margin: 30px'>
+			<div class='toright leftspace15' id='pagelast'>last</div>
+			<div class='toright leftspace15' id='pagenext'>next</div>
+			<div class='toright leftspace15' id='pagecurr'>1/10</div>
+			<div class='toright leftspace15' id='pageprev'>prev</div>
+			<div class='toright leftspace15' id='pagefirst'>first</div>
+		</div>
 	</div>
 </div>

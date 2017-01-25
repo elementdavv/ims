@@ -30,7 +30,7 @@
 		<div class="col21">
 			<div class="col1">
 				<div class="line21">
-					<button>+添加权限</button>
+					<button id='addrole'>+添加权限</button>
 					<button onclick='delrole()'>删除</button>
 				</div>
 				<div class="line21" style="width: 70%">
@@ -49,15 +49,15 @@
 </div>
 
 <div id="role" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style='width: 420px'>
-		<div class="modal-content">
+	<div class="modal-dialog" style='width: 900px'>
+		<div class="modal-content" style='height: 590px'>
 		</div>	
 	</div>
 </div>
 
 <div id="member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style='width: 420px'>
-		<div class="modal-content">
+	<div class="modal-dialog" style='width: 650px'>
+		<div class="modal-content" style='height: 585px'>
 		</div>
 	</div>
 </div>

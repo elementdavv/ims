@@ -402,4 +402,28 @@ public class BaseDao<T, PK extends Serializable> extends HibernateDaoSupport imp
  		return this.getSession().createSQLQuery(sql).list();
  		
  	}
+
+	@Override
+	public Integer getMax(String field, String hql) {
+        
+        List tempList = this.getHibernateTemplate().executeFind(new HibernateCallback(){
+            public List doInHibernate(Session session) throws HibernateException, SQLException {
+                
+                StringBuffer countQuery = new StringBuffer("select max(" + field + ") ");
+                countQuery.append(hql);
+               Query query = session.createQuery(countQuery.toString());
+                List result = query.list();
+                return result;
+            }
+        });
+        
+        Object obj = tempList!=null&&tempList.size()>0?tempList.get(0):0;
+        if (obj instanceof Long) {
+            Integer count =    Integer.valueOf(String.valueOf(obj));
+            return count;
+        }else{
+            Integer count = Integer.valueOf(String.valueOf(obj));
+            return count.intValue();
+        }
+	}
 }
