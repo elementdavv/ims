@@ -5,7 +5,7 @@ import java.util.List;
 import com.sealtalk.common.IBaseDao;
 import com.sealtalk.model.TMember;
 
-public interface MemberDao extends IBaseDao<TMember, Long> {
+public interface MemberDao extends IBaseDao<TMember, Integer> {
 	/**
 	 * 登陆验证
 	 * @param name
@@ -103,5 +103,21 @@ public interface MemberDao extends IBaseDao<TMember, Long> {
 	 * @return
 	 */
 	public boolean isUsedPic(int userIdInt, String userId);
+
+	public List getMemberPosition(Integer memberId);
+	public List getMemberRole(Integer memberId);
+	/**
+	 * 更新用户密码
+	 * @param userName
+	 * @param md5Pwd
+	 * @return
+	 */
+	public boolean updateUserPwd(String account, String md5Pwd);
+	/**
+	 *	获取单用户 
+	 * @param account
+	 * @return
+	 */
+	public TMember getOneMember(String account);
 
 } 

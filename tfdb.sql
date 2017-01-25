@@ -29,7 +29,7 @@ USE `tfdb`;
 --
 
 CREATE TABLE `t_organ` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT = 1,
   `code` VARCHAR(256),
   `name` VARCHAR(256),
   `shortname` VARCHAR(256),
@@ -64,7 +64,7 @@ CREATE TABLE `t_organ` (
 --
 
 CREATE TABLE `t_branch` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT = 101,
   `organ_id` INT NOT NULL DEFAULT 0,
   `parent_id` INT NOT NULL DEFAULT 0,
   `name` VARCHAR(256),
@@ -85,9 +85,11 @@ CREATE TABLE `t_branch` (
 --
 
 CREATE TABLE `t_member` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT = 10001,
   `account` VARCHAR(256),
   `password` VARCHAR(32),
+  `token` VARCHAR(256) COMMENT '验证token',
+  `createtokendate` INT DEFAULT 0 COMMENT '创建token时间到秒',
   `fullname` VARCHAR(256),
   `pinyin` VARCHAR(256) COMMENT '姓名全拼',
   `workno` VARCHAR(50) COMMENT '工号',
@@ -98,21 +100,19 @@ CREATE TABLE `t_member` (
   `mobile` VARCHAR(50),
   `telephone` VARCHAR(50),
   `address` VARCHAR(1024),
+  `organ_id` INT NOT NULL DEFAULT 0,
   `groupmax` INT NOT NULL DEFAULT 0 COMMENT '可建群数量',
   `groupuse` INT NOT NULL DEFAULT 0 COMMENT '已建群数量',
   `intro` VARCHAR(1024),
-  `token` VARCHAR(256),	'验证token'
-  `createtokendate` int(11), '创建token时间到秒'
-  `organ_id` int(11), '组织id'
    PRIMARY KEY(id)
-) ENGINE =InnoDB;
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `t_branch_member`部门-成员关系
 --
---select Aid Bname Cname from A left join B on A.Bid = B.Bid inner join C on A.Cid = C.Cid where
+
 CREATE TABLE `t_branch_member` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `branch_id` INT NOT NULL DEFAULT 0,
@@ -249,7 +249,7 @@ CREATE TABLE `t_friend` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_contact`：联系人已废弃
+-- 表的结构 `t_contact`：联系人
 --
 
 CREATE TABLE `t_contact` (
@@ -358,7 +358,7 @@ CREATE TABLE `t_function` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_function`：群组消息免打扰
+-- 表的结构 `t_dontdistrub`：群组消息免打扰
 --
 
 CREATE TABLE `t_dontdistrub` (

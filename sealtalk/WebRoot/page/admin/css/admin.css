@@ -1,0 +1,421 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+html,body {
+	height: 100%;
+}
+ul {
+	list-style: none;
+}
+.container {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.admheader {
+	height:50px;
+	width: 100%;
+	background: linear-gradient(to right, #30c0da 0%,#40d4a3 100%);
+	box-shadow: 0px 0px 10px #cbcbcb;	
+}
+.admheadermenu {
+	height: 100%;
+}
+.admheadermenu li{
+	float: left;
+	width: 160px;
+	height: 100%;
+	line-height: 50px;
+	color: #fff;
+	text-align: center;
+}
+.admheadermenu li.active{
+	background: #1081bc;
+}
+.menupanel11 {
+	float: left;
+	width: 35%;
+	height: 800px;
+	box-shadow: 0px 0px 10px #cbcbcb;	
+}
+.sidebar11 {
+	float: left;
+	width: 35%;
+	padding-top: 15px;
+	height: 785px;
+	border-right:1px solid #cbcbcb;	
+}
+.menu {
+	padding: 15px 30px;
+}
+.menuactive {
+	background-color: #cbcbcb;
+}
+.organ {
+	float: left;
+	width: 65%;
+	padding-top: 10px;
+}
+.organline {
+	clear: left;
+	padding: 10px 15px;
+	height: 44px;
+}
+.toleft {
+	float: left;
+}
+.toright {
+	float: right;
+}
+button {
+	width: 80px;
+	height: 25px;
+}
+.btn {
+	padding: 0px;
+}
+.btn6 {
+	width: 100px;
+}
+.admadd {
+	padding: 5px 0 0 13px;
+}
+#admadd :hover {
+	background-color: #cbcbcb;
+}
+.infopanel11 {
+	float: left;
+	width: 65%;
+	margin: 30px 0 0 0;
+}
+.info {
+	margin: auto;
+	width: 90%;
+	box-shadow: 0px 0px 10px #cbcbcb;
+	border-radius: 6px;	
+}
+.infotitle {
+	height: 50px;
+	width: 100%;
+	border-bottom: 1px solid #cbcbcb;
+}
+.title {
+	float: left;
+	padding: 15px 0 0 30px;
+}
+.infotab {
+	float: left;
+	padding: 0 220px;
+}
+.infotabi {
+	float: left;
+	padding: 15px 8px 14px 8px;
+}
+.tabactive {
+	border-bottom: 2px solid black;
+}
+.line11 {
+	padding: 25px;
+	height: 30px;
+}
+.line11 input {
+	width: 300px;
+}
+.line11 select {
+	width: 300px;
+	height: 24px;
+}
+.line11 textarea {
+	width: 450px;
+	height: 200px;
+}
+.line111 {
+	padding: 25px;
+	height: 30px;
+}
+.line111 input {
+	width: 230px;
+}
+.line111 .column1 {
+	float: left;
+	width: 50%;
+}
+.line111 .column2 {
+	float: left;
+	width: 50%;
+	padding-left: 30px;
+}
+.line111 select {
+	width: 230px;
+	height: 24px;
+}
+.line111 textarea {
+	width: 450px;
+	height: 200px;
+}
+.line112 {
+	padding: 15px;
+	height: 40px;
+}
+.t112 {
+	width:96%;
+	margin-top:15px;
+}
+.t112 thead tr {
+	background-color: #cbcbcb;
+}
+.t112 tr {
+	height: 50px;
+}
+.t112 th, .t112 td {
+	padding: 0 0 0 20px;
+}
+.menupanel12 {
+	float: left;
+	width: 12%;
+	height: 800px;
+	box-shadow: 0px 0px 10px #cbcbcb;	
+}
+.sidebar12 {
+	float: left;
+	width: 100%;
+	padding-top: 15px;
+	height: 785px;
+	box-shadow: 0px 0px 10px #cbcbcb;	
+}
+.infopanel12 {
+	float: left;
+	width: 88%;
+	margin: 30px 0 0 0;
+}
+.col12 {
+	width: 100%;
+	height: 1250px;
+}
+.col12 .col1 {
+	width: 72%;
+	float: left;
+}
+.col12 .col2 {
+	width: 28%;
+	float: left;
+}
+.line12a {
+	margin: 20px 30px;
+}
+.line12b {
+	margin: 20px 0 20px 60px;
+}
+.line12b input {
+	width: 200px;
+}
+.line12b .sel1 {
+	width: 127px;
+	height: 24px;
+	margin-right: 10px;
+}
+.line12b .sel2 {
+	width: 200px;
+	height: 24px;
+	margin-right: 10px;
+}
+.line12b textarea {
+	width: 420px;
+	height: 200px;
+}
+.line12c {
+	margin: 20px 0px;
+}
+
+.infopanel23 {
+	float: left;
+	width: 50%;
+	height: 500px;
+	margin: 30px 0 0 250px;
+}
+.line23 {
+	margin: 30px 30px 40px;
+}
+.line23 input {
+	width: 300px;
+}
+.pos {
+	float: left;
+	margin: 10px 5px 10px 0;
+	text-align: center;
+	width: 120px;
+	height: 30px;
+	border: 1px solid #cbcbcb;
+	padding: 4px;
+	border-radius: 4px; 
+}
+
+.infopanel21 {
+	float: left;
+	width: 88%;
+	margin: 30px 0 0 0;
+}
+.col21 {
+	width: 100%;
+	height: 1250px;
+}
+.col21 .col1 {
+	width: 25%;
+	float: left;
+}
+.col21 .col2 {
+	width: 75%;
+	float: left;
+}
+.line21 {
+	margin: 20px 0 20px 40px;
+}
+.line21 ul {
+	background-color: #ccc;
+}
+.line21 li {
+	padding: 10px 0 10px 20px;
+}
+.line21 .active {
+	background-color: #888;
+}
+.col21 .infotitle {
+	height: 50px;
+	width: 92%;
+	margin-left: 30px;
+	border-bottom: 1px solid #cbcbcb;
+}
+.col21 .infotab {
+	float: left;
+	padding: 0;
+}
+.infotabr {
+	float: right;
+	padding: 15px 0 14px 8px;
+}
+.line211 {
+	padding: 15px 0 15px 40px;
+}
+.line211a {
+	padding: 10px 20px 20px 10px;
+	margin: 0 20px 0 30px;
+	background-color: #cbcbcb;
+}
+.line211b {
+	padding: 10px 20px 20px 10px;
+	margin: 0 20px 0 30px;
+}
+.line2111 {
+	padding: 0 0 10px 0;
+}
+.line2112 {
+	margin: 0 0 10px 0;
+}
+.priv {
+	margin: 0 20px 0 30px;
+}
+
+/* 下拉相关 */
+.treewrap, .treewrap1, .treewrap2 {
+	position: absolute;
+	background-color: white;
+	border: solid 1px #cbcbcb;
+	display: none;
+}
+.treeopenwrap {
+	background-color: white;
+	border: solid 1px #ccc;
+}
+
+.dialogtitle {
+	margin: 0 15px;
+}
+.line111reset {
+	margin: 0 0 10px 0;
+}
+.grade {
+	float: left;
+	width: 60px;
+	height: 20px;
+}
+.weak {
+	background-color: #ccc;
+}
+.good {
+	background-color: #888;
+}
+.leftspace15 {
+	margin-left: 10px;
+}
+.leftspace8 {
+	margin-left: 8px;
+}
+.leftspace1 {
+	margin-left: 1px;
+}
+.rightspace60 {
+	margin-right: 60px;
+}
+.w100pc {
+	width: 100%;
+}
+.w200px {
+	width: 200px;
+}
+.w220px {
+	width: 220px;
+}
+.w280px {
+	width: 280px;
+}
+.h5px {
+	height: 5px;
+}
+.h10px {
+	height: 10px;
+}
+.h20px {
+	height: 20px;
+}
+.h30px {
+	height: 30px;
+}
+.h40px {
+	height: 40px;
+}
+.h50px {
+	height: 50px;
+}
+.h60px {
+	height: 60px;
+}
+.h100px {
+	height: 100px;
+}
+.h110px {
+	height: 110px;
+}
+.h400px {
+	height: 400px;
+}
+.linespace {
+	height: 30px;
+}
+.searchcolor {
+	color: red;
+}
+.line21_a {
+	padding: 10px 20px 20px 10px;
+	margin: 0 20px 0 20px;
+	background-color: #cbcbcb;
+}
+.line21_b {
+	padding: 10px 20px 20px 10px;
+	margin: 0 20px 0 20px;
+}
+.member21 {
+	padding: 0 15px;
+	height: 30px;
+	line-height: 30px;
+}
