@@ -69,7 +69,7 @@
         <property name="token" type="java.lang.String">
             <column name="token" length="256" />
         </property>
-        <property name="createtokendate" type="java.lang.Long">
+        <property name="createtokendate" type="java.lang.Integer">
             <column name="createtokendate" length="11" />
         </property>
         

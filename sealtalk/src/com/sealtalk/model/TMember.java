@@ -22,7 +22,7 @@ public class TMember implements java.io.Serializable {
 	private Integer groupuse;
 	private String intro;
 	private String token;
-	private long createtokendate;
+	private Integer createtokendate;
 
 	public TMember() {
 	}
@@ -31,7 +31,7 @@ public class TMember implements java.io.Serializable {
 			String pinyin, String workno, String sex, String birthday,
 			String logo, String email, String mobile, String telephone,
 			String address, Integer groupmax, Integer groupuse, String intro,
-			String token, long createtokendate) {
+			String token, Integer createtokendate) {
 		this.account = account;
 		this.password = password;
 		this.fullname = fullname;
@@ -195,11 +195,11 @@ public class TMember implements java.io.Serializable {
 		this.token = token;
 	}
 
-	public long getCreatetokendate() {
+	public Integer getCreatetokendate() {
 		return createtokendate;
 	}
 
-	public void setCreatetokendate(long createtokendate) {
+	public void setCreatetokendate(Integer createtokendate) {
 		this.createtokendate = createtokendate;
 	}
 	
