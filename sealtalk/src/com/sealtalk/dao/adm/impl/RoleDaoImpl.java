@@ -9,7 +9,24 @@ import com.sealtalk.model.TRole;
 public class RoleDaoImpl extends BaseDao<TRole, Integer> implements RoleDao {
 
 	@Override
-	public List getMemberByRole(Integer roleId) {
+	public int getMemberCountByRole(Integer roleId) {
+
+		String sql = "select count(mr.id) memberrolecount"
+				+ " from t_member_role mr"
+				+ " left join t_member m on m.id = mr.member_id"
+				+ " left join t_branch_member bm on m.id = bm.member_id"
+				+ " left join t_branch b on b.id = bm.branch_id"
+				+ " left join t_position p on p.id = bm.position_id"
+				+ " where bm.is_master = 1 and mr.role_id = " + roleId;
+		
+		List list = runSql(sql);
+		String c = String.valueOf(list.get(0));
+		
+		return Integer.parseInt(c);
+	}
+
+	@Override
+	public List getMemberByRole(Integer roleId, Integer page, Integer itemsperpage) {
 		
 		String sql = "select mr.id memberroleid,"
 				+ " m.fullname membername,"
@@ -21,7 +38,9 @@ public class RoleDaoImpl extends BaseDao<TRole, Integer> implements RoleDao {
 				+ " left join t_branch_member bm on m.id = bm.member_id"
 				+ " left join t_branch b on b.id = bm.branch_id"
 				+ " left join t_position p on p.id = bm.position_id"
-				+ " where mr.role_id = " + roleId;
+				+ " where bm.is_master = 1 and mr.role_id = " + roleId;
+		if (page != null)
+			sql += " limit " + page * itemsperpage + ", " + itemsperpage;
 		
 		return runSql(sql);
 	}

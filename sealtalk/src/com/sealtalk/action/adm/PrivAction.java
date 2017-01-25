@@ -36,11 +36,27 @@ public class PrivAction extends BaseAction {
 		return "text";
 	}
 	
+	public String getMemberCountByRole() {
+
+		Integer roleId = Integer.parseInt(this.request.getParameter("roleid"));
+
+		int c = privService.getMemberCountByRole(roleId);
+		
+		JSONObject js = new JSONObject();
+		js.put("count", c);
+		returnToClient(js.toString());
+		return "text";
+	}
+	
 	public String getMemberByRole() {
 		
 		Integer roleid = Integer.parseInt(this.request.getParameter("roleid"));
+		String p = this.request.getParameter("page");
+		Integer page = p == null ? null : Integer.parseInt(p);
+		String s = this.request.getParameter("itemsperpage");
+		Integer itemsperpage = s == null ? null : Integer.parseInt(s);
 		
-		List list = privService.getMemberByRole(roleid);
+		List list = privService.getMemberByRole(roleid, page, itemsperpage);
 		Iterator it = list.iterator();
 		
 		ArrayList<JSONObject> ja = new ArrayList<JSONObject>();

@@ -2,7 +2,7 @@ var curpage = '';
 var currole = 0;
 var pagenumber = 0;
 var curpage = 0;
-var itemsperpage = 10;
+var itemsperpage = 5;
 var membertemplate = '<div id="mmemberid" name="membername" class="member21">'
 						+ '<div class="toleft">membername</div>'
 						+ '<div class="toright" onclick="delmember(memberid)">删</div>'
@@ -51,6 +51,30 @@ $(document).ready(function(){
 			backdrop: false,
 			remote: '21_member.jsp'
 		});
+	});
+	$('#pagefirst').click(function() {
+		if (pagenumber == 0) return;
+		if (curpage == 0) return;
+		curpage = 0;
+		load210page();
+	});
+	$('#pageprev').click(function() {
+		if (pagenumber == 0) return;
+		if (curpage == 0) return;
+		curpage--;
+		load210page();
+	});
+	$('#pagenext').click(function() {
+		if (pagenumber == 0) return;
+		if (curpage + 1 == pagenumber) return;
+		curpage++;
+		load210page();
+	});
+	$('#pagelast').click(function() {
+		if (pagenumber == 0) return;
+		if (curpage + 1 == pagenumber) return;
+		curpage = pagenumber - 1;
+		load210page();
 	});
 });
 function cb_21_role_role(data) {
@@ -135,13 +159,15 @@ var setting21 = {
 			var i = sellist.length;
 			while(i--) {
 				if ($(sellist[i]).prop('id') == 'm' + treeNode.id){
-					$(sellist[i].remove());
+					if (treeNode.checked == false)
+						$(sellist[i].remove());
 					return;
 				}
 			}
-			$('#21_memberlist').append(membertemplate
-					.replace(/memberid/g, treeNode.id)
-					.replace(/membername/g, treeNode.name));
+			if (treeNode.checked)
+				$('#21_memberlist').append(membertemplate
+						.replace(/memberid/g, treeNode.id)
+						.replace(/membername/g, treeNode.name));
 		}
 	}
 };
@@ -157,10 +183,27 @@ function cb_21_member_check(data) {
 	}
 }
 function load210() {
-	callajax('priv!getMemberByRole', {roleid: currole}, cb_210_fresh)
+	curpage = 0;
+	pagenumber = 0;
+	callajax('priv!getMemberCountByRole', {roleid: currole}, cb_210_count);
+}
+function cb_210_count(data) {
+	pagenumber = Math.ceil(data.count/itemsperpage);
+	if (pagenumber > 0) {
+		load210page();
+	}
+	else {
+		$('#list210').empty();
+		$('#pagecurr').text('0/0');
+	}
+}
+function load210page() {
+	$('#list210').empty();
+	$('#pagecurr').text((curpage+1) + '/' + pagenumber);
+	var data = {roleid: currole, page: curpage, itemsperpage: itemsperpage};
+	callajax('priv!getMemberByRole', data, cb_210_fresh)
 }
 function cb_210_fresh(data) {
-	$('#list210').empty();
 	var i = data.length;
 	while(i--) {
 		$('#list210').append('<tr></tr>');

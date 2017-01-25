@@ -51,9 +51,15 @@ public class PrivServiceImpl implements PrivService {
 	}
 
 	@Override
-	public List getMemberByRole(Integer roleId) {
+	public int getMemberCountByRole(Integer roleId) {
 		
-		return roleDao.getMemberByRole(roleId);
+		return roleDao.getMemberCountByRole(roleId);
+	}
+
+	@Override
+	public List getMemberByRole(Integer roleId, Integer page, Integer itemsperpage) {
+		
+		return roleDao.getMemberByRole(roleId, page, itemsperpage);
 	}
 
 	@Override
