@@ -2,7 +2,11 @@ var fillmember = 0;
 $(document).ready(function(){
 	
 	//下拉相关
-	treeplace($('#branchmanager'), $('#tree110wrap'));
+	$('#tree110wrap').css({
+		'left': $('#branchmanager').offset().left, 
+		'top': $('#branchmanager').offset().top + 33, 
+		'width': $('#branchmanager').width() + 21
+	});
 	
 	$('#branchaddmember').click(function() {
 		fillmember = 1;
@@ -31,5 +35,5 @@ function loadbranch(data) {
 	$('#branchintro').val(data.intro);
 }
 function cb_110_1(data) {
-	alert('保存成功.');
+	bootbox.alert({'title':'提示', 'message':'保存成功.'});
 }

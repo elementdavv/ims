@@ -68,6 +68,11 @@
                 <comment>主营行业</comment>
             </column>
         </property>
+        <property name="subdustryId" type="java.lang.Integer">
+            <column name="subdustry_id" not-null="true">
+                <comment>主营行业</comment>
+            </column>
+        </property>
         <property name="capital" type="java.lang.Integer">
             <column name="capital" not-null="true">
                 <comment>注册资金</comment>

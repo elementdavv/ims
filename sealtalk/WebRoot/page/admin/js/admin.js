@@ -20,6 +20,11 @@ $(document).ready(function(){
 	$('.treewrap').click(function(){
 		return false;
 	});
+	$('.menu').hover(function(){
+		$(this).addClass('menuhover');
+	},function(){
+		$(this).removeClass('menuhover');
+	});
 })
 // 下拉相关
 function treeplace(oedit, otree) {

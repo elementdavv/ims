@@ -4,9 +4,9 @@
 	<div class="info">
 		<div class="infotitle">
 			<div class="title" id='membertitle'>成员信息</div>
-			<div class="infotab">
-				<div class="infotabi tabactive">基本信息</div>
-				<div class="infotabi"><a href="#" onclick="showpage('112')">所属分支</a></div>
+			<div class="infotab" style='font-size: 13px'>
+				<div class="infotabi tabactive" style='color:rgb(48,192,218)'>基本信息</div>
+				<div class="infotabi" style='color:rgb(128,128,128);cursor:pointer' onclick='showpage("112")'>所属分支</div>
 			</div>
 		</div>
 		<form id="memberform" name="memberform">
@@ -62,13 +62,15 @@
 				</select>
 			</div>
 		</div>
-		<div class="line111" style="height: 240px">成员简介：
+		<div class="line111" style="height: 240px;"><span style="vertical-align: top">成员简介：</span>
 			<textarea id="memberintro" name="memberintro"></textarea>
 		</div>
 		</form>
-		<div class="line111">
+		<div class="line111" style="margin: -10px 0 20px 75px">
 			<button id="membersave">保存</button>
-			<button class="toright" id="reset111">重置密码</button>
+			<span class="toright" id="reset111" style="color: rgb(255,162,0);font-size: 14px; cursor:pointer">
+				重置该成员密码
+			</span>
 		</div>
 		<p>&nbsp;</p>
 	</div>

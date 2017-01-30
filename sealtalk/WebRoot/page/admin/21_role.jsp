@@ -49,7 +49,7 @@
 	<div>
 		<div class='dialogtitle toleft' >
 			<input type="checkbox" class='toleft' id='21rolecontinue'>继续添加下一个身份
-			<button class='toright leftspace15' onclick="$('#role').modal('hide');">取消</button>
+			<button class='toright leftspace15 cancel' onclick="$('#role').modal('hide');">取消</button>
 			<button class='toright' style='margin-left: 528px' id='save21role'>确定</button>
 		</div>
 	</div>	

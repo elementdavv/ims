@@ -2,13 +2,13 @@ $(document).ready(function(){
 
 	$($('#tree11branchbranchwrap')).css({
 		'left': $('#11branchbranch').position().left, 
-		'top': $('#11branchbranch').position().top + 23, 
-		'width': $('#11branchbranch').width() + 4
+		'top': $('#11branchbranch').position().top + 33, 
+		'width': $('#11branchbranch').width() + 20
 	});
 	$($('#tree11branchmanagerwrap')).css({
 		'left': $('#11branchmanager').position().left,
-		'top': $('#11branchmanager').position().top + 23, 
-		'width': $('#11branchmanager').width() + 4
+		'top': $('#11branchmanager').position().top + 33, 
+		'width': $('#11branchmanager').width() + 20
 	});
 	$('#container').click(function(){
 		if ($('.treewrap2').is(':visible')) {
@@ -51,10 +51,10 @@ $(document).ready(function(){
 });
 function cb_11_save_branch(data) {
 	if (data.branchid == '0') {
-		alert('部门名称已存在，请重新输入.');
+		bootbox.alert({'title':'提示', 'message':'部门名称已存在，请重新输入.'});
 	}
 	else {
-		alert('添加成功.');
+		bootbox.alert({'title':'提示', 'message':'添加成功.'});
 		callajax("branch!getOrganTree", "", cb_11_tree);
 		if ($('#11branchcontinue').prop('checked') == false) {
 			$('#branch').modal('hide');

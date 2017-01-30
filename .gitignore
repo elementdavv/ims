@@ -1,4 +1,4 @@
-**/*.class
+**/classes/**
 **/.classpath
 **/.project
 **/.my*

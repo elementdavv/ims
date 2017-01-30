@@ -58,7 +58,7 @@
 	<div class='h30px'></div>
 	<div>
 		<div class='dialogtitle'>
-			<button onclick="$('#member').modal('hide');" class='leftspace15 toright'>取消</button>
+			<button onclick="$('#member').modal('hide');" class='leftspace15 toright cancel'>取消</button>
 			<button id='save21member' class='leftspace15 toright'>确定</button>
 		</div>
 	</div>	

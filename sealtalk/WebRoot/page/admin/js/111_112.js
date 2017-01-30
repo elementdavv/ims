@@ -1,19 +1,19 @@
 var branchmembertemplate=[
 	"<tr>" +
-		"<td><button onclick='setmaster(branchmemberid)'>设为主要</button></td>" +
+		"<td></td>" +
 		"<td>branch</td>" +
 		"<td>position</td>" +
 		"<td>" +
-		"<button onclick='editbranchmember(branchmemberid)'>编辑</button>" +
-		"<button onclick='delbranchmember(branchmemberid)'>删除</button>" +
+		"<img src='images/编辑.png' style='margin-right: 15px;cursor:pointer' onclick='editbranchmember(branchmemberid)' />" +
+		"<img src='images/删除.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
 		"</td></tr>",
 	"<tr>" +
-		"<td>主要职能</td>" +
+		"<td><input class='mainpos' value='主要职能' readonly /></td>" +
 		"<td>branch</td>" +
 		"<td>position</td>" +
 		"<td>" +
-		"<button onclick='editbranchmember(branchmemberid)'>编辑</button>" +
-		"<button onclick='delbranchmember(branchmemberid)'>删除</button>" +
+		"<img src='images/编辑.png' style='margin-right: 15px;cursor:pointer' onclick='editbranchmember(branchmemberid)' />" +
+		"<img src='images/删除.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
 		"</td></tr>"];
 var branchmemberid;
 var branch112position = 0;
@@ -58,9 +58,15 @@ function editbranchmember(bmid) {
 	});
 }
 function delbranchmember(bmid) {
-	if (confirm('确定删除该职位？')) {
-		callajax("branch!delBranchMember", {branchmemberid: bmid}, cb_112_position_del);
-	}
+	bootbox.confirm({
+		title:'提示',
+		message:'确定删除该职位 ?',
+		callback: function(result) {
+			if (result == true) {
+				callajax("branch!delBranchMember", {branchmemberid: bmid}, cb_112_position_del);
+			}
+		}
+	});
 }
 function setmaster(bmid) {
 	callajax("branch!setMaster", {branchmemberid: bmid}, cb_112_position_master);
@@ -110,7 +116,7 @@ function cb_112_position_del(data) {
 		
 	}
 	else if (data.branchmemberid > 0) {
-		alert('最后一个职位不能删除.')
+		bootbox.alert({'title':'提示', 'message':'最后一个职位不能删除.'});
 	}
 	else {
 		update_112_position();
@@ -126,5 +132,5 @@ function cb_112_position_after(data) {
 	loadbranchmember(data);
 }
 function cb_111_1(data) {
-	alert('保存成功.');
+	bootbox.alert({'title':'提示', 'message':'保存成功.'});
 }

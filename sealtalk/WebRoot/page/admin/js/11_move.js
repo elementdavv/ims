@@ -1,3 +1,4 @@
+var searchnodes11move = null;
 $(document).ready(function(){
 
 	$('#save11move').click(function(){
@@ -11,6 +12,11 @@ $(document).ready(function(){
 		
 		var data = {id: movnode.id, pid: movnode.pid, toid: nod.id};
 		callajax('branch!mov', data, cb_11_mov);
+	});
+	$('#search11move').keyup(function(e) {
+		if (e.keyCode == 13) {
+			searchnodes11move = dosearch('search11move', 'tree11move', searchnodes11move);
+		}
 	});
 })
 function cb_11_mov(data) {

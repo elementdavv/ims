@@ -4,7 +4,12 @@ var curmember = 0;
 var movnode = null;
 var searchnodes11 = null;
 $(document).ready(function(){
-
+	
+	var h = document.body.clientHeight > 830 ? document.body.clientHeight : '830';
+	$('.sidebar11').css('height', h + 'px');
+	$('#tree11').css('height', (h - 100) + 'px');
+	$('.sidebar11').css('width', document.body.clientWidth * 0.13);
+	
 	showpage('110');
 	$('#member').on('shown.bs.modal', function(e) {
 		callajax("branch!getOrganOnlyTree", "", cb_11_member_branch);
@@ -20,7 +25,7 @@ $(document).ready(function(){
 
 	$('#move').on('shown.bs.modal', function(e) {
 		callajax("branch!getOrganOnlyTree", "", cb_11_move);
-		$('#title11move').text('移动 ' + movnode.name +' 到');
+		$('#title11move').text('移动 ' + movnode.name.substr(53) +' 到');
 		var o = $.fn.zTree.getZTreeObj('tree11move');
 		o.selectNode(o.getNodeByParam('id', movnode.pid));
 	});
@@ -53,7 +58,10 @@ $(document).ready(function(){
 		var t = $.fn.zTree.getZTreeObj('tree11');
 		var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
 		$('.movdel').remove();
-		$(this).find('a').first().after('<div class="movdel toright"><div class="move toleft">移</div>&nbsp;<div class="delete toleft">删</div></div>');
+		var movdel = '<div class="movdel toright">'
+			+ '<div class="move toleft"><img src="images/移动button.png"></div>'
+		+ '<div class="delete toleft"><img src="images/删除button.png"></div></div>';
+		$(this).find('a').first().after(movdel);
 		$('.move').click(function(){
 			mov($($(this)[0]).parent().parent().prop('id'));
 		});
@@ -68,6 +76,11 @@ $(document).ready(function(){
 		if (e.keyCode == 13) {
 			searchnodes11 = dosearch('search11', 'tree11', searchnodes11);
 		}
+	});
+	$('.btnadmin').hover(function(){
+		$(this).addClass('menuhover');
+	},function(){
+		$(this).removeClass('menuhover');
 	});
 });
 function cb_11_member_branch(data) {
@@ -101,6 +114,7 @@ function cb_11_branch_branch(data) {
 	$.fn.zTree.init($('#tree11branchbranch'), setting11_branch_branch, data);
 }
 function cb_11_branch_member(data) {
+	stripicon(data);
 	$.fn.zTree.init($('#tree11branchmanager'), setting11_branch_member, data);
 }
 function cb_11_move(data) {
@@ -114,11 +128,18 @@ function cb_111_112(data) {
 function cb_11_tree(data) {
 
 	$.fn.zTree.init($('#tree11'), setting11, data);
-	$.fn.zTree.init($('#tree110'), setting110, data);
-	$.fn.zTree.init($('#tree11branchmanager'), setting110, data);
+	$.fn.zTree.init($('#tree110'), setting110, stripicon(data));
+//	$.fn.zTree.init($('#tree11branchmanager'), setting110, stripicon(data));
 	var t = $.fn.zTree.getZTreeObj('tree11');
 	var ns = t.getNodesByParam('id', 1, null);
 	t.expandNode(ns[0], true);
+}
+function stripicon(data) {
+	var i = data.length;
+	while (i--) {
+		data[i].name = data[i].name.substr(53);
+	}
+	return data;
 }
 function cb_111_role(data) {
 
@@ -174,6 +195,9 @@ function loadmember(data) {
 		$('#memberroleid').removeAttr('disabled');
 	}
 	
+	var w = ((document.body.clientWidth * 0.61 * 0.92 - 68 * 2) / 2 - $('#membertitle').css('width').replace('px',''));
+	$('.infotab').css('padding-left',  w + 'px');
+
 	loadbranchmember(data.branchmember);
 }
 function loadbranchmember(data) {
@@ -185,10 +209,20 @@ function loadbranchmember(data) {
 				.replace('branch', data[i].branchname)
 				.replace('position', data[i].positionname));
 	}
+	$('#branchmember tr').hover(function(){
+		if ($(this).find('td input').length == 0) {
+			$(this).find('td:first').append("<button class='makemain' onclick='setmaster(branchmemberid)'>设为主要</button>");
+		}
+		$(this).addClass('menuhover');
+	},function(){
+		$(this).removeClass('menuhover');
+		$('.makemain').remove();
+	});
 }
 var setting11 = {
 	view: {
 		showLine: false,
+		showIcon: false,
 		nameIsHTML: true,
 	},
 	data: {
@@ -200,6 +234,7 @@ var setting11 = {
 		}
 	},
 	callback: {
+		// 不会执行
 		onExpand: function(event, treeId, treeNode) {
 			$('#tree11 li').hover(function(){
 				var t = $.fn.zTree.getZTreeObj('tree11');
@@ -223,7 +258,10 @@ var setting11 = {
 					var t = $.fn.zTree.getZTreeObj('tree11');
 					var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
 					$('.movdel').remove();
-					$(this).find('a').first().after('<div class="movdel toright"><div class="move toleft">移</div>&nbsp;<div class="delete toleft">删</div></div>');
+					var movdel = '<div class="movdel toright">'
+						+ '<div class="move toleft"><img src="images/移动button.png"></div>'
+					+ '<div class="delete toleft"><img src="images/删除button.png"></div></div>';
+					$(this).find('a').first().after(movdel);
 					$('.move').click(function(){
 						mov($($(this)[0]).parent().parent().prop('id'));
 					});
@@ -259,6 +297,7 @@ var setting11 = {
 var setting110 = {
 	view: {
 		showLine: false,
+		showIcon: false,
 	},
 	data: {
 		simpleData: {
@@ -287,6 +326,7 @@ var setting110 = {
 var setting11_member_branch = {
 	view: {
 		showLine: false,
+		showIcon: false,
 	},
 	data: {
 		simpleData: {
@@ -318,6 +358,7 @@ var setting11_member_branch = {
 var setting11_branch_branch = {
 	view: {
 		showLine: false,
+		showIcon: false,
 	},
 	data: {
 		simpleData: {
@@ -349,6 +390,7 @@ var setting11_branch_branch = {
 var setting11_branch_member = {
 	view: {
 		showLine: false,
+		showIcon: false,
 	},
 	data: {
 		simpleData: {
@@ -377,6 +419,7 @@ var setting11_branch_member = {
 var setting11_move = {
 		view: {
 			showLine: false,
+			showIcon: false,
 		},
 		data: {
 			simpleData: {
@@ -411,7 +454,7 @@ function del(tId) {
 	}
 	bootbox.confirm({
 		title:'提示',
-		message:'确定删除 ' + ns[0].name + ' ?',
+		message:'确定删除 ' + ns[0].name.substr(53) + ' ?',
 		callback: function(result) {
 			if (result == false) return;
 			if (hasChildBranch(ns[0].id)) {

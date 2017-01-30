@@ -2,13 +2,15 @@ var curpage = '';
 var currole = 0;
 var pagenumber = 0;
 var curpage = 0;
-var itemsperpage = 5;
+var itemsperpage = 10;
 var membertemplate = '<div id="mmemberid" name="membername" class="member21">'
 						+ '<div class="toleft">membername</div>'
 						+ '<div class="toright" onclick="delmember(memberid)">删</div>'
 						+ '</div>';
 $(document).ready(function(){
 
+//	$('.line21').css('width', document.body.clientWidth * 0.12 + 'px');
+	
 	showpage('210');
 	
 	$('#role').on('shown.bs.modal', function(e) {
@@ -23,8 +25,10 @@ $(document).ready(function(){
 	callajax('priv!getRoleList', '', cb_21_fresh);
 	
 	$('body').on('click', '#list21 li', function() {
-		$(this).parent().find('li').removeClass('active');
-		$(this).addClass('active');
+		$(this).parent().find('li').removeClass('prv21active');
+		$('#sanjiao').remove();
+		$(this).addClass('prv21active');
+		$(this).after('<img id="sanjiao" src="images/成员身份选择-1.png" style="float:right" />');
 		if (curpage == '212') {
 			showpage('210');
 		}
@@ -44,7 +48,7 @@ $(document).ready(function(){
 	});
 	$('#editmember').click(function(){
 		if (currole == 1) {
-			bootbox.alert({'title':'提示', 'message':'不能修改组织管理员人员.'});
+			bootbox.alert({'title':'提示', 'message':'不能修改组织管理员.'});
 			return;
 		}
 		$('#member').modal({
@@ -211,8 +215,13 @@ function cb_210_fresh(data) {
 			.append('<td>' + data[i].membername + '</td>')
 			.append('<td>' + data[i].branchname + '</td>')
 			.append('<td>' + data[i].positionname + '</td>')
-			.append('<td><button onclick="del210(' + data[i].memberroleid + ')">删除</button></td>');
+			.append('<td><img src="images/删除button.png" onclick="del210(' + data[i].memberroleid + ')"></img></td>');
 	}
+	$('#list210 tr').hover(function(){
+		$(this).addClass('menuhover');
+	},function(){
+		$(this).removeClass('menuhover');
+	});
 }
 function load211() {
 	callajax('priv!getPrivByRole', {roleid: currole}, cb_211_fresh)
@@ -290,14 +299,20 @@ function cb_21_fresh(data) {
 	var i = data.length;
 	while (i--) {
 		if (currole == 0) currole = data[i].id;
-		$('#list21').append('<li id="r' + data[i].id + '">' + data[i].name + '</li>');
+		$('#list21').append('<li class="prv21 toleft" style="width: 100%" id="r' + data[i].id + '">' + data[i].name + '</li>');
+		$('#list21').find('li:last-child').css('width', $('#list21').find('li:last-child').css('width').replace('px', '') - 10);
 	}
-	$('#list21').find('li:first-child').addClass('active');
+	$('#list21').find('li:first-child').addClass('prv21active');
+	$('#list21').find('li:first-child').after('<img id="sanjiao" src="images/成员身份选择-1.png" style="float:right" />');
 	load210();
 	load211();
 	load212();
 }
 function del210(id) {
+	if (id == 1) {
+		bootbox.alert({'title':'提示', 'message':'不能删除组织管理员.'});
+		return;
+	}
 	bootbox.confirm({
 		title: '提示', 
 		message:'确定删除么 ？',
@@ -346,7 +361,8 @@ function delrole() {
 function cb_21_del(data) {
 	var $a = $('#r' + currole);
 	var $b = $a.prev();
-	$b.addClass('active');
+	$b.addClass('prv21active');
+	$b.after('<img id="sanjiao" src="images/成员身份选择-1.png" style="float:right" />');
 	$a.remove();
 	currole = $b[0].id.substr(1);
 	load210();
