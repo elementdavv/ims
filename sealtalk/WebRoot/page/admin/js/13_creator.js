@@ -66,10 +66,12 @@ function cb_13_creator_fresh(data) {
 		i++;
 	}
 	$('#creatorlist tr').hover(function(){
+		$(this).addClass('menuhover');
 		if ($(this).find('td:first').html() == '') {
 			$(this).find('td:first').html('<button class="makemain" style="width:94px" onclick="change(' + this.id.substr(1) + ')">设为创建人</button>');
 		}
 	},function(){
+		$(this).removeClass('menuhover');
 		if ($(this).find('td:first').find('button').length > 0) {
 			$(this).find('td:first').html('');
 		}

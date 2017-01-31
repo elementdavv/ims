@@ -25,10 +25,23 @@ input, select, option {
 input, select, option, textarea {
 	border: 1px solid #ccc;
 	background-color: white;
+	padding: 0 0 0 5px;
+}
+input:focus {
+	outline: none;
 }
 .cancel {
 	background-color: #fff;
 	color: #30c0da;
+}
+.searchbox {
+	border: 1px solid #ccc;
+}
+.searchimg {
+	padding: 0 0 0 5px;
+}
+.searchinput {
+	border: none;
 }
 .container {
 	width: 100%;
@@ -342,6 +355,7 @@ th {
 	width: 68px;
 	height: 30px;
 	text-align: center;
+	padding-left: 0;
 }
 .addedit {
 	color: #ffba00;
@@ -406,7 +420,7 @@ th {
 	float: left;
 }
 .line12a {
-	margin: 20px 30px;
+	margin: 20px 30px 20px 30px;
 }
 .line12b {
 	margin: 20px 0 20px 60px;
@@ -518,27 +532,64 @@ th {
 	padding: 15px 0 14px 8px;
 }
 .line211 {
-	padding: 30px 0 15px 60px;
+	padding: 20px 0 15px 50px;
 	font-size: 16px;
 }
 .line211a {
-	padding: 10px 20px 20px 10px;
-	margin: 0 30px 10px 30px;
-	background-color: #eee;
+	padding: 0 30px 0px 20px;
 }
 .line211b {
-	padding: 10px 20px 20px 10px;
-	margin: 0 30px 10px 30px;
+	padding: 0 30px 0px 20px;
 }
 .line2111 {
-	padding: 0 0 20px 20px;
+	padding: 0 0 10px 30px;
 	color: rgb(153,153,153);
 }
 .line2112 {
-	margin: 0 0 10px 15px;
+	margin: 10px 0 20px 15px;
+	background-color: #eee;
+	height: 40px;
+	line-height: 40px;
+}
+.pgc, .pgcg {
+	height: 14px;
+	margin: -2px 5px 0 0;
 }
 .priv {
-	margin: 0 20px 0 30px;
+	margin: 0 25px 0 15px;
+}
+.priv2 {
+	margin: 0 25px 0 15px;
+}
+.line211d {
+	padding: 10px 0 0px 35px;
+	font-size: 16px;
+}
+.line211ad {
+	padding: 0 15px 0px 5px;
+}
+.line211bd{
+	padding: 0 15px 0px 5px;
+}
+.line2111d {
+	padding: 0 0 0px 8px;
+	color: rgb(153,153,153);
+}
+.line2112d {
+	margin: 10px 0 10px 15px;
+	background-color: #eee;
+	height: 40px;
+	line-height: 40px;
+}
+.pgcd, .pgcgd {
+	height: 14px;
+	margin: -2px 5px 0 0;
+}
+.privd {
+	margin: 0 25px 0 15px;
+}
+.priv2d {
+	margin: 0 30px 0 15px;
 }
 /* 下拉相关 */
 .treewrap, .treewrap1, .treewrap2 {
@@ -551,7 +602,32 @@ th {
 	background-color: white;
 	border: solid 1px #ccc;
 }
-
+#tree21member .checkbox_true_full {
+	background: url(img/多选-1.png) no-repeat;
+	background-position: 0 0;
+}
+#tree21member .checkbox_false_full {
+	background: url(img/多选-2.png) no-repeat;
+	background-position: 0 0;
+	background-size: 100% 100%;
+}
+#tree21member .checkbox_false_part {
+	background: url(img/多选-3.png) no-repeat;
+	background-position: 0 0;
+}
+#tree21member .checkbox_true_full_focus {
+	background: url(img/多选-1.png) no-repeat;
+	background-position: 0 0;
+}
+#tree21member .checkbox_false_full_focus {
+	background: url(img/多选-2.png) no-repeat;
+	background-position: 0 0;
+	background-size: 100% 100%;
+}
+#tree21member .checkbox_false_part_focus {
+	background: url(img/多选-3.png) no-repeat;
+	background-position: 0 0;
+}
 .dialogtitle {
 	margin: 0 15px;
 	line-height: 34px;
@@ -651,17 +727,15 @@ th {
 .searchcolor {
 	color: red;
 }
-.line21_a {
-	padding: 10px 20px 20px 10px;
-	margin: 0 20px 0 20px;
-	background-color: #cbcbcb;
-}
-.line21_b {
-	padding: 10px 20px 20px 10px;
-	margin: 0 20px 0 20px;
-}
 .member21 {
 	padding: 0 15px;
-	height: 30px;
-	line-height: 30px;
+	height: 36px;
+	line-height: 36px;
+}
+.memberlist_21 {
+	overflow-y: auto; 
+	border: 1px solid #ccc;
+	margin: -1px 0 0 0;
+	padding: 5px 0 0 0;
+	height: 400px;
 }

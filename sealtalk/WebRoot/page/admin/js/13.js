@@ -80,6 +80,11 @@ function cb_13_fresh(data) {
 				.replace(/aid/g, data[i].id)
 		);
 	}
+	$('#grouplist tr').hover(function() {
+		$(this).addClass('menuhover');
+	},function() {
+		$(this).removeClass('menuhover')
+	});
 }
 function create(id) {
 	grpid = id;

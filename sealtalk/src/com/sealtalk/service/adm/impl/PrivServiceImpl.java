@@ -75,7 +75,7 @@ public class PrivServiceImpl implements PrivService {
 	}
 
 	@Override
-	public void saveRole(Integer roleId, String roleName, String privs) {
+	public Integer saveRole(Integer roleId, String roleName, String privs) {
 
 		TRole role = roleDao.get(roleId);
 		if (role == null) {
@@ -95,6 +95,8 @@ public class PrivServiceImpl implements PrivService {
 			rolePriv.setPrivId(Integer.parseInt(pa[i]));
 			rolePrivDao.save(rolePriv);
 		}
+		
+		return role.getId();
 	}
 	@Override
 	public void delRole(Integer roleId) {

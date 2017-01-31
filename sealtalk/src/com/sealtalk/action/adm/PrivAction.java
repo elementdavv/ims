@@ -120,9 +120,9 @@ public class PrivAction extends BaseAction {
 		String roleName = this.request.getParameter("rolename");
 		String privs = this.request.getParameter("privs");
 
-		privService.saveRole(roleId, roleName, privs);
+		roleId = privService.saveRole(roleId, roleName, privs);
 		
-		return returnajaxid(0);
+		return returnajaxid(roleId);
 	}
 
 	public String saveRoleMember() {
@@ -138,7 +138,9 @@ public class PrivAction extends BaseAction {
 	public String delRole() {
 		
 		Integer roleId = Integer.parseInt(this.request.getParameter("roleid"));
-
+		
+		privService.delRole(roleId);;
+		
 		return returnajaxid(0);
 	}
 	

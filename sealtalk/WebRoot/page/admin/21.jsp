@@ -55,14 +55,14 @@
 
 <div id="role" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
 	<div class="modal-dialog" style='width: 900px'>
-		<div class="modal-content" style='height: 590px'>
+		<div class="modal-content" style='height: 650px'>
 		</div>	
 	</div>
 </div>
 
 <div id="member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style='width: 650px'>
-		<div class="modal-content" style='height: 585px'>
+	<div class="modal-dialog" style='width: 750px'>
+		<div class="modal-content" style='height: 630px'>
 		</div>
 	</div>
 </div>

@@ -35,28 +35,28 @@
 			<div class="col1">
 				<div class="line12a" style='font-size: 16px'>企业/机构名称</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='组织号码：' readonly/>
+					<input style='width: 80px;border:none' value='组织号码：' readonly/>
 					<input type="text" id="code" style='background-color: #eee' disabled>
 				</div>
-				<div class="line12b" style='margin-left: 50px'><span style='color:red'>*</span>
-					<input style='width: 70px;border:none' value='组织全称：' readonly/>
+				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
+					<input style='width: 80px;border:none;padding-left:0' value='组织全称：' readonly/>
 					<input type="text" id="name"><span style="margin-left: 15px">填写后将显示在成员名片中</span>
 				</div>
-				<div class="line12b" style='margin-left: 50px'><span style='color:red'>*</span>
-					<input style='width: 70px;border:none' value='组织简称：' readonly/>
+				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
+					<input style='width: 80px;border:none;padding-left:0' value='组织简称：' readonly/>
 					<input type="text" id="shortname"><span style="margin-left: 15px">填写后将显示在客户端标题栏</span>
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='英文名称：' readonly/>
+					<input style='width: 80px;border:none' value='英文名称：' readonly/>
 					<input type="text" id="englishname">
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='广告语：' readonly/>
+					<input style='width: 80px;border:none' value='广告语：' readonly/>
 					<input type="text" id="ad">
 				</div>
 				<div class="line12a" style='font-size: 16px'>联系方式</div>
-				<div class="line12b" style='margin-left: 50px'><span style='color:red'>*</span>
-					<input style='width: 70px;border:none' value='所在城市：' readonly/>
+				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
+					<input style='width: 80px;border:none;padding-left:0' value='所在城市：' readonly/>
 					<select class="sel1" id="provinceid">
 						<option value="id">上海</option>
 					</select>
@@ -67,43 +67,43 @@
 						<option value="id">上海</option>
 					</select>
 				</div>
-				<div class="line12b" style='margin-left: 50px'><span style='color:red'>*</span>
-					<input style='width: 70px;border:none' value='联系人：' readonly/>
+				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
+					<input style='width: 80px;border:none;padding-left:0' value='联系人：' readonly/>
 					<input type="text" id="contact">
 				</div>
-				<div class="line12b" style='margin-left: 50px'><span style='color:red'>*</span>
-					<input style='width: 70px;border:none' value='办公地址：' readonly/>
+				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
+					<input style='width: 80px;border:none;padding-left:0' value='办公地址：' readonly/>
 					<input type="text"  id="address" style="width:410px"><span style="margin-left: 15px">填写后将显示在成员名片中</span>
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='电话：' readonly/>
+					<input style='width: 80px;border:none' value='电话：' readonly/>
 					<input type="text" id="telephone">
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='传真：' readonly/>
+					<input style='width: 80px;border:none' value='传真：' readonly/>
 					<input type="text" id="fax">
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='E-mail：' readonly/>
+					<input style='width: 80px;border:none' value='E-mail：' readonly/>
 					<input type="text" id="email">
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='邮政编码：' readonly/>
+					<input style='width: 80px;border:none' value='邮政编码：' readonly/>
 					<input type="text" id="postcode">
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='网站：' readonly/>
+					<input style='width: 80px;border:none' value='网站：' readonly/>
 					<input type="text" id="website">
 				</div>
 				<div class="line12a" style='font-size: 16px'>其他信息</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='组织性质：' readonly/>
+					<input style='width: 80px;border:none' value='组织性质：' readonly/>
 					<select class="sel2" id="inwardid">
 						<option value="id">上海</option>
 					</select>
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='主营行业：' readonly/>
+					<input style='width: 80px;border:none' value='主营行业：' readonly/>
 					<select class="sel2" id="industryid">
 						<option value="id">上海</option>
 					</select>
@@ -112,11 +112,11 @@
 					</select>
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='注册资本：' readonly/>
+					<input style='width: 80px;border:none' value='注册资本：' readonly/>
 					<input type="text" id="capital"> <span style="margin-left: 15px">万</span>
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='成员人数：' readonly/>
+					<input style='width: 80px;border:none' value='成员人数：' readonly/>
 					<select class="sel2" id="membernumber">
 						<option value="1">10人以下</option>
 						<option value="2">10人到100人</option>
@@ -126,7 +126,7 @@
 					</select>
 				</div>
 				<div class="line12b">
-					<input style='width: 70px;border:none' value='电脑台数：' readonly/>
+					<input style='width: 80px;border:none' value='电脑台数：' readonly/>
 					<select class="sel2" id="computernumber">
 						<option value="1">10台以下</option>
 						<option value="2">10台到20台</option>
@@ -136,7 +136,7 @@
 					</select>
 				</div>
 				<div class="line12b" style="height: 200px;">
-					<input style='width: 70px;border:none;vertical-align:top' value='组织简介：' readonly/>
+					<input style='width: 80px;border:none;vertical-align:top' value='组织简介：' readonly/>
 					<textarea id="intro"></textarea>
 				</div>
 				<div class="line12b" style="padding: 20px 0 0 75px">

@@ -5,11 +5,12 @@ var curpage = 0;
 var itemsperpage = 10;
 var membertemplate = '<div id="mmemberid" name="membername" class="member21">'
 						+ '<div class="toleft">membername</div>'
-						+ '<div class="toright" onclick="delmember(memberid)">删</div>'
+						+ '<div class="toright" onclick="delmember(memberid)"><img src="images/删除button.png" /></div>'
 						+ '</div>';
 $(document).ready(function(){
 
 //	$('.line21').css('width', document.body.clientWidth * 0.12 + 'px');
+	$('.sidebar12').css('height', '1440px');
 	
 	showpage('210');
 	
@@ -37,8 +38,25 @@ $(document).ready(function(){
 		load211();
 		load212();
 	});
-	$('body').on('click', '.privgroup', function() {
-		$(this).parent().parent().find('input').prop('checked', $(this).prop('checked'));
+	$('body').on('click', '.privgroup, .privgroupd', function() {
+		if ($(this).prop('src').indexOf('1.png') > 0) {
+			$(this).parent().parent().find('img').prop('src', 'images/多选-2.png');
+			$(this).parent().parent().find('input').prop('checked', false);
+		}
+		else {
+			$(this).parent().parent().find('img').prop('src', 'images/多选-1.png');
+			$(this).parent().parent().find('input').prop('checked', true);
+		}
+	});
+	$('body').on('click', '.pgc, .pgcd', function() {
+		if ($(this).prop('src').indexOf('1.png') > 0) {
+			$(this).parent().find('img').prop('src', 'images/多选-2.png');
+			$(this).parent().find('input').prop('checked', false);
+		}
+		else {
+			$(this).parent().find('img').prop('src', 'images/多选-1.png');
+			$(this).parent().find('input').prop('checked', true);
+		}
 	});
 	$('#addrole').click(function(){
 		$('#role').modal({
@@ -94,23 +112,31 @@ function cb_21_role_priv(data) {
 	var i = data.length;
 	while (i--) {
 		if (data[i].parentid == 0) {
-			$('#21_list').append('<div class="line211">' + data[i].privname + '</div>');
+			$('#21_list').append('<div class="line211d">' + data[i].privname + '</div>');
 			var j = data.length;
 			var x = 0;
 			while (j--) {
 				if (data[j].parentid == data[i].privid) {
 					if (x++ % 2 == 0)
-						$('#21_list').append('<div class="line21_a"></div>');
+						$('#21_list').append('<div class="line211ad"></div>');
 					else
-						$('#21_list').append('<div class="line21_b"></div>');
+						$('#21_list').append('<div class="line211bd"></div>');
 					var a = $('#21_list').children().last();
-					$(a).append('<div class="line2111"><input type="checkbox" class="privgroup" id="pr' + data[j].privid + '" /> ' + data[j].privname + '</div>');
-					$(a).append('<div class="line2112"></div>');
+					var g = '<div class="line2111d">'
+						+ '<img src="images/多选-2.png" class="privgroupd pgcgd" />'
+						+ '<input type="checkbox" id="pr' + data[j].privid + '" style="display:none" /> ' 
+						+ data[j].privname + '</div>';
+					$(a).append(g);
+					$(a).append('<div class="line2112d"></div>');
 					var b = $(a).children().last();
 					var k = data.length;
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
-							$(b).append('<div class="priv toleft"><input type="checkbox" id="pr' + data[k].privid + '" /> ' + data[k].privname + '</div>');
+							var gp = '<div class="priv2d toleft">'
+								+ '<img src="images/多选-2.png" class="pgcd" />'
+								+ '<input type="checkbox" id="pr' + data[k].privid + '" style="display:none" /> ' 
+								+ data[k].privname + '</div>';
+							$(b).append(gp);
 						}
 					}
 				}
@@ -119,7 +145,7 @@ function cb_21_role_priv(data) {
 	}	
 }
 function cb_21_member_tree(data) {
-	$.fn.zTree.init($('#tree21member'), setting21, data);
+	$.fn.zTree.init($('#tree21member'), setting21, stripicon(data));
 	var t = $.fn.zTree.getZTreeObj('tree21member');
 	var ns = t.getNodesByParam('id', 1, null);
 	t.expandNode(ns[0], true);
@@ -131,6 +157,7 @@ var setting21 = {
 	view: {
 		showLine: false,
 		nameIsHTML: true,
+		showIcon: false,
 	},
 	check: {
 		autoCheckTrigger: true,
@@ -168,10 +195,16 @@ var setting21 = {
 					return;
 				}
 			}
-			if (treeNode.checked)
+			if (treeNode.checked) {
 				$('#21_memberlist').append(membertemplate
 						.replace(/memberid/g, treeNode.id)
 						.replace(/membername/g, treeNode.name));
+				$('.member21').hover(function() {
+					$(this).addClass('menuhover');
+				}, function() {
+					$(this).removeClass('menuhover');
+				});
+			}
 		}
 	}
 };
@@ -248,6 +281,9 @@ function cb_211_fresh(data) {
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
 							if (data[k].roleid == currole) {
+								$(b).append('<div class="priv toleft"><img src="images/已选择.png" style="margin-right: 5px" />' + data[k].privname + '</div>');
+							}
+							else {
 								$(b).append('<div class="priv toleft">' + data[k].privname + '</div>');
 							}
 						}
@@ -275,18 +311,30 @@ function cb_212_fresh(data) {
 					else
 						$('#list212').append('<div class="line211b"></div>');
 					var a = $('#list212').children().last();
-					$(a).append('<div class="line2111"><input type="checkbox" class="privgroup" id="p' + data[j].privid + '" /> ' + data[j].privname + '</div>');
+					var g = '<div class="line2111">'
+						+ '<img src="images/多选-2.png" class="privgroup pgcg">'
+						+ '<input type="checkbox" id="p' + data[j].privid + '" style="display:none" />'
+						+ data[j].privname + '</div>';
+					$(a).append(g);
 					$(a).append('<div class="line2112"></div>');
 					var b = $(a).children().last();
 					var k = data.length;
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
+							var gp;
 							if (data[k].roleid == currole) {
-								$(b).append('<div class="priv toleft"><input type="checkbox" id="p' + data[k].privid + '" checked /> ' + data[k].privname + '</div>');
+								gp = '<div class="priv2 toleft">'
+									+ '<img src="images/多选-1.png" class="pgc">'
+									+ '<input type="checkbox" id="p' + data[k].privid + '" style="display:none" checked />' 
+									+ data[k].privname + '</div>';
 							}
 							else {
-								$(b).append('<div class="priv toleft"><input type="checkbox" id="p' + data[k].privid + '" /> ' + data[k].privname + '</div>');
+								gp = '<div class="priv2 toleft">'
+									+ '<img src="images/多选-2.png" class="pgc">'
+									+ '<input type="checkbox" id="p' + data[k].privid + '" style="display:none" />'
+									+ data[k].privname + '</div>';
 							}
+							$(b).append(gp);
 						}
 					}
 				}
@@ -361,9 +409,10 @@ function delrole() {
 function cb_21_del(data) {
 	var $a = $('#r' + currole);
 	var $b = $a.prev();
+	$a.remove();
+	$('#sanjiao').remove();
 	$b.addClass('prv21active');
 	$b.after('<img id="sanjiao" src="images/成员身份选择-1.png" style="float:right" />');
-	$a.remove();
 	currole = $b[0].id.substr(1);
 	load210();
 	load211();
@@ -375,4 +424,11 @@ function showpage(cp) {
 	$('#211').hide();
 	$('#212').hide();
 	$('#' + cp).show();
+}
+function stripicon(data) {
+	var i = data.length;
+	while (i--) {
+		data[i].name = data[i].name.substr(53);
+	}
+	return data;
 }
