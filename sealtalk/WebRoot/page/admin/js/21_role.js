@@ -1,8 +1,13 @@
 $(document).ready(function() {
+	
+	$('#role').validVal();
+
 	$('#21_roletemplate').change(function() {
 		callajax('priv!getPrivByRole', {roleid: $(this).val().substr(2)}, cb_21_role_fresh)
 	});
 	$('#save21role').click(function() {
+		if ($( "#role" ).triggerHandler( "submitForm" ) == false) return;
+
 		var rolename = $('#21_rolename').val();
 		var inps = $('#21_list').find('input');
 		var i = inps.length;

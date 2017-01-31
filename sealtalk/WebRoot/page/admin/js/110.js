@@ -1,6 +1,8 @@
 var fillmember = 0;
 $(document).ready(function(){
 	
+	$('#110').validVal();
+
 	//下拉相关
 	$('#tree110wrap').css({
 		'left': $('#branchmanager').offset().left, 
@@ -16,6 +18,13 @@ $(document).ready(function(){
 		});
 	});
 	$('#branchsave').click(function(){
+		if (curbranch == 0) {
+			bootbox.alert({'title':'提示', 'message': '请先选择部门.'});
+			return;
+		}
+		
+		if ($( "#110" ).triggerHandler( "submitForm" ) == false) return;
+
 		var data = formtojson($('#branchform'));
 		callajax('branch!saveBranch', data, cb_110_1);
 	});

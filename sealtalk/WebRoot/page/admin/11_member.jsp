@@ -15,19 +15,19 @@
 	<div class='h40px'></div>
 	<div>
 		<div class='dialogtitle' style='margin-left: 10px'><span style='color:red'>*</span>成员帐号：	
-			<input type='text' id='11memberaccount' name='11memberaccount' class='w270px toright rightspace120'>
+			<input type='text' id='11memberaccount' name='11memberaccount' class='w270px toright rightspace120 required'>
 		</div>
 	</div>
 	<div class='linespace'></div>
 	<div>
 		<div class='dialogtitle' style='margin-left: 10px'><span style='color:red'>*</span>手机号：	
-			<input type='text' id='11membermobile' name='11membermobile' class='w270px toright rightspace120'>
+			<input type='text' id='11membermobile' name='11membermobile' class='w270px toright rightspace120 required'>
 		</div>
 	</div>
 	<div class='linespace'></div>
 	<div>
 		<div class='dialogtitle' style='margin-left: 10px'><span style='color:red'>*</span>姓名：
-			<input type='text' id='11membername' name='11membername' class='w270px toright rightspace120'>
+			<input type='text' id='11membername' name='11membername' class='w270px toright rightspace120 required'>
 		</div>
 	</div>
 	<div class='linespace'></div>

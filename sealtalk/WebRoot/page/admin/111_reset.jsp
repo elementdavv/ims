@@ -16,7 +16,7 @@
 	<div class='h50px'></div>
 	<div>
 		<div class='dialogtitle'>成员新密码：<span style='color:red'>*</span>
-			<input type='text' id='newpassword' style='width: 261px'>
+			<input type='text' id='newpassword' class='required' style='width: 261px'>
 		</div>
 	</div>
 	<div class='h20px'></div>

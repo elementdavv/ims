@@ -34,7 +34,7 @@
 		</div>
 		<div class="line23">
 			职务职位：
-			<input type="text" id="posname">
+			<input type="text" id="posname" class='required'>
 			<button id="save23">添加</button>
 		</div>
 		<div class="line23" id='positionlist'>

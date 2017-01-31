@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+	$('#branch').validVal();
+
 	$($('#tree11branchbranchwrap')).css({
 		'left': $('#11branchbranch').position().left, 
 		'top': $('#11branchbranch').position().top + 33, 
@@ -30,6 +32,8 @@ $(document).ready(function(){
 		return false;
 	});
 	$('#save11branch').click(function() {
+		if ($( "#branch" ).triggerHandler( "submitForm" ) == false) return;
+
 		var data = {
 				branchparentid: $('#11branchbranchid').val(),
 				branchname: $('#11branchname').val(),

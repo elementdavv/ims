@@ -13,20 +13,20 @@
 		<input type="hidden" id="memberid" name="memberid">
 		<input type="hidden" id="memberbranchid" name="memberbranchid">
 		<input type="hidden" id="branchmemberid" name="branchmemberid">
-		<div class="line111" style='padding-left: 23px'>
+		<div class="line111">
 			<div class="column1">
-				<span style='color:red'>*</span>成员帐号：
+				成员帐号：
 				<input type="text" id="memberaccount" name="memberaccount" style='background-color: #eee' disabled>
 			</div>
 			<div class="column2">
 				<span style='color:red'>*</span>真实姓名：
-				<input type="text" id="memberfullname" name="memberfullname">
+				<input type="text" id="memberfullname" class='required' name="memberfullname">
 			</div>
 		</div>
 		<div class="line111" style='padding-left: 23px'>
 			<div class="column1">
 				<span style='color:red'>*</span>手机：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="text" id="membermobile" name="membermobile">
+				<input type="text" id="membermobile" class='required' name="membermobile">
 			</div>
 			<div class="column2">
 				性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

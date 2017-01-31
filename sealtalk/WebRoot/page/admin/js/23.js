@@ -1,15 +1,16 @@
 $(document).ready(function() {
 	
+	$('.infopanel23').validVal();
+
 //	$('.infopanel23').css('margin-left', (document.body.clientWidth * 0.87) * 0.29);
 	$('.infopanel23').css('margin-left', ((document.body.clientWidth * 0.87 - 688) / 2 + 'px'));
 	
 	callajax('pos!getList', '', cb_23);
 	
 	$('#save23').click(function() {
-		var name = $('#posname').val();
-		if (name == '') return;
+		if ($( ".infopanel23" ).triggerHandler( "submitForm" ) == false) return;
 		
-		callajax('pos!save', {name: name}, cb_23_save)
+		callajax('pos!save', {name: $('#posname').val()}, cb_23_save)
 	});
 });
 function cb_23(data) {

@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	
+	$('#reset').validVal();
+
 	$('#newpassword').keyup(function(e) {
 		
 		var np = $('#newpassword').val();
@@ -27,6 +29,8 @@ $(document).ready(function() {
 		}
 	});
 	$('#save111reset').click(function() {
+		if ($( "#reset" ).triggerHandler( "submitForm" ) == false) return;
+
 		callajax('branch!reset', {memberid: curmember, newpassword: $('#newpassword').val(), cb_111_reset});
 	});
 })

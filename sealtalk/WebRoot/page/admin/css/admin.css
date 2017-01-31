@@ -43,6 +43,9 @@ input:focus {
 .searchinput {
 	border: none;
 }
+.invalid {
+	border-color: red;
+}
 .container {
 	width: 100%;
 	margin: 0;

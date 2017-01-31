@@ -19,6 +19,8 @@ var branchmemberid;
 var branch112position = 0;
 $(document).ready(function(){
 	
+	$('#111').validVal();
+
 	$('#position').on('shown.bs.modal', function(e) {
 		callajax("branch!getOrganOnlyTree", "", cb_112_position_tree);
 		callajax("branch!getPosition", "", cb_112_position_select);
@@ -32,6 +34,8 @@ $(document).ready(function(){
 	});
 
 	$('#membersave').click(function(){
+		if ($( "#111" ).triggerHandler( "submitForm" ) == false) return;
+
 		var data = formtojson($('#memberform'));
 		callajax('branch!saveMember', data, cb_111_1);
 	});

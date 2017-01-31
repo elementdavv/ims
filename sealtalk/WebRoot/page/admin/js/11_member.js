@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	
+	$('#member').validVal();
+
 	$($('#tree11memberwrap')).css({
 		'left': $('#11memberbranch').position().left, 
 		'top': $('#11memberbranch').position().top + 33, 
@@ -25,6 +27,8 @@ $(document).ready(function(){
 		return false;
 	});
 	$('#save11member').click(function() {
+		if ($( "#member" ).triggerHandler( "submitForm" ) == false) return;
+
 		var data = {
 				memberaccount: $('#11memberaccount').val(),
 				membermobile: $('#11membermobile').val(),

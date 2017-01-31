@@ -3,6 +3,8 @@ var optiontemplate = '<option value="id">name</option>';
 var imagedir = '../../images/';
 $(document).ready(function() {
 	
+	$('.col12').validVal();
+	
 	var h = document.body.clientHeight > 1520 ? document.body.clientHeight : '1520';
 	$('.sidebar12').css('height', h + 'px');
 
@@ -25,6 +27,8 @@ $(document).ready(function() {
 	loadmeta();
 	loaddata();
 	$('#save12').click(function() {
+		if ($( ".col12" ).triggerHandler( "submitForm" ) == false) return;
+
 		info.code =	$('#code').val();
 		info.name =	$('#name').val();
 		info.shortname =	$('#shortname').val();
