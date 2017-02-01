@@ -5,7 +5,7 @@ $(document).ready(function(){
 		
 		var o = $.fn.zTree.getZTreeObj('tree11move');
 		var nod = o.getSelectedNodes()[0];
-		if (nod.id == movnode.pid || nod.id < 101) {
+		if (nod.id == movnode.pid) {
 			$('#move').modal('hide');
 			return;
 		}

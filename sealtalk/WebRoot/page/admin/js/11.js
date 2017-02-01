@@ -164,6 +164,11 @@ function cb_11_tree(data) {
 	var t = $.fn.zTree.getZTreeObj('tree11');
 	var ns = t.getNodesByParam('id', 1, null);
 	t.expandNode(ns[0], true);
+	$('#tree11 a').each(function(i, a) {
+		if (a.title.length > 53) {
+			a.title = a.title.substr(53);
+		}
+	});
 }
 function stripicon(data) {
 	var i = data.length;
@@ -264,6 +269,18 @@ var setting11 = {
 			rootPId: null
 		}
 	},
+	edit: {
+		enable: true,
+		showRemoveBtn: false,
+		showRenameBtn: false,
+		drag: {
+			isCopy: false,
+			isMove: true,
+			prev: false,
+			next: false,
+			inner: true,
+		},
+	},
 	callback: {
 		// 不会执行
 		onExpand: function(event, treeId, treeNode) {
@@ -285,6 +302,11 @@ var setting11 = {
 		onClick: function(event, treeId, treeNode, clickFlag) {
 			if (!treeNode.open) {
 				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, true);
+				$('#tree11 a').each(function(i, a) {
+					if (a.title.length > 53) {
+						a.title = a.title.substr(53);
+					}
+				});
 				$('#tree11 li').hover(function(){
 					var t = $.fn.zTree.getZTreeObj('tree11');
 					var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
@@ -329,7 +351,28 @@ var setting11 = {
 					callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 				}
 			}
-		}
+		},
+		beforeDrag: function(treeId, treeNodes) {
+			
+			if (treeNodes[0].flag == 0)	return false;
+			else if (treeNodes[0].flag == 1) {
+				if (!has('bmglyd')) return false;
+			}
+			else if (treeNodes[0].flag == 2) {
+				if (!has('rsglyd')) return false;
+			}
+		},
+		beforeDrop: function(treeId, treeNodes, targetNode, moveType, isCopy) {
+			
+			if (targetNode.flag == 2) return false;
+			
+			var data = {id: treeNodes[0].id, pid: treeNodes[0].pid, toid: targetNode.id};
+			callajax('branch!mov', data, function(data) {
+				callajax("branch!getOrganTree", "", function(data) {
+					$.fn.zTree.init($('#tree110'), setting110, stripicon(data));
+				});
+			});
+		},
 	}
 };
 var setting110 = {
@@ -553,7 +596,7 @@ function del(tId) {
 			}
 		}
 	});
-} 
+}
 function hasChildBranch(id) {
 	var t = $.fn.zTree.getZTreeObj('tree11');
 	var ns = t.getNodesByParam('pid', id, null);

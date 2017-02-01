@@ -11,7 +11,7 @@
 			<input type="text" id="branchname" class='required' name="branchname" >
 		</div>
 		<div class="line11" style="padding-left: 28px;"><span style='color:red'>*</span>部门领导：
-			<input type="text" id="branchmanager" class='required' name="branchmanager" readonly class='treeedit' style='width: 280px'>
+			<input type="text" id="branchmanager" class='treeedit required' name="branchmanager" readonly class='treeedit' style='width: 280px'>
 			<input class='treeedit xiala' id='xiala10' readonly></input>
 			<input type="hidden" id="branchmanagerid" name="branchmanagerid">
 			<span id="branchaddmember" style="color: rgb(255,162,0);font-size: 13px; cursor:pointer">
