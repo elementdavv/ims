@@ -310,14 +310,12 @@ var setting11 = {
 			if (treeNode.flag == 1 && curpage == '110' && treeNode.id == curbranch) return;
 			if (treeNode.flag == 2 && curpage != '110' && treeNode.id == curmember) return;
 
-			if (treeNode.flag == 1 && curpage != '110') showpage('110');
-			if (treeNode.flag == 2 && curpage == '110') showpage('111');
-			
 			if (treeNode.flag == 1) {
 				curbranch = treeNode.id;
 				
 				//权限
 				if (has('bmglck')) {
+					if (curpage != '110') showpage('110');
 					callajax("branch!getBranchById", {'id': curbranch}, cb_110);
 				}
 			}
@@ -327,6 +325,7 @@ var setting11 = {
 
 				//权限
 				if (has('rsglck')) {
+					if (curpage == '110') showpage('111');
 					callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 				}
 			}

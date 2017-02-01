@@ -1,8 +1,10 @@
 //权限列表
 var privs = '';
+//应用根目录
+var path = '';
 $(document).ready(function(){
 	
-	// 取登录信息
+	// 取权限
 	callajax('adm!getBase', '', cb_base);
 	
 	$('#idlogout').click(function() {
@@ -36,6 +38,8 @@ $(document).ready(function(){
 	});
 })
 function cb_base(data) {
+	
+	// 取权限失败返回登录界面
 	if (data.id == 0) {
 		window.location.href = path;
 	}
@@ -43,6 +47,7 @@ function cb_base(data) {
 		privs = data.privs;
 	}
 }
+//判断是否有权限
 function has(priv) {
 	return (privs.indexOf(',' + priv + ',') > -1 ? true : false);
 }
@@ -56,7 +61,6 @@ function treeplace(oedit, otree) {
 }
 
 //ajax
-var path = '';
 function callajax(url, data, cb){
 	$.ajax({
 		type: "POST",
@@ -122,40 +126,4 @@ function formtojson(form) {
 	}
 	astring += '}';
 	return $.parseJSON(astring);
-}
-/*
-0~10分：不合格（弱）
-11~20分：一般
-21~30分：中
-31~40分：强
-41~50分：安全
-*/
-function passwordGrade(pwd) {
-    var score = 0;
-    var regexArr = ['[0-9]', '[a-z]', '[A-Z]', '[\\W_]'];
-    var repeatCount = 0;
-    var prevChar = '';
-
-    //check length
-    var len = pwd.length;
-    score += len > 18 ? 18 : len;
-
-    //check type
-    for (var i = 0, num = regexArr.length; i < num; i++) { if (eval('/' + regexArr[i] + '/').test(pwd)) score += 4; }
-
-    //bonus point
-    for (var i = 0, num = regexArr.length; i < num; i++) {
-        if (pwd.match(eval('/' + regexArr[i] + '/g')) && pwd.match(eval('/' + regexArr[i] + '/g')).length >= 2) score += 2;
-        if (pwd.match(eval('/' + regexArr[i] + '/g')) && pwd.match(eval('/' + regexArr[i] + '/g')).length >= 5) score += 2;
-    }
-
-    //deduction
-    for (var i = 0, num = pwd.length; i < num; i++) {
-        if (pwd.charAt(i) == prevChar) repeatCount++;
-        else prevChar = pwd.charAt(i);
-    }
-    score -= repeatCount * 1;
-
-    return score;
-
 }
