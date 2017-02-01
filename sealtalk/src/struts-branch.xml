@@ -39,6 +39,12 @@
 				<param name="inputName">inputStream</param>
         	</result>
         </action>
+        <action name="adm" class="com.sealtalk.action.adm.AdmAction">
+        	<result name="text" type="stream">
+        		<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+        	</result>
+        </action>
     </package>
    
 </struts>

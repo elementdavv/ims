@@ -48,11 +48,11 @@
 			<div>
 				<div class='dialogtitle'>
 					<div id='21_memberlist' class='memberlist_21'>
-						<div id='m1' name='xx' class='member21'>
+<!-- 					<div id='m1' name='xx' class='member21'>
 							<div class='toleft'>xx</div>
 							<div class='toright' onclick='delmember(memberid)'>删</div>
 						</div>
-					</div>
+ -->				</div>
 				</div>
 			</div>
 		</div>

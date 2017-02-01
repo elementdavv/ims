@@ -34,19 +34,50 @@ $(document).ready(function(){
 		if (curpage != '110' && curmember == '10001') return;
 		if (curpage != '111') showpage('111');
 		curmember = '10001';
-		callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
+
+		//权限
+		if (has('rsglck')) {
+			callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
+		}
 	});
 	$('.addbranch').click(function(){
-		$('#branch').modal({
-			backdrop: false,
-			remote: '11_branch.jsp'
-		});
+		
+		//权限
+		if (has('bmgltj')) {
+			$('#branch').modal({
+				backdrop: false,
+				remote: '11_branch.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限添加部门.'});
+		}
 	});
 	$('.addmember').click(function(){
-		$('#member').modal({
-			backdrop: false,
-			remote: '11_member.jsp'
-		});
+		
+		//权限
+		if (has('rsgltj')) {
+			$('#member').modal({
+				backdrop: false,
+				remote: '11_member.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+		}
+	});
+	$('.addbatch').click(function(){
+		
+		//权限
+		if (has('rsgltj')) {
+			$('#batch').modal({
+				backdrop: false,
+				remote: '11_batch.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限执行批量导入.'});
+		}
 	});
 	
 	callajax("branch!getOrganTree", "", cb_11_tree);
@@ -284,12 +315,20 @@ var setting11 = {
 			
 			if (treeNode.flag == 1) {
 				curbranch = treeNode.id;
-				callajax("branch!getBranchById", {'id': curbranch}, cb_110);
+				
+				//权限
+				if (has('bmglck')) {
+					callajax("branch!getBranchById", {'id': curbranch}, cb_110);
+				}
 			}
 
 			if (treeNode.flag == 2) {
 				curmember = treeNode.id;
-				callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
+
+				//权限
+				if (has('rsglck')) {
+					callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
+				}
 			}
 		}
 	}
@@ -417,25 +456,46 @@ var setting11_branch_member = {
 	}
 };
 var setting11_move = {
-		view: {
-			showLine: false,
-			showIcon: false,
-		},
-		data: {
-			simpleData: {
-				enable:true,
-				idKey: "id",
-				pIdKey: "pid",
-				rootPId: null
-			}
-		},
-		async: {
-			enable: false
+	view: {
+		showLine: false,
+		showIcon: false,
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pid",
+			rootPId: null
 		}
+	},
+	async: {
+		enable: false
 	}
+}
 function mov(tId) {
+	$('.movdel').remove();
 	var t = $.fn.zTree.getZTreeObj('tree11');
 	var ns = t.getNodesByParam('tId', tId, null);
+
+	if (ns[0].flag == 0) {
+		bootbox.alert({title:'提示', message:'不能移动组织.'});
+		return;
+	}
+	
+	//权限
+	else if (ns[0].flag == 1) {
+		if (!has('bmglyd')) {
+			bootbox.alert({title:'提示', message:'您没有权限移动部门.'});
+			return;
+		}
+	}
+	else if (ns[0].flag == 2){
+		if (!has('rsglyd')) {
+			bootbox.alert({title:'提示', message:'您没有权限移动人员.'});
+			return;
+		}
+	}
+	
 	movnode = ns[0];
 	
 	$('#move').modal({
@@ -448,10 +508,26 @@ function del(tId) {
 	$('.movdel').remove();
 	var t = $.fn.zTree.getZTreeObj('tree11');
 	var ns = t.getNodesByParam('tId', tId, null);
-	if (ns[0].id < 101) {
+
+	if (ns[0].flag == 0) {
 		bootbox.alert({title:'提示', message:'不能删除组织.'});
 		return;
 	}
+	
+	//权限
+	else if (ns[0].flag == 1) {
+		if (!has('bmglsc')) {
+			bootbox.alert({title:'提示', message:'您没有权限删除部门.'});
+			return;
+		}
+	}
+	else if (ns[0].flag == 2){
+		if (!has('rsglsc')) {
+			bootbox.alert({title:'提示', message:'您没有权限删除人员.'});
+			return;
+		}
+	}
+	
 	bootbox.confirm({
 		title:'提示',
 		message:'确定删除 ' + ns[0].name.substr(53) + ' ?',

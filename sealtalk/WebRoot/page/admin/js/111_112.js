@@ -36,44 +36,84 @@ $(document).ready(function(){
 	$('#membersave').click(function(){
 		if ($( "#111" ).triggerHandler( "submitForm" ) == false) return;
 
-		var data = formtojson($('#memberform'));
-		callajax('branch!saveMember', data, cb_111_1);
+		//权限
+		if (has('rsgljcxx')) {
+			var data = formtojson($('#memberform'));
+			callajax('branch!saveMember', data, cb_111_1);
+		}
+		else {
+			bootbox.alert({'title':'提示', 'message':'您没有权限修改人员信息.'});
+		}
 	});
 	$('.addposition').click(function(){
-		branchmemberid = 0;
-		$('#position').modal({
-			backdrop: false,
-			remote: '112_position.jsp'
-		});
+
+		//权限
+		if (has('rsgljcxx')) {
+			branchmemberid = 0;
+			$('#position').modal({
+				backdrop: false,
+				remote: '112_position.jsp'
+			});
+		}
+		else {
+			bootbox.alert({'title':'提示', 'message':'您没有权限添加人员职位.'});
+		}
 	});
 	$('#reset111').click(function(){
-		$('#reset').modal({
-			backdrop: false,
-			remote: '111_reset.jsp'
-		});
+
+		//权限
+		if (has('rsglxgmm')) {
+			$('#reset').modal({
+				backdrop: false,
+				remote: '111_reset.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限修改人员密码.'});
+		}
 	});
 })
 
 function editbranchmember(bmid) {
-	branchmemberid = bmid;
-	$('#position').modal({
-		backdrop: false,
-		remote: '112_position.jsp'
-	});
+
+	//权限
+	if (has('rsgljcxx')) {
+		branchmemberid = bmid;
+		$('#position').modal({
+			backdrop: false,
+			remote: '112_position.jsp'
+		});
+	}
+	else {
+		bootbox.alert({'title':'提示', 'message':'您没有权限修改人员职位.'});
+	}
 }
 function delbranchmember(bmid) {
-	bootbox.confirm({
-		title:'提示',
-		message:'确定删除该职位 ?',
-		callback: function(result) {
-			if (result == true) {
-				callajax("branch!delBranchMember", {branchmemberid: bmid}, cb_112_position_del);
+
+	//权限
+	if (has('rsgljcxx')) {
+		bootbox.confirm({
+			title:'提示',
+			message:'确定删除该职位 ?',
+			callback: function(result) {
+				if (result == true) {
+					callajax("branch!delBranchMember", {branchmemberid: bmid}, cb_112_position_del);
+				}
 			}
-		}
-	});
+		});
+	}
+	else {
+		bootbox.alert({'title':'提示', 'message':'您没有权限删除人员职位.'});
+	}
 }
 function setmaster(bmid) {
-	callajax("branch!setMaster", {branchmemberid: bmid}, cb_112_position_master);
+
+	if (has('rsgljcxx')) {
+		callajax("branch!setMaster", {branchmemberid: bmid}, cb_112_position_master);
+	}
+	else {
+		bootbox.alert({'title':'提示', 'message':'您没有权限设置主要职位.'});
+	}
 }
 function cb_112_position_tree(data) {
 

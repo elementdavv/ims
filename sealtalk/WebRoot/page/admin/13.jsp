@@ -14,7 +14,7 @@
 		<li><a href="21.jsp">高级设置</a></li>
 	</ul>
     <ul class="admHeaderOper">
-        <li class="admLeftIcon"></li>
+        <li class="admLeftIcon" id='idlogout'></li>
         <li class="admLeftIcon"></li>
         <li class="admLeftIcon"></li>
     </ul>
@@ -43,7 +43,7 @@
 					</tr>
 				</thead>
 				<tbody id='grouplist'>
-					<tr>
+<!-- 				<tr>
 						<td>4361784</td>
 						<td>天坊test</td>
 						<td>张宝宝</td>
@@ -53,7 +53,7 @@
 							<button>解散群</button>
 						</td>
 					</tr>
-				</tbody>
+ -->			</tbody>
 			</table>
 			<div style='margin: 30px 0'>
 				<div class='toright leftspace15' id='pagelast'><img src='images/lastpage_1.png' /></div>

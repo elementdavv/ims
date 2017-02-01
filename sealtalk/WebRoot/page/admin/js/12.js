@@ -29,6 +29,12 @@ $(document).ready(function() {
 	$('#save12').click(function() {
 		if ($( ".col12" ).triggerHandler( "submitForm" ) == false) return;
 
+		//权限
+		if (! has('zzxxglxg')) {
+			bootbox.alert({'title':'提示','message':'您没有权限修改组织信息'});
+			return;
+		}
+
 		info.code =	$('#code').val();
 		info.name =	$('#name').val();
 		info.shortname =	$('#shortname').val();
@@ -66,7 +72,11 @@ function loadmeta() {
 	callajax('org!getIndustry', '', cb_12_industry);
 }
 function loaddata() {
-	callajax('org!getInfo', '', cb_12_info);
+
+	// 权限
+	if (has('zzxxglck')) {
+		callajax('org!getInfo', '', cb_12_info);
+	}
 }
 function cb_12_info(data) {
 	info = data;
@@ -137,16 +147,30 @@ function load(id, data) {
 	}
 }
 function edit() {
-	$('#logod').modal({
-		backdrop: false,
-		remote: '12_logo.jsp'
-	});
-	$('#filename').val('');
+
+	//权限
+	if (has('zzxxglxg')) {
+		$('#logod').modal({
+			backdrop: false,
+			remote: '12_logo.jsp'
+		});
+		$('#filename').val('');
+	}
+	else {
+		bootbox.alert({'title':'提示','message':'您没有权限修改组织LOGO'});
+	}
 	return false;
 }
 function del() {
-	info.logo = '';
-	$('#logo').prop('src', imagedir + '默认公司logo.png');
+
+	//权限
+	if (has('zzxxglxg')) {
+		info.logo = '';
+		$('#logo').prop('src', imagedir + '默认公司logo.png');
+	}
+	else {
+		bootbox.alert({'title':'提示','message':'您没有权限删除组织LOGO'});
+	}
 }
 function complete() {
 	var complete = 0;

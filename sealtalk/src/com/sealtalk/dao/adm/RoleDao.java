@@ -10,4 +10,5 @@ public interface RoleDao extends IBaseDao<TRole, Integer> {
 	List getMemberByRole(Integer roleId, Integer page, Integer itemsperpage);
 	int getMemberCountByRole(Integer roleId);
 	List getPrivByRole(Integer roleId);
+	List getPrivByMember(Integer memberId);
 }

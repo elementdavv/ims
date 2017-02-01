@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.sealtalk.common.BaseAction;
+import com.sealtalk.model.TMember;
 import com.sealtalk.model.TOrgan;
 import com.sealtalk.service.adm.OrgService;
 
@@ -17,11 +18,6 @@ public class OrgAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1731481715198316913L;
 
-	/*
-	 * this value should comes from login info, just for test this time
-	 */
-	Integer organId = 1;
-	
 	private OrgService orgService;
 	
 	public OrgService getOrgService() {
@@ -90,6 +86,9 @@ public class OrgAction extends BaseAction {
 	
 	public String getInfo() {
 
+		TMember m = (TMember)this.getSessionAttribute("member");
+		Integer organId = m.getOrganId();
+
 		TOrgan organ = orgService.getInfo(organId);
 		
 		JSONObject js = new JSONObject();
@@ -125,6 +124,9 @@ public class OrgAction extends BaseAction {
 
 	public String save() {
 	
+		TMember m = (TMember)this.getSessionAttribute("member");
+		Integer organId = m.getOrganId();
+
 		TOrgan organ = new TOrgan();
 		organ.setId(organId);
 		

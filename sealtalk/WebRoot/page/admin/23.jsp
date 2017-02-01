@@ -14,7 +14,7 @@
 		<li class="active">高级设置</li>
 	</ul>
     <ul class="admHeaderOper">
-        <li class="admLeftIcon"></li>
+        <li class="admLeftIcon" id='idlogout'></li>
         <li class="admLeftIcon"></li>
         <li class="admLeftIcon"></li>
     </ul>
@@ -38,15 +38,9 @@
 			<button id="save23">添加</button>
 		</div>
 		<div class="line23" id='positionlist'>
-			<div class="pos">系统工程师&nbsp;&nbsp;<a href="#" onclick="delpos(1)">x</a></div>
+<!-- 		<div class="pos">系统工程师&nbsp;&nbsp;<a href="#" onclick="delpos(1)">x</a></div>
 			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
-			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
-			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
-			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
-			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
-			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
-			<div class="pos">系统工程师&nbsp;&nbsp;×</div>
-		</div>
+ -->	</div>
 	</div>
 </div>
 

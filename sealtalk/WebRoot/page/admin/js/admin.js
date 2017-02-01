@@ -1,4 +1,13 @@
+//权限列表
+var privs = '';
 $(document).ready(function(){
+	
+	// 取登录信息
+	callajax('adm!getBase', '', cb_base);
+	
+	$('#idlogout').click(function() {
+		window.location.href = path + 'system!logOut';
+	});
 	
 	// 下拉相关
 	$('#container').click(function(){
@@ -26,6 +35,17 @@ $(document).ready(function(){
 		$(this).removeClass('menuhover');
 	});
 })
+function cb_base(data) {
+	if (data.id == 0) {
+		window.location.href = path;
+	}
+	else {
+		privs = data.privs;
+	}
+}
+function has(priv) {
+	return (privs.indexOf(',' + priv + ',') > -1 ? true : false);
+}
 // 下拉相关
 function treeplace(oedit, otree) {
 	$(otree).css({

@@ -33,11 +33,15 @@ public class BranchAction extends BaseAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	/*
-	 * this value should comes from login info, just for test this time
-	 */
-	Integer organId = 1;
+		
+	private BranchService branchService;
+
+	public BranchService getBranchService() {
+		return branchService;
+	}
+	public void setBranchService(BranchService branchService) {
+		this.branchService = branchService;
+	}
 	
 	/*
 	 * 取部门树
@@ -45,6 +49,9 @@ public class BranchAction extends BaseAction {
 	 */
 	public String getOrganTree() throws ServletException {
 		
+		TMember m = (TMember)this.getSessionAttribute("member");
+		Integer organId = m.getOrganId();
+
 		String result = branchService.getOrganTree(organId);
 		returnToClient(result);
 		
@@ -57,6 +64,9 @@ public class BranchAction extends BaseAction {
 	 */
 	public String getOrganOnlyTree() throws ServletException {
 		
+		TMember m = (TMember)this.getSessionAttribute("member");
+		Integer organId = m.getOrganId();
+
 		String result = branchService.getOrganOnlyTree(organId);
 		returnToClient(result);
 		
@@ -200,6 +210,9 @@ public class BranchAction extends BaseAction {
 			branch.setTelephone(this.request.getParameter("branchtelephone"));
 		if (this.request.getParameter("branchwebsite") != null)
 			branch.setWebsite(this.request.getParameter("branchwebsite"));
+
+		TMember m = (TMember)this.getSessionAttribute("member");
+		Integer organId = m.getOrganId();
 		branch.setOrganId(organId);
 		
 		Integer branchId = branchService.saveBranch(branch);
@@ -265,6 +278,9 @@ public class BranchAction extends BaseAction {
 		if (this.request.getParameter("memberworkno") != null)
 			member.setWorkno(this.request.getParameter("memberworkno"));
 		
+		TMember m = (TMember)this.getSessionAttribute("member");
+		Integer organId = m.getOrganId();
+
 		member.setOrganId(organId);
 
 		Integer memberId = branchService.saveMember(member);
@@ -398,6 +414,9 @@ public class BranchAction extends BaseAction {
 		}
 		// 删除部门
 		else if (id < 10001) {
+			TMember m = (TMember)this.getSessionAttribute("member");
+			Integer organId = m.getOrganId();
+
 			branchService.delBranch(id, r, organId);
 		}
 		// 删除人员
@@ -433,16 +452,5 @@ public class BranchAction extends BaseAction {
 		returnToClient(jo.toString());
 		return "text";
 	}
-	
-	private BranchService branchService;
-
-	public BranchService getBranchService() {
-		return branchService;
-	}
-
-	public void setBranchService(BranchService branchService) {
-		this.branchService = branchService;
-	}
-	
-	
+		
 }

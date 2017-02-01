@@ -14,7 +14,7 @@
 		<li><a href="21.jsp">高级设置</a></li>
 	</ul>
     <ul class="admHeaderOper">
-        <li class="admLeftIcon"></li>
+        <li class="admLeftIcon" id='idlogout'></li>
         <li class="admLeftIcon"></li>
         <li class="admLeftIcon"></li>
     </ul>

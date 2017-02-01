@@ -136,7 +136,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	
 	protected void setSessionAttribute(String key, Object o)
 	{
-	/*	if (request == null)
+		if (request == null)
 		{
 			WebContext ctx = WebContextFactory.get();
 			HttpSession session = ctx.getSession(false);
@@ -144,11 +144,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		} else
 		{
 			request.getSession().setAttribute(key, o);
-		}*/
+		}
 	}
 	
 	
-/*	protected Object getSessionAttribute(String key)
+	protected Object getSessionAttribute(String key)
 	{
 		if (request == null)
 		{
@@ -159,7 +159,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		{
 			return request.getSession().getAttribute(key);
 		}
-	}*/
+	}
 	
 /*	
 	protected String getApplicaitonQueryFilter()

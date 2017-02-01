@@ -22,7 +22,7 @@
 					</tr>
 				</thead>
 				<tbody id='branchmember'>
-					<tr>
+<!-- 				<tr>
 						<td>主要职能</td>
 						<td>上海天坊信息科技公司</td>
 						<td>程序员</td>
@@ -34,7 +34,7 @@
 						<td>高级程序员</td>
 						<td><button>编辑</button><button>删除</button></td>
 					</tr>
-				</tbody>
+ -->			</tbody>
 			</table>
 		</div>
 		<p>&nbsp;</p>

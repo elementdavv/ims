@@ -18,9 +18,12 @@ $(document).ready(function() {
 	$('.sidebar12').css('height', h + 'px');
 	$('.menupanel12').css('width', (document.body.clientWidth - 22) * 0.13);
 
-//	curpage = 0;
-//	pagenumber = 0;
-	callajax('grp!getCount', '', cb_13_count);
+	//权限
+	if (has('qzglck')) {
+//		curpage = 0;
+//		pagenumber = 0;
+		callajax('grp!getCount', '', cb_13_count);
+	}
 
 	$('#pagefirst').click(function() {
 		if (pagenumber == 0) return;
@@ -87,21 +90,35 @@ function cb_13_fresh(data) {
 	});
 }
 function create(id) {
-	grpid = id;
-	$('#creator').modal({
-		backdrop: false,
-		remote: '13_creator.jsp'
-	});
+
+	//权限
+	if (has('qzglxg')) {
+		grpid = id;
+		$('#creator').modal({
+			backdrop: false,
+			remote: '13_creator.jsp'
+		});
+	}
+	else {
+		bootbox.alert({'title':'提示','message':'您没有权限修改创建者.'});
+	}
 }
 function dismiss(id) {
-	bootbox.confirm({
-		'title': '提示',
-		'message': '确定解散群么？',
-		callback: function(result) {
-			if (!result) return;
-			callajax('grp!dismiss', {id: id}, cb_13_dismiss);
-		}
-	});
+
+	//权限
+	if (has('qzgljs')) {
+		bootbox.confirm({
+			'title': '提示',
+			'message': '确定解散群么？',
+			callback: function(result) {
+				if (!result) return;
+				callajax('grp!dismiss', {id: id}, cb_13_dismiss);
+			}
+		});
+	}
+	else {
+		bootbox.alert({'title':'提示','message':'您没有权限解散群组.'});
+	}
 }
 function cb_13_dismiss(data) {
 	$('#tr' + data.id).remove();

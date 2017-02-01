@@ -46,11 +46,18 @@ $(document).ready(function(){
 		callajax('branch!saveBranch', data, cb_11_save_branch);
 	});
 	$('#11branchaddmember').click(function(){
-		fillmember = 2;
-		$('#member').modal({
-			backdrop: false,
-			remote: '11_member.jsp'
-		});
+
+		//权限
+		if (has('rsgltj')) {
+			fillmember = 2;
+			$('#member').modal({
+				backdrop: false,
+				remote: '11_member.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+		}
 	});
 });
 function cb_11_save_branch(data) {

@@ -11,11 +11,18 @@ $(document).ready(function(){
 	});
 	
 	$('#branchaddmember').click(function() {
-		fillmember = 1;
-		$('#member').modal({
-			backdrop: false,
-			remote: '11_member.jsp'
-		});
+		
+		//权限
+		if (has('rsgltj')) {
+			fillmember = 1;
+			$('#member').modal({
+				backdrop: false,
+				remote: '11_member.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+		}
 	});
 	$('#branchsave').click(function(){
 		if (curbranch == 0) {
@@ -25,8 +32,14 @@ $(document).ready(function(){
 		
 		if ($( "#110" ).triggerHandler( "submitForm" ) == false) return;
 
-		var data = formtojson($('#branchform'));
-		callajax('branch!saveBranch', data, cb_110_1);
+		//权限
+		if (has('bmglxg')) {
+			var data = formtojson($('#branchform'));
+			callajax('branch!saveBranch', data, cb_110_1);
+		}
+		else {
+			bootbox.alert({'title':'提示', 'message':'您没有权限修改部门信息.'});
+		}
 	});
 })
 function cb_110(data) {

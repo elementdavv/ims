@@ -18,11 +18,6 @@ public class PrivAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	/*
-	 * this value should comes from login info, just for test this time
-	 */
-	Integer organId = 1;
-	
 	public String getRoleList() {
 		
 		List list = privService.getRoleList();

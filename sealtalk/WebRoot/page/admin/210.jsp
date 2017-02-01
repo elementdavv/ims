@@ -25,8 +25,8 @@
 					<td>UI部</td>
 					<td>UI设计师</td>
 					<td><button>删除</button></td>
- -->			</tr>
-			</tbody>
+ 				</tr>
+-->			</tbody>
 		</table>
 		<div style='margin: 30px'>
 			<div class='toright leftspace15' id='pagelast'><img src='images/lastpage_1.png' /></div>

@@ -12,4 +12,5 @@ public interface PrivService {
 	Integer saveRole(Integer roleId, String roleName, String privs);
 	void delRole(Integer roleId);
 	void saveRoleMember(Integer roleId, String memberlist);
+	String getPrivStringByMember(Integer memberId);
 }
