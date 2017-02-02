@@ -49,10 +49,7 @@ public class BranchAction extends BaseAction {
 	 */
 	public String getOrganTree() throws ServletException {
 		
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
-
-		String result = branchService.getOrganTree(organId);
+		String result = branchService.getOrganTree(this.getOrganId());
 		returnToClient(result);
 		
 		return "text";
@@ -64,10 +61,7 @@ public class BranchAction extends BaseAction {
 	 */
 	public String getOrganOnlyTree() throws ServletException {
 		
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
-
-		String result = branchService.getOrganOnlyTree(organId);
+		String result = branchService.getOrganOnlyTree(this.getOrganId());
 		returnToClient(result);
 		
 		return "text";
@@ -211,9 +205,7 @@ public class BranchAction extends BaseAction {
 		if (this.request.getParameter("branchwebsite") != null)
 			branch.setWebsite(this.request.getParameter("branchwebsite"));
 
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
-		branch.setOrganId(organId);
+		branch.setOrganId(this.getOrganId());
 		
 		Integer branchId = branchService.saveBranch(branch);
 		
@@ -278,10 +270,7 @@ public class BranchAction extends BaseAction {
 		if (this.request.getParameter("memberworkno") != null)
 			member.setWorkno(this.request.getParameter("memberworkno"));
 		
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
-
-		member.setOrganId(organId);
+		member.setOrganId(this.getOrganId());
 
 		Integer memberId = branchService.saveMember(member);
 
@@ -414,10 +403,7 @@ public class BranchAction extends BaseAction {
 		}
 		// 删除部门
 		else if (id < 10001) {
-			TMember m = (TMember)this.getSessionAttribute("member");
-			Integer organId = m.getOrganId();
-
-			branchService.delBranch(id, r, organId);
+			branchService.delBranch(id, r, this.getOrganId());
 		}
 		// 删除人员
 		else {

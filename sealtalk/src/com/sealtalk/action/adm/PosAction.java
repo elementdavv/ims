@@ -29,10 +29,7 @@ public class PosAction extends BaseAction {
 
 	public String getList() {
 		
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
-
-		List list = positionService.getByOrgan(organId);
+		List list = positionService.getByOrgan(this.getOrganId());
 		
 		ArrayList<JSONObject> js = new ArrayList<JSONObject>(); 
 		Iterator it = list.iterator();
@@ -59,12 +56,9 @@ public class PosAction extends BaseAction {
 	
 	public String save() {
 
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
-
 		String name = this.request.getParameter("name");
 		
-		TPosition p = positionService.save(name, organId);
+		TPosition p = positionService.save(name, this.getOrganId());
 		
 		if (p == null) return this.returnajaxid(0);
 		

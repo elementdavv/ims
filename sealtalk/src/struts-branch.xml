@@ -5,7 +5,7 @@
 
 <struts>
 
-	<constant name="struts.action.excludePattern" value="/admlogo"/>
+	<constant name="struts.action.excludePattern" value="/admlogo, /admimp"/>
 
     <package name="com.sealtalk.action.adm" extends="struts-default">
         <!-- 组织机构 -->

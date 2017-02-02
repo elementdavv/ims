@@ -82,7 +82,7 @@ function callajax(url, data, cb){
 //			}
 		},
 		error: function(msg){
-			alert(msg.status + ', ' + msg.statusText);
+			alert(msg.status + ', ' + msg.responseText);
 		}
 	});
 }

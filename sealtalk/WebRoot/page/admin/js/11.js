@@ -70,13 +70,13 @@ $(document).ready(function(){
 		
 		//权限
 		if (has('rsgltj')) {
-			$('#batch').modal({
+			$('#imp').modal({
 				backdrop: false,
-				remote: '11_batch.jsp'
+				remote: '11_imp.jsp'
 			});
 		}
 		else {
-			bootbox.alert({title:'提示', message:'您没有权限执行批量导入.'});
+			bootbox.alert({title:'提示', message:'您没有权限批量导入成员.'});
 		}
 	});
 	
@@ -284,46 +284,12 @@ var setting11 = {
 	callback: {
 		// 不会执行
 		onExpand: function(event, treeId, treeNode) {
-			$('#tree11 li').hover(function(){
-				var t = $.fn.zTree.getZTreeObj('tree11');
-				var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
-				$('.movdel').remove();
-				$(this).find('a').first().after('<div class="movdel toright"><div class="move toleft">移</div>&nbsp;<div class="delete toleft">删</div></div>');
-				$('.move').click(function(){
-					mov($($(this)[0]).parent().parent().prop('id'));
-				});
-				$('.delete').click(function(){
-					del($($(this)[0]).parent().parent().prop('id'));
-				});
-				return false;
-			},function(){
-			});
+			handletree11open();
 		},
 		onClick: function(event, treeId, treeNode, clickFlag) {
 			if (!treeNode.open) {
 				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, true);
-				$('#tree11 a').each(function(i, a) {
-					if (a.title.length > 53) {
-						a.title = a.title.substr(53);
-					}
-				});
-				$('#tree11 li').hover(function(){
-					var t = $.fn.zTree.getZTreeObj('tree11');
-					var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
-					$('.movdel').remove();
-					var movdel = '<div class="movdel toright">'
-						+ '<div class="move toleft"><img src="images/移动button.png"></div>'
-					+ '<div class="delete toleft"><img src="images/删除button.png"></div></div>';
-					$(this).find('a').first().after(movdel);
-					$('.move').click(function(){
-						mov($($(this)[0]).parent().parent().prop('id'));
-					});
-					$('.delete').click(function(){
-						del($($(this)[0]).parent().parent().prop('id'));
-					});
-					return false;
-				},function(){
-				});
+				handletree11open();
 			}
 			else
 				$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, false);
@@ -361,6 +327,12 @@ var setting11 = {
 			else if (treeNodes[0].flag == 2) {
 				if (!has('rsglyd')) return false;
 			}
+		},
+		beforeDragOpen: function(treeId, treeNode) {
+			
+			$.fn.zTree.getZTreeObj(treeId).expandNode(treeNode, true);
+			handletree11open();
+			return false;
 		},
 		beforeDrop: function(treeId, treeNodes, targetNode, moveType, isCopy) {
 			
@@ -513,6 +485,30 @@ var setting11_move = {
 	async: {
 		enable: false
 	}
+}
+function handletree11open() {
+	$('#tree11 a').each(function(i, a) {
+		if (a.title.length > 53) {
+			a.title = a.title.substr(53);
+		}
+	});
+	$('#tree11 li').hover(function(){
+		var t = $.fn.zTree.getZTreeObj('tree11');
+		var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
+		$('.movdel').remove();
+		var movdel = '<div class="movdel toright">'
+			+ '<div class="move toleft"><img src="images/移动button.png"></div>'
+		+ '<div class="delete toleft"><img src="images/删除button.png"></div></div>';
+		$(this).find('a').first().after(movdel);
+		$('.move').click(function(){
+			mov($($(this)[0]).parent().parent().prop('id'));
+		});
+		$('.delete').click(function(){
+			del($($(this)[0]).parent().parent().prop('id'));
+		});
+		return false;
+	},function(){
+	});
 }
 function mov(tId) {
 	$('.movdel').remove();

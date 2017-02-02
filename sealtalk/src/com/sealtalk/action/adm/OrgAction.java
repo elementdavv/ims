@@ -86,10 +86,7 @@ public class OrgAction extends BaseAction {
 	
 	public String getInfo() {
 
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
-
-		TOrgan organ = orgService.getInfo(organId);
+		TOrgan organ = orgService.getInfo(this.getOrganId());
 		
 		JSONObject js = new JSONObject();
 		js.put("code", organ.getCode());
@@ -124,8 +121,7 @@ public class OrgAction extends BaseAction {
 
 	public String save() {
 	
-		TMember m = (TMember)this.getSessionAttribute("member");
-		Integer organId = m.getOrganId();
+		Integer organId = this.getOrganId();
 
 		TOrgan organ = new TOrgan();
 		organ.setId(organId);

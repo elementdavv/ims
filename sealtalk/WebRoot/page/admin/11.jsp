@@ -87,32 +87,9 @@
 	</div>
 </div>
 
-<div id="imp1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="imp2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="imp3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
+<div id="imp" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
+	<div class="modal-dialog" style="width: 680px;">
+		<div class="modal-content" style="height: 530px;">
 		</div>
 	</div>
 </div>

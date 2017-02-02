@@ -395,6 +395,17 @@ th {
 .t210 th, .t210 td {
 	padding: 0 0 0 20px;
 }
+#imp th, #imp td {
+	padding: 0 0 0 10px;
+}
+.errimp {
+	color: #fc7a8c;
+}
+.editimp {
+	width:90px;
+	height:20px;
+	line-height:20px
+}
 .menupanel12 {
 	float: left;
 	width: 13%;
@@ -637,8 +648,24 @@ th {
 	margin: 0 15px;
 	line-height: 34px;
 }
+.dialogtitle2 {
+	margin: 0 25px;
+	line-height: 34px;
+}
+.dialogtitle3 {
+	margin: 0 110px;
+	line-height: 34px;
+}
 .line111reset {
 	margin: 0 0 10px 0;
+}
+.btnlogo {
+	border:1px solid #ccc;
+	background-color:#eee;
+	color:rgb(51,51,51);
+	width:62px;
+	border-radius:0;
+	margin-left:-4px;
 }
 .grade {
 	float: left;

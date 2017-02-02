@@ -1,6 +1,6 @@
 var tid;
 var rep = 0;
-var reps = 50;
+var reps = 40;
 $(document).ready(function() {
 	
 	$('#logofile').on('change',function(){

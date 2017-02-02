@@ -27,7 +27,7 @@
 				</form>
 			</div>
 			<input type='text' id='filename' style='width: 475px' />
-			<button style='border:1px solid #ccc;background-color:#eee;color:rgb(51,51,51);width:62px;border-radius:0;margin-left:-4px' onclick='$("#logofile").click();'>浏览</button>
+			<button class='btnlogo' onclick='$("#logofile").click();'>浏览</button>
 		</div>
 	</div>
 	<div class='h30px'></div>

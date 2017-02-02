@@ -20,6 +20,7 @@ import org.directwebremoting.WebContextFactory;
 //import org.springframework.util.StringUtils;
 import com.opensymphony.xwork2.ActionSupport;
 import com.sealtalk.model.SessionUser;
+import com.sealtalk.model.TMember;
 
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware
 {
@@ -239,6 +240,13 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		//QueryConditionHandler.queryConditionHandler(where, order, criteria);
 	}*/
 
+	protected Integer getOrganId() {
+		
+		Object o = this.getSessionAttribute("member");
+
+		return o == null ? 0 : ((TMember)o).getOrganId();
+	}
+	
 	protected String returnajaxid(Integer id) {
 		
 		JSONObject jo = new JSONObject();
