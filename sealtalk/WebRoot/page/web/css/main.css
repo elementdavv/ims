@@ -310,6 +310,21 @@ input::-ms-clear{display:none;}
     /*background: palegoldenrod;*/
     position: relative;
 }
+.sendFeedBackL{
+    float: left;
+    display: inline-block;
+    height: 42px;
+    background: red;
+    width: 42px;
+}
+
+.sendFeedBackR{
+    float: right;
+    display: inline-block;
+    height: 42px;
+    background: red;
+    width: 42px;
+}
 .groupChatListUl li.active{
     /* height: 60px; */
     /* margin-right: 10px; */
@@ -373,7 +388,7 @@ input::-ms-clear{display:none;}
     float: left;
     text-indent: 18px;
     font-size: 14px;
-    max-width: 200px;
+    max-width: 160px;
     overflow: hidden;
     line-height: 44px;
     white-space: nowrap;
@@ -395,7 +410,7 @@ input::-ms-clear{display:none;}
     /* line-height: 44px; */
     text-indent: 18px;
     position: absolute;
-    top: 12px;
+    top: 8px;
     left: 50px;
     font-size: 14px;
     line-height: 12px;
@@ -417,7 +432,7 @@ input::-ms-clear{display:none;}
     float: right;
     color: #666666;
     transform: scale(0.8,0.8);
-    margin-top: -4px;
+    margin-top: 4px;
 }
 .operMenuList {
     position: absolute;
@@ -457,7 +472,7 @@ input::-ms-clear{display:none;}
     /*overflow-y: scroll;*/
 }
 .serachMenber{
-    height: 70px;
+    height: 66px;
     width: 340px;
     /*background: papayawhip;*/
     overflow: hidden;
@@ -546,13 +561,11 @@ span.defaultText{
 
 
 .organizationList{
-    padding: 14px 10px 0px 10px;
-    overflow: scroll;
+    padding: 19px 10px 0px 10px;
+    overflow: auto;
     height: inherit;
 }
-.organizationList ul li{
 
-}
 .organizationList li .groupImg{
     float: left;
     width: 32px;
@@ -575,10 +588,10 @@ span.defaultText{
     /* background: palegoldenrod; */
     position: relative;
     overflow: hidden;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    /*margin-bottom: 10px;*/
     padding-left: 14px;
-    padding-right: 12px;
+    padding-right: 22px;
 }
 .organizationList li.active{
     background: #f0fdff;
