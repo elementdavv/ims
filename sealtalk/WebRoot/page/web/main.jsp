@@ -806,9 +806,6 @@
                             </div>
                             <div class="bMg-ImgContainer bMg-cropImgSet">
                                 <ul class="bMg-imgList">
-                                    <li class="active">
-                                    <img src=""/>
-                                    </li>
                                 </ul>
                             </div>
                             <p class="bMg-promptExp">* 选择上面中的一个做为你的照片，或点击"添加"来添加您电脑中的照片来作为您的照片...</p>

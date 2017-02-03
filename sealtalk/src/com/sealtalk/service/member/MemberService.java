@@ -79,4 +79,12 @@ public interface MemberService {
 	 */
 	public String getTextCode(String phone);
 
+	/**
+	 * 更新密码
+	 * @param userName
+	 * @param newPwd
+	 * @return
+	 */
+	public boolean updateUserPwd(String account, String newPwd);
+
 }
