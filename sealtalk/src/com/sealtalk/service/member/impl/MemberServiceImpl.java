@@ -234,6 +234,22 @@ public class MemberServiceImpl implements MemberService {
 		return jo.toString();
 	}
 	
+	@Override
+	public boolean updateUserPwd(String account, String newPwd) {
+		boolean status = false;
+		
+		try {
+			String md5Pwd = PasswordGenerator.getInstance().getMD5Str(newPwd);
+			
+			status = memberDao.updateUserPwd(account, md5Pwd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return status;
+	}
+
+	
 	private String isBlank(Object o) {
 		return o == null ? "" : o + "";
 	}
@@ -256,5 +272,5 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDao getMemberDao() {
 		return memberDao;
 	}
-	
+
 }

@@ -267,5 +267,13 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		SessionUser userInfo = getSessionUser();
 		return userInfo == null ? null : userInfo.getAccountName();
 	}*/
+	protected String returnajaxid(Integer id) {
+		
+		JSONObject jo = new JSONObject();
+		jo.put("id", id);
+		returnToClient(jo.toString());
+		return "text";
+	}
+	
 	
 }

@@ -18,9 +18,6 @@ $(function(){
 
 
     })
-
-
-
     //文件拖拽上传
     var messageContent = document.getElementById('message-content');
     messageContent.ondragover = function(e){
@@ -46,7 +43,163 @@ $(function(){
         sendMsg(content,targetId,targetType,extra);
     }
 })
-function conversationGroup(targetID,targetType,groupName){
+
+//包括单聊，群聊，聊天室
+function sendMsg(content,targetId,way,extra,callback){
+    //发出去的消息 先显示到盒子里,
+    //sendInBox(content,way,callback);
+    if(extra=='uploadFile'){//如果是上传文件
+        //var content = JSON.parse(content);
+        var sendMsg = JSON.parse(content);
+        var uniqueTime = sendMsg.uniqueTime;
+        var Msize = KBtoM(sendMsg.size);
+        switch (sendMsg.type){
+            case 'image/png':
+                var imgSrc = 'page/web/css/img/backstage.png';
+                break;
+        }
+        //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+        var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+            '<div class="mr-ownChat">'+
+            '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+            '<div class="file_content fl">' +
+            '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+            '<p class="p2 file_size">'+Msize+'</p>' +
+            '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
+            '</div>' +
+            '</div>' +
+            '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
+            '</li>';
+    }else{//如果是普通消息
+        var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
+        var sHTML = '<li class="mr-chatContentR clearfix">'+
+            '<div class="mr-ownChat">'+
+            '<span>'+str+'</span>'+
+            '<i></i>'+
+            '</div>'+
+            '</li>';
+    }
+    if(way=='PRIVATE'){
+        var parent = $('.mesContainerSelf');
+        var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
+        var eDom=document.querySelector('#perContainer .mr-chatview');
+
+    }else{
+        var parent = $('.mesContainerGroup');
+        var parentNode = $('.mesContainerGroup .mr-chatview .mr-chatContent');
+        var eDom=document.querySelector('#groupContainer .mr-chatview');
+    }
+    //将消息放入盒子
+    parentNode.append($(sHTML));
+    //滚动条滚动到最低
+    eDom.scrollTop = eDom.scrollHeight;
+    //写消息区域清空
+    parent.find('.textarea').html('');
+    callback&&callback();
+    //调用融云的发送文件
+    if(extra!='uploadFile'){
+        sendByRong(content,targetId,way);
+    }
+}
+
+function sendByRong(content,targetId,way,extra){
+    // 定义消息类型,文字消息使用 RongIMLib.TextMessage
+    var msg = new RongIMLib.TextMessage({content:content,extra:extra});
+    //或者使用RongIMLib.TextMessage.obtain 方法.具体使用请参见文档
+    //var msg = RongIMLib.TextMessage.obtain("hello");
+    var conversationtype = RongIMLib.ConversationType[way]; // 私聊
+    var targetId = targetId; // 目标 Id
+    RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+            // 发送消息成功
+            onSuccess: function (message) {
+                //var
+                //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+                getConverList();
+                console.log("Send successfully");
+            },
+            onError: function (errorCode,message) {
+                var info = '';
+                switch (errorCode) {
+                    case RongIMLib.ErrorCode.TIMEOUT:
+                        info = '超时';
+                        break;
+                    case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                        info = '未知错误';
+                        break;
+                    case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+                        info = '在黑名单中，无法向对方发送消息';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+                        info = '不在讨论组中';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_GROUP:
+                        info = '不在群组中';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+                        info = '不在聊天室中';
+                        break;
+                    default :
+                        info = x;
+                        break;
+                }
+                console.log('发送失败:' + info);
+            }
+        }
+    );
+}
+
+//发送出去的的信息显示在盒子里
+//function sendInBox(msg,way,callback){
+//
+//    //var sendMsg = msg.content.content;
+//    //var extra = msg.content.extra;
+//    if(extra=='uploadFile'){
+//        var sendMsg = JSON.parse(sendMsg);
+//        var uniqueTime = sendMsg.uniqueTime;
+//        var Msize = KBtoM(sendMsg.size);
+//        switch (sendMsg.type){
+//            case 'image/png':
+//                var imgSrc = 'page/web/css/img/backstage.png';
+//                break;
+//        }
+//        //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+//        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentRFile clearfix">'+
+//            '<div class="mr-ownChat">'+
+//            '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+//            '<div class="file_content fl">' +
+//            '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+//            '<p class="p2 file_size">'+Msize+'</p>' +
+//            '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
+//            '</div>' +
+//            '</div>' +
+//            '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
+//            '</li>';
+//    }else{
+//        var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
+//        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
+//            '<div class="mr-ownChat">'+
+//            '<span>'+str+'</span>'+
+//            '<i></i>'+
+//            '</div>'+
+//            '</li>';
+//    }
+//    if(way=='PRIVATE'){
+//        var parent = $('.mesContainerSelf');
+//        var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
+//        var eDom=document.querySelector('#perContainer .mr-chatview');
+//
+//    }else{
+//        var parent = $('.mesContainerGroup');
+//        var parentNode = $('.mesContainerGroup .mr-chatview .mr-chatContent');
+//        var eDom=document.querySelector('#groupContainer .mr-chatview');
+//    }
+//    parentNode.append($(sHTML));
+//    eDom.scrollTop = eDom.scrollHeight;
+//    parent.find('.textarea').html('');
+//    callback&&callback();
+//}
+
+function fillGroupPage(targetID,targetType,groupName){
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, 0, 20, {
         onSuccess: function(list, hasMsg) {
             if(list.length==0 && !hasMsg){
@@ -70,13 +223,21 @@ function conversationGroup(targetID,targetType,groupName){
             // throw new ERROR ......
         }
     });
+}
+
+function conversationGroup(targetID,targetType,groupName){
+    //噗页面
+    fillGroupPage(targetID,targetType,groupName)
+    //清空消息盒子
     $('.message-content').html();
+    //换title
     $('.perSetBox-title span').html(groupName);
+    //将重要信息放到title的属性上
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
+    //页面滚动条
     var $container = $('#groupContainer .mr-chatview');
     var eDom=document.querySelector('#groupContainer .mr-chatview');
-    //console.log(eDom.scrollHeight);
     if(eDom.scrollHeight>$('#groupContainer .mr-chatview').height()){
         $container.perfectScrollbar();
         $container.scroll(function(e) {
@@ -87,29 +248,22 @@ function conversationGroup(targetID,targetType,groupName){
                 var stampTime=parseInt($('#groupContainer .mr-chatview').find('ul li').first().attr('data-t'));
                 RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
                     onSuccess: function(list, hasMsg) {
-                        /*  console.log(list);
-                         console.log(hasMsg);*/
                         if(list.length==0 && !hasMsg){
                             $('#groupContainer .mr-chatview').attr('data-on',0)
                         }
                         var sDoM = '';
                         sDoM=createConversationList(sDoM,list);
-                        //$('#groupContainer .mr-chatview').empty();
                         $('#groupContainer .mr-chatview ul').prepend(sDoM);
-                        /*var eDom=document.querySelector('#perContainer .mr-chatview');
-                         eDom.scrollTop = eDom.scrollHeight;*/
                     },
                     onError: function(error) {
                         // APP未开启消息漫游或处理异常
                         // throw new ERROR ......
                     }
                 });
-                //$status.text('it reaches the top!');
             }
         });
     }
-    //var targetID=$('.mesContainerSelf').attr('targetid');
-    //var targetType=$('.mesContainerSelf').attr('targettype');
+    //点击emoji表情
     $('.rongyun-emoji>span').unbind('click');
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
@@ -132,7 +286,7 @@ function conversationGroup(targetID,targetType,groupName){
             $('.rongyun-emoji').hide();
         },1000)
     })
-    //$('#message-content').unbind('click');
+    //回车的时候
     $('#message-content').click(function(){
         $(this).keypress(function(event) {
             if (event.which == 13) {
@@ -140,15 +294,20 @@ function conversationGroup(targetID,targetType,groupName){
             }
         })
     })
+    //发送消息
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
         var content = $(this).prev().html();
         if(content){
             var targetId = $('.mesContainerGroup').attr('targetID');
             var targetType = $('.mesContainerGroup').attr('targetType');
-            sendMsg(content,targetId,targetType)
+
+            //显示到盒子里
+            sendMsg(content,targetId,targetType);
+            //sendMsg(content,targetId,targetType)
         }
-    })
+    });
+
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     getGroupDetails(targetID);
@@ -448,7 +607,7 @@ function getGroupDetails(groupId){
             var sCreatorId=aText[i].creatorId;//群创建者id
             var sCreatedate=subTimer(aText[i].createdate);//创建时间
             var oCreator=findMemberInList(sCreatorId);
-            var sImg=globalVar.imgSrc+oCreator.logo || globalVar.defaultLogo;
+            var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
             sDom+='<ul class="groupInfo">\
                 <li class="groupInfo-name">\
             <span>群组名称：</span>\
@@ -472,7 +631,6 @@ function getGroupDetails(groupId){
             </ul><div class="groupInfo-memberList"></div>';
             $('#groupData .group-data').empty();
             $('#groupData .group-data').append(sDom);
-            //showGroupMemberInfo(aText[i],pos);
         }
     }
     getGroupMembersList(groupId);
@@ -481,11 +639,12 @@ function getGroupMembersList(groupid){
     sendAjax('group!listGroupMemebers',{groupid:groupid},function(data) {
         var oGroupidList = JSON.parse(data);
         var aMember=oGroupidList.text;
+        var smemship = JSON.stringify(aMember);
         var sDom='<div class="groupInfo-number clearfix">\
             <span>成员('+aMember.length+')</span>\
             <p class="clearfix">\
         <i class="groupInfo-noChat"></i>\
-        <i></i>\
+        <i class="groupInfo-groupManage" memship="'+smemship+'"></i>\
         </p>\
         </div>\
         <ul class="groupInfo-memberAll">';
@@ -494,7 +653,7 @@ function getGroupMembersList(groupid){
                 var oCreator=findMemberInList(aMember[i]);
                 var sMemberName=oCreator.name;
                 var sJob=oCreator.account;
-                var sImg=globalVar.imgSrc+oCreator.logo || globalVar.defaultLogo;
+                var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
                 sDom+=' <li>\
                             <img src="'+sImg+'">\
                             <p>'+sMemberName+'('+sJob+')</p>\
@@ -711,7 +870,7 @@ function usualChatList(list){
         var timeNow = new Date().getTime();
         var deltTime = timeNow-curList.sentTime;
         if(deltTime>=86400000){
-            var lastTime = changeTimeFormat(curList.sentTime,'yh');
+            var lastTime = changeTimeFormat(curList.sentTime,'y');
         }else{
             var lastTime = changeTimeFormat(curList.sentTime,'h');
         }
@@ -767,112 +926,7 @@ function groupInfo(id){
     //sendAjax(url,data,callback)
 }
 
-//包括单聊，群聊，聊天室
-function sendMsg(content,targetId,way,extra,callback){
-    // 定义消息类型,文字消息使用 RongIMLib.TextMessage
-    var msg = new RongIMLib.TextMessage({content:content,extra:extra});
-    //或者使用RongIMLib.TextMessage.obtain 方法.具体使用请参见文档
-    //var msg = RongIMLib.TextMessage.obtain("hello");
-    var conversationtype = RongIMLib.ConversationType[way]; // 私聊
-    var targetId = targetId; // 目标 Id
-    RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
-            // 发送消息成功
-            onSuccess: function (message) {
-                //var
-                //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
-                sendInBox(message,way,callback);
-                getConverList();
-                console.log("Send successfully");
-            },
-            onError: function (errorCode,message) {
-                var info = '';
-                switch (errorCode) {
-                    case RongIMLib.ErrorCode.TIMEOUT:
-                        info = '超时';
-                        break;
-                    case RongIMLib.ErrorCode.UNKNOWN_ERROR:
-                        info = '未知错误';
-                        break;
-                    case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-                        info = '在黑名单中，无法向对方发送消息';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-                        info = '不在讨论组中';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_GROUP:
-                        info = '不在群组中';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-                        info = '不在聊天室中';
-                        break;
-                    default :
-                        info = x;
-                        break;
-                }
-                console.log('发送失败:' + info);
-            }
-        }
-    );
-}
 
-//发送出去的的信息显示在盒子里
-function sendInBox(msg,way,callback){
-
-    var sendMsg = msg.content.content;
-    var extra = msg.content.extra;
-    console.log(msg);
-    if(extra=='uploadFile'){
-        var sendMsg = JSON.parse(sendMsg);
-        console.log('sendMsg',sendMsg);
-        var uniqueTime = sendMsg.uniqueTime;
-        var name = sendMsg.name;
-        var imgSrc = '';
-        var Msize = KBtoM(sendMsg.size);
-        switch (sendMsg.type){
-            case 'image/png':
-                var imgSrc = 'page/web/css/img/backstage.png';
-                break;
-        }
-
-
-        var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-        //var className = uniqueName.uniqueName;
-        //var class0 = uniqueName.split('.')[0];
-        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentRFile clearfix">'+
-                        '<div class="mr-ownChat">'+
-                            '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
-                            '<div class="file_content fl">' +
-                                '<p class="p1 file_name">'+sendMsg.name+'</p>' +
-                                '<p class="p2 file_size">'+Msize+'</p>' +
-                                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
-                    '</li>';
-    }else{
-        var str = RongIMLib.RongIMEmoji.symbolToHTML(sendMsg);
-        var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentR clearfix">'+
-            '<div class="mr-ownChat">'+
-            '<span>'+str+'</span>'+
-            '<i></i>'+
-            '</div>'+
-            '</li>';
-    }
-    if(way=='PRIVATE'){
-        var parent = $('.mesContainerSelf');
-        var parentNode = $('.mesContainerSelf .mr-chatview .mr-chatContent');
-        var eDom=document.querySelector('#perContainer .mr-chatview');
-
-    }else{
-        var parent = $('.mesContainerGroup');
-        var parentNode = $('.mesContainerGroup .mr-chatview .mr-chatContent');
-        var eDom=document.querySelector('#groupContainer .mr-chatview');
-    }
-    parentNode.append($(sHTML));
-    eDom.scrollTop = eDom.scrollHeight;
-    parent.find('.textarea').html('');
-    callback&&callback();
-}
 
 function KBtoM(kb){
     return kb/1024;
@@ -898,7 +952,6 @@ function reciveInBox(msg){
             var content = JSON.parse(content);
             console.log('sendMsg',content);
 
-            //var imgSrc = '';
             var Msize = KBtoM(content.size);
             switch (content.type){
                 case 'image/png':
@@ -906,7 +959,7 @@ function reciveInBox(msg){
                     break;
             }
             var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-            var sHTML = '<li messageUId="'+msg.messageUId+'" sentTime="'+msg.sentTime+'" class="mr-chatContentLFile clearfix">'+
+            var sHTML = '<li class="mr-chatContentLFile clearfix">'+
                 '<div class="mr-chatBox">'+
                 '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                 '<div class="file_content fl">' +
@@ -915,7 +968,7 @@ function reciveInBox(msg){
                 '<div id="up_process"><div id="up_precent"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a class="downLoadFile" href="https://ocsys6mwy.bkt.clouddn.com/fileName"></a>'+
+                '<a class="downLoadFile" href="https://ocsys6mwy.bkt.clouddn.com/'+content.filename+'"></a>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
@@ -949,55 +1002,6 @@ function reciveInBox(msg){
     }
 
 }
-
-
-
-//已读通知消息
-
-function msgReaded(messageUId,lastMessageSendTime,converseType){
-    //var messageUId = "消息唯一 Id";
-    //var lastMessageSendTime = "最后一条消息的发送时间";
-    var type = "1";// 备用，默认赋值 1 即可。
-    // 以上 3 个属性在会话的最后一条消息中可以获得。
-    var msg = new RongIMLib.ReadReceiptMessage({ messageUId: messageUId, lastMessageSendTime: lastMessageSendTime, type: type });
-    //var conversationtype = RongIMLib.ConversationType[converseType]; // 私聊,其他会话选择相应的消息类型即可。
-    //var targetId = "xxx"; // 目标 Id
-    //RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
-    //        onSuccess: function (message) {
-    //            //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
-    //            console.log("Send successfully");
-    //        },
-    //        onError: function (errorCode,message) {
-    //            var info = '';
-    //            switch (errorCode) {
-    //                case RongIMLib.ErrorCode.TIMEOUT:
-    //                    info = '超时';
-    //                    break;
-    //                case RongIMLib.ErrorCode.UNKNOWN_ERROR:
-    //                    info = '未知错误';
-    //                    break;
-    //                case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-    //                    info = '在黑名单中，无法向对方发送消息';
-    //                    break;
-    //                case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-    //                    info = '不在讨论组中';
-    //                    break;
-    //                case RongIMLib.ErrorCode.NOT_IN_GROUP:
-    //                    info = '不在群组中';
-    //                    break;
-    //                case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-    //                    info = '不在聊天室中';
-    //                    break;
-    //                default :
-    //                    info = x;
-    //                    break;
-    //            }
-    //            console.log('发送失败:' + info);
-    //        }
-    //    }
-    //);
-}
-
 
 
 //清除未读消息数

@@ -17,13 +17,10 @@ $(function(){
     //getConverList();
     //获取群组列表
     getGroupList(accountID);
-
     //获取系统提示音
     getSysTipVoice(accountID);
-
     //鼠标在联系人上悬停
     var timer=null,timer1 = null;
-
     function showPersonDetailDia(e,CurList){
         var pos = {};
         pos.top = e.clientY;
@@ -60,14 +57,8 @@ $(function(){
         $('.memberHover').remove();
     })
 
-
     //点击的事件  弹窗上的
     $(window).click(function(e){
-
-        //console.log(e.target)
-        if($('.memberHover').length!=0&&$(e.target).parents('.memberHover').length==0){
-            //$('.memberHover').remove();
-        }else{
             var targetID = $(e.target).closest('.showPersonalInfo').attr('targetid');
             if(!targetID){
                 var targetID = $(e.target).parents('.selfImgInfo').next().attr('targetid');
@@ -96,6 +87,7 @@ $(function(){
                     break;
                 case 'addConver'://添加群聊
                     var memShipArr = [targetID,accountID];
+                    memShipArr = unique3(memShipArr);
                     converseACount.push(accountID);
                     creatDialogTree(datas,'groupConvers','添加会话',function(){
                         var sConverseACount = JSON.stringify(converseACount);
@@ -125,7 +117,7 @@ $(function(){
                     break;
                 default :
             }
-        }
+        //}
         $('.myContextMenu').remove();
     })
 
@@ -168,7 +160,6 @@ $(function(){
                         }
                     }
                 }else{
-                    //var data = '';
                     var memberid = $(this).parents('.myContextMenu').attr('memship');  //39
                     var CurList = $('[targetid='+memberid+'][targettype=GROUP]');
                     var pos = {};
@@ -247,28 +238,23 @@ $(function(){
                                             }else{
                                                 alert('失败',datas.text);
                                             }
-
                                         }
                                     })
                                 },memShipArr);
                             }
                         }
                     })
-                    //var memShipArr =
                 }
-
 
                 break;
             case 4:
                 //定位到所在组织
                 if(targetType=="PRIVATE"){
                     orginizPos(targetID,'member');
-
                 }
                 break;
             case 5:
                 //从消息列表删除
-                //var
                 new Window().alert({
                     title   : '删除会话',
                     content : '确定要从会话列表中删除么？',
@@ -280,10 +266,8 @@ $(function(){
                     handlerForSure : function(){
                         if(targetType=='GROUP'){
                             removeConvers('GROUP',targetID);
-
                         }else{
                             removeConvers('PRIVATE',targetID);
-
                         }
                     }
                 });
@@ -318,8 +302,6 @@ $(function(){
                 $('.orgNavClick').addClass('chatHide');
                 $('.mesContainerGroup').removeClass('chatHide');
             }
-
-            //showConverList();
         }
         $('.newsChatList li').removeClass('active');
         $(this).addClass('active');
@@ -332,7 +314,6 @@ $(function(){
         var memShip = $('.myContextMenu').attr('memship');
         var index = $(this).closest('ul').find('li').index($(this));
         $('.myContextMenu').remove();
-
         switch (index)
         {
             case 0:
@@ -397,7 +378,6 @@ $(function(){
         targetNode.addClass('active');
         targetNode.click();
     }
-
 
     function creatMemberMap(targetID,targeType){
         var curTargetList = findMemberInList(targetID);
@@ -473,37 +453,10 @@ $(function(){
                 }
             }
 
-            // console.log(aDatas);
             map.setFitView();
         });
     }
-    //常用联系人右键菜单
-    //$('body').delegate('#usualLeftClick li','click',function(){
-    //    var memShip = $('.myContextMenu').attr('memship');
-    //    $('.myContextMenu').remove();
-    //    var index = $(this).closest('ul').find('li').index($(this));
-    //    switch (index)
-    //    {
-    //        case 0:
-    //            //解除好友
-    //            //if(memShip){
-    //            //    var friend = JSON.parse(memShip);
-    //            //}
-    //            new Window().alert({
-    //                title   : '解除好友',
-    //                content : '确定要解除好友吗？',
-    //                hasCloseBtn : true,
-    //                hasImg : true,
-    //                textForSureBtn : '确定',              //确定按钮
-    //                textForcancleBtn : '取消',            //取消按钮
-    //                handlerForCancle : null,
-    //                handlerForSure : function(){
-    //                    cancleRelation(account,memShip);
-    //                }
-    //            });
-    //            break;
-    //    }
-    //})
+
     //点击群组
     var groupTimer=null;
     $('.groupChatList').delegate('li','mousedown',function(e){
@@ -541,6 +494,43 @@ $(function(){
         $('.groupMap').removeClass('chatHide');
         creatGroupMap(targetID,targeType,groupName);
     });
+
+    //群设置中的群成员管理
+    $('.personalData').undelegate('.groupInfo-groupManage','click');
+    $('.personalData').delegate('.groupInfo-groupManage','click',function(){
+        var memship = $(this).attr('memship');
+        var memShipArr = memship?JSON.parse(memship):[];
+        var groupid = $('.mesContainerGroup').attr('targetid');
+        var data = localStorage.getItem('getBranchTree');
+        var datas = JSON.parse(data)
+        creatDialogTree(datas,'groupConvers','群组管理',function(){
+            var sConverseACount = JSON.stringify(converseACount);
+            sendAjax('group!manageGroupMem',{groupid:groupid,groupids:sConverseACount},function(data){
+                if(data){
+                    $('.manageCancle').click();
+                    var datas = JSON.parse(data);
+                    if(datas.code==1){
+                        new Window().alert({
+                            title   : '',
+                            content : '修改群组成功！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false,
+                            autoHide:true
+                        });
+                        getGroupList(accountID);
+                    }else{
+                        alert('失败',datas.text);
+                    }
+                }
+            })
+        },memShipArr);
+    })
+    $('.groupInfo-groupManage').click(function(){
+
+    })
+
     //群组右键菜单
     $('body').delegate('#groupLeftClick li','click',function(){
         $('.myContextMenu').remove();
@@ -612,7 +602,6 @@ $(function(){
                             break;
                         case 2:
                             //转让群
-
                             sendAjax('group!listGroupMemebers',{groupid:groupid},function(data){
                                 var datas = JSON.parse(data).text;
                                 transferGroup(datas,function(){
@@ -624,7 +613,6 @@ $(function(){
                 }
             }
         })
-
     })
 
     /*
@@ -636,7 +624,6 @@ $(function(){
         if(getBranchTree){
             var data = JSON.parse(getBranchTree);
         }
-
         var index = $(e.target).closest('ul').find('li').index($(e.target));
         switch (index)
         {
@@ -756,6 +743,21 @@ function getSysTipVoice(userid){
 
 function groupMemberList(groupid,callback){
 
+}
+
+
+
+//数组去重
+function unique3(arr){
+    var res = [];
+    var json = {};
+    for(var i = 0; i < arr.length; i++){
+        if(!json[arr[i]]){
+            res.push(arr[i]);
+            json[arr[i]] = 1;
+        }
+    }
+    return res;
 }
 
 //创建群组列表

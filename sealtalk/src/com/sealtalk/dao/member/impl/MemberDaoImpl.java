@@ -18,7 +18,7 @@ import com.sealtalk.utils.TimeGenerator;
  * @date 2017/01/04
  * @since jdk1.7
  */
-public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
+public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -327,5 +327,69 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 		}
 		return 0;
 	}
+	
+	@Override
+	public List getMemberPosition(Integer memberId) {
+
+		String sql = "select position_id, branch_id, id from t_branch_member"
+				+ " where member_id = " + memberId 
+				+ " order by is_master desc";
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
+
+	@Override
+	public List getMemberRole(Integer memberId) {
+
+		String sql = "select role_id from t_member_role"
+				+ " where member_id = " + memberId;
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
+
+	@Override
+	public boolean updateUserPwd(String account, String md5Pwd) {
+		
+		String hql = "update TMember set password='" + md5Pwd + "' where account='" + account + "'";
+		
+		boolean status = true;
+		
+		try {
+			executeUpdate(hql);
+		} catch (Exception e) {
+			status = false;
+			e.printStackTrace();
+		}
+		
+		return status;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public TMember getOneMember(String account) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("account", account));
+			
+			List<TMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return (TMember) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 
 }

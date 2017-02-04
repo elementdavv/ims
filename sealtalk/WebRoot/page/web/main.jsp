@@ -18,7 +18,7 @@
 
     <script src="<%=request.getContextPath() %>/page/web/js/config.js"></script>
 
-    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>
+    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>--%>
 
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <%--<script src="<%=request.getContextPath() %>/page/web/js/globalVar.js"></script>--%>

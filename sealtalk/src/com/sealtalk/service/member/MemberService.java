@@ -93,5 +93,13 @@ public interface MemberService {
 	public String updateMemberInfo(String account, String fullname, String sex,
 			String position, String branch, String email, String phone,
 			String sign);
+	
+	/**
+	 * 更新密码
+	 * @param userName
+	 * @param newPwd
+	 * @return
+	 */
+	public boolean updateUserPwd(String account, String newPwd);
 
 }

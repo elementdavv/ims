@@ -45,17 +45,32 @@ $(function(){
                 onCompleted: function (data) {
                     var className = this._self.uniqueTime;
                     var downloadLink = globalVar.qiniuDOWNLOAD+data.filename;
-                    $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink)
-                    //document.getElementById('showImage').src = 'data:image/png;base64,' + data.thumbnail;
-                    console.log(data);
+                    $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
+                    //发送消息
+                    //console.log(this);
+
+                    var filedetail = {};
+                    filedetail.name = this._self.name;
+                    filedetail.uniqueTime = this._self.uniqueTime;
+                    filedetail.size = this._self.size;
+                    filedetail.type = this._self.type;
+                    filedetail.filename = data.filename;
+                    var targetId = this._self.targetId;
+                    var targetType = this._self.targetType;
+                    var content = JSON.stringify(filedetail);
+                    var extra = "uploadFile";
+
+
+
+                    sendByRong(content,targetId,targetType,extra);
+                    //console.log(data);
                     uploading = false;
                 },
                 _self: _file
             }
-
             _file.callback = callback;
-
             sendFile(_file,_this,function(){
+                //显示到盒子里
                 uploadFile.upload(_file, callback);
             });
         });
@@ -69,11 +84,13 @@ function sendFile(_file,_this,callback){
     filedetail.uniqueTime = _file.uniqueTime;
     filedetail.size = _file.size;
     filedetail.type = _file.type;
-
+    var targetId = $(_this).parents('.mesContainer').attr('targetid');
+    var targetType = $(_this).parents('.mesContainer').attr('targettype');
+    _file.targetId = targetId;
+    _file.targetType = targetType;
     var content = JSON.stringify(filedetail);
     var extra = "uploadFile";
 
-    var targetId = $(_this).parents('.mesContainer').attr('targetid');
-    var targetType = $(_this).parents('.mesContainer').attr('targettype');
+
     sendMsg(content,targetId,targetType,extra,callback);
 }

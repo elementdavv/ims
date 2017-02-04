@@ -66,54 +66,104 @@ $(function(){
         $('.defaultText').hide();
         $(this).css({backgroundPosition:'-380px -365px'});
         $(this).unbind('keypress');
-        $(this).keypress(function(event) {
-            if (event.which == 13) {
-                //console.log(111);
-                var inputVal = $(this).val();
-                if(inputVal){
-                    sendAjax('member!searchUser',{account:inputVal},function(data){
-                        var datas = JSON.parse(data);
-                        var parentDom = $('.orgnized');
-                        if(datas.length==0){
-                            //没有用户
-                            var sHTML = '<div class="searchResult">'+
-                                        '<ul class="searchResultUL">'+
-                                        '<li class="searchNoResult">'+
-                                        '<span>没有搜索结果</span>'+
-                                        '</li>'+
-                                        '</ul>'+
-                                        '</div>';
-                            parentDom.append($(sHTML));
-                            $('.searchResult').show();
-                            setTimeout(function(){
-                                $('.searchResult').remove();
-                            },1000)
-                        }else if(datas.length!=0){
-                            //生成搜索结果
-                            var liHTML = '';
 
-                            for(var i = 0;i<datas.length;i++){
-                                if(datas[i].logo){
-                                    var imgsrc = globalVar.imgSrc+datas[i].logo;
-                                }else{
-                                    imgsrc = globalVar.defaultLogo;
-                                }
-                                liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+imgsrc+'"/>'+datas[i].name+'('+datas[i].positionname+')</li>'
+        $(this).on('input',function(){
+            $('.searchResult').remove();
+            var inputVal = $(this).val();
+            if(inputVal){
+                sendAjax('member!searchUser',{account:inputVal},function(data){
+                    var datas = JSON.parse(data);
+                    var parentDom = $('.orgnized');
+                    if(datas.length==0){
+                        //没有用户
+                        var sHTML = '<div class="searchResult">'+
+                                    '<ul class="searchResultUL">'+
+                                    '<li class="searchNoResult">'+
+                                    '<span>没有搜索结果</span>'+
+                                    '</li>'+
+                                    '</ul>'+
+                                    '</div>';
+                        parentDom.append($(sHTML));
+                        $('.searchResult').show();
+                        setTimeout(function(){
+                            $('.searchResult').remove();
+                        },1000)
+                    }else if(datas.length!=0){
+                        //生成搜索结果
+                        var liHTML = '';
+
+                        for(var i = 0;i<datas.length;i++){
+                            if(datas[i].logo){
+                                var imgsrc = globalVar.imgSrc+datas[i].logo;
+                            }else{
+                                imgsrc = globalVar.defaultLogo;
                             }
-                            var sHTML = ' <div class="searchResult">'+
-                                        '<ul class="searchResultUL">'+liHTML+
-                                        '</ul>'+
-                                        '</div>'
-                            parentDom.append($(sHTML));
-                            $('.searchResult').show();
-                        }else{
-                            console.log(datas.text);
+                            var position = datas[i].positionname?'('+datas[i].positionname+')':'';
+                            liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+imgsrc+'"/>'+datas[i].name+position+'</li>'
                         }
+                        var sHTML = ' <div class="searchResult">'+
+                                    '<ul class="searchResultUL">'+liHTML+
+                                    '</ul>'+
+                                    '</div>'
+                        parentDom.append($(sHTML));
+                        $('.searchResult').show();
+                    }else{
+                        console.log(datas.text);
+                    }
 
-                    })
-                }
+                })
             }
         })
+
+        //$(this).keypress(function(event) {
+        //    if (event.which == 13) {
+        //        //console.log(111);
+        //        var inputVal = $(this).val();
+        //        if(inputVal){
+        //            sendAjax('member!searchUser',{account:inputVal},function(data){
+        //                var datas = JSON.parse(data);
+        //                var parentDom = $('.orgnized');
+        //                if(datas.length==0){
+        //                    //没有用户
+        //                    var sHTML = '<div class="searchResult">'+
+        //                                '<ul class="searchResultUL">'+
+        //                                '<li class="searchNoResult">'+
+        //                                '<span>没有搜索结果</span>'+
+        //                                '</li>'+
+        //                                '</ul>'+
+        //                                '</div>';
+        //                    parentDom.append($(sHTML));
+        //                    $('.searchResult').show();
+        //                    setTimeout(function(){
+        //                        $('.searchResult').remove();
+        //                    },1000)
+        //                }else if(datas.length!=0){
+        //                    //生成搜索结果
+        //                    var liHTML = '';
+        //
+        //                    for(var i = 0;i<datas.length;i++){
+        //                        if(datas[i].logo){
+        //                            var imgsrc = globalVar.imgSrc+datas[i].logo;
+        //                        }else{
+        //                            imgsrc = globalVar.defaultLogo;
+        //                        }
+        //                        var position = datas[i].positionname?'('+datas[i].positionname+')':'';
+        //                        liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+imgsrc+'"/>'+datas[i].name+position+'</li>'
+        //                    }
+        //                    var sHTML = ' <div class="searchResult">'+
+        //                                '<ul class="searchResultUL">'+liHTML+
+        //                                '</ul>'+
+        //                                '</div>'
+        //                    parentDom.append($(sHTML));
+        //                    $('.searchResult').show();
+        //                }else{
+        //                    console.log(datas.text);
+        //                }
+        //
+        //            })
+        //        }
+        //    }
+        //})
     });
     //targetAccount account
 
