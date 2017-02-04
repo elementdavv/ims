@@ -8,7 +8,7 @@ import com.sealtalk.common.BaseAction;
  * @author hao_dy
  *
  */
-@Secured
+
 public class PrivilegeAction extends BaseAction {
 	private static final long serialVersionUID = 482342287337610866L;
 

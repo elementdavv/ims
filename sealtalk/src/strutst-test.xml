@@ -7,7 +7,7 @@
 
 	<!-- ssl-default -->
 	<!-- struts-default -->
-   <package name="com.sealtalk.action.test" extends="ssl-default">
+   <package name="com.sealtalk.action.test" extends="struts-default">
         <action name="test" class="com.sealtalk.action.test.TestAction">
         	<result name="test">/page/web/test.jsp</result>
         </action>

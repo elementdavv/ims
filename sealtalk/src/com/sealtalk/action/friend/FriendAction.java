@@ -17,7 +17,7 @@ import com.sealtalk.service.friend.FriendService;
  * @since jdk1.7
  * @date 2017/01/07
  */
-@Secured
+
 public class FriendAction extends BaseAction {
 
 	private static final long serialVersionUID = -7261604465748499252L;

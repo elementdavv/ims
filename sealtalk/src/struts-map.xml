@@ -7,7 +7,7 @@
 
 	<!-- ssl-default -->
 	<!-- struts-default -->
-  <package name="com.sealtalk.action.map" extends="ssl-default">
+  <package name="com.sealtalk.action.map" extends="struts-default">
         <!-- 地图-->
         <action name="map" class="com.sealtalk.action.map.MapAction">
         	<result name="text" type="stream">

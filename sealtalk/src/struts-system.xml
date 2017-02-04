@@ -7,7 +7,7 @@
 
 	<!-- ssl-default -->
 	<!-- struts-default -->
-  <package name="com.sealtalk.action.sys" extends="ssl-default">
+  <package name="com.sealtalk.action.sys" extends="struts-default">
    		<!-- 系统管理 -->
         <action name="system" class="com.sealtalk.action.sys.SystemAction">
            	<result name="loginPage">/page/web/signin.jsp</result>

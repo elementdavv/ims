@@ -6,7 +6,7 @@
 <struts>
 	<!-- ssl-default -->
 	<!-- struts-default -->
-    <package name="com.sealtalk.action.adm" extends="ssl-default">
+    <package name="com.sealtalk.action.adm" extends="struts-default">
         <!-- 组织机构 -->
         <action name="branch" class="com.sealtalk.action.adm.BranchAction">
         	<result name="text" type="stream">

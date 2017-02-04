@@ -6,7 +6,6 @@ import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.service.map.MapService;
 
-@Secured
 public class MapAction extends BaseAction {
 
 	private static final long serialVersionUID = -1765255265459599929L;

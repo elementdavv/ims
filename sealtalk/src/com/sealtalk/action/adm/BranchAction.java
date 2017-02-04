@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
  * @author alopex
  *
  */
-@Secured
+
 public class BranchAction extends BaseAction {
 
 	/**

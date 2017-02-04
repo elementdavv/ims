@@ -31,7 +31,7 @@ import com.sealtalk.utils.TimeGenerator;
  * @author hao_dy
  *
  */
-@Secured
+
 public class SystemAction extends BaseAction {
 	
 	private static final long serialVersionUID = -3901445181785461508L;
