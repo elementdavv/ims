@@ -199,11 +199,11 @@ public class Example {
 		System.out.println("join:  " + groupJoinResult.toString());
 		
 		// 查询群成员方法 
-		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("37");
+		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("42");
 		System.out.println("queryUser:  " + groupQueryUserResult.toString());
 		
 		// 退出群组方法（将用户从群中移除，不再接收该群组的消息.） 
-		String[] groupQuitUserId = {"userId2","userid3","userId4"};
+		String[] groupQuitUserId = {"user1","user2"};
 		CodeSuccessReslut groupQuitResult = rongCloud.group.quit(groupQuitUserId, "TestGroup");
 		System.out.println("quit:  " + groupQuitResult.toString());
 		
@@ -221,7 +221,7 @@ public class Example {
 		System.out.println("rollBackGagUser:  " + groupRollBackGagUserResult.toString());
 		
 		// 解散群组方法。（将该群解散，所有用户都无法再接收该群的消息。） 
-		CodeSuccessReslut groupDismissResult = rongCloud.group.dismiss("userId1", "groupId1");
+		CodeSuccessReslut groupDismissResult = rongCloud.group.dismiss("1", "41");
 		System.out.println("dismiss:  " + groupDismissResult.toString());
 		
 		

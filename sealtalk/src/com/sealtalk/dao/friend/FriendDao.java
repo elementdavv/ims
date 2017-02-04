@@ -50,5 +50,13 @@ public interface FriendDao extends IBaseDao<TFriend, Long> {
 	 */
 	public List<TFriend> getFriendRelationForFriendIds(int accountId,
 			Integer[] friendId);
+
+	/**
+	 * 取指定数量的记录
+	 * @param userIdInt
+	 * @param mapMax 
+	 * @return
+	 */
+	public List<TFriend> getFriendRelationForIdWithLimit(int userIdInt, int mapMax);
 	
 } 

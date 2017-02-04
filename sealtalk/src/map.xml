@@ -11,11 +11,15 @@
 	<!-- dao -->
 	<bean id="mapDao" class="com.sealtalk.dao.map.impl.MapDaoImpl" autowire="byName" />
 	<bean id="groupMemeberDao" class="com.sealtalk.dao.group.impl.GroupMemberDaoImpl" autowire="byName" />
+	<bean id="friendDao" class="com.sealtalk.dao.friend.impl.FriendDaoImpl" autowire="byName" />
+	<bean id="memberDao" class="com.sealtalk.dao.member.impl.MemberDaoImpl" autowire="byName" />
 	
 	<!-- service -->
 	<bean id="mapService" class="com.sealtalk.service.map.impl.MapServiceImpl" autowire="byName" >
 		<property name="mapDao" ref="mapDao" />
 		<property name="groupMemeberDao" ref="groupMemeberDao" />
+		<property name="friendDao" ref="friendDao" />
+		<property name="memberDao" ref="memberDao" />
 	</bean>
 	
 	<!-- action -->

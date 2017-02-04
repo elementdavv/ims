@@ -134,4 +134,11 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 */
 	public TMember getOneMember(String account);
 
+	/**
+	 * 获取指定数量的用户id
+	 * @param mapMax
+	 * @return
+	 */
+	public List<TMember> getLimitMemberIds(int mapMax);
+
 } 

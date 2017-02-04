@@ -52,11 +52,9 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 	@Override
 	public void removeGroupMemeber(String userIds, int groupId) {
 		try {
-			String sql = "delete from t_group_member where group_id=" + groupId + " and member_id in (" + userIds + ")";
+			String sql = (new StringBuilder("delete TGroupMember where groupId=").append(groupId).append(" and memberId in(").append(userIds).append(")")).toString();
+			delete(sql);
 			
-			System.out.println("removeGroupMember sql: " + sql);
-			
-			this.getSession().createSQLQuery(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new HibernateException(e);
@@ -105,12 +103,14 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TGroupMember getGroupMemberCreator(String groupId) {
+	public TGroupMember getGroupMemberCreator(int groupId) {
+		String hql = (new StringBuilder("from TGroupMember tm where tm.groupId=").append(groupId).append(" and tm.isCreator=1")).toString();
+		
 		try {
-			Criteria ctr = getCriteria();
-			ctr.add(Restrictions.and(Restrictions.eq("groupId", groupId), Restrictions.eq("isCreator", 1)));
+			//Criteria ctr = getCriteria();
+			//ctr.add(Restrictions.and(Restrictions.eq("groupId", groupId), Restrictions.eq("isCreator", 1)));
 			
-			List<TGroupMember> list = ctr.list();
+			List<TGroupMember> list = getSession().createQuery(hql).list();
 			
 			if (list.size() > 0) {
 				return list.get(0);

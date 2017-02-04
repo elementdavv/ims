@@ -6,6 +6,7 @@ import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.service.map.MapService;
 
+
 public class MapAction extends BaseAction {
 
 	private static final long serialVersionUID = -1765255265459599929L;
@@ -26,6 +27,7 @@ public class MapAction extends BaseAction {
 	
 	/**
 	 * 获取好友或群组成员位置 
+	 * type:1群id,2好友id，3所有人，4所有好友
 	 * @return
 	 * @throws Exception
 	 */

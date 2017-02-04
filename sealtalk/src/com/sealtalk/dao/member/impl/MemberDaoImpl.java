@@ -3,13 +3,13 @@ package com.sealtalk.dao.member.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
-import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
@@ -382,6 +382,29 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 			
 			if (list.size() > 0) {
 				return (TMember) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TMember> getLimitMemberIds(int limit) {
+		String sql = (new StringBuilder("select new TMember(t.id) from TMember t")).toString();
+		
+		try {
+			Query query = getSession().createQuery(sql);
+			query.setFirstResult(0);
+			query.setMaxResults(limit);
+			
+			List<TMember> list = query.list();
+			
+			if (list.size() > 0) {
+				return list;
 			}
 			
 		} catch (Exception e) {

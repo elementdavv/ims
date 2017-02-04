@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.model.TPriv;
 import com.sealtalk.model.TRole;
 import com.sealtalk.service.adm.PrivService;
 
 import net.sf.json.JSONObject;
+
 
 public class PrivAction extends BaseAction {
 

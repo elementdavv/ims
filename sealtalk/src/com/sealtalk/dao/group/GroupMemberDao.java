@@ -62,7 +62,7 @@ public interface GroupMemberDao {
 	 * @param groupId
 	 * @return
 	 */
-	public TGroupMember getGroupMemberCreator(String groupId);
+	public TGroupMember getGroupMemberCreator(int groupId);
 
 	/**
 	 * 获取群成员
@@ -85,4 +85,5 @@ public interface GroupMemberDao {
 	 */
 	public void delGroupMemberForMemberIdsAndGroupId(int groupIdInt,
 			String needDelStr);
+
 }

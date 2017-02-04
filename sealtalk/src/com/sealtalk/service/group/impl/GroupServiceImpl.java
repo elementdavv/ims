@@ -154,7 +154,7 @@ public class GroupServiceImpl implements GroupService {
 						} 
 						
 						String createCGcode = RongCloudUtils.getInstance().createGroup(groupIdsArr, groupId + "", groupNameStr);
-						RongCloudUtils.getInstance().sendSysMsg(userId, groupIdsArr, "你创建了群组", "");
+						RongCloudUtils.getInstance().sendSysMsg(userId, groupIdsArr, "请在聊天中注意人身财产安全", "", 2);
 						
 						jo.put("code", createCGcode);
 						jo.put("text", JSONUtils.getInstance().modelToJSONObj(tg));
@@ -202,12 +202,16 @@ public class GroupServiceImpl implements GroupService {
 			
 				String groupName = tg.getName();
 				
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "\"", "");
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "[", "");
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "]", "");
+				
 				String[] groupIdsArr = StringUtils.getInstance().stringSplit(groupIds, ",");
 
 				memberVolume = groupIdsArr.length;
 					
 				if (volumeUse >= volume ||
-						(volume + memberVolume) > volume) {
+						(volumeUse + memberVolume) > volume) {
 					jo.put("code", 0);
 					jo.put("text", Tips.GROUPMOREVOLUME.getText());
 				} else {
@@ -226,7 +230,7 @@ public class GroupServiceImpl implements GroupService {
 					
 					//通知融云
 					RongCloudUtils.getInstance().joinGroup(groupIdsArr, groupId, groupName);
-					RongCloudUtils.getInstance().sendSysMsg(groupId, groupIdsArr, "加入群组", "");
+					RongCloudUtils.getInstance().sendSysMsg(groupId, groupIdsArr, "加入群组", "", 2);
 					jo.put("code", 1);
 					jo.put("text", Tips.OK.getText());
 				}
@@ -258,7 +262,7 @@ public class GroupServiceImpl implements GroupService {
 				String[] userIds = StringUtils.getInstance().stringSplit(userId, ",");
 				
 				groupMemberDao.removeGroupMemeber(userId, groupIdInt);
-				groupDao.updateGroupMemberNum(groupIdInt, userIds.length);
+				groupDao.updateGroupMemberNum(groupIdInt, -userIds.length);
 				
 				//通知融云
 				RongCloudUtils.getInstance().leftGroup(userIds, groupId);
@@ -486,7 +490,7 @@ public class GroupServiceImpl implements GroupService {
 				jo.put("code", -1);
 				jo.put("text", Tips.NOSECGROUP.getText());
 			} else {
-				TGroupMember tgm = groupMemberDao.getGroupMemberCreator(groupId);
+				TGroupMember tgm = groupMemberDao.getGroupMemberCreator(groupIdInt);
 				
 				if (tgm != null) {
 					//更新群组成员关系表

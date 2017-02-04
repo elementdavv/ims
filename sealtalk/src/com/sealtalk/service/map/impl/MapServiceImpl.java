@@ -6,11 +6,16 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.sealtalk.common.Tips;
+import com.sealtalk.dao.friend.FriendDao;
 import com.sealtalk.dao.group.GroupMemberDao;
 import com.sealtalk.dao.map.MapDao;
+import com.sealtalk.dao.member.MemberDao;
+import com.sealtalk.model.TFriend;
 import com.sealtalk.model.TGroupMember;
 import com.sealtalk.model.TMap;
+import com.sealtalk.model.TMember;
 import com.sealtalk.service.map.MapService;
+import com.sealtalk.utils.PropertiesUtils;
 import com.sealtalk.utils.StringUtils;
 
 public class MapServiceImpl implements MapService {
@@ -43,8 +48,33 @@ public class MapServiceImpl implements MapService {
 							sb.append(memberList.get(i).getMemberId()).append(",");
 						}
 					}
-				} else {
+				} else if (type.equals("2")){
 					sb.append(targetIdInt).append(",").append(userIdInt);
+				} else if (type.equals("3")) {
+					int mapMax = StringUtils.getInstance().strToInt(PropertiesUtils.getStringByKey("map.max"));
+					List<TMember> memberIds = memberDao.getLimitMemberIds(mapMax);
+					
+					if (memberIds != null) {
+						int len = memberIds.size();
+						len = len >= mapMax ? mapMax : len;
+						for(int i = 0; i < len; i++) {
+							TMember tm = memberIds.get(i);
+							sb.append(tm.getId()).append(",");
+						}
+					}
+				} else {
+					int mapMax = StringUtils.getInstance().strToInt(PropertiesUtils.getStringByKey("map.max"));
+					List<TFriend> friends = friendDao.getFriendRelationForIdWithLimit(userIdInt, mapMax);
+					if (friends != null) {
+						int len = friends.size();
+						
+						len = len >= mapMax ? mapMax : len;
+						
+						for(int i = 0; i < len; i++) {
+							TFriend friend = (TFriend)friends.get(i);
+							sb.append(friend.getFriendId()).append(",");
+						}
+					}
 				}
 				
 				idStr = sb.toString();
@@ -146,9 +176,28 @@ public class MapServiceImpl implements MapService {
 		return jo.toString();
 	}
 	
-	
+	private MemberDao memberDao;
+	private FriendDao friendDao;
 	private MapDao mapDao;
 	private GroupMemberDao groupMemeberDao;
+	
+	public MemberDao getMemberDao() {
+		return memberDao;
+	}
+
+	public void setMemberDao(MemberDao memberDao) {
+		this.memberDao = memberDao;
+	}
+
+
+	public FriendDao getFriendDao() {
+		return friendDao;
+	}
+
+	public void setFriendDao(FriendDao friendDao) {
+		this.friendDao = friendDao;
+	}
+
 
 	public GroupMemberDao getGroupMemeberDao() {
 		return groupMemeberDao;

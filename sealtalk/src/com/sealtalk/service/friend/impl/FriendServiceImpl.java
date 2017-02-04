@@ -99,7 +99,7 @@ public class FriendServiceImpl implements FriendService {
 					
 					//String[] targetIds = {friendId+""};
 					//通知融云
-					RongCloudUtils.getInstance().sendSysMsg(accountId+"", targetIds, "", "");
+					RongCloudUtils.getInstance().sendSysMsg(accountId+"", targetIds, "", "", 1);
 				}
 			}
 		} catch (Exception e) {
