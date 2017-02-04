@@ -770,7 +770,7 @@ function getGroupList(accountID){
             if(groupArr){
                 for(var i = 0;i<groupArr.length;i++){
                     var curGroup = groupArr[i];
-                    sHTML+='<li targetid="'+curGroup.id+'">'+
+                    sHTML+='<li targetid="'+curGroup.GID+'">'+
                     '<div>'+
                     '<img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
