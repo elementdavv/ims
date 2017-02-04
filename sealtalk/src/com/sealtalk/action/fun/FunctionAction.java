@@ -17,7 +17,7 @@ import com.sealtalk.service.fun.FunctionService;
  * @since jdk1.7
  * @date 2017/01/07
  */
-
+@Secured
 public class FunctionAction extends BaseAction {
 
 	private static final long serialVersionUID = -7261604465748499252L;
@@ -45,7 +45,7 @@ public class FunctionAction extends BaseAction {
 		}
 		
 		returnToClient(result);
-		return result;
+		return "text";
 	}
 	
 	/**
@@ -56,6 +56,7 @@ public class FunctionAction extends BaseAction {
 	public String setSysTipVoice() throws ServletException {
 		String result = null;
 		
+		System.out.println("-----------------systip :" + userid + " : " + status);
 		try {
 			if (functionService != null) {
 				result = functionService.setSysTipVoice(userid, status);
@@ -71,7 +72,7 @@ public class FunctionAction extends BaseAction {
 		
 		returnToClient(result);
 		
-		return result;
+		return "text";
 	}
 	
 	/**
@@ -93,7 +94,7 @@ public class FunctionAction extends BaseAction {
 			e.printStackTrace();
 		}
 		returnToClient(result);
-		return result;
+		return "text";
 	}
 	
 	private String status;

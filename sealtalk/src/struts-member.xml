@@ -5,8 +5,9 @@
 
 <struts>
 
-  	 <!-- <package name="com.sealtalk.action.member" extends="ssl-default">-->
-     <package name="com.sealtalk.action.member" extends="struts-default">
+	<!-- ssl-default -->
+	<!-- struts-default -->
+    <package name="com.sealtalk.action.member" extends="ssl-default">
    		 <!-- 成员管理 -->
         <action name="member" class="com.sealtalk.action.member.MemberAction">
 			<result name="text" type="stream">

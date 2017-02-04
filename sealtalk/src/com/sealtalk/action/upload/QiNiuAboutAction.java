@@ -6,7 +6,7 @@ import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.service.upload.UploadService;
 
-
+@Secured
 public class QiNiuAboutAction extends BaseAction {
 
 	private static final long serialVersionUID = -853201080265155177L;

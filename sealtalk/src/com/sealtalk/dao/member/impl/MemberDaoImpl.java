@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
+import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
@@ -78,8 +79,9 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object[] getOneOfMember(String account) {
+	public Object[] getOneOfMember(int id) {
 		try {
+			
 			String hql = "select " +
 				"M.id MID," + 
 				"M.account," +
@@ -103,7 +105,7 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 				"left join t_branch B on BM.branch_id=B.id " +
 				"left join t_position P on BM.position_id=P.id " +
 				"inner join t_organ O on M.organ_id=O.id " +
-				"where account='" + account + "'";
+				"where M.id=" + id;
 			
 			SQLQuery query = this.getSession().createSQLQuery(hql);
 			
@@ -310,6 +312,20 @@ public class MemberDaoImpl extends BaseDao<TMember, Long> implements MemberDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public int updateMemeberInfo(String account, String fullname, String sex,
+			String email, String phone, String sign) {
+
+		try {
+			String hql = "update TMember T set t.fullname='" + fullname + "',sex='" + sex + "',email='" + email + "',telephone='" + phone + "',sign='" + sign + "' where account='" + account +"'";
+			int ret = update(hql);
+			return ret;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

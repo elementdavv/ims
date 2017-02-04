@@ -17,7 +17,7 @@ import com.sealtalk.service.member.MemberService;
  * @since jdk1.7
  * @date 2017/01/07
  */
-
+@Secured
 public class MemberAction extends BaseAction {
 
 	private static final long serialVersionUID = -9024506148523628104L;
@@ -32,20 +32,20 @@ public class MemberAction extends BaseAction {
 		String result = null;
 		
 		try {
-			if (account == null || "".equals(account)) {
+			if (userid == null || "".equals(userid)) {
 				JSONObject jo = new JSONObject();
 				jo.put("code", 0);
 				jo.put("text", Tips.NULLUSER);
 			} else {
-				result = memberService.getOneOfMember(account);
+				result = memberService.getOneOfMember(userid);
 			}
 			
 			logger.info(result);
-			returnToClient(result);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		returnToClient(result);
 		return "text";
 	}
 	
@@ -67,11 +67,12 @@ public class MemberAction extends BaseAction {
 			}
 			
 			logger.info(result);
-			returnToClient(result);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		returnToClient(result);
 		return "text";
 	}
 	
@@ -84,11 +85,15 @@ public class MemberAction extends BaseAction {
 		String result = null;
 		
 		if (memberService == null) {
-			
+			result = memberService.updateMemberInfo(account, fullname, sex, position, branch, email, phone, sign);
 		} else {
-			returnToClient(result);
+			JSONObject jo = new JSONObject();
+			jo.put("code", 0);
+			jo.put("text", Tips.FAIL.getText());
+			result = jo.toString();
 		}
 		
+		returnToClient(result);
 		return "text";
 	}
 	
@@ -98,6 +103,7 @@ public class MemberAction extends BaseAction {
 		this.memberService = ms;
 	}
 	
+	private String userid;
 	private String account;
 	private String fullname;
 	private String sex;
@@ -107,6 +113,14 @@ public class MemberAction extends BaseAction {
 	private String phone;
 	private String sign;
 	private String logo;
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 
 	public String getAccount() {
 		return account;

@@ -1,7 +1,6 @@
 package com.sealtalk.service.member;
 
 import com.sealtalk.model.TMember;
-import com.sealtalk.model.TextCode;
 
 /**
  * 用户逻辑处理接口
@@ -78,5 +77,21 @@ public interface MemberService {
 	 * @return
 	 */
 	public String getTextCode(String phone);
+
+	/**
+	 * 更新个人设置
+	 * @param account
+	 * @param fullname
+	 * @param sex
+	 * @param position
+	 * @param branch
+	 * @param email
+	 * @param phone
+	 * @param sign
+	 * @return
+	 */
+	public String updateMemberInfo(String account, String fullname, String sex,
+			String position, String branch, String email, String phone,
+			String sign);
 
 }

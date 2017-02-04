@@ -31,7 +31,7 @@ import com.sealtalk.utils.TimeGenerator;
  * @author hao_dy
  *
  */
-
+@Secured
 public class SystemAction extends BaseAction {
 	
 	private static final long serialVersionUID = -3901445181785461508L;
@@ -123,7 +123,7 @@ public class SystemAction extends BaseAction {
 		}
 		
 		//2.相关权限信息	
-		SessionPrivilege sp = privilegeService.setPrivilege(account);
+	///	SessionPrivilege sp = privilegeService.setPrivilege(account);
 		
 		
 		setSessionUser(su);
@@ -247,11 +247,12 @@ public class SystemAction extends BaseAction {
 	public String newPassword() throws ServletException {
 		JSONObject text = new JSONObject();
 		
-		if (StringUtils.getInstance().isBlank(account) || StringUtils.getInstance().isBlank(phone)) {
+		System.out.println("newPassword: " + account);
+		if (StringUtils.getInstance().isBlank(account)) {
 			text.put("code", "0");
 			text.put("text", Tips.NULLUSER.getText());
 			returnToClient(text.toString());
-			return "textText";
+			return "text";
 		}
 		
 		boolean status = true;
