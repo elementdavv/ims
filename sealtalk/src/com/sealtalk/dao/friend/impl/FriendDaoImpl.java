@@ -12,7 +12,7 @@ import com.sealtalk.model.TFriend;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
- * @功能  好友关系数据管理层
+ * 好友关系数据管理层
  * @author hao_dy
  * @date 2017/01/04
  * @since jdk1.7
@@ -81,6 +81,28 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 		try {
 			Criteria ctr = getCriteria();
 			ctr.add(Restrictions.eq("memberId", id));
+			
+			List<TFriend> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TFriend> getFriendRelationForFriendIds(int accountId,
+			Integer[] friendId) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.and(Restrictions.eq("memberId", accountId), Restrictions.in("friendId", friendId)));
 			
 			List<TFriend> list = ctr.list();
 			

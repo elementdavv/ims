@@ -17,7 +17,7 @@ import com.sealtalk.service.group.GroupService;
  * @since jdk1.7
  * @date 2017/01/07
  */
-
+@Secured
 public class GroupAction extends BaseAction {
 
 	private static final long serialVersionUID = 5512359170256277370L;
@@ -153,6 +153,27 @@ public class GroupAction extends BaseAction {
 	} 
 	
 	/**
+	 * 查询群成员
+	 * @return
+	 * @throws SevletException
+	 */
+	public String listGroupMemebersData () throws ServletException {
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.listGroupMemebersData(groupid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		return "text";
+	} 
+	
+	/**
 	 * 群主转移
 	 * @return
 	 * @throws ServletException
@@ -217,6 +238,29 @@ public class GroupAction extends BaseAction {
 		return "text";
 	}
 	
+	
+	/**
+	 * 返回群组列表，分我建的和我加入的
+	 * @return
+	 * @throws ServletException
+	 */
+	public String groupListWithAction() throws ServletException {
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.groupListWithAction(userid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		
+		return "text";	
+	}
+	
 	/**
 	 * 管理群成员
 	 * @return
@@ -249,6 +293,27 @@ public class GroupAction extends BaseAction {
 		
 		if (groupService != null) {
 			result = groupService.groupInfo(groupid);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", -1);
+			jo.put("text", Tips.UNKNOWERR.getText());
+			result = jo.toString();
+		}
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 修改群名称
+	 * @return
+	 * @throws ServletException
+	 */
+	public String changeGroupName() throws ServletException {
+		String result = null;
+		
+		if (groupService != null) {
+			result = groupService.changeGroupName(groupid, groupname);
 		} else {
 			JSONObject jo = new JSONObject();
 			jo.put("code", -1);

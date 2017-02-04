@@ -14,7 +14,7 @@ import com.sealtalk.service.adm.BranchService;
  * @author alopex
  *
  */
-
+@Secured
 public class BranchAction extends BaseAction {
 
 	/**

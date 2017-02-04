@@ -50,9 +50,9 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 	}
 
 	@Override
-	public void removeGroupMemeber(Integer[] userIds, int groupId) {
+	public void removeGroupMemeber(String userIds, int groupId) {
 		try {
-			String sql = "delete from t_group_member where group_id=" + groupId + " and userIds in (" + userIds + ")";
+			String sql = "delete from t_group_member where group_id=" + groupId + " and member_id in (" + userIds + ")";
 			
 			System.out.println("removeGroupMember sql: " + sql);
 			

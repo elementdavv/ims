@@ -33,7 +33,7 @@ public interface GroupMemberDao {
 	 * @param userIdsInt
 	 * @param groupIdInt
 	 */
-	public void removeGroupMemeber(Integer[] userIdsInt, int groupIdInt);
+	public void removeGroupMemeber(String userIdsInt, int groupIdInt);
 
 	/**
 	 * 删除群成员

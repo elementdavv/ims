@@ -45,9 +45,10 @@ public class BranchServiceImpl implements BranchService {
 		JSONArray ja = new JSONArray();
 		
 		ArrayList<Object> branchList = new ArrayList<Object>();
+		ArrayList<Object> organList = new ArrayList<Object>();
 		
 		try {
-			if (branchList != null) {
+			if (list != null) {
 				for(int i = 0; i < list.size(); i++) {
 					Object[] o = (Object[])list.get(i);
 					JSONObject jm = new JSONObject();
@@ -63,14 +64,17 @@ public class BranchServiceImpl implements BranchService {
 						jm.put("email", isBlank(o[12]));
 						jm.put("address", isBlank(o[13]));
 						jm.put("token", isBlank(o[14]));
-						jm.put("sex", isBlank(o[25]));
+						jm.put("sex", isBlank(o[15]));
 						jm.put("birthday", isBlank(o[16]));
 						jm.put("workno", isBlank(o[17]));
 						jm.put("mobile", isBlank(o[18]));
 						jm.put("groupmax", isBlank(o[19]));
 						jm.put("groupuse", isBlank(o[20]));
 						jm.put("intro", isBlank(o[21]));
+						jm.put("postitionid", isBlank(o[22]));
 						jm.put("postitionname", isBlank(o[23]));
+						jm.put("sexid", isBlank(o[24]));
+						jm.put("sexname", isBlank(o[25]));
 						
 						if (!branchList.contains(o[4])) {
 							JSONObject jb = new JSONObject();
@@ -82,6 +86,16 @@ public class BranchServiceImpl implements BranchService {
 							branchList.add(o[4]);
 						}
 					} else {
+						if (!organList.contains(o[26])) {
+							JSONObject jor = new JSONObject();
+							jor.put("id", isBlank(o[26]));
+							jor.put("pid", -1);
+							jor.put("name", isBlank(o[27]));
+							jor.put("flag", 0);
+							ja.add(jor);
+							organList.add(o[26]);
+						}
+						
 						jm.put("id", isBlank(o[4]));
 						jm.put("pid", isBlank(o[5]));
 						jm.put("name", isBlank(o[6]));

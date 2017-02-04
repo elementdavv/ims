@@ -41,5 +41,14 @@ public interface FriendDao extends IBaseDao<TFriend, Long> {
 	 * @return
 	 */
 	public List<TFriend> getFriendRelationForId(int account);
+
+	/**
+	 * 获取好友关系，匹配多个好友
+	 * @param accountId
+	 * @param friendId
+	 * @return
+	 */
+	public List<TFriend> getFriendRelationForFriendIds(int accountId,
+			Integer[] friendId);
 	
 } 

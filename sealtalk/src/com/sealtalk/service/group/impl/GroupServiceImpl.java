@@ -252,11 +252,12 @@ public class GroupServiceImpl implements GroupService {
 				jo.put("code", -1);
 				jo.put("text", Tips.NOSECGROUP.getText());
 			} else {
+				userId = StringUtils.getInstance().replaceChar(userId, "\"", "");
+				userId = StringUtils.getInstance().replaceChar(userId, "[", "");
+				userId = StringUtils.getInstance().replaceChar(userId, "]", "");
 				String[] userIds = StringUtils.getInstance().stringSplit(userId, ",");
 				
-				Integer[] userIdsInt = StringUtils.getInstance().stringArrToIntArr(userIds);
-				
-				groupMemberDao.removeGroupMemeber(userIdsInt, groupIdInt);
+				groupMemberDao.removeGroupMemeber(userId, groupIdInt);
 				groupDao.updateGroupMemberNum(groupIdInt, userIds.length);
 				
 				//通知融云
@@ -326,60 +327,93 @@ public class GroupServiceImpl implements GroupService {
 				jo.put("code", -1);
 				jo.put("text", Tips.NULLUSER.getText());
 			} else {
-				List<TGroupMember> groupMembers = groupMemberDao.getGroupMemberForUserId(userIdInt);
-				
-				if (groupMembers != null) {
-					ArrayList<Integer> temp = new ArrayList<Integer>();
-					
-					Integer[] groups = new Integer[groupMembers.size()];
-					
-					for(int i = 0; i < groupMembers.size(); i++) {
-						int id = groupMembers.get(i).getGroupId();
-						if (temp.contains(id)) continue ;
-						groups[i] = id;
-					}
-					
-					List<TGroup> groupList = groupDao.getGroupList(groups);
-					List<TDontDistrub> dontDistrubList = dontDistrubDao.getDistrubListForUserId(userIdInt);
-					
-					int lenDistrub = 0;
-					
-					if (dontDistrubList != null) {
-						lenDistrub = dontDistrubList.size();
-					} 
-					
-					if (groupList != null) {
-						JSONArray ja = new JSONArray();
-						
-						for(int i = 0; i < groupList.size(); i++) {
-							TGroup tp = groupList.get(i);
-							JSONObject t = JSONUtils.getInstance().modelToJSONObj(tp);
-							
-							for(int j = 0; j < lenDistrub; j++) {
-								TDontDistrub tdd = dontDistrubList.get(j);
-								if (tp.getId() == tdd.getId()) {
-									t.put("dontdistrub", tdd.getIsOpen());
-								} else {
-									t.put("dontdistrub", 0);
-								}
-							}
-							
-							if (dontDistrubList == null) {
-								t.put("dontdistrub", 0);
-							}
-							ja.add(t);
-						}
-						
-						jo.put("code", 1);
-						jo.put("text", ja.toString());
-					} else {
-						jo.put("code", 0);
-						jo.put("text", Tips.FAIL.getText());
-					}
-				} else {
-					jo.put("code", 0);
-					jo.put("text", Tips.FAIL.getText());
-				}
+                List<TGroupMember> groupMembers = groupMemberDao.getGroupMemberForUserId(userIdInt);
+                
+                if (groupMembers != null) {
+                    ArrayList<Integer> temp = new ArrayList<Integer>();
+                    StringBuilder sb = new StringBuilder();
+                    
+                    for(int i = 0; i < groupMembers.size(); i++) {
+                    	TGroupMember t = groupMembers.get(i);
+                        int id = t.getGroupId().intValue();
+                        
+                        if(!temp.contains(id)) {
+                            sb.append(id).append(",");
+                            temp.add(id);
+                        }
+                    }
+
+                    String groups = sb.toString();
+                    
+                    if(groups != null) {
+                        groups = groups.substring(0, groups.length() - 1);
+                    }
+                    
+                    List<Object[]> groupList = groupDao.getGroupListWithCreaterInfo(groups);
+                    List<TDontDistrub> dontDistrubList = dontDistrubDao.getDistrubListForUserId(userIdInt);
+                    
+                    int lenDistrub = 0;
+                    
+                    if(dontDistrubList != null) {
+                        lenDistrub = dontDistrubList.size();
+                    }
+                    if(groupList != null) {
+                        JSONArray ja = new JSONArray();
+                        for(int i = 0; i < groupList.size(); i++)
+                        {
+                            Object t[] = (Object[])groupList.get(i);
+                            JSONObject jo1 = new JSONObject();
+                            jo1.put("mid", t[0]);
+                            jo1.put("account", t[1]);
+                            jo1.put("fullname", t[2]);
+                            jo1.put("logo", t[3]);
+                            jo1.put("telephone", t[4]);
+                            jo1.put("email", t[5]);
+                            jo1.put("address", t[6]);
+                            jo1.put("token", t[7]);
+                            jo1.put("sex", t[8]);
+                            jo1.put("birthday", t[9]);
+                            jo1.put("workno", t[10]);
+                            jo1.put("mobile", t[11]);
+                            jo1.put("groupmax", t[12]);
+                            jo1.put("groupuse", t[13]);
+                            jo1.put("intro", t[14]);
+                            jo1.put("GID", t[15]);
+                            jo1.put("code", t[16]);
+                            jo1.put("name", t[17]);
+                            jo1.put("createdate", t[18]);
+                            jo1.put("volume", t[19]);
+                            jo1.put("volumeuse", t[20]);
+                            jo1.put("space", t[21]);
+                            jo1.put("spaceuse", t[22]);
+                            jo1.put("annexlong", t[23]);
+                            jo1.put("notice", t[24]);
+                            for(int j = 0; j < lenDistrub; j++)
+                            {
+                                TDontDistrub tdd = (TDontDistrub)dontDistrubList.get(j);
+                                if(t[15].equals(Integer.valueOf(tdd.getId())))
+                                    jo1.put("dontdistrub", tdd.getIsOpen());
+                                else
+                                    jo1.put("dontdistrub", Integer.valueOf(0));
+                            }
+
+                            if(dontDistrubList == null)
+                                jo1.put("dontdistrub", Integer.valueOf(0));
+                            ja.add(jo1);
+                        }
+
+                        jo.put("code", Integer.valueOf(1));
+                        jo.put("text", ja.toString());
+                    } else
+                    {
+                        jo.put("code", Integer.valueOf(0));
+                        jo.put("text", Tips.FAIL.getText());
+                    }
+                } else
+                {
+                    jo.put("code", Integer.valueOf(0));
+                    jo.put("text", Tips.FAIL.getText());
+                }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -513,6 +547,8 @@ public class GroupServiceImpl implements GroupService {
 		
 		return jo.toString();
 	}
+	
+
 	
 	@Override
 	public String refreshGroup(String groupId, String groupName) {
@@ -650,14 +686,228 @@ public class GroupServiceImpl implements GroupService {
 				jo.put("code", -1);
 				jo.put("text", Tips.NOSECGROUP.getText());
 			} else {
-				int id = StringUtils.getInstance().strToInt(groupId);
+				//int id = StringUtils.getInstance().strToInt(groupId);
 				
-				TGroup t = groupDao.groupInfo(id);
+				//TGroup t = groupDao.groupInfo(id);
+				
+				 int id = StringUtils.getInstance().strToInt(groupId);
+	                Object t[] = groupDao.groupInfo(id);
+	                JSONObject jo1 = new JSONObject();
+	                jo1.put("mid", t[0]);
+	                jo1.put("account", t[1]);
+	                jo1.put("fullname", t[2]);
+	                jo1.put("logo", t[3]);
+	                jo1.put("telephone", t[4]);
+	                jo1.put("email", t[5]);
+	                jo1.put("address", t[6]);
+	                jo1.put("token", t[7]);
+	                jo1.put("sex", t[8]);
+	                jo1.put("birthday", t[9]);
+	                jo1.put("workno", t[10]);
+	                jo1.put("mobile", t[11]);
+	                jo1.put("groupmax", t[12]);
+	                jo1.put("groupuse", t[13]);
+	                jo1.put("intro", t[14]);
+	                jo1.put("GID", t[15]);
+	                jo1.put("code", t[16]);
+	                jo1.put("name", t[17]);
+	                jo1.put("createdate", t[18]);
+	                jo1.put("volume", t[19]);
+	                jo1.put("volumeuse", t[20]);
+	                jo1.put("space", t[21]);
+	                jo1.put("spaceuse", t[22]);
+	                jo1.put("annexlong", t[23]);
+	                jo1.put("notice", t[24]);
+	                jo.put("code", Integer.valueOf(1));
+	                jo.put("text", jo1.toString());
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public String groupListWithAction(String userId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			
+			if (userIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NULLUSER.getText());
+			} else {
+                List<TGroupMember> groupMembers = groupMemberDao.getGroupMemberForUserId(userIdInt);
+                
+                if (groupMembers != null) {
+                    ArrayList<Integer> temp = new ArrayList<Integer>();
+                    StringBuilder sb = new StringBuilder();
+                    
+                    for(int i = 0; i < groupMembers.size(); i++) {
+                    	TGroupMember t = groupMembers.get(i);
+                        int id = t.getGroupId().intValue();
+                        
+                        if(!temp.contains(id)) {
+                            sb.append(id).append(",");
+                            temp.add(id);
+                        }
+                    }
+
+                    String groups = sb.toString();
+                    
+                    if(groups != null) {
+                        groups = groups.substring(0, groups.length() - 1);
+                    }
+                    
+                    List<Object[]> groupList = groupDao.getGroupListWithCreaterInfo(groups);
+                    List<TDontDistrub> dontDistrubList = dontDistrubDao.getDistrubListForUserId(userIdInt);
+                    
+                    int lenDistrub = 0;
+                    
+                    if(dontDistrubList != null) {
+                        lenDistrub = dontDistrubList.size();
+                    }
+                    if(groupList != null) {
+                        JSONArray ja = new JSONArray();
+                        JSONArray ja1 = new JSONArray();
+                        
+                        for(int i = 0; i < groupList.size(); i++)
+                        {
+                            Object t[] = (Object[])groupList.get(i);
+                            JSONObject jo1 = new JSONObject();
+                            jo1.put("mid", t[0]);
+                            jo1.put("account", t[1]);
+                            jo1.put("fullname", t[2]);
+                            jo1.put("logo", t[3]);
+                            jo1.put("telephone", t[4]);
+                            jo1.put("email", t[5]);
+                            jo1.put("address", t[6]);
+                            jo1.put("token", t[7]);
+                            jo1.put("sex", t[8]);
+                            jo1.put("birthday", t[9]);
+                            jo1.put("workno", t[10]);
+                            jo1.put("mobile", t[11]);
+                            jo1.put("groupmax", t[12]);
+                            jo1.put("groupuse", t[13]);
+                            jo1.put("intro", t[14]);
+                            jo1.put("GID", t[15]);
+                            jo1.put("code", t[16]);
+                            jo1.put("name", t[17]);
+                            jo1.put("createdate", t[18]);
+                            jo1.put("volume", t[19]);
+                            jo1.put("volumeuse", t[20]);
+                            jo1.put("space", t[21]);
+                            jo1.put("spaceuse", t[22]);
+                            jo1.put("annexlong", t[23]);
+                            jo1.put("notice", t[24]);
+                            for(int j = 0; j < lenDistrub; j++)
+                            {
+                                TDontDistrub tdd = (TDontDistrub)dontDistrubList.get(j);
+                                if(t[15].equals(Integer.valueOf(tdd.getId())))
+                                    jo1.put("dontdistrub", tdd.getIsOpen());
+                                else
+                                    jo1.put("dontdistrub", Integer.valueOf(0));
+                            }
+
+                            if(dontDistrubList == null)
+                                jo1.put("dontdistrub", Integer.valueOf(0));
+                            if (jo1.getString("mid").equals(userId)) {
+                            	ja.add(jo1);		//我创建的
+                            } else {
+                            	ja1.add(jo1);		//我加入的
+                            }
+                        }
+                        JSONObject type = new JSONObject();
+                        type.put("ICreate", ja.toString());
+                        type.put("IJoin", ja1.toString());
+
+                        jo.put("code", Integer.valueOf(1));
+                        jo.put("text", type.toString());
+                    } else
+                    {
+                        jo.put("code", Integer.valueOf(0));
+                        jo.put("text", Tips.FAIL.getText());
+                    }
+                } else
+                {
+                    jo.put("code", Integer.valueOf(0));
+                    jo.put("text", Tips.FAIL.getText());
+                }
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();	
+	}
+
+	@Override
+	public String listGroupMemebersData(String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+			
+			if (groupIdInt == -1) {
+				jo.put("code", -1);
+				jo.put("text", Tips.NOSECGROUP.getText());
+			} else {
+				List<TGroupMember> groupMember = groupMemberDao.listGroupMembers(groupIdInt);
+				Integer[] ids = null;
+				JSONArray ja = new JSONArray();
+				
+				if (groupMember != null && groupMember.size() > 0) {
+					 ids = new Integer[groupMember.size()];
+					for(int i = 0; i < groupMember.size(); i++) {
+						int memberId = groupMember.get(i).getMemberId();
+						ids[i] = memberId;
+					}
+					
+					List<TMember> memberList = memberDao.getMultipleMemberForIds(ids);
+					
+					if (memberList != null && memberList.size() > 0) {
+						for(int i = 0; i < memberList.size(); i++) {
+							TMember t = memberList.get(i);
+							JSONObject memberObj = JSONUtils.getInstance().modelToJSONObj(t);
+							memberObj.remove("password");
+							ja.add(memberObj);
+						}
+					}
+				}
+				
+				jo.put("code", 1);
+				jo.put("text", ja.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+
+	@Override
+	public String changeGroupName(String groupId, String groupName) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			int grouIdInt = StringUtils.getInstance().strToInt(groupId);
+			int ret = groupDao.changeGroupName(grouIdInt, groupName);
+			
+			if (ret > 0) {
+				jo.put("code", 1);
+				jo.put("text", Tips.OK.getText());
+			} else {
+				jo.put("code", 0);
+				jo.put("text", Tips.FAIL.getText());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 		return jo.toString();
 	}
