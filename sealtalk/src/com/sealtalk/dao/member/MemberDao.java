@@ -9,7 +9,7 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 
 	public List getMemberPosition(Integer memberId);
 	public List getMemberRole(Integer memberId);
-	
+	public TMember getMemberByName(String name);
 	
 	/**
 	 * 登陆验证

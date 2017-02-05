@@ -3,14 +3,17 @@ package com.sealtalk.dao.adm.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
+import com.sealtalk.common.Constants;
 import com.sealtalk.dao.adm.BranchDao;
+import com.sealtalk.model.ImpUser;
 import com.sealtalk.model.TBranch;
-import com.sealtalk.model.TBranchMember;
-import com.sealtalk.model.TMember;
+import com.sealtalk.service.adm.ImpService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDao {
 
@@ -132,4 +135,51 @@ public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDa
 		return ctr.list();
 	}
 
+	@Override
+	public JSONObject testUsers(JSONArray ja) {
+		
+		ImpService impService = new ImpService(this.getSessionFactory());
+
+		JSONObject js = new JSONObject();
+		js.put(Constants.GOOD, new JSONArray());
+		js.put(Constants.WELL, new JSONArray());
+		js.put(Constants.BAD, new JSONArray());
+		
+		int i = ja.size();
+		while(i-- > 0) {
+			JSONObject j = (JSONObject)ja.get(i);
+			ImpUser user = jsonToUser(j);
+			if (impService.handleUser(user)) {
+				JSONArray jn = (JSONArray)js.get(impService.getStatus());
+				jn.add(impService.getJson());
+			}
+			else {
+				js.put("status", 3);//数据库错
+				break;
+			}
+		}
+		if (js.get("status") == null) {
+			js.put("status", 0);//解析正常
+		}
+		
+		return impService.clean(js);
+	}
+
+	private ImpUser jsonToUser(JSONObject j) {
+		
+		ImpUser user = new ImpUser();
+
+		user.setMobile((String)j.get("mobile"));
+		user.setName((String)j.get("name"));
+		user.setWorkno((String)j.get("workno"));
+		user.setSex((String)j.get("sex"));
+		user.setBranch((String)j.get("branch"));
+		user.setManager((String)j.get("manager"));
+		user.setPosition((String)j.get("position"));
+		user.setTelephone((String)j.get("telephone"));
+		user.setEmail((String)j.get("email"));
+
+		return user;
+	}
+	
 }

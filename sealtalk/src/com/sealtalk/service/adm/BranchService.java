@@ -1,11 +1,16 @@
 package com.sealtalk.service.adm;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import com.sealtalk.model.TBranch;
 import com.sealtalk.model.TBranchMember;
 import com.sealtalk.model.TMember;
 import com.sealtalk.model.TMemberRole;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public interface BranchService {
 
@@ -72,4 +77,8 @@ public interface BranchService {
 	public void delBranch(Integer branchId, Integer r, Integer organId);
 	public void movMember(Integer memberId, Integer pId, Integer toId);
 	public Integer movBranch(Integer branchId, Integer toId);
+	
+	public JSONObject testUsers(JSONArray ja);
+	public void saveimp(JSONArray ja, Integer organId);
+	public void impexcel(JSONArray ja, String path) throws FileNotFoundException, IOException;
 }

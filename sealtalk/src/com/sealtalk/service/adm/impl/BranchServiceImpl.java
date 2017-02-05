@@ -1,19 +1,30 @@
 package com.sealtalk.service.adm.impl;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.sealtalk.dao.adm.BranchDao;
 import com.sealtalk.dao.adm.BranchMemberDao;
 import com.sealtalk.dao.adm.MemberRoleDao;
+import com.sealtalk.dao.adm.PositionDao;
 import com.sealtalk.dao.member.MemberDao;
+import com.sealtalk.model.ImpUser;
 import com.sealtalk.model.TBranch;
 import com.sealtalk.model.TBranchMember;
 import com.sealtalk.model.TMember;
 import com.sealtalk.model.TMemberRole;
+import com.sealtalk.model.TPosition;
 import com.sealtalk.service.adm.BranchService;
-import com.sealtalk.utils.StringUtils;
+import com.sealtalk.utils.PasswordGenerator;
+import com.sealtalk.utils.PinyinGenerator;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -24,6 +35,7 @@ public class BranchServiceImpl implements BranchService {
 	private MemberDao memberDao;
 	private BranchMemberDao branchMemberDao;
 	private MemberRoleDao memberRoleDao;
+	private PositionDao positionDao;
 	
 	public BranchDao getBranchDao() {
 		return branchDao;
@@ -49,6 +61,13 @@ public class BranchServiceImpl implements BranchService {
 	public void setMemberRoleDao(MemberRoleDao memberRoleDao) {
 		this.memberRoleDao = memberRoleDao;
 	}
+	public PositionDao getPositionDao() {
+		return positionDao;
+	}
+	public void setPositionDao(PositionDao positionDao) {
+		this.positionDao = positionDao;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see com.sealtalk.service.adm.BranchService#getOrganTree(java.lang.Integer)
@@ -492,5 +511,168 @@ public class BranchServiceImpl implements BranchService {
 		if (branch.getParentId().intValue() == pId.intValue()) return true;
 		if (branch.getParentId().intValue() == 0) return false;
 		return this.isDecendant(branch.getParentId(), pId);
+	}
+
+	@Override
+	public JSONObject testUsers(JSONArray ja) {
+		
+		return branchDao.testUsers(ja);
+	}
+	
+	@Override
+	public void saveimp(JSONArray ja, Integer organId) {
+		
+		ArrayList<ImpUser> ua = new ArrayList<ImpUser>();
+		int i = 0;
+		while(i < ja.size()) {
+			JSONObject js = (JSONObject)ja.get(i);
+			ImpUser user = jsonToUser(js);
+			ua.add(user);
+			i++;
+		}
+		
+		// 存人员
+		Iterator<ImpUser> it = ua.iterator();
+		while(it.hasNext()) {
+			ImpUser user = it.next();
+			TMember m = new TMember();
+			m.setMobile(user.getMobile());
+			m.setFullname(user.getName());
+			m.setPinyin(PinyinGenerator.getPinYin(user.getName()));
+			m.setWorkno(user.getWorkno());
+			m.setSex(user.getSex().equals("男") ? "1" : "2");
+			m.setTelephone(user.getTelephone());
+			m.setEmail(user.getEmail());
+			m.setAccount(pinyin2account(m.getPinyin()));
+			m.setOrganId(organId);
+			m.setPassword(PasswordGenerator.getInstance().getMD5Str("111111"));
+			memberDao.save(m);
+			user.setId(m.getId());
+		}
+
+		// 存部门
+		it = ua.iterator();
+		while(it.hasNext()) {
+			ImpUser user = it.next();
+			TBranch br = this.getBranchByName(user.getBranch());
+			if (br == null) {
+				br = new TBranch();
+				br.setName(user.getBranch());
+				br.setOrganId(organId);
+				br.setParentId(0);
+				TMember m = memberDao.getMemberByName(user.getManager());
+				if (m == null) {
+					br.setManagerId(0);
+				}
+				else {
+					br.setManagerId(m.getId());
+				}
+				branchDao.save(br);
+			}
+			user.setBranchId(br.getId());
+		}
+		
+		// 存职位
+		it = ua.iterator();
+		while(it.hasNext()) {
+			ImpUser user = it.next();
+			TPosition p = positionDao.getPositionByName(organId, user.getPosition());
+			if (p == null) {
+				p = new TPosition();
+				p.setName(user.getPosition());
+				p.setOrganId(organId);
+				positionDao.save(p);
+			}
+			user.setPositionId(p.getId());
+		}		
+
+		// 存部门人员
+		it = ua.iterator();
+		while(it.hasNext()) {
+			ImpUser user = it.next();
+			TBranchMember bm = new TBranchMember();
+			bm.setBranchId(user.getBranchId());
+			bm.setMemberId(user.getId());
+			bm.setPositionId(user.getPositionId());
+			branchMemberDao.save(bm);
+		}		
+		
+		// 发短信
+		it = ua.iterator();
+		while(it.hasNext()) {
+			ImpUser user = it.next();
+			
+		}
+	}
+
+	private String pinyin2account(String pinyin) {
+	
+		TMember m = memberDao.getOneOfMember(pinyin);
+		if (m == null) return pinyin;
+		
+		int i = 0;
+		while (true) {
+			String account = pinyin + String.valueOf(i);
+			m = memberDao.getOneOfMember(account);
+			if (m == null) return account;
+			i++;
+		}
+	}
+	
+	private ImpUser jsonToUser(JSONObject j) {
+		
+		ImpUser user = new ImpUser();
+
+		user.setMobile((String)j.get("mobile"));
+		user.setName((String)j.get("name"));
+		user.setWorkno((String)j.get("workno"));
+		user.setSex((String)j.get("sex"));
+		user.setBranch((String)j.get("branch"));
+		user.setManager((String)j.get("manager"));
+		user.setPosition((String)j.get("position"));
+		user.setTelephone((String)j.get("telephone"));
+		user.setEmail((String)j.get("email"));
+
+		return user;
+	}
+
+	@Override
+	public void impexcel(JSONArray ja, String path) throws IOException {
+		
+		String[] head = {"手机号","姓名","工号","性别","所属部门","部门领导","职位","座机号","邮箱"};
+		String[] code = {"mobile","name","workno","sex","branch","manager","position","telephone","email"};
+
+		XSSFWorkbook wb = new XSSFWorkbook();
+		XSSFSheet sh = wb.createSheet();
+		
+		int i = 9;
+		while(i-- > 0) {
+//			sh.setColumnWidth(i, 2000);
+		}
+		
+		XSSFRow row = sh.createRow(0);
+		i = 0;
+		while (i < 9) {
+			XSSFCell cell = row.createCell(i);
+			cell.setCellValue(head[i]);
+			i++;
+		}
+		
+		i = 0;
+		while (i < ja.size()) {
+			XSSFRow r = sh.createRow(i + 1);
+			JSONObject js = (JSONObject)ja.get(i);
+			int j = 0;
+			while (j < 9) {
+				XSSFCell c = r.createCell(j);
+				c.setCellValue((String)js.get(code[j]));
+				j++;
+			}
+			i++;
+		}
+		
+		FileOutputStream fo = new FileOutputStream(path);
+		wb.write(fo);
+		fo.close();
 	}
 }

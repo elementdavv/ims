@@ -16,7 +16,7 @@
 	<div class='h50px'></div>
 	<div class='h5px'></div>
 	
-	<div id='imp1' style='display:none'>
+	<div id='imp1' style='display:'>
 		<div class='dialogtitle2'>
 			<img src='images/1.png' />
 		</div>
@@ -34,14 +34,14 @@
 			</button>
 		</div>
 		<div style='display:none'>
-				<form method='post' id='impform' enctype="multipart/form-data" target='imptarget'>
+			<form method='post' id='impform' enctype="multipart/form-data" target='imptarget'>
 				<input type="file" name="impfile"  id='impfile' />
 			</form>
 		</div>
 		<iframe name='imptarget' style='display:none'></iframe>
 	</div>
 
-	<div id='imp2'>
+	<div id='imp2' style='display:none'>
 		<div class='dialogtitle2'>
 			<img src='images/2.png' />
 		</div>
@@ -50,7 +50,7 @@
 			<span class='result'>
 				<img src='images/close.png' />
 				<span style='padding: 0 0 0 5px;cursor:pointer'>格式错误：
-					<span style='color: #fc7a8c;margin:0 5px 0 5px'>0</span>个
+					<span id='cbad' style='color: #fc7a8c;margin:0 5px 0 5px'>0</span>个
 				</span>
 			</span>
 			<span style='color: #fc7a8c;padding: 0 0 0 135px'>(注：红色字段为出错项，请双击修改，如不修改，将无法被导入)</span>
@@ -72,18 +72,18 @@
 							<th width="40px"></th>
 						</tr>
 					</thead>
-					<tbody id='impl1'>
+					<tbody id='implbad'>
 			 			<tr>
-							<td class='errimp' title='双击修改'>123</td>
-							<td>jjj</td>
-							<td>222</td>
-							<td>男</td>
-							<td>行政部</td>
-							<td>333</td>
-							<td>UI设计师</td>
-							<td>444</td>
-							<td>jjj@mail</td>
-							<td><img src='images/delete.png' title='删除' /></td>
+							<td field='tdmobile' class='errimp' title='双击修改'>123</td>
+							<td field='tdname'>jjj</td>
+							<td field='tdworkno'>222</td>
+							<td field='tdsex'>男</td>
+							<td field='tdbranch'>行政部</td>
+							<td field='tdmanager'>333</td>
+							<td field='tdposition'>UI设计师</td>
+							<td field='tdtelephone'>444</td>
+							<td field='tdemail'>jjj@mail</td>
+							<td><img class='deltr' src='images/delete.png' title='删除' /></td>
 		 				</tr>
 					</tbody>
 				</table>
@@ -93,7 +93,7 @@
 			<span class='result'>
 				<img src='images/close.png' />
 				<span style='padding: 0 0 0 5px;cursor:pointer'>格式正确：且已加入组织
-					<span style='color: #ffba00;margin:0 5px 0 5px'>0</span>个
+					<span id='cwell' style='color: #ffba00;margin:0 5px 0 5px'>0</span>个
 				</span>
 			</span>
 			<span style='color: #ffba00;padding: 0 0 0 290px'>(注：将不会重复导入)</span>
@@ -115,7 +115,7 @@
 							<th width="40px"></th>
 						</tr>
 					</thead>
-					<tbody id='impl2'>
+					<tbody id='implwell'>
 			 			<tr>
 							<td>123</td>
 							<td>jjj</td>
@@ -136,7 +136,7 @@
 			<span class='result'>
 				<img src='images/open.png' />
 				<span style='padding: 0 0 0 5px;cursor:pointer'>格式正确：且未加入组织
-					<span style='color: #40d4a3;margin:0 5px 0 5px'>0</span>个
+					<span id='cgood' style='color: #40d4a3;margin:0 5px 0 5px'>0</span>个
 				</span>
 			</span>
 			<span style='color: #40d4a3;padding: 0 0 0 122px'>(注：系统将自动为他们分配帐号，并发短信通知他们)</span>
@@ -158,7 +158,7 @@
 							<th width="40px"></th>
 						</tr>
 					</thead>
-					<tbody id='impl3'>
+					<tbody id='implgood'>
 			 			<tr>
 							<td>123</td>
 							<td>jjj</td>
@@ -187,7 +187,7 @@
 		</div>
 		<div class='dialogtitle3' style='margin-top: 55px;'>
 			<span style='font-size: 18px;margin-right: 5px'>操作完成</span>
-			<a href='../../upload/表格.xls' style='font-size: 12px; color:rgb(255,162,0)'>保存表格到本地</a>
+			<a href='../../upload/导入成功.xls' style='font-size: 12px; color:rgb(255,162,0)'>保存表格到本地</a>
 		</div>
 		<div class='dialogtitle3' style='margin-bottom:30px;'>
 		 	<span style='font-size: 12px;color: rgb(128,128,128)'>您可以去“组织结构”页面，拖动调整分支的层级位置!</span>

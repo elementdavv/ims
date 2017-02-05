@@ -21,6 +21,21 @@ import com.sealtalk.utils.TimeGenerator;
 public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDao {
 
 	@Override
+	public TMember getMemberByName(String name) {
+
+		Criteria ctr = getCriteria();
+		ctr.add(Restrictions.eq("fullname", name));
+		
+		List list = ctr.list();
+		
+		if (list.size() > 0) {
+			return (TMember) list.get(0);
+		}
+		
+		return null;
+	}
+
+	@Override
 	public List getMemberPosition(Integer memberId) {
 
 		String sql = "select position_id, branch_id, id from t_branch_member"

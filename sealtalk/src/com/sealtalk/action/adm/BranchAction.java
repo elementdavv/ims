@@ -3,6 +3,8 @@
  */
 package com.sealtalk.action.adm;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +23,7 @@ import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -438,5 +441,36 @@ public class BranchAction extends BaseAction {
 		returnToClient(jo.toString());
 		return "text";
 	}
+	
+	public String impcheck() throws ServletException {
 		
+		String jtext = this.request.getParameter("jtext");
+		JSONArray ja = JSONArray.fromObject(jtext);
+		
+		JSONObject js = branchService.testUsers(ja);
+		
+		returnToClient(js.toString());
+		
+		return "text";
+	}
+	
+	public String impsave() throws ServletException, FileNotFoundException, IOException {
+
+		String jtext = this.request.getParameter("jtext");
+		JSONArray ja = JSONArray.fromObject(jtext);
+
+		branchService.saveimp(ja, this.getOrganId());
+		
+		String path = request.getServletContext().getRealPath("./upload/导入成功.xlsx");
+		branchService.impexcel(ja, path);
+		
+		JSONObject js = new JSONObject();
+		js.put("status", 0);
+		js.put("succeed", ja.size());
+		js.put("fail", 0);
+
+		returnToClient(js.toString());
+
+		return "text";
+	}
 }

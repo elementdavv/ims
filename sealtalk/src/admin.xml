@@ -25,6 +25,7 @@
 		<property name="memberDao" ref="memberDao" />
 		<property name="branchMemberDao" ref="branchMemberDao" />
 		<property name="memberRoleDao" ref="memberRoleDao" />
+		<property name="positionDao" ref="positionDao" />
 	</bean>
 	<bean id="privService" class="com.sealtalk.service.adm.impl.PrivServiceImpl" autowire="byName" >
 		<property name="privDao" ref="privDao" />
