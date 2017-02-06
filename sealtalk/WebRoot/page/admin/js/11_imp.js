@@ -66,8 +66,9 @@ $(document).ready(function() {
 					'message': '请选择XLS、XLSX格式文件.',
 				});
 			}
-			$('#impform').empty();
-			$('#impform').append('<input type="file" name="impfile"  id="impfile" />');
+			$('#impfile').val('');
+//			$('#impform').empty();
+//			$('#impform').append('<input type="file" name="impfile"  id="impfile" />');
 		}
 	});
 });
@@ -197,6 +198,7 @@ function onimp() {
 		var d = $(window.frames["imptarget"].document);
 		if (d.children(0)[0].innerText != '') {
 			var t = d.children(0)[0].innerText;
+			$(d.children(0)[0]).empty();
 			if (t.indexOf('status') > 0) {
 				clearInterval(tid);
 				var ret = $.parseJSON(t);

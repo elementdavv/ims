@@ -546,6 +546,8 @@ public class BranchServiceImpl implements BranchService {
 			m.setAccount(pinyin2account(m.getPinyin()));
 			m.setOrganId(organId);
 			m.setPassword(PasswordGenerator.getInstance().getMD5Str("111111"));
+			m.setGroupmax(0);
+			m.setGroupuse(0);
 			memberDao.save(m);
 			user.setId(m.getId());
 		}
@@ -567,6 +569,7 @@ public class BranchServiceImpl implements BranchService {
 				else {
 					br.setManagerId(m.getId());
 				}
+				br.setListorder(0);
 				branchDao.save(br);
 			}
 			user.setBranchId(br.getId());
@@ -581,6 +584,7 @@ public class BranchServiceImpl implements BranchService {
 				p = new TPosition();
 				p.setName(user.getPosition());
 				p.setOrganId(organId);
+				p.setListorder(0);
 				positionDao.save(p);
 			}
 			user.setPositionId(p.getId());
@@ -594,6 +598,8 @@ public class BranchServiceImpl implements BranchService {
 			bm.setBranchId(user.getBranchId());
 			bm.setMemberId(user.getId());
 			bm.setPositionId(user.getPositionId());
+			bm.setIsMaster("1");
+			bm.setListorder(0);
 			branchMemberDao.save(bm);
 		}		
 		

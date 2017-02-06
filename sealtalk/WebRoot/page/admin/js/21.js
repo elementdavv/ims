@@ -441,7 +441,7 @@ function cb_212_save(data) {
 }
 function delrole() {
 	if (currole == 1) {
-		bootbox.alert({title:'提示', message:'组织管理员身份不能删除.'});
+		bootbox.alert({title:'提示', message:'不能删除组织管理员.'});
 		return;
 	}
 

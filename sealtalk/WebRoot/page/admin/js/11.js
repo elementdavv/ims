@@ -552,6 +552,11 @@ function del(tId) {
 		return;
 	}
 	
+	if (ns[0].id == '10001') {
+		bootbox.alert({title:'提示', message:'不能删除组织管理员.'});
+		return;
+	}
+	
 	//权限
 	else if (ns[0].flag == 1) {
 		if (!has('bmglsc')) {
