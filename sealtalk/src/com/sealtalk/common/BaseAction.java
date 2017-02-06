@@ -19,6 +19,7 @@ import org.directwebremoting.WebContextFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.sealtalk.model.SessionUser;
+import com.sealtalk.model.TMember;
 import com.sealtalk.utils.StringUtils;
 
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware

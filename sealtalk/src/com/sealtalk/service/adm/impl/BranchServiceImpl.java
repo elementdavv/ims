@@ -25,6 +25,7 @@ import com.sealtalk.model.TPosition;
 import com.sealtalk.service.adm.BranchService;
 import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
+import com.sealtalk.utils.StringUtils;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -250,7 +251,7 @@ public class BranchServiceImpl implements BranchService {
 	@Override
 	public TMember getMemberByAccount(String account) {
 		
-		return memberDao.getOneOfMember(account);
+		return memberDao.getOneMember(account);
 	}
 
 	/*
@@ -613,13 +614,13 @@ public class BranchServiceImpl implements BranchService {
 
 	private String pinyin2account(String pinyin) {
 	
-		TMember m = memberDao.getOneOfMember(pinyin);
+		TMember m = memberDao.getOneMember(pinyin);
 		if (m == null) return pinyin;
 		
 		int i = 0;
 		while (true) {
 			String account = pinyin + String.valueOf(i);
-			m = memberDao.getOneOfMember(account);
+			m = memberDao.getOneMember(account);
 			if (m == null) return account;
 			i++;
 		}

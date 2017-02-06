@@ -39,15 +39,6 @@ public class BranchAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 		
-	private BranchService branchService;
-
-	public BranchService getBranchService() {
-		return branchService;
-	}
-	public void setBranchService(BranchService branchService) {
-		this.branchService = branchService;
-	}
-	
 	/*
 	 * 取部门树
 	 * by alopex

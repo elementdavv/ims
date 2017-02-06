@@ -61,7 +61,6 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 		return list;
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public TMember searchSigleUser(String name, String password) {
@@ -370,31 +369,6 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 		return 0;
 	}
 	
-	@Override
-	public List getMemberPosition(Integer memberId) {
-
-		String sql = "select position_id, branch_id, id from t_branch_member"
-				+ " where member_id = " + memberId 
-				+ " order by is_master desc";
-		SQLQuery query = this.getSession().createSQLQuery(sql);
-		
-		List list = query.list();
-		
-		return list;
-	}
-
-	@Override
-	public List getMemberRole(Integer memberId) {
-
-		String sql = "select role_id from t_member_role"
-				+ " where member_id = " + memberId;
-		SQLQuery query = this.getSession().createSQLQuery(sql);
-		
-		List list = query.list();
-		
-		return list;
-	}
-
 	@Override
 	public boolean updateUserPwd(String account, String md5Pwd) {
 		
