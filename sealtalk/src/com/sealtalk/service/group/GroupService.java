@@ -70,7 +70,7 @@ public interface GroupService {
 	public String transferGroup(String userid, String groupid);
 
 	/**
-	 * 获取群成员
+	 * 获取群成员,仅返回成员id
 	 * @param groupid
 	 * @return
 	 */
@@ -90,4 +90,25 @@ public interface GroupService {
 	 * @return
 	 */
 	public String groupInfo(String groupid);
+
+	/**
+	 * 获取群组列表，分我建的和我加入的
+	 * @param userid
+	 * @return
+	 */
+	public String groupListWithAction(String userid);
+
+	/**
+	 * 获取群成员，返回成员数据
+	 * @param groupid
+	 * @return
+	 */
+	public String listGroupMemebersData(String groupid);
+
+	/**
+	 * 修改群名称
+	 * @param groupid
+	 * @return
+	 */
+	public String changeGroupName(String groupId, String groupName);
 }

@@ -33,7 +33,7 @@ public interface GroupMemberDao {
 	 * @param userIdsInt
 	 * @param groupIdInt
 	 */
-	public void removeGroupMemeber(Integer[] userIdsInt, int groupIdInt);
+	public void removeGroupMemeber(String userIdsInt, int groupIdInt);
 
 	/**
 	 * 删除群成员
@@ -62,7 +62,7 @@ public interface GroupMemberDao {
 	 * @param groupId
 	 * @return
 	 */
-	public TGroupMember getGroupMemberCreator(String groupId);
+	public TGroupMember getGroupMemberCreator(int groupId);
 
 	/**
 	 * 获取群成员
@@ -85,4 +85,5 @@ public interface GroupMemberDao {
 	 */
 	public void delGroupMemberForMemberIdsAndGroupId(int groupIdInt,
 			String needDelStr);
+
 }

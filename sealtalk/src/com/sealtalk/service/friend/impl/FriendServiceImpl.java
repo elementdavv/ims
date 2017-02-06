@@ -15,6 +15,7 @@ import com.sealtalk.model.TMember;
 import com.sealtalk.service.friend.FriendService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.RongCloudUtils;
+import com.sealtalk.utils.StringUtils;
 
 /**
  * 好友关系
@@ -34,49 +35,76 @@ public class FriendServiceImpl implements FriendService {
 		System.out.println("friend: " + friend);
 		
 		try {
-			//检查好友及用户是否存在
-			String[] mulMemberStr = {account, friend};
-			List<TMember> memberList = memberDao.getMultipleMemberForAccounts(mulMemberStr);
-			
-			if (memberList == null || memberList.size() != 2) {
-				jo.put("code", -1);
-				jo.put("text", Tips.FAILADDFRIEND.getText());
-			} else {
-				int accountId = 0;
-				int friendId = 0;
+			if (!StringUtils.getInstance().isBlank(account) && !StringUtils.getInstance().isBlank(friend)) {
+				friend = StringUtils.getInstance().replaceChar(friend, "\"", "");
+				friend = StringUtils.getInstance().replaceChar(friend, "[", "");
+				friend = StringUtils.getInstance().replaceChar(friend, "]", "");
 				
-				//取出账号id
-				for (int i = 0; i < memberList.size(); i++) {
-					TMember tm = memberList.get(i);
-					if (account.equals(tm.getAccount())) {
-						accountId = tm.getId();
-					}
-					if (friend.equals(tm.getAccount())) {
-						friendId = tm.getId();
-					}
-				}
+				String[] friendIds = null;
 				
-				//判断是否已存在好友关系
-				TFriend friendRelation = friendDao.getFriendRelation(accountId, friendId);
-				
-				if (friendRelation == null) {
-					//增加好友关系
-					friendDao.addFriend(accountId, friendId);
-					jo.put("code", 1);
-					jo.put("text", Tips.SUCADDFRIEND.getName());
+				if (friend.indexOf(",") != -1) {
+					friendIds = friend.split(",");
 				} else {
-					jo.put("code", 0);
-					jo.put("text", Tips.HAVEFRIENDRELATION.getName());
+					friendIds = new String[1];
+					friendIds[0] = friend;
 				}
 				
-				String[] targetIds = {friendId+""};
-				//通知融云
-				RongCloudUtils.getInstance().sendSysMsg(accountId+"", targetIds, "", "");
+				//检查好友及用户是否存在
+				String[] mulMemberStr = new String[friendIds.length + 1];
+				System.arraycopy(friendIds, 0, mulMemberStr, 0, friendIds.length);
+				mulMemberStr[friendIds.length] = account;
+				List<TMember> memberList = memberDao.getMultipleMemberForAccounts(mulMemberStr);
+				
+				if (memberList == null || memberList.size() == 0) {
+					jo.put("code", -1);
+					jo.put("text", Tips.FAILADDFRIEND.getText());
+				} else {
+					int accountId = 0;
+					Integer[] friendId = new Integer[memberList.size() - 1];
+					String[] targetIds = new String[memberList.size() - 1];
+					
+					int j = 0;
+					//取出账号id
+					for (int i = 0; i < memberList.size(); i++) {
+						TMember tm = memberList.get(i);
+						if (account.equals(tm.getAccount())) {
+							accountId = tm.getId();
+						} else {
+							friendId[j] = Integer.valueOf(tm.getId());
+							targetIds[j] = tm.getId() + "";
+							j++;
+						}
+					}
+					
+					//判断是否已存在好友关系
+					List<TFriend> friendRelation = friendDao.getFriendRelationForFriendIds(accountId, friendId);
+					
+					for(int i = 0; i < friendId.length; i++) {
+					//	TFriend tf = friendRelation.get(i);
+					//	if (tf == null) {
+							friendDao.addFriend(accountId, friendId[i]);
+						//}
+					}
+					jo.put("code", 1);
+					jo.put("text", Tips.SUCADDFRIEND.getText());
+					/*if (friendRelation == null) {
+						//增加好友关系
+						friendDao.addFriend(accountId, friendId);
+						jo.put("code", 1);
+						jo.put("text", Tips.SUCADDFRIEND.getText());
+					} else {
+						jo.put("code", 0);
+						jo.put("text", Tips.HAVEFRIENDRELATION.getText());
+					}*/
+					
+					//String[] targetIds = {friendId+""};
+					//通知融云
+					RongCloudUtils.getInstance().sendSysMsg(accountId+"", targetIds, "", "", 1);
+				}
 			}
-			
 		} catch (Exception e) {
 			jo.put("code", -1);
-			jo.put("text", Tips.FAILADDFRIEND.getName());
+			jo.put("text", Tips.FAILADDFRIEND.getText());
 			e.printStackTrace();
 		}
 		
@@ -93,7 +121,7 @@ public class FriendServiceImpl implements FriendService {
 		
 		if (memberList == null || memberList.size() != 2) {
 			jo.put("code", -1);
-			jo.put("text", Tips.FAILDELFRIEND.getName());
+			jo.put("text", Tips.FAILDELFRIEND.getText());
 		} else {
 			int accountId = 0;
 			int friendId = 0;
@@ -116,10 +144,10 @@ public class FriendServiceImpl implements FriendService {
 				//删除好友关系
 				friendDao.delFriend(accountId, friendId);
 				jo.put("code", 1);
-				jo.put("text", Tips.SUCDELFRIEND.getName());
+				jo.put("text", Tips.SUCDELFRIEND.getText());
 			} else {
 				jo.put("code", 0);
-				jo.put("text", Tips.NOHAVEFRIENDRELATION.getName());
+				jo.put("text", Tips.NOHAVEFRIENDRELATION.getText());
 			}
 		}
 		
@@ -182,7 +210,7 @@ public class FriendServiceImpl implements FriendService {
 			if (!status) {
 				JSONObject jo = new JSONObject();
 				jo.put("code", 0);
-				jo.put("text", Tips.HAVEZEROFRIEND.getName());
+				jo.put("text", Tips.HAVEZEROFRIEND.getText());
 				
 				result = jo.toString();
 			} 

@@ -16,7 +16,7 @@ public class MessageServiceImpl implements MessageService {
 			
 			strArr = targetids.split(",");
 			
-			String result = RongCloudUtils.getInstance().sendSysMsg(fromid, strArr, msg, extraMsg);
+			String result = RongCloudUtils.getInstance().sendSysMsg(fromid, strArr, msg, extraMsg, 1);
 			
 			return result;
 		} catch (Exception e) {

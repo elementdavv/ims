@@ -39,10 +39,22 @@ public class FunctionDaoImpl extends BaseDao<TFunction, Long> implements Functio
 	@Override
 	public void setFunctionStatus(TFunction tf) {
 		try {
-			saveOrUpdate(tf);
+			save(tf);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void updateFunctionStatus(String name, String status) {
+		try {
+			
+			String hql = "update TFunction t set t.isOpen='" + status + "' where name='" + name + "'";
+			update(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

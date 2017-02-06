@@ -10,6 +10,7 @@ import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.service.upload.UploadService;
 
+
 public class UploadAction extends BaseAction {  
  
 	private static final long serialVersionUID = 74195611146343183L;

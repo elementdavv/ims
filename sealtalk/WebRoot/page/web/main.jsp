@@ -22,7 +22,7 @@
 
     <script src="<%=request.getContextPath() %>/page/web/js/config.js"></script>
 
-    <script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/RongIMLib.js"></script>
 
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mobile.custom.js"></script>
@@ -38,7 +38,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>
 
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
-    <script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
+    <%--<script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>--%>
     <script src="http://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
     <script src="http://webapi.amap.com/js/marker.js"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=acafe737e6344c4ce19d101b9f3b1d03"></script>
@@ -67,14 +67,15 @@
 
     </head>
 <body>
-    <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
+    <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
 <div class="chatHeader">
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
-        <li bindPanel="back">后台管理</li>
+        <%--<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li> --%>
+        <li bindPanel="back">后台管理</li>  
     </ul>
     <ul class="chatHeaderOper">
         <li class="chatLeftIcon"></li>
@@ -155,7 +156,6 @@
         </li>
     </ul>
 </div>
-
 
 <!--聊天部分-->
 <div class="chatBoxOuter">

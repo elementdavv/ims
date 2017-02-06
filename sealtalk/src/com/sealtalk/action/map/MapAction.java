@@ -27,6 +27,7 @@ public class MapAction extends BaseAction {
 	
 	/**
 	 * 获取好友或群组成员位置 
+	 * type:1群id,2好友id，3所有人，4所有好友
 	 * @return
 	 * @throws Exception
 	 */

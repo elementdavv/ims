@@ -3,6 +3,8 @@ package com.sealtalk.dao.friend.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
@@ -12,7 +14,7 @@ import com.sealtalk.model.TFriend;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
- * @功能  好友关系数据管理层
+ * 好友关系数据管理层
  * @author hao_dy
  * @date 2017/01/04
  * @since jdk1.7
@@ -83,6 +85,51 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 			ctr.add(Restrictions.eq("memberId", id));
 			
 			List<TFriend> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TFriend> getFriendRelationForFriendIds(int accountId,
+			Integer[] friendId) {
+		try {
+			
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.and(Restrictions.eq("memberId", accountId), Restrictions.in("friendId", friendId)));
+			
+			List<TFriend> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TFriend> getFriendRelationForIdWithLimit(int userId, int limit) {
+		String sql = (new StringBuilder("from TFriend where member_id=").append(userId)).toString();
+		
+		try {
+			Query query = getSession().createQuery(sql);
+			query.setFirstResult(0);
+			query.setMaxResults(limit);
+			
+			List<TFriend> list = query.list();
 			
 			if (list.size() > 0) {
 				return list;

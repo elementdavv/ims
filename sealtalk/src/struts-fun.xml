@@ -5,7 +5,8 @@
 
 <struts>
 
-    <!--  <package name="com.sealtalk.action.fun" extends="ssl-default">-->
+	<!-- ssl-default -->
+	<!-- struts-default -->
    <package name="com.sealtalk.action.fun" extends="struts-default">
    		<!-- 辅助功能管理 -->
         <action name="fun" class="com.sealtalk.action.fun.FunctionAction">

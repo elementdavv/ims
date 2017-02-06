@@ -312,4 +312,6 @@ public interface IBaseDao<T, PK extends Serializable> {
     public void saveOrUpdateClear(T obj);
     
     public T mergeObj(T obj);
+    
+    public Integer getMax(String field, String hql);
 }

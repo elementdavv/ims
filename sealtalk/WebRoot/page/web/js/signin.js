@@ -109,12 +109,45 @@ function signin(){
             data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(data);
         }
+        //event.preventDefault()
+        //window.Electron.remote.BrowserWindow.loadURL('http://localhost:8080/sealtalk/page/web/main.jsp')
+        //window.Electron.configInfo.loadURL('http://localhost:8080/sealtalk/page/web/main.jsp');
+        //window.open('http://localhost:8080/sealtalk/page/web/main.jsp','_parent');
+        //if(window.Electron){
+        //    window.Electron.remote.getCurrentWindow().loadUrl('http://localhost:8080/sealtalk/page/web/main.jsp');
+        //}
+        //shell.openExternal('http://localhost:8080/sealtalk/page/web/main.jsp');
+        //if(2!=1){
+        //    event.preventDefault();
+        //    window.location.href="http://www.baidu.com";
+        //    window.event.returnValue=false;
+        //}
+
         //window.location.href = 'system!login';
-        //window.open('system!login');
+        //window.open('http://localhost:8080/sealtalk/page/web/main.jsp','_parent');
+        //console.log(window.location.href)
+        //window.location.href = 'http://localhost:8080/sealtalk/page/web/main.jsp';
         //console.log(window.location.href);
-        window.location.href = 'http://localhost:8080/sealtalk/page/web/main.jsp';
+        //document.URL=location.href;
+        //location.replace('main.jsp');
         //console.log(window.location.href);
-        //window.location.href = 'system!login';
+        //var pageURL = window.location.href.split('?')[0];
+        //remote.getCurrentWindow().loadUrl('http://localhost:8080/sealtalk/page/web/main.jsp')
+        //window.location.href = pageURL;
+        //window.navigate("system!login");
+        //window.location.reload(true);
+        //history.go(0)
+        //window.location=window.location;
+    },function(){
+        new Window().alert({
+            title   : '',
+            content : '用户名或密码输入错误！',
+            hasCloseBtn : false,
+            hasImg : true,
+            textForSureBtn : false,
+            textForcancleBtn : false,
+            autoHide:true
+        });
     });
 }
 

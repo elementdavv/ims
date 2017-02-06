@@ -60,12 +60,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public String getOneOfMember(String account) {
+	public String getOneOfMember(String userId) {
 
 		JSONObject jo = new JSONObject();
 		
 		try {
-			Object[] member = memberDao.getOneOfMember(account);
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			
+			Object[] member = memberDao.getOneOfMember(userIdInt);
 			
 			if (member == null) {
 				jo.put("code", 0);
@@ -205,6 +207,48 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
+
+	@Override
+	public String updateMemberInfo(String account, String fullname, String sex,
+			String position, String branch, String email, String phone,
+			String sign) {
+		
+		JSONObject jo = new JSONObject();
+		
+		try {
+			sex = sex.equals("男") ? "1" : "0";
+			int ret = memberDao.updateMemeberInfo(account, fullname, sex, email, phone, sign);
+			
+			if (ret > 0) {
+				jo.put("code", 1);
+				jo.put("text", Tips.OK.getText());
+			} else {
+				jo.put("code", 0);
+				jo.put("text", Tips.FAIL.getText());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public boolean updateUserPwd(String account, String newPwd) {
+		boolean status = false;
+		
+		try {
+			String md5Pwd = PasswordGenerator.getInstance().getMD5Str(newPwd);
+			
+			status = memberDao.updateUserPwd(account, md5Pwd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return status;
+	}
+
 	
 	private String isBlank(Object o) {
 		return o == null ? "" : o + "";
@@ -228,5 +272,5 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDao getMemberDao() {
 		return memberDao;
 	}
-	
+
 }

@@ -3,6 +3,7 @@ package com.sealtalk.dao.group.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 
 import com.sealtalk.common.BaseDao;
@@ -145,6 +146,23 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 		
 		return null;
 	}
+	
+	public List<Object[]> getGroupListWithCreaterInfo(String groupIds) {
+        try
+        {
+            String hql = (new StringBuilder("select M.id MID,M.account,M.fullname,M.logo,M.telephone,M.email,M.address,M.token,M.sex,M.birthday,M.workno,M.mobile,M.groupmax,M.groupuse,M.intro,G.id GID,G.code,G.name,G.createdate,G.volume,G.volumeuse,G.space,G.spaceuse,G.annexlong,G.notice from t_member M right join t_group G on G.creator_id=M.id where G.id in (")).append(groupIds).append(")").toString();
+       
+            SQLQuery query = getSession().createSQLQuery(hql);
+            List list = query.list();
+            
+            return list;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 	@Override
 	public int removeGroupForGroupId(String groupId) {
@@ -177,7 +195,7 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 	@Override
 	public int changeGroupName(int groupIdInt, String groupName) {
 		try {
-			String hql = "update TGroup t set t.name=" + groupName + " where t.id=" + groupIdInt;
+			String hql = "update TGroup t set t.name='" + groupName + "' where t.id=" + groupIdInt;
 			
 			int result = update(hql);
 			
@@ -204,8 +222,8 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TGroup groupInfo(int id) {
-		try {
+	public Object[] groupInfo(int id) {
+		/*try {
 			
 			Criteria ctr = getCriteria();
 			ctr.add(Restrictions.eq("id", id));
@@ -218,9 +236,22 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
-		return null;
+		try
+        {
+            String hql = (new StringBuilder("select M.id MID,M.account,M.fullname,M.logo,M.telephone,M.email,M.address,M.token,M.sex,M.birthday,M.workno,M.mobile,M.groupmax,M.groupuse,M.intro,G.id GID,G.code,G.name,G.createdate,G.volume,G.volumeuse,G.space,G.spaceuse,G.annexlong,G.notice from t_member M right join t_group G on G.creator_id=M.id where G.id=")).append(id).toString();
+            SQLQuery query = getSession().createSQLQuery(hql);
+            List list = query.list();
+            if(list.size() > 0)
+                return (Object[])list.get(0);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+		
 	}
 
 }
