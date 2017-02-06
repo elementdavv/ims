@@ -67,7 +67,7 @@
 
     </head>
 <body>
-    <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
+    <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
 <div class="chatHeader">
@@ -140,7 +140,7 @@
 </div>
 
 <!--后台管理-->
-<div class="chatContent back chatHide">
+<div class="chatContent  chatHide personalCenter">
     <ul class="backstageMg" id="backstageMgId">
         <li class="clearfix">
             <em class="bMg-personalSet"></em>

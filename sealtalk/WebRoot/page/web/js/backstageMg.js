@@ -354,7 +354,7 @@ function fPersonalSet(){
     var oData= JSON.parse(sData);
     var sName=oData.text.fullname;//姓名
     var sAccountNum=oData.text.account;//成员账号
-    var sSex=oData.text.sex;//性别
+    var sSex=oData.text.sex || '女';//性别
     var sPosition=oData.text.account;//职位
     var sBranch=oData.text.sex;//部门
     var sEmail=oData.text.email;//邮箱
