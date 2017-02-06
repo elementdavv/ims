@@ -1,9 +1,11 @@
 $(document).ready(function(){
 	
+	$('#member').validVal();
+
 	$($('#tree11memberwrap')).css({
 		'left': $('#11memberbranch').position().left, 
-		'top': $('#11memberbranch').position().top + 23, 
-		'width': $('#11memberbranch').width() + 4
+		'top': $('#11memberbranch').position().top + 33, 
+		'width': $('#11memberbranch').width() + 20
 	});
 	$('#container').click(function(){
 		if ($('.treewrap1').is(':visible')) {
@@ -25,6 +27,8 @@ $(document).ready(function(){
 		return false;
 	});
 	$('#save11member').click(function() {
+		if ($( "#member" ).triggerHandler( "submitForm" ) == false) return;
+
 		var data = {
 				memberaccount: $('#11memberaccount').val(),
 				membermobile: $('#11membermobile').val(),
@@ -41,10 +45,10 @@ $(document).ready(function(){
 })
 function cb_11_save_member(data) {
 	if (data.memberid == '0') {
-		alert('帐号已存在，请重新输入.');
+		bootbox.alert({'title':'提示', 'message':'帐号已存在，请重新输入.'});
 	}
 	else {
-		alert('添加成功.');
+		bootbox.alert({'title':'提示', 'message':'添加成功.'});
 		callajax("branch!getOrganTree", "", cb_11_tree);
 		if ($('#11membercontinue').prop('checked') == false) {
 			$('#member').modal('hide');

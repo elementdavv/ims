@@ -1,5 +1,6 @@
 package com.sealtalk.service.adm.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.sealtalk.dao.adm.MemberRoleDao;
@@ -75,7 +76,7 @@ public class PrivServiceImpl implements PrivService {
 	}
 
 	@Override
-	public void saveRole(Integer roleId, String roleName, String privs) {
+	public Integer saveRole(Integer roleId, String roleName, String privs) {
 
 		TRole role = roleDao.get(roleId);
 		if (role == null) {
@@ -95,6 +96,8 @@ public class PrivServiceImpl implements PrivService {
 			rolePriv.setPrivId(Integer.parseInt(pa[i]));
 			rolePrivDao.save(rolePriv);
 		}
+		
+		return role.getId();
 	}
 	@Override
 	public void delRole(Integer roleId) {
@@ -118,7 +121,21 @@ public class PrivServiceImpl implements PrivService {
 			memberRoleDao.save(mr);
 		}
 	}
-	
+	@Override
+	public String getPrivStringByMember(Integer memberId) {
+		
+		List list = roleDao.getPrivByMember(memberId);
+		Iterator it = list.iterator();
+		
+		StringBuffer privs = new StringBuffer(",");
+		while(it.hasNext()) {
+			Object[] o = (Object[])it.next();
+			privs.append(o[4] + ",");
+		}
+		
+		return privs.toString();
+	}
+		
 	/**
 	 * 根据用户id获取权限
 	 */

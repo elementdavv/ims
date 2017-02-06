@@ -48,6 +48,7 @@ CREATE TABLE `t_organ` (
   `website` VARCHAR(256),
   `inward_id` INT NOT NULL DEFAULT 0 COMMENT '企业性质',
   `industry_id` INT NOT NULL DEFAULT 0 COMMENT '主营行业',
+  `subdustry_id` INT NOT NULL DEFAULT 0 COMMENT '主营行业',
   `capital` INT NOT NULL DEFAULT 0 COMMENT '注册资金',
   `membernumber` INT NOT NULL DEFAULT 0 COMMENT '成员个数',
   `computernumber` INT NOT NULL DEFAULT 0 COMMENT '计算机台数',
@@ -323,6 +324,20 @@ CREATE TABLE `t_inward` (
 
 CREATE TABLE `t_industry` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(256),
+  `listorder` INT NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_subdustry`：字典：主营行业
+--
+
+CREATE TABLE `t_subdustry` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `industry_id` INT NOT NULL DEFAULT 0,
   `name` VARCHAR(256),
   `listorder` INT NOT NULL DEFAULT 0,
    PRIMARY KEY(id)

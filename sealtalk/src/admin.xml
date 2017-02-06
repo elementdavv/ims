@@ -16,6 +16,8 @@
 	<bean id="roleDao" class="com.sealtalk.dao.adm.impl.RoleDaoImpl" autowire="byName" />
 	<bean id="rolePrivDao" class="com.sealtalk.dao.adm.impl.RolePrivDaoImpl" autowire="byName" />
 	<bean id="positionDao" class="com.sealtalk.dao.adm.impl.PositionDaoImpl" autowire="byName" />
+	<bean id="grpDao" class="com.sealtalk.dao.adm.impl.GrpDaoImpl" autowire="byName" />
+	<bean id="orgDao" class="com.sealtalk.dao.adm.impl.OrgDaoImpl" autowire="byName" />
 
 	<!-- service -->
 	<bean id="branchService" class="com.sealtalk.service.adm.impl.BranchServiceImpl" autowire="byName" >
@@ -23,6 +25,7 @@
 		<property name="memberDao" ref="memberDao" />
 		<property name="branchMemberDao" ref="branchMemberDao" />
 		<property name="memberRoleDao" ref="memberRoleDao1" />
+		<property name="positionDao" ref="positionDao" />
 	</bean>
 	<bean id="privService" class="com.sealtalk.service.adm.impl.PrivServiceImpl" autowire="byName" >
 		<property name="privDao" ref="privDao" />
@@ -32,6 +35,12 @@
 	</bean>
 	<bean id="positionService" class="com.sealtalk.service.adm.impl.PositionServiceImpl" autowire="byName" >
 		<property name="positionDao" ref="positionDao" />
+	</bean>
+	<bean id="grpService" class="com.sealtalk.service.adm.impl.GrpServiceImpl" autowire="byName" >
+		<property name="grpDao" ref="grpDao" />
+	</bean>
+	<bean id="orgService" class="com.sealtalk.service.adm.impl.OrgServiceImpl" autowire="byName" >
+		<property name="orgDao" ref="orgDao" />
 	</bean>
 	
 	<!-- action -->
@@ -43,6 +52,16 @@
 	</bean>
 	<bean id="posAction" class="com.sealtalk.action.adm.PosAction" scope="prototype" autowire="byName" >
 		<property name="positionService" ref="positionService" />
+	</bean>
+	<bean id="grpAction" class="com.sealtalk.action.adm.GrpAction" scope="prototype" autowire="byName" >
+		<property name="grpService" ref="grpService" />
+	</bean>
+	<bean id="orgAction" class="com.sealtalk.action.adm.OrgAction" scope="prototype" autowire="byName" >
+		<property name="orgService" ref="orgService" />
+	</bean>
+	<bean id="admAction" class="com.sealtalk.action.adm.AdmAction" scope="prototype" autowire="byName" >
+		<property name="branchService" ref="branchService" />
+		<property name="privService" ref="privService" />
 	</bean>
 	
 </beans>

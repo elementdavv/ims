@@ -9,8 +9,8 @@
 	<div class='h5px'></div>
 	<div>
 		<div class='dialogtitle'>
-			<div id='title112position' class='toleft'>添加用户职位信息</div>
-			<div class='toright'>×</div>
+			<div id='title112position' class='toleft dtitle'>添加用户职位信息</div>
+			<div class='toright dclose' onclick="$('#position').modal('hide');">×</div>
 		</div>
 	</div>
 	<div class='h40px'></div>
@@ -37,7 +37,7 @@
 	<div class='h30px'></div>
 	<div>
 		<div class='dialogtitle'>
-			<button onclick="$('#position').modal('hide');" class='leftspace15 toright'>取消</button>
+			<button onclick="$('#position').modal('hide');" class='leftspace15 toright cancel'>取消</button>
 			<button id='save112position' class='leftspace15 toright'>确定</button>
 		</div>
 	</div>	

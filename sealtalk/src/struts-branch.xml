@@ -6,6 +6,9 @@
 <struts>
 	<!-- ssl-default -->
 	<!-- struts-default -->
+
+	<constant name="struts.action.excludePattern" value="/admlogo, /admimp"/>
+
     <package name="com.sealtalk.action.adm" extends="struts-default">
         <!-- 组织机构 -->
         <action name="branch" class="com.sealtalk.action.adm.BranchAction">
@@ -21,6 +24,24 @@
         	</result>
         </action>
         <action name="pos" class="com.sealtalk.action.adm.PosAction">
+        	<result name="text" type="stream">
+        		<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+        	</result>
+        </action>
+        <action name="grp" class="com.sealtalk.action.adm.GrpAction">
+        	<result name="text" type="stream">
+        		<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+        	</result>
+        </action>
+        <action name="org" class="com.sealtalk.action.adm.OrgAction">
+        	<result name="text" type="stream">
+        		<param name="contentType">text/plain</param>
+				<param name="inputName">inputStream</param>
+        	</result>
+        </action>
+        <action name="adm" class="com.sealtalk.action.adm.AdmAction">
         	<result name="text" type="stream">
         		<param name="contentType">text/plain</param>
 				<param name="inputName">inputStream</param>

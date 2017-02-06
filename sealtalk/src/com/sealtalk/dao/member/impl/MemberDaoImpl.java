@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
+import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
@@ -19,6 +20,47 @@ import com.sealtalk.utils.TimeGenerator;
  * @since jdk1.7
  */
 public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDao {
+
+	@Override
+	public TMember getMemberByName(String name) {
+
+		Criteria ctr = getCriteria();
+		ctr.add(Restrictions.eq("fullname", name));
+		
+		List list = ctr.list();
+		
+		if (list.size() > 0) {
+			return (TMember) list.get(0);
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List getMemberPosition(Integer memberId) {
+
+		String sql = "select position_id, branch_id, id from t_branch_member"
+				+ " where member_id = " + memberId 
+				+ " order by is_master desc";
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
+
+	@Override
+	public List getMemberRole(Integer memberId) {
+
+		String sql = "select role_id from t_member_role"
+				+ " where member_id = " + memberId;
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
+
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.model.TPriv;
 import com.sealtalk.model.TRole;
@@ -12,18 +11,12 @@ import com.sealtalk.service.adm.PrivService;
 
 import net.sf.json.JSONObject;
 
-
 public class PrivAction extends BaseAction {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	/*
-	 * this value should comes from login info, just for test this time
-	 */
-	Integer organId = 1;
 	
 	public String getRoleList() {
 		
@@ -122,9 +115,9 @@ public class PrivAction extends BaseAction {
 		String roleName = this.request.getParameter("rolename");
 		String privs = this.request.getParameter("privs");
 
-		privService.saveRole(roleId, roleName, privs);
+		roleId = privService.saveRole(roleId, roleName, privs);
 		
-		return returnajaxid(0);
+		return returnajaxid(roleId);
 	}
 
 	public String saveRoleMember() {
@@ -140,7 +133,9 @@ public class PrivAction extends BaseAction {
 	public String delRole() {
 		
 		Integer roleId = Integer.parseInt(this.request.getParameter("roleid"));
-
+		
+		privService.delRole(roleId);;
+		
 		return returnajaxid(0);
 	}
 	

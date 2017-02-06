@@ -12,23 +12,28 @@
 	<ul class="admheadermenu">
 		<li class="active">基本设置</li>
 		<li><a href="21.jsp">高级设置</a></li>
-	</ul>
+    </ul>
+    <ul class="admHeaderOper">
+        <li class="admLeftIcon" id='idlogout'></li>
+        <li class="admLeftIcon"></li>
+        <li class="admLeftIcon"></li>
+    </ul>
 </div>
 <div class="menupanel11">
 	<div id="jb" class="sidebar11">
-		<div class="menu menuactive">组织结构</div>
-		<div class="menu"><a href="12.jsp">组织信息</a></div>
-		<div class="menu"><a href="13.jsp">群组管理</a></div>
+		<div class="menu menuactive"><img src='images/组织结构.png' class='menuicon'>组织结构</div>
+		<div class="menu" onclick='window.location.href="12.jsp";'><img src='images/组织信息.png' class='menuicon'>组织信息</div>
+		<div class="menu" onclick='window.location.href="13.jsp";'><img src='images/群组管理.png' class='menuicon'>群组管理</div>
 	</div>
 	<div class="organ">
 		<div class="organline">
-			<button class="toleft" id='zzgly'>超级管理员</button>
+			<button class="btnadmin" id='zzgly'><img src='images/超级管理员.png' style='padding-right: 10px'>超级管理员</button>
 
             <div class='btn-group dropdown toright'>
             	<a class="btn  btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
-            	添加
+            	<img src="images/添加按钮.png">
             	</a>
-            	<ul id="admadd" class="dropdown-menu pull-right" style="padding: 5px; min-width: 350%">
+            	<ul id="admadd" class="dropdown-menu pull-right" style="min-width: 350%">
             		<li class="admadd addbranch">添加部门</li>
             		<li class="admadd addmember">添加人员</li>
             		<li class="admadd addbatch" style="padding-bottom: 5px">批量导入</li>
@@ -37,7 +42,7 @@
 			
 		</div>
 		<div class="organline" >
-			<input type="text" placeholder="搜索人员" id="search11" />
+			<input type="text" class='organsearch' placeholder="搜索人员" id="search11" />
 		</div>
 		<div class="organline ztree" id="tree11"></div>
 	</div>
@@ -48,66 +53,43 @@
 <jsp:include page="112.jsp" flush="true" />
 
 <div id="branch" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style='width: 420px'>
+	<div class="modal-dialog" style='width: 540px'>
 		<div class="modal-content">
 		</div>	
 	</div>
 </div>
 
 <div id="member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style='width: 420px'>
+	<div class="modal-dialog" style='width: 540px'>
 		<div class="modal-content">
 		</div>
 	</div>
 </div>
 
 <div id="position" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style="width: 320px">
-		<div class="modal-content" style="height: 600px;">
+	<div class="modal-dialog" style="width: 380px">
+		<div class="modal-content" style="height: 640px;">
 		</div>
 	</div>
 </div>
 
 <div id="move" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style="width: 320px">
-		<div class="modal-content" style="height: 560px;">
+	<div class="modal-dialog" style="width: 380px">
+		<div class="modal-content" style="height: 580px;">
 		</div>
 	</div>
 </div>
 
 <div id="reset" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style="width: 400px;">
-		<div class="modal-content" style="height: 200px;">
+	<div class="modal-dialog" style="width: 500px;">
+		<div class="modal-content" style="height: 260px;">
 		</div>
 	</div>
 </div>
 
-<div id="imp1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="imp2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="imp3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-<button onclick="$('#branch').modal('hide');">close</button>
-			</div>
+<div id="imp" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
+	<div class="modal-dialog" style="width: 680px;">
+		<div class="modal-content" style="height: 530px;">
 		</div>
 	</div>
 </div>

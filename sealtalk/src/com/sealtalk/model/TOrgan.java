@@ -31,6 +31,15 @@ public class TOrgan implements java.io.Serializable {
 	private String website;
 	private Integer inwardId;
 	private Integer industryId;
+	private Integer subdustryId;
+	public Integer getSubdustryId() {
+		return subdustryId;
+	}
+
+	public void setSubdustryId(Integer subdustryId) {
+		this.subdustryId = subdustryId;
+	}
+
 	private Integer capital;
 	private Integer membernumber;
 	private Integer computernumber;

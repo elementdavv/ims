@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
+import com.sealtalk.model.TMember;
 import com.sealtalk.model.TPosition;
 import com.sealtalk.service.adm.PositionService;
 
@@ -18,11 +18,6 @@ public class PosAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/*
-	 * this value should comes from login info, just for test this time
-	 */
-	Integer organId = 1;
-	
 	private PositionService positionService;
 	
 	public PositionService getPositionService() {
@@ -34,7 +29,7 @@ public class PosAction extends BaseAction {
 
 	public String getList() {
 		
-		List list = positionService.getByOrgan(organId);
+		List list = positionService.getByOrgan(this.getOrganId());
 		
 		ArrayList<JSONObject> js = new ArrayList<JSONObject>(); 
 		Iterator it = list.iterator();
@@ -63,7 +58,7 @@ public class PosAction extends BaseAction {
 
 		String name = this.request.getParameter("name");
 		
-		TPosition p = positionService.save(name, organId);
+		TPosition p = positionService.save(name, this.getOrganId());
 		
 		if (p == null) return this.returnajaxid(0);
 		

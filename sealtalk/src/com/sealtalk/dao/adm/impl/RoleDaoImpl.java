@@ -48,8 +48,10 @@ public class RoleDaoImpl extends BaseDao<TRole, Integer> implements RoleDao {
 	@Override
 	public List getPrivByRole(Integer roleId) {
 
-		String sql = "select p.id, p.name, p.parent_id parentid, p.grouping, rp.role_id roleid from t_priv p"
-				+ " left join t_role_priv rp on p.id = rp.priv_id and rp.role_id =" + roleId
+		String sql = "select p.id, p.name, p.parent_id parentid, p.grouping, rp.role_id roleid, p.url url"
+				+ " from t_priv p"
+				+ " left join t_role_priv rp"
+				+ " on p.id = rp.priv_id and rp.role_id =" + roleId
 				+ " order by p.parent_id desc, p.listorder desc";
 		
 		System.out.println("privByRoleSql: " + sql);
@@ -57,6 +59,17 @@ public class RoleDaoImpl extends BaseDao<TRole, Integer> implements RoleDao {
 		return runSql(sql);
 	}
 
+	@Override
+	public List getPrivByMember(Integer memberId) {
+		
+		String sql = "select distinct p.id, p.name, p.parent_id parentid, p.grouping, p.url url"
+				+ " from t_priv p"
+				+ " left join t_role_priv rp on rp.priv_id = p.id"
+				+ " left join t_member_role mr on mr.role_id = rp.role_id"
+				+ " where mr.member_id = " + memberId;
+		
+		return runSql(sql);
+	}
 	@Override
 	public List getPrivilegeById(int roleId) {
 		String sql = "select p.id, p.url from t_priv p"

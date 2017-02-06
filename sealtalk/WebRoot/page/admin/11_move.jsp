@@ -9,8 +9,8 @@
 	<div class='h5px'></div>
 	<div>
 		<div class='dialogtitle'>
-			<div id='title11move' class='toleft'>移动到</div>
-			<div class='toright'>×</div>
+			<div id='title11move' class='toleft dtitle'>移动到</div>
+			<div class='toright dclose' onclick="$('#move').modal('hide');">×</div>
 		</div>
 	</div>
 	<div class='h40px'></div>
@@ -29,7 +29,7 @@
 	<div class='h30px'></div>
 	<div>
 		<div class='dialogtitle'>
-			<button onclick="$('#move').modal('hide');" class='leftspace15 toright'>取消</button>
+			<button onclick="$('#move').modal('hide');" class='leftspace15 toright cancel'>取消</button>
 			<button id='save11move' class='leftspace15 toright'>确定</button>
 		</div>
 	</div>	
