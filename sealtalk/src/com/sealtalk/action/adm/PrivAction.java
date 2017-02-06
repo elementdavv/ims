@@ -98,8 +98,7 @@ public class PrivAction extends BaseAction {
 			js.put("privname", o[1]);
 			js.put("parentid", o[2]);
 			js.put("grouping", o[3]);
-			js.put("priurl", o[4]);
-			js.put("roleid", o[5] == null ? "" : o[5]);
+			js.put("roleid", o[4] == null ? "" : o[4]);
 			ja.add(js);
 		}
 		

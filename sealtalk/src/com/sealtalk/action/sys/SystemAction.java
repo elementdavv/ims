@@ -63,23 +63,23 @@ public class SystemAction extends BaseAction {
 		JSONObject result = new JSONObject();
 		
 		if (StringUtils.getInstance().isBlank(account)) {
-			result.put("code", 0);
+			/*result.put("code", 0);
 			result.put("text", Tips.NULLUSER.getText());
 			returnToClient(result.toString());
-			return "text";
-			/*request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
-			return "loginPage";*/
+			return "text";*/
+			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
+			return "loginPage";
 		}
 		
 		TMember member = memberService.searchSigleUser(account, userpwd);
 		
 		if(member == null) {
-			result.put("code", 0);
+			/*result.put("code", 0);
 			result.put("text", Tips.ERRORUSERORPWD.getText());
 			returnToClient(result.toString());
-			return "text";
-			/*request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
-			return "loginPage";*/
+			return "text";*/
+			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
+			return "loginPage";
 		}
 		
 		logger.debug("That logining account is " + account);
@@ -126,23 +126,24 @@ public class SystemAction extends BaseAction {
 		setSessionUser(su);
 		
 		//2.设置权限session
-		int roleId = privService.getRoleIdForId(member.getId());
-		List privList = privService.getPrivByRole(roleId);
-		Iterator it = privList.iterator();
-		ArrayList<JSONObject> ja = new ArrayList<JSONObject>();
-		while(it.hasNext()) {
-			Object[] o = (Object[])it.next();
-			JSONObject js = new JSONObject();
-			js.put("privid", o[0]);
-			js.put("privname", o[1]);
-			js.put("parentid", o[2]);
-			js.put("grouping", o[3]);
-			js.put("priurl", o[4]);
-			js.put("roleid", o[5] == null ? "" : o[5]);
-			ja.add(js);
-		}
-		//setSessionAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGE, ja);
+		List privList = privService.getRoleIdForId(member.getId());
+		SessionPrivilege sp = new SessionPrivilege();
 		
+		if (privList != null) {
+			Iterator it = privList.iterator();
+			ArrayList<JSONObject> ja = new ArrayList<JSONObject>();
+			while(it.hasNext()) {
+				Object[] o = (Object[])it.next();
+				JSONObject js = new JSONObject();
+				js.put("privid", o[0]);
+				js.put("priurl", o[1]);
+				ja.add(js);
+			}
+		
+			sp.setPrivilige(ja);
+		}
+		setSessionAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGE, sp);
+		/*
 		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
 		
 		text.remove("password");
@@ -154,8 +155,8 @@ public class SystemAction extends BaseAction {
 		
 		returnToClient(result.toString());
 		
-		return "text";
-		//return "loginSuccess";
+		return "text";*/
+		return "loginSuccess";
 	}
 	
 	/**

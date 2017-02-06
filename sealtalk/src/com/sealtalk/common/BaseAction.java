@@ -18,7 +18,6 @@ import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.sealtalk.model.SessionPrivilege;
 import com.sealtalk.model.SessionUser;
 import com.sealtalk.utils.StringUtils;
 
