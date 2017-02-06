@@ -3,12 +3,15 @@
  */
 $(document).ready(function(){
     var groupTimer=null,groupTimer1 = null;
-
-
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
-    var account = JSON.parse(sAccount).account;
-    var accountID = JSON.parse(sdata).text.id;
+    var account = JSON.parse(sdata).account;
+    var accountID = JSON.parse(sdata).id;
+    $("#calendar").asDatepicker({
+        namespace: 'calendar',
+        lang: 'zh',
+        position:'top'
+    });
    $('#perInfo').on('click','li',function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
@@ -22,6 +25,9 @@ $(document).ready(function(){
                var sTargettype=$('#perContainer').attr('targettype');
                var sTargetid=$('#perContainer').attr('targetid');
                historyMsg(sTargettype,sTargetid,0,20);
+               //new PageObj($('.infoDet-pageQuery'),20,function(){
+               //
+               //});
                break;
            case 'f':
                break;
@@ -52,48 +58,34 @@ $(document).ready(function(){
         $('.bMgMask').removeClass('chatHide');
         $('#crop-avatar').removeClass('chatHide');
         var sImgsrc=$('.perSetBox-rightCont img').attr('src');
-        $('#crop-avatar .avatar-view img').attr('src',sImgsrc);
-        $('.avatar-preview img').attr('src',sImgsrc);
+        $('#crop-avatar .avatar-view').empty();
+        $('#crop-avatar .avatar-view').append('<img src="'+sImgsrc+'"/>');
+        //$('#crop-avatar .avatar-view img').attr('src',sImgsrc);
+        $('.avatar-preview').empty();
+        $('.avatar-preview').append('<img src="'+sImgsrc+'"/>');
+        //$('.avatar-preview img').attr('src',sImgsrc);
        getHeadImgList();
     });
     //首页
-    $('#infoDetailsBox').on('click','.infoDet-pageQuery i',function(){
-        var sTargettype=$('#perContainer').attr('targettype');
-        var sTargetid=$('#perContainer').attr('targetid');
-        var timestrap;
-        if($(this).hasClass('infoDet-pageQuery')){
-            //timestrap=0;
-        }else if($(this).hasClass('infoDet-prePage')){
-            timestrap=null;
-            $('.infoDet-nextPage').addClass('allowClick');
-            $('.infoDet-pageQuery').addClass('allowClick');
-
-        }else if($(this).hasClass('infoDet-firstPage')){
-            $('.infoDet-prePage').removeClass('allowClick');
-            $('.infoDet-firstPage').removeClass('allowClick');
-        }else if($(this).hasClass('infoDet-nextPage')){
-            //timestrap=null;
-
-            //timestrap=JSON.parse($('.infoDet-contentDet').find('li').last().attr('data-time'));
-        }
-        if($(this).hasClass('allowClick')){
-            historyMsg(sTargettype,sTargetid,timestrap,20,$(this));
-        }
-    });
-    //$('#infoDetailsBox').on('click','.infoDet-prePage',function(){
+    //$('#infoDetailsBox').on('click','.infoDet-pageQuery i',function(){
     //    var sTargettype=$('#perContainer').attr('targettype');
     //    var sTargetid=$('#perContainer').attr('targetid');
-    //    historyMsg(sTargettype,sTargetid,0,20);
-    //});
-    //$('#infoDetailsBox').on('click','.infoDet-firstPage',function(){
-    //    var sTargettype=$('#perContainer').attr('targettype');
-    //    var sTargetid=$('#perContainer').attr('targetid');
-    //    historyMsg(sTargettype,sTargetid,0,20);
-    //});
-    //$('#infoDetailsBox').on('click','.infoDet-prePage',function(){
-    //    var sTargettype=$('#perContainer').attr('targettype');
-    //    var sTargetid=$('#perContainer').attr('targetid');
-    //    historyMsg(sTargettype,sTargetid,0,20);
+    //    var timestrap;
+    //    if($(this).hasClass('infoDet-pageQuery')){
+    //        //timestrap=0;
+    //    }else if($(this).hasClass('infoDet-prePage')){
+    //        timestrap=null;
+    //        $('.infoDet-nextPage').addClass('allowClick');
+    //        $('.infoDet-pageQuery').addClass('allowClick');
+    //
+    //    }else if($(this).hasClass('infoDet-firstPage')){
+    //        $('.infoDet-prePage').removeClass('allowClick');
+    //        $('.infoDet-firstPage').removeClass('allowClick');
+    //    }else if($(this).hasClass('infoDet-nextPage')){
+    //    }
+    //    if($(this).hasClass('allowClick')){
+    //        historyMsg(sTargettype,sTargetid,timestrap,20,$(this));
+    //    }
     //});
     //群组悬停
     $('.groupChatList').delegate('li','mouseenter',function(e){
@@ -293,6 +285,8 @@ $(document).ready(function(){
         $('.bMg-gravityImg').removeClass('active');
         $('.bMg-confirm').addClass('chatHide');
         $('.bMg-preserve').removeClass('chatHide');
+        //$('.avatar-preview').empty();
+        //$('.avatar-preview').append('');
     });
     $('#crop-avatar').on('click','.bMg-preserve .bMg-cancel,#bMg-closeBtn',function(){
         $('.bMgMask').addClass('chatHide');
@@ -341,7 +335,9 @@ $(document).ready(function(){
         $('.bMg-cropImgSet .bMg-imgList li').removeClass('active');
         $(this).addClass('active');
         var sSelImg=$(this).attr('data-name');
-        $('.avatar-preview img').attr('src',globalVar.imgSrc+sSelImg);
+        $('.avatar-preview').empty();
+        $('.avatar-preview').append('<img src="'+globalVar.imgSrc+sSelImg+'"/>');
+        //$('.avatar-preview img').attr('src',globalVar.imgSrc+sSelImg);
     });
     $('#Uploader').delegate('#showGrid','click',function(){
         if($('.cropper-crop-box').hasClass('cropper-hidden')){
@@ -356,15 +352,15 @@ $(document).ready(function(){
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sName=oData.text.fullname;//姓名
-    var sAccountNum=oData.text.account;//成员账号
-    var sSex=oData.text.sex;//性别
-    var sPosition=oData.text.account;//职位
-    var sBranch=oData.text.sex;//部门
-    var sEmail=oData.text.email;//邮箱
-    var sTelephone=oData.text.telephone;//电话
-    var sSign=oData.text.sex;//工作签名
-    var sHeaderImg=oData.text.logo?globalVar.imgSrc+oData.text.logo:globalVar.defaultLogo;//头像
+    var sName=oData.fullname;//姓名
+    var sAccountNum=oData.account;//成员账号
+    var sSex=oData.sex;//性别
+    var sPosition=oData.account;//职位
+    var sBranch=oData.sex;//部门
+    var sEmail=oData.email;//邮箱
+    var sTelephone=oData.telephone;//电话
+    var sSign=oData.sex;//工作签名
+    var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
