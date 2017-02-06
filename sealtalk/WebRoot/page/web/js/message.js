@@ -587,7 +587,7 @@ $(function(){
                                     var datas = localStorage.getItem('datas');
                                     //if(sAccount){
                                         var data = JSON.parse(datas);
-                                        var userid = data.text.id;
+                                        var userid = data.id;
                                     sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
                                         getGroupList(userid);
                                         removeConvers("GROUP",groupid);
