@@ -5,8 +5,12 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="description" content="">
     <title></title>
-
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/normalize.css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/dateMain.css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/prism.css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/asDatepicker.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/main.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/window.css"/>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/perfect-scrollbar.css"/>
@@ -21,6 +25,11 @@
     <script src="<%=request.getContextPath() %>/page/web/js/RongIMLib.js"></script>
 
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery.mobile.custom.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery.toc.min.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/prism.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/jquery-asDatepicker.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/language.js"></script>
     <%--<script src="<%=request.getContextPath() %>/page/web/js/globalVar.js"></script>--%>
 
     <%--七牛上传--%>
@@ -40,6 +49,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/main.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/window.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/pageObj.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/backstageMg.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/Class.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/seeOrgnizeTree.js"></script>
@@ -54,7 +64,8 @@
     <script src="<%=request.getContextPath() %>/page/web/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
-</head>
+
+    </head>
 
 <body userid="${SessionUser.id}" token="${SessionUser.token}">
     <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
@@ -373,13 +384,17 @@
                             <%--</li>--%>
                         <%--</ul>--%>
                     </div>
-                    <div class="infoDet-page">
-                        <span></span>
+                    <div class="infoDet-page clearfix">
+                        <section>
+                            <div class="example">
+                                <input type="text" id="calendar">
+                            </div>
+                        </section>
                         <div class="infoDet-pageQuery">
-                            <i class="infoDet-firstPage allowClick"></i>
-                            <i class="infoDet-prePage allowClick"></i>
-                            <i class="infoDet-nextPage"></i>
-                            <i class="infoDet-lastPage"></i>
+                            <%--<i class="infoDet-firstPage allowClick"></i>--%>
+                            <%--<i class="infoDet-prePage allowClick"></i>--%>
+                            <%--<i class="infoDet-nextPage"></i>--%>
+                            <%--<i class="infoDet-lastPage"></i>--%>
                         </div>
                     </div>
                 </div>
@@ -436,10 +451,10 @@
                         <span></span>
 
                         <div class="infoDet-pageQuery">
-                            <i class="infoDet-firstPage"></i>
-                            <i class="infoDet-prePage"></i>
-                            <i class="infoDet-nextPage"></i>
-                            <i class="infoDet-lastPage"></i>
+                            <%--<i class="infoDet-firstPage"></i>--%>
+                            <%--<i class="infoDet-prePage"></i>--%>
+                            <%--<i class="infoDet-nextPage"></i>--%>
+                            <%--<i class="infoDet-lastPage"></i>--%>
                         </div>
                     </div>
                 </div>
@@ -525,10 +540,10 @@
                 <div class="infoDet-page">
                 <span></span>
                 <div class="infoDet-pageQuery">
-                <i class="infoDet-firstPage allowClick"></i>
-                <i class="infoDet-prePage allowClick"></i>
-                <i class="infoDet-nextPage"></i>
-                <i class="infoDet-lastPage"></i>
+                <%--<i class="infoDet-firstPage allowClick"></i>--%>
+                <%--<i class="infoDet-prePage allowClick"></i>--%>
+                <%--<i class="infoDet-nextPage"></i>--%>
+                <%--<i class="infoDet-lastPage"></i>--%>
                 </div>
                 </div>
             </div>
@@ -585,10 +600,10 @@
     <span></span>
 
     <div class="infoDet-pageQuery">
-    <i class="infoDet-firstPage"></i>
-    <i class="infoDet-prePage"></i>
-    <i class="infoDet-nextPage"></i>
-    <i class="infoDet-lastPage"></i>
+    <%--<i class="infoDet-firstPage"></i>--%>
+    <%--<i class="infoDet-prePage"></i>--%>
+    <%--<i class="infoDet-nextPage"></i>--%>
+    <%--<i class="infoDet-lastPage"></i>--%>
     </div>
     </div>
     </div>
@@ -1046,6 +1061,7 @@
 
 
 </div>
+
 </body>
     <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
 

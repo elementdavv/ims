@@ -429,7 +429,7 @@ $(function(){
                         marker = new AMap.Marker({
                             content: content,
                             position: lnglats,
-                            offset: new AMap.Pixel(0,0),
+                            offset: new AMap.Pixel(-54,-66),
                             map: map
                         });
                         //var t=[116.480983+i, 39.989628];
