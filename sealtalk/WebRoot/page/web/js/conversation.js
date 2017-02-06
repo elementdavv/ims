@@ -342,7 +342,7 @@ function createConversationList(sDoM,list,targetType){
                     var sTargetId = list[i].senderUserId;
                     var sData=window.localStorage.getItem("datas");
                     var oData= JSON.parse(sData);
-                    var sId=oData.text.id;
+                    var sId=oData.id;
                     if(sId==sTargetId){
                         sTargetId='';
                     }
@@ -376,7 +376,7 @@ function createConversationList(sDoM,list,targetType){
             sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType);
         } else {
             var sNowTime1 = new Date().getTime();//获取当前时间戳
-            var sNowCurrentTime1 = changeTimeFormat(sNowTime, 'y');
+            var sNowCurrentTime1 = changeTimeFormat(sNowTime1, 'y');
             //var sCurrentDateTime = changeTimeFormat(timestamp, 'y');
             if (sSentTime - sStartTime >300000) {
                 //sStartTime=sSentTime;
@@ -600,9 +600,9 @@ function getGroupDetails(groupId){
     var sDom='';
     //var sId=$('#groupContainer').attr('targetid');
     for(var i = 0;i<aText.length;i++){
-        if(aText[i].id==groupId){
+        if(aText[i].GID==groupId){
              var sName=aText[i].name || '';//群名称
-            var sCreatorId=aText[i].creatorId;//群创建者id
+            var sCreatorId=aText[i].mid;//群创建者id
             var sCreatedate=subTimer(aText[i].createdate);//创建时间
             var oCreator=findMemberInList(sCreatorId);
             var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;

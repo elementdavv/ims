@@ -75,7 +75,12 @@ $(function(){
                     $('.mesContainerSelf').removeClass('chatHide');
                     break;
                 case 'checkPosition'://查看位置
-                    console.log(targeType,targetID,datas);
+                    $('.groupMap').removeClass('chatHide');
+                    if(targeType=='member'){
+                        targeType = 'PRIVATE';
+                    }
+                    creatMemberMap(targetID,targeType);
+                    //console.log(targeType,targetID,datas);
                     break;
                 case 'addConver'://添加群聊
                     var memShipArr = [targetID,accountID];
@@ -582,7 +587,7 @@ $(function(){
                                     var datas = localStorage.getItem('datas');
                                     //if(sAccount){
                                         var data = JSON.parse(datas);
-                                        var userid = data.text.id;
+                                        var userid = data.id;
                                     sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
                                         getGroupList(userid);
                                         removeConvers("GROUP",groupid);
@@ -722,10 +727,12 @@ function getSysTipVoice(userid){
     sendAjax('fun!getSysTipVoice',{userid:userid},function(data){
         var oData=JSON.parse(data);
         if(oData.code==1){
-            globalVar.SYSTEMSOUND=status;
+
             if(status==1){
+                globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
                 $('.systemVoiceBtn').removeClass('active');
             }else{
+                globalVar.SYSTEMSOUND=globalVar.SYSTEMSOUND;
                 $('.systemVoiceBtn').addClass('active');
             }
 
@@ -968,8 +975,11 @@ function loop(data,small,temp){
         tempdata[p] = data[p];
     }
     for(var i = 0;i<data.length;i++){
+        //if(data[i].pid==0){
+        //    small[i].hasChild.push(data[i]);
+        //}
         for(var j = 0;j<small.length;j++){
-            if(data[i].pid==small[j].id&&small[j].flag!=1){
+            if(data[i].pid==0||(data[i].pid==small[j].id&&small[j].flag!=1)){
                 small[j].hasChild.push(data[i]);
                 removeObj(tempdata,data[i]);
             }
@@ -1040,14 +1050,17 @@ function compare(property){
 function changeFormat(data){
 
     var data = JSON.parse(data);
-
-    data.sort(compare('pid'))
-    //console.log('sort');
-    //console.log(data);
+    var rootL = [];
+    var small = [];
     for(var i = 0;i<data.length;i++){
         data[i].hasChild = [];
+        //if(data[i].pid==-1){
+        //    small.push(data[i]);
+        //}
     }
-    var small = [];
+    data.sort(compare('pid'));
+    console.log('paixu',data);
+
     small.push(data[0]);
     remove(data,0);
     var delArr = [];
@@ -1056,13 +1069,22 @@ function changeFormat(data){
         delArr[i] = data[i];
     }
 
-    for(var i = 0;i<data.length;i++){
-        if(small[0].pid==data[i].pid){
-            small.push(data[i]);
-            //delArr.push(i);
-            removeObj(delArr,data[i]);
-        }
-    }
+    //for(var i = 0;i<data.length;i++){
+    //    if(data[i].pid==0){
+    //        small.push(data[i]);
+    //        //delArr.push(i);
+    //        removeObj(delArr,data[i]);
+    //    }
+    //}
+
+
+    //for(var i = 0;i<data.length;i++){
+    //    if(small[0].pid==data[i].pid){
+    //        small.push(data[i]);
+    //        //delArr.push(i);
+    //        removeObj(delArr,data[i]);
+    //    }
+    //}
     //for(var i = 0;i<delArr.length;i++){
     //    remove(data,i);
     //}

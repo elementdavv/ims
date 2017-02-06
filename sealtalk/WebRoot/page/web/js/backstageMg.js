@@ -105,7 +105,7 @@ $(document).ready(function(){
             //console.log('----------');
             for(var i = 0;i<aText.length;i++){
                 //console.log(account,data[i].account);
-                if(aText[i].id==sId){
+                if(aText[i].GID==sId){
                     showGroupMemberInfo(aText[i],pos);
                 }
             }
@@ -424,7 +424,7 @@ function fPersonalSet(){
 }
 function showGroupMemberInfo(oGroupInfo,pos){
     var sName=oGroupInfo.name || '';//群名称
-    var sCreatorId=oGroupInfo.creatorId;//群创建者id
+    var sCreatorId=oGroupInfo.mid;//群创建者id
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
     var oCreator=findMemberInList(sCreatorId);
     if(!oCreator.logo){
