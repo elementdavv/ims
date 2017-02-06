@@ -75,7 +75,12 @@ $(function(){
                     $('.mesContainerSelf').removeClass('chatHide');
                     break;
                 case 'checkPosition'://查看位置
-                    console.log(targeType,targetID,datas);
+                    $('.groupMap').removeClass('chatHide');
+                    if(targeType=='member'){
+                        targeType = 'PRIVATE';
+                    }
+                    creatMemberMap(targetID,targeType);
+                    //console.log(targeType,targetID,datas);
                     break;
                 case 'addConver'://添加群聊
                     var memShipArr = [targetID,accountID];

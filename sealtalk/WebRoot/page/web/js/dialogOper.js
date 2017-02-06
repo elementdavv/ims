@@ -31,7 +31,7 @@ $(function(){
         var sAccount = localStorage.getItem('account');
         var sdata = localStorage.getItem('datas');
         var account = JSON.parse(sAccount).account;
-        var accountID = JSON.parse(sdata).text.id;
+        var accountID = JSON.parse(sdata).id;
         var _this = $(this);
         _this.keypress(function(event) {
             if (event.which == 13) {
@@ -233,7 +233,7 @@ function creatDialogTree(data,className,title,callback,selected){
     var level = 0;
     var dataAll = localStorage.getItem('datas');
     var datasAll = JSON.parse(dataAll);
-    var userID = datasAll.text.id;
+    var userID = datasAll.id;
 
     var HTML = DialogTreeLoop(data,sHTML,level,userID);
     $('.contactsList').html(HTML);
@@ -291,7 +291,7 @@ function changeSelected(converseACount){
     //var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
     //var account = JSON.parse(sAccount).account;
-    var accountID = JSON.parse(sdata).text.id;
+    var accountID = JSON.parse(sdata).id;
     var dom = $('.selectedList ul');
     var sHTML = '';
     for(var i = 0;i<converseACount.length;i++){
