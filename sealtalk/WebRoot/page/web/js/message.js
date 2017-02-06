@@ -3,23 +3,15 @@
  */
 $(function(){
 
+
+
     //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
-    var account = JSON.parse(sAccount).account;
-    var accountID = JSON.parse(sdata).text.id;
+    var account = JSON.parse(sdata).account;
+    var accountID = JSON.parse(sdata).id;
     //setTray (unreadCount);
-    //获取常用联系人
-    getMemberFriends(account);
-    //获取左侧组织树状图
-    getBranchTreeAndMember();
-    //获取会话列表(只能在与服务器连接成功之后调用)
-    //getConverList();
-    //获取群组列表
-    getGroupList(accountID);
-    //获取系统提示音
-    getSysTipVoice(accountID);
-    //鼠标在联系人上悬停
+
     var timer=null,timer1 = null;
     function showPersonDetailDia(e,CurList){
         var pos = {};
@@ -1112,13 +1104,12 @@ function createOrganizList(data,sHTML,level){
             var imgSrc = globalVar.defaultDepLogo;
 
         }
-        console.log('oData',oData);
+        //console.log('oData',oData);
         sHTML += '<li class="'+state+'" id="'+oData.id+'">'+
                     '<div level="">'+
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
                     '<img class="groupImg" src="'+imgSrc+'" alt="">'+
                     '<span class="groupName">'+oData.name+'</span>'+collspan+''+
-                    //'<span class="groupCollspanO chatLeftIcon groupCollspan"></span>'+collspan+''+
                     '</div>'+
                 '</li>'
         if(hasChild){

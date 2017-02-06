@@ -55,11 +55,13 @@
     <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
 </head>
-<body>
+
+<body userid="${SessionUser.id}" token="${SessionUser.token}">
     <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
-<div class="chatHeader">
+
+    <div class="chatHeader">
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
@@ -67,7 +69,7 @@
         <li bindPanel="back">后台管理</li>  
     </ul>
     <ul class="chatHeaderOper">
-        <li class="chatLeftIcon"></li>
+        <%--<li class="chatLeftIcon"></li>--%>
         <li class="chatLeftIcon"></li>
         <li class="chatLeftIcon"></li>
     </ul>

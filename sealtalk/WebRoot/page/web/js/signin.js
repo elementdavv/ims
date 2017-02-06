@@ -123,7 +123,7 @@ function signin(){
         //    window.event.returnValue=false;
         //}
 
-        //window.location.href = 'system!login';
+        window.location.href = 'system!login';
         //window.open('http://localhost:8080/sealtalk/page/web/main.jsp','_parent');
         //console.log(window.location.href)
         //window.location.href = 'http://localhost:8080/sealtalk/page/web/main.jsp';
@@ -159,6 +159,13 @@ function signin(){
 function fBackToSignin(){
     window.location.href = 'system!login';
 }
+
+function addMD5(){
+    //alert(11);
+    var userpwd = hex_md5($('#pwdIn').val());
+    $('#pwdIn').val(userpwd);
+}
+
 
 /*
 *

@@ -7,8 +7,8 @@ $(document).ready(function(){
 
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
-    var account = JSON.parse(sAccount).account;
-    var accountID = JSON.parse(sdata).text.id;
+    var account = JSON.parse(sdata).account;
+    var accountID = JSON.parse(sdata).id;
    $('#perInfo').on('click','li',function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
@@ -356,15 +356,15 @@ $(document).ready(function(){
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sName=oData.text.fullname;//姓名
-    var sAccountNum=oData.text.account;//成员账号
-    var sSex=oData.text.sex;//性别
-    var sPosition=oData.text.account;//职位
-    var sBranch=oData.text.sex;//部门
-    var sEmail=oData.text.email;//邮箱
-    var sTelephone=oData.text.telephone;//电话
-    var sSign=oData.text.sex;//工作签名
-    var sHeaderImg=oData.text.logo?globalVar.imgSrc+oData.text.logo:globalVar.defaultLogo;//头像
+    var sName=oData.fullname;//姓名
+    var sAccountNum=oData.account;//成员账号
+    var sSex=oData.sex;//性别
+    var sPosition=oData.account;//职位
+    var sBranch=oData.sex;//部门
+    var sEmail=oData.email;//邮箱
+    var sTelephone=oData.telephone;//电话
+    var sSign=oData.sex;//工作签名
+    var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
