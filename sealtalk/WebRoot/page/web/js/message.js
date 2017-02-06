@@ -391,7 +391,7 @@ $(function(){
     function getGroupMap(targetID,count){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
-        var sId=oData.text.id;
+        var sId=oData.id;
         var map = new AMap.Map('container', {
             resizeEnable: true,
             zoom: 10
