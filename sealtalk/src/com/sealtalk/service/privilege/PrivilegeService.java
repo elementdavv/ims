@@ -6,9 +6,9 @@ public interface PrivilegeService {
 
 	/**
 	 * 生成权限session
-	 * @param account
+	 * @param id
 	 * @return
 	 */
-	public SessionPrivilege setPrivilege(String account);
+	public SessionPrivilege setPrivilege(int id);
 	
 }

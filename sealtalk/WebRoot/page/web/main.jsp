@@ -63,8 +63,8 @@
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
-        <%--<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li> --%>
-        <li bindPanel="back">后台管理</li>  
+        <li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
+        <%--<li bindPanel="back">后台管理</li>   --%>
     </ul>
     <ul class="chatHeaderOper">
         <li class="chatLeftIcon"></li>

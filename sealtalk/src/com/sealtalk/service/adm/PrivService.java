@@ -2,6 +2,8 @@ package com.sealtalk.service.adm;
 
 import java.util.List;
 
+import com.sealtalk.model.TRole;
+
 public interface PrivService {
 
 	List getRoleList();
@@ -12,4 +14,5 @@ public interface PrivService {
 	void saveRole(Integer roleId, String roleName, String privs);
 	void delRole(Integer roleId);
 	void saveRoleMember(Integer roleId, String memberlist);
+	public int getRoleIdForId(int id);
 }
