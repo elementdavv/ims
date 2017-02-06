@@ -120,17 +120,18 @@ public class PrivServiceImpl implements PrivService {
 	}
 	
 	/**
-	 * 根据id获取角色
+	 * 根据用户id获取权限
 	 */
 	@Override
-	public int getRoleIdForId(int id) {
+	public List getRoleIdForId(int id) {
 		TMemberRole tmList = memberRoleDao.getRoleForId(id);
 		
 		if (tmList != null) {
-			return tmList.getRoleId();
+			int roleId = tmList.getRoleId();
+			return roleDao.getPrivilegeById(roleId);
 		}
 		
-		return 0;
+		return null;
 	}
 	
 }

@@ -5,8 +5,9 @@ $(document).ready(function(){
     var groupTimer=null,groupTimer1 = null;
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
-    var account = JSON.parse(sdata).account;
-    var accountID = JSON.parse(sdata).id;
+    var accountObj = JSON.parse(sdata);
+    var account = accountObj.account;
+    var accountID = accountObj.id;
     $("#calendar").asDatepicker({
         namespace: 'calendar',
         lang: 'zh',
