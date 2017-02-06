@@ -39,7 +39,7 @@
                     </div>
                     <div class="form-group">
                         <label for="pwdIn" class="pwdIn"></label>
-                        <input type="password" placeholder="密码" required="" ng-pattern="/^[0-9a-zA-Z!@#$%^&amp;*(){}:&quot;|>?\[\];,.\/\-=_+]{6,16}$/" class="form-control-my ng-untouched ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="passWord" ng-model="user.passWord" id="pwdIn" my-focus="">
+                        <input type="password" placeholder="密码" required="" ng-pattern="/^[0-9a-zA-Z!@#$%^&amp;*(){}:&quot;|>?\[\];,.\/\-=_+]{6,16}$/" class="form-control-my ng-untouched ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="passWord" ng-model="user.passWord" id="pwdIn" my-focus="" >
                         <!--<p class="error-block ng-hide" ng-show="(formSignin.passWord.$dirty||formSignin.submitted)&amp;&amp;formSignin.passWord.$invalid&amp;&amp;!formSignin.passWord.$focused">密码格式错误</p>-->
                         <!--<p class="error-block ng-hide" ng-show="!formSignin.passWord.$invalid&amp;&amp;userorpwdIsError&amp;&amp;!formSignin.passWord.$focused">手机号或密码错误</p>-->
                     </div>
@@ -47,7 +47,7 @@
                         <a class="pull-right" href="<%=request.getContextPath() %>/system!fogetPassword" ui-sref="account.forgotpassword">忘记密码？</a>
                     </div>
                     <div class="button-wrapper form-group">
-                        <button class="sign-button submit" type="submit" onclick="signin()">登录</button>
+                        <button class="sign-button submit" type="submit" onclick="signin();">登录</button>
                     </div>
 
                 </div>

@@ -109,7 +109,12 @@ function signin(){
             data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(data);
         }
-        window.location.href = 'system!login';
+        //window.location.href = 'system!login';
+        //window.open('system!login');
+        //console.log(window.location.href);
+        window.location.href = 'http://localhost:8080/sealtalk/page/web/main.jsp';
+        //console.log(window.location.href);
+        //window.location.href = 'system!login';
     });
 }
 
