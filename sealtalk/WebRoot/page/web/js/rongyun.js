@@ -212,8 +212,10 @@ $(function(){
                     }
                 });
             //}
-
+            //初始化emoji表情
             initEmoji();
+            //初始化声音库
+            RongIMLib.RongIMVoice.init();
         }
     })
 

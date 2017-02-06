@@ -722,10 +722,12 @@ function getSysTipVoice(userid){
     sendAjax('fun!getSysTipVoice',{userid:userid},function(data){
         var oData=JSON.parse(data);
         if(oData.code==1){
-            globalVar.SYSTEMSOUND=status;
+
             if(status==1){
+                globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
                 $('.systemVoiceBtn').removeClass('active');
             }else{
+                globalVar.SYSTEMSOUND=globalVar.SYSTEMSOUND;
                 $('.systemVoiceBtn').addClass('active');
             }
 
@@ -968,8 +970,11 @@ function loop(data,small,temp){
         tempdata[p] = data[p];
     }
     for(var i = 0;i<data.length;i++){
+        //if(data[i].pid==0){
+        //    small[i].hasChild.push(data[i]);
+        //}
         for(var j = 0;j<small.length;j++){
-            if(data[i].pid==small[j].id&&small[j].flag!=1){
+            if(data[i].pid==0||(data[i].pid==small[j].id&&small[j].flag!=1)){
                 small[j].hasChild.push(data[i]);
                 removeObj(tempdata,data[i]);
             }
@@ -1040,14 +1045,17 @@ function compare(property){
 function changeFormat(data){
 
     var data = JSON.parse(data);
-
-    data.sort(compare('pid'))
-    //console.log('sort');
-    //console.log(data);
+    var rootL = [];
+    var small = [];
     for(var i = 0;i<data.length;i++){
         data[i].hasChild = [];
+        //if(data[i].pid==-1){
+        //    small.push(data[i]);
+        //}
     }
-    var small = [];
+    data.sort(compare('pid'));
+    console.log('paixu',data);
+
     small.push(data[0]);
     remove(data,0);
     var delArr = [];
@@ -1056,13 +1064,22 @@ function changeFormat(data){
         delArr[i] = data[i];
     }
 
-    for(var i = 0;i<data.length;i++){
-        if(small[0].pid==data[i].pid){
-            small.push(data[i]);
-            //delArr.push(i);
-            removeObj(delArr,data[i]);
-        }
-    }
+    //for(var i = 0;i<data.length;i++){
+    //    if(data[i].pid==0){
+    //        small.push(data[i]);
+    //        //delArr.push(i);
+    //        removeObj(delArr,data[i]);
+    //    }
+    //}
+
+
+    //for(var i = 0;i<data.length;i++){
+    //    if(small[0].pid==data[i].pid){
+    //        small.push(data[i]);
+    //        //delArr.push(i);
+    //        removeObj(delArr,data[i]);
+    //    }
+    //}
     //for(var i = 0;i<delArr.length;i++){
     //    remove(data,i);
     //}

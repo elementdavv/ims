@@ -342,7 +342,7 @@ function createConversationList(sDoM,list,targetType){
                     var sTargetId = list[i].senderUserId;
                     var sData=window.localStorage.getItem("datas");
                     var oData= JSON.parse(sData);
-                    var sId=oData.text.id;
+                    var sId=oData.id;
                     if(sId==sTargetId){
                         sTargetId='';
                     }
