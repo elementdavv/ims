@@ -55,7 +55,7 @@ function sendMsg(content,targetId,way,extra,callback){
         var Msize = KBtoM(sendMsg.size);
         switch (sendMsg.type){
             case 'image/png':
-                var imgSrc = 'page/web/css/img/backstage.png';
+                var imgSrc = 'css/img/backstage.png';
                 break;
         }
         //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
@@ -420,7 +420,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             var uniqueTime = sendMsg.uniqueTime;
             switch (sendMsg.type){
                 case 'image/png':
-                    var imgSrc = 'page/web/css/img/backstage.png';
+                    var imgSrc = 'css/img/backstage.png';
                     break;
             }
             sDoM += '<li class="mr-chatContentLFile clearfix" data-t="'+sSentTime+'">'+
@@ -639,31 +639,35 @@ function getGroupMembersList(groupid){
     sendAjax('group!listGroupMemebers',{groupid:groupid},function(data) {
         var oGroupidList = JSON.parse(data);
         var aMember=oGroupidList.text;
-        var smemship = JSON.stringify(aMember);
-        var sDom='<div class="groupInfo-number clearfix">\
+        if(aMember){
+
+            var smemship = JSON.stringify(aMember);
+            var sDom='<div class="groupInfo-number clearfix">\
             <span>成员('+aMember.length+')</span>\
             <p class="clearfix">\
-        <i class="groupInfo-noChat"></i>\
-        <i class="groupInfo-groupManage" memship="'+smemship+'"></i>\
-        </p>\
-        </div>\
-        <ul class="groupInfo-memberAll">';
-        if(aMember.length>0){
-            for(var i=0;i<aMember.length;i++){
-                var oCreator=findMemberInList(aMember[i]);
-                var sMemberName=oCreator.name;
-                var sJob=oCreator.account;
-                var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
-                sDom+=' <li>\
+            <i class="groupInfo-noChat"></i>\
+            <i class="groupInfo-groupManage" memship="'+smemship+'"></i>\
+            </p>\
+            </div>\
+            <ul class="groupInfo-memberAll">';
+            if(aMember.length>0){
+                for(var i=0;i<aMember.length;i++){
+                    var oCreator=findMemberInList(aMember[i]);
+                    var sMemberName=oCreator.name;
+                    var sJob=oCreator.account;
+                    var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
+                    sDom+=' <li>\
                             <img src="'+sImg+'">\
                             <p>'+sMemberName+'('+sJob+')</p>\
                             </li>';
+                }
             }
+            sDom+='</ul>';
+            $('#groupData .group-data .groupInfo-memberList').empty();
+            $('#groupData .group-data .groupInfo-memberList').append(sDom);
+            console.log(oGroupidList)
         }
-        sDom+='</ul>';
-        $('#groupData .group-data .groupInfo-memberList').empty();
-        $('#groupData .group-data .groupInfo-memberList').append(sDom);
-        console.log(oGroupidList)
+
     });
 }
 /**

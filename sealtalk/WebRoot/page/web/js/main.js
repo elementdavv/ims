@@ -6,7 +6,7 @@ $(function(){
     $('.chatHeaderOper li')[0].onclick = function(){
         sendAjax('system!logOut','',function(){
             alert('登出成功');
-            window.location.href = window.location.href;
+            window.location.href = 'system!login';
         });
     }
 

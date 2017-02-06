@@ -25,7 +25,7 @@
     <div class="signin-form">
         <div class="rightBox ">
             <div class="sign-flow signinBox">
-                <div class="form-inline ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="formSignin" novalidate="novalidate">
+                <form class="form-inline ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="formSignin" novalidate="novalidate">
                     <!--<div class="title">-->
                         <!--<a class="cur signinBtn" href="javascript:void 0">登录</a>-->
                         <!--<a class="signupBtn" href="#/account/signup" ui-sref="account.signup">注册</a>-->
@@ -48,9 +48,10 @@
                     </div>
                     <div class="button-wrapper form-group">
                         <button class="sign-button submit" type="submit" onclick="signin()">登录</button>
+                        <%--<a href="http://localhost:8080/sealtalk/page/web/main.jsp">登录</a>--%>
                     </div>
 
-                </div>
+                </form>
             </div>
         </div>
     </div>

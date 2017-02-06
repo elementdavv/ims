@@ -390,3 +390,14 @@ input::-ms-clear{display:none;}
     margin-top: 50px !important;
     width: 110px;
 }
+p.SendCheakCode{
+    height: 36px;
+    width: 100px;
+    background: #30c0da;
+    position: absolute;
+    right: 173px;
+    top: 255px;
+    line-height: 36px;
+    text-align: center;
+    color: white;
+}

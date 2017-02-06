@@ -8,7 +8,7 @@ $(function(){
     var sdata = localStorage.getItem('datas');
     var account = JSON.parse(sAccount).account;
     var accountID = JSON.parse(sdata).text.id;
-
+    //setTray (unreadCount);
     //获取常用联系人
     getMemberFriends(account);
     //获取左侧组织树状图

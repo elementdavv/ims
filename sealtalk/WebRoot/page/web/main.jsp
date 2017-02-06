@@ -18,7 +18,7 @@
 
     <script src="<%=request.getContextPath() %>/page/web/js/config.js"></script>
 
-    <%--<script src="<%=request.getContextPath() %>/page/web/js/qiniu/RongIMLib.js"></script>--%>
+    <script src="<%=request.getContextPath() %>/page/web/js/RongIMLib.js"></script>
 
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <%--<script src="<%=request.getContextPath() %>/page/web/js/globalVar.js"></script>--%>
@@ -29,9 +29,9 @@
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/init.js"></script>
 
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
-    <script src="https://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>
-    <script src="https://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
-    <script src="https://webapi.amap.com/js/marker.js"></script>
+    <%--<script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>--%>
+    <script src="http://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
+    <script src="http://webapi.amap.com/js/marker.js"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=acafe737e6344c4ce19d101b9f3b1d03"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/getCurrentPos.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery.mousewheel.js"></script>
@@ -56,7 +56,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
 </head>
 <body>
-    <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
+    <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
 <div class="chatHeader">

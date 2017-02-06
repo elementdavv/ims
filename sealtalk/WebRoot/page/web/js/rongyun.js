@@ -106,6 +106,7 @@ $(function(){
                console.log('连接成功');
             },
             onTokenIncorrect: function() {
+
                 console.log('token无效');
             },
             onError:function(errorCode){
