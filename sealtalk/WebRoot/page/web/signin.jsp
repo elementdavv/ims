@@ -25,32 +25,21 @@
     <div class="signin-form">
         <div class="rightBox ">
             <div class="sign-flow signinBox">
-                <form class="form-inline ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="formSignin" novalidate="novalidate">
-                    <!--<div class="title">-->
-                        <!--<a class="cur signinBtn" href="javascript:void 0">登录</a>-->
-                        <!--<a class="signupBtn" href="#/account/signup" ui-sref="account.signup">注册</a>-->
-                        <!--<div class="triangle-up"></div>-->
-                    <!--</div>-->
+                <form onsubmit="addMD5()" method="post" action="system!afterLogin" class="form-inline" name="formSignin" novalidate="novalidate">
                     <div class="form-group firstNone">
                         <label for="username" class="username"></label>
-                        <input type="text" placeholder="手机号" required="" class="form-control-my ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" name="accountNumber" ng-model="user.accountNumber" ng-pattern="/^1[3-9][0-9]{9,9}$/" id="username" my-focus="">
-                        <!--<p class="error-block ng-hide" ng-show="(formSignin.accountNumber.$dirty||formSignin.submitted)&amp;&amp;formSignin.accountNumber.$invalid&amp;&amp;!formSignin.accountNumber.$focused">手机号格式错误</p>-->
-
+                        <input type="text" name="account" placeholder="手机号" required="" class="form-control" name="accountNumber" ng-model="user.accountNumber" ng-pattern="/^1[3-9][0-9]{9,9}$/" id="username" my-focus="">
                     </div>
                     <div class="form-group">
                         <label for="pwdIn" class="pwdIn"></label>
-                        <input type="password" placeholder="密码" required="" ng-pattern="/^[0-9a-zA-Z!@#$%^&amp;*(){}:&quot;|>?\[\];,.\/\-=_+]{6,16}$/" class="form-control-my ng-untouched ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="passWord" ng-model="user.passWord" id="pwdIn" my-focus="" >
-                        <!--<p class="error-block ng-hide" ng-show="(formSignin.passWord.$dirty||formSignin.submitted)&amp;&amp;formSignin.passWord.$invalid&amp;&amp;!formSignin.passWord.$focused">密码格式错误</p>-->
-                        <!--<p class="error-block ng-hide" ng-show="!formSignin.passWord.$invalid&amp;&amp;userorpwdIsError&amp;&amp;!formSignin.passWord.$focused">手机号或密码错误</p>-->
-                    </div>
+                        <input type="password" name="userpwd" placeholder="密码" required="" ng-pattern="/^[0-9a-zA-Z!@#$%^&amp;*(){}:&quot;|>?\[\];,.\/\-=_+]{6,16}$/" class="form-control-my ng-untouched ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="passWord" ng-model="user.passWord" id="pwdIn" my-focus="">
+                        </div>
                     <div class="bot clearfix">
                         <a class="pull-right" href="<%=request.getContextPath() %>/system!fogetPassword" ui-sref="account.forgotpassword">忘记密码？</a>
                     </div>
                     <div class="button-wrapper form-group">
-                        <button class="sign-button submit" type="submit" onclick="signin();">登录</button>
-                        <%--<a href="http://localhost:8080/sealtalk/page/web/main.jsp">登录</a>--%>
+                        <button class="sign-button submit" type="submit">登录</button>
                     </div>
-
                 </form>
             </div>
         </div>

@@ -35,7 +35,7 @@ function getCurrentMemberPos(){
         str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
-        var sId=oData.text.id;
+        var sId=oData.id;
         sendAjax('map!subLocation',{userid:sId,latitude:latiude,longtitude:longtiude},function(data){
             var aDatas=JSON.parse(data);
 

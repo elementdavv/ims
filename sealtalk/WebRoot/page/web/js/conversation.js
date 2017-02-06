@@ -15,8 +15,6 @@ $(function(){
             $('.chatMenu li')[1].click();
             $('.groupChatList').find('li[targetid='+targetId+']').dblclick();
         }
-
-
     })
     //文件拖拽上传
     var messageContent = document.getElementById('message-content');
