@@ -778,16 +778,16 @@ function scrollTop(eDom){
 //获取历史消息、消息记录
 function historyMsg(Type,targetId){
     var aList;
-    //RongIMLib.RongIMClient.getInstance().searchMessageByContent(RongIMLib.ConversationType[Type],targetId,'',0,20,1,{
-    //        onSuccess:function(data, count){
-    //            console.log(data);
-    //            console.log(count);
-    //            // @param {<Message>[]}     data      - 搜索的结果
-    //            // @param {number}          count     - 搜索的消息总条数
-    //        },
-    //        onError:function(error){
-    //        }
-    //    });
+    RongIMLib.RongIMClient.getInstance().searchMessageByContent(RongIMLib.ConversationType[Type],targetId,null,0,20,1,{
+            onSuccess:function(data, count){
+                console.log(data);
+                console.log(count);
+                // @param {<Message>[]}     data      - 搜索的结果
+                // @param {number}          count     - 搜索的消息总条数
+            },
+            onError:function(error){
+            }
+        });
     var oPagetest = new PageObj({divObj:$('.infoDet-chatRecord').find('.infoDet-pageQuery'),pageSize:20,conversationtype:Type,targetId:targetId,pageCount:60},function(type,list,callback)//声明page1
     {
         getChatRecord(list);
