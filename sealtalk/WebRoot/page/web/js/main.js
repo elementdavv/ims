@@ -9,7 +9,19 @@ $(function(){
             window.location.href = 'system!login';
         });
     }
-
+    $('.chatHeaderOper li')[1].onclick = function(){
+        //$(".chatContent").addClass('chatHide');
+        $('.news').addClass('chatHide');
+        $('.orgnized').addClass('chatHide');
+        $('.personalCenter').find('#backstageMgId li').removeClass('active');
+        $('.personalCenter').removeClass('chatHide');
+        $('.chatHeaderMenu li').removeClass('active');
+        $('#chatBox').children().each(function(){
+            if(!$(this).hasClass('chatHide')){
+                $(this).addClass('chatHide');
+            }
+        });
+    }
     $('.contactsList').perfectScrollbar();
     $('.dialogClose,.manageCancle').click(function(){
         $('.WindowMask,.WindowMask2').hide();

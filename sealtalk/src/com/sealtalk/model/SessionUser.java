@@ -11,6 +11,7 @@ public class SessionUser
 	/** 
 	* @Fields accountId : TODO(账号ID) 
 	*/ 
+	private int id;
 	private String account; 
 	
 	/** 
@@ -20,6 +21,14 @@ public class SessionUser
 	
 	private String token;
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getToken() {
 		return token;
 	}

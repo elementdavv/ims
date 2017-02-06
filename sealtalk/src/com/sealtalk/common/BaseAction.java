@@ -160,18 +160,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 	}
 	
 	/** 设置当前会话的用户包装类 */
-	protected void setSessionPrivilege(SessionPrivilege su)
-	{
-		if (request == null) {
-			WebContext ctx = WebContextFactory.get();
-			HttpSession session = ctx.getSession(false);
-			session.setAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGECODE, su);
-		} else {
-			request.getSession().setAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGECODE, su);
-		}
-	}
-	
-	/** 设置当前会话的用户包装类 */
 	protected void setSessionUser(SessionUser su)
 	{
 		if (request == null) {
