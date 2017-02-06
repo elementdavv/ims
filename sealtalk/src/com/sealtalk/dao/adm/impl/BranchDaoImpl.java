@@ -154,7 +154,7 @@ public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDa
 				"BM.is_master," +
 				"BC.id BCID," +
 				"BC.parent_id," +
-				"BC.name," +
+				"BC.name BCNAME," +
 				"M.id MID," +
 				"M.account," +
 				"M.fullname," +
@@ -171,10 +171,14 @@ public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDa
 				"M.groupuse," +
 				"M.intro," +
 				"P.id PID," +
-				"P.name," +
-				"S.id," +
-				"S.name " +
-				"from t_branch_member BM right join t_branch BC on BM.branch_id=BC.id " +
+				"P.name PNAME," +
+				"S.id SID," +
+				"S.name SNAME," +
+				"TOR.id ORID," +
+				"TOR.name TORNAME " +
+				"from t_branch_member BM " +
+				"right join t_branch BC on BM.branch_id=BC.id " +
+				"right join t_organ TOR on TOR.id=BC.organ_id " +
 				"left join t_member M on BM.member_id=M.id " +
 				"left join t_position P on BM.position_id=P.id " +
 				"left join t_sex S on M.sex=S.id"; 

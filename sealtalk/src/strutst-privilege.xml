@@ -5,8 +5,9 @@
 
 <struts>
 
-   <!--  <package name="com.sealtalk.action.test" extends="ssl-default">-->
-    <package name="com.sealtalk.action.upload" extends="struts-default">
+	<!-- ssl-default -->
+	<!-- struts-default -->
+  <package name="com.sealtalk.action.privilege" extends="struts-default">
         <action name="privilege" class="com.sealtalk.action.test.PrivilegeAction">
         	<result name="text" type="stream">
 				<param name="contentType">text/plain</param>

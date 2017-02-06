@@ -404,7 +404,7 @@ public class BaseDao<T, PK extends Serializable> extends HibernateDaoSupport imp
  	}
 
 	@Override
-	public Integer getMax(String field, String hql) {
+	public Integer getMax(final String field, final String hql) {
         
         List tempList = this.getHibernateTemplate().executeFind(new HibernateCallback(){
             public List doInHibernate(Session session) throws HibernateException, SQLException {

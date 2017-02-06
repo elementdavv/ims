@@ -97,7 +97,10 @@ public class FunctionServiceImpl implements FunctionService {
 			e.printStackTrace();
 		}
 		
-		return jo.toString();
+		String result = jo.toString();
+		
+		System.out.println(result);
+		return result;
 	}
 
 	@Override
@@ -106,13 +109,20 @@ public class FunctionServiceImpl implements FunctionService {
 		
 		try {
 			if (!StringUtils.getInstance().isBlank(status)) {
-				TFunction tf = new TFunction();
+				String name = userId + "_" + FunctionName.SYSTIPVOICE.getName();
+				TFunction tf1 = functionDao.getFunctionStatus(name);
 				
-				tf.setIsOpen(status);
-				tf.setName(userId + "_" + FunctionName.SYSTIPVOICE.getName());
-				tf.setListorder(0);
-				
-				functionDao.setFunctionStatus(tf);
+				if (tf1 == null) {
+					TFunction tf = new TFunction();
+					
+					tf.setIsOpen(status);
+					tf.setName(name);
+					tf.setListorder(0);
+					
+					functionDao.setFunctionStatus(tf);
+				} else {
+					functionDao.updateFunctionStatus(name, status);
+				}
 				jo.put("code", 1);
 				jo.put("text", Tips.OK.getText());
 			} else {

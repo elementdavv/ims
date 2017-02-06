@@ -67,7 +67,6 @@
 		<!-- 访问控制 -->
 		<property name="mappingResources">
 			<list>
-				<!-- <value>classpath:/com/sealtalk/pojo</value> -->
 				<value>com/sealtalk/model/TBranch.hbm.xml</value>
 				<value>com/sealtalk/model/TBranchMember.hbm.xml</value>
 				<value>com/sealtalk/model/TCity.hbm.xml</value>
@@ -79,7 +78,7 @@
 				<value>com/sealtalk/model/TGroupMember.hbm.xml</value>
 				<value>com/sealtalk/model/TIndustry.hbm.xml</value>
 				<value>com/sealtalk/model/TInward.hbm.xml</value>
-				<value>com/sealtalk/model/TMember.hbm.xml</value>
+				<value>com/sealtalk/model/TMember.hbm.xml</value>		
 				<value>com/sealtalk/model/TMemberRole.hbm.xml</value>
 				<value>com/sealtalk/model/TOrgan.hbm.xml</value>
 				<value>com/sealtalk/model/TPosition.hbm.xml</value>

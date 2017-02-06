@@ -32,10 +32,10 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 
 	/**
 	 *	获取单用户 
-	 * @param account
+	 * @param id
 	 * @return
 	 */
-	public Object[] getOneOfMember(String account);
+	public Object[] getOneOfMember(int id);
 
 	/**
 	 * in 查询多个用户按账号
@@ -104,7 +104,21 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 */
 	public boolean isUsedPic(int userIdInt, String userId);
 
+	/**
+	 * 更新个人设置
+	 * @param account
+	 * @param fullname
+	 * @param sex
+	 * @param email
+	 * @param phone
+	 * @param sign
+	 * @return
+	 */
+	public int updateMemeberInfo(String account, String fullname, String sex,
+			String email, String phone, String sign);
+	
 	public List getMemberPosition(Integer memberId);
+	
 	public List getMemberRole(Integer memberId);
 	/**
 	 * 更新用户密码
@@ -119,5 +133,12 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @return
 	 */
 	public TMember getOneMember(String account);
+
+	/**
+	 * 获取指定数量的用户id
+	 * @param mapMax
+	 * @return
+	 */
+	public List<TMember> getLimitMemberIds(int mapMax);
 
 } 

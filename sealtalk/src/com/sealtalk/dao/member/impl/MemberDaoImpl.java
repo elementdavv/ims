@@ -3,6 +3,7 @@ package com.sealtalk.dao.member.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
 
@@ -78,8 +79,9 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object[] getOneOfMember(String account) {
+	public Object[] getOneOfMember(int id) {
 		try {
+			
 			String hql = "select " +
 				"M.id MID," + 
 				"M.account," +
@@ -103,7 +105,7 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 				"left join t_branch B on BM.branch_id=B.id " +
 				"left join t_position P on BM.position_id=P.id " +
 				"inner join t_organ O on M.organ_id=O.id " +
-				"where account='" + account + "'";
+				"where M.id=" + id;
 			
 			SQLQuery query = this.getSession().createSQLQuery(hql);
 			
@@ -313,6 +315,20 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 	}
 
 	@Override
+	public int updateMemeberInfo(String account, String fullname, String sex,
+			String email, String phone, String sign) {
+
+		try {
+			String hql = "update TMember T set t.fullname='" + fullname + "',sex='" + sex + "',email='" + email + "',telephone='" + phone + "',sign='" + sign + "' where account='" + account +"'";
+			int ret = update(hql);
+			return ret;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	@Override
 	public List getMemberPosition(Integer memberId) {
 
 		String sql = "select position_id, branch_id, id from t_branch_member"
@@ -374,5 +390,29 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 		
 		return null;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TMember> getLimitMemberIds(int limit) {
+		String sql = (new StringBuilder("select new TMember(t.id) from TMember t")).toString();
+		
+		try {
+			Query query = getSession().createQuery(sql);
+			query.setFirstResult(0);
+			query.setMaxResults(limit);
+			
+			List<TMember> list = query.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 
 }

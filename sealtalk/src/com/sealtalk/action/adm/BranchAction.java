@@ -10,6 +10,7 @@ import java.util.ListIterator;
 
 import javax.servlet.ServletException;
 
+import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.dao.adm.BranchMemberDao;
 import com.sealtalk.model.TBranch;
@@ -27,6 +28,7 @@ import net.sf.json.JSONObject;
  * @author alopex
  *
  */
+
 public class BranchAction extends BaseAction {
 
 	/**

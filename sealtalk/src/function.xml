@@ -10,10 +10,12 @@
 
 	<!-- dao -->
 	<bean id="dontDistrubDao" class="com.sealtalk.dao.fun.impl.DontDistrubDaoImpl" autowire="byName" />
+	<bean id="functionDao" class="com.sealtalk.dao.fun.impl.FunctionDaoImpl" autowire="byName" />
 	
 	<!-- service -->
 	<bean id="functionService" class="com.sealtalk.service.fun.impl.FunctionServiceImpl" autowire="byName" >
 		<property name="dontDistrubDao" ref="dontDistrubDao" />
+		<property name="functionDao" ref="functionDao" />
 	</bean>
 	
 	<!-- action -->

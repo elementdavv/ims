@@ -2,6 +2,8 @@ package com.sealtalk.utils;
 
 
 import io.rong.RongCloud;
+import io.rong.messages.BaseMessage;
+import io.rong.messages.InfoNtfMessage;
 import io.rong.messages.TxtMessage;
 import io.rong.models.CheckOnlineReslut;
 import io.rong.models.CodeSuccessReslut;
@@ -160,11 +162,13 @@ public class RongCloudUtils {
 	 * @param targetIds
 	 * @param msg
 	 * @param extraMsg
+	 * @param type消息类型
 	 * @return
 	 */
-	public String sendSysMsg(String fromId, String[] targetIds, String msg, String extraMsg) {
+	public String sendSysMsg(String fromId, String[] targetIds, String msg, String extraMsg, int type) {
 		JSONObject jo = new JSONObject();
 		
+		System.out.println("msg: " + msg);
 		try {
 			if (rongCloud == null) {
 				this.init();
@@ -173,7 +177,17 @@ public class RongCloudUtils {
 			JSONObject pushMsg = new JSONObject();
 			pushMsg.put("pushData", msg);
 			
-			TxtMessage messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
+			BaseMessage messagePublishSystemTxtMessage = null;
+			
+			switch(type) {
+				case 1:
+					messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
+					break;
+				case 2:
+					messagePublishSystemTxtMessage = new InfoNtfMessage(msg, extraMsg);
+					break;
+			}
+			//TxtMessage messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
 			CodeSuccessReslut messagePublishSystemResult = 
 				rongCloud.message.PublishSystem(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), 0, 0);
 			

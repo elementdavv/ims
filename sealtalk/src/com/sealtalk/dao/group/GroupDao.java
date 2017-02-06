@@ -51,10 +51,17 @@ public interface GroupDao {
 	public TGroup getGroupForId(int groupId);
 	
 	/**
-	 * 获取群列表
+	 * 获取群列表成员返回id
 	 * @param groups
 	 */
 	public List<TGroup> getGroupList(Integer[] groups);
+	
+	/**
+	 * 获取群组与成员,返回属性
+	 * @param s
+	 * @return
+	 */
+	public List<Object[]> getGroupListWithCreaterInfo(String s);
 
 	/**
 	 * 按id删除群组
@@ -91,6 +98,6 @@ public interface GroupDao {
 	 * @param id
 	 * @return
 	 */
-	public TGroup groupInfo(int id);
+	public Object[] groupInfo(int id);
 
 }
