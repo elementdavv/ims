@@ -1,6 +1,9 @@
 package com.sealtalk.action.sys;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
@@ -8,15 +11,14 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
-import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.common.Constants;
 import com.sealtalk.common.Tips;
 import com.sealtalk.model.SessionPrivilege;
 import com.sealtalk.model.SessionUser;
 import com.sealtalk.model.TMember;
+import com.sealtalk.service.adm.PrivService;
 import com.sealtalk.service.member.MemberService;
-import com.sealtalk.service.privilege.PrivilegeService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.MathUtils;
 import com.sealtalk.utils.PropertiesUtils;
@@ -63,10 +65,10 @@ public class SystemAction extends BaseAction {
 		if (StringUtils.getInstance().isBlank(account)) {
 			result.put("code", 0);
 			result.put("text", Tips.NULLUSER.getText());
-			//request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
-			//return "loginPage";
 			returnToClient(result.toString());
 			return "text";
+			/*request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
+			return "loginPage";*/
 		}
 		
 		TMember member = memberService.searchSigleUser(account, userpwd);
@@ -74,10 +76,10 @@ public class SystemAction extends BaseAction {
 		if(member == null) {
 			result.put("code", 0);
 			result.put("text", Tips.ERRORUSERORPWD.getText());
-			//request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
-			//return "loginPage";
 			returnToClient(result.toString());
 			return "text";
+			/*request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
+			return "loginPage";*/
 		}
 		
 		logger.debug("That logining account is " + account);
@@ -114,24 +116,38 @@ public class SystemAction extends BaseAction {
 		
 		logger.info(token);
 		
+		//设置用户session
 		SessionUser su = new SessionUser();
 		
-		if (member != null) {
-			su.setAccount(member.getAccount());
-			su.setFullname(member.getFullname());
-			su.setToken(token);
-		}
-		
-		//2.相关权限信息	
-	///	SessionPrivilege sp = privilegeService.setPrivilege(account);
-		
-		
+		su.setId(member.getId());
+		su.setAccount(member.getAccount());
+		su.setFullname(member.getFullname());
+		su.setToken(token);
 		setSessionUser(su);
+		
+		//2.设置权限session
+		int roleId = privService.getRoleIdForId(member.getId());
+		List privList = privService.getPrivByRole(roleId);
+		Iterator it = privList.iterator();
+		ArrayList<JSONObject> ja = new ArrayList<JSONObject>();
+		while(it.hasNext()) {
+			Object[] o = (Object[])it.next();
+			JSONObject js = new JSONObject();
+			js.put("privid", o[0]);
+			js.put("privname", o[1]);
+			js.put("parentid", o[2]);
+			js.put("grouping", o[3]);
+			js.put("priurl", o[4]);
+			js.put("roleid", o[5] == null ? "" : o[5]);
+			ja.add(js);
+		}
+		//setSessionAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGE, ja);
 		
 		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
 		
 		text.remove("password");
 		text.put("token", token);
+		text.put("priv", ja.toString());
 		
 		result.put("code", 1);
 		result.put("text", text.toString());
@@ -139,6 +155,7 @@ public class SystemAction extends BaseAction {
 		returnToClient(result.toString());
 		
 		return "text";
+		//return "loginSuccess";
 	}
 	
 	/**
@@ -314,14 +331,18 @@ public class SystemAction extends BaseAction {
 	}
 	
 	private MemberService memberService;
-	private PrivilegeService privilegeService;
+	private PrivService privService;
 	
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
 	
-	public void setPrivilegeService(PrivilegeService privilegeService) {
-		this.privilegeService = privilegeService;
+	public PrivService getPrivService() {
+		return privService;
+	}
+
+	public void setPrivService(PrivService privService) {
+		this.privService = privService;
 	}
 
 	private String account;

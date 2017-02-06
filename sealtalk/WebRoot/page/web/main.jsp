@@ -6,6 +6,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="description" content="">
+    <%--<meta http-equiv="refresh" content="2;url=http://www.baidu.com">--%>
     <title></title>
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/normalize.css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/dateMain.css">
@@ -40,6 +41,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
     <%--<script src="http://cdn.ronghub.com/RongIMLib-2.2.4.min.js"></script>--%>
     <script src="http://cdn.ronghub.com/RongEmoji-2.2.4.min.js"></script>
+    <script src="http://cdn.ronghub.com/RongIMVoice-2.2.4.min.js"></script>
     <script src="http://webapi.amap.com/js/marker.js"></script>
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=acafe737e6344c4ce19d101b9f3b1d03"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/getCurrentPos.js"></script>
@@ -76,8 +78,8 @@
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
-        <%--<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li> --%>
-        <li bindPanel="back">后台管理</li>  
+        <li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
+        <%--<li bindPanel="back">后台管理</li>   --%>
     </ul>
     <ul class="chatHeaderOper">
         <%--<li class="chatLeftIcon"></li>--%>

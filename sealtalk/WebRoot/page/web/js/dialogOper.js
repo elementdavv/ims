@@ -224,8 +224,6 @@ function hasItem(parentLevelarr,parentLevel){
 }
 
 function creatDialogTree(data,className,title,callback,selected){
-    //console.log('00000');
-    //console.log(data);
     $('.WindowMask').find('.conversWindow').attr('class','conversWindow '+className);
     $('.WindowMask').find('.dialogHeader').html(title);
     $('.WindowMask').show();

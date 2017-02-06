@@ -11,10 +11,9 @@ import com.sealtalk.service.privilege.PrivilegeService;
 public class PrivilegeServiceImpl implements PrivilegeService {
 
 	@Override
-	public SessionPrivilege setPrivilege(String account) {
+	public SessionPrivilege setPrivilege(int id) {
 		try {
-			int userId = memberDao.getMemberIdForAccount(account);
-		//	TMemberRole tmr = memberRoleDao.getMemberRole();
+			//TMemberRole tmr = memberRoleDao.getMemberRole(id);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
