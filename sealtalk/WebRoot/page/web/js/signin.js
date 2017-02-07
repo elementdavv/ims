@@ -3,6 +3,15 @@
  */
 window.onload = function(){
 
+    //忘记密码
+    $('#forgetPwd').click(function(){
+        if (window.Electron) {
+            var curWindow = window.Electron.remote.shell.openExternal('http://localhost:8080/sealtalk/system!fogetPassword');
+            console.log(curWindow);
+        }
+    })
+
+
     //点击发送验证码
     $('#pwdIn').unbind('focus');
     $('#pwdIn').focus(function(){

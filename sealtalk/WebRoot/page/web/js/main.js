@@ -5,7 +5,15 @@ $(function(){
 
     $('.chatHeaderOper li')[0].onclick = function(){
         sendAjax('system!logOut','',function(){
-            alert('登出成功');
+            if (window.Electron) {
+                var curWindow = window.Electron.remote.getCurrentWindow().reload();
+            }
+
+            //alert('登出成功');
+            ////refreshWindow
+            //var mainWindow2 = window.Electron.ipcRenderer._events.logout();
+            //var window1 = mainWindow2.loadURL('http://localhost:8080/sealtalk/page/web/system!afterLogin');
+
             window.location.href = 'system!login';
         });
     }

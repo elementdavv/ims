@@ -582,7 +582,7 @@ $(function(){
                                     var datas = localStorage.getItem('datas');
                                     //if(sAccount){
                                         var data = JSON.parse(datas);
-                                        var userid = data.text.id;
+                                        var userid = data.id;
                                     sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
                                         getGroupList(userid);
                                         removeConvers("GROUP",groupid);
@@ -919,8 +919,9 @@ function getBranchTreeAndMember(){
 //获取常用联系人
 function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
-        window.localStorage.MemberFriends = data;
         var myData = JSON.parse(data);
+        myData = myData.text;
+        //window.localStorage.MemberFriends = data;
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
         for(var i = 0;i<myData.length;i++){

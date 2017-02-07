@@ -344,6 +344,21 @@ input::-ms-clear{display:none;}
     width: 44px;
     border-radius: 44px;
 }
+button#downLoadFile {
+    position: absolute;
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    /* background: url('img/uploadbtn.png') no-repeat; */
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    border-radius: 30px;
+    border: 1px solid #d0d0d0;
+}
+button#downLoadFile:focus{
+    outline: none;
+}
 .groupChatList .triOpen,.usualChatList .triOpen{
     height: 10px;
     width: 10px;

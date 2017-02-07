@@ -35,7 +35,7 @@
                         <input type="password" name="userpwd" placeholder="密码" required="" ng-pattern="/^[0-9a-zA-Z!@#$%^&amp;*(){}:&quot;|>?\[\];,.\/\-=_+]{6,16}$/" class="form-control-my ng-untouched ng-valid-pattern ng-dirty ng-valid-parse ng-valid ng-valid-required" name="passWord" ng-model="user.passWord" id="pwdIn" my-focus="">
                         </div>
                     <div class="bot clearfix">
-                        <a class="pull-right" href="<%=request.getContextPath() %>/system!fogetPassword" ui-sref="account.forgotpassword">忘记密码？</a>
+                        <a class="pull-right" href="<%=request.getContextPath() %>/system!fogetPassword" ui-sref="account.forgotpassword" id="forgetPwd">忘记密码？</a>
                     </div>
                     <div class="button-wrapper form-group">
                         <button class="sign-button submit" type="submit">登录</button>
