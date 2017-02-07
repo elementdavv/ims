@@ -5,8 +5,9 @@ $(document).ready(function(){
     var groupTimer=null,groupTimer1 = null;
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
-    var account = JSON.parse(sdata).account;
-    var accountID = JSON.parse(sdata).id;
+    var accountObj = JSON.parse(sdata);
+    var account = accountObj.account;
+    var accountID = accountObj.id;
     $("#calendar").asDatepicker({
         namespace: 'calendar',
         lang: 'zh',
@@ -34,6 +35,69 @@ $(document).ready(function(){
        }
        $('#infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
    });
+    $('#groupData').on('click','.groupInfo-noChat',function(){
+        var groupid=$(this).attr('data-groupid');
+        var sChat=$(this).attr('data-chat');
+        if(sChat==1){
+            new Window().alert({
+                title   : '关闭全员禁言',
+                content : '确定要关闭全员禁言吗？',
+                hasCloseBtn : true,
+                hasImg : true,
+                textForSureBtn : '确定',              //确定按钮
+                textForcancleBtn : '取消',            //取消按钮
+                handlerForCancle : null,
+                handlerForSure : function(){
+                    //解散群组接口
+                    var datas = localStorage.getItem('datas');
+                    //if(sAccount){
+                    var data = JSON.parse(datas);
+                    var userid = data.id;
+                    sendAjax('group!unShutUpGroup',{groupid:groupid},function(data){
+                        if(data){
+                            var oData=JSON.parse(data);
+                            if(oData.code==1){
+                                //$('#groupData .groupInfo-noChat').attr('data-chat',1);
+                            }
+                        }
+                        // getGroupList(userid);
+                        // removeConvers("GROUP",groupid);
+                    },function(){
+                        console.log('失败');
+                    })
+                }
+            });
+        }else{
+            new Window().alert({
+                title   : '开启全员禁言',
+                content : '确定要开启全员禁言吗？',
+                hasCloseBtn : true,
+                hasImg : true,
+                textForSureBtn : '确定',              //确定按钮
+                textForcancleBtn : '取消',            //取消按钮
+                handlerForCancle : null,
+                handlerForSure : function(){
+                    //解散群组接口
+                    var datas = localStorage.getItem('datas');
+                    //if(sAccount){
+                    var data = JSON.parse(datas);
+                    var userid = data.id;
+                    sendAjax('group!shutUpGroup',{groupid:groupid},function(data){
+                        if(data){
+                            var oData=JSON.parse(data);
+                            if(oData.code==1){
+                                $('#groupData .groupInfo-noChat').attr('data-chat',1);
+                            }
+                        }
+                        // getGroupList(userid);
+                        // removeConvers("GROUP",groupid);
+                    },function(){
+                        console.log('失败');
+                    })
+                }
+            });
+        }
+    });
     //点击侧边栏
     $('#perContainer').on('click','.messageRecord .mr-record',function(){
         if($('#perContainer').hasClass('mesContainer-translateL')){
@@ -104,7 +168,7 @@ $(document).ready(function(){
             //console.log('----------');
             for(var i = 0;i<aText.length;i++){
                 //console.log(account,data[i].account);
-                if(aText[i].id==sId){
+                if(aText[i].GID==sId){
                     showGroupMemberInfo(aText[i],pos);
                 }
             }
@@ -423,7 +487,7 @@ function fPersonalSet(){
 }
 function showGroupMemberInfo(oGroupInfo,pos){
     var sName=oGroupInfo.name || '';//群名称
-    var sCreatorId=oGroupInfo.creatorId;//群创建者id
+    var sCreatorId=oGroupInfo.mid;//群创建者id
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
     var oCreator=findMemberInList(sCreatorId);
     if(!oCreator.logo){

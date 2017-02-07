@@ -1,19 +1,45 @@
 var fillmember = 0;
 $(document).ready(function(){
 	
+	$('#110').validVal();
+
 	//下拉相关
-	treeplace($('#branchmanager'), $('#tree110wrap'));
+	$('#tree110wrap').css({
+		'left': $('#branchmanager').offset().left, 
+		'top': $('#branchmanager').offset().top + 33, 
+		'width': $('#branchmanager').width() + 21
+	});
 	
 	$('#branchaddmember').click(function() {
-		fillmember = 1;
-		$('#member').modal({
-			backdrop: false,
-			remote: '11_member.jsp'
-		});
+		
+		//权限
+		if (has('rsgltj')) {
+			fillmember = 1;
+			$('#member').modal({
+				backdrop: false,
+				remote: '11_member.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+		}
 	});
 	$('#branchsave').click(function(){
-		var data = formtojson($('#branchform'));
-		callajax('branch!saveBranch', data, cb_110_1);
+		if (curbranch == 0) {
+			bootbox.alert({'title':'提示', 'message': '请先选择部门.'});
+			return;
+		}
+		
+		if ($( "#110" ).triggerHandler( "submitForm" ) == false) return;
+
+		//权限
+		if (has('bmglxg')) {
+			var data = formtojson($('#branchform'));
+			callajax('branch!saveBranch', data, cb_110_1);
+		}
+		else {
+			bootbox.alert({'title':'提示', 'message':'您没有权限修改部门信息.'});
+		}
 	});
 })
 function cb_110(data) {
@@ -31,5 +57,5 @@ function loadbranch(data) {
 	$('#branchintro').val(data.intro);
 }
 function cb_110_1(data) {
-	alert('保存成功.');
+	bootbox.alert({'title':'提示', 'message':'保存成功.'});
 }

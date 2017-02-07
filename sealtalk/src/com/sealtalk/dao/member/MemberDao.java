@@ -6,6 +6,11 @@ import com.sealtalk.common.IBaseDao;
 import com.sealtalk.model.TMember;
 
 public interface MemberDao extends IBaseDao<TMember, Integer> {
+
+	public List getMemberPosition(Integer memberId);
+	public List getMemberRole(Integer memberId);
+	public TMember getMemberByName(String name);
+	
 	/**
 	 * 登陆验证
 	 * @param name
@@ -117,9 +122,6 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	public int updateMemeberInfo(String account, String fullname, String sex,
 			String email, String phone, String sign);
 	
-	public List getMemberPosition(Integer memberId);
-	
-	public List getMemberRole(Integer memberId);
 	/**
 	 * 更新用户密码
 	 * @param userName

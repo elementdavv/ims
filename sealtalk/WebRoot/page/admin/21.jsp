@@ -13,12 +13,17 @@
 		<li><a href="11.jsp">基本设置</a></li>
 		<li class="active">高级设置</li>
 	</ul>
+    <ul class="admHeaderOper">
+        <li class="admLeftIcon" id='idlogout'></li>
+        <li class="admLeftIcon"></li>
+        <li class="admLeftIcon"></li>
+    </ul>
 </div>
 <div class="menupanel12">
 	<div id="jb" class="sidebar12">
-		<div class="menu menuactive">成员身份权限</div>
-		<div class="menu"><a href="#">高级功能</a></div>
-		<div class="menu"><a href="23.jsp">职务职位</a></div>
+		<div class="menu menuactive"><img src='images/身份权限.png' class='menuicon'>成员身份权限</div>
+		<div class="menu" onclick='window.location.href="#";'><img src='images/高级功能.png' class='menuicon'>高级功能</div>
+		<div class="menu" onclick='window.location.href="23.jsp";'><img src='images/职务职位.png' class='menuicon'>职务职位</div>
 	</div>
 </div>
 
@@ -30,15 +35,15 @@
 		<div class="col21">
 			<div class="col1">
 				<div class="line21">
-					<button id='addrole'>+添加权限</button>
-					<button onclick='delrole()'>删除</button>
+					<button id='addrole' class='cancel'><img src='images/添加icon.png' style='margin:-2px 5px 0 0' />添加权限</button>
+					<button class='cancel' onclick='delrole()' style='width:64px;margin-left:5px'>删除</button>
 				</div>
-				<div class="line21" style="width: 70%">
+				<div class="line21" style="width:70%">
 					<ul id='list21'>
-						<li>组织管理员</li>
+<!-- 				<li>组织管理员</li>
 						<li class="active">普通成员</li>
 					</ul>
-				</div>
+ -->			</div>
 			</div>
 <jsp:include page="210.jsp" flush="true" />
 <jsp:include page="211.jsp" flush="true" />
@@ -50,14 +55,14 @@
 
 <div id="role" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
 	<div class="modal-dialog" style='width: 900px'>
-		<div class="modal-content" style='height: 590px'>
+		<div class="modal-content" style='height: 650px'>
 		</div>	
 	</div>
 </div>
 
 <div id="member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleid" aria-hidden="true">
-	<div class="modal-dialog" style='width: 650px'>
-		<div class="modal-content" style='height: 585px'>
+	<div class="modal-dialog" style='width: 750px'>
+		<div class="modal-content" style='height: 630px'>
 		</div>
 	</div>
 </div>

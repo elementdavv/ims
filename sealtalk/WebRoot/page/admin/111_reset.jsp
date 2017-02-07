@@ -9,14 +9,14 @@
 	<div class='h5px'></div>
 	<div>
 		<div class='dialogtitle'>
-			<div class='toleft'>重置成员密码</div>
-			<div class='toright'>×</div>
+			<div class='toleft  dtitle'>重置成员密码</div>
+			<div class='toright dclose' onclick="$('#reset').modal('hide');">×</div>
 		</div>			
 	</div>
-	<div class='h40px'></div>
+	<div class='h50px'></div>
 	<div>
-		<div class='dialogtitle'>成员新密码：*
-			<input type='text' id='newpassword' style='width: 182px'>
+		<div class='dialogtitle'>成员新密码：<span style='color:red'>*</span>
+			<input type='text' id='newpassword' class='required' style='width: 261px'>
 		</div>
 	</div>
 	<div class='h20px'></div>
@@ -24,14 +24,15 @@
 		<div class='dialogtitle'>
 			<div style="float: left">新密码强度：</div>
 			<div id='grade1' class='grade weak leftspace8'></div> 
-			<div id='grade2' class='grade weak leftspace1'></div> 
-			<div id='grade3' class='grade weak leftspace1'></div> 
+			<div id='grade2' class='grade grade0 leftspace1'></div> 
+			<div id='grade3' class='grade grade0 leftspace1'></div> 
 		</div>
 	</div>
 	<div class='h50px'></div>
+	<div class='h20px'></div>
 	<div>
 		<div class='dialogtitle'>
-			<button class="toright leftspace15" onclick="$('#reset').modal('hide');">取消</button>
+			<button class="toright leftspace15 cancel" onclick="$('#reset').modal('hide');">取消</button>
 			<button class="toright leftspace15" id='save111reset'>确定</button>
 		</div>
 	</div>	

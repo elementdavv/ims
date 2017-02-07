@@ -21,7 +21,7 @@ $(document).ready(function(){
 function cb_112_position_save(data) {
 
 	if (data.branchmemberid == '0') {
-		alert('职位已存在.');
+		bootbox.alert({'title':'提示', 'message':'职位已存在.'});
 	}
 	else {
 		$('#position').modal('hide');

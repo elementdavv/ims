@@ -70,15 +70,21 @@
     </head>
 
 <body userid="${SessionUser.id}" token="${SessionUser.token}">
+	<!--
+	权限设置判断
+	<c:if test="${SessionPrivilege.map.rsglsc != null}">	  
+	</c:if>
+	-->
     <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
-
     <div class="chatHeader">
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
-        <li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
+		<c:if test="${SessionPrivilege.map.htgl != null && SessionPrivilege.map.yyapppcd != null}">	  
+			<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
+		</c:if>
         <%--<li bindPanel="back">后台管理</li>   --%>
     </ul>
     <ul class="chatHeaderOper">
@@ -146,10 +152,12 @@
 <!--后台管理-->
 <div class="chatContent  chatHide personalCenter">
     <ul class="backstageMg" id="backstageMgId">
-        <li class="clearfix">
-            <em class="bMg-personalSet"></em>
-            <span>个人设置</span>
-        </li>
+		<c:if test="${SessionPrivilege.map.grsz != null}">	  
+			<li class="clearfix">
+				<em class="bMg-personalSet"></em>
+				<span>个人设置</span>
+			</li>
+		</c:if>
         <li class="clearfix">
             <em class="bMg-systemSet"></em>
             <span>系统设置</span>
@@ -169,7 +177,7 @@
     <!--地图-->
         <div class="orgNavClick groupMap chatHide" id="groupMap">
             <h3 class="perSetBox-title clearfix">
-                <span>天方产品部</span>
+                <span>天坊产品部</span>
                 <div class="messageRecord clearfix">
                     <b></b>
                 </div>
