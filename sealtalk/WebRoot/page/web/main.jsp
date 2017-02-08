@@ -74,7 +74,7 @@
 	<c:if test="${SessionPrivilege.map.rsglsc != null}">	  
 	</c:if>
 	-->
-    <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
+    <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
     <div class="chatHeader">
