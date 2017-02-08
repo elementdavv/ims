@@ -8,11 +8,6 @@ $(document).ready(function(){
     var accountObj = JSON.parse(sdata);
     var account = accountObj.account;
     var accountID = accountObj.id;
-    $("#calendar").asDatepicker({
-        namespace: 'calendar',
-        lang: 'zh',
-        position:'top'
-    });
    $('#perInfo').on('click','li',function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
@@ -130,27 +125,6 @@ $(document).ready(function(){
         //$('.avatar-preview img').attr('src',sImgsrc);
        getHeadImgList();
     });
-    //首页
-    //$('#infoDetailsBox').on('click','.infoDet-pageQuery i',function(){
-    //    var sTargettype=$('#perContainer').attr('targettype');
-    //    var sTargetid=$('#perContainer').attr('targetid');
-    //    var timestrap;
-    //    if($(this).hasClass('infoDet-pageQuery')){
-    //        //timestrap=0;
-    //    }else if($(this).hasClass('infoDet-prePage')){
-    //        timestrap=null;
-    //        $('.infoDet-nextPage').addClass('allowClick');
-    //        $('.infoDet-pageQuery').addClass('allowClick');
-    //
-    //    }else if($(this).hasClass('infoDet-firstPage')){
-    //        $('.infoDet-prePage').removeClass('allowClick');
-    //        $('.infoDet-firstPage').removeClass('allowClick');
-    //    }else if($(this).hasClass('infoDet-nextPage')){
-    //    }
-    //    if($(this).hasClass('allowClick')){
-    //        historyMsg(sTargettype,sTargetid,timestrap,20,$(this));
-    //    }
-    //});
     //群组悬停
     $('.groupChatList').delegate('li','mouseenter',function(e){
         var _this = $(this);
@@ -375,26 +349,33 @@ $(document).ready(function(){
             }
         });
     });
-    /*$('#personSettingId').on('click','.perSetBox-keep',function(){
-        var sAccountNum=$('#personSettingId .perSetBox-account').html() ||'1';
-        var sName=$('#personSettingId .perSetBox-name').html() ||'1';
-        var sPosition=$('#personSettingId .perSetBox-position').html() ||'1';
-        var sBranch=$('#personSettingId .perSetBox-branch').html()||'1';
-        var sEmail=$('#personSettingId .perSetBox-email').val()||'1';
-        var sSex=$('#personSettingId .perSetBox-selSex').val()||'1';
-        var sTelephone=$('#personSettingId .perSetBox-telephone').html()||'1';
-        var sSign=$('#personSettingId .perSetBox-textarea').text()|| '44444';
-        sendAjax('member!updateMemberInfo',{account:sAccountNum,fullname:sName,sex:sSex,position:sPosition,branch:sBranch,email:sEmail,phone:sTelephone,sign:sSign},function(data){
+    $('#personSettingId').on('click','.perSetBox-keep',function(){
+        var sEmail=$('#personSettingId .perSetBox-email').val();
+        var sSex=$('#personSettingId .perSetBox-selSex').val();
+        switch (sSex){
+            case "男":
+                sSex=1;
+                break;
+            case "女":
+                sSex=0;
+                break;
+        }
+        var sTelephone=$('#personSettingId .perSetBox-telephone').val();
+        var sSign=$('#personSettingId .perSetBox-textarea').text();
+        var sData=window.localStorage.getItem("datas");
+        var oData= JSON.parse(sData);
+        var sId=oData.id;
+        sendAjax('member!updateMemberInfoForWeb',{userid:sId,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
                var sData=window.localStorage.getItem("datas");
                var oData= JSON.parse(sData);
-               var sId=oData.text.id;
-               var sSelfImg=oData.text.logo;
+               var sId=oData.id;
+               var sSelfImg=oData.logo;
            }
         });
 
-    });*/
+    });
     $('#crop-avatar').on('click','.bMg-cropImgSet .bMg-imgList li',function(){
         $('.bMg-cropImgSet .bMg-imgList li').removeClass('active');
         $(this).addClass('active');
@@ -416,14 +397,25 @@ $(document).ready(function(){
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sName=oData.fullname;//姓名
-    var sAccountNum=oData.account;//成员账号
+    var sName=oData.name || '';//姓名
+    var sAccountNum=oData.account || '';//成员账号
     var sSex=oData.sex;//性别
-    var sPosition=oData.account;//职位
-    var sBranch=oData.sex;//部门
-    var sEmail=oData.email;//邮箱
-    var sTelephone=oData.telephone;//电话
-    var sSign=oData.sex;//工作签名
+    switch(sSex){
+        case '男':
+            sSex= '男';
+            break;
+        case '女':
+            sSex= '女';
+            break;
+        default :
+            sSex= '女';
+            break;
+    }
+    var sPosition=oData.positionname || '';//职位
+    var sBranch=oData.branchname || '';//部门
+    var sEmail=oData.email || '';//邮箱
+    var sTelephone=oData.telephone || '';//电话
+    var sSign=oData.organname || '';//工作签名
     var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
@@ -469,8 +461,7 @@ function fPersonalSet(){
     <li>\
     <span>工作签名：</span>\
     <p>\
-    <textarea class="perSetBox-textarea" value="'+sSign+'">\
-    </textarea>\
+    <textarea class="perSetBox-textarea" >'+sSign+'</textarea>\
     </p>\
     </li>\
     </ul>\

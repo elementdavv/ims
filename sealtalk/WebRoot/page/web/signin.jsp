@@ -25,7 +25,7 @@
     <div class="signin-form">
         <div class="rightBox ">
             <div class="sign-flow signinBox">
-                <form onsubmit="addMD5()" method="post" action="system!afterLogin" class="form-inline" name="formSignin" novalidate="novalidate">
+                <form onsubmit="addMD5()" method="post" action="system!loginForWeb" class="form-inline" name="formSignin" novalidate="novalidate">
                     <div class="form-group firstNone">
                         <label for="username" class="username"></label>
                         <input type="text" name="account" placeholder="手机号" required="" class="form-control" name="accountNumber" ng-model="user.accountNumber" ng-pattern="/^1[3-9][0-9]{9,9}$/" id="username" my-focus="">

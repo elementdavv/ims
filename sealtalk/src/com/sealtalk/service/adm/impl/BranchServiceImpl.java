@@ -743,27 +743,28 @@ public class BranchServiceImpl implements BranchService {
 						jm.put("sexname", isBlank(o[25]));
 						
 						if (!branchList.contains(o[4])) {
+							String pid = isBlank(o[5]);
 							JSONObject jb = new JSONObject();
 							jb.put("flag", 0);
 							jb.put("id", isBlank(o[4]));
-							jb.put("pid", isBlank(o[5]));
+							jb.put("pid", pid.equals("0") ? isBlank(o[26]) : pid);
 							jb.put("name", isBlank(o[6]));
 							ja.add(jb);
 							branchList.add(o[4]);
 						}
 					} else {
-						if (!organList.contains(o[26])) {
+						if (!organList.contains(o[26])) {		//组织
 							JSONObject jor = new JSONObject();
 							jor.put("id", isBlank(o[26]));
-							jor.put("pid", -1);
+							jor.put("pid", 0);
 							jor.put("name", isBlank(o[27]));
 							jor.put("flag", 0);
 							ja.add(jor);
 							organList.add(o[26]);
 						}
-						
+						String pid = isBlank(o[5]);
 						jm.put("id", isBlank(o[4]));
-						jm.put("pid", isBlank(o[5]));
+						jm.put("pid", pid.equals("0") ? isBlank(o[26]) : pid);
 						jm.put("name", isBlank(o[6]));
 						jm.put("flag", 0);  
 					}

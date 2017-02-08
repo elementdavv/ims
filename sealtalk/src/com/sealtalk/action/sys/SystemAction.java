@@ -55,18 +55,13 @@ public class SystemAction extends BaseAction {
 	}
 	
 	/**
-	 * 登陆验证
+	 * web端登陆验证
 	 * @return
 	 * @throws Exception
 	 */
-	public String afterLogin() throws IOException, ServletException {
-		JSONObject result = new JSONObject();
+	public String loginForWeb() throws IOException, ServletException {
 		
 		if (StringUtils.getInstance().isBlank(account)) {
-			/*result.put("code", 0);
-			result.put("text", Tips.NULLUSER.getText());
-			returnToClient(result.toString());
-			return "text";*/
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.NULLUSER.getName());
 			return "loginPage";
 		}
@@ -74,10 +69,6 @@ public class SystemAction extends BaseAction {
 		TMember member = memberService.searchSigleUser(account, userpwd);
 		
 		if(member == null) {
-			/*result.put("code", 0);
-			result.put("text", Tips.ERRORUSERORPWD.getText());
-			returnToClient(result.toString());
-			return "text";*/
 			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.ERRORUSERORPWD.getName());
 			return "loginPage";
 		}
@@ -143,20 +134,100 @@ public class SystemAction extends BaseAction {
 			sp.setPrivilige(ja);
 		}
 		setSessionAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGE, sp);
-		/*
+		
+		return "loginSuccess";
+	}
+	
+	/**
+	 * app端登陆验证
+	 * @return
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	public String afterLogin() throws IOException, ServletException {
+		JSONObject result = new JSONObject();
+		
+		if (StringUtils.getInstance().isBlank(account)) {
+			result.put("code", 0);
+			result.put("text", Tips.NULLUSER.getText());
+			returnToClient(result.toString());
+			return "text";
+		}
+		
+		TMember member = memberService.searchSigleUser(account, userpwd);
+		
+		if(member == null) {
+			result.put("code", 0);
+			result.put("text", Tips.ERRORUSERORPWD.getText());
+			returnToClient(result.toString());
+			return "text";
+		}
+		
+		logger.debug("That logining account is " + account);
+		
+		String userId = "" + member.getId();
+		String name = member.getFullname();
+		String token = null;
+		String tokenMaxAge = PropertiesUtils.getStringByKey("db.tokenMaxAge");
+		
+		long tokenMaxAgeLong = 0;
+		long firstTokenDate = member.getCreatetokendate();
+		long now = TimeGenerator.getInstance().getUnixTime();
+		
+		if (tokenMaxAge != null && !"".equals(tokenMaxAge)) {
+			tokenMaxAgeLong = Long.valueOf(tokenMaxAge);
+		}
+		
+		if ((now - firstTokenDate) > tokenMaxAgeLong) {
+			try {
+				String domain = PropertiesUtils.getDomain();
+				String uploadDir = PropertiesUtils.getUploadDir();
+				String logo = member.getLogo();
+				String url = domain + uploadDir + logo;
+				
+				token = RongCloudUtils.getInstance().getToken(userId, name, url);
+				memberService.updateUserTokenForId(userId, token);
+			} catch (Exception e) {
+				logger.error(e);
+				e.printStackTrace();
+			}
+		} else {
+			token = member.getToken();
+		}
+		
+		logger.info(token);
+		
+		//2.设置权限
+		List privList = privService.getRoleIdForId(member.getId());
+		SessionPrivilege sp = new SessionPrivilege();
+		ArrayList<JSONObject> ja = new ArrayList<JSONObject>();
+		
+		if (privList != null) {
+			Iterator it = privList.iterator();
+			
+			while(it.hasNext()) {
+				Object[] o = (Object[])it.next();
+				JSONObject js = new JSONObject();
+				js.put("privid", o[0]);
+				js.put("priurl", o[1]);
+				ja.add(js);
+			}
+		
+		} 
+		
+		sp.setPrivilige(ja);
 		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
 		
 		text.remove("password");
 		text.put("token", token);
-		text.put("priv", ja.toString());
+		text.put("priv", JSONUtils.getInstance().modelToJSONObj(sp));
 		
 		result.put("code", 1);
 		result.put("text", text.toString());
 		
 		returnToClient(result.toString());
 		
-		return "text";*/
-		return "loginSuccess";
+		return "text";
 	}
 	
 	/**

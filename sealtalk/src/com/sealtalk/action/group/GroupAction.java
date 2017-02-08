@@ -52,7 +52,8 @@ public class GroupAction extends BaseAction {
 	 */
 	public String joinGroup() throws ServletException {
 		String result = null;
-		
+
+		//发送小灰条
 		if (groupService != null) {
 			result = groupService.joinGroup(groupids, groupid);
 		} else {
@@ -320,6 +321,24 @@ public class GroupAction extends BaseAction {
 			jo.put("text", Tips.UNKNOWERR.getText());
 			result = jo.toString();
 		}
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 群组禁言
+	 * @throws ServletException
+	 */
+	public String shutUpGroup() throws ServletException {
+		String result = groupService.shutUpGroup(userid, groupid);
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	public String unShutUpGroup() throws ServletException {
+		String result = groupService.unShutUpGroup(userid, groupid);
 		
 		returnToClient(result);
 		return "text";

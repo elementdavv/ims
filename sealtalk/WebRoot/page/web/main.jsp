@@ -70,11 +70,6 @@
     </head>
 
 <body userid="${SessionUser.id}" token="${SessionUser.token}">
-	<!--
-	权限设置判断
-	<c:if test="${SessionPrivilege.map.rsglsc != null}">	  
-	</c:if>
-	-->
     <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
@@ -152,7 +147,7 @@
 <!--后台管理-->
 <div class="chatContent  chatHide personalCenter">
     <ul class="backstageMg" id="backstageMgId">
-		<c:if test="${SessionPrivilege.map.grsz != null}">	  
+		<c:if test="${SessionPrivilege.map.dsfas != null}">	  
 			<li class="clearfix">
 				<em class="bMg-personalSet"></em>
 				<span>个人设置</span>

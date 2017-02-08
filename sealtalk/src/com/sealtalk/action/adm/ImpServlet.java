@@ -39,8 +39,10 @@ public class ImpServlet extends HttpServlet {
 
 		this.impService = new ImpService(this.getSessionFactory(req));
 
-		Part part = req.getPart("impfile");
-		String contentType = part.getContentType();
+		//Part part = req.getPart("impfile");
+		//String contentType = part.getContentType();
+		Part part = null;
+		String contentType = null;
 
 		if (!contentType.equals(Constants.XLS) && !contentType.equals(Constants.XLSX)) {
 			js.put("status", 1);//文件类型错
@@ -66,7 +68,7 @@ public class ImpServlet extends HttpServlet {
 		
 		this.context = new XmlWebApplicationContext();
 		this.context.setConfigLocation("/WEB-INF/classes/spring.xml");
-		this.context.setServletContext(req.getServletContext());
+		this.context.setServletContext(req.getSession().getServletContext());
 		this.context.refresh();
 		
 		return (SessionFactory)this.context.getBean("sessionFactory");

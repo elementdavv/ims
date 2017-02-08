@@ -209,6 +209,56 @@ public class RongCloudUtils {
 	}
 	
 	/**
+	 * 发群组消息(创建群)
+	 * @param fromId
+	 * @param targetIds
+	 * @param msg
+	 * @param extraMsg
+	 * @param type
+	 * @return
+	 */
+	public String sendGroupMsg(String fromId, String[] targetIds, String msg, String extraMsg, int isPersisted, int isCounted, int type) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+
+			JSONObject pushMsg = new JSONObject();
+			pushMsg.put("pushData", msg);
+			
+			BaseMessage messagePublishSystemTxtMessage = null;
+			
+			switch(type) {
+				case 1:
+					messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
+					break;
+				case 2:
+					messagePublishSystemTxtMessage = new InfoNtfMessage(msg, extraMsg);
+					break;
+			}
+			CodeSuccessReslut messagePublishSystemResult = 
+				rongCloud.message.publishGroup(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), 0, 0);
+			
+			if (messagePublishSystemResult != null) {
+				System.out.println("sendGroupMsg->code: " + messagePublishSystemResult.toString());
+				jo.put("code", messagePublishSystemResult.getCode());
+				jo.put("text", "ok");
+			} else {
+				jo.put("code", 0);
+				jo.put("text", "fail");
+			}
+		} catch (Exception e) {
+			jo.put("code", 0);
+			jo.put("text", "fail");
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	/**
 	 * 创建群组
 	 * @param userId	 加入群的用户id组
 	 * @param groupId
@@ -218,12 +268,12 @@ public class RongCloudUtils {
 	public String createGroup(String[] userIds, String groupId, String groupName) {
 		String result = null;
 		
-		
+		/*
 		for(int j = 0; j < userIds.length;j++) {
 			System.out.println("+++++++++++++++++++++++++++++++: " + userIds[j]);
 		}
 		System.out.println("++++++++++++++++++ groupId: " + groupId);
-		System.out.println("++++++++++++++++++ groupName: " + groupName);
+		System.out.println("++++++++++++++++++ groupName: " + groupName);*/
 		
 		
 		try {
@@ -396,4 +446,64 @@ public class RongCloudUtils {
 		
 		return result;
 	}
+
+	/**
+	 * 禁言群成员
+	 * @param userId
+	 * @param groupId
+	 * @param shutUpTime
+	 * @return
+	 */
+	public String shutUpGroup(String userId, String groupId, String shutUpTime) {
+		String result = null;
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+			
+			if (!StringUtils.getInstance().isBlank(userId) && 
+					!StringUtils.getInstance().isBlank(groupId) &&
+					!StringUtils.getInstance().isBlank(shutUpTime)) {
+				CodeSuccessReslut groupAddGagUserResult = rongCloud.group.addGagUser(userId, groupId, shutUpTime);
+				
+				if (groupAddGagUserResult != null) {
+					result = groupAddGagUserResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 群成员解禁
+	 * @param userIds
+	 * @param groupId
+	 * @return
+	 */
+	public String unShutUpGroup(String[] userIds, String groupId) {
+		String result = null;
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+			
+			if (!StringUtils.getInstance().isBlank(groupId)) {
+				CodeSuccessReslut groupAddGagUserResult = rongCloud.group.rollBackGagUser(userIds, groupId);
+				
+				if (groupAddGagUserResult != null) {
+					result = groupAddGagUserResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 }

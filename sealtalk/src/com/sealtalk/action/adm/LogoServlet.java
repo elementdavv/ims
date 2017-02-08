@@ -23,7 +23,8 @@ public class LogoServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
-		Part p = req.getPart("logofile");
+		//Part p = req.getPart("logofile");
+		Part p = null;
 		String name = getFileName(p);
 		String path = getServletContext().getRealPath("./images/");
 		

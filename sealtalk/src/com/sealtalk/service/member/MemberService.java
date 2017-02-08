@@ -79,20 +79,26 @@ public interface MemberService {
 	public String getTextCode(String phone);
 
 	/**
-	 * 更新个人设置
+	 * 更新个人设置web端
 	 * @param account
-	 * @param fullname
 	 * @param sex
-	 * @param position
-	 * @param branch
 	 * @param email
 	 * @param phone
 	 * @param sign
 	 * @return
 	 */
-	public String updateMemberInfo(String account, String fullname, String sex,
-			String position, String branch, String email, String phone,
-			String sign);
+	public String updateMemberInfoForWeb(String userId, String sex, String email, String phone, String sign);
+	
+	/**
+	 * 更新个人设置app端
+	 * @param userid
+	 * @param email
+	 * @param mobile
+	 * @param phone
+	 * @param address
+	 * @return
+	 */
+	public String updateMemberForApp(String userid, String email, String mobile, String phone, String address);
 	
 	/**
 	 * 更新密码

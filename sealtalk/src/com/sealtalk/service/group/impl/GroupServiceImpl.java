@@ -21,6 +21,7 @@ import com.sealtalk.model.TGroupMember;
 import com.sealtalk.model.TMember;
 import com.sealtalk.service.group.GroupService;
 import com.sealtalk.utils.JSONUtils;
+import com.sealtalk.utils.PropertiesUtils;
 import com.sealtalk.utils.RongCloudUtils;
 import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TimeGenerator;
@@ -48,8 +49,8 @@ public class GroupServiceImpl implements GroupService {
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
 			
 				groupIds = StringUtils.getInstance().replaceChar(groupIds, "\"", "");
-				//保存群组成员关系
-				groupIds = groupIds.substring(1, groupIds.length() - 1);
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "[", "");
+				groupIds = StringUtils.getInstance().replaceChar(groupIds, "]", "");
 
 				ArrayList<String> tempArrIds = new ArrayList<String>();
 				
@@ -117,6 +118,7 @@ public class GroupServiceImpl implements GroupService {
 						tgmList.add(new TGroupMember(groupId, tempIds[i], flag, 0));
 					}
 					
+					//保存群组成员关系
 					groupMemberDao.saveGroupMemeber(tgmList);
 					
 					
@@ -153,8 +155,9 @@ public class GroupServiceImpl implements GroupService {
 							groupIdsArr = sendRCIds;
 						} 
 						
+						String[] sendGroupIds = {groupId+""};
 						String createCGcode = RongCloudUtils.getInstance().createGroup(groupIdsArr, groupId + "", groupNameStr);
-						RongCloudUtils.getInstance().sendSysMsg(userId, groupIdsArr, "请在聊天中注意人身财产安全", "", 2);
+						RongCloudUtils.getInstance().sendGroupMsg(userId, sendGroupIds, "请在聊天中注意人身财产安全", "请在聊天中注意人身财产安全", 1, 1, 2);
 						
 						jo.put("code", createCGcode);
 						jo.put("text", JSONUtils.getInstance().modelToJSONObj(tg));
@@ -168,7 +171,7 @@ public class GroupServiceImpl implements GroupService {
 			}
 			
 			if (!status) {
-				jo.put("code", 0);
+				jo.put("code", 0); 
 				jo.put("text", "fail");
 			}
 			result = jo.toString();
@@ -915,7 +918,101 @@ public class GroupServiceImpl implements GroupService {
 		
 		return jo.toString();
 	}
+	
 
+	@Override
+	public String shutUpGroup(String userId, String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		if (StringUtils.getInstance().isBlank(groupId)) {
+			jo.put("code", -1);
+			jo.put("text", Tips.WRONGPARAMS.getText());
+		} else {
+			try {
+				int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+				ArrayList<String> userList = new ArrayList<String>();
+				
+				if (!StringUtils.getInstance().isBlank(userId)) {
+					userList.add(userId);
+				} else {
+					List<TGroupMember> groupMemList = groupMemberDao.getTGroupMemberList(groupIdInt);
+					if (groupMemList != null) {
+						for(int i = 0; i < groupMemList.size(); i++) {
+							userList.add(groupMemList.get(i).getMemberId()+"");
+						}
+					}
+				}
+				
+				String shutUpTime = PropertiesUtils.getStringByKey("group.shutuptime");
+				ArrayList<String> codeList = new ArrayList<String>();
+				
+				for(int i = 0; i < userList.size(); i++) {
+					String code = RongCloudUtils.getInstance().shutUpGroup(userList.get(i), groupId, shutUpTime);
+					codeList.add(code);
+				}
+				
+				if (codeList.size() == userList.size()) {
+					jo.put("code", 1);
+					jo.put("text", Tips.OK.getText());
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.FAIL.getText());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public String unShutUpGroup(String userId, String groupId) {
+		JSONObject jo = new JSONObject();
+		
+		if (StringUtils.getInstance().isBlank(groupId)) {
+			jo.put("code", -1);
+			jo.put("text", Tips.WRONGPARAMS.getText());
+		} else {
+			try {
+				int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+				ArrayList<String> userList = new ArrayList<String>();
+				
+				if (StringUtils.getInstance().isBlank(userId)) {
+					List<TGroupMember> groupMemList = groupMemberDao.getTGroupMemberList(groupIdInt);
+					
+					if (groupMemList != null) {
+						for(int i = 0; i < groupMemList.size(); i++) {
+							userList.add(groupMemList.get(i).getMemberId()+"");
+						}
+					}
+				} else {
+					userList.add(userId);
+				}
+				
+				ArrayList<String> codeList = new ArrayList<String>();
+				
+				String[] userIds = (String[]) userList.toArray(new String[userList.size()]);
+				
+				for(int i = 0; i < userList.size(); i++) {
+					String code = RongCloudUtils.getInstance().unShutUpGroup(userIds, groupId);
+					codeList.add(code);
+				}
+				
+				if (codeList.size() == userList.size()) {
+					jo.put("code", 1);
+					jo.put("text", Tips.OK.getText());
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.FAIL.getText());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return jo.toString();
+	}
 
 	private MemberDao memberDao;
 	private GroupDao groupDao;

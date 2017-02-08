@@ -159,6 +159,7 @@ public class FriendServiceImpl implements FriendService {
 		
 		boolean status = true;
 		String result = null;
+		JSONObject jo = new JSONObject();
 		
 		logger.info(account);
 		
@@ -193,10 +194,8 @@ public class FriendServiceImpl implements FriendService {
 							for(int i = 0; i < memberLen; i++) {
 								TMember tms = memberList.get(i);
 								JSONObject text = JSONUtils.getInstance().modelToJSONObj(tms);
-								if (i == 0) {
-									text.put("code", 1);
-									text.put("text", "ok");
-								}
+								jo.put("code", 1);
+								jo.put("text", Tips.OK.getText());
 								ja.add(text);
 							}
 							
@@ -208,12 +207,14 @@ public class FriendServiceImpl implements FriendService {
 				}
 			}
 			if (!status) {
-				JSONObject jo = new JSONObject();
 				jo.put("code", 0);
 				jo.put("text", Tips.HAVEZEROFRIEND.getText());
-				
 				result = jo.toString();
-			} 
+			}  else {
+			//	jo.put("code", 1);
+			//	jo.put("text", result);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
