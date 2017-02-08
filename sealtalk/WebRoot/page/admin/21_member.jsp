@@ -22,7 +22,7 @@
 			<div class='h10px'></div>
 			<div>
 				<div class='dialogtitle searchbox'>
-					<img src='images/弹出框放大镜.png' class='searchimg' />
+					<img src='images/boxsearch.png' class='searchimg' />
 					<input type='text' id='search21member1' class='searchinput' style='width:270px' placeholder='查找联系人...'>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 			<div class='h10px'></div>
 			<div>
 				<div class='dialogtitle searchbox'>
-					<img src='images/弹出框放大镜.png' class='searchimg' />
+					<img src='images/boxsearch.png' class='searchimg' />
 					<input type='text' id='search21member2' class='searchinput' style='width:270px' placeholder='查找联系人...'>
 				</div>
 			</div>

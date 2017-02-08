@@ -36,7 +36,7 @@
 		<div class='dialogtitle' style='padding-right: 40px; margin-left: 10px'>
 			<span style='color:red'>*</span>部门领导：
 			<span id="11branchaddmember" class='toright' style="color: rgb(255,162,0);font-size: 13px; cursor:pointer">
-				<img src="images/添加人员.png" style="padding: 0 5px 0 10px">添加人员
+				<img src="images/addmember.png" style="padding: 0 5px 0 10px">添加人员
 			</span>
 			<input class='treeedit2 xiala toright' id='xiala13' readonly></input>
 			<input type='text' id='11branchmanager' name='11branchmanager' class='treeedit2 w252px toright required' readonly>

@@ -5,12 +5,12 @@ $(document).ready(function(){
 	$($('#tree11branchbranchwrap')).css({
 		'left': $('#11branchbranch').position().left, 
 		'top': $('#11branchbranch').position().top + 33, 
-		'width': $('#11branchbranch').width() + 20
+		'width': $('#11branchbranch').width() + 25
 	});
 	$($('#tree11branchmanagerwrap')).css({
 		'left': $('#11branchmanager').position().left,
 		'top': $('#11branchmanager').position().top + 33, 
-		'width': $('#11branchmanager').width() + 20
+		'width': $('#11branchmanager').width() + 25
 	});
 	$('#container').click(function(){
 		if ($('.treewrap2').is(':visible')) {

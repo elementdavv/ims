@@ -16,14 +16,13 @@
     <ul class="admHeaderOper">
         <li class="admLeftIcon" id='idlogout'></li>
         <li class="admLeftIcon"></li>
-        <li class="admLeftIcon"></li>
     </ul>
 </div>
 <div class="menupanel12">
 	<div id="jb" class="sidebar12">
-		<div class="menu" onclick='window.location.href="21.jsp";'><img src='images/身份权限.png' class='menuicon'>成员身份权限</div>
-		<div class="menu" onclick='window.location.href="#";'><img src='images/高级功能.png' class='menuicon'>高级功能</div>
-		<div class="menu menuactive"><img src='images/职务职位.png' class='menuicon'>职务职位</div>
+		<div class="menu" onclick='window.location.href="21.jsp";'><img src='images/role.png' class='menuicon'>成员身份权限</div>
+		<div class="menu" onclick='window.location.href="#";'><img src='images/advanced.png' class='menuicon'>高级功能</div>
+		<div class="menu menuactive"><img src='images/position.png' class='menuicon'>职务职位</div>
 	</div>
 </div>
 

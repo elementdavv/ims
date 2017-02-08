@@ -6,7 +6,7 @@ var itemsperpage = 10;
 var membertemplate = '<div id="mmemberid" name="membername" class="member21">'
 						+ '<div class="toleft">membername</div>'
 						+ '<div class="toright" onclick="delmember(memberid)">'
-						+ '<img src="images/删除button.png" /></div>'
+						+ '<img src="images/delete-2.png" /></div>'
 						+ '</div>';
 $(document).ready(function(){
 
@@ -32,7 +32,7 @@ $(document).ready(function(){
 		$(this).parent().find('li').removeClass('prv21active');
 		$('#sanjiao').remove();
 		$(this).addClass('prv21active');
-		$(this).after('<img id="sanjiao" src="images/成员身份选择-1.png" style="float:right" />');
+		$(this).after('<img id="sanjiao" src="images/roleselect.png" style="float:right" />');
 		if (curpage == '212') {
 			showpage('210');
 		}
@@ -43,21 +43,21 @@ $(document).ready(function(){
 	});
 	$('body').on('click', '.privgroup, .privgroupd', function() {
 		if ($(this).prop('src').indexOf('1.png') > 0) {
-			$(this).parent().parent().find('img').prop('src', 'images/多选-2.png');
+			$(this).parent().parent().find('img').prop('src', 'images/select-2.png');
 			$(this).parent().parent().find('input').prop('checked', false);
 		}
 		else {
-			$(this).parent().parent().find('img').prop('src', 'images/多选-1.png');
+			$(this).parent().parent().find('img').prop('src', 'images/select-1.png');
 			$(this).parent().parent().find('input').prop('checked', true);
 		}
 	});
 	$('body').on('click', '.pgc, .pgcd', function() {
 		if ($(this).prop('src').indexOf('1.png') > 0) {
-			$(this).parent().find('img').prop('src', 'images/多选-2.png');
+			$(this).parent().find('img').prop('src', 'images/select-2.png');
 			$(this).parent().find('input').prop('checked', false);
 		}
 		else {
-			$(this).parent().find('img').prop('src', 'images/多选-1.png');
+			$(this).parent().find('img').prop('src', 'images/select-1.png');
 			$(this).parent().find('input').prop('checked', true);
 		}
 	});
@@ -164,7 +164,7 @@ function cb_21_role_priv(data) {
 						$('#21_list').append('<div class="line211bd"></div>');
 					var a = $('#21_list').children().last();
 					var g = '<div class="line2111d">'
-						+ '<img src="images/多选-2.png" class="privgroupd pgcgd" />'
+						+ '<img src="images/select-2.png" class="privgroupd pgcgd" />'
 						+ '<input type="checkbox" id="pr' + data[j].privid + '" style="display:none" /> ' 
 						+ data[j].privname + '</div>';
 					$(a).append(g);
@@ -174,7 +174,7 @@ function cb_21_role_priv(data) {
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
 							var gp = '<div class="priv2d toleft">'
-								+ '<img src="images/多选-2.png" class="pgcd" />'
+								+ '<img src="images/select-2.png" class="pgcd" />'
 								+ '<input type="checkbox" id="pr' + data[k].privid + '" style="display:none" /> ' 
 								+ data[k].privname + '</div>';
 							$(b).append(gp);
@@ -289,7 +289,7 @@ function cb_210_fresh(data) {
 			.append('<td>' + data[i].membername + '</td>')
 			.append('<td>' + data[i].branchname + '</td>')
 			.append('<td>' + data[i].positionname + '</td>')
-			.append('<td><img src="images/删除button.png" onclick="del210(' + data[i].memberroleid + ')"></img></td>');
+			.append('<td><img src="images/delete-2.png" onclick="del210(' + data[i].memberroleid + ')"></img></td>');
 	}
 	$('#list210 tr').hover(function(){
 		$(this).addClass('menuhover');
@@ -322,7 +322,7 @@ function cb_211_fresh(data) {
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
 							if (data[k].roleid == currole) {
-								$(b).append('<div class="priv toleft"><img src="images/已选择.png" style="margin-right: 5px" />' + data[k].privname + '</div>');
+								$(b).append('<div class="priv toleft"><img src="images/selected.png" style="margin-right: 5px" />' + data[k].privname + '</div>');
 							}
 							else {
 								$(b).append('<div class="priv toleft">' + data[k].privname + '</div>');
@@ -353,7 +353,7 @@ function cb_212_fresh(data) {
 						$('#list212').append('<div class="line211b"></div>');
 					var a = $('#list212').children().last();
 					var g = '<div class="line2111">'
-						+ '<img src="images/多选-2.png" class="privgroup pgcg">'
+						+ '<img src="images/select-2.png" class="privgroup pgcg">'
 						+ '<input type="checkbox" id="p' + data[j].privid + '" style="display:none" />'
 						+ data[j].privname + '</div>';
 					$(a).append(g);
@@ -365,13 +365,13 @@ function cb_212_fresh(data) {
 							var gp;
 							if (data[k].roleid == currole) {
 								gp = '<div class="priv2 toleft">'
-									+ '<img src="images/多选-1.png" class="pgc">'
+									+ '<img src="images/select-1.png" class="pgc">'
 									+ '<input type="checkbox" id="p' + data[k].privid + '" style="display:none" checked />' 
 									+ data[k].privname + '</div>';
 							}
 							else {
 								gp = '<div class="priv2 toleft">'
-									+ '<img src="images/多选-2.png" class="pgc">'
+									+ '<img src="images/select-2.png" class="pgc">'
 									+ '<input type="checkbox" id="p' + data[k].privid + '" style="display:none" />'
 									+ data[k].privname + '</div>';
 							}
@@ -392,7 +392,7 @@ function cb_21_fresh(data) {
 		$('#list21').find('li:last-child').css('width', $('#list21').find('li:last-child').css('width').replace('px', '') - 10);
 	}
 	$('#list21').find('li:first-child').addClass('prv21active');
-	$('#list21').find('li:first-child').after('<img id="sanjiao" src="images/成员身份选择-1.png" style="float:right" />');
+	$('#list21').find('li:first-child').after('<img id="sanjiao" src="images/roleselect.png" style="float:right" />');
 	load210();
 	load211();
 	load212();
@@ -472,7 +472,7 @@ function cb_21_del(data) {
 	$a.remove();
 	$('#sanjiao').remove();
 	$b.addClass('prv21active');
-	$b.after('<img id="sanjiao" src="images/成员身份选择-1.png" style="float:right" />');
+	$b.after('<img id="sanjiao" src="images/roleselect.png" style="float:right" />');
 	currole = $b[0].id.substr(1);
 	load210();
 	load211();
@@ -488,7 +488,7 @@ function showpage(cp) {
 function stripicon(data) {
 	var i = data.length;
 	while (i--) {
-		data[i].name = data[i].name.substr(53);
+		data[i].name = data[i].name.substr(55);
 	}
 	return data;
 }
