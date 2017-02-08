@@ -54,7 +54,7 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @param accounts
 	 * @return
 	 */
-	public List<TMember> getMultipleMemberForIds(Integer[] accounts);
+	public List<TMember> getMultipleMemberForIds(Integer[] ids);
 
 	/**
 	 * 更新用户token

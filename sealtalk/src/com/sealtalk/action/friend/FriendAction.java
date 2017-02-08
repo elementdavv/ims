@@ -110,6 +110,17 @@ public class FriendAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 确认是否存在好友关系
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getFriendsRelation() throws ServletException {
+		String result = friendService.getFriendsRelation(userid, friendid);
+		returnToClient(result);
+		return "text";
+	}
+	
 	private FriendService friendService;
 	
 	public void setFriendService(FriendService fs) {
@@ -118,6 +129,24 @@ public class FriendAction extends BaseAction {
 	
 	private String account;
 	private String friend;
+	private String userid;
+	private String friendid;
+	
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getFriendid() {
+		return friendid;
+	}
+
+	public void setFriendid(String friendid) {
+		this.friendid = friendid;
+	}
 
 	public String getAccount() {
 		return account;

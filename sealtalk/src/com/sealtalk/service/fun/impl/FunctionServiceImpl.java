@@ -136,6 +136,76 @@ public class FunctionServiceImpl implements FunctionService {
 		return jo.toString();
 	}
 	
+	@Override
+	public String setMsgTop(String userId, String topId, String topType) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (!StringUtils.getInstance().isBlank(userId) && 
+					!StringUtils.getInstance().isBlank(topId) &&
+					!StringUtils.getInstance().isBlank(topType)) {
+				
+				String name = (new StringBuilder(userId).append("_").append(FunctionName.MSGTOP.getName())).toString();
+				TFunction tf1 = functionDao.getFunctionStatus(name);
+				String status = (new StringBuilder(topId).append("_").append(topType)).toString();
+				
+				if (tf1 == null) {
+					TFunction tf = new TFunction();
+					tf.setIsOpen(status);
+					tf.setName(name);
+					tf.setListorder(0);
+					functionDao.setFunctionStatus(tf);
+				} else {
+					functionDao.updateFunctionStatus(name, status);
+				}
+				jo.put("code", 1);
+				jo.put("text", Tips.OK.getText());
+			} else {
+				jo.put("code", -1);
+				jo.put("text", Tips.WRONGPARAMS.getText());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public String getMsgTop(String userId) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (!StringUtils.getInstance().isBlank(userId)) {
+				String name = (new StringBuilder(userId).append("_").append(FunctionName.MSGTOP.getName())).toString();
+				TFunction tf1 = functionDao.getFunctionStatus(name);
+				
+				if (tf1 != null) {
+					String topMsg = tf1.getIsOpen();
+					String[] split = topMsg.split("_");
+					
+					JSONObject j = new JSONObject();
+					j.put("id", split[0]);
+					j.put("type", split[1]);
+					
+					jo.put("code", 1);
+					jo.put("text", j.toString());
+					
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.NOTSETFUN.getText());
+				}
+			} else {
+				jo.put("code", -1);
+				jo.put("text", Tips.WRONGPARAMS.getText());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
 	private DontDistrubDao dontDistrubDao;
 	private FunctionDao functionDao;
 	

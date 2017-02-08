@@ -12,7 +12,7 @@ import com.sealtalk.common.Tips;
 import com.sealtalk.service.fun.FunctionService;
 
 /**
- * 消息免打扰action 
+ * 辅助功能action 
  * @author hao_dy
  * @since jdk1.7
  * @date 2017/01/07
@@ -97,9 +97,49 @@ public class FunctionAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 设置消息置顶
+	 * @return
+	 * @throws ServletException
+	 */
+	public String setMsgTop() throws ServletException {
+		String result = functionService.setMsgTop(userid, topid, toptype);
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 获取置顶消息
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getMsgTop() throws ServletException {
+		String result = functionService.getMsgTop(userid);
+		returnToClient(result);
+		return "text";
+	}
+	
 	private String status;
 	private String groupid;
 	private String userid;
+	private String topid;
+	private String toptype;
+	
+	public String getTopid() {
+		return topid;
+	}
+
+	public void setTopid(String topid) {
+		this.topid = topid;
+	}
+
+	public String getToptype() {
+		return toptype;
+	}
+
+	public void setToptype(String toptype) {
+		this.toptype = toptype;
+	}
 
 	public String getGroupid() {
 		return groupid;

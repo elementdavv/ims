@@ -337,8 +337,32 @@ public class GroupAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 群组解禁言
+	 * @return
+	 * @throws ServletException
+	 */
 	public String unShutUpGroup() throws ServletException {
 		String result = groupService.unShutUpGroup(userid, groupid);
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 查询群禁言状态
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getShutUpGroupStatus() throws ServletException {
+		String result = groupService.getShutUpGroupStatus(groupid);
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	public String getShutUpGroupMember() throws ServletException {
+		String result = groupService.getShutUpGroupMember(groupid);
 		
 		returnToClient(result);
 		return "text";

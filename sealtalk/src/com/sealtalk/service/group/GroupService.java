@@ -127,4 +127,18 @@ public interface GroupService {
 	 * @return
 	 */
 	public String unShutUpGroup(String userId, String groupId);
+
+	/**
+	 * 查询群禁言状态
+	 * @param groupid
+	 * @return
+	 */
+	public String getShutUpGroupStatus(String groupid);
+
+	/**
+	 * 查询禁言成员
+	 * @param groupid
+	 * @return
+	 */
+	public String getShutUpGroupMember(String groupid);
 }

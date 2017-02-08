@@ -7,8 +7,13 @@ import io.rong.messages.InfoNtfMessage;
 import io.rong.messages.TxtMessage;
 import io.rong.models.CheckOnlineReslut;
 import io.rong.models.CodeSuccessReslut;
+import io.rong.models.GagGroupUser;
 import io.rong.models.GroupInfo;
+import io.rong.models.ListGagGroupUserReslut;
 import io.rong.models.TokenReslut;
+
+import java.util.List;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -239,10 +244,60 @@ public class RongCloudUtils {
 					break;
 			}
 			CodeSuccessReslut messagePublishSystemResult = 
-				rongCloud.message.publishGroup(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), 0, 0);
+				rongCloud.message.publishGroup(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), isPersisted, isCounted);
 			
 			if (messagePublishSystemResult != null) {
 				System.out.println("sendGroupMsg->code: " + messagePublishSystemResult.toString());
+				jo.put("code", messagePublishSystemResult.getCode());
+				jo.put("text", "ok");
+			} else {
+				jo.put("code", 0);
+				jo.put("text", "fail");
+			}
+		} catch (Exception e) {
+			jo.put("code", 0);
+			jo.put("text", "fail");
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
+	/**
+	 * 发个人消息(创建群)
+	 * @param fromId
+	 * @param targetIds
+	 * @param msg
+	 * @param extraMsg
+	 * @param type
+	 * @return
+	 */
+	public String sendPrivateMsg(String fromId, String[] targetIds, String msg, String extraMsg, String count, Integer verifyBlacklist, Integer isPersisted, Integer isCounted, int type) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+
+			JSONObject pushMsg = new JSONObject();
+			pushMsg.put("pushData", msg);
+			
+			BaseMessage messagePublishSystemTxtMessage = null;
+			
+			switch(type) {
+				case 1:
+					messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
+					break;
+				case 2:
+					messagePublishSystemTxtMessage = new InfoNtfMessage(msg, extraMsg);
+					break;
+			}
+			CodeSuccessReslut messagePublishSystemResult = 
+				rongCloud.message.publishPrivate(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), count, verifyBlacklist, isPersisted, isCounted);
+			
+			if (messagePublishSystemResult != null) {
+				System.out.println("sendPrivateMsg->code: " + messagePublishSystemResult.toString());
 				jo.put("code", messagePublishSystemResult.getCode());
 				jo.put("text", "ok");
 			} else {
@@ -497,6 +552,60 @@ public class RongCloudUtils {
 				
 				if (groupAddGagUserResult != null) {
 					result = groupAddGagUserResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 查询禁言群组状态
+	 * @param groupId
+	 * @return
+	 */
+	public String getShutUpGroupStatus(String groupId) {
+		String result = null;
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+			
+			if (!StringUtils.getInstance().isBlank(groupId)) {
+				ListGagGroupUserReslut groupLisGagUserResult = rongCloud.group.lisGagUser(groupId);
+				
+				if (groupLisGagUserResult != null) {
+					result = groupLisGagUserResult.getCode().toString();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 查询禁言群组状态
+	 * @param groupId
+	 * @return
+	 */
+	public List<GagGroupUser> getShutUpGroupMember(String groupId) {
+		List<GagGroupUser> result = null;
+		
+		try {
+			if (rongCloud == null) {
+				this.init();
+			}
+			
+			if (!StringUtils.getInstance().isBlank(groupId)) {
+				ListGagGroupUserReslut groupLisGagUserResult = rongCloud.group.lisGagUser(groupId);
+				
+				if (groupLisGagUserResult != null) {
+					result = groupLisGagUserResult.getUsers();
 				}
 			}
 		} catch (Exception e) {
