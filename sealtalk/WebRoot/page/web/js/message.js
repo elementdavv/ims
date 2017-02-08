@@ -816,12 +816,16 @@ function removeConvers(type,id){
         onSuccess:function(bool){
             // 删除会话成功。
             console.log('删除会话列表成功');
-            getConverList();
+
         },
         onError:function(error){
             // error => 删除会话的错误码
         }
     });
+    setTimeout(function(){
+        getConverList();
+
+    },2000)
 }
 
 
@@ -924,8 +928,9 @@ function getBranchTreeAndMember(){
 //获取常用联系人
 function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
-        window.localStorage.MemberFriends = data;
         var myData = JSON.parse(data);
+        myData = myData;
+        //window.localStorage.MemberFriends = data;
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
         for(var i = 0;i<myData.length;i++){

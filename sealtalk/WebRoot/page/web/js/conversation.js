@@ -53,8 +53,10 @@ function sendMsg(content,targetId,way,extra,callback){
         var Msize = KBtoM(sendMsg.size);
         switch (sendMsg.type){
             case 'image/png':
-                var imgSrc = 'css/img/backstage.png';
+                var imgSrc = 'css/img/formatImg.png';
                 break;
+            default :
+                var imgSrc = 'css/img/formatUnknew.png';
         }
         //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
         var sHTML = '<li class="mr-chatContentRFile clearfix">'+
@@ -67,6 +69,8 @@ function sendMsg(content,targetId,way,extra,callback){
             '</div>' +
             '</div>' +
             '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
+            '<button id="downLoadFile"></button>'+
+
             '</li>';
     }else{//如果是普通消息
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
@@ -409,7 +413,11 @@ function ondayTime(sCurrentTime,sContrastTime){
 function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
     if (sTargetId) {//别人的
         var oData=findMemberInList(sTargetId);
-        var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
+        if(oData){
+            var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
+        }else {
+            var sImg=globalVar.defaultLogo;
+        }
         if(extra=="uploadFile"){
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sendMsg = JSON.parse(sContent);
@@ -418,19 +426,23 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             var uniqueTime = sendMsg.uniqueTime;
             switch (sendMsg.type){
                 case 'image/png':
-                    var imgSrc = 'css/img/backstage.png';
+                    var imgSrc = 'css/img/formatImg.png';
                     break;
+                default :
+                    var imgSrc = 'css/img/formatUnknew.png';
             }
             sDoM += '<li class="mr-chatContentLFile clearfix" data-t="'+sSentTime+'">'+
+                        '<img class="headImg" src="'+sImg+'">'+
                         '<div class="mr-ownChat">'+
-                        '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                        '<div class="file_type fl"><img  class="fileImg" src="'+imgSrc+'"></div>'+
                         '<div class="file_content fl">' +
                         '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                         '<p class="p2 file_size">'+Msize+'</p>' +
                         '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         '</div>' +
                         '</div>' +
-                        '<a class="downLoadFile"></a>'+
+                        '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
+                        '<button id="downLoadFile"></button>'+
                         '</li>';
 
         }else{
@@ -451,8 +463,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             var uniqueTime = sendMsg.uniqueTime
             switch (sendMsg.type){
                 case 'image/png':
-                    var imgSrc = 'page/web/css/img/backstage.png';
+                    var imgSrc = 'css/img/formatImg.png';
                     break;
+                default :
+                    var imgSrc = 'css/img/formatUnknew.png';
             }
             sDoM += '<li class="mr-chatContentRFile clearfix" data-t="'+sSentTime+'">'+
                         '<div class="mr-ownChat">'+
@@ -463,7 +477,8 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                         '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         '</div>' +
                         '</div>' +
-                        '<a class="downLoadFile"></a>'
+                        '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
+                        '<button id="downLoadFile"></button>'+
                         '</li>';
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
@@ -962,17 +977,34 @@ function KBtoM(kb){
 }
 //接收到的消息显示在盒子里或者在消息列表中显示
 function reciveInBox(msg){
+
+
+    if (window.Electron) {
+        window.Electron.updateBadgeNumber(2);
+
+        //setTimeout(function(){
+        //    window.Electron.updateBadgeNumber(0);
+        //},2000)
+        //var option = {};
+        //option.body = 'aaaa';
+        //window.Electron.displayBalloon('title',option);
+    }
+
     console.log(msg);
     var targetID = msg.targetId;
     var content = msg.content.content;
     var extra = msg.content.extra;
     var targetType = msg.conversationType;
     //var
+    debugger;
     if(targetType==3){//qunliao
-
+        var oData=findMemberInList(targetID);
+        var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
         var $MesContainer = $('.mesContainerGroup')
         var eDom = document.querySelector('#groupContainer .mr-chatview');
     }else if(targetType==1){//个人聊天
+        var oData=findMemberInList(targetID);
+        var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
         var $MesContainer = $('.mesContainerSelf')
         var eDom = document.querySelector('#perContainer .mr-chatview');
     }
@@ -984,20 +1016,24 @@ function reciveInBox(msg){
             var Msize = KBtoM(content.size);
             switch (content.type){
                 case 'image/png':
-                    var imgSrc = 'page/web/css/img/backstage.png';
+                    var imgSrc = 'css/img/formatImg.png';
                     break;
+                default :
+                    var imgSrc = 'css/img/formatUnknew.png';
             }
             var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sHTML = '<li class="mr-chatContentLFile clearfix">'+
+                '<img class="headImg" src="'+sImg+'">'+
                 '<div class="mr-chatBox">'+
-                '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                '<div class="file_type fl"><img class="fileImg" src="'+imgSrc+'"></div>'+
                 '<div class="file_content fl">' +
                 '<p class="p1 file_name">'+content.name+'</p>' +
                 '<p class="p2 file_size">'+Msize+'</p>' +
                 '<div id="up_process"><div id="up_precent"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a class="downLoadFile" href="https://ocsys6mwy.bkt.clouddn.com/'+content.filename+'"></a>'+
+                '<a class="downLoadFile" src="'+globalVar.qiniuDOMAN+sendMsg.name+'"></a>'+
+                '<button id="downLoadFile"></button>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
@@ -1011,7 +1047,6 @@ function reciveInBox(msg){
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
             //在盒子里显示
             //头像需要自己找？、？
-
             var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
                 '<img src="'+globalVar.defaultLogo+'">' +
                 '<div class="mr-chatBox">' +

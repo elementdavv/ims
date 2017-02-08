@@ -3,6 +3,15 @@
  */
 window.onload = function(){
 
+    //忘记密码
+    $('#forgetPwd').click(function(){
+        if (window.Electron) {
+            var curWindow = window.Electron.remote.shell.openExternal('http://localhost:8080/sealtalk/system!fogetPassword');
+            console.log(curWindow);
+        }
+    })
+
+
     //点击发送验证码
     $('#pwdIn').unbind('focus');
     $('#pwdIn').focus(function(){
@@ -102,7 +111,7 @@ function signin(){
     var userpwd = hex_md5($('#pwdIn').val());
     var data = {account:accout,userpwd:userpwd};
     //验证
-    sendAjax('system!afterLogin',data,function(datas){
+    sendAjax('system!loginForWeb',data,function(datas){
         window.localStorage.datas=datas;
         var datas = JSON.parse(datas);
         if(datas &&	datas.code == 1){
