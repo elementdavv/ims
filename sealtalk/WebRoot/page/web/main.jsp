@@ -31,7 +31,6 @@
     <script src="<%=request.getContextPath() %>/page/web/js/prism.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-asDatepicker.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/language.js"></script>
-    <script src="<%=request.getContextPath() %>/page/web/js/fileDownload.js"></script>
 
     <%--七牛上传--%>
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>
