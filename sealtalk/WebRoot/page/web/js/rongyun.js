@@ -17,7 +17,7 @@ $(function(){
             window.localStorage.account=JSON.stringify(changeFormatData);
 
            // RongIMClient.init(globalVar.rongKey);
-            if(RongIMLib.VCDataProvider){
+            if(RongIMLib.VCDataProvider&&window.Electron){
                 RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
                 RongIMClient.init(globalVar.rongKey);
@@ -112,6 +112,9 @@ $(function(){
                                 //1.获取系统提示音接口
                                 //2.获取单独的群消息设置
                                 if(globalVar.SYSTEMSOUND){
+
+                                    //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
+
                                     var systemSound_recive = document.getElementById('systemSound_recive');
                                     systemSound_recive.play();
                                 }

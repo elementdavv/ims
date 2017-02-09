@@ -68,11 +68,9 @@ $(document).ready(function(){
                         if(data){
                             var oData=JSON.parse(data);
                             if(oData.code==1){
-                                //$('#groupData .groupInfo-noChat').attr('data-chat',1);
+                                $('#groupData .groupInfo-noChat').attr('data-chat',0);
                             }
                         }
-                        // getGroupList(userid);
-                        // removeConvers("GROUP",groupid);
                     },function(){
                         console.log('失败');
                     })
@@ -90,7 +88,6 @@ $(document).ready(function(){
                 handlerForSure : function(){
                     //解散群组接口
                     var datas = localStorage.getItem('datas');
-                    //if(sAccount){
                     var data = JSON.parse(datas);
                     var userid = data.id;
                     sendAjax('group!shutUpGroup',{groupid:groupid},function(data){
@@ -100,8 +97,6 @@ $(document).ready(function(){
                                 $('#groupData .groupInfo-noChat').attr('data-chat',1);
                             }
                         }
-                        // getGroupList(userid);
-                        // removeConvers("GROUP",groupid);
                     },function(){
                         console.log('失败');
                     })

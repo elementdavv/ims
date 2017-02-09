@@ -102,7 +102,7 @@ function sendMsg(content,targetId,way,extra,callback){
             '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
             '</div>' +
             '</div>' +
-            '<a class="downLoadFile" src="'+globalVar.qiniuDOWNLOAD+'?attname='+sendMsg.name+'"></a>'+
+            '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
             '<button id="downLoadFile"></button>'+
 
             '</li>';
@@ -476,7 +476,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                         '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         '</div>' +
                         '</div>' +
-                        '<a class="downLoadFile" src="'+globalVar.qiniuDOWNLOAD+'?attname='+sendMsg.name+'"></a>'+
+                        '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
                         '<button id="downLoadFile"></button>'+
                         '</li>';
 
@@ -513,7 +513,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                         '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         '</div>' +
                         '</div>' +
-                        '<a class="downLoadFile" src="'+globalVar.qiniuDOWNLOAD+'?attname='+sendMsg.name+'"></a>'+
+                        '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
                         '<button id="downLoadFile"></button>'+
                         '</li>';
         }else{
@@ -713,7 +713,18 @@ function getGroupMembersList(groupid){
             sDom+='</ul>';
             $('#groupData .group-data .groupInfo-memberList').empty();
             $('#groupData .group-data .groupInfo-memberList').append(sDom);
-            console.log(oGroupidList)
+            console.log(oGroupidList);
+            //查询群禁言状态
+            sendAjax('group!getShutUpGroupStatus',{groupid:groupid},function(data){
+                if(data){
+                    var datas = JSON.parse(data);
+                    if(datas&&datas.code==1&&datas.text=='true'){
+                        $('.groupInfo-noChat').attr('1');
+                    }else if(datas&&datas.code==1&&datas.text=='false'){
+                        $('.groupInfo-noChat').attr('0');
+                    }
+                }
+            })
         }
 
     });
@@ -1058,12 +1069,6 @@ function reciveInBox(msg){
     if (window.Electron) {
         window.Electron.updateBadgeNumber(2);
 
-        //setTimeout(function(){
-        //    window.Electron.updateBadgeNumber(0);
-        //},2000)
-        //var option = {};
-        //option.body = 'aaaa';
-        //window.Electron.displayBalloon('title',option);
     }
 
     console.log(msg);
@@ -1108,7 +1113,7 @@ function reciveInBox(msg){
                 '<div id="up_process"><div id="up_precent"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a class="downLoadFile" src="'+globalVar.qiniuDOWNLOAD+'?attname='+sendMsg.name+'"></a>'+
+                '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
                 '<button id="downLoadFile"></button>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
