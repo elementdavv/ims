@@ -718,8 +718,10 @@ function getGroupMembersList(groupid){
             sendAjax('group!getShutUpGroupStatus',{groupid:groupid},function(data){
                 if(data){
                     var datas = JSON.parse(data);
-                    if(datas&&datas.code==1){
+                    if(datas&&datas.code==1&&datas.text=='true'){
                         $('.groupInfo-noChat').attr('1');
+                    }else if(datas&&datas.code==1&&datas.text=='false'){
+                        $('.groupInfo-noChat').attr('0');
                     }
                 }
             })
