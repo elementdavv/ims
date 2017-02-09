@@ -17,7 +17,7 @@ $(function(){
             window.localStorage.account=JSON.stringify(changeFormatData);
 
            // RongIMClient.init(globalVar.rongKey);
-            if(RongIMLib.VCDataProvider){
+            if(RongIMLib.VCDataProvider&&window.Electron){
                 RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
                 RongIMClient.init(globalVar.rongKey);
