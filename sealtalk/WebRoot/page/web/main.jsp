@@ -31,6 +31,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/prism.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-asDatepicker.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/language.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/fileDownload.js"></script>
 
     <%--七牛上传--%>
     <script src="<%=request.getContextPath() %>/page/web/js/qiniu/qiniu.js"></script>
@@ -67,11 +68,12 @@
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
 
     </head>
-
-<body userid="${SessionUser.id}" token="${SessionUser.token}">
+    <%--${SessionPrivilege.map}--%>
+    <%--${SessionUser.id}--%>
+<body userid="${SessionUser.id}" token="${SessionUser.token}" limit="${SessionPrivilege.map}">
 	<!--
 	权限设置判断
-	<c:if test="${SessionPrivilege.map.rsglsc != null}">	  
+	<c:if test="${SessionPrivilege.map.rsglsc != null}">
 	</c:if>
 	-->
     <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
@@ -81,7 +83,7 @@
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
-		<c:if test="${SessionPrivilege.map.htgl != null && SessionPrivilege.map.yyapppcd != null}">	  
+		<c:if test="${SessionPrivilege.map.htgl != null && SessionPrivilege.map.yyapppcd != null}">
 			<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
 		</c:if>
         <%--<li bindPanel="back">后台管理</li>   --%>
@@ -127,8 +129,22 @@
         <div class="operMenuList">
             <ul>
                 <li class="chatLeftIcon">添加好友</li>
-                <li class="chatLeftIcon">发起聊天</li>
-                <li class="chatLeftIcon">创建群组</li>
+                <%--权限--%>
+                <%--<li class="chatLeftIcon">发起聊天</li>--%>
+                <c:if test="${SessionPrivilege.map.stsz != null}">
+                    <li class="chatLeftIcon">发起聊天</li>
+                </c:if>
+                <c:if test="${SessionPrivilege.map.stsz == null}">
+                    <li class="chatLeftIcon" displayLimit="false">发起聊天</li>
+                </c:if>
+                <c:if test="${SessionPrivilege.map.stsz != null}">
+                    <li class="chatLeftIcon">创建群组</li>
+
+                </c:if>
+                <c:if test="${SessionPrivilege.map.stsz == null}">
+                    <li class="chatLeftIcon" displayLimit="false">创建群组</li>
+
+                </c:if>
             </ul>
         </div>
     </div>
@@ -263,7 +279,9 @@
                     <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
-                    <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
+                        <c:if test="${SessionPrivilege.map.stsz != null}">
+                            <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
+                        </c:if>
                     </div>
                 </div>
                 <pre id="message-content" contenteditable-directive
@@ -313,8 +331,9 @@
                     <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
-                    <input type="file" class="comment-pic-upd" id="upload_file"/>
-                    <%--<img src="images/upload-pic.png" alt="上传照片" title="">--%>
+                        <c:if test="${SessionPrivilege.map.stsz != null}">
+                        <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
+                        </c:if>
                     </div>
                 </div>
                 <%--<textarea placeholder="说点什么..." class="textarea"></textarea>--%>

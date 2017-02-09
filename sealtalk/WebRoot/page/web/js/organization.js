@@ -15,8 +15,8 @@ $(function(){
 
     $('.orgNavClick2,.orgNavClick1').delegate('.sendMsg','click',function(){
         //跳转到消息下面的常用联系人
-        $('.chatHeaderMenu li')[0].click();
-        $('.chatContent ul li')[1].click();
+        //$('.chatHeaderMenu li')[0].click();
+        //$('.chatContent ul li')[1].click();
         //会话区显示
     })
 

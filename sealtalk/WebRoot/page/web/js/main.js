@@ -7,6 +7,9 @@ $(function(){
         sendAjax('system!logOut','',function(){
             if (window.Electron) {
                 var curWindow = window.Electron.remote.getCurrentWindow().reload();
+            }else{
+                window.location.href = 'system!loginForWeb';
+
             }
 
             //alert('登出成功');
@@ -14,7 +17,6 @@ $(function(){
             //var mainWindow2 = window.Electron.ipcRenderer._events.logout();
             //var window1 = mainWindow2.loadURL('http://localhost:8080/sealtalk/page/web/system!afterLogin');
 
-            window.location.href = 'system!login';
         });
     }
     $('.chatHeaderOper li')[1].onclick = function(){
@@ -107,7 +109,12 @@ function fshowContexMenu(arr,style,id,memShip,targettype){
 
     var listHTML = '';
     for(var i = 0;i<arr.length;i++){
-        listHTML+='<li>'+arr[i]+'</li>'
+        var limit = $('body').attr('limit');
+        if(arr[i].limit!=''&&limit.indexOf(arr[i].limit)==-1){
+            listHTML+='<li displaylimit="false">'+arr[i].value+'</li>'
+        }else{
+            listHTML+='<li>'+arr[i].value+'</li>'
+        }
     }
     var targetType = '';
     if(targettype){

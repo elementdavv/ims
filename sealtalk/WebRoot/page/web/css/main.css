@@ -466,6 +466,12 @@ button#downLoadFile:focus{
     line-height: 25px;
     padding-left: 34px;
 }
+/*.operMenuList ul li[displaylimit=false]{*/
+    /**/
+/*}*/
+.operMenuList ul li[displayLimit=false]{
+    color: rgba(0, 0, 0, 0.39);
+}
 .operMenuList ul li:nth-child(1){
     background-position: -208px -212px;
 }
@@ -1067,7 +1073,9 @@ span.defaultText{
     margin: 10px auto;
     /*line-height:;*/
 }
-
+.myContextMenu ul li[displaylimit=false]{
+    color: rgba(0, 0, 0, 0.39);
+}
 .dialogFooter {
     height: 70px;
     /* background: palegoldenrod; */
