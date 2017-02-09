@@ -16,7 +16,12 @@ $(function(){
             //data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(changeFormatData);
 
-            RongIMClient.init(globalVar.rongKey);
+           // RongIMClient.init(globalVar.rongKey);
+            if(RongIMLib.VCDataProvider){
+                RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
+            }else{
+                RongIMClient.init(globalVar.rongKey);
+            }
             //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
             //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
             //var sAccount = datas.account;
@@ -54,16 +59,16 @@ $(function(){
                                 break;
                             //重新链接
                             case RongIMLib.ConnectionStatus.DISCONNECTED:
-                                new Window().alert({
-                                    title   : '',
-                                    content : '断开连接！',
-                                    hasCloseBtn : false,
-                                    hasImg : true,
-                                    textForSureBtn : false,
-                                    textForcancleBtn : false
-                                    //,
-                                    //autoHide:true
-                                });
+                                //new Window().alert({
+                                //    title   : '',
+                                //    content : '断开连接！',
+                                //    hasCloseBtn : false,
+                                //    hasImg : true,
+                                //    textForSureBtn : false,
+                                //    textForcancleBtn : false
+                                //    //,
+                                //    //autoHide:true
+                                //});
                                 console.log('断开连接');
                                 break;
                             //其他设备登录
@@ -210,7 +215,7 @@ $(function(){
                         });
                         console.log(errorCode);
                     }
-                });
+                },'');
             //}
             //初始化emoji表情
             initEmoji();

@@ -3,11 +3,7 @@
  */
 $(document).ready(function(){
     var groupTimer=null,groupTimer1 = null;
-    var sAccount = localStorage.getItem('account');
-    var sdata = localStorage.getItem('datas');
-    var accountObj = JSON.parse(sdata);
-    var account = accountObj.account;
-    var accountID = accountObj.id;
+   // var sAccount = localStorage.getItem('account');
    $('#perInfo').on('click','li',function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
@@ -30,6 +26,26 @@ $(document).ready(function(){
        }
        $('#infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
    });
+    //搜索常用人历史记录
+    $('#personalData').on('click','.searchHostoryInfo',function(){
+        var sTargettype=$('#perContainer').attr('targettype');
+        var sTargetid=$('#perContainer').attr('targetid');
+        var sVal=$(this).prev().val();
+        var oPagetest = new PageObj({divObj:$('.infoDet-chatRecord').find('.infoDet-page'),pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        {
+            getChatRecord(list);
+
+        });
+        //RongIMLib.RongIMClient.getInstance().searchMessageByContent(RongIMLib.ConversationType[sTargettype],sTargetid,sVal,0,20,1,{
+        //    onSuccess:function(data, count){
+        //        alert(data,count);
+        //        console.log(data);
+        //        console.log(count);
+        //    },
+        //    onError:function(error){
+        //    }
+        //});
+    });
     $('#groupData').on('click','.groupInfo-noChat',function(){
         var groupid=$(this).attr('data-groupid');
         var sChat=$(this).attr('data-chat');
@@ -250,6 +266,10 @@ $(document).ready(function(){
         }else{
             status=1;
         }
+        var sdata = localStorage.getItem('datas');
+        var accountObj = JSON.parse(sdata);
+        //var account = accountObj.account;
+        var accountID = accountObj.id;
         systemBeep(status,accountID);
     });
     $('#groupMap').on('click','.messageRecord b',function(e){
@@ -283,7 +303,7 @@ $(document).ready(function(){
     $('#crop-avatar').on('click','.bMg-preserve .bMg-keepImg',function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
-        var sId=oData.text.id;
+        var sId=oData.id;
         var picname='';
         var nDelImg;
         $('.bMg-cropImgSet .bMg-imgList li').each(function(index){
@@ -310,7 +330,7 @@ $(document).ready(function(){
                    $('#personSettingId .perSetBox-head').attr('src','upload/images/'+picname);
                    $('.bMgMask').addClass('chatHide');
                    $('#crop-avatar').addClass('chatHide');
-                   oData.text.logo=picname;
+                   oData.logo=picname;
                    var sNewData=JSON.stringify(oData);
                    localStorage.setItem("datas",sNewData);
                }
@@ -341,7 +361,7 @@ $(document).ready(function(){
         });
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
-        var sId=oData.text.id;
+        var sId=oData.id;
         sendAjax('upload!delUserLogos',{userid:sId,picname:picname},function(data){
             var oDatas=JSON.parse(data);
             if(oDatas.code==1){
@@ -651,8 +671,8 @@ function systemBeep(status,accountID){
 function getHeadImgList(){
     var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sId=oData.text.id;
-    var sSelfImg=oData.text.logo;
+    var sId=oData.id;
+    var sSelfImg=oData.logo;
     sendAjax('upload!getUserLogos',{userid:sId},function(data){
         var oDatas=JSON.parse(data);
         var aImgList=oDatas.text;

@@ -328,6 +328,15 @@
     width: 268px;
     padding: 8px;
 }
+.file_type1 img{
+    float: left;
+    width: 30px;
+    height: 30px;
+}
+.file_content1{
+    float: left;
+    margin-left: 20px;
+}
 
 .mr-chatContentRFile img{
     float: left;
@@ -726,12 +735,12 @@ p.converLimit {
 .infoDet-contentDet .infoDet-selfSay{
     padding-left:30px;
 }
-.infoDet-contentDet .infoDet-OthersSay span{
+.infoDet-contentDet .infoDet-OthersSay b{
     display:block;
     color:rgb(48,192,218);
     font-size:12px;
 }
-.infoDet-contentDet p{
+.infoDet-contentDet .pageHostoryBox{
     word-wrap: break-word;
     word-break:break-all;
     font-size:12px;
@@ -739,7 +748,7 @@ p.converLimit {
     line-height:16px;
     padding:8px 30px 8px 24px;
 }
-.infoDet-selfSay span{
+.infoDet-selfSay b{
     display:block;
     color:rgb(64,212,163);
     font-size:12px;
@@ -752,10 +761,10 @@ p.converLimit {
     float:left;
 }
 .infoDet-page .example{
-    width:132px;
-    height:30px;
-    border:1px solid #f0f0f0;
-    margin-left:14px;
+    /*width:132px;*/
+    /*height:30px;*/
+    /*border:1px solid #f0f0f0;*/
+    /*margin-left:14px;*/
 }
 .infoDet-page .infoDet-pageQuery {
     float:right;

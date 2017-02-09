@@ -249,7 +249,7 @@
             formData.append("degree", data.rotate);
             var sData=window.localStorage.getItem("datas");
             var oData= JSON.parse(sData);
-            var sId=oData.text.id;
+            var sId=oData.id;
             formData.append("userid",sId);
             $.ajax(url, {
                 type: 'post',

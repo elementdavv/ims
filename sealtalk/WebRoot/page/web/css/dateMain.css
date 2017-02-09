@@ -237,11 +237,11 @@ pre.wrong {
     margin-bottom: 0 !important;
 }
 .example {
-    background-color: #eee;
-    border: 3px solid #e0e0e0;
-    border-top: none;
-    padding: 1em;
-    margin-bottom:2em;
+    /*background-color: #eee;*/
+    /*border: 3px solid #e0e0e0;*/
+    /*border-top: none;*/
+    /*padding: 1em;*/
+    /*margin-bottom:2em;*/
 }
 
 /* toc */
