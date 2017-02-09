@@ -491,7 +491,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                     </li>';
             }
         }
-    } else {//自己的
+     else {//自己的
         if(extra=="uploadFile"){
             var sendMsg = JSON.parse(sContent);
             var imgSrc = '';
