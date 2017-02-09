@@ -325,11 +325,13 @@ app.on('ready', () => {
     shell.openExternal(url)
   })
 
+  /* 开启后，将进行页面无法跳转
   // Prevent load a new page when accident.
   webContents.on('will-navigate', (event, url) => {
     event.preventDefault()
   })
-
+   */
+   
   // Injects CSS into the current web page.
   webContents.on('dom-ready', () => {
     webContents.insertCSS(fs.readFileSync(path.join(__dirname, 'res', 'browser.css'), 'utf8'))
