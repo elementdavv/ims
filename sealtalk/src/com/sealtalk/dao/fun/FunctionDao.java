@@ -1,10 +1,8 @@
 package com.sealtalk.dao.fun;
 
-import java.util.List;
-
 import com.sealtalk.common.IBaseDao;
-import com.sealtalk.model.TDontDistrub;
 import com.sealtalk.model.TFunction;
+import com.sealtalk.model.TMsgtop;
 
 /**
  * 辅助功能  
@@ -15,7 +13,7 @@ import com.sealtalk.model.TFunction;
 public interface FunctionDao extends IBaseDao<TFunction, Long> {
 
 	/**
-	 * 获取系统提示音状态
+	 * 获取系统状态
 	 * @param string
 	 * @return
 	 */
@@ -28,5 +26,5 @@ public interface FunctionDao extends IBaseDao<TFunction, Long> {
 	public void setFunctionStatus(TFunction tf);
 
 	public void updateFunctionStatus(String name, String status);
-	
+
 } 

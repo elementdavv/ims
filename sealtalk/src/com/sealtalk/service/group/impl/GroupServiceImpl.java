@@ -12,6 +12,7 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import com.sealtalk.common.Tips;
+import com.sealtalk.dao.adm.PrivDao;
 import com.sealtalk.dao.fun.DontDistrubDao;
 import com.sealtalk.dao.group.GroupDao;
 import com.sealtalk.dao.group.GroupMemberDao;
@@ -20,6 +21,7 @@ import com.sealtalk.model.TDontDistrub;
 import com.sealtalk.model.TGroup;
 import com.sealtalk.model.TGroupMember;
 import com.sealtalk.model.TMember;
+import com.sealtalk.model.TPriv;
 import com.sealtalk.service.group.GroupService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PropertiesUtils;
@@ -917,6 +919,34 @@ public class GroupServiceImpl implements GroupService {
 							ja.add(memberObj);
 						}
 					}
+					
+					//获取成员是否有管理群组的权限 
+					TPriv tp = privDao.getPrivByUrl("qz");
+					
+					if(tp != null) {
+						int privId = Integer.valueOf(tp.getId());
+						List memPriv = privDao.getMemberByPrivId(privId);
+						for(int i = 0; i < ja.size(); i++) {
+							JSONObject mem = ja.getJSONObject(i);
+							if (memPriv == null) {
+								mem.put("qzqx", "false");
+								continue ;
+							}
+							boolean f = false;
+							
+							for (int j = 0; j < memPriv.size(); j++) {
+								Object[] priv = (Object[]) memPriv.get(j);
+								if (mem.getString("id").equals(String.valueOf(priv[0])) && priv[1] != null) {
+									mem.put("qzqx", true);
+									f = true;
+									break;
+								}
+							}
+							if (f == false) {
+								mem.put("qzqx", "false");
+							}
+						}
+					}
 				}
 				
 				jo.put("code", 1);
@@ -981,7 +1011,8 @@ public class GroupServiceImpl implements GroupService {
 				ArrayList<String> codeList = new ArrayList<String>();
 				
 				for(int i = 0; i < userList.size(); i++) {
-					String code = RongCloudUtils.getInstance().shutUpGroup(userList.get(i), groupId, shutUpTime);
+					String id = userList.get(i);
+					String code = RongCloudUtils.getInstance().shutUpGroup(id, groupId, shutUpTime);
 					codeList.add(code);
 				}
 				
@@ -1053,21 +1084,18 @@ public class GroupServiceImpl implements GroupService {
 		JSONObject result = new JSONObject();
 		
 		try {
-			if (!StringUtils.getInstance().isBlank(groupId)) {
+			if (StringUtils.getInstance().isBlank(groupId)) {
 				result.put("code", -1);
 				result.put("text", Tips.WRONGPARAMS.getText());
 			} else {
-				String code = RongCloudUtils.getInstance().getShutUpGroupStatus(groupId);
+				List<GagGroupUser> memList = RongCloudUtils.getInstance().getShutUpGroupMember(groupId);
 				boolean status = false;
 				
-				if (code.equals("200")) {
+				if (memList != null && memList.size() > 0) {
 					status = true;
-					code = "1";
-				} else {
-					code = "0";
 				}
 				
-				result.put("code", code);
+				result.put("code", 1);
 				result.put("text", status);
 			}
 		} catch (Exception e) {
@@ -1082,7 +1110,7 @@ public class GroupServiceImpl implements GroupService {
 		JSONObject result = new JSONObject();
 		
 		try {
-			if (!StringUtils.getInstance().isBlank(groupId)) {
+			if (StringUtils.getInstance().isBlank(groupId)) {
 				result.put("code", -1);
 				result.put("text", Tips.WRONGPARAMS.getText());
 			} else {
@@ -1117,7 +1145,16 @@ public class GroupServiceImpl implements GroupService {
 	private GroupDao groupDao;
 	private GroupMemberDao groupMemberDao;
 	private DontDistrubDao dontDistrubDao;
+	private PrivDao privDao;
 	
+	public PrivDao getPrivDao() {
+		return privDao;
+	}
+
+	public void setPrivDao(PrivDao privDao) {
+		this.privDao = privDao;
+	}
+
 	public DontDistrubDao getDontDistrubDao() {
 		return dontDistrubDao;
 	}

@@ -39,8 +39,11 @@ public class ImpServlet extends HttpServlet {
 
 		this.impService = new ImpService(this.getSessionFactory(req));
 
-		Part part = req.getPart("impfile");
-		String contentType = part.getContentType();
+		//Part part = req.getPart("impfile");
+		//String contentType = part.getContentType();
+		//test code
+		Part part = null;
+		String contentType = null;
 
 		if (!contentType.equals(Constants.XLS) && !contentType.equals(Constants.XLSX)) {
 			js.put("status", 1);//文件类型错

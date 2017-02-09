@@ -49,6 +49,17 @@ public class FunctionAction extends BaseAction {
 	}
 	
 	/**
+	 * 获取消息免打扰接口
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getNotRecieveMsg() throws ServletException {
+		String result = functionService.getNotRecieveMsg(groupid, userid);
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
 	 * 设置系统提示音功能
 	 * @return
 	 * @throws ServletException
@@ -119,6 +130,16 @@ public class FunctionAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 取消置顶
+	 * @return
+	 * @throws ServletException
+	 */
+	public String cancelMsgTop() throws ServletException {
+		String result = functionService.cancelMsgTop(userid, topid, toptype);
+		returnToClient(result);
+		return "text";
+	}
 	private String status;
 	private String groupid;
 	private String userid;

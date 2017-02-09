@@ -45,5 +45,25 @@ public class DontDistrubDaoImpl extends BaseDao<TDontDistrub, Long> implements D
 		
 		return null;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public TDontDistrub getSingleDistrubListForUserId(int userIdInt, int groupIdInt) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.and(Restrictions.eq("memberId", userIdInt), Restrictions.eq("groupId", groupIdInt)));
+			
+			List<TDontDistrub> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 }

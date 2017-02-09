@@ -17,7 +17,7 @@ $(function(){
             window.localStorage.account=JSON.stringify(changeFormatData);
 
            // RongIMClient.init(globalVar.rongKey);
-            if(RongIMLib.VCDataProvider){
+            if(RongIMLib.VCDataProvider && window.Electron){
                 RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
                 RongIMClient.init(globalVar.rongKey);
@@ -231,6 +231,22 @@ $(function(){
 
 function setConverToTop(Type,targetId) {
     var conversationtype = RongIMLib.ConversationType[Type]; // 私聊
+	 var sData=window.localStorage.getItem("datas");
+    var oData= JSON.parse(sData);
+    var sId=oData.id;
+    var nTopType;
+    switch(Type){
+        case 'GROUP':
+            nTopType=1;
+            break;
+        case 'PRIVATE':
+            nTopType=2;
+            break;
+    }
+    sendAjax('fun!setMsgTop',{userid:sId,topid:targetId,toptype:nTopType},function(data){
+        var oData=JSON.parse(data);
+        console.log(oData);
+    });
     RongIMLib.RongIMClient.getInstance().setConversationToTop(conversationtype, targetId, {
         onSuccess: function() {
             console.log("setDiscussionInviteStatus Successfully");

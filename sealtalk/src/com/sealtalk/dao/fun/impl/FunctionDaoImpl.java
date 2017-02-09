@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.fun.FunctionDao;
 import com.sealtalk.model.TFunction;
+import com.sealtalk.model.TMsgtop;
 
 /**
  * 其它功能管理层
@@ -56,5 +57,4 @@ public class FunctionDaoImpl extends BaseDao<TFunction, Long> implements Functio
 		}
 		
 	}
-	
 }
