@@ -111,4 +111,34 @@ public interface GroupService {
 	 * @return
 	 */
 	public String changeGroupName(String groupId, String groupName);
+
+	/**
+	 * 群组全员禁言
+	 * @param userId
+	 * @param groupId 
+	 * @return
+	 */
+	public String shutUpGroup(String userId, String groupId);
+
+	/**
+	 * 解除全员禁言
+	 * @param groupId
+	 * @param userId
+	 * @return
+	 */
+	public String unShutUpGroup(String userId, String groupId);
+
+	/**
+	 * 查询群禁言状态
+	 * @param groupid
+	 * @return
+	 */
+	public String getShutUpGroupStatus(String groupid);
+
+	/**
+	 * 查询禁言成员
+	 * @param groupid
+	 * @return
+	 */
+	public String getShutUpGroupMember(String groupid);
 }

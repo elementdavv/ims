@@ -2,14 +2,22 @@ var curpage = '';
 var currole = 0;
 var pagenumber = 0;
 var curpage = 0;
-var itemsperpage = 5;
+var itemsperpage = 10;
 var membertemplate = '<div id="mmemberid" name="membername" class="member21">'
 						+ '<div class="toleft">membername</div>'
-						+ '<div class="toright" onclick="delmember(memberid)">删</div>'
+						+ '<div class="toright" onclick="delmember(memberid)">'
+						+ '<img src="images/delete-2.png" /></div>'
 						+ '</div>';
 $(document).ready(function(){
 
+//	$('.line21').css('width', document.body.clientWidth * 0.12 + 'px');
+	$('.sidebar12').css('height', '1440px');
+	
 	showpage('210');
+	
+	if (has('qxglck')) {
+		callajax('priv!getRoleList', '', cb_21_fresh);
+	}
 	
 	$('#role').on('shown.bs.modal', function(e) {
 		callajax('priv!getRoleList', '', cb_21_role_role);
@@ -20,11 +28,11 @@ $(document).ready(function(){
 		callajax("branch!getOrganTree", "", cb_21_member_tree);
 	});
 
-	callajax('priv!getRoleList', '', cb_21_fresh);
-	
 	$('body').on('click', '#list21 li', function() {
-		$(this).parent().find('li').removeClass('active');
-		$(this).addClass('active');
+		$(this).parent().find('li').removeClass('prv21active');
+		$('#sanjiao').remove();
+		$(this).addClass('prv21active');
+		$(this).after('<img id="sanjiao" src="images/roleselect.png" style="float:right" />');
 		if (curpage == '212') {
 			showpage('210');
 		}
@@ -33,24 +41,79 @@ $(document).ready(function(){
 		load211();
 		load212();
 	});
-	$('body').on('click', '.privgroup', function() {
-		$(this).parent().parent().find('input').prop('checked', $(this).prop('checked'));
+	$('body').on('click', '.privgroup, .privgroupd', function() {
+		if ($(this).prop('src').indexOf('1.png') > 0) {
+			$(this).parent().parent().find('img').prop('src', 'images/select-2.png');
+			$(this).parent().parent().find('input').prop('checked', false);
+		}
+		else {
+			$(this).parent().parent().find('img').prop('src', 'images/select-1.png');
+			$(this).parent().parent().find('input').prop('checked', true);
+		}
+	});
+	$('body').on('click', '.pgc, .pgcd', function() {
+		if ($(this).prop('src').indexOf('1.png') > 0) {
+			$(this).parent().find('img').prop('src', 'images/select-2.png');
+			$(this).parent().find('input').prop('checked', false);
+		}
+		else {
+			$(this).parent().find('img').prop('src', 'images/select-1.png');
+			$(this).parent().find('input').prop('checked', true);
+		}
 	});
 	$('#addrole').click(function(){
-		$('#role').modal({
-			backdrop: false,
-			remote: '21_role.jsp'
-		});
+		
+		//权限
+		if (has('qxgltj')) {
+			$('#role').modal({
+				backdrop: false,
+				remote: '21_role.jsp'
+			});
+		}
+		else {
+			bootbox.alert({'title':'提示','message':'您没有权限添加身份'});
+		}
 	});
 	$('#editmember').click(function(){
 		if (currole == 1) {
-			bootbox.alert({'title':'提示', 'message':'不能修改组织管理员人员.'});
+			bootbox.alert({'title':'提示', 'message':'不能修改组织管理员.'});
 			return;
 		}
-		$('#member').modal({
-			backdrop: false,
-			remote: '21_member.jsp'
-		});
+
+		//权限
+		if (has('qxglxg')) {
+			if (currole == 0) {
+				bootbox.alert({title:'提示', message:'请先选择身份.'});
+			}
+			else {
+				$('#member').modal({
+					backdrop: false,
+					remote: '21_member.jsp'
+				});
+			}
+		}
+		else {
+			bootbox.alert({'title':'提示','message':'您没有权限新增/修改人员.'});
+		}
+	});
+	$('#editpriv').click(function() {
+		if(currole == 1) {
+			bootbox.alert({"title":"提示","message":"不能修改组织管理员."});
+			return;
+		}
+
+		//权限
+		if (has('qxglxg')) {
+			if (currole == 0) {
+				bootbox.alert({title:'提示', message:'请先选择身份.'});
+			}
+			else {
+				showpage("212");
+			}
+		}
+		else {
+			bootbox.alert({'title':'提示','message':'您没有权限修改权限.'});
+		}
 	});
 	$('#pagefirst').click(function() {
 		if (pagenumber == 0) return;
@@ -90,23 +153,31 @@ function cb_21_role_priv(data) {
 	var i = data.length;
 	while (i--) {
 		if (data[i].parentid == 0) {
-			$('#21_list').append('<div class="line211">' + data[i].privname + '</div>');
+			$('#21_list').append('<div class="line211d">' + data[i].privname + '</div>');
 			var j = data.length;
 			var x = 0;
 			while (j--) {
 				if (data[j].parentid == data[i].privid) {
 					if (x++ % 2 == 0)
-						$('#21_list').append('<div class="line21_a"></div>');
+						$('#21_list').append('<div class="line211ad"></div>');
 					else
-						$('#21_list').append('<div class="line21_b"></div>');
+						$('#21_list').append('<div class="line211bd"></div>');
 					var a = $('#21_list').children().last();
-					$(a).append('<div class="line2111"><input type="checkbox" class="privgroup" id="pr' + data[j].privid + '" /> ' + data[j].privname + '</div>');
-					$(a).append('<div class="line2112"></div>');
+					var g = '<div class="line2111d">'
+						+ '<img src="images/select-2.png" class="privgroupd pgcgd" />'
+						+ '<input type="checkbox" id="pr' + data[j].privid + '" style="display:none" /> ' 
+						+ data[j].privname + '</div>';
+					$(a).append(g);
+					$(a).append('<div class="line2112d"></div>');
 					var b = $(a).children().last();
 					var k = data.length;
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
-							$(b).append('<div class="priv toleft"><input type="checkbox" id="pr' + data[k].privid + '" /> ' + data[k].privname + '</div>');
+							var gp = '<div class="priv2d toleft">'
+								+ '<img src="images/select-2.png" class="pgcd" />'
+								+ '<input type="checkbox" id="pr' + data[k].privid + '" style="display:none" /> ' 
+								+ data[k].privname + '</div>';
+							$(b).append(gp);
 						}
 					}
 				}
@@ -115,7 +186,7 @@ function cb_21_role_priv(data) {
 	}	
 }
 function cb_21_member_tree(data) {
-	$.fn.zTree.init($('#tree21member'), setting21, data);
+	$.fn.zTree.init($('#tree21member'), setting21, stripicon(data));
 	var t = $.fn.zTree.getZTreeObj('tree21member');
 	var ns = t.getNodesByParam('id', 1, null);
 	t.expandNode(ns[0], true);
@@ -127,6 +198,7 @@ var setting21 = {
 	view: {
 		showLine: false,
 		nameIsHTML: true,
+		showIcon: false,
 	},
 	check: {
 		autoCheckTrigger: true,
@@ -164,10 +236,16 @@ var setting21 = {
 					return;
 				}
 			}
-			if (treeNode.checked)
+			if (treeNode.checked) {
 				$('#21_memberlist').append(membertemplate
 						.replace(/memberid/g, treeNode.id)
 						.replace(/membername/g, treeNode.name));
+				$('.member21').hover(function() {
+					$(this).addClass('menuhover');
+				}, function() {
+					$(this).removeClass('menuhover');
+				});
+			}
 		}
 	}
 };
@@ -211,8 +289,13 @@ function cb_210_fresh(data) {
 			.append('<td>' + data[i].membername + '</td>')
 			.append('<td>' + data[i].branchname + '</td>')
 			.append('<td>' + data[i].positionname + '</td>')
-			.append('<td><button onclick="del210(' + data[i].memberroleid + ')">删除</button></td>');
+			.append('<td><img src="images/delete-2.png" onclick="del210(' + data[i].memberroleid + ')"></img></td>');
 	}
+	$('#list210 tr').hover(function(){
+		$(this).addClass('menuhover');
+	},function(){
+		$(this).removeClass('menuhover');
+	});
 }
 function load211() {
 	callajax('priv!getPrivByRole', {roleid: currole}, cb_211_fresh)
@@ -239,6 +322,9 @@ function cb_211_fresh(data) {
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
 							if (data[k].roleid == currole) {
+								$(b).append('<div class="priv toleft"><img src="images/selected.png" style="margin-right: 5px" />' + data[k].privname + '</div>');
+							}
+							else {
 								$(b).append('<div class="priv toleft">' + data[k].privname + '</div>');
 							}
 						}
@@ -266,18 +352,30 @@ function cb_212_fresh(data) {
 					else
 						$('#list212').append('<div class="line211b"></div>');
 					var a = $('#list212').children().last();
-					$(a).append('<div class="line2111"><input type="checkbox" class="privgroup" id="p' + data[j].privid + '" /> ' + data[j].privname + '</div>');
+					var g = '<div class="line2111">'
+						+ '<img src="images/select-2.png" class="privgroup pgcg">'
+						+ '<input type="checkbox" id="p' + data[j].privid + '" style="display:none" />'
+						+ data[j].privname + '</div>';
+					$(a).append(g);
 					$(a).append('<div class="line2112"></div>');
 					var b = $(a).children().last();
 					var k = data.length;
 					while (k--) {
 						if (data[k].parentid == data[j].privid) {
+							var gp;
 							if (data[k].roleid == currole) {
-								$(b).append('<div class="priv toleft"><input type="checkbox" id="p' + data[k].privid + '" checked /> ' + data[k].privname + '</div>');
+								gp = '<div class="priv2 toleft">'
+									+ '<img src="images/select-1.png" class="pgc">'
+									+ '<input type="checkbox" id="p' + data[k].privid + '" style="display:none" checked />' 
+									+ data[k].privname + '</div>';
 							}
 							else {
-								$(b).append('<div class="priv toleft"><input type="checkbox" id="p' + data[k].privid + '" /> ' + data[k].privname + '</div>');
+								gp = '<div class="priv2 toleft">'
+									+ '<img src="images/select-2.png" class="pgc">'
+									+ '<input type="checkbox" id="p' + data[k].privid + '" style="display:none" />'
+									+ data[k].privname + '</div>';
 							}
+							$(b).append(gp);
 						}
 					}
 				}
@@ -290,23 +388,36 @@ function cb_21_fresh(data) {
 	var i = data.length;
 	while (i--) {
 		if (currole == 0) currole = data[i].id;
-		$('#list21').append('<li id="r' + data[i].id + '">' + data[i].name + '</li>');
+		$('#list21').append('<li class="prv21 toleft" style="width: 100%" id="r' + data[i].id + '">' + data[i].name + '</li>');
+		$('#list21').find('li:last-child').css('width', $('#list21').find('li:last-child').css('width').replace('px', '') - 10);
 	}
-	$('#list21').find('li:first-child').addClass('active');
+	$('#list21').find('li:first-child').addClass('prv21active');
+	$('#list21').find('li:first-child').after('<img id="sanjiao" src="images/roleselect.png" style="float:right" />');
 	load210();
 	load211();
 	load212();
 }
 function del210(id) {
-	bootbox.confirm({
-		title: '提示', 
-		message:'确定删除么 ？',
-		callback: function(result) {
-			if (result) {
-				callajax('priv!delMemberRole', {id: id}, cb_210_del)
+	if (currole == 1) {
+		bootbox.alert({'title':'提示', 'message':'不能删除组织管理员.'});
+		return;
+	}
+	
+	//权限
+	if (has('qxglxg')) {
+		bootbox.confirm({
+			title: '提示', 
+			message:'确定删除么 ？',
+			callback: function(result) {
+				if (result) {
+					callajax('priv!delMemberRole', {id: id}, cb_210_del)
+				}
 			}
-		}
-	});
+		});
+	}
+	else {
+		bootbox.alert({'title':'提示','message':'您没有权限删除人员'});
+	}
 }
 function cb_210_del(data) {
 	load210();
@@ -330,24 +441,38 @@ function cb_212_save(data) {
 }
 function delrole() {
 	if (currole == 1) {
-		bootbox.alert({title:'提示', message:'组织管理员身份不能删除.'});
+		bootbox.alert({title:'提示', message:'不能删除组织管理员.'});
 		return;
 	}
-	bootbox.confirm({
-		title: '提示', 
-		message:'确定删除么 ？',
-		callback: function(result) {
-			if (result) {
-				callajax('priv!delRole', {roleid: currole}, cb_21_del);
-			}
+
+	//权限
+	if (has('qxglsc')) {
+		if (currole == 0) {
+			bootbox.alert({title:'提示', message:'请先选择身份.'});
 		}
-	});
+		else {
+			bootbox.confirm({
+				title: '提示', 
+				message:'确定删除么 ？',
+				callback: function(result) {
+					if (result) {
+						callajax('priv!delRole', {roleid: currole}, cb_21_del);
+					}
+				}
+			});
+		}
+	}
+	else {
+		bootbox.alert({'title':'提示','message':'您没有权限删除身份'});
+	}
 }
 function cb_21_del(data) {
 	var $a = $('#r' + currole);
 	var $b = $a.prev();
-	$b.addClass('active');
 	$a.remove();
+	$('#sanjiao').remove();
+	$b.addClass('prv21active');
+	$b.after('<img id="sanjiao" src="images/roleselect.png" style="float:right" />');
 	currole = $b[0].id.substr(1);
 	load210();
 	load211();
@@ -359,4 +484,11 @@ function showpage(cp) {
 	$('#211').hide();
 	$('#212').hide();
 	$('#' + cp).show();
+}
+function stripicon(data) {
+	var i = data.length;
+	while (i--) {
+		data[i].name = data[i].name.substr(55);
+	}
+	return data;
 }

@@ -25,55 +25,59 @@ $(function(){
 
     var $file = $(".comment-pic-upd");
     $file.on('change',function(){
-        var _this = this;
-        var _file = this.files[0];
-        UploadClient.initImage(config, function(uploadFile){
-            uploading = true;
-            var callback = {
-                onError: function (errorCode) {
-                    //console.log(errorCode);
-                    uploading = false;
-                },
-                onProgress: function (loaded, total) {
-                    //console.log('onProgress', loaded, total, this);
-                    var className = this._self.uniqueTime;
-                    var percent = Math.floor(loaded / total * 100);
-                    var progressContent = $('#up_precent[uniquetime="'+className+'"]');
-                    progressContent.width(percent + '%');
-                    return percent;
-                },
-                onCompleted: function (data) {
-                    var className = this._self.uniqueTime;
-                    var downloadLink = globalVar.qiniuDOWNLOAD+data.filename;
-                    $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
-                    //发送消息
-                    //console.log(this);
+        var limit = $('body').attr('limit');
+        //var oLimit = JSON.parse(limit);
+        if(limit.indexOf('stsz')==-1){
+            return false;
+        }else{
+            var _this = this;
+            var _file = this.files[0];
+            UploadClient.initImage(config, function(uploadFile){
+                uploading = true;
+                var callback = {
+                    onError: function (errorCode) {
+                        //console.log(errorCode);
+                        uploading = false;
+                    },
+                    onProgress: function (loaded, total) {
+                        //console.log('onProgress', loaded, total, this);
+                        var className = this._self.uniqueTime;
+                        var percent = Math.floor(loaded / total * 100);
+                        var progressContent = $('#up_precent[uniquetime="'+className+'"]');
+                        progressContent.width(percent + '%');
+                        return percent;
+                    },
+                    onCompleted: function (data) {
+                        var className = this._self.uniqueTime;
+                        var downloadLink = globalVar.qiniuDOWNLOAD+'?attname='+data.filename;
+                        $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
+                        //发送消息
 
-                    var filedetail = {};
-                    filedetail.name = this._self.name;
-                    filedetail.uniqueTime = this._self.uniqueTime;
-                    filedetail.size = this._self.size;
-                    filedetail.type = this._self.type;
-                    filedetail.filename = data.filename;
-                    var targetId = this._self.targetId;
-                    var targetType = this._self.targetType;
-                    var content = JSON.stringify(filedetail);
-                    var extra = "uploadFile";
+                        var filedetail = {};
+                        filedetail.name = this._self.name;
+                        filedetail.uniqueTime = this._self.uniqueTime;
+                        filedetail.size = this._self.size;
+                        filedetail.type = this._self.type;
+                        filedetail.filename = data.filename;
+                        var targetId = this._self.targetId;
+                        var targetType = this._self.targetType;
+                        var content = JSON.stringify(filedetail);
+                        var extra = "uploadFile";
 
-
-
-                    sendByRong(content,targetId,targetType,extra);
-                    //console.log(data);
-                    uploading = false;
-                },
-                _self: _file
-            }
-            _file.callback = callback;
-            sendFile(_file,_this,function(){
-                //显示到盒子里
-                uploadFile.upload(_file, callback);
+                        sendByRong(content,targetId,targetType,extra);
+                        //console.log(data);
+                        uploading = false;
+                    },
+                    _self: _file
+                }
+                _file.callback = callback;
+                sendFile(_file,_this,function(){
+                    //显示到盒子里
+                    uploadFile.upload(_file, callback);
+                });
             });
-        });
+        }
+
     })
 })
 

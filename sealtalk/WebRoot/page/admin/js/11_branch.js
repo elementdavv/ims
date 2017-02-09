@@ -1,14 +1,16 @@
 $(document).ready(function(){
 
+	$('#branch').validVal();
+
 	$($('#tree11branchbranchwrap')).css({
 		'left': $('#11branchbranch').position().left, 
-		'top': $('#11branchbranch').position().top + 23, 
-		'width': $('#11branchbranch').width() + 4
+		'top': $('#11branchbranch').position().top + 33, 
+		'width': $('#11branchbranch').width() + 25
 	});
 	$($('#tree11branchmanagerwrap')).css({
 		'left': $('#11branchmanager').position().left,
-		'top': $('#11branchmanager').position().top + 23, 
-		'width': $('#11branchmanager').width() + 4
+		'top': $('#11branchmanager').position().top + 33, 
+		'width': $('#11branchmanager').width() + 25
 	});
 	$('#container').click(function(){
 		if ($('.treewrap2').is(':visible')) {
@@ -30,6 +32,8 @@ $(document).ready(function(){
 		return false;
 	});
 	$('#save11branch').click(function() {
+		if ($( "#branch" ).triggerHandler( "submitForm" ) == false) return;
+
 		var data = {
 				branchparentid: $('#11branchbranchid').val(),
 				branchname: $('#11branchname').val(),
@@ -42,19 +46,26 @@ $(document).ready(function(){
 		callajax('branch!saveBranch', data, cb_11_save_branch);
 	});
 	$('#11branchaddmember').click(function(){
-		fillmember = 2;
-		$('#member').modal({
-			backdrop: false,
-			remote: '11_member.jsp'
-		});
+
+		//权限
+		if (has('rsgltj')) {
+			fillmember = 2;
+			$('#member').modal({
+				backdrop: false,
+				remote: '11_member.jsp'
+			});
+		}
+		else {
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+		}
 	});
 });
 function cb_11_save_branch(data) {
 	if (data.branchid == '0') {
-		alert('部门名称已存在，请重新输入.');
+		bootbox.alert({'title':'提示', 'message':'部门名称已存在，请重新输入.'});
 	}
 	else {
-		alert('添加成功.');
+		bootbox.alert({'title':'提示', 'message':'添加成功.'});
 		callajax("branch!getOrganTree", "", cb_11_tree);
 		if ($('#11branchcontinue').prop('checked') == false) {
 			$('#branch').modal('hide');

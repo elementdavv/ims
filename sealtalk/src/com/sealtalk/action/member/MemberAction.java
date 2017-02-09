@@ -77,15 +77,15 @@ public class MemberAction extends BaseAction {
 	}
 	
 	/**
-	 * 个人设置保存
+	 * 个人设置保存(web端)
 	 * @return
 	 * @throws ServletException
 	 */
-	public String updateMemberInfo() throws ServletException {
+	public String updateMemberInfoForWeb() throws ServletException {
 		String result = null;
 		
-		if (memberService == null) {
-			result = memberService.updateMemberInfo(account, fullname, sex, position, branch, email, phone, sign);
+		if (memberService != null) {
+			result = memberService.updateMemberInfoForWeb(userid, sex, email, phone, sign);
 		} else {
 			JSONObject jo = new JSONObject();
 			jo.put("code", 0);
@@ -93,6 +93,13 @@ public class MemberAction extends BaseAction {
 			result = jo.toString();
 		}
 		
+		returnToClient(result);
+		return "text";
+	}
+	
+	public String updateMemberInfoForApp() throws ServletException {
+		String result = "{}";
+		result = memberService.updateMemberForApp(userid, email, mobile, phone, address);
 		returnToClient(result);
 		return "text";
 	}
@@ -105,14 +112,32 @@ public class MemberAction extends BaseAction {
 	
 	private String userid;
 	private String account;
-	private String fullname;
 	private String sex;
+	private String fullname;
 	private String position;
 	private String branch;
 	private String email;
 	private String phone;
+	private String mobile;
 	private String sign;
 	private String logo;
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
 	public String getUserid() {
 		return userid;

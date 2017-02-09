@@ -6,6 +6,11 @@ import com.sealtalk.common.IBaseDao;
 import com.sealtalk.model.TMember;
 
 public interface MemberDao extends IBaseDao<TMember, Integer> {
+
+	public List getMemberPosition(Integer memberId);
+	public List getMemberRole(Integer memberId);
+	public TMember getMemberByName(String name);
+	
 	/**
 	 * 登陆验证
 	 * @param name
@@ -49,7 +54,7 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @param accounts
 	 * @return
 	 */
-	public List<TMember> getMultipleMemberForIds(Integer[] accounts);
+	public List<TMember> getMultipleMemberForIds(Integer[] ids);
 
 	/**
 	 * 更新用户token
@@ -105,21 +110,27 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	public boolean isUsedPic(int userIdInt, String userId);
 
 	/**
-	 * 更新个人设置
+	 * 更新个人设置web端
 	 * @param account
 	 * @param fullname
 	 * @param sex
 	 * @param email
 	 * @param phone
-	 * @param sign
 	 * @return
 	 */
-	public int updateMemeberInfo(String account, String fullname, String sex,
-			String email, String phone, String sign);
+	public int updateMemeberInfoForWeb(int userId, String sex, String email, String phone, String sign);
 	
-	public List getMemberPosition(Integer memberId);
+	/**
+	 * 更新个人设置app端
+	 * @param userIdInt
+	 * @param email
+	 * @param mobile
+	 * @param phone
+	 * @param address
+	 * @return
+	 */
+	public int updateMemeberInfoForApp(int userIdInt, String email, String mobile, String phone, String address);
 	
-	public List getMemberRole(Integer memberId);
 	/**
 	 * 更新用户密码
 	 * @param userName
@@ -140,5 +151,4 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @return
 	 */
 	public List<TMember> getLimitMemberIds(int mapMax);
-
 } 

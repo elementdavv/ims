@@ -19,12 +19,12 @@ import org.directwebremoting.WebContextFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.sealtalk.model.SessionUser;
+import com.sealtalk.model.TMember;
 import com.sealtalk.utils.StringUtils;
 
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware
 {
 	private static final long serialVersionUID = 1L;
-	//protected static Logger logger = UimpLogger.getLogger();
 	
 	public BaseAction(){}
 	public InputStream inputStream;
@@ -254,6 +254,13 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		SessionUser userInfo = getSessionUser();
 		return userInfo == null ? null : userInfo.getAccountName();
 	}*/
+	protected Integer getOrganId() {
+		
+		Object o = this.getSessionAttribute("member");
+
+		return o == null ? 0 : ((TMember)o).getOrganId();
+	}
+	
 	protected String returnajaxid(Integer id) {
 		
 		JSONObject jo = new JSONObject();

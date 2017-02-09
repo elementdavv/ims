@@ -351,7 +351,11 @@
     overflow: hidden;
 }
 .mr-chatContentRFile .file_name{
-
+    overflow: hidden;
+    /*line-height: 44px;*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 160px;
 }
 .mr-chatContentRFile .file_size{
 
@@ -373,9 +377,17 @@
     overflow: hidden;
     width: 268px;
     padding: 8px;
+    float: left;
+    margin: 2px 36px 0 98px;
 }
-
-.mr-chatContentLFile img{
+.mr-chatContentLFile .headImg {
+    position: absolute;
+    left: 30px;
+    width: 44px;
+    height: 44px;
+    border-radius: 100%;
+}
+.mr-chatContentLFile .fileImg{
     float: left;
     width: 50px;
     height: 50px;
@@ -435,8 +447,24 @@
     background-size: 70px 70px;
     background-position: -37px -38px;
 }
+p.converLimit {
+    display: inline-block;
+    float: right;
+    height: 20px;
+    width: 20px;
+    /* background: palegoldenrod; */
+    margin-top: 5px;
+    margin-right: -20px;
+    color: red;
+    font-weight: bolder;
+    font-size: 20px;
+}
 .mr-chatContentLFile .file_name{
-
+    overflow: hidden;
+    /* line-height: 44px; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 150px;
 }
 .mr-chatContentLFile .file_size{
 

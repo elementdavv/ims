@@ -15,6 +15,7 @@ public interface RoleDao extends IBaseDao<TRole, Integer> {
 	 * @return
 	 */
 	List getPrivByRole(Integer roleId);
+	List getPrivByMember(Integer memberId);
 	/**
 	 * 返回角色权限（严格满足条件）
 	 * @param roleId

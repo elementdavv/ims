@@ -42,4 +42,20 @@ public interface FunctionService {
 	 */
 	public String getSysTipVoice(String userId);
 
+	/**
+	 * 设置消息置顶
+	 * @param userid
+	 * @param topid
+	 * @param toptype
+	 * @return
+	 */
+	public String setMsgTop(String userid, String topid, String toptype);
+
+	/**
+	 * 获取消息置顶
+	 * @param userid
+	 * @return
+	 */
+	public String getMsgTop(String userid);
+
 }

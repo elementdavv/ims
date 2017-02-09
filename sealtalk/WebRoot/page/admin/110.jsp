@@ -7,15 +7,17 @@
 		</div>
 		<form id="branchform">
 		<input type="hidden" id="branchid" name="branchid">
-		<div class="line11">部门名称：
-			<input type="text" id="branchname" name="branchname" >
+		<div class="line11" style="padding-left: 28px;"><span style='color:red'>*</span>部门名称：
+			<input type="text" id="branchname" class='required' name="branchname" >
 		</div>
-		<div class="line11">部门领导：
-			<input type="text" id="branchmanager" name="branchmanager" readonly class='treeedit'>
-			<img src="images/下拉.png" id='xiala10' class='treeedit'>
+		<div class="line11" style="padding-left: 28px;"><span style='color:red'>*</span>部门领导：
+			<input type="text" id="branchmanager" class='treeedit required' name="branchmanager" readonly class='treeedit' style='width: 280px'>
+			<input class='treeedit xiala' id='xiala10' readonly></input>
 			<input type="hidden" id="branchmanagerid" name="branchmanagerid">
-			<span id="branchaddmember">+添加人员</span>
-			<div class='treewrap' id='tree110wrap'>
+			<span id="branchaddmember" style="color: rgb(255,162,0);font-size: 13px; cursor:pointer">
+				<img src="images/addmember.png" style="padding: 0 5px 0 10px">添加人员
+			</span>
+			<div class='treewrap' id='tree110wrap' style='height: 270px; overflow: auto'>
 				<div id='tree110' class='ztree'></div>
 			</div>
 		</div>
@@ -31,11 +33,11 @@
 		<div class="line11">部门传真：
 			<input type="text" id="branchfax" name="branchfax">
 		</div>
-		<div class="line11" style="height: 240px">部门简介：
+		<div class="line11" style="height: 240px;"><span style="vertical-align: top">部门简介：</span>
 			<textarea id="branchintro" name="branchintro"></textarea>
 		</div>
 		</form>
-		<div class="line11">
+		<div class="line11" style="margin-left: 95px">
 			<button id="branchsave">保存</button>
 		</div>
 		<p>&nbsp;</p>

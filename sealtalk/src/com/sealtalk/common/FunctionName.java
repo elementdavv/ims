@@ -2,7 +2,8 @@ package com.sealtalk.common;
 
 public enum FunctionName {
 	NOTRECEIVEMSG("notreceivemsg"),
-	SYSTIPVOICE("systipvoice");
+	SYSTIPVOICE("systipvoice"),
+	MSGTOP("msgtop");
 	
 	private String name;
 	

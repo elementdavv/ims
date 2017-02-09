@@ -67,50 +67,97 @@ $(function(){
             var datas = JSON.parse(data);
             switch (e.target.className){
                 case 'sendMsg'://发起聊天
-                    if(targeType=='member'){
-                        targeType = 'PRIVATE';
+                    var limit = $('body').attr('limit');
+                    //var oLimit = JSON.parse(limit);
+                    if(limit.indexOf('stsz')==-1){//没有权限
+                        new Window().alert({
+                            title   : '',
+                            content : '您无权限发起聊天！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false,
+                            autoHide:true
+                        });
+                    }else{
+                        $('.chatHeaderMenu li')[0].click();
+                        $('.chatContent ul li')[1].click();
+                        if(targeType=='member'){
+                            targeType = 'PRIVATE';
+                        }
+                        conversationSelf(targetID,targeType);
+                        $('.orgNavClick').addClass('chatHide');
+                        $('.mesContainerSelf').removeClass('chatHide');
+
                     }
-                    conversationSelf(targetID,targeType);
-                    $('.orgNavClick').addClass('chatHide');
-                    $('.mesContainerSelf').removeClass('chatHide');
                     break;
                 case 'checkPosition'://查看位置
-                    $('.groupMap').removeClass('chatHide');
-                    if(targeType=='member'){
-                        targeType = 'PRIVATE';
+                    var limit = $('body').attr('limit');
+                    //var oLimit = JSON.parse(limit);
+                    if(limit.indexOf('stsz')==-1){//没有权限
+                        new Window().alert({
+                            title   : '',
+                            content : '您无权限查看位置！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false,
+                            autoHide:true
+                        });
+                        break;
+                    }else{
+                        $('.groupMap').removeClass('chatHide');
+                        if(targeType=='member'){
+                            targeType = 'PRIVATE';
+                        }
+                        creatMemberMap(targetID,targeType);
+                        //console.log(targeType,targetID,datas);
                     }
-                    creatMemberMap(targetID,targeType);
-                    //console.log(targeType,targetID,datas);
+
                     break;
                 case 'addConver'://添加群聊
-                    var memShipArr = [targetID,accountID];
-                    memShipArr = unique3(memShipArr);
-                    converseACount.push(accountID);
-                    creatDialogTree(datas,'groupConvers','添加会话',function(){
-                        var sConverseACount = JSON.stringify(converseACount);
-                        sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount},function(data){
-                            if(data){
-                                $('.manageCancle').click();
-                                var datas = JSON.parse(data);
-                                if(datas.code==200){
-                                    new Window().alert({
-                                        title   : '',
-                                        content : '创建群组成功！',
-                                        hasCloseBtn : false,
-                                        hasImg : true,
-                                        textForSureBtn : false,
-                                        textForcancleBtn : false,
-                                        autoHide:true
-                                    });
-                                    getGroupList(accountID);
-                                    $('.chatHeaderMenu li')[0].click();
-                                    $('.chatMenu li')[0].click();
-                                }else{
-                                    alert('失败',datas.text);
+                    var limit = $('body').attr('limit');
+                    //var oLimit = JSON.parse(limit);
+                    if(limit.indexOf('stsz')==-1){//没有权限
+                        new Window().alert({
+                            title   : '',
+                            content : '您无权限添加群聊！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false,
+                            autoHide:true
+                        });
+                    }else{
+                        var memShipArr = [targetID,accountID];
+                        memShipArr = unique3(memShipArr);
+                        converseACount.push(accountID);
+                        creatDialogTree(datas,'groupConvers','添加会话',function(){
+                            var sConverseACount = JSON.stringify(converseACount);
+                            sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount},function(data){
+                                if(data){
+                                    $('.manageCancle').click();
+                                    var datas = JSON.parse(data);
+                                    if(datas.code==200){
+                                        new Window().alert({
+                                            title   : '',
+                                            content : '创建群组成功！',
+                                            hasCloseBtn : false,
+                                            hasImg : true,
+                                            textForSureBtn : false,
+                                            textForcancleBtn : false,
+                                            autoHide:true
+                                        });
+                                        getGroupList(accountID);
+                                        $('.chatHeaderMenu li')[0].click();
+                                        $('.chatMenu li')[0].click();
+                                    }else{
+                                        alert('失败',datas.text);
+                                    }
                                 }
-                            }
-                        })
-                    },memShipArr);
+                            })
+                        },memShipArr);
+                    }
                     break;
                 default :
             }
@@ -176,71 +223,77 @@ $(function(){
                 break;
             case 3:
                 //添加新成员
-                var data = localStorage.getItem('getBranchTree');
-                var datas = JSON.parse(data);
-                if(targetType=="PRIVATE"){
-                    var memShipArr = [targetID,accountID];
-                    converseACount.push(accountID);
-                    creatDialogTree(datas,'groupConvers','添加会话',function(){
-                        var sConverseACount = JSON.stringify(converseACount);
-                        sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount},function(data){
-                            if(data){
-                                $('.manageCancle').click();
-                                var datas = JSON.parse(data);
-                                if(datas.code==200){
-                                    new Window().alert({
-                                        title   : '',
-                                        content : '创建群组成功！',
-                                        hasCloseBtn : false,
-                                        hasImg : true,
-                                        textForSureBtn : false,
-                                        textForcancleBtn : false,
-                                        autoHide:true
-                                    });
-                                    getGroupList(accountID);
-                                    $('.chatHeaderMenu li')[0].click();
-                                    $('.chatMenu li')[0].click();
-                                }else{
-                                    alert('失败',datas.text);
-                                }
+                var limit = $('body').attr('limit');
+                //var oLimit = JSON.parse(limit);
+                if(limit.indexOf('stsz')==-1) {//没有权限
+                    return false;
+                }else{
+                    var data = localStorage.getItem('getBranchTree');
+                    var datas = JSON.parse(data);
+                    if(targetType=="PRIVATE"){
+                        var memShipArr = [targetID,accountID];
+                        converseACount.push(accountID);
+                        creatDialogTree(datas,'groupConvers','添加会话',function(){
+                            var sConverseACount = JSON.stringify(converseACount);
+                            sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount},function(data){
+                                if(data){
+                                    $('.manageCancle').click();
+                                    var datas = JSON.parse(data);
+                                    if(datas.code==200){
+                                        new Window().alert({
+                                            title   : '',
+                                            content : '创建群组成功！',
+                                            hasCloseBtn : false,
+                                            hasImg : true,
+                                            textForSureBtn : false,
+                                            textForcancleBtn : false,
+                                            autoHide:true
+                                        });
+                                        getGroupList(accountID);
+                                        $('.chatHeaderMenu li')[0].click();
+                                        $('.chatMenu li')[0].click();
+                                    }else{
+                                        alert('失败',datas.text);
+                                    }
 
+                                }
+                            })
+                        },memShipArr);
+                    }else{
+                        sendAjax('group!listGroupMemebers',{groupid:targetID},function(data){
+                            if(data) {
+                                var groupDatas = JSON.parse(data);
+                                if (groupDatas && groupDatas.code == 1) {
+                                    var memShipArr = groupDatas.text;
+                                    creatDialogTree(datas,'groupConvers','添加会话',function(){
+                                        var sConverseACount = JSON.stringify(converseACount);
+                                        sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount},function(data){
+                                            if(data){
+                                                $('.manageCancle').click();
+                                                var datas = JSON.parse(data);
+                                                if(datas.code==200){
+                                                    new Window().alert({
+                                                        title   : '',
+                                                        content : '创建群组成功！',
+                                                        hasCloseBtn : false,
+                                                        hasImg : true,
+                                                        textForSureBtn : false,
+                                                        textForcancleBtn : false,
+                                                        autoHide:true
+                                                    });
+                                                    getGroupList(accountID);
+                                                    $('.chatHeaderMenu li')[0].click();
+                                                    $('.chatMenu li')[0].click();
+                                                }else{
+                                                    alert('失败',datas.text);
+                                                }
+                                            }
+                                        })
+                                    },memShipArr);
+                                }
                             }
                         })
-                    },memShipArr);
-                }else{
-                    sendAjax('group!listGroupMemebers',{groupid:targetID},function(data){
-                        if(data) {
-                            var groupDatas = JSON.parse(data);
-                            if (groupDatas && groupDatas.code == 1) {
-                                var memShipArr = groupDatas.text;
-                                creatDialogTree(datas,'groupConvers','添加会话',function(){
-                                    var sConverseACount = JSON.stringify(converseACount);
-                                    sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount},function(data){
-                                        if(data){
-                                            $('.manageCancle').click();
-                                            var datas = JSON.parse(data);
-                                            if(datas.code==200){
-                                                new Window().alert({
-                                                    title   : '',
-                                                    content : '创建群组成功！',
-                                                    hasCloseBtn : false,
-                                                    hasImg : true,
-                                                    textForSureBtn : false,
-                                                    textForcancleBtn : false,
-                                                    autoHide:true
-                                                });
-                                                getGroupList(accountID);
-                                                $('.chatHeaderMenu li')[0].click();
-                                                $('.chatMenu li')[0].click();
-                                            }else{
-                                                alert('失败',datas.text);
-                                            }
-                                        }
-                                    })
-                                },memShipArr);
-                            }
-                        }
-                    })
+                    }
                 }
 
                 break;
@@ -281,7 +334,7 @@ $(function(){
         if(e.buttons==2){
             var left = e.clientX;
             var top = e.clientY;
-            var arr = ['置顶会话','发送文件','查看资料','添加新成员','定位到所在组织','从消息列表删除'];
+            var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'newsLeftClick';
             var memberShip = $(this).attr('targetid')
@@ -336,7 +389,9 @@ $(function(){
         if(e.buttons==2){
             var left = e.clientX;
             var top = e.clientY;
-            var arr = ['解除好友']
+            //var arr = ['解除好友'];
+            var arr = [{limit:'',value:'解除好友'}];
+
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'usualLeftClick';
             var friend = $(this).attr('account');
@@ -462,7 +517,9 @@ $(function(){
             var left = e.clientX;
             var memship = $(this).attr('targetid');
             var top = e.clientY;
-            var arr = ['群成员管理','解散群','转让群']
+            //var arr = ['群成员管理','解散群','转让群'];
+            var arr = [{limit:'',value:'群成员管理'},{limit:'stsz',value:'解散群'},{limit:'stsz',value:'转让群'}];
+
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'groupLeftClick'
             fshowContexMenu(arr,style,id,memship);
@@ -574,37 +631,48 @@ $(function(){
                             break;
                         case 1:
                             //解散群
-                            new Window().alert({
-                                title   : '解散群',
-                                content : '确定要解散群么？',
-                                hasCloseBtn : true,
-                                hasImg : true,
-                                textForSureBtn : '确定',              //确定按钮
-                                textForcancleBtn : '取消',            //取消按钮
-                                handlerForCancle : null,
-                                handlerForSure : function(){
-                                    //解散群组接口
-                                    var datas = localStorage.getItem('datas');
-                                    //if(sAccount){
+                            if(_this.attr('displaylimit')=='false'){
+                                return false;
+
+                            }else{
+                                new Window().alert({
+                                    title   : '解散群',
+                                    content : '确定要解散群么？',
+                                    hasCloseBtn : true,
+                                    hasImg : true,
+                                    textForSureBtn : '确定',              //确定按钮
+                                    textForcancleBtn : '取消',            //取消按钮
+                                    handlerForCancle : null,
+                                    handlerForSure : function(){
+                                        //解散群组接口
+                                        var datas = localStorage.getItem('datas');
+                                        //if(sAccount){
                                         var data = JSON.parse(datas);
                                         var userid = data.id;
-                                    sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
-                                        getGroupList(userid);
-                                        removeConvers("GROUP",groupid);
-                                    },function(){
-                                        console.log('失败');
-                                    })
-                                }
-                            });
+                                        sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
+                                            getGroupList(userid);
+                                            removeConvers("GROUP",groupid);
+                                        },function(){
+                                            console.log('失败');
+                                        })
+                                    }
+                                });
+                            }
+
                             break;
                         case 2:
                             //转让群
-                            sendAjax('group!listGroupMemebers',{groupid:groupid},function(data){
-                                var datas = JSON.parse(data).text;
-                                transferGroup(datas,function(){
-                                    console.log(111);
-                                });
-                            })
+                            if(_this.attr('displaylimit')=='false'){
+                                return false;
+
+                            }else{
+                                sendAjax('group!listGroupMemebers',{groupid:groupid},function(data){
+                                    var datas = JSON.parse(data).text;
+                                    transferGroup(datas,function(){
+                                        console.log(111);
+                                    });
+                                })
+                            }
                             break;
                     }
                 }
@@ -617,6 +685,7 @@ $(function(){
      * */
     $('.operMenuList').unbind('click');
     $('.operMenuList').click(function(e){
+
         var getBranchTree = localStorage.getItem('getBranchTree');
         if(getBranchTree){
             var data = JSON.parse(getBranchTree);
@@ -652,6 +721,9 @@ $(function(){
                 break;
             case 1:
                 //发起聊天
+                if($(e.target).attr('displaylimit')=='false'){
+                    return false;
+                }
                 creatDialogTree(data,'privateConvers','发起聊天',function(){
                     var targetAccount = converseACount[0];
                     if($('.usualChatList').find('li[account='+targetAccount+']').length==0){
@@ -687,34 +759,43 @@ $(function(){
                 })
                 break;
             case 2:
-                //创建群组
-                converseACount.push(accountID);
-                creatDialogTree(data,'groupConvers','创建群组',function(){
 
-                    var sConverseACount = JSON.stringify(converseACount);
+                var limit = $('body').attr('limit');
+                //var oLimit = JSON.parse(limit);
+                if(limit.indexOf('stsz')==-1){//没有权限
+                    return false;
+                    break;
+                }else{
+                    //创建群组
+                    converseACount.push(accountID);
+                    creatDialogTree(data,'groupConvers','创建群组',function(){
 
-                    sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount,groupname:''},function(data){
-                        if(data){
-                            $('.manageCancle').click();
-                            var datas = JSON.parse(data);
-                            if(datas.code==200){
-                                new Window().alert({
-                                    title   : '',
-                                    content : '创建群组成功！',
-                                    hasCloseBtn : false,
-                                    hasImg : true,
-                                    textForSureBtn : false,
-                                    textForcancleBtn : false,
-                                    autoHide:true
-                                });
-                                getGroupList(accountID);
-                            }else{
-                                alert('失败',datas.text);
+                        var sConverseACount = JSON.stringify(converseACount);
+
+                        sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount,groupname:''},function(data){
+                            if(data){
+                                $('.manageCancle').click();
+                                var datas = JSON.parse(data);
+                                if(datas.code==200){
+                                    new Window().alert({
+                                        title   : '',
+                                        content : '创建群组成功！',
+                                        hasCloseBtn : false,
+                                        hasImg : true,
+                                        textForSureBtn : false,
+                                        textForcancleBtn : false,
+                                        autoHide:true
+                                    });
+                                    getGroupList(accountID);
+                                }else{
+                                    alert('失败',datas.text);
+                                }
+
                             }
+                        });
+                    },converseACount)
+                }
 
-                        }
-                    });
-                },converseACount)
                 break;
         }
     })
@@ -816,12 +897,16 @@ function removeConvers(type,id){
         onSuccess:function(bool){
             // 删除会话成功。
             console.log('删除会话列表成功');
-            getConverList();
+
         },
         onError:function(error){
             // error => 删除会话的错误码
         }
     });
+    setTimeout(function(){
+        getConverList();
+
+    },2000)
 }
 
 
@@ -924,8 +1009,9 @@ function getBranchTreeAndMember(){
 //获取常用联系人
 function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
+        var myData = JSON.parse(data);
+        //myData = myData;
         window.localStorage.MemberFriends = data;
-        var myData = JSON.parse(data).text;
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
         for(var i = 0;i<myData.length;i++){

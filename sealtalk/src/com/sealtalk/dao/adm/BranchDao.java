@@ -10,6 +10,9 @@ import com.sealtalk.model.TBranch;
 import com.sealtalk.model.TBranchMember;
 import com.sealtalk.model.TMember;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  * @author alopex
  *
@@ -46,6 +49,11 @@ public interface BranchDao extends IBaseDao<TBranch, Integer> {
 	 */
 	public List getChildren(Integer branchId);
 	
+	/*
+	 * 导入
+	 */
+	public JSONObject testUsers(JSONArray ja);
+
 	/*
 	 * 取部门关系树
 	 */

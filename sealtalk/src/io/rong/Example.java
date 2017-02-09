@@ -194,12 +194,12 @@ public class Example {
 		System.out.println("refresh:  " + groupRefreshResult.toString());
 		
 		// 将用户加入指定群组，用户将可以收到该群的消息，同一用户最多可加入 500 个群，每个群最大至 3000 人。 
-		String[] groupJoinUserId = {"userId2","userid3","userId4"};
-		CodeSuccessReslut groupJoinResult = rongCloud.group.join(groupJoinUserId, "groupId1", "TestGroup");
+		String[] groupJoinUserId = {"1","2","5","8"};
+		CodeSuccessReslut groupJoinResult = rongCloud.group.join(groupJoinUserId, "53", "TestAccount");
 		System.out.println("join:  " + groupJoinResult.toString());
 		
 		// 查询群成员方法 
-		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("42");
+		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("53");
 		System.out.println("queryUser:  " + groupQueryUserResult.toString());
 		
 		// 退出群组方法（将用户从群中移除，不再接收该群组的消息.） 

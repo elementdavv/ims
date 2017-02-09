@@ -209,26 +209,30 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public String updateMemberInfo(String account, String fullname, String sex,
-			String position, String branch, String email, String phone,
-			String sign) {
+	public String updateMemberInfoForWeb(String userId, String sex, String email, String phone, String sign) {
 		
 		JSONObject jo = new JSONObject();
 		
-		try {
-			sex = sex.equals("男") ? "1" : "0";
-			int ret = memberDao.updateMemeberInfo(account, fullname, sex, email, phone, sign);
-			
-			if (ret > 0) {
-				jo.put("code", 1);
-				jo.put("text", Tips.OK.getText());
-			} else {
-				jo.put("code", 0);
-				jo.put("text", Tips.FAIL.getText());
+		if (StringUtils.getInstance().isBlank(userId)) {
+			jo.put("code", -1);
+			jo.put("text", Tips.WRONGPARAMS.getText());
+		} else {
+			try {
+				sex = sex.equals("男") ? "1" : "0";
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+				int ret = memberDao.updateMemeberInfoForWeb(userIdInt, sex, email, phone, sign);
+				
+				if (ret > 0) {
+					jo.put("code", 1);
+					jo.put("text", Tips.OK.getText());
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.FAIL.getText());
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 		return jo.toString();
@@ -249,6 +253,33 @@ public class MemberServiceImpl implements MemberService {
 		return status;
 	}
 
+	@Override
+	public String updateMemberForApp(String userId, String email, String mobile, String phone, String address) {
+		JSONObject jo = new JSONObject();
+		
+		if (StringUtils.getInstance().isBlank(userId)) {
+			jo.put("code", -1);
+			jo.put("text", Tips.WRONGPARAMS.getText());
+		} else {
+			try {
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+				int ret = memberDao.updateMemeberInfoForApp(userIdInt, email, mobile, phone, address);
+				
+				if (ret > 0) {
+					jo.put("code", 1);
+					jo.put("text", Tips.OK.getText());
+				} else {
+					jo.put("code", 0);
+					jo.put("text", Tips.FAIL.getText());
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return jo.toString();
+	}
 	
 	private String isBlank(Object o) {
 		return o == null ? "" : o + "";

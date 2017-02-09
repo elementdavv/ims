@@ -30,4 +30,12 @@ public interface FriendService {
 	 */
 	public String getMemberFriends(String account);
 
+	/**
+	 * 获取好友关系
+	 * @param account
+	 * @param friend
+	 * @return
+	 */
+	public String getFriendsRelation(String userId, String friendId);
+
 }

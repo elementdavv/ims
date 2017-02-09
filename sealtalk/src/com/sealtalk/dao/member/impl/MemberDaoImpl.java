@@ -10,6 +10,8 @@ import org.hibernate.criterion.Restrictions;
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
+import com.sealtalk.utils.PasswordGenerator;
+import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TimeGenerator;
 
 /**
@@ -19,6 +21,46 @@ import com.sealtalk.utils.TimeGenerator;
  * @since jdk1.7
  */
 public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDao {
+
+	@Override
+	public TMember getMemberByName(String name) {
+
+		Criteria ctr = getCriteria();
+		ctr.add(Restrictions.eq("fullname", name));
+		
+		List list = ctr.list();
+		
+		if (list.size() > 0) {
+			return (TMember) list.get(0);
+		}
+		
+		return null;
+	}
+
+	@Override
+	public List getMemberPosition(Integer memberId) {
+
+		String sql = "select position_id, branch_id, id from t_branch_member"
+				+ " where member_id = " + memberId 
+				+ " order by is_master desc";
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
+
+	@Override
+	public List getMemberRole(Integer memberId) {
+
+		String sql = "select role_id from t_member_role"
+				+ " where member_id = " + memberId;
+		SQLQuery query = this.getSession().createSQLQuery(sql);
+		
+		List list = query.list();
+		
+		return list;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -315,44 +357,84 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 	}
 
 	@Override
-	public int updateMemeberInfo(String account, String fullname, String sex,
-			String email, String phone, String sign) {
-
-		try {
-			String hql = "update TMember T set t.fullname='" + fullname + "',sex='" + sex + "',email='" + email + "',telephone='" + phone + "',sign='" + sign + "' where account='" + account +"'";
-			int ret = update(hql);
-			return ret;
-		} catch (Exception e) {
-			e.printStackTrace();
+	public int updateMemeberInfoForWeb(int userId, String sex, String email, String phone, String sign) {
+		StringBuilder sbSql = new StringBuilder();
+		
+		sbSql.append("update TMember T set ");
+		
+		boolean bl = false;
+		
+		if (!StringUtils.getInstance().isBlank(sex)) {
+			bl = true;
+			sbSql.append("T.sex='").append(sex).append("'");
 		}
+		if (!StringUtils.getInstance().isBlank(email)) {
+			bl = true;
+			sbSql.append(",T.email='").append(email).append("'");
+		}
+		if (!StringUtils.getInstance().isBlank(phone)) {
+			bl = true;
+			sbSql.append(",T.telephone='").append(phone).append("'");
+		}
+		if (!StringUtils.getInstance().isBlank(sign)) {
+			bl = true;
+			sbSql.append(",T.intro='").append(sign).append("'");
+		}
+		
+		sbSql.append(" where id=").append(userId);
+		
+		if (bl) {
+			String hql = sbSql.toString();
+			System.out.println(hql);
+			try {
+				return update(hql);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return 0;
 	}
 	
 	@Override
-	public List getMemberPosition(Integer memberId) {
-
-		String sql = "select position_id, branch_id, id from t_branch_member"
-				+ " where member_id = " + memberId 
-				+ " order by is_master desc";
-		SQLQuery query = this.getSession().createSQLQuery(sql);
+	public int updateMemeberInfoForApp(int userId, String email, String mobile, String phone, String address) {
+		StringBuilder sbSql = new StringBuilder();
 		
-		List list = query.list();
+		sbSql.append("update TMember T set ");
 		
-		return list;
+		boolean bl = false;
+		
+		if (!StringUtils.getInstance().isBlank(email)) {
+			bl = true;
+			sbSql.append(",T.email='").append(email).append("'");
+		}
+		if (!StringUtils.getInstance().isBlank(mobile)) {
+			bl = true;
+			sbSql.append("T.sex='").append(mobile).append("'");
+		}
+		if (!StringUtils.getInstance().isBlank(phone)) {
+			bl = true;
+			sbSql.append(",T.telephone='").append(phone).append("'");
+		}
+		if (!StringUtils.getInstance().isBlank(address)) {
+			bl = true;
+			sbSql.append(",T.intro='").append(address).append("'");
+		}
+		
+		sbSql.append(" where id=").append(userId);
+		
+		if (bl) {
+			String hql = sbSql.toString();
+			try {
+				return update(hql);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return 0;
 	}
-
-	@Override
-	public List getMemberRole(Integer memberId) {
-
-		String sql = "select role_id from t_member_role"
-				+ " where member_id = " + memberId;
-		SQLQuery query = this.getSession().createSQLQuery(sql);
-		
-		List list = query.list();
-		
-		return list;
-	}
-
+	
 	@Override
 	public boolean updateUserPwd(String account, String md5Pwd) {
 		

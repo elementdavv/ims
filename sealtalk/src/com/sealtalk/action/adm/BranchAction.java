@@ -3,6 +3,8 @@
  */
 package com.sealtalk.action.adm;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +24,7 @@ import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -35,19 +38,14 @@ public class BranchAction extends BaseAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	/*
-	 * this value should comes from login info, just for test this time
-	 */
-	Integer organId = 1;
-	
+		
 	/*
 	 * 取部门树
 	 * by alopex
 	 */
 	public String getOrganTree() throws ServletException {
 		
-		String result = branchService.getOrganTree(organId);
+		String result = branchService.getOrganTree(this.getOrganId());
 		returnToClient(result);
 		
 		return "text";
@@ -59,7 +57,7 @@ public class BranchAction extends BaseAction {
 	 */
 	public String getOrganOnlyTree() throws ServletException {
 		
-		String result = branchService.getOrganOnlyTree(organId);
+		String result = branchService.getOrganOnlyTree(this.getOrganId());
 		returnToClient(result);
 		
 		return "text";
@@ -202,7 +200,8 @@ public class BranchAction extends BaseAction {
 			branch.setTelephone(this.request.getParameter("branchtelephone"));
 		if (this.request.getParameter("branchwebsite") != null)
 			branch.setWebsite(this.request.getParameter("branchwebsite"));
-		branch.setOrganId(organId);
+
+		branch.setOrganId(this.getOrganId());
 		
 		Integer branchId = branchService.saveBranch(branch);
 		
@@ -267,7 +266,7 @@ public class BranchAction extends BaseAction {
 		if (this.request.getParameter("memberworkno") != null)
 			member.setWorkno(this.request.getParameter("memberworkno"));
 		
-		member.setOrganId(organId);
+		member.setOrganId(this.getOrganId());
 
 		Integer memberId = branchService.saveMember(member);
 
@@ -400,7 +399,7 @@ public class BranchAction extends BaseAction {
 		}
 		// 删除部门
 		else if (id < 10001) {
-			branchService.delBranch(id, r, organId);
+			branchService.delBranch(id, r, this.getOrganId());
 		}
 		// 删除人员
 		else {
@@ -436,6 +435,38 @@ public class BranchAction extends BaseAction {
 		return "text";
 	}
 	
+	public String impcheck() throws ServletException {
+		
+		String jtext = this.request.getParameter("jtext");
+		JSONArray ja = JSONArray.fromObject(jtext);
+		
+		JSONObject js = branchService.testUsers(ja);
+		
+		returnToClient(js.toString());
+		
+		return "text";
+	}
+	
+	public String impsave() throws ServletException, FileNotFoundException, IOException {
+
+		String jtext = this.request.getParameter("jtext");
+		JSONArray ja = JSONArray.fromObject(jtext);
+
+		branchService.saveimp(ja, this.getOrganId());
+		
+		String path = request.getSession().getServletContext().getRealPath("./upload/导入成功.xlsx");
+		branchService.impexcel(ja, path);
+		
+		JSONObject js = new JSONObject();
+		js.put("status", 0);
+		js.put("succeed", ja.size());
+		js.put("fail", 0);
+
+		returnToClient(js.toString());
+
+		return "text";
+	}
+
 	/*
 	 * 取部门树
 	 */
