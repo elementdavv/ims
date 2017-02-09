@@ -14,46 +14,89 @@ function PageObj(){
 PageObj.ActionType =
 {
     prev        :   "1",    //上一页
-    next        :   "2",    //下一页
-    first       :   "3",    //第一页
-    last        :   "4"    //最后一页
+    next        :   "2"  //下一页
+    //first       :   "3",    //第一页
+    //last        :   "4"    //最后一页
 };
 PageObj.prototype.init = function (options,actionCallback){
     this._DestObj = options.divObj;
     this.createHtml();
     this.conversationType = options.conversationtype;//类型
-    console.log(this.conversationType);
+    //console.log(this.conversationType);
     this.targetId = options.targetId;//目标id
-    console.log(this.targetId);
+    //console.log(this.targetId);
+    this._isLoading=false;
     this.searchStr =options.searchstr;
     this.hasmoreMessage=true;  //是否正在获取数据中
     this._pageNow=1;    //当前页
+    this.dataBase=[];
     this._pageSize=options.pageSize || 20;  //每页笔数
     var actionType = PageObj.ActionType;
     this._SelfObj = {};
     this._ActionCallback = actionCallback;
+    this.messageList=[];
     //设置预设的动作标签
     var objs = {};
     objs[actionType.prev] = '#spanPre';
     objs[actionType.next] = '#spanNext';
-    objs[actionType.first] = '#spanFirst';
-    objs[actionType.last] = '#spanLast';
+    //objs[actionType.first] = '#spanFirst';
+    //objs[actionType.last] = '#spanLast';
     this._SelfObjString = objs;
-    this._pageNum=1;    //页数
-    this._dataNum=options.pageCount; //总条数
+    this._pageNum=0;    //页数
+    //this._dataNum=options.pageCount; //总条数
     this.lastTime = 0;//最后时间
-    this.setDataNum(this._dataNum);
+    //this.setDataNum(this._dataNum);
     this._refreshPageObj();
     this.getMoreMessage();
     this._setActionListener();
     this._matchValue();
+    this.datechange();
 };
 PageObj.prototype.createHtml=function (){
-    this._m_sPageHtml='<i class="infoDet-firstPage allowClick" id="spanLast"></i>\
+    this._DestObj.empty();
+    //this._m_sPageHtml='<section>\
+    //<div class="example">\
+    //<input type="text" id="calendar">\
+    //</div>\
+    //</section>\
+    //<div class="infoDet-pageQuery">\
+    //<i class="infoDet-firstPage allowClick" id="spanLast"></i>\
+    //<i class="infoDet-prePage allowClick"  id="spanNext"></i>\
+    //<i class="infoDet-nextPage" id="spanPre"></i>\
+    //<i class="infoDet-lastPage"  id="spanFirst"></i>\
+    //</div>';
+    this._m_sPageHtml='<section>\
+    <div class="example">\
+    <input type="text" id="calendar">\
+    </div>\
+    </section>\
+    <div class="infoDet-pageQuery">\
     <i class="infoDet-prePage allowClick"  id="spanNext"></i>\
     <i class="infoDet-nextPage" id="spanPre"></i>\
-    <i class="infoDet-lastPage"  id="spanFirst"></i>';
+    </div>';
     this._DestObj.append(this._m_sPageHtml);
+    $("#calendar").asDatepicker({
+        namespace: 'calendar',
+        lang: 'zh',
+        position:'top'
+    });
+};
+PageObj.prototype.datechange=function(){
+    var _self=this;
+    this._DestObj.find('#calendar').blur(function(){
+        var aDateTime=$('#calendar').asDatepicker('getDate', 'yyyy/mm/dd');
+        var sYear=aDateTime[0]+"  23:59:59";
+        var date = new Date(sYear);
+        var nSelTime = date.getTime();
+        _self.lastTime=nSelTime;
+        _self.dataBase=[];
+        _self._pageNow=1;
+        _self._pageNum=0;    //页数
+        _self.hasmoreMessage=true;
+        _self.getMoreMessage();
+        //_self.setDataNum(_self._dataNum);
+        _self._matchValue();
+    });
 };
 /**
  * 获取页数
@@ -61,27 +104,42 @@ PageObj.prototype.createHtml=function (){
 PageObj.prototype.getMoreMessage=function(){
     var _self=this;
     if (this.searchStr) {
-        RongIMClient.getInstance().getMessagesFromConversation(this.targetId,this.conversationType, this.searchStr, lastTime,this._pageSize).then(function (data) {
-            _self._pageNum= Math.ceil(data.count / _self._pageSize) || 0;
-            //console.log($scope.currentPage, $scope.pageCount);
-            if (_self._pageNow == _self._pageNum) {
-                _self.hasmoreMessage = false;
+        RongIMLib.RongIMClient.getInstance().searchMessageByContent(RongIMLib.ConversationType[this.conversationType], this.targetId,this.searchStr, this.lastTime,this._pageSize,1,{
+            onSuccess: function(data,count) {
+                _self._pageNum= Math.ceil(count / _self._pageSize) || 0;
+                if (_self._pageNow == _self._pageNum) {
+                    _self.hasmoreMessage = false;
+                }
+                _self.messageList=data;
+                for(var i=1;i<data.length+1;i++){
+                    _self.dataBase.unshift(data[data.length-i]);
+                }
+                _self._CallbackProcess(0);
+                _self.lastTime = (data[0] || {}).sentTime || 0;
+                _self._matchValue();
+            },
+            onError:function(){
+
             }
-            _self.lastTime = (data.message[0] || {}).sentTime || 0;
-            //this.messageList = convertHistoryList(data.message);
-        });
+        })
     }
     else {
-        RongIMLib.RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[this.conversationType],this.targetId, 0, 20,{
+        RongIMLib.RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[this.conversationType],this.targetId, this.lastTime, 20,{
             onSuccess: function(list,has) {
                 _self.hasmoreMessage = has;
                 var alist = list;
                 var end = alist.length - _self._pageSize;
                 alist.splice(0, end < 0 ? 0 : end);
-                console.log(alist);
                 _self.messageList=alist;
+                if(!has){
+                    _self._pageNum=_self._pageNow;
+                }else{
+                    _self._pageNum++;
+                }
+                for(var i=1;i<alist.length+1;i++){
+                    _self.dataBase.unshift(alist[alist.length-i]);
+                }
                 _self._CallbackProcess(0);
-                //$scope.messageList = convertHistoryList(list);
                 _self.lastTime = (alist[0] || {}).sentTime || 0;
             },
             onError:function(){
@@ -101,11 +159,13 @@ PageObj.prototype._setActionListener = function (){
         var obj = this._SelfObj[key];
         obj.click(function()
         {
-            if(_self._pageNum==1){
-                return;
-            }
-            if(!_self.hasmoreMessage)
-                return;
+            //if(_self._pageNum==1){
+            //    return;
+            //}
+            //if(_self._isLoading)
+            //   return;
+            //_self._isLoading = true;
+
            // _self.hasmoreMessage = true;
             var type = null;
             var typeObj = null;
@@ -120,7 +180,6 @@ PageObj.prototype._setActionListener = function (){
                     break;
                 }
             }
-
             if(type && typeObj && _self._actionProcess(type))
             {
                 _self._CallbackProcess(type);
@@ -140,10 +199,11 @@ PageObj.prototype._setActionListener = function (){
 PageObj.prototype._CallbackProcess = function (type)
 {
        // this._isLoading=true;
-        var THIS = this;
-        THIS._ActionCallback.call(this,type,this.messageList,function()
+        var _self = this;
+        this._isLoading=true;
+        _self._ActionCallback.call(this,type,this.messageList,function()
         {
-            //THIS._isLoading = false;
+            _self._isLoading = false;
         });
 }
 /**
@@ -205,12 +265,12 @@ PageObj.prototype._matchValue = function()
 {
         var actionType = PageObj.ActionType;
         var bolfirst = (this._pageNow != 1);
-        var bollast = (this._pageNow < this._pageNum);
-        var bolgoto = (this._pageNum>1);
+        var bollast = (this._pageNow < this._pageNum) || this.hasmoreMessage;
+        //var bolgoto = (this._pageNum>1);
         this._setHtmlLink(actionType.prev,bolfirst);
-        this._setHtmlLink(actionType.first,bolfirst);
+        //this._setHtmlLink(actionType.first,bolfirst);
         this._setHtmlLink(actionType.next,bollast);
-        this._setHtmlLink(actionType.last,bollast);
+        //this._setHtmlLink(actionType.last,bollast);
         //this._setHtmlLink(actionType.gotoBtn,bolgoto);
 };
 /**
@@ -252,17 +312,30 @@ PageObj.prototype._actionProcess = function (type)
         {
             if(this._pageNow > 1)
             {
-                this._pageNow --;
+                this.messageList = [];
+                this._pageNow--;
+                this.messageList = this.dataBase.slice(this.dataBase.length - (this._pageNow * this._pageSize), this.dataBase.length - ((this._pageNow - 1) * this._pageSize));
                 isChanged = true;
             }
         }
             break;
         case actionType.next:
         {
-            if(this._pageNow < this._pageNum)
+
+            if(this._pageNow < this._pageNum  || this.hasmoreMessage)
             {
-                this._pageNow ++ ;
-                isChanged = true;
+                    this._pageNow ++ ;
+                    isChanged = true;
+                    this.messageList = [];
+                    if ((this._pageNow - 1) * this._pageSize < this.dataBase.length) {
+                        var start = this.dataBase.length - (this._pageNow * this._pageSize);
+                        this.messageList = this.dataBase.slice(start < 0 ? 0 : start, this.dataBase.length - ((this._pageNow - 1) * this._pageSize));
+                    }
+                    else {
+                        this.getMoreMessage();
+                    }
+            }else{
+                this._pageNum=this._pageNow;
             }
         }
             break;

@@ -3,16 +3,7 @@
  */
 $(document).ready(function(){
     var groupTimer=null,groupTimer1 = null;
-    var sAccount = localStorage.getItem('account');
-    var sdata = localStorage.getItem('datas');
-    var accountObj = JSON.parse(sdata);
-    var account = accountObj.account;
-    var accountID = accountObj.id;
-    $("#calendar").asDatepicker({
-        namespace: 'calendar',
-        lang: 'zh',
-        position:'top'
-    });
+   // var sAccount = localStorage.getItem('account');
    $('#perInfo').on('click','li',function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
@@ -35,6 +26,26 @@ $(document).ready(function(){
        }
        $('#infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
    });
+    //搜索常用人历史记录
+    $('#personalData').on('click','.searchHostoryInfo',function(){
+        var sTargettype=$('#perContainer').attr('targettype');
+        var sTargetid=$('#perContainer').attr('targetid');
+        var sVal=$(this).prev().val();
+        var oPagetest = new PageObj({divObj:$('.infoDet-chatRecord').find('.infoDet-page'),pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        {
+            getChatRecord(list);
+
+        });
+        //RongIMLib.RongIMClient.getInstance().searchMessageByContent(RongIMLib.ConversationType[sTargettype],sTargetid,sVal,0,20,1,{
+        //    onSuccess:function(data, count){
+        //        alert(data,count);
+        //        console.log(data);
+        //        console.log(count);
+        //    },
+        //    onError:function(error){
+        //    }
+        //});
+    });
     $('#groupData').on('click','.groupInfo-noChat',function(){
         var groupid=$(this).attr('data-groupid');
         var sChat=$(this).attr('data-chat');
@@ -130,27 +141,6 @@ $(document).ready(function(){
         //$('.avatar-preview img').attr('src',sImgsrc);
        getHeadImgList();
     });
-    //首页
-    //$('#infoDetailsBox').on('click','.infoDet-pageQuery i',function(){
-    //    var sTargettype=$('#perContainer').attr('targettype');
-    //    var sTargetid=$('#perContainer').attr('targetid');
-    //    var timestrap;
-    //    if($(this).hasClass('infoDet-pageQuery')){
-    //        //timestrap=0;
-    //    }else if($(this).hasClass('infoDet-prePage')){
-    //        timestrap=null;
-    //        $('.infoDet-nextPage').addClass('allowClick');
-    //        $('.infoDet-pageQuery').addClass('allowClick');
-    //
-    //    }else if($(this).hasClass('infoDet-firstPage')){
-    //        $('.infoDet-prePage').removeClass('allowClick');
-    //        $('.infoDet-firstPage').removeClass('allowClick');
-    //    }else if($(this).hasClass('infoDet-nextPage')){
-    //    }
-    //    if($(this).hasClass('allowClick')){
-    //        historyMsg(sTargettype,sTargetid,timestrap,20,$(this));
-    //    }
-    //});
     //群组悬停
     $('.groupChatList').delegate('li','mouseenter',function(e){
         var _this = $(this);
@@ -276,6 +266,10 @@ $(document).ready(function(){
         }else{
             status=1;
         }
+        var sdata = localStorage.getItem('datas');
+        var accountObj = JSON.parse(sdata);
+        //var account = accountObj.account;
+        var accountID = accountObj.id;
         systemBeep(status,accountID);
     });
     $('#groupMap').on('click','.messageRecord b',function(e){
@@ -309,7 +303,7 @@ $(document).ready(function(){
     $('#crop-avatar').on('click','.bMg-preserve .bMg-keepImg',function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
-        var sId=oData.text.id;
+        var sId=oData.id;
         var picname='';
         var nDelImg;
         $('.bMg-cropImgSet .bMg-imgList li').each(function(index){
@@ -336,7 +330,7 @@ $(document).ready(function(){
                    $('#personSettingId .perSetBox-head').attr('src','upload/images/'+picname);
                    $('.bMgMask').addClass('chatHide');
                    $('#crop-avatar').addClass('chatHide');
-                   oData.text.logo=picname;
+                   oData.logo=picname;
                    var sNewData=JSON.stringify(oData);
                    localStorage.setItem("datas",sNewData);
                }
@@ -367,7 +361,7 @@ $(document).ready(function(){
         });
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
-        var sId=oData.text.id;
+        var sId=oData.id;
         sendAjax('upload!delUserLogos',{userid:sId,picname:picname},function(data){
             var oDatas=JSON.parse(data);
             if(oDatas.code==1){
@@ -375,26 +369,33 @@ $(document).ready(function(){
             }
         });
     });
-    /*$('#personSettingId').on('click','.perSetBox-keep',function(){
-        var sAccountNum=$('#personSettingId .perSetBox-account').html() ||'1';
-        var sName=$('#personSettingId .perSetBox-name').html() ||'1';
-        var sPosition=$('#personSettingId .perSetBox-position').html() ||'1';
-        var sBranch=$('#personSettingId .perSetBox-branch').html()||'1';
-        var sEmail=$('#personSettingId .perSetBox-email').val()||'1';
-        var sSex=$('#personSettingId .perSetBox-selSex').val()||'1';
-        var sTelephone=$('#personSettingId .perSetBox-telephone').html()||'1';
-        var sSign=$('#personSettingId .perSetBox-textarea').text()|| '44444';
-        sendAjax('member!updateMemberInfo',{account:sAccountNum,fullname:sName,sex:sSex,position:sPosition,branch:sBranch,email:sEmail,phone:sTelephone,sign:sSign},function(data){
+    $('#personSettingId').on('click','.perSetBox-keep',function(){
+        var sEmail=$('#personSettingId .perSetBox-email').val();
+        var sSex=$('#personSettingId .perSetBox-selSex').val();
+        switch (sSex){
+            case "男":
+                sSex=1;
+                break;
+            case "女":
+                sSex=0;
+                break;
+        }
+        var sTelephone=$('#personSettingId .perSetBox-telephone').val();
+        var sSign=$('#personSettingId .perSetBox-textarea').text();
+        var sData=window.localStorage.getItem("datas");
+        var oData= JSON.parse(sData);
+        var sId=oData.id;
+        sendAjax('member!updateMemberInfoForWeb',{userid:sId,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
                var sData=window.localStorage.getItem("datas");
                var oData= JSON.parse(sData);
-               var sId=oData.text.id;
-               var sSelfImg=oData.text.logo;
+               var sId=oData.id;
+               var sSelfImg=oData.logo;
            }
         });
 
-    });*/
+    });
     $('#crop-avatar').on('click','.bMg-cropImgSet .bMg-imgList li',function(){
         $('.bMg-cropImgSet .bMg-imgList li').removeClass('active');
         $(this).addClass('active');
@@ -416,14 +417,25 @@ $(document).ready(function(){
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sName=oData.fullname;//姓名
-    var sAccountNum=oData.account;//成员账号
+    var sName=oData.name || '';//姓名
+    var sAccountNum=oData.account || '';//成员账号
     var sSex=oData.sex;//性别
-    var sPosition=oData.account;//职位
-    var sBranch=oData.sex;//部门
-    var sEmail=oData.email;//邮箱
-    var sTelephone=oData.telephone;//电话
-    var sSign=oData.sex;//工作签名
+    switch(sSex){
+        case '男':
+            sSex= '男';
+            break;
+        case '女':
+            sSex= '女';
+            break;
+        default :
+            sSex= '女';
+            break;
+    }
+    var sPosition=oData.positionname || '';//职位
+    var sBranch=oData.branchname || '';//部门
+    var sEmail=oData.email || '';//邮箱
+    var sTelephone=oData.telephone || '';//电话
+    var sSign=oData.organname || '';//工作签名
     var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
     var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
@@ -469,8 +481,7 @@ function fPersonalSet(){
     <li>\
     <span>工作签名：</span>\
     <p>\
-    <textarea class="perSetBox-textarea" value="'+sSign+'">\
-    </textarea>\
+    <textarea class="perSetBox-textarea" >'+sSign+'</textarea>\
     </p>\
     </li>\
     </ul>\
@@ -660,8 +671,8 @@ function systemBeep(status,accountID){
 function getHeadImgList(){
     var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sId=oData.text.id;
-    var sSelfImg=oData.text.logo;
+    var sId=oData.id;
+    var sSelfImg=oData.logo;
     sendAjax('upload!getUserLogos',{userid:sId},function(data){
         var oDatas=JSON.parse(data);
         var aImgList=oDatas.text;

@@ -925,7 +925,7 @@ function getBranchTreeAndMember(){
 function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
         window.localStorage.MemberFriends = data;
-        var myData = JSON.parse(data);
+        var myData = JSON.parse(data).text;
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
         for(var i = 0;i<myData.length;i++){

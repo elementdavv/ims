@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"    pageEncoding="utf-8"%>
+    <%@ page language="java" contentType="text/html; charset=utf-8"    pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -66,16 +66,26 @@
     <script src="<%=request.getContextPath() %>/page/web/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
-
+    <script>
+        $(document).ready(function(){
+        $('#groupContainer').on('click','.downLoadFile',function(){
+        var url=$(this).attr('src');
+        if(window.Electron){
+        var sss=window.Electron.chkFileExists(url);
+        console.log(sss);
+        }
+        });
+  });
+    </script>
     </head>
 
-<body userid="${SessionUser.id}" token="${SessionUser.token}">
+<body userid="${SessionUser.id}" token="${SessionUser.token}" style="zoom:1">
 	<!--
 	权限设置判断
 	<c:if test="${SessionPrivilege.map.rsglsc != null}">	  
 	</c:if>
 	-->
-    <audio src="css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
+    <audio src="page/web/css/sound/reciveSound.mp3" id="systemSound_recive"  type="audio/wav">
     您的浏览器不支持 audio 标签。
     </audio>
     <div class="chatHeader">
@@ -206,8 +216,10 @@
             </div>
         </div>
         <!--个人设置-->
-        <div class="perSetBox orgNavClick chatHide" id="personSettingId">
-        </div>
+    <c:if test="${SessionPrivilege.map.grsz != null}">
+    <div class="perSetBox orgNavClick chatHide" id="personSettingId">
+    </div>
+    </c:if>
         <!--系统设置-->
         <div class="perSetBox orgNavClick chatHide" id="systemSet">
             <h3 class="perSetBox-title">系统设置</h3>
@@ -326,7 +338,7 @@
                 <strong class="sendMsgBTN">发送</strong>
             </div>
         </div>
-        <!--个人资料-->
+        <!--infoDet-page-->
         <div class="orgNavClick personalData  chatHide" id="personalData">
             <ul class="infoDetails clearfix" id="perInfo">
                 <li class="active" data-type="d">资料</li>
@@ -378,7 +390,7 @@
                 <div class="infoDet-chatRecord chatHide">
                     <div class="infoDet-search ">
                         <input type="text" placeholder="查找信息..."/>
-                        <i></i>
+                        <i class="searchHostoryInfo"></i>
                     </div>
                     <div class="infoDet-recordAll chatRecordSel">
                         <%--<p class="infoDet-timeRecord">2016-09-28</p>--%>
@@ -395,17 +407,17 @@
                         <%--</ul>--%>
                     </div>
                     <div class="infoDet-page clearfix">
-                        <section>
-                            <div class="example">
-                                <input type="text" id="calendar">
-                            </div>
-                        </section>
-                        <div class="infoDet-pageQuery">
+                        <%--<section>--%>
+                            <%--<div class="example">--%>
+                                <%--<input type="text" id="calendar">--%>
+                            <%--</div>--%>
+                        <%--</section>--%>
+                        <%--<div class="infoDet-pageQuery">--%>
                             <%--<i class="infoDet-firstPage allowClick"></i>--%>
                             <%--<i class="infoDet-prePage allowClick"></i>--%>
                             <%--<i class="infoDet-nextPage"></i>--%>
                             <%--<i class="infoDet-lastPage"></i>--%>
-                        </div>
+                        <%--</div>--%>
                     </div>
                 </div>
                 <div class="infoDet-flieRecord chatHide">
