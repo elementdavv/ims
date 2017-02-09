@@ -134,7 +134,7 @@ function sendMsg(content,targetId,way,extra,callback){
     parent.find('.textarea').html('');
     callback&&callback();
     //调用融云的发送文件
-    if(extra!='uploadFile'&&limit.indexOf('stsz')!=-1){
+    if(extra!='uploadFile'&&(limit.indexOf('stsz')!=-1||way== 'PRIVATE')){
         sendByRong(content,targetId,way);
     }
 }
