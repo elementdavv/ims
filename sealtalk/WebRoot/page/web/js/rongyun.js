@@ -17,7 +17,11 @@ $(function(){
             window.localStorage.account=JSON.stringify(changeFormatData);
 
            // RongIMClient.init(globalVar.rongKey);
+<<<<<<< .mine
             if(RongIMLib.VCDataProvider && window.Electron){
+=======
+            if(RongIMLib.VCDataProvider&&window.Electron){
+>>>>>>> .theirs
                 RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
                 RongIMClient.init(globalVar.rongKey);
@@ -112,6 +116,128 @@ $(function(){
                                 //1.获取系统提示音接口
                                 //2.获取单独的群消息设置
                                 if(globalVar.SYSTEMSOUND){
+
+                                    //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
+
+                                    var systemSound_recive = document.getElementById('systemSound_recive');
+                                    systemSound_recive.play();
+                                }
+                                reciveInBox(message);
+                                break;
+                            case RongIMClient.MessageType.VoiceMessage:
+                                // 对声音进行预加载
+                                // message.content.content 格式为 AMR 格式的 base64 码
+                                RongIMLib.RongIMVoice.preLoaded(message.content.content);
+                                break;
+                            case RongIMClient.MessageType.ImageMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.DiscussionNotificationMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.LocationMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.RichContentMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.DiscussionNotificationMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.InformationNotificationMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.ContactNotificationMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.ProfileNotificationMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.CommandNotificationMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.CommandMessage:
+                                // do something...
+                                break;
+                            case RongIMClient.MessageType.UnknownMessage:
+                                // do something...
+                                break;
+                            default:
+                            // 自定义消息
+                            // do something...
+                        }
+                    }
+                });
+
+                // 连接融云服务器。
+                RongIMClient.connect(token, {
+                    onSuccess: function(userId) {
+                        console.log('连接成功');
+                    },
+                    onTokenIncorrect: function() {
+                        new Window().alert({
+                            title   : '',
+                            content : 'token无效！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false
+                            //,
+                            //autoHide:true
+                        });
+                        console.log('token无效');
+                    },
+                    onError:function(errorCode){
+                        var info = '';
+                        switch (errorCode) {
+                            case RongIMLib.ErrorCode.TIMEOUT:
+                                info = '超时';
+                                break;
+                            case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                                info = '未知错误';
+
+                                break;
+                            case RongIMLib.ErrorCode.UNACCEPTABLE_PaROTOCOL_VERSION:
+                                info = '不可接受的协议版本';
+
+                                break;
+                            case RongIMLib.ErrorCode.IDENTIFIER_REJECTED:
+                                info = 'appkey不正确';
+
+                                break;
+                            case RongIMLib.ErrorCode.SERVER_UNAVAILABLE:
+                                info = '服务器不可用';
+
+                                break;
+                        }
+                        new Window().alert({
+                            title   : '',
+                            content : info+'！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false
+                            //,
+                            //autoHide:true
+                        });
+                        console.log(errorCode);
+                    }
+                },'');
+            //}
+            //初始化emoji表情
+            initEmoji();
+            //初始化声音库
+            RongIMLib.RongIMVoice.init();
+        }
+    })
+
+
+
+})
+
+
+function setConverToTop(Type,targetId) {
+    var conversationtype = RongIMLib.ConversationType[Type]; // 私聊
                                     var systemSound_recive = document.getElementById('systemSound_recive');
                                     systemSound_recive.play();
                                 }

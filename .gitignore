@@ -12,7 +12,6 @@
 #
 .DS_Store
 
-bin
 gen
 obj
 libs/armeabi
@@ -48,7 +47,6 @@ gdb.setup
 gdbserver
 
 # NDK folder
-bin/
 obj/
 
 local.properties
