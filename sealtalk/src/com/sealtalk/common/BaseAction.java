@@ -25,7 +25,6 @@ import com.sealtalk.utils.StringUtils;
 public class BaseAction extends ActionSupport implements ServletRequestAware, ServletResponseAware
 {
 	private static final long serialVersionUID = 1L;
-	//protected static Logger logger = UimpLogger.getLogger();
 	
 	public BaseAction(){}
 	public InputStream inputStream;

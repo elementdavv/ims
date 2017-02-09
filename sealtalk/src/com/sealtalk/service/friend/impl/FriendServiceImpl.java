@@ -99,7 +99,9 @@ public class FriendServiceImpl implements FriendService {
 					
 					//String[] targetIds = {friendId+""};
 					//通知融云
-					RongCloudUtils.getInstance().sendSysMsg(accountId+"", targetIds, "", "", 1);
+					String msg = "建立好友关系，现在可以开始聊天";
+					String extrMsg = msg;
+					RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, extrMsg, "4", 0, 0, 0, 2);
 				}
 			}
 		} catch (Exception e) {
@@ -143,6 +145,12 @@ public class FriendServiceImpl implements FriendService {
 			if (friendRelation != null) {
 				//删除好友关系
 				friendDao.delFriend(accountId, friendId);
+				
+				String[] targetIds = {friend};
+				
+				String msg = "解除好友关系";
+				String extrMsg = msg;
+				RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, extrMsg, "4", 0, 0, 0, 2);
 				jo.put("code", 1);
 				jo.put("text", Tips.SUCDELFRIEND.getText());
 			} else {
@@ -159,6 +167,7 @@ public class FriendServiceImpl implements FriendService {
 		
 		boolean status = true;
 		String result = null;
+		JSONObject jo = new JSONObject();
 		
 		logger.info(account);
 		
@@ -193,10 +202,8 @@ public class FriendServiceImpl implements FriendService {
 							for(int i = 0; i < memberLen; i++) {
 								TMember tms = memberList.get(i);
 								JSONObject text = JSONUtils.getInstance().modelToJSONObj(tms);
-								if (i == 0) {
-									text.put("code", 1);
-									text.put("text", "ok");
-								}
+								jo.put("code", 1);
+								jo.put("text", Tips.OK.getText());
 								ja.add(text);
 							}
 							
@@ -208,12 +215,14 @@ public class FriendServiceImpl implements FriendService {
 				}
 			}
 			if (!status) {
-				JSONObject jo = new JSONObject();
 				jo.put("code", 0);
 				jo.put("text", Tips.HAVEZEROFRIEND.getText());
-				
 				result = jo.toString();
-			} 
+			}  else {
+			//	jo.put("code", 1);
+			//	jo.put("text", result);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -221,6 +230,29 @@ public class FriendServiceImpl implements FriendService {
 		return result;
 	}
 
+	@Override
+	public String getFriendsRelation(String userId, String friendId) {
+		JSONObject j = new JSONObject();
+		
+		if (!StringUtils.getInstance().isBlank(userId) && !StringUtils.getInstance().isBlank(friendId)) {
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+			int friendIdInt = StringUtils.getInstance().strToInt(friendId);
+			TFriend friendRelation = friendDao.getFriendRelation(userIdInt, friendIdInt);
+			
+			if (friendRelation != null) {
+				j.put("code", 1);
+				j.put("text", "true");
+			} else {
+				j.put("code", 0);
+				j.put("text", "false");
+			}
+		} else {
+			j.put("code", -1);
+			j.put("text", Tips.WRONGPARAMS.getText());
+		}
+		
+		return j.toString();
+	}
 	
 	private FriendDao friendDao;
 	private MemberDao memberDao;

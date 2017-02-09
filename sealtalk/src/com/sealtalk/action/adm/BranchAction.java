@@ -454,7 +454,7 @@ public class BranchAction extends BaseAction {
 
 		branchService.saveimp(ja, this.getOrganId());
 		
-		String path = request.getServletContext().getRealPath("./upload/导入成功.xlsx");
+		String path = request.getSession().getServletContext().getRealPath("./upload/导入成功.xlsx");
 		branchService.impexcel(ja, path);
 		
 		JSONObject js = new JSONObject();

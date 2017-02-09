@@ -16,14 +16,13 @@
     <ul class="admHeaderOper">
         <li class="admLeftIcon" id='idlogout'></li>
         <li class="admLeftIcon"></li>
-        <li class="admLeftIcon"></li>
     </ul>
 </div>
 <div class="menupanel12">
 	<div id="jb" class="sidebar12">
-		<div class="menu" onclick='window.location.href="11.jsp";'><img src='images/组织结构.png' class='menuicon'>组织结构</div>
-		<div class="menu" onclick='window.location.href="12.jsp";'><img src='images/组织信息.png' class='menuicon'>组织信息</div>
-		<div class="menu menuactive"><img src='images/群组管理.png' class='menuicon'>群组管理</div>
+		<div class="menu" onclick='window.location.href="11.jsp";'><img src='images/struct.png' class='menuicon'>组织结构</div>
+		<div class="menu" onclick='window.location.href="12.jsp";'><img src='images/organinfo.png' class='menuicon'>组织信息</div>
+		<div class="menu menuactive"><img src='images/group.png' class='menuicon'>群组管理</div>
 	</div>
 </div>
 <div class="infopanel12">

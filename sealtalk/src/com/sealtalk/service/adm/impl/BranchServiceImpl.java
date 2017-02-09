@@ -88,7 +88,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] br = (Object[])it.next();
 			jo.put("id", br[0]);
 			jo.put("pid", 0);
-			jo.put("name", "<img src='images/公司.png' style='padding-right: 10px'>" + br[1]);
+			jo.put("name", "<img src='images/orga.png' style='padding-right: 10px'>" + br[1]);
 			jo.put("flag", 0);
 			jl.add(jo);
 		}
@@ -101,7 +101,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] br = (Object[])it.next();
 			jo.put("id", br[0]);
 			jo.put("pid", (Integer)br[1] == 0 ? organId : br[1]);
-			jo.put("name", "<img src='images/工作.png' style='padding-right: 10px'>" + br[2]);
+			jo.put("name", "<img src='images/work.png' style='padding-right: 10px'>" + br[2]);
 			jo.put("flag", 1);
 			jo.put("isParent", "true");
 			jl.add(jo);
@@ -115,7 +115,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] br = (Object[])it.next();
 			jo.put("id", br[0]);
 			jo.put("pid", br[1]);
-			jo.put("name", "<img src='images/人员.png' style='padding-right: 10px'>" + br[2]);
+			jo.put("name", "<img src='images/memb.png' style='padding-right: 10px'>" + br[2]);
 			jo.put("flag", 2);
 			jl.add(jo);
 		}
@@ -743,27 +743,28 @@ public class BranchServiceImpl implements BranchService {
 						jm.put("sexname", isBlank(o[25]));
 						
 						if (!branchList.contains(o[4])) {
+							String pid = isBlank(o[5]);
 							JSONObject jb = new JSONObject();
 							jb.put("flag", 0);
 							jb.put("id", isBlank(o[4]));
-							jb.put("pid", isBlank(o[5]));
+							jb.put("pid", pid.equals("0") ? isBlank(o[26]) : pid);
 							jb.put("name", isBlank(o[6]));
 							ja.add(jb);
 							branchList.add(o[4]);
 						}
 					} else {
-						if (!organList.contains(o[26])) {
+						if (!organList.contains(o[26])) {		//组织
 							JSONObject jor = new JSONObject();
 							jor.put("id", isBlank(o[26]));
-							jor.put("pid", -1);
+							jor.put("pid", 0);
 							jor.put("name", isBlank(o[27]));
 							jor.put("flag", 0);
 							ja.add(jor);
 							organList.add(o[26]);
 						}
-						
+						String pid = isBlank(o[5]);
 						jm.put("id", isBlank(o[4]));
-						jm.put("pid", isBlank(o[5]));
+						jm.put("pid", pid.equals("0") ? isBlank(o[26]) : pid);
 						jm.put("name", isBlank(o[6]));
 						jm.put("flag", 0);  
 					}

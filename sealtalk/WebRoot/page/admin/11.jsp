@@ -16,22 +16,21 @@
     <ul class="admHeaderOper">
         <li class="admLeftIcon" id='idlogout'></li>
         <li class="admLeftIcon"></li>
-        <li class="admLeftIcon"></li>
     </ul>
 </div>
 <div class="menupanel11">
 	<div id="jb" class="sidebar11">
-		<div class="menu menuactive"><img src='images/组织结构.png' class='menuicon'>组织结构</div>
-		<div class="menu" onclick='window.location.href="12.jsp";'><img src='images/组织信息.png' class='menuicon'>组织信息</div>
-		<div class="menu" onclick='window.location.href="13.jsp";'><img src='images/群组管理.png' class='menuicon'>群组管理</div>
+		<div class="menu menuactive"><img src='images/struct.png' class='menuicon'>组织结构</div>
+		<div class="menu" onclick='window.location.href="12.jsp";'><img src='images/organinfo.png' class='menuicon'>组织信息</div>
+		<div class="menu" onclick='window.location.href="13.jsp";'><img src='images/group.png' class='menuicon'>群组管理</div>
 	</div>
 	<div class="organ">
 		<div class="organline">
-			<button class="btnadmin" id='zzgly'><img src='images/超级管理员.png' style='padding-right: 10px'>超级管理员</button>
+			<button class="btnadmin" id='zzgly'><img src='images/superadmin.png' style='padding-right: 10px'>超级管理员</button>
 
             <div class='btn-group dropdown toright'>
             	<a class="btn  btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
-            	<img src="images/添加按钮.png">
+            	<img src="images/addbutton.png">
             	</a>
             	<ul id="admadd" class="dropdown-menu pull-right" style="min-width: 350%">
             		<li class="admadd addbranch">添加部门</li>

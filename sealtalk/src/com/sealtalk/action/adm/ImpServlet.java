@@ -66,7 +66,7 @@ public class ImpServlet extends HttpServlet {
 		
 		this.context = new XmlWebApplicationContext();
 		this.context.setConfigLocation("/WEB-INF/classes/spring.xml");
-		this.context.setServletContext(req.getServletContext());
+		this.context.setServletContext(req.getSession().getServletContext());
 		this.context.refresh();
 		
 		return (SessionFactory)this.context.getBean("sessionFactory");

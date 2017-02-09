@@ -37,7 +37,7 @@ function cb_21_role_fresh(data) {
 						$('#21_list').append('<div class="line211bd"></div>');
 					var a = $('#21_list').children().last();
 					var g = '<div class="line2111d">'
-						+ '<img src="images/多选-2.png" class="privgroupd pgcgd" />'
+						+ '<img src="images/select-2.png" class="privgroupd pgcgd" />'
 						+ '<input type="checkbox" id="pr' + data[j].privid + '" style="display:none" /> ' 
 						+ data[j].privname + '</div>';
 					$(a).append(g);
@@ -49,13 +49,13 @@ function cb_21_role_fresh(data) {
 							var gp;
 							if (data[k].roleid > 0) {
 								gp = '<div class="priv2d toleft">'
-									+ '<img src="images/多选-1.png" class="pgcd" />'
+									+ '<img src="images/select-1.png" class="pgcd" />'
 									+ '<input type="checkbox" id="pr' + data[k].privid + '" style="display:none" checked /> ' 
 									+ data[k].privname + '</div>';
 							}
 							else {
 								gp = '<div class="priv2d toleft">'
-									+ '<img src="images/多选-2.png" class="pgcd" />'
+									+ '<img src="images/select-2.png" class="pgcd" />'
 									+ '<input type="checkbox" id="pr' + data[k].privid + '" style="display:none" /> ' 
 									+ data[k].privname + '</div>';
 							}

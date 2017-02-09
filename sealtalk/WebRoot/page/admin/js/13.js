@@ -7,8 +7,8 @@ var itemtemplate='<tr id="traid">'
 	+'<td>member</td>'
 	+'<td>date</td>'
 	+'<td>'
-		+'<button onclick="create(aid)" class="btntable" style="margin-right:10px"><img src="images/编辑.png" />修改创建者</button>'
-		+'<button onclick="dismiss(aid)" class="btntable"><img src="images/删除.png" />解散群</button>'
+		+'<button onclick="create(aid)" class="btntable" style="margin-right:10px"><img src="images/edit.png" />修改创建者</button>'
+		+'<button onclick="dismiss(aid)" class="btntable"><img src="images/delete.png" />解散群</button>'
 	+'</td></tr>';
 var grpid = 0;
 $(document).ready(function() {

@@ -7,7 +7,7 @@ $(document).ready(function(){
 	$('#tree110wrap').css({
 		'left': $('#branchmanager').offset().left, 
 		'top': $('#branchmanager').offset().top + 33, 
-		'width': $('#branchmanager').width() + 21
+		'width': $('#branchmanager').width() + 26
 	});
 	
 	$('#branchaddmember').click(function() {

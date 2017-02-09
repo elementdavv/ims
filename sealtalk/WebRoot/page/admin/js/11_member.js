@@ -5,7 +5,7 @@ $(document).ready(function(){
 	$($('#tree11memberwrap')).css({
 		'left': $('#11memberbranch').position().left, 
 		'top': $('#11memberbranch').position().top + 33, 
-		'width': $('#11memberbranch').width() + 20
+		'width': $('#11memberbranch').width() + 25
 	});
 	$('#container').click(function(){
 		if ($('.treewrap1').is(':visible')) {

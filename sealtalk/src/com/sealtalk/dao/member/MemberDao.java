@@ -54,7 +54,7 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @param accounts
 	 * @return
 	 */
-	public List<TMember> getMultipleMemberForIds(Integer[] accounts);
+	public List<TMember> getMultipleMemberForIds(Integer[] ids);
 
 	/**
 	 * 更新用户token
@@ -110,17 +110,26 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	public boolean isUsedPic(int userIdInt, String userId);
 
 	/**
-	 * 更新个人设置
+	 * 更新个人设置web端
 	 * @param account
 	 * @param fullname
 	 * @param sex
 	 * @param email
 	 * @param phone
-	 * @param sign
 	 * @return
 	 */
-	public int updateMemeberInfo(String account, String fullname, String sex,
-			String email, String phone, String sign);
+	public int updateMemeberInfoForWeb(int userId, String sex, String email, String phone, String sign);
+	
+	/**
+	 * 更新个人设置app端
+	 * @param userIdInt
+	 * @param email
+	 * @param mobile
+	 * @param phone
+	 * @param address
+	 * @return
+	 */
+	public int updateMemeberInfoForApp(int userIdInt, String email, String mobile, String phone, String address);
 	
 	/**
 	 * 更新用户密码
@@ -142,5 +151,4 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @return
 	 */
 	public List<TMember> getLimitMemberIds(int mapMax);
-
 } 

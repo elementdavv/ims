@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 
-//import org.springframework.web.multipart.MultipartFile;
-
 import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
 import com.sealtalk.service.upload.UploadService;

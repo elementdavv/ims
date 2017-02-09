@@ -30,7 +30,7 @@
 		</div>
 		<div class='dialogtitle2' style='margin: 115px 0 0 220px'>
 			<button style='width: 196px; height: 60px; font-size: 14px' onclick='$("#impfile").click();'>
-				<img src='images/上传.png' style='margin: 0 15px 0 0' />上传批量导入模板
+				<img src='images/upload.png' style='margin: 0 15px 0 0' />上传批量导入模板
 			</button>
 		</div>
 		<div style='display:none'>
