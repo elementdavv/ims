@@ -87,10 +87,10 @@ function sendMsg(content,targetId,way,extra,callback){
         var Msize = KBtoM(sendMsg.size);
         switch (sendMsg.type){
             case 'image/png':
-                var imgSrc = 'css/img/formatImg.png';
+                var imgSrc = 'page/web/css/img/formatImg.png';
                 break;
             default :
-                var imgSrc = 'css/img/formatUnknew.png';
+                var imgSrc = 'page/web/css/img/formatUnknew.png';
         }
         //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
         var sHTML = '<li class="mr-chatContentRFile clearfix">'+
@@ -134,7 +134,7 @@ function sendMsg(content,targetId,way,extra,callback){
     parent.find('.textarea').html('');
     callback&&callback();
     //调用融云的发送文件
-    if(extra!='uploadFile'&&limit.indexOf('stsz')==-1){
+    if(extra!='uploadFile'&&limit.indexOf('stsz')!=-1){
         sendByRong(content,targetId,way);
     }
 }
@@ -461,10 +461,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             var uniqueTime = sendMsg.uniqueTime;
             switch (sendMsg.type){
                 case 'image/png':
-                    var imgSrc = 'css/img/formatImg.png';
+                    var imgSrc = 'page/web/css/img/formatImg.png';
                     break;
                 default :
-                    var imgSrc = 'css/img/formatUnknew.png';
+                    var imgSrc = 'page/web/css/img/formatUnknew.png';
             }
             sDoM += '<li class="mr-chatContentLFile clearfix" data-t="'+sSentTime+'">'+
                         '<img class="headImg" src="'+sImg+'">'+
@@ -498,10 +498,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             var uniqueTime = sendMsg.uniqueTime
             switch (sendMsg.type){
                 case 'image/png':
-                    var imgSrc = 'css/img/formatImg.png';
+                    var imgSrc = 'page/web/css/img/formatImg.png';
                     break;
                 default :
-                    var imgSrc = 'css/img/formatUnknew.png';
+                    var imgSrc = 'page/web/css/img/formatUnknew.png';
             }
             sDoM += '<li class="mr-chatContentRFile clearfix" data-t="'+sSentTime+'">'+
                         '<div class="mr-ownChat">'+
@@ -1060,10 +1060,10 @@ function reciveInBox(msg){
             var Msize = KBtoM(content.size);
             switch (content.type){
                 case 'image/png':
-                    var imgSrc = 'css/img/formatImg.png';
+                    var imgSrc = 'page/web/css/img/formatImg.png';
                     break;
                 default :
-                    var imgSrc = 'css/img/formatUnknew.png';
+                    var imgSrc = 'page/web/css/img/formatUnknew.png';
             }
             var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sHTML = '<li class="mr-chatContentLFile clearfix">'+

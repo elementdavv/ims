@@ -21,9 +21,9 @@ $(function(){
         var account = CurList.attr('account');
         var datas = localStorage.getItem('MemberFriends');
         var data = JSON.parse(datas);
-        for(var i = 0;i<data.text.length;i++){
-            if(data.text[i].account == account){
-                showMemberInfo(data.text[i],pos);
+        for(var i = 0;i<data.length;i++){
+            if(data[i].account == account){
+                showMemberInfo(data[i],pos);
                 console.log(i);
                 break;
             }
@@ -1011,7 +1011,7 @@ function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
         var myData = JSON.parse(data);
         //myData = myData;
-        //window.localStorage.MemberFriends = data;
+        window.localStorage.MemberFriends = data;
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
         for(var i = 0;i<myData.length;i++){
