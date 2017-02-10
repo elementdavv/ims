@@ -66,6 +66,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
+
     </head>
     <%--${SessionPrivilege.map}--%>
     <%--${SessionUser.id}--%>

@@ -92,6 +92,7 @@ function sendMsg(content,targetId,way,extra,callback){
             default :
                 var imgSrc = 'page/web/css/img/formatUnknew.png';
         }
+        var file = sendMsg.name.split('.')[0];
         //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
         var sHTML = '<li class="mr-chatContentRFile clearfix">'+
             '<div class="mr-ownChat">'+
@@ -99,11 +100,11 @@ function sendMsg(content,targetId,way,extra,callback){
             '<div class="file_content fl">' +
             '<p class="p1 file_name">'+sendMsg.name+'</p>' +
             '<p class="p2 file_size">'+Msize+'</p>' +
-            '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
+            //'<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
+            //'</div>' +
             '</div>' +
-            '</div>' +
-            '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
-            '<button id="downLoadFile"></button>'+
+            '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+            //'<button id="downLoadFile"></button>'+
 
             '</li>';
     }else{//如果是普通消息
@@ -470,6 +471,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 default :
                     var imgSrc = 'page/web/css/img/formatUnknew.png';
             }
+            var file = sendMsg.filename.split('.')[0];
             sDoM += '<li class="mr-chatContentLFile clearfix" data-t="'+sSentTime+'">'+
                         '<img class="headImg" src="'+sImg+'">'+
                         '<div class="mr-ownChat">'+
@@ -477,11 +479,11 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                         '<div class="file_content fl">' +
                         '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                         '<p class="p2 file_size">'+Msize+'</p>' +
-                        '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
+                        //'<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
+                        //'</div>' +
                         '</div>' +
-                        '</div>' +
-                        '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
-                        '<button id="downLoadFile"></button>'+
+                        '<a fileName="'+file+'"  class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+            //            '<button id="downLoadFile"></button>'+
                         '</li>';
 
             }else{
@@ -508,17 +510,18 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 default :
                     var imgSrc = 'page/web/css/img/formatUnknew.png';
             }
+            var file = sendMsg.filename.split('.')[0];
             sDoM += '<li class="mr-chatContentRFile clearfix" data-t="'+sSentTime+'">'+
                         '<div class="mr-ownChat">'+
                         '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                         '<div class="file_content fl">' +
                         '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                         '<p class="p2 file_size">'+Msize+'</p>' +
-                        '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
+                        //'<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
+                        //'</div>' +
                         '</div>' +
-                        '</div>' +
-                        '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
-                        '<button id="downLoadFile"></button>'+
+            '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+                        //'<button id="downLoadFile"></button>'+
                         '</li>';
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
@@ -654,7 +657,18 @@ function getGroupDetails(groupId){
     var data = JSON.parse(datas);
     var aText=data.text;
     var sDom='';
-    //var sId=$('#groupContainer').attr('targetid');
+    var sdata = localStorage.getItem('datas');
+    var accountID = JSON.parse(sdata).id;
+    var voiceState = '';
+    sendAjax('fun!getNotRecieveMsg',{groupid:groupId,userid:accountID},function(data){
+        if(data){
+            var datas = JSON.parse(data);
+            if(datas&&datas.code==1){
+                voiceState = datas.code==true?'active':'';
+                $('.voiceSet').addClass('active');
+            }
+        }
+    })
     for(var i = 0;i<aText.length;i++){
         if(aText[i].GID==groupId){
              var sName=aText[i].name || '';//群名称
@@ -677,9 +691,7 @@ function getGroupDetails(groupId){
             </li>\
             <li class="groupInfo-disturb">\
             <span>消息免打扰：</span>\
-            <p>\
-            <i></i>\
-            <i></i>\
+            <p class="voiceSet '+voiceState+'">\
             </p>\
             </li>\
             </ul><div class="groupInfo-memberList"></div>';
@@ -722,12 +734,21 @@ function getGroupMembersList(groupid){
             console.log(oGroupidList);
             //查询群禁言状态
             sendAjax('group!getShutUpGroupStatus',{groupid:groupid},function(data){
+                var sdata = localStorage.getItem('datas');
+                var accountID = JSON.parse(sdata).id;
+                var groupInfo = groupInfoFromList(groupid);
                 if(data){
                     var datas = JSON.parse(data);
-                    if(datas&&datas.code==1&&datas.text=='true'){
-                        $('.groupInfo-noChat').attr('1');
-                    }else if(datas&&datas.code==1&&datas.text=='false'){
-                        $('.groupInfo-noChat').attr('0');
+                    if(datas&&datas.code==1&&datas.text==true&&accountID!=groupInfo.mid){
+                        $('.groupInfo-noChat').attr('data-chat','1');
+                        $('#groupContainer #message-content').attr('contenteditable','false');
+                        $('#groupContainer #message-content').html('群主已开启禁言!');
+
+                    }else if(datas&&datas.code==0&&datas.text==false){
+                        $('.groupInfo-noChat').attr('data-chat','0');
+                        $('#groupContainer #message-content').attr('contenteditable','true');
+                        $('#groupContainer #message-content').attr('placeholder','请输入文字...');
+
                     }
                 }
             })
@@ -822,9 +843,8 @@ function getChatRecord(aList,sClass){
                 '<p class="p2 file_sizeHos">'+Msize+'</p>' +
                 '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                 '</div>' +
-                '</div>' +
-                '<a class="downLoadFile" src="'+globalVar.qiniuDOWNLOAD+'?attname='+sendMsg.name+'"></a>'+
-                '<button id="downLoadFile"></button>';
+                '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+                '</li>';
             }else{
                 var  str= RongIMLib.RongIMEmoji.symbolToHTML(sContent);
                 sContent='<span>'+str+'</span><i></i>';
@@ -1211,7 +1231,7 @@ function groupInfo(id){
 
 
 function KBtoM(kb){
-    return kb/1024;
+    return Math.floor(kb/1024 * 100) / 100;
 }
 //接收到的消息显示在盒子里或者在消息列表中显示
 function reciveInBox(msg){
@@ -1255,6 +1275,7 @@ function reciveInBox(msg){
                 default :
                     var imgSrc = 'page/web/css/img/formatUnknew.png';
             }
+            var file = sendMsg.filename.split('.')[0];
             var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sHTML = '<li class="mr-chatContentLFile clearfix">'+
                 '<img class="headImg" src="'+sImg+'">'+
@@ -1263,11 +1284,11 @@ function reciveInBox(msg){
                 '<div class="file_content fl">' +
                 '<p class="p1 file_name">'+content.name+'</p>' +
                 '<p class="p2 file_size">'+Msize+'</p>' +
-                '<div id="up_process"><div id="up_precent"></div>' +
+                //'<div id="up_process"><div id="up_precent"></div>' +
+                //'</div>' +
                 '</div>' +
-                '</div>' +
-                '<a class="downLoadFile" src="'+returnDLLink(sendMsg.name)+'"></a>'+
-                '<button id="downLoadFile"></button>'+
+                '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+                //'<button id="downLoadFile"></button>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
@@ -1301,6 +1322,12 @@ function reciveInBox(msg){
 
 }
 
+
+
+function changeClassProcess(dom,fileName){
+    var file = fileName.split('.')[0]
+    $(dom).attr('fileName',file);
+}
 
 //清除未读消息数
 

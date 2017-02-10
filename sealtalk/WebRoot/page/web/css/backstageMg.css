@@ -484,11 +484,16 @@ p.converLimit {
 .mr-chatContentLFile .file_size{
 
 }
-.mr-chatContentLFile #up_process{
-
+.mr-chatContentLFile #down_process{
+    background: red;
+    height: 2px;
+    margin-top: 47px;
+    width: 150px;
+    margin-left: 70px;
 }
-.mr-chatContentLFile #up_precent{
-
+.mr-chatContentLFile #down_precent{
+    height: 2px;
+    background: palegreen;
 }
 
 .mr-ownChat{
@@ -919,15 +924,31 @@ p.converLimit {
 .groupInfo .groupInfo-disturb span{
     line-height:24px;
 }
-.groupInfo .groupInfo-disturb p{
+.groupInfo .groupInfo-disturb .voiceSet{
     float:left;
-    background: url('img/backstage.png') no-repeat;
-    background-position: -75px -413px;
-    width:48px;
-    height:24px;
+    background: url('img/voiceOpen.png') no-repeat;
+    /*background-position: -75px -413px;*/
+    width:67px;
+    height:38px;
 }
-.groupInfo .groupInfo-disturb p.active{
-    background-position: 0 -413px;
+
+div#fileOperate {
+    /* height: 20px; */
+    width: 100%;
+    /* background: palegreen; */
+    margin-top: -10px;
+    margin-left: 70px;
+    display: inline-block;
+}
+
+#fileOperate span {
+    margin-right: 20px;
+    color: #30c0da;
+}
+
+.groupInfo .groupInfo-disturb p.active.active{
+    background: url('img/voiceClose.png') no-repeat;
+
 }
 .groupInfo .groupInfo-disturb p i{
     float:left;

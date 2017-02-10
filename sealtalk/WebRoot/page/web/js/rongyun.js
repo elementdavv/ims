@@ -310,4 +310,3 @@ function setConverToTop(Type,targetId,$topEle) {
         });
     }
 }
-

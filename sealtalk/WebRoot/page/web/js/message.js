@@ -698,11 +698,10 @@ $(function(){
                             //转让群
                             if(_this.attr('displaylimit')=='false'){
                                 return false;
-
                             }else{
-                                sendAjax('group!listGroupMemebers',{groupid:groupid},function(data){
+                                sendAjax('group!listGroupMemebersData',{groupid:groupid},function(data){
                                     var datas = JSON.parse(data).text;
-                                    transferGroup(datas,function(){
+                                    transferGroup(datas,groupid,function(){
                                         var transferTarget = $('.transferGroupTo.active');
                                         if(transferTarget){
                                             var target = transferTarget.closest('tr');
@@ -710,7 +709,7 @@ $(function(){
                                             var targetLimit = target.attr('transferlimit');
                                             if(tatgetID&&targetLimit=='true'){//有转让权限
                                                 sendAjax('group!transferGroup',{userid:tatgetID, groupid:groupid},function(data){
-                                                    console.log('11111',data);
+                                                    //console.log('11111',data);
                                                     if(data){
                                                         var datas = JSON.parse(data);
                                                         if(datas&&datas.code==1){
@@ -1346,10 +1345,10 @@ function DialogTreeLoop(data,sHTML,level,userID){
 
 
 
-function transferGroup(data,callback){
+function transferGroup(data,groupid,callback){
     $('.WindowMask2').show();
-    var adata = unique3(data)
-    var sHTML = createTransforContent(adata);
+    //var adata = unique3(data)
+    var sHTML = createTransforContent(data,groupid);
     var dom = $('.transferInfoBox tbody');
     dom.html(sHTML);
     $('.manageSure').unbind('click');
@@ -1359,19 +1358,22 @@ function transferGroup(data,callback){
 }
 
 
-function createTransforContent(data){
-    console.log('......+++++++.......'.data);
+function createTransforContent(data,groupid){
     var sHTML = '';
 
     for(var i = 0;i<data.length;i++){
-        var curList = searchFromList(1,data[i]);
-        var limit = 'true';
+        var curList = data[i];
+        var curGroup = searchFromList('1',curList.id);
+
+        var limit = curList.qzqx==true?'true':'false';
+        var limitText = curList.qzqx==true?'是':'否';
+        var transferText = curList.qzqx==true?'<span class="transferGroupTo">转让群</span>':''
         var img = curList.logo?globalVar.imgSrc+curList.logo:globalVar.defaultLogo;
         sHTML+='<tr targetid="'+curList.id+'" transferlimit="'+limit+'">'+
-                    '<td><img class="transferImg" src="'+img+'" alt="">'+curList.name+'</td>'+
-                    '<td>'+curList.postitionname+'</td>'+
-                    '<td>'+'data[i].是否有权限'+'</td>'+
-                    '<td class="operate"><span class="transferGroupTo">转让群</span></td>'+
+                    '<td><img class="transferImg" src="'+img+'" alt="">'+curList.fullname+'</td>'+
+                    '<td>'+curGroup.postitionname+'</td>'+
+                    '<td>'+limitText+'</td>'+
+                    '<td class="operate">'+transferText+'</td>'+
                 '</tr>'
     }
     return sHTML;

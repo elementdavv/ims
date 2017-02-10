@@ -2,9 +2,9 @@ var sealtalk_config = {
   //http://electron.atom.io/docs/api/crash-reporter/
   REPORT_URL: 'http://electron.atom.io/docs/api/crash-reporter/',
   //http://electron.atom.io/docs/api/browser-window/  win.loadURL(APP_ONLINE)
-  APP_ONLINE: 'http://localhost:8080/sealtalk/system!login',
+  APP_ONLINE: 'http://localhost:8080/sealtalk/system!loginForWeb',
   //your homepage for menu link
-  HOME: 'http;//www.rongcloud.cn',
+  HOME: 'http://localhost:8080/sealtalk/system!loginForWeb',
   //这个参数的理解可以参考  http://electron.atom.io/docs/api/app/  setAsDefaultProtocolClient
   PROTOCAL: 'sealtalk-ent',
   // base on 'res' dir
@@ -14,7 +14,7 @@ var sealtalk_config = {
   PRODUCTNAME: "SealTalk_Ent_Test",
   APPNAME: "SealTalk_Ent_Test",
   VERSION: "1.0.2",
-  DESCRIPTION: "SealTalk Desktop application.",
+  DESCRIPTION: "SealTalk Desktop application.", 
   AUTHOR: "RongCloud",
   LICENSE: "MIT",
   PACKAGE: {
@@ -48,7 +48,7 @@ var sealtalk_config = {
     BACKGROUND: 'bg.png',
     CF_BUNDLE_VERSION: '1.0.3'
   },
-  DEBUG: false
+  DEBUG: true
 }
 
 
