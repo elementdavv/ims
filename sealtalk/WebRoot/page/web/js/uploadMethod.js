@@ -49,10 +49,9 @@ $(function(){
                     },
                     onCompleted: function (data) {
                         var className = this._self.uniqueTime;
-                        var downloadLink = globalVar.qiniuDOWNLOAD+'?attname='+data.filename;
+                        var downloadLink = returnDLLink(data.filename);
                         $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
                         //发送消息
-
                         var filedetail = {};
                         filedetail.name = this._self.name;
                         filedetail.uniqueTime = this._self.uniqueTime;
@@ -97,4 +96,8 @@ function sendFile(_file,_this,callback){
 
 
     sendMsg(content,targetId,targetType,extra,callback);
+}
+
+function returnDLLink(filename){
+    globalVar.qiniuDOWNLOAD+'?attname='+filename;
 }

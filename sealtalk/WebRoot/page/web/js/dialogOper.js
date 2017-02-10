@@ -3,6 +3,13 @@
  */
 $(function(){
 
+
+    //转让群操作
+    $('.transferInfoBox tbody').delegate('.transferGroupTo','click',function(){
+        $('.transferInfoBox .transferGroupTo').removeClass('active');
+        $(this).addClass('active');
+    })
+
     $('.contactBox').delegate('.contactSearchResult','mouseleave',function(){
         var _this = $(this);
         setTimeout(function(){

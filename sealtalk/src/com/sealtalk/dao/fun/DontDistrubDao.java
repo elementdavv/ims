@@ -27,4 +27,12 @@ public interface DontDistrubDao extends IBaseDao<TDontDistrub, Long> {
 	 */
 	public List<TDontDistrub> getDistrubListForUserId(int userIdInt);
 
+	/**
+	 * 获取单个免打扰信息
+	 * @param userIdInt
+	 * @param groupIdInt 
+	 * @return
+	 */
+	public TDontDistrub getSingleDistrubListForUserId(int userIdInt, int groupIdInt);
+
 } 

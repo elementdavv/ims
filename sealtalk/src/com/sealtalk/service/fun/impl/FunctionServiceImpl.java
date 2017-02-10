@@ -1,5 +1,8 @@
 package com.sealtalk.service.fun.impl;
 
+import java.util.List;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -8,8 +11,10 @@ import com.sealtalk.common.FunctionName;
 import com.sealtalk.common.Tips;
 import com.sealtalk.dao.fun.DontDistrubDao;
 import com.sealtalk.dao.fun.FunctionDao;
+import com.sealtalk.dao.fun.MsgTopDao;
 import com.sealtalk.model.TDontDistrub;
 import com.sealtalk.model.TFunction;
+import com.sealtalk.model.TMsgtop;
 import com.sealtalk.service.fun.FunctionService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.StringUtils;
@@ -26,17 +31,22 @@ public class FunctionServiceImpl implements FunctionService {
 			if (!StringUtils.getInstance().isBlank(status) &&
 					!StringUtils.getInstance().isBlank(groupId) &&
 					!StringUtils.getInstance().isBlank(userId)) {
-				TDontDistrub tf = new TDontDistrub();
 				
 				int groupIdInt = StringUtils.getInstance().strToInt(groupId);
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
 				
+				TDontDistrub tf = dontDistrubDao.getSingleDistrubListForUserId(userIdInt, groupIdInt);
+				
+				if (tf == null) {
+					tf = new TDontDistrub();
+				}
 				tf.setGroupId(groupIdInt);
 				tf.setMemberId(userIdInt);
 				tf.setIsOpen(status);
 				tf.setListOrder(0);
 				
 				dontDistrubDao.setDontDistrub(tf);
+				
 				jo.put("code", 1);
 				jo.put("text", Tips.OK.getText());
 			} else {
@@ -57,12 +67,13 @@ public class FunctionServiceImpl implements FunctionService {
 		try {
 			if (!StringUtils.getInstance().isBlank(groupId) &&
 					!StringUtils.getInstance().isBlank(userId)) {
-				TFunction tf = functionDao.getFunctionStatus(FunctionName.NOTRECEIVEMSG.getName() + "_" + groupId + "_" + userId);
+				int groupIdInt = StringUtils.getInstance().strToInt(groupId);
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+				TDontDistrub tf = dontDistrubDao.getSingleDistrubListForUserId(userIdInt, groupIdInt);
 				
 				if (tf != null) {
-					JSONObject jk = JSONUtils.getInstance().modelToJSONObj(tf);
 					jo.put("code", 1);
-					jo.put("text", jk.toString());
+					jo.put("text", tf.getIsOpen().equals("1") ? true : false);
 				} else {
 					jo.put("code", 0);
 					jo.put("text", Tips.FAIL.getText());
@@ -145,19 +156,19 @@ public class FunctionServiceImpl implements FunctionService {
 					!StringUtils.getInstance().isBlank(topId) &&
 					!StringUtils.getInstance().isBlank(topType)) {
 				
-				String name = (new StringBuilder(userId).append("_").append(FunctionName.MSGTOP.getName())).toString();
-				TFunction tf1 = functionDao.getFunctionStatus(name);
-				String status = (new StringBuilder(topId).append("_").append(topType)).toString();
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+				int topIdInt = StringUtils.getInstance().strToInt(topId);
+				int count = msgTopDao.getCountMsgTopForUserId(userIdInt);
 				
-				if (tf1 == null) {
-					TFunction tf = new TFunction();
-					tf.setIsOpen(status);
-					tf.setName(name);
-					tf.setListorder(0);
-					functionDao.setFunctionStatus(tf);
-				} else {
-					functionDao.updateFunctionStatus(name, status);
-				}
+				TMsgtop tm = new TMsgtop();
+				
+				tm.setMsgType(topType);
+				tm.setUserId(userIdInt);
+				tm.setTopId(topIdInt);
+				tm.setListorder(count);
+				
+				msgTopDao.setMsgTop(tm);
+				
 				jo.put("code", 1);
 				jo.put("text", Tips.OK.getText());
 			} else {
@@ -177,19 +188,24 @@ public class FunctionServiceImpl implements FunctionService {
 		
 		try {
 			if (!StringUtils.getInstance().isBlank(userId)) {
-				String name = (new StringBuilder(userId).append("_").append(FunctionName.MSGTOP.getName())).toString();
-				TFunction tf1 = functionDao.getFunctionStatus(name);
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+				List<TMsgtop> tmList = msgTopDao.getMsgTop(userIdInt);
 				
-				if (tf1 != null) {
-					String topMsg = tf1.getIsOpen();
-					String[] split = topMsg.split("_");
+				if (tmList != null) {
+					JSONArray ja = new JSONArray();
 					
-					JSONObject j = new JSONObject();
-					j.put("id", split[0]);
-					j.put("type", split[1]);
+					for (int i = 0; i < tmList.size(); i++) {
+						TMsgtop tm = tmList.get(i);
+						JSONObject j = new JSONObject(); 
+						j.put("userId", tm.getUserId());
+						j.put("type", tm.getMsgType());
+						j.put("topId", tm.getTopId());
+						j.put("listOrder", tm.getListorder());
+						ja.add(j);
+					}
 					
 					jo.put("code", 1);
-					jo.put("text", j.toString());
+					jo.put("text", ja.toString());
 					
 				} else {
 					jo.put("code", 0);
@@ -206,9 +222,44 @@ public class FunctionServiceImpl implements FunctionService {
 		return jo.toString();
 	}
 	
+	@Override
+	public String cancelMsgTop(String userId, String topId, String topType) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (!StringUtils.getInstance().isBlank(userId) && 
+					!StringUtils.getInstance().isBlank(topId) &&
+					!StringUtils.getInstance().isBlank(topType)) {
+				
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+				int topIdInt = StringUtils.getInstance().strToInt(topId);
+				msgTopDao.cancelMsgTop(userIdInt, topIdInt, topType);
+				
+				jo.put("code", 1);
+				jo.put("text", Tips.OK.getText());
+			} else {
+				jo.put("code", -1);
+				jo.put("text", Tips.WRONGPARAMS.getText());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jo.toString();
+	}
+	
 	private DontDistrubDao dontDistrubDao;
 	private FunctionDao functionDao;
+	private MsgTopDao msgTopDao;
 	
+	public MsgTopDao getMsgTopDao() {
+		return msgTopDao;
+	}
+
+	public void setMsgTopDao(MsgTopDao msgTopDao) {
+		this.msgTopDao = msgTopDao;
+	}
+
 	public FunctionDao getFunctionDao() {
 		return functionDao;
 	}
