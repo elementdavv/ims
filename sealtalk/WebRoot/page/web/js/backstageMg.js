@@ -472,27 +472,28 @@ function groupInfoFromList(id){
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sName=oData?oData.name : '';//姓名
-    var sAccountNum=oData.account || '';//成员账号
-    var sSex=oData.sex;//性别
-    switch(sSex){
-        case '男':
-            sSex= '男';
-            break;
-        case '女':
-            sSex= '女';
-            break;
-        default :
-            sSex= '女';
-            break;
-    }
-    var sPosition=oData.positionname || '';//职位
-    var sBranch=oData.branchname || '';//部门
-    var sEmail=oData.email || '';//邮箱
-    var sTelephone=oData.telephone || '';//电话
-    var sSign=oData.organname || '';//工作签名
-    var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
-    var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
+    if(oData){
+        var sName=oData?oData.name|| '' : '';//姓名
+        var sAccountNum=oData?oData.account|| '' : '';//成员账号
+        var sSex=oData.sex;//性别
+        switch(sSex){
+            case '男':
+                sSex= '男';
+                break;
+            case '女':
+                sSex= '女';
+                break;
+            default :
+                sSex= '女';
+                break;
+        }
+        var sPosition=oData.positionname || '';//职位
+        var sBranch=oData.branchname || '';//部门
+        var sEmail=oData.email || '';//邮箱
+        var sTelephone=oData.telephone || '';//电话
+        var sSign=oData.organname || '';//工作签名
+        var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
+        var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
     <ul class="perSetBox-contDetails">\
@@ -547,9 +548,10 @@ function fPersonalSet(){
     <p class="perSetBox-modifyHead" id="changeHeadImgId">修改头像</p>\
     </div>\
     </div>';
-    $('#chatBox #personSettingId').empty();
-    $('#chatBox #personSettingId').append(sHtml);
-    $('.perSetBox-selSex').val(sSex);
+        $('#chatBox #personSettingId').empty();
+        $('#chatBox #personSettingId').append(sHtml);
+        $('.perSetBox-selSex').val(sSex);
+    }
 }
 function showGroupMemberInfo(oGroupInfo,pos){
     var sName=oGroupInfo.name || '';//群名称
