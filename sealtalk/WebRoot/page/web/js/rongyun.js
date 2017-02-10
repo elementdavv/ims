@@ -42,71 +42,69 @@ $(function(){
             getSysTipVoice(accountID);
             //鼠标在联系人上悬停
 
-                // 设置连接监听状态 （ status 标识当前连接状态）
-                // 连接状态监听器
-                RongIMClient.setConnectionStatusListener({
-                    onChanged: function (status) {
-                        switch (status) {
-                            //链接成功
-                            case RongIMLib.ConnectionStatus.CONNECTED:
-                                console.log('链接成功');
-                                if($('.window_mask')){
-                                    $('.window_mask').remove()
-                                }
-                                //显示会话列表
-                                getConverList()
-                                break;
-                            //正在链接
-                            case RongIMLib.ConnectionStatus.CONNECTING:
-                                console.log('正在链接');
-                                break;
-                            //重新链接
-                            case RongIMLib.ConnectionStatus.DISCONNECTED:
-                                //new Window().alert({
-                                //    title   : '',
-                                //    content : '断开连接！',
-                                //    hasCloseBtn : false,
-                                //    hasImg : true,
-                                //    textForSureBtn : false,
-                                //    textForcancleBtn : false
-                                //    //,
-                                //    //autoHide:true
-                                //});
-                                console.log('断开连接');
-                                break;
-                            //其他设备登录
-                            case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
-                                new Window().alert({
-                                    title   : '',
-                                    content : '其他设备登录！',
-                                    hasCloseBtn : false,
-                                    hasImg : true,
-                                    textForSureBtn : false,
-                                    textForcancleBtn : false
-                                    //,
-                                    //autoHide:true
-                                });
-                                console.log('其他设备登录');
-                                break;
-                            //网络不可用
-                            case RongIMLib.ConnectionStatus.NETWORK_UNAVAILABLE:
-                                new Window().alert({
-                                    title   : '',
-                                    content : '网络不可用！',
-                                    hasCloseBtn : false,
-                                    hasImg : true,
-                                    textForSureBtn : false,
-                                    textForcancleBtn : false
-                                    //,
-                                    //autoHide:true
-                                });
-                                console.log('网络不可用');
-                                break;
-                        }
-                    }});
+            // 设置连接监听状态 （ status 标识当前连接状态）
+            // 连接状态监听器
+            RongIMClient.setConnectionStatusListener({
+                onChanged: function (status) {
+                    switch (status) {
+                        //链接成功
+                        case RongIMLib.ConnectionStatus.CONNECTED:
+                            console.log('链接成功');
+                            if($('.window_mask')){
+                                $('.window_mask').remove()
+                            }
+                            //显示会话列表
+                            getConverList()
+                            break;
+                        //正在链接
+                        case RongIMLib.ConnectionStatus.CONNECTING:
+                            console.log('正在链接');
+                            break;
+                        //重新链接
+                        case RongIMLib.ConnectionStatus.DISCONNECTED:
+                            //new Window().alert({
+                            //    title   : '',
+                            //    content : '断开连接！',
+                            //    hasCloseBtn : false,
+                            //    hasImg : true,
+                            //    textForSureBtn : false,
+                            //    textForcancleBtn : false
+                            //    //,
+                            //    //autoHide:true
+                            //});
+                            console.log('断开连接');
+                            break;
+                        //其他设备登录
+                        case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
+                            new Window().alert({
+                                title   : '',
+                                content : '其他设备登录！',
+                                hasCloseBtn : false,
+                                hasImg : true,
+                                textForSureBtn : false,
+                                textForcancleBtn : false
+                                //,
+                                //autoHide:true
+                            });
+                            console.log('其他设备登录');
+                            break;
+                        //网络不可用
+                        case RongIMLib.ConnectionStatus.NETWORK_UNAVAILABLE:
+                            new Window().alert({
+                                title   : '',
+                                content : '网络不可用！',
+                                hasCloseBtn : false,
+                                hasImg : true,
+                                textForSureBtn : false,
+                                textForcancleBtn : false
+                                //,
+                                //autoHide:true
+                            });
+                            console.log('网络不可用');
+                            break;
+                    }
+                }});
 
-                // 消息监听器
-                RongIMClient.setOnReceiveMessageListener({
             // 消息监听器
             RongIMClient.setOnReceiveMessageListener({
                 // 接收到的消息
@@ -133,68 +131,17 @@ $(function(){
                                     voicePlay();
                                 }
                                 //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
-                                    if(message.conversationType==3){
-                                        var targetId = message.targetId;
-                                        sendAjax('fun!getNotRecieveMsg',{groupid:targetId,userid:userid},function(data){
-                                            if(data){
-                                                var datas = JSON.parse(data);
-                                                if(datas&&datas.code==1&&datas.text==true){
-                                                    console.log(4444);
-                                                }else{
-                                                    voicePlay();
-                                                }
-                                            }
-                                        })
-                                    }else{
-                                        voicePlay();
-                                    }
-                                    //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
 
-                                }
-                                reciveInBox(message);
-                                break;
-                            case RongIMClient.MessageType.VoiceMessage:
-                                // 对声音进行预加载
-                                // message.content.content 格式为 AMR 格式的 base64 码
-                                RongIMLib.RongIMVoice.preLoaded(message.content.content);
-                                break;
-                            case RongIMClient.MessageType.ImageMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.DiscussionNotificationMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.LocationMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.RichContentMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.DiscussionNotificationMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.InformationNotificationMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.ContactNotificationMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.ProfileNotificationMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.CommandNotificationMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.CommandMessage:
-                                // do something...
-                                break;
-                            case RongIMClient.MessageType.UnknownMessage:
-                                // do something...
-                                break;
-                            default:
-                            // 自定义消息
+                            }
+                            reciveInBox(message);
+                            break;
+                        case RongIMClient.MessageType.VoiceMessage:
+                            // 对声音进行预加载
+                            // message.content.content 格式为 AMR 格式的 base64 码
+                            RongIMLib.RongIMVoice.preLoaded(message.content.content);
+                            break;
+                        case RongIMClient.MessageType.ImageMessage:
                             // do something...
-                        }
                             break;
                         case RongIMClient.MessageType.DiscussionNotificationMessage:
                             // do something...
@@ -359,4 +306,3 @@ function setConverToTop(Type,targetId,$topEle) {
         });
     }
 }
-
