@@ -229,15 +229,68 @@ $(function(){
 })
 
 
-function setConverToTop(Type,targetId) {
+function setConverToTop(Type,targetId,$topEle) {
     var conversationtype = RongIMLib.ConversationType[Type]; // 私聊
-    RongIMLib.RongIMClient.getInstance().setConversationToTop(conversationtype, targetId, {
-        onSuccess: function() {
-            console.log("setDiscussionInviteStatus Successfully");
-        },
-        onError: function(error) {
-            console.log("setDiscussionInviteStatus:errorcode:" + error);
-        }
-    });
+    var sData=window.localStorage.getItem("datas");
+    var oData= JSON.parse(sData);
+    var sId=oData.id;
+    var nTopType;
+    var sTopHas=$topEle.attr('data-top');
+    switch(Type){
+        case 'GROUP':
+            nTopType=1;
+            break;
+        case 'PRIVATE':
+            nTopType=2;
+            break;
+    }
+    if(sTopHas==1){
+        sendAjax('fun!cancelMsgTop',{userid:sId,topid:targetId,toptype:nTopType},function(data){
+            var oCancelData=JSON.parse(data);
+            if(oCancelData.code==1){
+                var nIndex;
+                var aNoTop=[];
+                $('.usualChatListUl li').each(function(index){
+                    if(!$(this).hasClass('top')){
+                        //nIndex=index;
+                        aNoTop.push($(this));
+                    }
+                });
+                $('.usualChatListUl li').each(function(index){
+                    var targetEle=$(this);
+                    var sTopId=$(this).attr('targetid');
+                    if(sTopId==targetId){
+                        $('.usualChatListUl li').eq(index).remove();
+                        aNoTop[0].before(targetEle);
+                        targetEle.removeClass('top');
+                        targetEle.removeClass('active');
+                    }
+                });
+            }
+        });
+    }else{
+        sendAjax('fun!setMsgTop',{userid:sId,topid:targetId,toptype:nTopType},function(data){
+            var oData=JSON.parse(data);
+            if(oData.code==1){
+                $('.usualChatListUl li').each(function(index){
+                    var targetEle=$(this);
+                    var sTopId=$(this).attr('targetid');
+                    if(sTopId==targetId){
+                        $('.usualChatListUl li').eq(index).remove();
+                        $('.usualChatListUl').prepend(targetEle);
+                        targetEle.addClass('top');
+                    }
+                });
+            }
+        });
+    }
+    //RongIMLib.RongIMClient.getInstance().setConversationToTop(conversationtype, targetId, {
+    //    onSuccess: function() {
+    //        console.log("setDiscussionInviteStatus Successfully");
+    //    },
+    //    onError: function(error) {
+    //        console.log("setDiscussionInviteStatus:errorcode:" + error);
+    //    }
+    //});
 }
 

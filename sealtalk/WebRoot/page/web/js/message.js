@@ -106,6 +106,7 @@ $(function(){
                         });
                         break;
                     }else{
+                        $('.orgNavClick').addClass('chatHide');
                         $('.groupMap').removeClass('chatHide');
                         if(targeType=='member'){
                             targeType = 'PRIVATE';
@@ -176,7 +177,7 @@ $(function(){
         {
             case 0:
                 //置顶会话
-                setConverToTop(targetType,targetID);
+                setConverToTop(targetType,targetID,$(this));
                 break;
             case 1:
                 //发送文件
@@ -331,15 +332,47 @@ $(function(){
         var targetID = $(this).attr('targetid');
         var targeType = $(this).attr('targettype');
         var groupName = $(this).find('.groupName').html();
+        var $topEle=$(this);
         if(e.buttons==2){
             var left = e.clientX;
             var top = e.clientY;
-            var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
-            var style = 'left:'+left+'px;top:'+top+'px';
-            var id = 'newsLeftClick';
-            var memberShip = $(this).attr('targetid')
-            //var memberShip =
-            fshowContexMenu(arr,style,id,memberShip,targeType);
+            var sData=window.localStorage.getItem("datas");
+            var oData= JSON.parse(sData);
+            var sId=oData.id;
+            sendAjax('fun!getMsgTop',{userid:sId},function(data){
+                var oData=JSON.parse(data);
+                var aText=oData.text;
+                if(oData.code==1){
+                    var bTopHas;
+                    var sTopChat='';
+                    for(var i=0;i<aText.length;i++){
+                        // var oTopText=aText[i].text;
+                        var sTopType=aText[i].type;
+                        var nTopId=aText[i].topId;
+                        if(nTopId==targetID){
+                            bTopHas=true;
+                        }
+                    }
+                    if(bTopHas){
+                        sTopChat='取消置顶';
+                    }else{
+                        sTopChat='置顶会话';
+                    }
+                    var arr = [{limit:'',value:sTopChat},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var style = 'left:'+left+'px;top:'+top+'px';
+                    var id = 'newsLeftClick';
+                    var memberShip = $topEle.attr('targetid');
+                    //var memberShip =
+                    fshowContexMenu(arr,style,id,memberShip,targeType,bTopHas);
+                }else{
+                    var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var style = 'left:'+left+'px;top:'+top+'px';
+                    var id = 'newsLeftClick';
+                    var memberShip = $topEle.attr('targetid');
+                    //var memberShip =
+                    fshowContexMenu(arr,style,id,memberShip,targeType,false);
+                }
+            });
         }else{//单击常用联系人
             $('.newsChatList').find('li').removeClass('active');
             $(this).addClass('active');

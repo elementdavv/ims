@@ -328,16 +328,30 @@
     width: 268px;
     padding: 8px;
 }
-.file_type1 img{
-    float: left;
-    width: 30px;
-    height: 30px;
+.downLoadFileInfo{
+    width:100%;
+    height:100%;
+    border: 1px solid #b9c1ca;
+    border-radius: 5px;
+    padding: 8px;
+    position: relative;
 }
-.file_content1{
+.file_typeHos img{
+    float: left;
+    width: 50px;
+    height: 50px;
+}
+.file_contentHos{
     float: left;
     margin-left: 20px;
 }
-
+.downLoadFileInfo .file_nameHos{
+    overflow: hidden;
+    /*line-height: 44px;*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 160px;
+}
 .mr-chatContentRFile img{
     float: left;
     width: 50px;
