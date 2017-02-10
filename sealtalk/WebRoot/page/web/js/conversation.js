@@ -1065,6 +1065,52 @@ function usualChatList(list){
     var oData= JSON.parse(sData);
     var sId=oData.id;
     var sHTML = '';
+    sendAjax('fun!getMsgTop',{userid:sId},function(data){
+        var oData=JSON.parse(data);
+        var aText=oData.text;
+        $('.usualChatListUl').empty();
+        if(oData.code==1){
+            var aTopList=[];
+            for(var i=0;i<aText.length;i++){
+                var sTopType=aText[i].type;
+                var nTopId=aText[i].topId;
+                for(var j=0;j<list.length;j++){
+                    if(nTopId==list[j].targetId){
+                        var sTopList=list[j];
+                        list.splice(j,1);
+                        j--;
+                        aTopList.unshift(sTopList);
+                    }
+                }
+            }
+            sHTML+=creatTopList(sHTML,aTopList,true);
+            sHTML=creatTopList(sHTML,list,false);
+            $('.usualChatListUl').html(sHTML);
+        }
+    });
+    //sendAjax('fun!getMsgTop',{userid:sId},function(data){
+    //    var oData=JSON.parse(data);
+    //    var aText=oData.text;
+    //    if(oData.code==1){
+    //        for(var i=0;i<aText.length;i++){
+    //           // var oTopText=aText[i].text;
+    //            var sTopType=aText[i].type;
+    //            var nTopId=aText[i].topId;
+    //            $('.usualChatListUl li').each(function(index){
+    //                var targetEle=$(this);
+    //                var sTopId=$(this).attr('targetid');
+    //                if(sTopId==nTopId){
+    //                    $('.usualChatListUl li').eq(index).remove();
+    //                    $('.usualChatListUl').prepend(targetEle);
+    //                    targetEle.addClass('top');
+    //                }
+    //            });
+    //        }
+    //}
+    //});
+    console.log('list',list);
+}
+function creatTopList(sHTML,list,bFlg){
     for(var i = 0;i<list.length;i++){
         var curList = list[i];
         var conversationType = curList.conversationType;
@@ -1090,7 +1136,6 @@ function usualChatList(list){
         }
         var unreadMessageCount = curList.unreadMessageCount;
         var sNum = unreadMessageCount==0?'':'<i class="notReadMsg">'+unreadMessageCount+'</i>'
-
         //changeTimeFormat(mSec,format)
         if(conversationType==1){ //个人聊天
             var member = findMemberInList(targetId);
@@ -1098,55 +1143,55 @@ function usualChatList(list){
                 //console.log('member',member);
                 var logo = member.logo?globalVar.imgSrc+member.logo:globalVar.defaultLogo;
                 var name = member.name || '';
-                sHTML += ' <li targetid="'+targetId+'" targetType="PRIVATE">'+
-                '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
-                sNum+
-                '<span class="groupName">'+name+'</span>'+
-                '<span class="usualLastMsg">'+content+'</span>'+
-                '<span class="lastTime">'+lastTime+'</span>'+
-                '</div>'+
-                '</li>'
+                if(bFlg){
+                    sHTML += ' <li targetid="'+targetId+'" targetType="PRIVATE" class="top">'+
+                    '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+                    sNum+
+                    '<span class="groupName">'+name+'</span>'+
+                    '<span class="usualLastMsg">'+content+'</span>'+
+                    '<span class="lastTime">'+lastTime+'</span>'+
+                    '</div>'+
+                    '</li>'
+                }else{
+                    sHTML += ' <li targetid="'+targetId+'" targetType="PRIVATE">'+
+                    '<div><img class="groupImg" src="'+logo+'" alt=""/>'+
+                    sNum+
+                    '<span class="groupName">'+name+'</span>'+
+                    '<span class="usualLastMsg">'+content+'</span>'+
+                    '<span class="lastTime">'+lastTime+'</span>'+
+                    '</div>'+
+                    '</li>'
+                }
             }else{
                 removeConvers('PRIVATE',targetId);
             }
         }else if(conversationType==3){
             var curGroup = groupInfo(targetId);
             //if(curGroup){
-            sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-            '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
-            sNum+
-            '<span class="groupName">'+curGroup.name+'</span>'+
-            '<span class="usualLastMsg">'+content+'</span>'+
-            '<span class="lastTime">'+lastTime+'</span>'+
-            '</div>'+
-            '</li>'
+            if(bFlg){
+                sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
+                '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
+                sNum+
+                '<span class="groupName">'+curGroup.name+'</span>'+
+                '<span class="usualLastMsg">'+content+'</span>'+
+                '<span class="lastTime">'+lastTime+'</span>'+
+                '</div>'+
+                '</li>'
+            }else{
+                sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
+                '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
+                sNum+
+                '<span class="groupName">'+curGroup.name+'</span>'+
+                '<span class="usualLastMsg">'+content+'</span>'+
+                '<span class="lastTime">'+lastTime+'</span>'+
+                '</div>'+
+                '</li>'
+            }
             //}
         }
     }
-    $('.usualChatListUl').html(sHTML);
-    sendAjax('fun!getMsgTop',{userid:sId},function(data){
-        var oData=JSON.parse(data);
-        var aText=oData.text;
-        if(oData.code==1){
-            for(var i=0;i<aText.length;i++){
-               // var oTopText=aText[i].text;
-                var sTopType=aText[i].type;
-                var nTopId=aText[i].topId;
-                $('.usualChatListUl li').each(function(index){
-                    var targetEle=$(this);
-                    var sTopId=$(this).attr('targetid');
-                    if(sTopId==nTopId){
-                        $('.usualChatListUl li').eq(index).remove();
-                        $('.usualChatListUl').prepend(targetEle);
-                        targetEle.addClass('top');
-                    }
-                });
-            }
-    }
-    });
-    console.log('list',list);
+    return sHTML;
 }
-
 //查询单个群信息
 function groupInfo(id){
     var groupInfo = localStorage.getItem('groupInfo');
@@ -1155,7 +1200,7 @@ function groupInfo(id){
     }
     var curInfo = '';
     for(var i = 0;i<groupInfo.text.length;i++){
-        if(groupInfo.text[i].id==id){
+        if(groupInfo.text[i].GID==id){
             curInfo = groupInfo.text[i]
         }
     }
@@ -1191,9 +1236,11 @@ function reciveInBox(msg){
         var eDom = document.querySelector('#groupContainer .mr-chatview');
     }else if(targetType==1){//个人聊天
         var oData=findMemberInList(targetID);
-        var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
-        var $MesContainer = $('.mesContainerSelf')
-        var eDom = document.querySelector('#perContainer .mr-chatview');
+        if(oData){
+            var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
+            var $MesContainer = $('.mesContainerSelf')
+            var eDom = document.querySelector('#perContainer .mr-chatview');
+        }
     }
     if(extra=='uploadFile'){
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {

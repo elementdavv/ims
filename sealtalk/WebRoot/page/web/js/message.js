@@ -3,15 +3,12 @@
  */
 $(function(){
 
-
-
     //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
-    var account = JSON.parse(sdata).account;
-    var accountID = JSON.parse(sdata).id;
-    //setTray (unreadCount);
-
+    var oData=JSON.parse(sdata);
+    var account = oData?oData.account : '';
+    var accountID = oData?oData.id :'';
     var timer=null,timer1 = null;
     function showPersonDetailDia(e,CurList){
         var pos = {};
@@ -182,7 +179,11 @@ $(function(){
             case 1:
                 //发送文件
                 var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
-                eDom.click();
+                //eDom.click();
+                eDom.mousedown();
+                setTimeout(function(){
+                    $('#upload_file').click();
+                },300);
                 break;
             case 2:
                 //查看资料
@@ -215,7 +216,7 @@ $(function(){
                     var data = JSON.parse(datas);
                     var aText=data.text;
                     for(var i = 0;i<aText.length;i++){
-                        if(aText[i].id==memberid){
+                        if(aText[i].GID==memberid){
                             showGroupMemberInfo(aText[i],pos);
                         }
                     }

@@ -282,7 +282,11 @@ function setConverToTop(Type,targetId,$topEle) {
                     var sTopId=$(this).attr('targetid');
                     if(sTopId==targetId){
                         $('.usualChatListUl li').eq(index).remove();
-                        aNoTop[0].before(targetEle);
+                        if(aNoTop.length>0){
+                            aNoTop[0].before(targetEle);
+                        }else{
+                            $('.usualChatListUl').append(targetEle);
+                        }
                         targetEle.removeClass('top');
                         targetEle.removeClass('active');
                     }

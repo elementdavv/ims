@@ -1,8 +1,8 @@
 var sealtalk_config = {
   //http://electron.atom.io/docs/api/crash-reporter/
-  REPORT_URL: 'http://35.164.107.27:8080/im/',
+  REPORT_URL: 'http://electron.atom.io/docs/api/crash-reporter/',
   //http://electron.atom.io/docs/api/browser-window/  win.loadURL(APP_ONLINE)
-  APP_ONLINE: 'http://35.164.107.27:8080/im/',//'http://web.sealtalk.im/',
+  APP_ONLINE: 'http://localhost:8080/sealtalk/system!login',
   //your homepage for menu link
   HOME: 'http;//www.rongcloud.cn',
   //这个参数的理解可以参考  http://electron.atom.io/docs/api/app/  setAsDefaultProtocolClient
@@ -12,8 +12,8 @@ var sealtalk_config = {
   WINICON: 'app.ico', 
   //以下参数设置需对照 配置说明 中 e 项列出的工具参数理解
   PRODUCTNAME: "SealTalk_Ent_Test",
-  APPNAME: "天坊平台",
-  VERSION: "1.0.0",
+  APPNAME: "SealTalk_Ent_Test",
+  VERSION: "1.0.2",
   DESCRIPTION: "SealTalk Desktop application.",
   AUTHOR: "RongCloud",
   LICENSE: "MIT",
@@ -25,7 +25,7 @@ var sealtalk_config = {
     APPICON: 'app.ico',
     //app.setAppUserModelId
     //参照 https://msdn.microsoft.com/en-us/library/windows/desktop/dd378459(v=vs.85).aspx
-    APP_USER_MODEL_ID: 'tf.sealtalk.SealTalk.SealTalkEntTest',  
+    APP_USER_MODEL_ID: 'im.sealtalk.SealTalk.SealTalkEntTest',  
     //  WINDOWS ONLY,TRAY BLINK ON
     //  new Tray,tray.setImage    
     TRAY: 'Windows_icon.png',  
