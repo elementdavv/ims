@@ -329,16 +329,30 @@
     width: 268px;
     padding: 8px;
 }
-.file_type1 img{
-    float: left;
-    width: 30px;
-    height: 30px;
+.downLoadFileInfo{
+    width:100%;
+    height:100%;
+    border: 1px solid #b9c1ca;
+    border-radius: 5px;
+    padding: 8px;
+    position: relative;
 }
-.file_content1{
+.file_typeHos img{
+    float: left;
+    width: 50px;
+    height: 50px;
+}
+.file_contentHos{
     float: left;
     margin-left: 20px;
 }
-
+.downLoadFileInfo .file_nameHos{
+    overflow: hidden;
+    /*line-height: 44px;*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 160px;
+}
 .mr-chatContentRFile img{
     float: left;
     width: 50px;
@@ -470,11 +484,16 @@ p.converLimit {
 .mr-chatContentLFile .file_size{
 
 }
-.mr-chatContentLFile #up_process{
-
+.mr-chatContentLFile #down_process{
+    background: red;
+    height: 2px;
+    margin-top: 47px;
+    width: 150px;
+    margin-left: 70px;
 }
-.mr-chatContentLFile #up_precent{
-
+.mr-chatContentLFile #down_precent{
+    height: 2px;
+    background: palegreen;
 }
 
 .mr-ownChat{
@@ -905,15 +924,31 @@ p.converLimit {
 .groupInfo .groupInfo-disturb span{
     line-height:24px;
 }
-.groupInfo .groupInfo-disturb p{
+.groupInfo .groupInfo-disturb .voiceSet{
     float:left;
-    background: url('img/backstage.png') no-repeat;
-    background-position: -75px -413px;
-    width:48px;
-    height:24px;
+    background: url('img/voiceOpen.png') no-repeat;
+    /*background-position: -75px -413px;*/
+    width:67px;
+    height:38px;
 }
-.groupInfo .groupInfo-disturb p.active{
-    background-position: 0 -413px;
+
+div#fileOperate {
+    /* height: 20px; */
+    width: 100%;
+    /* background: palegreen; */
+    margin-top: -10px;
+    margin-left: 70px;
+    display: inline-block;
+}
+
+#fileOperate span {
+    margin-right: 20px;
+    color: #30c0da;
+}
+
+.groupInfo .groupInfo-disturb p.active.active{
+    background: url('img/voiceClose.png') no-repeat;
+
 }
 .groupInfo .groupInfo-disturb p i{
     float:left;

@@ -53,6 +53,7 @@ local.properties
 
 .classpath
 .project
+.bin
 
 .metadata/
 

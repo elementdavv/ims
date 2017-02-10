@@ -17,7 +17,7 @@ const path = require('path')
 const fs = require('fs')
 const jsonfile = require('jsonfile')
 const i18n = require("i18n")
-const initSize = {width: 1000, height:640}
+const initSize = {width: 1400, height:900}
 const json = require('./package.json')
 const Config = require('./config.js')
 
@@ -123,6 +123,8 @@ app.on('ready', () => {
   let workAreaSize = screen.getPrimaryDisplay().workAreaSize
   let savedBounds = loadWindowBounds()
   let downloadSavePath = app.getPath('downloads') + '/' + Config.AUTHOR;
+  console.log('+++++++++++++++++');
+  console.log(downloadSavePath);
 
   // Create the browser window.
   mainWindow = new BrowserWindow(
@@ -131,8 +133,9 @@ app.on('ready', () => {
       y: savedBounds.y || (workAreaSize.height - initSize.height),
       width: savedBounds.width || initSize.width,
       height: savedBounds.height || initSize.height,
-      minWidth: 320,
-      minHeight: 640,
+      minWidth: 1400,
+      minHeight: 900,
+	  width:1400,height:900,
       titleBarStyle: 'hidden',
       icon: path.join(__dirname, 'res', Config.WINICON),
       title: app.getName(),
@@ -141,7 +144,7 @@ app.on('ready', () => {
         preload: path.join(__dirname, 'js', 'preload.js'),
         nodeIntegration: false,
         allowDisplayingInsecureContent: true,
-        webSecurity: false,
+        // webSecurity: false,
         plugins: true
       }
     })
@@ -152,6 +155,7 @@ app.on('ready', () => {
     // })
 
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
+    //console.log(999999);
     let _url = item.getURL();
     let savePath = path.join(downloadSavePath, Utils.getSavePath(_url));
 
@@ -180,11 +184,11 @@ app.on('ready', () => {
            mainWindow.setProgressBar(-1);        
            mainWindow.webContents.send('chDownloadState', _url, state)
       }
-
+    //console.log('2222222222222');
       if (state === 'completed') {
         // console.log('Download successfully')
         // console.log(`getSavePaths: ${item.getSavePath()}`);  //这里可以得到另存为的路径
-        shell.openItem(savePath);
+        //shell.openItem(savePath);
       } else {
         console.log(`Download failed: ${state}`)
       }
@@ -257,6 +261,7 @@ app.on('ready', () => {
 
   ipcMain.on('notification-click', () => {
     if (mainWindow) {
+  console.log(222);
        mainWindow.show()
     }
   })
@@ -288,7 +293,7 @@ app.on('ready', () => {
   })
 
   ipcMain.on('screenShot', () => {
-      takeScreenshot()
+      takeScreenshot();
   })
 
   ipcMain.on('displayBalloon', (event, title, opt) => {
@@ -325,13 +330,11 @@ app.on('ready', () => {
     shell.openExternal(url)
   })
 
-  /* 开启后，将进行页面无法跳转
   // Prevent load a new page when accident.
   webContents.on('will-navigate', (event, url) => {
     event.preventDefault()
   })
-   */
-   
+
   // Injects CSS into the current web page.
   webContents.on('dom-ready', () => {
     webContents.insertCSS(fs.readFileSync(path.join(__dirname, 'res', 'browser.css'), 'utf8'))
@@ -428,7 +431,13 @@ app.on('browser-window-blur', () => {
 })
 
 app.on('browser-window-focus', () => {
-  bindGlobalShortcuts()
+  if (platform.OSX) {
+    setBadge(0)
+  }
+  else if (platform.Windows){
+    setTray(0)
+  }
+  bindGlobalShortcuts();
 })
 
 let shouldQuit = app.makeSingleInstance((argv, workingDirectory) => {
@@ -465,7 +474,8 @@ function setTray (unreadCount) {
 
   if(unreadCount > 0){
     if(!blink){
-      blink = setInterval(function(){
+      blink = setInterval(function
+          (){
         flag = !flag
         tray.setImage(path.join(__dirname, 'res', iconFile[flag ? 1 : 0]))
       },500)

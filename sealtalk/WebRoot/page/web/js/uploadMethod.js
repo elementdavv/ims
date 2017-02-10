@@ -99,5 +99,10 @@ function sendFile(_file,_this,callback){
 }
 
 function returnDLLink(filename){
-    globalVar.qiniuDOWNLOAD+'?attname='+filename;
+    //debugger;
+    return globalVar.qiniuDOWNLOAD+filename+'?attname='+filename;
 }
+//function returnOPLink(filename){
+//    //debugger;
+//    return globalVar.qiniuDOWNLOAD+filename;
+//}

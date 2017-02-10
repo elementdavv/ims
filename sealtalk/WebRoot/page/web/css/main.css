@@ -330,6 +330,9 @@ input::-ms-clear{display:none;}
 .groupChatListUl li.active{
     background: #f0fdff;
 }
+.groupChatListUl li.top{
+    background: #ebf0f5;
+}
 .groupChatListUl li div{
     position: relative;
     top: 10px;
@@ -602,6 +605,7 @@ span.defaultText{
     outline: none;
     border: none;
     padding: 10px;
+    color: #000000;
 }
 
 .organizationList{
@@ -800,7 +804,7 @@ span.defaultText{
     top: 18px;
     padding-left: 18px;
 }
-.personalOperaIcon li,.selfImgOpera li,.showPersonalInfo1 li{
+.personalOperaIcon li,.selfImgOpera li,.showPerCainter li{
     float: left;
     width: 34px;
     background-image: url("img/chatLeftIcon.png");

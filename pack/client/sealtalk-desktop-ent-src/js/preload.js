@@ -46,19 +46,22 @@ window.Electron = {
     // console.log('updateBadgeNumber')
     this.ipcRenderer.send('unread-message-count-changed', number)
   },
+  sendToDownLoad:function(URL){
+    this.ipcRenderer.send('will-download', URL)
+  },
   kickedOff: function () {
     // Notification里处理win7的提示
-    // this.ipcRenderer.send('kicked-off')
-    // var options = {
-    //     title: "Basic Notification",
-    //     body: "测试lalwindows baloon"
-    //
-    // }
-    // new Notification(options.title, options)
+    this.ipcRenderer.send('kicked-off')
+    var options = {
+         title: "Basic Notification",
+         body: "测试lalwindows baloon"
+
+    }
+    new Notification(options.title, options)
   },
   webQuit: function () {
     //修改图标
-    // console.log('webQuit')
+    console.log('webQuit')
     this.ipcRenderer.send('webQuit')
   },
   screenShot: function () {
@@ -155,6 +158,7 @@ window.Electron.ipcRenderer.on('balloon-click', (event, opt) => {
 })
 
 window.Electron.ipcRenderer.on('logout', () => {
+
   if(typeof(logout) == "undefined"){
     console.log('logout do not exist');
     return
@@ -170,6 +174,7 @@ window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progres
     return
   }
   if (chDownloadProgress && typeof(eval(chDownloadProgress)) == "function") {
+    console.log('PPPPPPPPPPPPP');
     chDownloadProgress(url, state, progress)
   }
 })
@@ -180,6 +185,7 @@ window.Electron.ipcRenderer.on('chDownloadState', (event, url, state) => {
     return
   }
   if (chDownloadState && typeof(eval(chDownloadState)) == "function") {
+    //console.log()
     chDownloadState(url, state)
   }
 })
@@ -203,7 +209,7 @@ Notification = function (title, options) {
   const notification = new NativeNotification(title, options)
   // 消息提示均由app端调用Notification做,这里只处理win7情况(win7不支持Notification)
   notification.addEventListener('click', () => {
-    // console.log('click')
+    console.log('click')
     window.Electron.ipcRenderer.send('notification-click')
   })
   if (platform.Windows){
@@ -219,3 +225,41 @@ Notification.prototype = NativeNotification.prototype
 Notification.permission = NativeNotification.permission
 Notification.requestPermission = NativeNotification.requestPermission.bind(Notification)
 /* eslint-enable no-native-reassign, no-undef */
+
+
+function chDownloadProgress(url, state, progress){
+  if (state == 'progressing') {
+    console.log(url, state, progress);
+    var fileName = url.split('attname=')[1];
+    var file = fileName.split('.')[0];
+    var targetA = $("a[fileName=" + file + "]");
+    var targetParent = targetA.parents('.mr-ownChat');
+    if ($('#down_process[uniquetime=' + file + ']').length == 0) {
+      $('#down_process[uniquetime=' + file + ']').remove();
+      var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
+          '<div id="down_precent" uniquetime="' + file + '" style="width: 0%;">' +
+          '</div>' +
+          '</div>'
+      targetParent.append(sHTML);
+    } else {
+      $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
+    }
+  }
+  console.log(targetA);
+}
+
+
+function chDownloadState(url, state){
+  console.log(state);
+  if (state == 'completed') {
+    var fileName = url.split('attname=')[1];
+    var file = fileName.split('.')[0];
+    var targetA = $("a[fileName=" + file + "]");
+    var targetParent = targetA.parents('.mr-ownChat');
+    $('#down_process[uniquetime=' + file + ']').remove();
+    var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+        '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
+        '</div>';
+    targetParent.append(sHTML);
+  }
+}

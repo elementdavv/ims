@@ -9,6 +9,7 @@ $(document).ready(function(){
        $(this).addClass('active');
        $('#infoDetailsBox>div').addClass('chatHide');
        var sType=$(this).attr('data-type');
+       $('#infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
        switch(sType){
            case 'd':
                //$('.infoDetailsBox').find('.infoDetails-data').removeClass('chatHide');
@@ -16,15 +17,15 @@ $(document).ready(function(){
            case 'r':
                var sTargettype=$('#perContainer').attr('targettype');
                var sTargetid=$('#perContainer').attr('targetid');
-               historyMsg(sTargettype,sTargetid,0,20);
-               //new PageObj($('.infoDet-pageQuery'),20,function(){
-               //
-               //});
+               var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+               var oPagetest = new PageObj({divObj:$perEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+               {
+                   getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
+               });
                break;
            case 'f':
                break;
        }
-       $('#infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
    });
     //搜索常用人历史记录
     $('#personalData').on('click','.searchHostoryInfo',function(){
@@ -46,8 +47,37 @@ $(document).ready(function(){
         //    }
         //});
     });
+    //群组消息面打扰
+    $('#groupData').delegate('.voiceSet','click',function(){
+        var _this = $(this);
+        var flag = _this.hasClass('active');
+        var states = flag?0:1;
+        //设置消息免打扰的接口
+        var groupid = $('#groupContainer').attr('targetid');
+        var sdata = localStorage.getItem('datas');
+        var userid = JSON.parse(sdata).id;
+        sendAjax('fun!setNotRecieveMsg',{status:states,groupid:groupid,userid:userid},function(data){
+            if(data){
+                var datas = JSON.parse(data);
+                if(datas&&datas.code==1){
+                    flag?_this.removeClass('active'):_this.addClass('active');
+                }
+            }
+        });
+    })
+
+
+    //群禁言设置
     $('#groupData').on('click','.groupInfo-noChat',function(){
+
         var groupid=$(this).attr('data-groupid');
+        var sdata = localStorage.getItem('datas');
+        var accountID = JSON.parse(sdata).id;
+        var groupInfo = groupInfoFromList(groupid);
+        //console.log(groupInfo);
+        if(accountID!=groupInfo.mid){//任何人都可以禁言？？
+            //return false;
+        }
         var sChat=$(this).attr('data-chat');
         if(sChat==1){
             new Window().alert({
@@ -69,6 +99,9 @@ $(document).ready(function(){
                             var oData=JSON.parse(data);
                             if(oData.code==1){
                                 $('#groupData .groupInfo-noChat').attr('data-chat',0);
+                                $('#groupContainer #message-content').html('');
+                                $('#groupContainer #message-content').attr('contenteditable','true');
+                                $('#groupContainer #message-content').attr('placeholder','请输入文字...');
                             }
                         }
                     },function(){
@@ -93,8 +126,10 @@ $(document).ready(function(){
                     sendAjax('group!shutUpGroup',{groupid:groupid},function(data){
                         if(data){
                             var oData=JSON.parse(data);
-                            if(oData.code==1){
+                            if(oData.code==1&&accountID!=groupInfo.mid){
                                 $('#groupData .groupInfo-noChat').attr('data-chat',1);
+                                $('#groupContainer #message-content').attr('contenteditable','false');
+                                $('#groupContainer #message-content').html('群主已开启禁言!');
                             }
                         }
                     },function(){
@@ -189,19 +224,27 @@ $(document).ready(function(){
         $(this).addClass('active');
         $('#groupData .infoDetailsBox>div').addClass('chatHide');
         var sType=$(this).attr('data-type');
+        $('#groupData .infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
         switch(sType){
             case 'd':
                 //$('.infoDetailsBox').find('.infoDetails-data').removeClass('chatHide');
                 break;
             case 'r':
-                //var sTargettype=$('#perContainer').attr('targettype');
-                //var sTargetid=$('#perContainer').attr('targetid');
+                var sTargettype=$('#groupContainer').attr('targettype');
+                var sTargetid=$('#groupContainer').attr('targetid');
+                var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+                console.log($groupEle);
+                var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+                {
+                    getChatRecord(list,'#groupDetailsBox .infoDet-chatRecord .chatRecordSel');
+                    //showHistoryMessages(list);
+
+                });
                 //historyMsg(sTargettype,sTargetid,0,20);
                 break;
             case 'f':
                 break;
         }
-        $('#groupData .infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
     });
     $('#chatBox').on('keyup change','#cp-newPasswordId',function(){
         checklevel(this.value)
@@ -409,30 +452,48 @@ $(document).ready(function(){
     //getGroupMembersList(1);
 });
 
+//查询单个群信息
+function groupInfoFromList(id){
+    var groupInfo = localStorage.getItem('groupInfo');
+    if(groupInfo){
+        groupInfo = JSON.parse(groupInfo);
+    }
+    var curInfo = '';
+    for(var i = 0;i<groupInfo.text.length;i++){
+        if(groupInfo.text[i].GID==id){
+            curInfo = groupInfo.text[i]
+        }
+    }
+    return curInfo;
+    //sendAjax(url,data,callback)
+}
+
+
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sName=oData.name || '';//姓名
-    var sAccountNum=oData.account || '';//成员账号
-    var sSex=oData.sex;//性别
-    switch(sSex){
-        case '男':
-            sSex= '男';
-            break;
-        case '女':
-            sSex= '女';
-            break;
-        default :
-            sSex= '女';
-            break;
-    }
-    var sPosition=oData.positionname || '';//职位
-    var sBranch=oData.branchname || '';//部门
-    var sEmail=oData.email || '';//邮箱
-    var sTelephone=oData.telephone || '';//电话
-    var sSign=oData.organname || '';//工作签名
-    var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
-    var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
+    if(oData){
+        var sName=oData?oData.name|| '' : '';//姓名
+        var sAccountNum=oData?oData.account|| '' : '';//成员账号
+        var sSex=oData.sex;//性别
+        switch(sSex){
+            case '男':
+                sSex= '男';
+                break;
+            case '女':
+                sSex= '女';
+                break;
+            default :
+                sSex= '女';
+                break;
+        }
+        var sPosition=oData.positionname || '';//职位
+        var sBranch=oData.branchname || '';//部门
+        var sEmail=oData.email || '';//邮箱
+        var sTelephone=oData.telephone || '';//电话
+        var sSign=oData.organname || '';//工作签名
+        var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
+        var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
     <ul class="perSetBox-contDetails">\
@@ -487,9 +548,10 @@ function fPersonalSet(){
     <p class="perSetBox-modifyHead" id="changeHeadImgId">修改头像</p>\
     </div>\
     </div>';
-    $('#chatBox #personSettingId').empty();
-    $('#chatBox #personSettingId').append(sHtml);
-    $('.perSetBox-selSex').val(sSex);
+        $('#chatBox #personSettingId').empty();
+        $('#chatBox #personSettingId').append(sHtml);
+        $('.perSetBox-selSex').val(sSex);
+    }
 }
 function showGroupMemberInfo(oGroupInfo,pos){
     var sName=oGroupInfo.name || '';//群名称

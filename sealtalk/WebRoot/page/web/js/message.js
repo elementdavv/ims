@@ -3,15 +3,12 @@
  */
 $(function(){
 
-
-
     //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
-    var account = JSON.parse(sdata).account;
-    var accountID = JSON.parse(sdata).id;
-    //setTray (unreadCount);
-
+    var oData=JSON.parse(sdata);
+    var account = oData?oData.account : '';
+    var accountID = oData?oData.id :'';
     var timer=null,timer1 = null;
     function showPersonDetailDia(e,CurList){
         var pos = {};
@@ -106,6 +103,7 @@ $(function(){
                         });
                         break;
                     }else{
+                        $('.orgNavClick').addClass('chatHide');
                         $('.groupMap').removeClass('chatHide');
                         if(targeType=='member'){
                             targeType = 'PRIVATE';
@@ -176,12 +174,16 @@ $(function(){
         {
             case 0:
                 //置顶会话
-                setConverToTop(targetType,targetID);
+                setConverToTop(targetType,targetID,$(this));
                 break;
             case 1:
                 //发送文件
                 var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
-                eDom.click();
+                //eDom.click();
+                eDom.mousedown();
+                setTimeout(function(){
+                    $('#upload_file').click();
+                },300);
                 break;
             case 2:
                 //查看资料
@@ -214,7 +216,7 @@ $(function(){
                     var data = JSON.parse(datas);
                     var aText=data.text;
                     for(var i = 0;i<aText.length;i++){
-                        if(aText[i].id==memberid){
+                        if(aText[i].GID==memberid){
                             showGroupMemberInfo(aText[i],pos);
                         }
                     }
@@ -331,15 +333,47 @@ $(function(){
         var targetID = $(this).attr('targetid');
         var targeType = $(this).attr('targettype');
         var groupName = $(this).find('.groupName').html();
+        var $topEle=$(this);
         if(e.buttons==2){
             var left = e.clientX;
             var top = e.clientY;
-            var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
-            var style = 'left:'+left+'px;top:'+top+'px';
-            var id = 'newsLeftClick';
-            var memberShip = $(this).attr('targetid')
-            //var memberShip =
-            fshowContexMenu(arr,style,id,memberShip,targeType);
+            var sData=window.localStorage.getItem("datas");
+            var oData= JSON.parse(sData);
+            var sId=oData.id;
+            sendAjax('fun!getMsgTop',{userid:sId},function(data){
+                var oData=JSON.parse(data);
+                var aText=oData.text;
+                if(oData.code==1){
+                    var bTopHas;
+                    var sTopChat='';
+                    for(var i=0;i<aText.length;i++){
+                        // var oTopText=aText[i].text;
+                        var sTopType=aText[i].type;
+                        var nTopId=aText[i].topId;
+                        if(nTopId==targetID){
+                            bTopHas=true;
+                        }
+                    }
+                    if(bTopHas){
+                        sTopChat='取消置顶';
+                    }else{
+                        sTopChat='置顶会话';
+                    }
+                    var arr = [{limit:'',value:sTopChat},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var style = 'left:'+left+'px;top:'+top+'px';
+                    var id = 'newsLeftClick';
+                    var memberShip = $topEle.attr('targetid');
+                    //var memberShip =
+                    fshowContexMenu(arr,style,id,memberShip,targeType,bTopHas);
+                }else{
+                    var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var style = 'left:'+left+'px;top:'+top+'px';
+                    var id = 'newsLeftClick';
+                    var memberShip = $topEle.attr('targetid');
+                    //var memberShip =
+                    fshowContexMenu(arr,style,id,memberShip,targeType,false);
+                }
+            });
         }else{//单击常用联系人
             $('.newsChatList').find('li').removeClass('active');
             $(this).addClass('active');
@@ -664,11 +698,10 @@ $(function(){
                             //转让群
                             if(_this.attr('displaylimit')=='false'){
                                 return false;
-
                             }else{
-                                sendAjax('group!listGroupMemebers',{groupid:groupid},function(data){
+                                sendAjax('group!listGroupMemebersData',{groupid:groupid},function(data){
                                     var datas = JSON.parse(data).text;
-                                    transferGroup(datas,function(){
+                                    transferGroup(datas,groupid,function(){
                                         var transferTarget = $('.transferGroupTo.active');
                                         if(transferTarget){
                                             var target = transferTarget.closest('tr');
@@ -676,7 +709,7 @@ $(function(){
                                             var targetLimit = target.attr('transferlimit');
                                             if(tatgetID&&targetLimit=='true'){//有转让权限
                                                 sendAjax('group!transferGroup',{userid:tatgetID, groupid:groupid},function(data){
-                                                    console.log('11111',data);
+                                                    //console.log('11111',data);
                                                     if(data){
                                                         var datas = JSON.parse(data);
                                                         if(datas&&datas.code==1){
@@ -1312,10 +1345,10 @@ function DialogTreeLoop(data,sHTML,level,userID){
 
 
 
-function transferGroup(data,callback){
+function transferGroup(data,groupid,callback){
     $('.WindowMask2').show();
-    var adata = unique3(data)
-    var sHTML = createTransforContent(adata);
+    //var adata = unique3(data)
+    var sHTML = createTransforContent(data,groupid);
     var dom = $('.transferInfoBox tbody');
     dom.html(sHTML);
     $('.manageSure').unbind('click');
@@ -1325,19 +1358,22 @@ function transferGroup(data,callback){
 }
 
 
-function createTransforContent(data){
-    console.log('......+++++++.......'.data);
+function createTransforContent(data,groupid){
     var sHTML = '';
 
     for(var i = 0;i<data.length;i++){
-        var curList = searchFromList(1,data[i]);
-        var limit = 'true';
+        var curList = data[i];
+        var curGroup = searchFromList('1',curList.id);
+
+        var limit = curList.qzqx==true?'true':'false';
+        var limitText = curList.qzqx==true?'是':'否';
+        var transferText = curList.qzqx==true?'<span class="transferGroupTo">转让群</span>':''
         var img = curList.logo?globalVar.imgSrc+curList.logo:globalVar.defaultLogo;
         sHTML+='<tr targetid="'+curList.id+'" transferlimit="'+limit+'">'+
-                    '<td><img class="transferImg" src="'+img+'" alt="">'+curList.name+'</td>'+
-                    '<td>'+curList.postitionname+'</td>'+
-                    '<td>'+'data[i].是否有权限'+'</td>'+
-                    '<td class="operate"><span class="transferGroupTo">转让群</span></td>'+
+                    '<td><img class="transferImg" src="'+img+'" alt="">'+curList.fullname+'</td>'+
+                    '<td>'+curGroup.postitionname+'</td>'+
+                    '<td>'+limitText+'</td>'+
+                    '<td class="operate">'+transferText+'</td>'+
                 '</tr>'
     }
     return sHTML;

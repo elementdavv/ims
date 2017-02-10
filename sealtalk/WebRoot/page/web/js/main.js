@@ -105,7 +105,7 @@ function initEmoji(){
 
 
 //memShip表示与此操作相关的人员account
-function fshowContexMenu(arr,style,id,memShip,targettype){
+function fshowContexMenu(arr,style,id,memShip,targettype,bTopHas){
 
     var listHTML = '';
     for(var i = 0;i<arr.length;i++){
@@ -113,7 +113,16 @@ function fshowContexMenu(arr,style,id,memShip,targettype){
         if(arr[i].limit!=''&&limit.indexOf(arr[i].limit)==-1){
             listHTML+='<li displaylimit="false">'+arr[i].value+'</li>'
         }else{
-            listHTML+='<li>'+arr[i].value+'</li>'
+            if(i==0){
+                if(bTopHas){
+                    listHTML+='<li data-top="1">'+arr[i].value+'</li>'
+                }else{
+                    listHTML+='<li data-top="0">'+arr[i].value+'</li>'
+                }
+            }else{
+                listHTML+='<li>'+arr[i].value+'</li>'
+            }
+
         }
     }
     var targetType = '';
