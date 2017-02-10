@@ -199,7 +199,7 @@ public class Example {
 		System.out.println("join:  " + groupJoinResult.toString());
 		
 		// 查询群成员方法 
-		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("53");
+		GroupUserQueryReslut groupQueryUserResult = rongCloud.group.queryUser("48");
 		System.out.println("queryUser:  " + groupQueryUserResult.toString());
 		
 		// 退出群组方法（将用户从群中移除，不再接收该群组的消息.） 
@@ -212,7 +212,7 @@ public class Example {
 		System.out.println("addGagUser:  " + groupAddGagUserResult.toString());
 		
 		// 查询被禁言群成员方法 
-		ListGagGroupUserReslut groupLisGagUserResult = rongCloud.group.lisGagUser("groupId1");
+		ListGagGroupUserReslut groupLisGagUserResult = rongCloud.group.lisGagUser("48");
 		System.out.println("lisGagUser:  " + groupLisGagUserResult.toString());
 		
 		// 移除禁言群成员方法 

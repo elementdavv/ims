@@ -67,7 +67,7 @@ PageObj.prototype.createHtml=function (){
     //</div>';
     this._m_sPageHtml='<section>\
     <div class="example">\
-    <input type="text" id="calendar">\
+    <input type="text" class="calendar">\
     </div>\
     </section>\
     <div class="infoDet-pageQuery">\
@@ -75,7 +75,7 @@ PageObj.prototype.createHtml=function (){
     <i class="infoDet-nextPage" id="spanPre"></i>\
     </div>';
     this._DestObj.append(this._m_sPageHtml);
-    $("#calendar").asDatepicker({
+    this._DestObj.find('.calendar').asDatepicker({
         namespace: 'calendar',
         lang: 'zh',
         position:'top'
@@ -83,8 +83,8 @@ PageObj.prototype.createHtml=function (){
 };
 PageObj.prototype.datechange=function(){
     var _self=this;
-    this._DestObj.find('#calendar').blur(function(){
-        var aDateTime=$('#calendar').asDatepicker('getDate', 'yyyy/mm/dd');
+    this._DestObj.find('.calendar').blur(function(){
+        var aDateTime=$('.calendar').asDatepicker('getDate', 'yyyy/mm/dd');
         var sYear=aDateTime[0]+"  23:59:59";
         var date = new Date(sYear);
         var nSelTime = date.getTime();

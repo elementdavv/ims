@@ -16,7 +16,7 @@ $(function(){
             //data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(changeFormatData);
 
-           // RongIMClient.init(globalVar.rongKey);
+            // RongIMClient.init(globalVar.rongKey);
             if(RongIMLib.VCDataProvider&&window.Electron){
                 RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
@@ -28,19 +28,19 @@ $(function(){
             //if(sAccount){
             //    var oAccount = JSON.parse(sAccount);
             //    var token = datas.token;
-                var account = datas.account;
-                var accountID = datas.id;
-                //获取常用联系人
-                getMemberFriends(account);
-                //获取左侧组织树状图
-                getBranchTreeAndMember();
-                //获取会话列表(只能在与服务器连接成功之后调用)
-                //getConverList();
-                //获取群组列表
-                getGroupList(accountID);
-                //获取系统提示音
-                getSysTipVoice(accountID);
-                //鼠标在联系人上悬停
+            var account = datas.account;
+            var accountID = datas.id;
+            //获取常用联系人
+            getMemberFriends(account);
+            //获取左侧组织树状图
+            getBranchTreeAndMember();
+            //获取会话列表(只能在与服务器连接成功之后调用)
+            //getConverList();
+            //获取群组列表
+            getGroupList(accountID);
+            //获取系统提示音
+            getSysTipVoice(accountID);
+            //鼠标在联系人上悬停
 
                 // 设置连接监听状态 （ status 标识当前连接状态）
                 // 连接状态监听器
@@ -107,14 +107,32 @@ $(function(){
 
                 // 消息监听器
                 RongIMClient.setOnReceiveMessageListener({
-                    // 接收到的消息
-                    onReceived: function (message) {
-                        // 判断消息类型
-                        switch(message.messageType){
-                            case RongIMClient.MessageType.TextMessage:
-                                //1.获取系统提示音接口
-                                //2.获取单独的群消息设置
-                                if(globalVar.SYSTEMSOUND){
+            // 消息监听器
+            RongIMClient.setOnReceiveMessageListener({
+                // 接收到的消息
+                onReceived: function (message) {
+                    // 判断消息类型
+                    switch(message.messageType){
+                        case RongIMClient.MessageType.TextMessage:
+                            //1.获取系统提示音接口
+                            //2.获取单独的群消息设置
+                            if(globalVar.SYSTEMSOUND){
+                                if(message.conversationType==3){
+                                    var targetId = message.targetId;
+                                    sendAjax('fun!getNotRecieveMsg',{groupid:targetId,userid:userid},function(data){
+                                        if(data){
+                                            var datas = JSON.parse(data);
+                                            if(datas&&datas.code==1&&datas.text==true){
+                                                console.log(4444);
+                                            }else{
+                                                voicePlay();
+                                            }
+                                        }
+                                    })
+                                }else{
+                                    voicePlay();
+                                }
+                                //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
                                     if(message.conversationType==3){
                                         var targetId = message.targetId;
                                         sendAjax('fun!getNotRecieveMsg',{groupid:targetId,userid:userid},function(data){
@@ -177,63 +195,98 @@ $(function(){
                             // 自定义消息
                             // do something...
                         }
+                            break;
+                        case RongIMClient.MessageType.DiscussionNotificationMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.LocationMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.RichContentMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.DiscussionNotificationMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.InformationNotificationMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.ContactNotificationMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.ProfileNotificationMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.CommandNotificationMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.CommandMessage:
+                            // do something...
+                            break;
+                        case RongIMClient.MessageType.UnknownMessage:
+                            // do something...
+                            break;
+                        default:
+                        // 自定义消息
+                        // do something...
                     }
-                });
+                }
+            });
 
-                // 连接融云服务器。
-                RongIMClient.connect(token, {
-                    onSuccess: function(userId) {
-                        console.log('连接成功');
-                    },
-                    onTokenIncorrect: function() {
-                        new Window().alert({
-                            title   : '',
-                            content : 'token无效！',
-                            hasCloseBtn : false,
-                            hasImg : true,
-                            textForSureBtn : false,
-                            textForcancleBtn : false
-                            //,
-                            //autoHide:true
-                        });
-                        console.log('token无效');
-                    },
-                    onError:function(errorCode){
-                        var info = '';
-                        switch (errorCode) {
-                            case RongIMLib.ErrorCode.TIMEOUT:
-                                info = '超时';
-                                break;
-                            case RongIMLib.ErrorCode.UNKNOWN_ERROR:
-                                info = '未知错误';
+            // 连接融云服务器。
+            RongIMClient.connect(token, {
+                onSuccess: function(userId) {
+                    console.log('连接成功');
+                },
+                onTokenIncorrect: function() {
+                    new Window().alert({
+                        title   : '',
+                        content : 'token无效！',
+                        hasCloseBtn : false,
+                        hasImg : true,
+                        textForSureBtn : false,
+                        textForcancleBtn : false
+                        //,
+                        //autoHide:true
+                    });
+                    console.log('token无效');
+                },
+                onError:function(errorCode){
+                    var info = '';
+                    switch (errorCode) {
+                        case RongIMLib.ErrorCode.TIMEOUT:
+                            info = '超时';
+                            break;
+                        case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                            info = '未知错误';
 
-                                break;
-                            case RongIMLib.ErrorCode.UNACCEPTABLE_PaROTOCOL_VERSION:
-                                info = '不可接受的协议版本';
+                            break;
+                        case RongIMLib.ErrorCode.UNACCEPTABLE_PaROTOCOL_VERSION:
+                            info = '不可接受的协议版本';
 
-                                break;
-                            case RongIMLib.ErrorCode.IDENTIFIER_REJECTED:
-                                info = 'appkey不正确';
+                            break;
+                        case RongIMLib.ErrorCode.IDENTIFIER_REJECTED:
+                            info = 'appkey不正确';
 
-                                break;
-                            case RongIMLib.ErrorCode.SERVER_UNAVAILABLE:
-                                info = '服务器不可用';
+                            break;
+                        case RongIMLib.ErrorCode.SERVER_UNAVAILABLE:
+                            info = '服务器不可用';
 
-                                break;
-                        }
-                        new Window().alert({
-                            title   : '',
-                            content : info+'！',
-                            hasCloseBtn : false,
-                            hasImg : true,
-                            textForSureBtn : false,
-                            textForcancleBtn : false
-                            //,
-                            //autoHide:true
-                        });
-                        console.log(errorCode);
+                            break;
                     }
-                },'');
+                    new Window().alert({
+                        title   : '',
+                        content : info+'！',
+                        hasCloseBtn : false,
+                        hasImg : true,
+                        textForSureBtn : false,
+                        textForcancleBtn : false
+                        //,
+                        //autoHide:true
+                    });
+                    console.log(errorCode);
+                }
+            },'');
             //}
             //初始化emoji表情
             initEmoji();
@@ -250,15 +303,60 @@ function voicePlay(){
     systemSound_recive.play();
 }
 
-function setConverToTop(Type,targetId) {
+function setConverToTop(Type,targetId,$topEle) {
     var conversationtype = RongIMLib.ConversationType[Type]; // 私聊
-    RongIMLib.RongIMClient.getInstance().setConversationToTop(conversationtype, targetId, {
-        onSuccess: function() {
-            console.log("setDiscussionInviteStatus Successfully");
-        },
-        onError: function(error) {
-            console.log("setDiscussionInviteStatus:errorcode:" + error);
-        }
-    });
+    var sData=window.localStorage.getItem("datas");
+    var oData= JSON.parse(sData);
+    var sId=oData.id;
+    var nTopType;
+    var sTopHas=$topEle.attr('data-top');
+    switch(Type){
+        case 'GROUP':
+            nTopType=1;
+            break;
+        case 'PRIVATE':
+            nTopType=2;
+            break;
+    }
+    if(sTopHas==1){
+        sendAjax('fun!cancelMsgTop',{userid:sId,topid:targetId,toptype:nTopType},function(data){
+            var oCancelData=JSON.parse(data);
+            if(oCancelData.code==1){
+                var nIndex;
+                var aNoTop=[];
+                $('.usualChatListUl li').each(function(index){
+                    if(!$(this).hasClass('top')){
+                        //nIndex=index;
+                        aNoTop.push($(this));
+                    }
+                });
+                $('.usualChatListUl li').each(function(index){
+                    var targetEle=$(this);
+                    var sTopId=$(this).attr('targetid');
+                    if(sTopId==targetId){
+                        $('.usualChatListUl li').eq(index).remove();
+                        aNoTop[0].before(targetEle);
+                        targetEle.removeClass('top');
+                        targetEle.removeClass('active');
+                    }
+                });
+            }
+        });
+    }else{
+        sendAjax('fun!setMsgTop',{userid:sId,topid:targetId,toptype:nTopType},function(data){
+            var oData=JSON.parse(data);
+            if(oData.code==1){
+                $('.usualChatListUl li').each(function(index){
+                    var targetEle=$(this);
+                    var sTopId=$(this).attr('targetid');
+                    if(sTopId==targetId){
+                        $('.usualChatListUl li').eq(index).remove();
+                        $('.usualChatListUl').prepend(targetEle);
+                        targetEle.addClass('top');
+                    }
+                });
+            }
+        });
+    }
 }
 

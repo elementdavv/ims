@@ -8,6 +8,7 @@ import com.sealtalk.dao.adm.PrivDao;
 import com.sealtalk.dao.adm.RoleDao;
 import com.sealtalk.dao.adm.RolePrivDao;
 import com.sealtalk.model.TMemberRole;
+import com.sealtalk.model.TPriv;
 import com.sealtalk.model.TRole;
 import com.sealtalk.model.TRolePriv;
 import com.sealtalk.service.adm.PrivService;
@@ -149,6 +150,12 @@ public class PrivServiceImpl implements PrivService {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public TPriv getPrivByUrl(String url) {
+		TPriv tp = privDao.getPrivByUrl(url);
+		return tp != null ? tp : null;
 	}
 	
 }

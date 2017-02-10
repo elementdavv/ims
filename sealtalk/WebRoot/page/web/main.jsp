@@ -478,14 +478,14 @@
                         </ul>
                     </div>
                     <div class="infoDet-page">
-                        <span></span>
+                        <%--<span></span>--%>
 
-                        <div class="infoDet-pageQuery">
+                        <%--<div class="infoDet-pageQuery">--%>
                             <%--<i class="infoDet-firstPage"></i>--%>
                             <%--<i class="infoDet-prePage"></i>--%>
                             <%--<i class="infoDet-nextPage"></i>--%>
                             <%--<i class="infoDet-lastPage"></i>--%>
-                        </div>
+                        <%--</div>--%>
                     </div>
                 </div>
             </div>
@@ -506,7 +506,7 @@
             <li data-type="r">聊天记录</li>
             <li data-type="f">聊天文件</li>
         </ul>
-        <div class="infoDetailsBox" >
+        <div class="infoDetailsBox" id="groupDetailsBox">
             <div class="group-data">
                 <ul class="groupInfo">
                     <%--<li class="groupInfo-name">--%>
@@ -549,10 +549,14 @@
                 </div>
             </div>
             <div class="infoDet-chatRecord chatHide">
-                <div class="infoDet-search active">
+                <div class="infoDet-search ">
                 <input type="text" placeholder="查找信息..."/>
-                <i></i>
-                </div>
+                <i class="searchHostoryInfo"></i>
+             </div>
+                <%--<div class="infoDet-search active">--%>
+                <%--<input type="text" placeholder="查找信息..."/>--%>
+                <%--<i></i>--%>
+                <%--</div>--%>
                 <div class="infoDet-recordAll chatRecordSel">
                 <%--<p class="infoDet-timeRecord">2016-09-28</p>--%>
                 <%--<ul class="infoDet-contentDet">--%>
@@ -568,13 +572,13 @@
                 <%--</ul>--%>
                 </div>
                 <div class="infoDet-page">
-                <span></span>
-                <div class="infoDet-pageQuery">
+                <%--<span></span>--%>
+                <%--<div class="infoDet-pageQuery">--%>
                 <%--<i class="infoDet-firstPage allowClick"></i>--%>
                 <%--<i class="infoDet-prePage allowClick"></i>--%>
                 <%--<i class="infoDet-nextPage"></i>--%>
                 <%--<i class="infoDet-lastPage"></i>--%>
-                </div>
+                <%--</div>--%>
                 </div>
             </div>
             <div class="infoDet-flieRecord chatHide">
@@ -626,16 +630,16 @@
     </li>
     </ul>
     </div>
-    <div class="infoDet-page">
-    <span></span>
+    <%--<div class="infoDet-page">--%>
+    <%--<span></span>--%>
 
-    <div class="infoDet-pageQuery">
+    <%--<div class="infoDet-pageQuery">--%>
     <%--<i class="infoDet-firstPage"></i>--%>
     <%--<i class="infoDet-prePage"></i>--%>
     <%--<i class="infoDet-nextPage"></i>--%>
     <%--<i class="infoDet-lastPage"></i>--%>
-    </div>
-    </div>
+    <%--</div>--%>
+    <%--</div>--%>
     </div>
         </div>
     </div>

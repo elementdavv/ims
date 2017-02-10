@@ -402,6 +402,14 @@ public class SystemAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 跳转后台管理 
+	 */
+	@Deprecated
+	public String backManager() throws ServletException {
+		return "back";
+	}
+	
 	private MemberService memberService;
 	private PrivService privService;
 	
