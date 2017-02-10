@@ -299,6 +299,7 @@
     margin:2px 36px 0 98px;
     word-wrap: break-word;
     word-break:break-all;
+    min-height: 26px;
 }
 .mr-chatContentL img{
     position:absolute;
@@ -495,12 +496,12 @@ p.converLimit {
     word-break:break-all;
    float:right;
     position: relative;
-    /*background: rgb(245,245,245);*/
     border:1px solid rgb(204,204,204);
     padding:8px 10px;
     margin-right:36px;
     margin-left:36px;
     border-radius: 5px;
+    min-height: 26px;
 }
 .mr-ownChat i{
     position: absolute;

@@ -1307,8 +1307,15 @@ div.contactSearchResult{
     text-align: center;
     text-indent: 0px;
 }
-
-
+.transferInfoBox tbody tr td.operate span.active{
+    background: #c4c4c4;
+}
+.transferImg{
+    width: 27px;
+    height: 27px;
+    border-radius: 27px;
+    margin-right: 10px;
+}
 /*鼠标悬停联系人*/
 .memberHover{
     position: absolute !important;

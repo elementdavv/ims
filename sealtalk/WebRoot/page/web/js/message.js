@@ -551,7 +551,7 @@ $(function(){
             var memship = $(this).attr('targetid');
             var top = e.clientY;
             //var arr = ['群成员管理','解散群','转让群'];
-            var arr = [{limit:'',value:'群成员管理'},{limit:'stsz',value:'解散群'},{limit:'stsz',value:'转让群'}];
+            var arr = [{limit:'qzgl',value:'群成员管理'},{limit:'qzgljs',value:'解散群'},{limit:'qzglxg',value:'转让群'}];
 
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'groupLeftClick'
@@ -702,7 +702,42 @@ $(function(){
                                 sendAjax('group!listGroupMemebers',{groupid:groupid},function(data){
                                     var datas = JSON.parse(data).text;
                                     transferGroup(datas,function(){
-                                        console.log(111);
+                                        var transferTarget = $('.transferGroupTo.active');
+                                        if(transferTarget){
+                                            var target = transferTarget.closest('tr');
+                                            var tatgetID = target.attr('targetid');
+                                            var targetLimit = target.attr('transferlimit');
+                                            if(tatgetID&&targetLimit=='true'){//有转让权限
+                                                sendAjax('group!transferGroup',{userid:tatgetID, groupid:groupid},function(data){
+                                                    console.log('11111',data);
+                                                    if(data){
+                                                        var datas = JSON.parse(data);
+                                                        if(datas&&datas.code==1){
+                                                            new Window().alert({
+                                                                title   : '',
+                                                                content : '群组转让成功！',
+                                                                hasCloseBtn : false,
+                                                                hasImg : true,
+                                                                textForSureBtn : false,
+                                                                textForcancleBtn : false,
+                                                                autoHide:true
+                                                            });
+                                                            $('.WindowMask2').hide();
+                                                        }
+                                                    }
+                                                })
+                                            }else if(tatgetID&&targetLimit=='false'){//无转让权限
+                                                new Window().alert({
+                                                    title   : '',
+                                                    content : '该成员无群组管理权限！',
+                                                    hasCloseBtn : false,
+                                                    hasImg : true,
+                                                    textForSureBtn : false,
+                                                    textForcancleBtn : false,
+                                                    autoHide:true
+                                                });
+                                            }
+                                        }
                                     });
                                 })
                             }
@@ -1312,7 +1347,8 @@ function DialogTreeLoop(data,sHTML,level,userID){
 
 function transferGroup(data,callback){
     $('.WindowMask2').show();
-    var sHTML = createTransforContent(data);
+    var adata = unique3(data)
+    var sHTML = createTransforContent(adata);
     var dom = $('.transferInfoBox tbody');
     dom.html(sHTML);
     $('.manageSure').unbind('click');
@@ -1328,11 +1364,13 @@ function createTransforContent(data){
 
     for(var i = 0;i<data.length;i++){
         var curList = searchFromList(1,data[i]);
-        sHTML+='<tr>'+
-                    '<td><img src="" alt="">'+curList.name+'</td>'+
+        var limit = 'true';
+        var img = curList.logo?globalVar.imgSrc+curList.logo:globalVar.defaultLogo;
+        sHTML+='<tr targetid="'+curList.id+'" transferlimit="'+limit+'">'+
+                    '<td><img class="transferImg" src="'+img+'" alt="">'+curList.name+'</td>'+
                     '<td>'+curList.postitionname+'</td>'+
                     '<td>'+'data[i].是否有权限'+'</td>'+
-                    '<td class="operate"><span>转让群</span></td>'+
+                    '<td class="operate"><span class="transferGroupTo">转让群</span></td>'+
                 '</tr>'
     }
     return sHTML;
