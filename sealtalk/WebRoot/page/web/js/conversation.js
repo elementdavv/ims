@@ -998,6 +998,9 @@ function findMemberInList(targetId){
 //显示会话列表
 function usualChatList(list){
     var sHTML = '';
+    var sData=window.localStorage.getItem("datas");
+    var oData= JSON.parse(sData);
+    var sId=oData.id;
     sendAjax('fun!getMsgTop',{userid:sId},function(data){
         var oData=JSON.parse(data);
         var aText=oData.text;
