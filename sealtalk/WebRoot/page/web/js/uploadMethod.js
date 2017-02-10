@@ -102,7 +102,7 @@ function returnDLLink(filename){
     //debugger;
     return globalVar.qiniuDOWNLOAD+filename+'?attname='+filename;
 }
-function returnOPLink(filename){
-    //debugger;
-    return globalVar.qiniuDOWNLOAD+filename;
-}
+//function returnOPLink(filename){
+//    //debugger;
+//    return globalVar.qiniuDOWNLOAD+filename;
+//}
