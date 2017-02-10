@@ -58,4 +58,13 @@ public interface FunctionService {
 	 */
 	public String getMsgTop(String userid);
 
+	/**
+	 * 取消置顶
+	 * @param userid
+	 * @param topid
+	 * @param toptype
+	 * @return
+	 */
+	public String cancelMsgTop(String userid, String topid, String toptype);
+
 }

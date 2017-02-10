@@ -9,6 +9,7 @@ $(document).ready(function(){
        $(this).addClass('active');
        $('#infoDetailsBox>div').addClass('chatHide');
        var sType=$(this).attr('data-type');
+       $('#infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
        switch(sType){
            case 'd':
                //$('.infoDetailsBox').find('.infoDetails-data').removeClass('chatHide');
@@ -16,15 +17,15 @@ $(document).ready(function(){
            case 'r':
                var sTargettype=$('#perContainer').attr('targettype');
                var sTargetid=$('#perContainer').attr('targetid');
-               historyMsg(sTargettype,sTargetid,0,20);
-               //new PageObj($('.infoDet-pageQuery'),20,function(){
-               //
-               //});
+               var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+               var oPagetest = new PageObj({divObj:$perEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+               {
+                   getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
+               });
                break;
            case 'f':
                break;
        }
-       $('#infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
    });
     //搜索常用人历史记录
     $('#personalData').on('click','.searchHostoryInfo',function(){
@@ -189,19 +190,27 @@ $(document).ready(function(){
         $(this).addClass('active');
         $('#groupData .infoDetailsBox>div').addClass('chatHide');
         var sType=$(this).attr('data-type');
+        $('#groupData .infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
         switch(sType){
             case 'd':
                 //$('.infoDetailsBox').find('.infoDetails-data').removeClass('chatHide');
                 break;
             case 'r':
-                //var sTargettype=$('#perContainer').attr('targettype');
-                //var sTargetid=$('#perContainer').attr('targetid');
+                var sTargettype=$('#groupContainer').attr('targettype');
+                var sTargetid=$('#groupContainer').attr('targetid');
+                var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+                console.log($groupEle);
+                var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+                {
+                    getChatRecord(list,'#groupDetailsBox .infoDet-chatRecord .chatRecordSel');
+                    //showHistoryMessages(list);
+
+                });
                 //historyMsg(sTargettype,sTargetid,0,20);
                 break;
             case 'f':
                 break;
         }
-        $('#groupData .infoDetailsBox>div').eq($(this).index()).removeClass('chatHide');
     });
     $('#chatBox').on('keyup change','#cp-newPasswordId',function(){
         checklevel(this.value)
@@ -412,7 +421,7 @@ $(document).ready(function(){
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
-    var sName=oData.name || '';//姓名
+    var sName=oData?oData.name : '';//姓名
     var sAccountNum=oData.account || '';//成员账号
     var sSex=oData.sex;//性别
     switch(sSex){

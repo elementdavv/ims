@@ -11,11 +11,13 @@
 	<!-- dao -->
 	<bean id="dontDistrubDao" class="com.sealtalk.dao.fun.impl.DontDistrubDaoImpl" autowire="byName" />
 	<bean id="functionDao" class="com.sealtalk.dao.fun.impl.FunctionDaoImpl" autowire="byName" />
+	<bean id="msgTopDao" class="com.sealtalk.dao.fun.impl.MsgTopDaoImpl" autowire="byName" />
 	
 	<!-- service -->
 	<bean id="functionService" class="com.sealtalk.service.fun.impl.FunctionServiceImpl" autowire="byName" >
 		<property name="dontDistrubDao" ref="dontDistrubDao" />
 		<property name="functionDao" ref="functionDao" />
+		<property name="msgTopDao" ref="msgTopDao" />
 	</bean>
 	
 	<!-- action -->

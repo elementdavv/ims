@@ -566,33 +566,6 @@ public class RongCloudUtils {
 	 * @param groupId
 	 * @return
 	 */
-	public String getShutUpGroupStatus(String groupId) {
-		String result = null;
-		
-		try {
-			if (rongCloud == null) {
-				this.init();
-			}
-			
-			if (!StringUtils.getInstance().isBlank(groupId)) {
-				ListGagGroupUserReslut groupLisGagUserResult = rongCloud.group.lisGagUser(groupId);
-				
-				if (groupLisGagUserResult != null) {
-					result = groupLisGagUserResult.getCode().toString();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * 查询禁言群组状态
-	 * @param groupId
-	 * @return
-	 */
 	public List<GagGroupUser> getShutUpGroupMember(String groupId) {
 		List<GagGroupUser> result = null;
 		
