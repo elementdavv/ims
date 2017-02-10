@@ -46,8 +46,37 @@ $(document).ready(function(){
         //    }
         //});
     });
+    //群组消息面打扰
+    $('#groupData').delegate('.voiceSet','click',function(){
+        var _this = $(this);
+        var flag = _this.hasClass('active');
+        var states = flag?0:1;
+        //设置消息免打扰的接口
+        var groupid = $('#groupContainer').attr('targetid');
+        var sdata = localStorage.getItem('datas');
+        var userid = JSON.parse(sdata).id;
+        sendAjax('fun!setNotRecieveMsg',{status:states,groupid:groupid,userid:userid},function(data){
+            if(data){
+                var datas = JSON.parse(data);
+                if(datas&&datas.code==1){
+                    flag?_this.removeClass('active'):_this.addClass('active');
+                }
+            }
+        });
+    })
+
+
+    //群禁言设置
     $('#groupData').on('click','.groupInfo-noChat',function(){
+
         var groupid=$(this).attr('data-groupid');
+        var sdata = localStorage.getItem('datas');
+        var accountID = JSON.parse(sdata).id;
+        var groupInfo = groupInfoFromList(groupid);
+        //console.log(groupInfo);
+        if(accountID!=groupInfo.mid){//任何人都可以禁言？？
+            //return false;
+        }
         var sChat=$(this).attr('data-chat');
         if(sChat==1){
             new Window().alert({
@@ -69,6 +98,9 @@ $(document).ready(function(){
                             var oData=JSON.parse(data);
                             if(oData.code==1){
                                 $('#groupData .groupInfo-noChat').attr('data-chat',0);
+                                $('#groupContainer #message-content').html('');
+                                $('#groupContainer #message-content').attr('contenteditable','true');
+                                $('#groupContainer #message-content').attr('placeholder','请输入文字...');
                             }
                         }
                     },function(){
@@ -93,8 +125,10 @@ $(document).ready(function(){
                     sendAjax('group!shutUpGroup',{groupid:groupid},function(data){
                         if(data){
                             var oData=JSON.parse(data);
-                            if(oData.code==1){
+                            if(oData.code==1&&accountID!=groupInfo.mid){
                                 $('#groupData .groupInfo-noChat').attr('data-chat',1);
+                                $('#groupContainer #message-content').attr('contenteditable','false');
+                                $('#groupContainer #message-content').html('群主已开启禁言!');
                             }
                         }
                     },function(){
@@ -408,6 +442,23 @@ $(document).ready(function(){
     });
     //getGroupMembersList(1);
 });
+
+//查询单个群信息
+function groupInfoFromList(id){
+    var groupInfo = localStorage.getItem('groupInfo');
+    if(groupInfo){
+        groupInfo = JSON.parse(groupInfo);
+    }
+    var curInfo = '';
+    for(var i = 0;i<groupInfo.text.length;i++){
+        if(groupInfo.text[i].GID==id){
+            curInfo = groupInfo.text[i]
+        }
+    }
+    return curInfo;
+    //sendAjax(url,data,callback)
+}
+
 
 function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");

@@ -50,6 +50,9 @@ $(function(){
                             //链接成功
                             case RongIMLib.ConnectionStatus.CONNECTED:
                                 console.log('链接成功');
+                                if($('.window_mask')){
+                                    $('.window_mask').remove()
+                                }
                                 //显示会话列表
                                 getConverList()
                                 break;
@@ -112,11 +115,23 @@ $(function(){
                                 //1.获取系统提示音接口
                                 //2.获取单独的群消息设置
                                 if(globalVar.SYSTEMSOUND){
-
+                                    if(message.conversationType==3){
+                                        var targetId = message.targetId;
+                                        sendAjax('fun!getNotRecieveMsg',{groupid:targetId,userid:userid},function(data){
+                                            if(data){
+                                                var datas = JSON.parse(data);
+                                                if(datas&&datas.code==1&&datas.text==true){
+                                                    console.log(4444);
+                                                }else{
+                                                    voicePlay();
+                                                }
+                                            }
+                                        })
+                                    }else{
+                                        voicePlay();
+                                    }
                                     //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
 
-                                    var systemSound_recive = document.getElementById('systemSound_recive');
-                                    systemSound_recive.play();
                                 }
                                 reciveInBox(message);
                                 break;
@@ -230,7 +245,10 @@ $(function(){
 
 
 })
-
+function voicePlay(){
+    var systemSound_recive = document.getElementById('systemSound_recive');
+    systemSound_recive.play();
+}
 
 function setConverToTop(Type,targetId) {
     var conversationtype = RongIMLib.ConversationType[Type]; // 私聊

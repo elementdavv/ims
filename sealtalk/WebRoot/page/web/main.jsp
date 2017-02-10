@@ -66,17 +66,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
-    <script>
-        $(document).ready(function(){
-        $('#groupContainer').on('click','.downLoadFile',function(){
-        var url=$(this).attr('src');
-        if(window.Electron){
-        var sss=window.Electron.chkFileExists(url);
-        console.log(sss);
-        }
-        });
-  });
-    </script>
+
     </head>
     <%--${SessionPrivilege.map}--%>
     <%--${SessionUser.id}--%>
