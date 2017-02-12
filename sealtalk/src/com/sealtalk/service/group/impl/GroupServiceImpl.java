@@ -61,7 +61,9 @@ public class GroupServiceImpl implements GroupService {
 				
 				for(int i = 0; i < groupIdsArr.length; i++) {
 					if (!StringUtils.getInstance().isBlank(groupIdsArr[i])) {
-						tempArrIds.add(groupIdsArr[i]);
+						String id = groupIdsArr[i].trim();
+						groupIdsArr[i] = id;
+						tempArrIds.add(id);
 					}
 				}  
 				
