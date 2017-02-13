@@ -46,9 +46,6 @@ window.Electron = {
     // console.log('updateBadgeNumber')
     this.ipcRenderer.send('unread-message-count-changed', number)
   },
-  sendToDownLoad:function(URL){
-    this.ipcRenderer.send('will-download', URL)
-  },
   kickedOff: function () {
     // Notification里处理win7的提示
     this.ipcRenderer.send('kicked-off')
@@ -86,6 +83,7 @@ window.Electron = {
     }
   },
   chkFileExists: function (url){
+    console.log('bababababab');
     var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
     var exist = fileExists(savePath);
     return exist ? savePath : '';
@@ -174,7 +172,6 @@ window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progres
     return
   }
   if (chDownloadProgress && typeof(eval(chDownloadProgress)) == "function") {
-    console.log('PPPPPPPPPPPPP');
     chDownloadProgress(url, state, progress)
   }
 })
@@ -185,7 +182,6 @@ window.Electron.ipcRenderer.on('chDownloadState', (event, url, state) => {
     return
   }
   if (chDownloadState && typeof(eval(chDownloadState)) == "function") {
-    //console.log()
     chDownloadState(url, state)
   }
 })
@@ -225,7 +221,6 @@ Notification.prototype = NativeNotification.prototype
 Notification.permission = NativeNotification.permission
 Notification.requestPermission = NativeNotification.requestPermission.bind(Notification)
 /* eslint-enable no-native-reassign, no-undef */
-
 
 function chDownloadProgress(url, state, progress){
   if (state == 'progressing') {

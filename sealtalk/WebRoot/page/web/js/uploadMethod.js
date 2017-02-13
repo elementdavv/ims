@@ -58,12 +58,13 @@ $(function(){
                         filedetail.size = this._self.size;
                         filedetail.type = this._self.type;
                         filedetail.filename = data.filename;
+                        filedetail.fileUrl = downloadLink;
                         var targetId = this._self.targetId;
                         var targetType = this._self.targetType;
-                        var content = JSON.stringify(filedetail);
-                        var extra = "uploadFile";
+                        var content = filedetail;
+                        //var extra = "uploadFile";
 
-                        sendByRong(content,targetId,targetType,extra);
+                        sendByRongFile(content,targetId,targetType);
                         //console.log(data);
                         uploading = false;
                     },

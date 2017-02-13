@@ -51,7 +51,49 @@ $(function(){
             //{content:"hello",extra:"附加信息"}
             var targetId = $(this).parents('.mesContainer').attr('targetid');
             var targetType = $(this).parents('.mesContainer').attr('targettype');
-            sendMsg(content,targetId,targetType,extra);
+            uploadFileByClient()
+            UploadClient.initImage(config, function(uploadFile){
+                var callback = {
+                    onError: function (errorCode) {
+                        uploading = false;
+                    },
+                    onProgress: function (loaded, total) {
+                        //console.log('onProgress', loaded, total, this);
+                        var className = this._self.uniqueTime;
+                        var percent = Math.floor(loaded / total * 100);
+                        var progressContent = $('#up_precent[uniquetime="'+className+'"]');
+                        progressContent.width(percent + '%');
+                        return percent;
+                    },
+                    onCompleted: function (data) {
+                        var className = this._self.uniqueTime;
+                        var downloadLink = returnDLLink(data.filename);
+                        $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
+                        //发送消息
+                        var filedetail = {};
+                        filedetail.name = this._self.name;
+                        filedetail.uniqueTime = this._self.uniqueTime;
+                        filedetail.size = this._self.size;
+                        filedetail.type = this._self.type;
+                        filedetail.filename = data.filename;
+                        filedetail.fileUrl = downloadLink;
+                        var targetId = this._self.targetId;
+                        var targetType = this._self.targetType;
+                        var content = filedetail;
+                        //var extra = "uploadFile";
+
+                        sendByRongFile(content,targetId,targetType);
+                        //console.log(data);
+                        uploading = false;
+                    },
+                    _self: _file
+                }
+                _file.callback = callback;
+                sendFile(_file,_this,function(){
+                    //显示到盒子里
+                    uploadFile.upload(_file, callback);
+                });
+            });
         }
 
     }
@@ -85,13 +127,7 @@ function sendMsg(content,targetId,way,extra,callback){
         var sendMsg = JSON.parse(content);
         var uniqueTime = sendMsg.uniqueTime;
         var Msize = KBtoM(sendMsg.size);
-        switch (sendMsg.type){
-            case 'image/png':
-                var imgSrc = 'page/web/css/img/formatImg.png';
-                break;
-            default :
-                var imgSrc = 'page/web/css/img/formatUnknew.png';
-        }
+        var imgSrc = imgType(sendMsg.type);
         var file = sendMsg.name.split('.')[0];
         //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
         var sHTML = '<li class="mr-chatContentRFile clearfix">'+
@@ -136,6 +172,52 @@ function sendMsg(content,targetId,way,extra,callback){
     if(extra!='uploadFile'&&(limit.indexOf('stsz')!=-1||way== 'PRIVATE')){
         sendByRong(content,targetId,way);
     }
+}
+
+function sendByRongFile(content,targetId,way,extra){
+    //var name = 'RongIMLib.js',
+    //    size = 1024,
+    //    type = 'js',
+    //    fileUrl = 'http://xxxx.xxx.xx/RongIMLib.js';
+    var msg = new RongIMLib.FileMessage(content);
+    var conversationtype = RongIMLib.ConversationType[way]; // 私聊,其他会话选择相应的消息类型即可。
+    RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+            onSuccess: function (message) {
+                //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+                console.log("Send successfully");
+            },
+            onError: function (errorCode,message) {
+                var info = '';
+                switch (errorCode) {
+                    case RongIMLib.ErrorCode.TIMEOUT:
+                        info = '超时';
+                        break;
+                    case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                        info = '未知错误';
+                        break;
+                    case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+                        info = '在黑名单中，无法向对方发送消息';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+                        info = '不在讨论组中';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_GROUP:
+                        info = '不在群组中';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+                        info = '不在聊天室中';
+                        break;
+                    default :
+                        info = x;
+                        break;
+                }
+                console.log('发送失败:' + info);
+            }
+        }
+    );
+}
+function sendByRongImg(content,targetId,way,extra){
+
 }
 
 function sendByRong(content,targetId,way,extra){
@@ -373,8 +455,10 @@ function createConversationList(sDoM,list,targetType){
     //var sfiveBeforeTime=changeTimeFormat(timestamp+300000,'yh');
     for (var i = 0; i < list.length; i++) {
         var sSentTime = list[i].sentTime;
-        var sContent = list[i].content.content || '';
-        var extra = list[i].content.extra || '';
+        var extra = list[i].messageType || '';
+
+        var sContent = extra=='FileMessage'?list[i].content:list[i].content.content;
+
         switch(targetType){
                 case 'GROUP':
                     var sTargetId = list[i].senderUserId;
@@ -452,31 +536,26 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
         }else {
             var sImg=globalVar.defaultLogo;
         }
-        if(extra=="uploadFile"){
+        if(extra=="FileMessage"){
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-            var sendMsg = JSON.parse(sContent);
+            //var sendMsg = JSON.parse(sContent);
             var imgSrc = '';
-            var Msize = KBtoM(sendMsg.size);
-            var uniqueTime = sendMsg.uniqueTime;
-            switch (sendMsg.type){
-                case 'image/png':
-                    var imgSrc = 'page/web/css/img/formatImg.png';
-                    break;
-                default :
-                    var imgSrc = 'page/web/css/img/formatUnknew.png';
-            }
-            var file = sendMsg.filename.split('.')[0];
+            var Msize = KBtoM(sContent.size);
+            var fileURL = sContent.fileUrl;
+            //var uniqueTime = sendMsg.uniqueTime;
+            var imgSrc = imgType(sContent.type)
+            var file = getFileUniqueName(fileURL);
             sDoM += '<li class="mr-chatContentLFile clearfix" data-t="'+sSentTime+'">'+
                         '<img class="headImg" src="'+sImg+'">'+
                         '<div class="mr-ownChat">'+
                         '<div class="file_type fl"><img  class="fileImg" src="'+imgSrc+'"></div>'+
                         '<div class="file_content fl">' +
-                        '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+                        '<p class="p1 file_name">'+sContent.name+'</p>' +
                         '<p class="p2 file_size">'+Msize+'</p>' +
                         //'<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         //'</div>' +
                         '</div>' +
-            '<a fileName="'+file+'"  class="downLoadFile" src = "'+returnDLLink(sendMsg.filename)+'" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+            '<a fileName="'+file+'"  class="downLoadFile" href="'+fileURL+'"></a>'+
             //            '<button id="downLoadFile"></button>'+
                         '</li>';
 
@@ -492,13 +571,16 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             }
         }
      else {//自己的
-        if(extra=="uploadFile"){
+        if(extra=="FileMessage"){
             var sendMsg = JSON.parse(sContent);
             var imgSrc = '';
             var Msize = KBtoM(sendMsg.size);
             var uniqueTime = sendMsg.uniqueTime
             switch (sendMsg.type){
                 case 'image/png':
+                    var imgSrc = 'page/web/css/img/formatImg.png';
+                    break;
+                case 'image/jpg':
                     var imgSrc = 'page/web/css/img/formatImg.png';
                     break;
                 default :
@@ -823,11 +905,8 @@ function getChatRecord(aList,hasMsg){
                 var imgSrc = '';
                 var Msize = KBtoM(sendMsg.size);
                 var uniqueTime = sendMsg.uniqueTime;
-                switch (sendMsg.type){
-                    case 'image/png':
-                        var imgSrc = 'page/web/css/img/backstage.png';
-                        break;
-                }
+                var imgSrc = ingTyoe(sendMsg.type)
+
                 sContent= '<div class="file_type1 fl"><img src="'+imgSrc+'"></div>'+
                 '<div class="file_content1 fl">' +
                 '<p class="p1 file_name1">'+sendMsg.name+'</p>' +
@@ -882,6 +961,23 @@ function getChatRecord(aList,hasMsg){
 function scrollTop(eDom){
     eDom.scrollTop = eDom.scrollHeight;
 }
+
+
+function imgType(type){
+    switch (type){
+        case 'image/png':
+            var imgSrc = 'page/web/css/img/formatImg.png';
+            break;
+        case 'image/jpeg':
+            var imgSrc = 'page/web/css/img/formatImg.png';
+            break;
+        default :
+            var imgSrc = 'page/web/css/img/formatUnknew.png';
+    }
+    return imgSrc;
+}
+
+
 //获取历史消息、消息记录
 function historyMsg(Type,targetId){
     var aList;
@@ -1158,11 +1254,12 @@ function reciveInBox(msg){
 
     }
 
-    console.log(msg);
+    //console.log(msg);
     var targetID = msg.targetId;
     var content = msg.content.content;
-    var extra = msg.content.extra;
+    //var extra = msg.content.extra;
     var targetType = msg.conversationType;
+    var messageType = msg.messageType;
     //var
     //debugger;
     if(targetType==3){//qunliao
@@ -1178,20 +1275,13 @@ function reciveInBox(msg){
             var eDom = document.querySelector('#perContainer .mr-chatview');
         }
     }
-    if(extra=='uploadFile'){
+    if(messageType=='FileMessage'){
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
-            var content = JSON.parse(content);
-            console.log('sendMsg',content);
-
+            var content = msg.content;
             var Msize = KBtoM(content.size);
-            switch (content.type){
-                case 'image/png':
-                    var imgSrc = 'page/web/css/img/formatImg.png';
-                    break;
-                default :
-                    var imgSrc = 'page/web/css/img/formatUnknew.png';
-            }
-            var file = sendMsg.filename.split('.')[0];
+            var fileURL = content.fileUrl;
+            var imgSrc = imgType(content.type);
+            var file = getFileUniqueName(fileURL);
             var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sHTML = '<li class="mr-chatContentLFile clearfix">'+
                 '<img class="headImg" src="'+sImg+'">'+
@@ -1203,7 +1293,7 @@ function reciveInBox(msg){
                 //'<div id="up_process"><div id="up_precent"></div>' +
                 //'</div>' +
                 '</div>' +
-                '<a fileName="'+file+'" class="downLoadFile" src = "'+returnDLLink(sendMsg.filename)+'" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+                '<a fileName="'+file+'" class="downLoadFile" href="'+fileURL+'"></a>'+
                 //'<button id="downLoadFile"></button>'+
                 '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
@@ -1236,6 +1326,12 @@ function reciveInBox(msg){
         }
     }
 
+}
+//从URL连接中取得文件名
+function getFileUniqueName(fileURL){
+    var aURM = fileURL.split('attname=')[1];
+    var fileName = aURM.split('.')[0];
+    return fileName;
 }
 
 
