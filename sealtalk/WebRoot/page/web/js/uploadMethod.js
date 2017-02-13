@@ -22,6 +22,99 @@ $(function(){
             callback(token);
         }
     };
+//文件拖拽上传
+    var messageContent = document.getElementById('message-content');
+    messageContent.ondragover = function(e){
+        if (e.preventDefault) e.preventDefault();
+        else e.returnValue = false;
+    }
+    messageContent.ondrop = function(e){
+        if (e.preventDefault) e.preventDefault();
+        else e.returnValue = false;
+
+        var limit = $('body').attr('limit');
+        if(limit.indexOf('stsz')==-1){
+            new Window().alert({
+                title   : '',
+                content : '您无文件发送权限！',
+                hasCloseBtn : false,
+                hasImg : true,
+                textForSureBtn : false,
+                textForcancleBtn : false,
+                autoHide:true
+            });
+        }else{
+            var _this = this;
+            var _file = e.dataTransfer.files[0];//取得文件对象
+            var filedetail = {};
+            filedetail.name = _file.name;
+            filedetail.uniqueName = _file.uniqueName;
+            filedetail.size = _file.size;
+            filedetail.type = _file.type;
+            //var content = JSON.stringify(filedetail);
+            var extra = "uploadFile";
+            //{content:"hello",extra:"附加信息"}
+            var targetId = $(this).parents('.mesContainer').attr('targetid');
+            var targetType = $(this).parents('.mesContainer').attr('targettype');
+
+            UploadClient.initImage(config, function(uploadFile){
+                var callback = {
+                    onError: function (errorCode) {
+                        //console.log(errorCode);
+                        //uploading = false;
+                    },
+                    onProgress: function (loaded, total) {
+                        //console.log('onProgress', loaded, total, this);
+                        var className = this._self.uniqueTime;
+                        var percent = Math.floor(loaded / total * 100);
+                        var progressContent = $('#up_precent[uniquetime="'+className+'"]');
+                        progressContent.width(percent + '%');
+                        return percent;
+                    },
+                    onCompleted: function (data) {
+                        var className = this._self.uniqueTime;
+                        var downloadLink = returnDLLink(data.filename);
+                        var filedetail = {};
+                        filedetail.type = this._self.type;
+
+                        filedetail.fileUrl = downloadLink;
+                        var targetId = this._self.targetId;
+                        var targetType = this._self.targetType;
+                        var content = filedetail;
+                        if(this._self.type=='image/png'||this._self.type=='image/jpeg'){
+                            filedetail.base64Str = data.thumbnail;// 图片转为可以使用 HTML5 的 FileReader 或者 canvas 也可以上传到后台进行转换。
+                            filedetail.imageUri = downloadLink;
+                            $('img[uniquetime="'+className+'"]').attr('src',downloadLink);
+                            $('img[uniquetime="'+className+'"]').on('load',function(){
+                                var eDom=document.querySelector('#perContainer .mr-chatview');
+                                eDom.scrollTop = eDom.scrollHeight;
+                            })
+                            if(data.thumbnail){
+                                sendByRongImg(content,targetId,targetType);
+                            }
+                        }else{
+                            filedetail.name = this._self.name;
+                            filedetail.uniqueTime = this._self.uniqueTime;
+                            filedetail.size = this._self.size;
+                            filedetail.type = this._self.type;
+                            filedetail.filename = data.filename;
+                            $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
+                            sendByRongFile(content,targetId,targetType);
+                        }
+                    },
+                    _self: _file
+                }
+                _file.callback = callback;
+                sendFile(_file,_this,function(){
+                    //显示到盒子里
+                    uploadFile.upload(_file, callback);
+                });
+            });
+
+
+        }
+
+    }
 
     var $file = $(".comment-pic-upd");
     $file.on('change',function(){
