@@ -1362,8 +1362,12 @@ function reciveInBox(msg){
                         '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
-            var eDom=document.querySelector('#perContainer .mr-chatview');
-            eDom.scrollTop = eDom.scrollHeight;
+
+            $('.uploadImgLeft').on('load',function(){
+                var eDom=document.querySelector('#perContainer .mr-chatview');
+                eDom.scrollTop = eDom.scrollHeight;
+            })
+
         }else{
 
         }

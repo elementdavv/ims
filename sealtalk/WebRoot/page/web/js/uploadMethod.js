@@ -61,9 +61,14 @@ $(function(){
                             filedetail.base64Str = data.thumbnail;// 图片转为可以使用 HTML5 的 FileReader 或者 canvas 也可以上传到后台进行转换。
                             filedetail.imageUri = downloadLink;
                             $('img[uniquetime="'+className+'"]').attr('src',downloadLink);
+                            $('img[uniquetime="'+className+'"]').on('load',function(){
+                                var eDom=document.querySelector('#perContainer .mr-chatview');
+                                eDom.scrollTop = eDom.scrollHeight;
+                            })
                             if(data.thumbnail){
                                 sendByRongImg(content,targetId,targetType);
                             }
+
 
                         }else{
                             filedetail.name = this._self.name;
