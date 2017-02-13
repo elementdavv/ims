@@ -427,7 +427,12 @@ var setting11_branch_branch = {
 	},
 	callback: {
 		onClick: function(event, treeId, treeNode, clickFlag) {
-			if (treeNode.flag == 1) {
+			if (treeNode.flag == 0) {
+				$('#11branchbranch').val(treeNode.name);
+				$('#11branchbranchid').val(0);
+				$('#tree11branchbranchwrap').hide();
+			}
+			else if (treeNode.flag == 1) {
 				$('#11branchbranch').val(treeNode.name);
 				$('#11branchbranchid').val(treeNode.id);
 				$('#tree11branchbranchwrap').hide();

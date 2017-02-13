@@ -65,7 +65,7 @@ function cb_11_save_branch(data) {
 		bootbox.alert({'title':'提示', 'message':'部门名称已存在，请重新输入.'});
 	}
 	else {
-		bootbox.alert({'title':'提示', 'message':'添加成功.'});
+//		bootbox.alert({'title':'提示', 'message':'添加成功.'});
 		callajax("branch!getOrganTree", "", cb_11_tree);
 		if ($('#11branchcontinue').prop('checked') == false) {
 			$('#branch').modal('hide');
