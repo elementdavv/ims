@@ -16,87 +16,7 @@ $(function(){
             $('.groupChatList').find('li[targetid='+targetId+']').dblclick();
         }
     })
-    //文件拖拽上传
-    var messageContent = document.getElementById('message-content');
-    messageContent.ondragover = function(e){
-        if (e.preventDefault) e.preventDefault();
-        else e.returnValue = false;
-    }
-    messageContent.ondrop = function(e){
-        if (e.preventDefault) e.preventDefault();
-        else e.returnValue = false;
 
-        var limit = $('body').attr('limit');
-        if(limit.indexOf('stsz')==-1){
-            new Window().alert({
-                title   : '',
-                content : '您无文件发送权限！',
-                hasCloseBtn : false,
-                hasImg : true,
-                textForSureBtn : false,
-                textForcancleBtn : false,
-                autoHide:true
-            });
-        }else{
-            //console.log(e);
-            var file = e.dataTransfer.files[0];
-            //console.log(file);
-            var filedetail = {};
-            filedetail.name = file.name;
-            filedetail.uniqueName = file.uniqueName;
-            filedetail.size = file.size;
-            filedetail.type = file.type;
-            var content = JSON.stringify(filedetail);
-            var extra = "uploadFile";
-            //{content:"hello",extra:"附加信息"}
-            var targetId = $(this).parents('.mesContainer').attr('targetid');
-            var targetType = $(this).parents('.mesContainer').attr('targettype');
-            uploadFileByClient()
-            UploadClient.initImage(config, function(uploadFile){
-                var callback = {
-                    onError: function (errorCode) {
-                        uploading = false;
-                    },
-                    onProgress: function (loaded, total) {
-                        //console.log('onProgress', loaded, total, this);
-                        var className = this._self.uniqueTime;
-                        var percent = Math.floor(loaded / total * 100);
-                        var progressContent = $('#up_precent[uniquetime="'+className+'"]');
-                        progressContent.width(percent + '%');
-                        return percent;
-                    },
-                    onCompleted: function (data) {
-                        var className = this._self.uniqueTime;
-                        var downloadLink = returnDLLink(data.filename);
-                        $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
-                        //发送消息
-                        var filedetail = {};
-                        filedetail.name = this._self.name;
-                        filedetail.uniqueTime = this._self.uniqueTime;
-                        filedetail.size = this._self.size;
-                        filedetail.type = this._self.type;
-                        filedetail.filename = data.filename;
-                        filedetail.fileUrl = downloadLink;
-                        var targetId = this._self.targetId;
-                        var targetType = this._self.targetType;
-                        var content = filedetail;
-                        //var extra = "uploadFile";
-
-                        //sendByRongFile(content,targetId,targetType);
-                        //console.log(data);
-                        uploading = false;
-                    },
-                    _self: _file
-                }
-                _file.callback = callback;
-                sendFile(_file,_this,function(){
-                    //显示到盒子里
-                    uploadFile.upload(_file, callback);
-                });
-            });
-        }
-
-    }
 })
 
 //包括单聊，群聊，聊天室
@@ -104,8 +24,6 @@ function sendMsg(content,targetId,way,extra,callback){
     //发出去的消息 先显示到盒子里,
     //权限有没有
     var limit = $('body').attr('limit');
-    //console.log(limit);
-    //var oLimit = JSON.parse(limit);
     if(limit.indexOf('stsz')==-1&&way== 'GROUP'){//没有权限
         var sGroupConverLisit = '<p class="converLimit">!</p>';
         new Window().alert({
@@ -121,7 +39,6 @@ function sendMsg(content,targetId,way,extra,callback){
         var sGroupConverLisit = ''
     }
 
-    //sendInBox(content,way,callback);
     if(extra=='uploadFile'){//如果是上传文件
         //var content = JSON.parse(content);
         var sendMsg = JSON.parse(content);
@@ -140,27 +57,14 @@ function sendMsg(content,targetId,way,extra,callback){
                 '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+                '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>' +
+                //'<button class="downLoadFileMask"></button>' +
                 '</li>';
         }else{//上传的是图片类型的文件
             var sHTML = '<li class="mr-chatContentRFile clearfix">'+
-                    '<img uniqueTime="'+uniqueTime+'" src="'+returnDLLink(sendMsg.filename)+'" class="uploadImg">'+
+                    '<img uniqueTime="'+uniqueTime+'" src="'+returnDLLink(sendMsg.filename)+'" class="uploadImg uploadImgFile">'+
                     '</li>';
         }
-        //var imgSrc = imgType(sendMsg.type);
-        //var file = sendMsg.name.split('.')[0];
-        ////var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-        //var sHTML = '<li class="mr-chatContentRFile clearfix">'+
-        //    '<div class="mr-ownChat">'+
-        //    '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
-        //    '<div class="file_content fl">' +
-        //    '<p class="p1 file_name">'+sendMsg.name+'</p>' +
-        //    '<p class="p2 file_size">'+Msize+'</p>' +
-        //    '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
-        //    '</div>' +
-        //    '</div>' +
-        //    '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
-        //    '</li>';
     }else{//如果是普通消息
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
         var sHTML = '<li class="mr-chatContentR clearfix">'+
@@ -610,12 +514,12 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 //'</div>' +
             '</div>' +
             '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' +
-                //            '<button id="downLoadFile"></button>'+
+            //'<button class="downLoadFileMask"></button>' +
             '</li>';
         }else if(extra=="ImageMessage"){//图片类型的消息
             sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
                 '<img class="headImg" src="'+sImg+'">'+
-                '<img src="'+sContent.imageUri+'" class="uploadImgLeft">'+
+                '<img src="'+sContent.imageUri+'" class="uploadImgLeft uploadImgFile">'+
                 '</li>';
         }else {
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
@@ -644,11 +548,11 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                         //'</div>' +
                         '</div>' +
                         '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
-                        //'<button id="downLoadFile"></button>'+
+                        //'<button class="downLoadFileMask"></button>' +
                         '</li>';
         }else if(extra=="ImageMessage"){//图片类型的消息
             sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
-            '<img src="'+sContent.imageUri+'" class="uploadImg">'+
+            '<img src="'+sContent.imageUri+'" class="uploadImg uploadImgFile">'+
             '</li>';
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
@@ -680,6 +584,8 @@ function fillSelfPage(targetID,targetType){
             $('.mr-record').addClass('active');
             $('#perContainer .mr-chatview').empty();
             $('#perContainer .mr-chatview').append(sDoM);
+
+
             var eDom=document.querySelector('#perContainer .mr-chatview');
             eDom.scrollTop = eDom.scrollHeight;
         },
@@ -1411,12 +1317,16 @@ function reciveInBox(msg){
             var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             var sHTML = ' <li class="mr-chatContentL clearfix" data-t="">'+
                         '<img class="headImg" src="'+sImg+'">'+
-                        '<img src="'+content.imageUri+'" class="uploadImgLeft">'+
+                        '<img src="'+content.imageUri+'" class="uploadImgLeft uploadImgFile">'+
                         '</li>';
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
-            var eDom=document.querySelector('#perContainer .mr-chatview');
-            eDom.scrollTop = eDom.scrollHeight;
+
+            $('.uploadImgFile').on('load',function(){
+                var eDom=document.querySelector('#perContainer .mr-chatview');
+                eDom.scrollTop = eDom.scrollHeight;
+            })
+
         }else{
 
         }
