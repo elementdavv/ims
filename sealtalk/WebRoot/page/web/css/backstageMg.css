@@ -301,13 +301,13 @@
     word-break:break-all;
     min-height: 26px;
 }
-.mr-chatContentL img{
-    position:absolute;
-    left:30px;
-    width:44px;
-    height:44px;
-    border-radius: 100%;
-}
+/*.mr-chatContentL img{*/
+    /*position:absolute;*/
+    /*left:30px;*/
+    /*width:44px;*/
+    /*height:44px;*/
+    /*border-radius: 100%;*/
+/*}*/
 .mr-chatBox span{
     font-size:14px;
     line-height:24px;
@@ -402,6 +402,13 @@
     height: 44px;
     border-radius: 100%;
 }
+.mr-chatContentL .headImg {
+    position: absolute;
+    left: 30px;
+    width: 44px;
+    height: 44px;
+    border-radius: 100%;
+}
 .mr-chatContentLFile .fileImg{
     float: left;
     width: 50px;
@@ -437,6 +444,20 @@
     background: url('img/backstage.png')no-repeat -149px -119px;
     width: 7px;
     height: 12px;
+}
+img.uploadImg {
+    float: right;
+    margin-right: 40px;
+    width: auto;
+    height: auto;
+    max-width: 500px;
+}
+img.uploadImgLeft {
+    float: left;
+    margin-left: 100px;
+    width: auto;
+    height: auto;
+    max-width: 500px;
 }
 .downLoadFile{
     display: inline-block;

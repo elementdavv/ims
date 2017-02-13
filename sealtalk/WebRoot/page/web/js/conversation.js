@@ -82,7 +82,7 @@ $(function(){
                         var content = filedetail;
                         //var extra = "uploadFile";
 
-                        sendByRongFile(content,targetId,targetType);
+                        //sendByRongFile(content,targetId,targetType);
                         //console.log(data);
                         uploading = false;
                     },
@@ -104,7 +104,7 @@ function sendMsg(content,targetId,way,extra,callback){
     //发出去的消息 先显示到盒子里,
     //权限有没有
     var limit = $('body').attr('limit');
-    console.log(limit);
+    //console.log(limit);
     //var oLimit = JSON.parse(limit);
     if(limit.indexOf('stsz')==-1&&way== 'GROUP'){//没有权限
         var sGroupConverLisit = '<p class="converLimit">!</p>';
@@ -127,20 +127,40 @@ function sendMsg(content,targetId,way,extra,callback){
         var sendMsg = JSON.parse(content);
         var uniqueTime = sendMsg.uniqueTime;
         var Msize = KBtoM(sendMsg.size);
-        var imgSrc = imgType(sendMsg.type);
-        var file = sendMsg.name.split('.')[0];
-        //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-        var sHTML = '<li class="mr-chatContentRFile clearfix">'+
-            '<div class="mr-ownChat">'+
-            '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
-            '<div class="file_content fl">' +
-            '<p class="p1 file_name">'+sendMsg.name+'</p>' +
-            '<p class="p2 file_size">'+Msize+'</p>' +
-            '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
-            '</div>' +
-            '</div>' +
-            '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
-            '</li>';
+        if(sendMsg.type!='image/png'&&sendMsg.type!='image/jpeg'){
+            var imgSrc = imgType(sendMsg.type);
+            var file = sendMsg.name.split('.')[0];
+            //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+            var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                '<div class="mr-ownChat">'+
+                '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                '<div class="file_content fl">' +
+                '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+                '<p class="p2 file_size">'+Msize+'</p>' +
+                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
+                '</div>' +
+                '</div>' +
+                '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+                '</li>';
+        }else{//上传的是图片类型的文件
+            var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                    '<img uniqueTime="'+uniqueTime+'" src="'+returnDLLink(sendMsg.filename)+'" class="uploadImg">'+
+                    '</li>';
+        }
+        //var imgSrc = imgType(sendMsg.type);
+        //var file = sendMsg.name.split('.')[0];
+        ////var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+        //var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+        //    '<div class="mr-ownChat">'+
+        //    '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+        //    '<div class="file_content fl">' +
+        //    '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+        //    '<p class="p2 file_size">'+Msize+'</p>' +
+        //    '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
+        //    '</div>' +
+        //    '</div>' +
+        //    '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+        //    '</li>';
     }else{//如果是普通消息
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
         var sHTML = '<li class="mr-chatContentR clearfix">'+
@@ -173,12 +193,9 @@ function sendMsg(content,targetId,way,extra,callback){
         sendByRong(content,targetId,way);
     }
 }
-
+//上传文件
 function sendByRongFile(content,targetId,way,extra){
-    //var name = 'RongIMLib.js',
-    //    size = 1024,
-    //    type = 'js',
-    //    fileUrl = 'http://xxxx.xxx.xx/RongIMLib.js';
+
     var msg = new RongIMLib.FileMessage(content);
     var conversationtype = RongIMLib.ConversationType[way]; // 私聊,其他会话选择相应的消息类型即可。
     RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
@@ -216,8 +233,44 @@ function sendByRongFile(content,targetId,way,extra){
         }
     );
 }
-function sendByRongImg(content,targetId,way,extra){
-
+//上传文件为图片类型
+function sendByRongImg(content,targetId,way){
+    var conversationtype = RongIMLib.ConversationType[way]; // 私聊,其他会话选择相应的消息类型即可。
+    var msg = new RongIMLib.ImageMessage(content);
+    RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+            onSuccess: function (message) {
+                //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+                console.log("Send successfully");
+            },
+            onError: function (errorCode,message) {
+                var info = '';
+                switch (errorCode) {
+                    case RongIMLib.ErrorCode.TIMEOUT:
+                        info = '超时';
+                        break;
+                    case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                        info = '未知错误';
+                        break;
+                    case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+                        info = '在黑名单中，无法向对方发送消息';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+                        info = '不在讨论组中';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_GROUP:
+                        info = '不在群组中';
+                        break;
+                    case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+                        info = '不在聊天室中';
+                        break;
+                    default :
+                        info = x;
+                        break;
+                }
+                console.log('发送失败:' + info);
+            }
+        }
+    );
 }
 
 function sendByRong(content,targetId,way,extra){
@@ -457,7 +510,7 @@ function createConversationList(sDoM,list,targetType){
         var sSentTime = list[i].sentTime;
         var extra = list[i].messageType || '';
 
-        var sContent = extra=='FileMessage'?list[i].content:list[i].content.content;
+        var sContent = extra=='TextMessage'?list[i].content.content:list[i].content;
 
         switch(targetType){
                 case 'GROUP':
@@ -491,7 +544,7 @@ function createConversationList(sDoM,list,targetType){
                     <p class="mr-Date">' + sCurrentTime + '</p>\
                     </li>';
             }
-            sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType);
+            //sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType);
         } else {
             var sNowTime1 = new Date().getTime();//获取当前时间戳
             var sNowCurrentTime1 = changeTimeFormat(sNowTime1, 'y');
@@ -507,12 +560,11 @@ function createConversationList(sDoM,list,targetType){
                 sDoM += '<li data-t="'+sSentTime+'">\
                         <p class="mr-Date">' + sfiveBeforeTime + '</p>\
                         </li>';
-                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
-            } else {
-                sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
             }
+            //sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
             sStartTime=sSentTime;
         }
+        sDoM=sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType)
         //aList=list;
         // return list;
         // hasMsg为boolean值，如果为true则表示还有剩余历史消息可拉取，为false的话表示没有剩余历史消息可供拉取。
@@ -529,64 +581,55 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
     var accountObj = JSON.parse(sdata);
    // var account = accountObj.account;
     var accountID = accountObj.id;
-    if (sTargetId !=accountID) {//别人的
+    if (sTargetId!=''&&sTargetId !=accountID) {//别人的
         var oData=findMemberInList(sTargetId);
         if(oData){
             var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
         }else {
             var sImg=globalVar.defaultLogo;
         }
-        if(extra=="FileMessage"){
-            //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-            //var sendMsg = JSON.parse(sContent);
+        if(extra=="FileMessage") {//文件类型的消息
             var imgSrc = '';
             var Msize = KBtoM(sContent.size);
             var fileURL = sContent.fileUrl;
             //var uniqueTime = sendMsg.uniqueTime;
             var imgSrc = imgType(sContent.type)
             var file = getFileUniqueName(fileURL);
-            sDoM += '<li class="mr-chatContentLFile clearfix" data-t="'+sSentTime+'">'+
-                        '<img class="headImg" src="'+sImg+'">'+
-                        '<div class="mr-ownChat">'+
-                        '<div class="file_type fl"><img  class="fileImg" src="'+imgSrc+'"></div>'+
-                        '<div class="file_content fl">' +
-                        '<p class="p1 file_name">'+sContent.name+'</p>' +
-                        '<p class="p2 file_size">'+Msize+'</p>' +
-                        //'<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
-                        //'</div>' +
-                        '</div>' +
-            '<a fileName="'+file+'"  class="downLoadFile" href="'+fileURL+'"></a>'+
-            //            '<button id="downLoadFile"></button>'+
-                        '</li>';
-
-            }else{
-                var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
-                sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">\
-                    <img src="'+sImg+'">\
-                    <div class="mr-chatBox">\
-                    <span>' + str + '</span>\
-                    <i></i>\
-                    </div>\
-                    </li>';
-            }
+            sDoM += '<li class="mr-chatContentLFile clearfix" data-t="' + sSentTime + '">' +
+            '<img class="headImg" src="' + sImg + '">' +
+            '<div class="mr-ownChat">' +
+            '<div class="file_type fl"><img  class="fileImg" src="' + imgSrc + '"></div>' +
+            '<div class="file_content fl">' +
+            '<p class="p1 file_name">' + sContent.name + '</p>' +
+            '<p class="p2 file_size">' + Msize + '</p>' +
+                //'<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
+                //'</div>' +
+            '</div>' +
+            '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' +
+                //            '<button id="downLoadFile"></button>'+
+            '</li>';
+        }else if(extra=="ImageMessage"){//图片类型的消息
+            sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
+                '<img class="headImg" src="'+sImg+'">'+
+                '<img src="'+sContent.imageUri+'" class="uploadImgLeft">'+
+                '</li>';
+        }else {
+            var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
+            sDoM += ' <li class="mr-chatContentL clearfix" data-t="' + sSentTime + '">\
+                <img class="headImg" src="' + sImg + '">\
+                <div class="mr-chatBox">\
+                <span>' + str + '</span>\
+                <i></i>\
+                </div>\
+                </li>';
         }
-     else {//自己的
+    }else {//自己的
         if(extra=="FileMessage"){
-            var sendMsg = JSON.parse(sContent);
-            var imgSrc = '';
+            var sendMsg = sContent;
             var Msize = KBtoM(sendMsg.size);
-            var uniqueTime = sendMsg.uniqueTime
-            switch (sendMsg.type){
-                case 'image/png':
-                    var imgSrc = 'page/web/css/img/formatImg.png';
-                    break;
-                case 'image/jpg':
-                    var imgSrc = 'page/web/css/img/formatImg.png';
-                    break;
-                default :
-                    var imgSrc = 'page/web/css/img/formatUnknew.png';
-            }
-            var file = sendMsg.filename.split('.')[0];
+            var imgSrc = imgType(sContent.type)
+            var file = getFileUniqueName(sendMsg.fileUrl);
+
             sDoM += '<li class="mr-chatContentRFile clearfix" data-t="'+sSentTime+'">'+
                         '<div class="mr-ownChat">'+
                         '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
@@ -596,9 +639,13 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                         //'<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
                         //'</div>' +
                         '</div>' +
-            '<a fileName="'+file+'" class="downLoadFile" src = "'+returnDLLink(sendMsg.filename)+'" href="'+returnDLLink(sendMsg.filename)+'"></a>'+
+                        '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
                         //'<button id="downLoadFile"></button>'+
                         '</li>';
+        }else if(extra=="ImageMessage"){//图片类型的消息
+            sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
+            '<img src="'+sContent.imageUri+'" class="uploadImg">'+
+            '</li>';
         }else{
             var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
             sDoM += ' <li class="mr-chatContentR clearfix" data-t="'+sSentTime+'">\
@@ -966,13 +1013,13 @@ function scrollTop(eDom){
 function imgType(type){
     switch (type){
         case 'image/png':
-            var imgSrc = 'page/web/css/img/formatImg.png';
+            var imgSrc = 'page/web/css/img/formatImg.jpg';
             break;
         case 'image/jpeg':
-            var imgSrc = 'page/web/css/img/formatImg.png';
+            var imgSrc = 'page/web/css/img/formatImg.jpg';
             break;
         default :
-            var imgSrc = 'page/web/css/img/formatUnknew.png';
+            var imgSrc = 'page/web/css/img/formatUnknew.jpg';
     }
     return imgSrc;
 }
@@ -1303,13 +1350,30 @@ function reciveInBox(msg){
         }else{
 
         }
+    }else if(messageType=='ImageMessage'){
+        if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
+            var content = msg.content;
+            var fileURL = content.imageUri;
+            var file = getFileUniqueName(fileURL);
+            var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
+            var sHTML = ' <li class="mr-chatContentL clearfix" data-t="">'+
+                        '<img class="headImg" src="'+sImg+'">'+
+                        '<img src="'+content.imageUri+'" class="uploadImgLeft">'+
+                        '</li>';
+            var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
+            parentNode.append($(sHTML));
+            var eDom=document.querySelector('#perContainer .mr-chatview');
+            eDom.scrollTop = eDom.scrollHeight;
+        }else{
+
+        }
     }else {
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
         if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {
             //在盒子里显示
             //头像需要自己找？、？
             var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
-                '<img src="'+globalVar.defaultLogo+'">' +
+                '<img class="headImg" src="'+globalVar.defaultLogo+'">' +
                 '<div class="mr-chatBox">' +
                 '<span>' + str + '</span>' +
                 '<i></i>' +
@@ -1318,7 +1382,6 @@ function reciveInBox(msg){
 
             var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
             parentNode.append($(sHTML));
-
             eDom.scrollTop = eDom.scrollHeight;
         } else {
             //消息列表里显示红色小圆圈
