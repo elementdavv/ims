@@ -18,9 +18,9 @@ $(function(){
         var account = CurList.attr('account');
         var datas = localStorage.getItem('MemberFriends');
         var data = JSON.parse(datas);
-        for(var i = 0;i<data.length;i++){
-            if(data[i].account == account){
-                showMemberInfo(data[i],pos);
+        for(var i = 0;i<data.text.length;i++){
+            if(data.text[i].account == account){
+                showMemberInfo(data.text[i],pos);
                 console.log(i);
                 break;
             }
@@ -198,9 +198,9 @@ $(function(){
                     var targerID = memberid;
                     var datas = localStorage.getItem('MemberFriends');
                     var data = JSON.parse(datas);
-                    for(var i = 0;i<data.length;i++){
-                        if(data[i].id == targerID){
-                            showMemberInfo(data[i],pos);
+                    for(var i = 0;i<data.text.length;i++){
+                        if(data.text[i].id == targerID){
+                            showMemberInfo(data.text[i],pos);
                             console.log(i);
                             break;
                         }
@@ -1082,13 +1082,14 @@ function getMemberFriends(account,callback){
         window.localStorage.MemberFriends = data;
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
-        for(var i = 0;i<myData.length;i++){
-            var account = myData[i].account;
-            var fullname = myData[i].fullname;
-            var workno = myData[i].workno?' ('+myData[i].workno+')':''
-            var logo = myData[i].logo?globalVar.imgSrc+myData[i].logo:globalVar.defaultLogo;
-            var curData = myData[i];
-            sHTML += ' <li account="'+account+'" targetid="'+myData[i].id+'">'+
+        for(var i = 0;i<myData.text.length;i++){
+            var curData = myData.text[i];
+            var account = curData.account;
+            var fullname = curData.fullname;
+            var workno = curData.workno?' ('+curData.workno+')':''
+            var logo = curData.logo?globalVar.imgSrc+curData.logo:globalVar.defaultLogo;
+            //var curData = curData;
+            sHTML += ' <li account="'+account+'" targetid="'+curData.id+'">'+
             '<div>'+
             '<img class="groupImg" src="'+logo+'" alt=""/>'+
             '<span class="groupName">'+fullname+workno+'</span>'+

@@ -11,8 +11,6 @@ var globalVar={
     qiniuDOMAN:'http://up.qbox.me',
     qiniuDOWNLOAD:'http://ocsys6mwy.bkt.clouddn.com/',
     imgSrc:'/sealtalk/upload/images/',
-    //defaultLogo:'css/img/PersonImg.png',
-    defaultLogo:'page/web/css/img/PersonImg.png',
-    defaultDepLogo:'page/web/css/img/group_chart.png'
-    //defaultDepLogo:'css/img/group_chart.png'
+    defaultLogo:'page/web/css/img/PersonImg.jpg',
+    defaultDepLogo:'page/web/css/img/group_chart.jpg'
 };

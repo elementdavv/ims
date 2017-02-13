@@ -169,9 +169,11 @@ app.on('ready', () => {
         mainWindow.webContents.send('chDownloadProgress', _url, state, item.getReceivedBytes()/item.getTotalBytes() * 100)
 
         if (state === 'interrupted') {
+          alert('文件上传终止')
           console.log('Download is interrupted but can be resumed')
         } else if (state === 'progressing') {
           if (item.isPaused()) {
+            alert('文件上传暂停')
             console.log('Download is paused')
           } else {
             // console.log(`Received bytes: ${item.getReceivedBytes()}`)

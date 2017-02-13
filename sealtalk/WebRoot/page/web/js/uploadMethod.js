@@ -33,11 +33,11 @@ $(function(){
             var _this = this;
             var _file = this.files[0];
             UploadClient.initImage(config, function(uploadFile){
-                uploading = true;
+                //uploading = true;
                 var callback = {
                     onError: function (errorCode) {
                         //console.log(errorCode);
-                        uploading = false;
+                        //uploading = false;
                     },
                     onProgress: function (loaded, total) {
                         //console.log('onProgress', loaded, total, this);
@@ -50,23 +50,36 @@ $(function(){
                     onCompleted: function (data) {
                         var className = this._self.uniqueTime;
                         var downloadLink = returnDLLink(data.filename);
-                        $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
-                        //发送消息
                         var filedetail = {};
-                        filedetail.name = this._self.name;
-                        filedetail.uniqueTime = this._self.uniqueTime;
-                        filedetail.size = this._self.size;
                         filedetail.type = this._self.type;
-                        filedetail.filename = data.filename;
+
                         filedetail.fileUrl = downloadLink;
                         var targetId = this._self.targetId;
                         var targetType = this._self.targetType;
                         var content = filedetail;
-                        //var extra = "uploadFile";
+                        if(this._self.type=='image/png'||this._self.type=='image/jpeg'){
+                            filedetail.base64Str = data.thumbnail;// 图片转为可以使用 HTML5 的 FileReader 或者 canvas 也可以上传到后台进行转换。
+                            filedetail.imageUri = downloadLink;
+                            $('img[uniquetime="'+className+'"]').attr('src',downloadLink);
+                            if(data.thumbnail){
+                                sendByRongImg(content,targetId,targetType);
+                            }
 
-                        sendByRongFile(content,targetId,targetType);
+                        }else{
+                            filedetail.name = this._self.name;
+                            filedetail.uniqueTime = this._self.uniqueTime;
+                            filedetail.size = this._self.size;
+                            filedetail.type = this._self.type;
+                            filedetail.filename = data.filename;
+                            $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
+                            sendByRongFile(content,targetId,targetType);
+
+                        }
+                        //发送消息
+
+                        //var extra = "uploadFile";
                         //console.log(data);
-                        uploading = false;
+                        //uploading = false;
                     },
                     _self: _file
                 }
@@ -94,8 +107,6 @@ function sendFile(_file,_this,callback){
     _file.targetType = targetType;
     var content = JSON.stringify(filedetail);
     var extra = "uploadFile";
-
-
     sendMsg(content,targetId,targetType,extra,callback);
 }
 
@@ -107,3 +118,4 @@ function returnDLLink(filename){
 //    //debugger;
 //    return globalVar.qiniuDOWNLOAD+filename;
 //}
+
