@@ -114,34 +114,22 @@ $(function(){
                         case RongIMClient.MessageType.TextMessage:
                             //1.获取系统提示音接口
                             //2.获取单独的群消息设置
-                            if(globalVar.SYSTEMSOUND){
-                                if(message.conversationType==3){
-                                    var targetId = message.targetId;
-                                    sendAjax('fun!getNotRecieveMsg',{groupid:targetId,userid:userid},function(data){
-                                        if(data){
-                                            var datas = JSON.parse(data);
-                                            if(datas&&datas.code==1&&datas.text==true){
-                                                console.log(4444);
-                                            }else{
-                                                voicePlay();
-                                            }
-                                        }
-                                    })
-                                }else{
-                                    voicePlay();
-                                }
-                                //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
-
-                            }
-                            reciveInBox(message);
+                            playSound(message,userid);
+                            //reciveInBox(message);
+                            break;
+                        case 'FileMessage':
+                            playSound(message,userid)
+                            //reciveInBox(message);
                             break;
                         case RongIMClient.MessageType.VoiceMessage:
                             // 对声音进行预加载
                             // message.content.content 格式为 AMR 格式的 base64 码
+                            playSound(message,userid);
                             RongIMLib.RongIMVoice.preLoaded(message.content.content);
                             break;
                         case RongIMClient.MessageType.ImageMessage:
                             // do something...
+                            playSound(message,userid);
                             break;
                         case RongIMClient.MessageType.DiscussionNotificationMessage:
                             // do something...
@@ -176,6 +164,7 @@ $(function(){
                         default:
                         // 自定义消息
                         // do something...
+                            break;
                     }
                 }
             });
@@ -245,6 +234,30 @@ $(function(){
 
 
 })
+
+
+function playSound(message,userid){
+    if(globalVar.SYSTEMSOUND){
+        if(message.conversationType==3){
+            var targetId = message.targetId;
+            sendAjax('fun!getNotRecieveMsg',{groupid:targetId,userid:userid},function(data){
+                if(data){
+                    var datas = JSON.parse(data);
+                    if(datas&&datas.code==1&&datas.text==true){
+                        console.log(4444);
+                    }else{
+                        voicePlay();
+                    }
+                }
+            })
+        }else{
+            voicePlay();
+        }
+        //1。获取targetID 查询群禁言设置  if(禁言)、、声音不播放
+
+    }
+    reciveInBox(message);
+}
 function voicePlay(){
     var systemSound_recive = document.getElementById('systemSound_recive');
     systemSound_recive.play();

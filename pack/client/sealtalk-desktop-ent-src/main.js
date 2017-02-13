@@ -155,7 +155,6 @@ app.on('ready', () => {
     // })
 
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
-    //console.log(999999);
     let _url = item.getURL();
     let savePath = path.join(downloadSavePath, Utils.getSavePath(_url));
 
@@ -170,9 +169,11 @@ app.on('ready', () => {
         mainWindow.webContents.send('chDownloadProgress', _url, state, item.getReceivedBytes()/item.getTotalBytes() * 100)
 
         if (state === 'interrupted') {
+          alert('文件上传终止')
           console.log('Download is interrupted but can be resumed')
         } else if (state === 'progressing') {
           if (item.isPaused()) {
+            alert('文件上传暂停')
             console.log('Download is paused')
           } else {
             // console.log(`Received bytes: ${item.getReceivedBytes()}`)
@@ -184,7 +185,7 @@ app.on('ready', () => {
            mainWindow.setProgressBar(-1);        
            mainWindow.webContents.send('chDownloadState', _url, state)
       }
-    //console.log('2222222222222');
+
       if (state === 'completed') {
         // console.log('Download successfully')
         // console.log(`getSavePaths: ${item.getSavePath()}`);  //这里可以得到另存为的路径
@@ -330,11 +331,13 @@ app.on('ready', () => {
     shell.openExternal(url)
   })
 
+  /* 开启后，将进行页面无法跳转
   // Prevent load a new page when accident.
   webContents.on('will-navigate', (event, url) => {
     event.preventDefault()
   })
-
+   */
+   
   // Injects CSS into the current web page.
   webContents.on('dom-ready', () => {
     webContents.insertCSS(fs.readFileSync(path.join(__dirname, 'res', 'browser.css'), 'utf8'))

@@ -14,7 +14,7 @@ var sealtalk_config = {
   PRODUCTNAME: "SealTalk_Ent_Test",
   APPNAME: "SealTalk_Ent_Test",
   VERSION: "1.0.2",
-  DESCRIPTION: "SealTalk Desktop application.", 
+  DESCRIPTION: "SealTalk Desktop application.",
   AUTHOR: "RongCloud",
   LICENSE: "MIT",
   PACKAGE: {

@@ -301,13 +301,13 @@
     word-break:break-all;
     min-height: 26px;
 }
-.mr-chatContentL img{
-    position:absolute;
-    left:30px;
-    width:44px;
-    height:44px;
-    border-radius: 100%;
-}
+/*.mr-chatContentL img{*/
+    /*position:absolute;*/
+    /*left:30px;*/
+    /*width:44px;*/
+    /*height:44px;*/
+    /*border-radius: 100%;*/
+/*}*/
 .mr-chatBox span{
     font-size:14px;
     line-height:24px;
@@ -402,6 +402,13 @@
     height: 44px;
     border-radius: 100%;
 }
+.mr-chatContentL .headImg {
+    position: absolute;
+    left: 30px;
+    width: 44px;
+    height: 44px;
+    border-radius: 100%;
+}
 .mr-chatContentLFile .fileImg{
     float: left;
     width: 50px;
@@ -438,6 +445,20 @@
     width: 7px;
     height: 12px;
 }
+img.uploadImg {
+    float: right;
+    margin-right: 40px;
+    width: auto;
+    height: auto;
+    max-width: 500px;
+}
+img.uploadImgLeft {
+    float: left;
+    margin-left: 100px;
+    width: auto;
+    height: auto;
+    max-width: 500px;
+}
 .downLoadFile{
     display: inline-block;
     width: 30px;
@@ -449,6 +470,25 @@
     border-radius: 30px;
     background-size: 70px 70px;
     background-position: -2px -38px;
+}
+button.downLoadFileMask {
+    display: inline-block;
+    width: 31px;
+    height: 30px;
+    background: transparent;
+    position: absolute;
+    right: 18px;
+    top: 17px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+}
+button.downLoadFileMask:hover{
+    background-color: #3284ee;
+}
+button.downLoadFileMask:active{
+    outline: none;
+    border: none;
 }
 .downLoadFile:hover{
     display: inline-block;
@@ -844,12 +884,25 @@ p.converLimit {
     float:left;
 }
 .chatFile li p b{
-    display:block;
-     font-size:14px;
-    line-height:14px;
-    padding:18px 0 8px;
-     color:rgb(51,51,51);
- }
+      display:block;
+      font-size:14px;
+      line-height:14px;
+      padding:18px 0 8px;
+      color:rgb(51,51,51);
+  }
+.chatFile li p b em{
+    float:left;
+    font-size: 14px;
+    line-height: 14px;
+    color: rgb(51, 51, 51);
+}
+.chatFile li p b .hosFileName {
+    float:left;
+    width:78px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 .chatFile li p span{
     display:block;
     font-size:10px;
@@ -934,7 +987,7 @@ p.converLimit {
 
 div#fileOperate {
     /* height: 20px; */
-    width: 100%;
+    /*width: 100%;*/
     /* background: palegreen; */
     margin-top: -10px;
     margin-left: 70px;
