@@ -24,6 +24,15 @@ $(function(){
         var URL = $(this).parent().prev().attr('href');
         window.Electron.openFileDir(URL);
     })
+    $('#infoDetailsBox .infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFile','click',function(){
+        var URL = $(this).attr('data-url');
+        window.Electron.openFile(URL);
+    })
+
+    $('#infoDetailsBox .infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFloder','click',function(){
+        var URL = $(this).attr('data-url');
+        window.Electron.openFileDir(URL);
+    })
 })
 
 

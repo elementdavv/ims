@@ -24,6 +24,13 @@ $(document).ready(function(){
                });
                break;
            case 'f':
+               var sTargettype=$('#perContainer').attr('targettype');
+               var sTargetid=$('#perContainer').attr('targetid');
+               var $perEle=$('#infoDetailsBox .infoDet-flieRecord').find('.infoDet-page');
+               var oPagetest = new PageObj({divObj:$perEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid,hosFile:'RC:FileMsg'},function(type,list,callback)//声明page1
+               {
+                   getFileRecord(list,'#infoDetailsBox .infoDet-flieRecord .chatRecordSel');
+               });
                break;
        }
    });

@@ -22,7 +22,7 @@ PageObj.prototype.init = function (options,actionCallback){
     this._DestObj = options.divObj;
     this.createHtml();
     this.conversationType = options.conversationtype;//类型
-    //console.log(this.conversationType);
+    this.hosFile=options.hosFile;//是否是文件
     this.targetId = options.targetId;//目标id
     //console.log(this.targetId);
     this._isLoading=false;
@@ -124,28 +124,53 @@ PageObj.prototype.getMoreMessage=function(){
         })
     }
     else {
-        RongIMLib.RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[this.conversationType],this.targetId, this.lastTime, 20,{
-            onSuccess: function(list,has) {
-                _self.hasmoreMessage = has;
-                var alist = list;
-                var end = alist.length - _self._pageSize;
-                alist.splice(0, end < 0 ? 0 : end);
-                _self.messageList=alist;
-                if(!has){
-                    _self._pageNum=_self._pageNow;
-                }else{
-                    _self._pageNum++;
-                }
-                for(var i=1;i<alist.length+1;i++){
-                    _self.dataBase.unshift(alist[alist.length-i]);
-                }
-                _self._CallbackProcess(0);
-                _self.lastTime = (alist[0] || {}).sentTime || 0;
-            },
-            onError:function(){
+        if(this.hosFile == 'RC:FileMsg'){
+            RongIMLib.RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[this.conversationType],this.targetId, this.lastTime, 20,{
+                onSuccess: function(list,has) {
+                    _self.hasmoreMessage = has;
+                    var alist = list;
+                    var end = alist.length - _self._pageSize;
+                    alist.splice(0, end < 0 ? 0 : end);
+                    _self.messageList=alist;
+                    if(!has){
+                        _self._pageNum=_self._pageNow;
+                    }else{
+                        _self._pageNum++;
+                    }
+                    for(var i=1;i<alist.length+1;i++){
+                        _self.dataBase.unshift(alist[alist.length-i]);
+                    }
+                    _self._CallbackProcess(0);
+                    _self.lastTime = (alist[0] || {}).sentTime || 0;
+                },
+                onError:function(){
 
-            }
-        });
+                }
+            },this.hosFile);
+        }else{
+            RongIMLib.RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[this.conversationType],this.targetId, this.lastTime, 20,{
+                onSuccess: function(list,has) {
+                    _self.hasmoreMessage = has;
+                    var alist = list;
+                    var end = alist.length - _self._pageSize;
+                    alist.splice(0, end < 0 ? 0 : end);
+                    _self.messageList=alist;
+                    if(!has){
+                        _self._pageNum=_self._pageNow;
+                    }else{
+                        _self._pageNum++;
+                    }
+                    for(var i=1;i<alist.length+1;i++){
+                        _self.dataBase.unshift(alist[alist.length-i]);
+                    }
+                    _self._CallbackProcess(0);
+                    _self.lastTime = (alist[0] || {}).sentTime || 0;
+                },
+                onError:function(){
+
+                }
+            });
+        }
     }
 };
 /**
