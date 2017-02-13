@@ -25,6 +25,7 @@ $(function(){
     //};
 
     $('.mr-chatview').delegate('.downLoadFile', 'click', _fnDown);
+    $('.chatRecordSel').delegate('.downLoadFile', 'click', _fnDown);
     /*$('.mr-chatview').delegate('.downLoadFileMask','click',function(){
         if(window.Electron){
             var url = $(this).prev().attr('href');
@@ -44,12 +45,23 @@ $(function(){
         var URL = $(this).parent().prev().attr('href');
         window.Electron.openFileDir(URL);
     })
-    $('#infoDetailsBox .infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFile','click',function(){
+    $('.chatRecordSel').undelegate('.openFile','click');
+    $('.chatRecordSel').delegate('.openFile','click',function(){
+        var URL = $(this).parent().prev().attr('href');
+        window.Electron.openFile(URL);
+    });
+    $('.chatRecordSel').undelegate('.openFloder','click');
+    $('.chatRecordSel').delegate('.openFloder','click',function(){
+        var URL = $(this).parent().prev().attr('href');
+        window.Electron.openFileDir(URL);
+    });
+    $('.chatRecordSel').undelegate('.hosOpenFile','click');
+    $('.chatRecordSel').delegate('.hosOpenFile','click',function(){
         var URL = $(this).attr('data-url');
         window.Electron.openFile(URL);
     })
-
-    $('#infoDetailsBox .infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFloder','click',function(){
+    $('.chatRecordSel').undelegate('.hosOpenFloder','click');
+    $('.chatRecordSel').delegate('.hosOpenFloder','click',function(){
         var URL = $(this).attr('data-url');
         window.Electron.openFileDir(URL);
     })

@@ -861,12 +861,13 @@ function getChatRecord(aList,sClass){
             if(sExtra=='FileMessage'){
                 //var sendMsg = JSON.parse(sContent);
                // var imgSrc = '';
+                var imgSrc = imgType(sContent.type);
                 var Msize = KBtoM(sContent.size);
                 var uniqueTime = sContent.uniqueTime;
                 var fileURL=sContent.fileUrl;
                 var file = getFileUniqueName(fileURL);
                 sContent= '<div class="downLoadFileInfo clearfix">'+
-                '<div class="file_typeHos fl"><img src=""></div>'+
+                '<div class="file_typeHos fl"><img src="'+imgSrc+'"></div>'+
                 '<div class="file_contentHos fl">' +
                 '<p class="p1 file_nameHos">'+sContent.name+'</p>' +
                 '<p class="p2 file_sizeHos">'+Msize+'</p>' +
@@ -944,7 +945,10 @@ function getFileRecord(aList,sClass){
             } else {
                 var sSendfName = oLocData.name;
             }
-            sLi += ' <li class="chatFile-folder">\
+            if(window.Electron){
+                var localPath = window.Electron.chkFileExists(fileSrc);
+                if(localPath){
+                    sLi += ' <li class="chatFile-folder">\
             <i></i>\
             <p>\
             <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
@@ -953,6 +957,17 @@ function getFileRecord(aList,sClass){
             <strong  data-url="'+fileSrc+'" class="hosOpenFile">打开</strong>\
             <strong data-url="'+fileSrc+'" class="hosOpenFloder">打开文件夹</strong>\
             </li>';
+                }else{
+                    sLi += ' <li class="chatFile-folder">\
+            <i></i>\
+            <p>\
+            <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
+            <span>' + sSentTimeReg + sSendfName + '</span>\
+            </p>\
+            <strong  data-url="'+fileSrc+'" class="hosOpenFile">打开</strong>\
+            </li>';
+                }
+            }
         }
 
         sDom += sLi + '</ul>';

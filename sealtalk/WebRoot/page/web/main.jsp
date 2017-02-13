@@ -585,51 +585,51 @@
     <input type="text" placeholder="查找信息..."/>
     <i></i>
     </div>
-    <div class="infoDet-recordAll">
-    <ul class="chatFile">
-    <li class="chatFile-folder">
-    <i></i>
+    <div class="infoDet-recordAll chatRecordSel">
+    <%--<ul class="chatFile">--%>
+    <%--<li class="chatFile-folder">--%>
+    <%--<i></i>--%>
 
-    <p>
-    <b>色彩搭配(188.mb)</b>
-    <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-    </p>
-    <strong>打开</strong>
-    <strong>打开文件夹</strong>
-    </li>
-    <li class="chatFile-zipFile">
-    <i></i>
+    <%--<p>--%>
+    <%--<b>色彩搭配(188.mb)</b>--%>
+    <%--<span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>--%>
+    <%--</p>--%>
+    <%--<strong>打开</strong>--%>
+    <%--<strong>打开文件夹</strong>--%>
+    <%--</li>--%>
+    <%--<li class="chatFile-zipFile">--%>
+    <%--<i></i>--%>
 
-    <p>
-    <b>色彩搭配(188.mb)</b>
-    <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-    </p>
-    <strong>打开</strong>
-    <strong>打开文件夹</strong>
-    </li>
-    <li class="chatFile-img">
-    <i></i>
+    <%--<p>--%>
+    <%--<b>色彩搭配(188.mb)</b>--%>
+    <%--<span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>--%>
+    <%--</p>--%>
+    <%--<strong>打开</strong>--%>
+    <%--<strong>打开文件夹</strong>--%>
+    <%--</li>--%>
+    <%--<li class="chatFile-img">--%>
+    <%--<i></i>--%>
 
-    <p>
-    <b>色彩搭配(188.mb)</b>
-    <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-    </p>
-    <strong>打开</strong>
-    <strong>打开文件夹</strong>
-    </li>
-    <li class="chatFile-unknown">
-    <i></i>
+    <%--<p>--%>
+    <%--<b>色彩搭配(188.mb)</b>--%>
+    <%--<span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>--%>
+    <%--</p>--%>
+    <%--<strong>打开</strong>--%>
+    <%--<strong>打开文件夹</strong>--%>
+    <%--</li>--%>
+    <%--<li class="chatFile-unknown">--%>
+    <%--<i></i>--%>
 
-    <p>
-    <b>色彩搭配(188.mb)</b>
-    <span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>
-    </p>
-    <strong>打开</strong>
-    <strong>打开文件夹</strong>
-    </li>
-    </ul>
+    <%--<p>--%>
+    <%--<b>色彩搭配(188.mb)</b>--%>
+    <%--<span>2016-11-18&nbsp&nbsp15:14&nbsp&nbsp张三</span>--%>
+    <%--</p>--%>
+    <%--<strong>打开</strong>--%>
+    <%--<strong>打开文件夹</strong>--%>
+    <%--</li>--%>
+    <%--</ul>--%>
     </div>
-    <%--<div class="infoDet-page">--%>
+    <div class="infoDet-page">
     <%--<span></span>--%>
 
     <%--<div class="infoDet-pageQuery">--%>
@@ -638,7 +638,7 @@
     <%--<i class="infoDet-nextPage"></i>--%>
     <%--<i class="infoDet-lastPage"></i>--%>
     <%--</div>--%>
-    <%--</div>--%>
+    </div>
     </div>
         </div>
     </div>
