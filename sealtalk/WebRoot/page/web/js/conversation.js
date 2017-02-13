@@ -934,16 +934,16 @@ function getPerInfo(oInfoDetails){
     $('.infoDetails-data').empty();
     $('.infoDetails-data').append(sDom);
 }
-function getChatRecord(aList,hasMsg){
+function getChatRecord(aList,sClass){
     var sDom='<ul class="infoDet-contentDet">';
     var sLi='';
     var aInfo=aList;
-    $('#personalData .chatRecordSel').empty();
+    $(sClass).empty();
     var aDate=[];
     var defaultDate=0;
     if(aInfo.length>0){
         for(var i=0;i<aInfo.length;i++){
-            var sTargetId=aInfo[i].targetId;//f发送者id
+            var sTargetId=aInfo[i].senderUserId;//f发送者id
             var sSentTime=aInfo[i].sentTime;//发送时间
             var sExtra=aInfo[i].content.extra;//信息信息类型
             var sContent=aInfo[i].content.content||'';
@@ -952,16 +952,21 @@ function getChatRecord(aList,hasMsg){
                 var imgSrc = '';
                 var Msize = KBtoM(sendMsg.size);
                 var uniqueTime = sendMsg.uniqueTime;
-                var imgSrc = ingTyoe(sendMsg.type)
-
-                sContent= '<div class="file_type1 fl"><img src="'+imgSrc+'"></div>'+
-                '<div class="file_content1 fl">' +
-                '<p class="p1 file_name1">'+sendMsg.name+'</p>' +
-                '<p class="p2 file_size1">'+Msize+'</p>' +
-                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>'+
+                switch (sendMsg.type){
+                    case 'image/jpeg':
+                        var imgSrc = 'page/web/css/img/backstage.png';
+                        break;
+                }
+                sContent= '<div class="downLoadFileInfo clearfix">'+
+                '<div class="file_typeHos fl"><img src="'+imgSrc+'"></div>'+
+                '<div class="file_contentHos fl">' +
+                '<p class="p1 file_nameHos">'+sendMsg.name+'</p>' +
+                '<p class="p2 file_sizeHos">'+Msize+'</p>' +
+                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                 '</div>' +
-                '<a class="downLoadFile1"></a>'+
-                '</li>';
+                '</div>' +
+                '<a class="downLoadFile" src="'+globalVar.qiniuDOWNLOAD+'?attname='+sendMsg.name+'"></a>'+
+                '<button id="downLoadFile"></button>';
             }else{
                 var  str= RongIMLib.RongIMEmoji.symbolToHTML(sContent);
                 sContent='<span>'+str+'</span><i></i>';
@@ -976,23 +981,24 @@ function getChatRecord(aList,hasMsg){
             var sSentTimeReg=changeTimeFormat(sSentTime,'h');
             var sSentDate=changeTimeFormat(sSentTime,'y');
             //aDate.push(sSentDate);
-                if(sSentDate != defaultDate){
-                    sLi+='<li >\
+            if(sSentDate != defaultDate){
+                sLi+='<li >\
                     <p class="infoDet-timeRecord ">'+sSentDate+'</p>\
                 </li>';
-                    defaultDate=sSentDate;
-                }
-            if(sTargetId){
-               var oThers=findMemberInList(sTargetId);
-                var sName=oThers.name || '';
-               sLi+='<li class="infoDet-OthersSay" data-time="'+sSentTime+'">\
+                defaultDate=sSentDate;
+            }
+            var sdata = localStorage.getItem('datas');
+            var oLocData=JSON.parse(sdata);
+            var accountID = oLocData.id;
+            if(sTargetId !=accountID){
+                var oThers=findMemberInList(sTargetId);
+                var sName=oThers?oThers.name: '';
+                sLi+='<li class="infoDet-OthersSay" data-time="'+sSentTime+'">\
                    <b>'+sName+'&nbsp&nbsp&nbsp'+sSentTimeReg+'</b>\
                 <div class="pageHostoryBox clearfix">'+sContent+'</div>\
                 </li>';
             }else{
-                var sdata = localStorage.getItem('datas');
-                var accountID = JSON.parse(sdata).id;
-                var sSelfName=JSON.parse(sdata).name;
+                var sSelfName=oLocData.name;
                 sLi+='<li class="infoDet-selfSay" data-time="'+sSentTime+'">\
                    <b>'+sSelfName+'&nbsp&nbsp&nbsp'+sSentTimeReg+'</b>\
                 <div class="pageHostoryBox clearfix">'+sContent+'</div>\
@@ -1001,8 +1007,8 @@ function getChatRecord(aList,hasMsg){
         }
         sDom+=sLi+'</ul>';
     }
-    $('#personalData .chatRecordSel').append(sDom);
-    var eDom=document.querySelector('#personalData .chatRecordSel');
+    $(sClass).append(sDom);
+    var eDom=document.querySelector(sClass);
     eDom.scrollTop = eDom.scrollHeight;
 }
 function scrollTop(eDom){
