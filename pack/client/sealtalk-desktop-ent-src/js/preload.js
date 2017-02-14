@@ -228,7 +228,9 @@ function chDownloadProgress(url, state, progress){
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
-    var targetParent = targetA.parents('.mr-ownChat');
+    var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
+    //var targetParent = targetA.parents('.mr-chatBox');
+
     if ($('#down_process[uniquetime=' + file + ']').length == 0) {
       $('#down_process[uniquetime=' + file + ']').remove();
       var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
@@ -250,7 +252,7 @@ function chDownloadState(url, state){
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
-    var targetParent = targetA.parents('.mr-ownChat');
+    var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
     $('#down_process[uniquetime=' + file + ']').remove();
     var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
         '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +

@@ -285,7 +285,7 @@ function fillGroupPage(targetID,targetType,groupName){
                 $('#groupContainer .mr-chatview').attr('data-on',1);
             }
             var sDoM = '<ul class="mr-chatContent">';
-            sDoM+=createConversationList(sDoM,list,targetType);
+            sDoM=createConversationList(sDoM,list,targetType);
             sDoM+='</ul>';
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');

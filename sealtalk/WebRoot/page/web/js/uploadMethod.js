@@ -151,7 +151,10 @@ $(function(){
                         var targetType = this._self.targetType;
                         var content = filedetail;
                         if(this._self.type=='image/png'||this._self.type=='image/jpeg'){
-                            filedetail.base64Str = data.thumbnail;// 图片转为可以使用 HTML5 的 FileReader 或者 canvas 也可以上传到后台进行转换。
+                            var image = new Image();
+                            image.src = downloadLink;
+
+                            //filedetail.base64Str = getBase64Image(downloadLink);// 图片转为可以使用 HTML5 的 FileReader 或者 canvas 也可以上传到后台进行转换。
                             filedetail.imageUri = downloadLink;
                             $('img[uniquetime="'+className+'"]').attr('src',downloadLink);
                             $('img[uniquetime="'+className+'"]').on('load',function(){
@@ -159,7 +162,10 @@ $(function(){
                                 eDom.scrollTop = eDom.scrollHeight;
                             })
                             if(data.thumbnail){
-                                sendByRongImg(content,targetId,targetType);
+                                image.onload = function(){
+                                    content.base64Str = getBase64Image(image);
+                                    sendByRongImg(content,targetId,targetType);
+                                }
                             }
 
 
@@ -191,6 +197,19 @@ $(function(){
 
     })
 })
+
+
+
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/"+ext);
+    return dataURL;
+}
 
 function sendFile(_file,_this,callback){
     var filedetail = {};
