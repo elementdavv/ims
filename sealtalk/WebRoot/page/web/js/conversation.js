@@ -105,6 +105,7 @@ function sendByRongFile(content,targetId,way,extra){
     RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
             onSuccess: function (message) {
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+                getConverList();
                 console.log("Send successfully");
             },
             onError: function (errorCode,message) {
@@ -145,6 +146,7 @@ function sendByRongImg(content,targetId,way){
             onSuccess: function (message) {
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
                 console.log("Send successfully");
+                getConverList();
             },
             onError: function (errorCode,message) {
                 var info = '';
