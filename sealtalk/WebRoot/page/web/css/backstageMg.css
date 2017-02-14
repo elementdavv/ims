@@ -962,6 +962,7 @@ p.converLimit {
     color:rgb(48,192,218);
     line-height:58px;
     font-size:14px;
+    position: relative;
 }
 /*群组资料*/
 .groupInfo{

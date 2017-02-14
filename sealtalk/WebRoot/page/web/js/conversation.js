@@ -955,6 +955,7 @@ function getFileRecord(aList,sClass){
             var sSentTime = aInfo[i].sentTime;//发送时间
             var sContent = aInfo[i].content;
             var fileSrc = sContent.fileUrl;
+            var file = getFileUniqueName(fileSrc);
             var sSentTimeReg = changeTimeFormat(sSentTime, 'ym');
             var Msize = KBtoM(sContent.size);
             var sFileName = sContent.name;
@@ -988,7 +989,7 @@ function getFileRecord(aList,sClass){
             <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
             <span>' + sSentTimeReg + sSendfName + '</span>\
             </p>\
-            <strong  data-url="'+fileSrc+'" class="hosOpenFile">打开</strong>\
+            <strong  data-url="'+fileSrc+'" class="hosOpenFile"><a fileName="' + file + '"  class="downLoadFile" href="' + fileSrc + '"></a></strong>\
             </li>';
                 }
             }

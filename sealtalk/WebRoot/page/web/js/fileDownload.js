@@ -19,13 +19,28 @@ $(function(){
             }
         }
     };
-
+    var _fnDownHos = function(ev){
+        if(window.Electron){
+            var url = $(this).attr('href');
+            var localPath = window.Electron.chkFileExists(url);
+            if(localPath){//本地有这个文件
+                var $selfEle=$(this);
+                var parentNode = $(this).parent().parent();
+                parentNode.find('strong').remove();
+                var sHTML = '<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
+            <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
+                parentNode.append($(sHTML));
+                return false;
+            }
+        }
+    };
     //var _down = function(ev){
     //    console.info(ev.target, ev);
     //};
 
     $('.mr-chatview').delegate('.downLoadFile', 'click', _fnDown);
-    $('.chatRecordSel').delegate('.downLoadFile', 'click', _fnDown);
+    $('.infoDet-chatRecord .chatRecordSel').delegate('.downLoadFile', 'click', _fnDown);
+    $('.infoDet-flieRecord .chatRecordSel').delegate('.downLoadFile', 'click', _fnDownHos);
     /*$('.mr-chatview').delegate('.downLoadFileMask','click',function(){
         if(window.Electron){
             var url = $(this).prev().attr('href');
