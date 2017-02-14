@@ -45,26 +45,39 @@ $(function(){
         var URL = $(this).parent().prev().attr('href');
         window.Electron.openFileDir(URL);
     })
-    $('.chatRecordSel').undelegate('.openFile','click');
-    $('.chatRecordSel').delegate('.openFile','click',function(){
-        var URL = $(this).parent().prev().attr('href');
-        window.Electron.openFile(URL);
-    });
-    $('.chatRecordSel').undelegate('.openFloder','click');
-    $('.chatRecordSel').delegate('.openFloder','click',function(){
-        var URL = $(this).parent().prev().attr('href');
-        window.Electron.openFileDir(URL);
-    });
-    $('.chatRecordSel').undelegate('.hosOpenFile','click');
-    $('.chatRecordSel').delegate('.hosOpenFile','click',function(){
-        var URL = $(this).attr('data-url');
-        window.Electron.openFile(URL);
+    $('.mr-chatview').undelegate('.voiceMsgContent','click');
+    $('.mr-chatview').delegate('.voiceMsgContent','click',function(){
+        var _this = $(this);
+
+        var voiceTimer = null;
+
+        //把正在播放的声音停止
+        var voicePlaying = $('.voiceMsgContent.playing');
+        if(voicePlaying.length!=0){
+            var base64Str = voicePlaying.attr('base64str');
+            clearTimeout(voiceTimer);
+            RongIMLib.RongIMVoice.stop(base64Str);
+            voicePlaying.removeClass('playing');
+        }
+
+        var base64Str = _this.attr('base64str');
+        var duration = base64Str.length/1024;
+        _this.parents('li').find('.msgUnread').remove();
+        if(!_this.hasClass('playing')){
+            RongIMLib.RongIMVoice.play(base64Str,duration);
+            _this.addClass('playing');
+            voiceTimer = setTimeout(function(){
+                _this.removeClass('playing');
+            },duration*1000);
+
+        }else{
+            clearTimeout(voiceTimer);
+            RongIMLib.RongIMVoice.stop(base64Str);
+            _this.parent().removeClass('playing');
+        }
+
     })
-    $('.chatRecordSel').undelegate('.hosOpenFloder','click');
-    $('.chatRecordSel').delegate('.hosOpenFloder','click',function(){
-        var URL = $(this).attr('data-url');
-        window.Electron.openFileDir(URL);
-    })
+
 })
 
 
