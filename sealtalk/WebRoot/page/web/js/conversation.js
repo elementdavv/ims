@@ -873,7 +873,6 @@ function getChatRecord(aList,sClass){
     var sDom='<ul class="infoDet-contentDet">';
     var sLi='';
     var aInfo=aList;
-    console.log(aList);
     $(sClass).empty();
     var aDate=[];
     var defaultDate=0;
@@ -946,7 +945,6 @@ function getFileRecord(aList,sClass){
     var sDom='<ul class="chatFile">';
     var sLi='';
     var aInfo=aList;
-    console.log(aList);
     $(sClass).empty();
     var aDate=[];
     var defaultDate=0;

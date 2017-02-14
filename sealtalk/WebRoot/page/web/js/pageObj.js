@@ -83,9 +83,14 @@ PageObj.prototype.createHtml=function (){
 };
 PageObj.prototype.datechange=function(){
     var _self=this;
-    this._DestObj.find('.calendar').blur(function(){
-        var aDateTime=$('.calendar').asDatepicker('getDate', 'yyyy/mm/dd');
+   // this._DestObj.find('.calendar').off('blur');
+    this._DestObj.find('.calendar').on('blur',function(){
+        console.log(333);
+        var aDateTime=_self._DestObj.find('.calendar').asDatepicker('getDate', 'yyyy/mm/dd');
         var sYear=aDateTime[0]+"  23:59:59";
+        //if($('.calendar-wrap').hasClass('calendar_show')){
+        //    $('.calendar-wrap').removeClass('calendar_show');
+        //}
         var date = new Date(sYear);
         var nSelTime = date.getTime();
         _self.lastTime=nSelTime;
