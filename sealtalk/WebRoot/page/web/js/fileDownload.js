@@ -25,6 +25,7 @@ $(function(){
     //};
 
     $('.mr-chatview').delegate('.downLoadFile', 'click', _fnDown);
+    $('.chatRecordSel').delegate('.downLoadFile', 'click', _fnDown);
     /*$('.mr-chatview').delegate('.downLoadFileMask','click',function(){
         if(window.Electron){
             var url = $(this).prev().attr('href');

@@ -285,6 +285,10 @@ function fillGroupPage(targetID,targetType,groupName){
             var sDoM = '<ul class="mr-chatContent">';
             sDoM+=createConversationList(sDoM,list,targetType);
             sDoM+='</ul>';
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerGroup').removeClass('chatHide');
+            $('.mr-record').addClass('active');
+            $('.mesContainerGroup').removeClass('mesContainer-translateL');
             $('#groupContainer .mr-chatview').empty();
             $('#groupContainer .mr-chatview').append(sDoM);
             var eDom=document.querySelector('#groupContainer .mr-chatview');
@@ -319,7 +323,7 @@ function conversationGroup(targetID,targetType,groupName){
     var $container = $('#groupContainer .mr-chatview');
     var eDom=document.querySelector('#groupContainer .mr-chatview');
     if(eDom.scrollHeight>$('#groupContainer .mr-chatview').height()){
-        $container.perfectScrollbar();
+        //$container.perfectScrollbar();
         $container.scroll(function(e) {
             if($container.scrollTop() === 0) {
                 if($container.attr('data-on')==0){
@@ -429,7 +433,7 @@ function createConversationList(sDoM,list,targetType){
                     }
                     break;
                 case 'PRIVATE':
-                    var sTargetId = list[i].targetId;
+                    var sTargetId = list[i].senderUserId;
                     break;
             }
         var sDateTime = changeTimeFormat(sSentTime, 'y');
@@ -585,13 +589,17 @@ function fillSelfPage(targetID,targetType){
     RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, 0, 20, {
         onSuccess: function(list, hasMsg) {
             if(list.length==0 && !hasMsg){
-                $('#description').attr('data-on',0);
+                $('#perContainer .mr-chatview').attr('data-on',0);
+                //$('#description').attr('data-on',0);
             }else{
-                $('#description').attr('data-on',1);
+                $('#perContainer .mr-chatview').attr('data-on',1);
             }
             var sDoM = '<ul class="mr-chatContent">';
             sDoM=createConversationList(sDoM,list,targetType);
             sDoM+='</ul>';
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerSelf').removeClass('chatHide');
+            $('.mr-record').addClass('active');
             $('#perContainer .mr-chatview').empty();
             $('#perContainer .mr-chatview').append(sDoM);
             var eDom=document.querySelector('#perContainer .mr-chatview');
@@ -614,16 +622,16 @@ function conversationSelf(targetID,targetType){
     //var target = targetID;
     //噗页面 把targetID放进去
     fillSelfPage(targetID,targetType);
-
+    $('.mesContainerSelf').removeClass('mesContainer-translateL');
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
     $('.mesContainerSelf').attr('targetID',targetID);
     $('.mesContainerSelf').attr('targetType',targetType);
    var $container = $('#perContainer .mr-chatview');
-    var eDom=document.querySelector('#groupContainer .mr-chatview');
-    if(eDom.scrollHeight>$('#groupContainer .mr-chatview').height()){
-        $container.perfectScrollbar();
+    var eDom=document.querySelector('#perContainer .mr-chatview');
+    if(eDom.scrollHeight>$('#perContainer .mr-chatview').height()){
+        //$container.perfectScrollbar();
         $container.scroll(function(e) {
             if($container.scrollTop() === 0) {
                 if($container.attr('data-on')==0){
@@ -689,10 +697,6 @@ function conversationSelf(targetID,targetType){
             sendMsg(content,targetId,targetType)
         }
     })
-    $('.orgNavClick').addClass('chatHide');
-    $('.mesContainerSelf').removeClass('chatHide');
-    $('.mr-record').addClass('active');
-    $('.mesContainerSelf').removeClass('mesContainer-translateL');
     //获取右侧的联系人资料聊天记录
     getInfoDetails(targetID,targetType,findMemberInList(targetID));
     clearNoReadMsg(targetType,targetID);
@@ -826,7 +830,7 @@ function getPerInfo(oInfoDetails){
     <img src="'+sLogo+'">\
     <div class="infoDet-text">\
     <p>'+sName+'</p>\
-    <ul class="clearfix showPersonalInfo1" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
+    <ul class="clearfix showPersonalInfo showPerCainter" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
     <li class="sendMsg"></li>\
     <li class="checkPosition"></li>\
     <li class="addConver"></li>\
@@ -867,6 +871,7 @@ function getChatRecord(aList,sClass){
     var sDom='<ul class="infoDet-contentDet">';
     var sLi='';
     var aInfo=aList;
+    console.log(aList);
     $(sClass).empty();
     var aDate=[];
     var defaultDate=0;
@@ -874,39 +879,33 @@ function getChatRecord(aList,sClass){
         for(var i=0;i<aInfo.length;i++){
             var sTargetId=aInfo[i].senderUserId;//f发送者id
             var sSentTime=aInfo[i].sentTime;//发送时间
-            var sExtra=aInfo[i].content.extra;//信息信息类型
-            var sContent=aInfo[i].content.content||'';
-            if(sExtra=='uploadFile'){
-                var sendMsg = JSON.parse(sContent);
-                var imgSrc = '';
-                var Msize = KBtoM(sendMsg.size);
-                var uniqueTime = sendMsg.uniqueTime;
-                switch (sendMsg.type){
-                    case 'image/jpeg':
-                        var imgSrc = 'page/web/css/img/backstage.png';
-                        break;
-                }
+            var sExtra=aInfo[i].messageType;//信息信息类型
+            var sContent=aInfo[i].content;
+            if(sExtra=='FileMessage'){
+                //var sendMsg = JSON.parse(sContent);
+               // var imgSrc = '';
+                var imgSrc = imgType(sContent.type);
+                var Msize = KBtoM(sContent.size);
+                var uniqueTime = sContent.uniqueTime;
+                var fileURL=sContent.fileUrl;
+                var file = getFileUniqueName(fileURL);
                 sContent= '<div class="downLoadFileInfo clearfix">'+
                 '<div class="file_typeHos fl"><img src="'+imgSrc+'"></div>'+
                 '<div class="file_contentHos fl">' +
-                '<p class="p1 file_nameHos">'+sendMsg.name+'</p>' +
+                '<p class="p1 file_nameHos">'+sContent.name+'</p>' +
                 '<p class="p2 file_sizeHos">'+Msize+'</p>' +
                 '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a class="downLoadFile" src="'+globalVar.qiniuDOWNLOAD+'?attname='+sendMsg.name+'"></a>';
-                //'<button class="downLoadFileMask"></button>' +
-                //'<button class="downLoadFileMask"></button>';
+                '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>';
+            }else if(sExtra=="ImageMessage"){
+                var imgURL=sContent.imageUri;
+                sContent='<img src="'+imgURL+'">';
             }else{
-                var  str= RongIMLib.RongIMEmoji.symbolToHTML(sContent);
+                var sTextContent=sContent.content;
+                var  str= RongIMLib.RongIMEmoji.symbolToHTML(sTextContent);
                 sContent='<span>'+str+'</span><i></i>';
             }
-            //switch(sExtra){
-            //    case "RC:TxtMsg":
-            //      var  str= RongIMLib.RongIMEmoji.symbolToHTML(sContent);
-            //       sContent='<span>'+str+'</span><i></i>';
-            //        break;
-            //}
             var sMessageId=aInfo[i].messageId;//信息id
             var sSentTimeReg=changeTimeFormat(sSentTime,'h');
             var sSentDate=changeTimeFormat(sSentTime,'y');
@@ -936,6 +935,65 @@ function getChatRecord(aList,sClass){
             }
         }
         sDom+=sLi+'</ul>';
+    }
+    $(sClass).append(sDom);
+    var eDom=document.querySelector(sClass);
+    eDom.scrollTop = eDom.scrollHeight;
+}
+function getFileRecord(aList,sClass){
+    var sDom='<ul class="chatFile">';
+    var sLi='';
+    var aInfo=aList;
+    console.log(aList);
+    $(sClass).empty();
+    var aDate=[];
+    var defaultDate=0;
+    if(aInfo.length>0) {
+        for (var i = 0; i < aInfo.length; i++) {
+            var sTargetId = aInfo[i].senderUserId;//f发送者id
+            var sSentTime = aInfo[i].sentTime;//发送时间
+            var sContent = aInfo[i].content;
+            var fileSrc = sContent.fileUrl;
+            var sSentTimeReg = changeTimeFormat(sSentTime, 'ym');
+            var Msize = KBtoM(sContent.size);
+            var sFileName = sContent.name;
+            var sFileType = sContent.type;//文件类型
+            var uniqueTime = sContent.uniqueTime;
+            var sdata = localStorage.getItem('datas');
+            var oLocData = JSON.parse(sdata);
+            var accountID = oLocData.id;
+            if (sTargetId != accountID) {
+                var oThers = findMemberInList(sTargetId);
+                var sSendfName = oThers ? oThers.name : '';
+            } else {
+                var sSendfName = oLocData.name;
+            }
+            if(window.Electron){
+                var localPath = window.Electron.chkFileExists(fileSrc);
+                if(localPath){
+                    sLi += ' <li class="chatFile-folder">\
+            <i></i>\
+            <p>\
+            <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
+            <span>' + sSentTimeReg + sSendfName + '</span>\
+            </p>\
+            <strong  data-url="'+fileSrc+'" class="hosOpenFile">打开</strong>\
+            <strong data-url="'+fileSrc+'" class="hosOpenFloder">打开文件夹</strong>\
+            </li>';
+                }else{
+                    sLi += ' <li class="chatFile-folder">\
+            <i></i>\
+            <p>\
+            <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
+            <span>' + sSentTimeReg + sSendfName + '</span>\
+            </p>\
+            <strong  data-url="'+fileSrc+'" class="hosOpenFile">打开</strong>\
+            </li>';
+                }
+            }
+        }
+
+        sDom += sLi + '</ul>';
     }
     $(sClass).append(sDom);
     var eDom=document.querySelector(sClass);
@@ -983,12 +1041,11 @@ function historyMsg(Type,targetId){
     //        onError:function(error){
     //        }
     //    });
-    var oPagetest = new PageObj({divObj:$('.infoDet-chatRecord').find('.infoDet-page'),pageSize:20,conversationtype:Type,targetId:targetId,pageCount:120},function(type,list,callback)//声明page1
-    {
-        getChatRecord(list);
-        //showHistoryMessages(list);
-
-    });
+    //var oPagetest = new PageObj({divObj:$('.infoDet-chatRecord').find('.infoDet-page'),pageSize:20,conversationtype:Type,targetId:targetId,pageCount:120},function(type,list,callback)//声明page1
+    //{
+    //    getChatRecord(list);
+    //
+    //});
     //RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[Type], targetId, 0, 20, {
     //    onSuccess: function(list, hasMsg) {
     //       // console.log(list,hasMsg);
@@ -1041,6 +1098,10 @@ function changeTimeFormat(mSec,format){
             break;
         case 'yh':
             time=y+'-'+month+'-'+d+' '+h+':'+m+':'+s;
+            break;
+        case 'ym':
+            time=y+'-'+month+'-'+d+' '+h+':'+m;
+            break;
     }
     return time;
 }
