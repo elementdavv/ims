@@ -46,7 +46,7 @@ $(document).ready(function(){
 
         });
     });
-    //搜索常用人历史记录
+    //搜索群组历史记录
     $('#groupData').on('click','.searchHostoryInfo',function(){
         var sTargettype=$('#groupContainer').attr('targettype');
         var sTargetid=$('#groupContainer').attr('targetid');

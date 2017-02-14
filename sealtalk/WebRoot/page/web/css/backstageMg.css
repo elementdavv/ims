@@ -501,6 +501,10 @@ p.voiceSecond {
 .mr-chatContent li {
     margin-bottom: 18px;
     position: relative;
+    min-height: 46px;
+}
+.pageHostoryBox img{
+    max-width:260px;
 }
 button.downLoadFileMask {
     display: inline-block;
