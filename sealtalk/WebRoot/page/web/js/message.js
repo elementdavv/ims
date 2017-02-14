@@ -307,6 +307,7 @@ $(function(){
                 break;
             case 5:
                 //从消息列表删除
+                var $THIS=$(this);
                 new Window().alert({
                     title   : '删除会话',
                     content : '确定要从会话列表中删除么？',
@@ -317,10 +318,11 @@ $(function(){
                     handlerForCancle : null,
                     handlerForSure : function(){
                         if(targetType=='GROUP'){
-                            removeConvers('GROUP',targetID);
+                            removeConvers('GROUP',targetID,$THIS);
                         }else{
-                            removeConvers('PRIVATE',targetID);
+                            removeConvers('PRIVATE',targetID,$THIS);
                         }
+
                     }
                 });
 
@@ -958,12 +960,31 @@ function findParentCatalog(target,sHTML){
     return sHTML;
 }
 
-function removeConvers(type,id){
+function removeConvers(type,id,$topEle){
 
     RongIMClient.getInstance().removeConversation(RongIMLib.ConversationType[type],id,{
         onSuccess:function(bool){
             // 删除会话成功。
-            getConverList();
+            var nTopType;
+            switch(type){
+                case 'GROUP':
+                    nTopType=1;
+                    break;
+                case 'PRIVATE':
+                    nTopType=2;
+                    break;
+            }
+            var sData=window.localStorage.getItem("datas");
+            var oData= JSON.parse(sData);
+            var sId=oData.id;
+            var sTopHas=$topEle.attr('data-top');
+            if(sTopHas==1){
+                sendAjax('fun!cancelMsgTop',{userid:sId,topid:id,toptype:nTopType},function(data){
+                    getConverList();
+                });
+            }else{
+                getConverList();
+            }
             console.log('删除会话列表成功');
 
         },

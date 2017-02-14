@@ -283,7 +283,7 @@ function fillGroupPage(targetID,targetType,groupName){
                 $('#groupContainer .mr-chatview').attr('data-on',1);
             }
             var sDoM = '<ul class="mr-chatContent">';
-            sDoM+=createConversationList(sDoM,list,targetType);
+            sDoM=createConversationList(sDoM,list,targetType);
             sDoM+='</ul>';
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');
@@ -414,6 +414,7 @@ function po_Last_Div(obj) {
     }
 }
 function createConversationList(sDoM,list,targetType){
+    console.log(list);
     var timestamp = new Date().getTime();//获取当前时间戳
     var sStartTime=0;
     var sCurrentTime = changeTimeFormat(timestamp, 'yh');
@@ -1158,6 +1159,9 @@ function usualChatList(list){
                 }
             }
             sHTML+=creatTopList(sHTML,aTopList,true);
+            sHTML=creatTopList(sHTML,list,false);
+            $('.usualChatListUl').html(sHTML);
+        }else{
             sHTML=creatTopList(sHTML,list,false);
             $('.usualChatListUl').html(sHTML);
         }
