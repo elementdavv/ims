@@ -124,8 +124,9 @@ $(function(){
                         case RongIMClient.MessageType.VoiceMessage:
                             // 对声音进行预加载
                             // message.content.content 格式为 AMR 格式的 base64 码
-                            playSound(message,userid);
+                            //RongIMLib.RongIMVoice.preLoaded(base64Str);
                             RongIMLib.RongIMVoice.preLoaded(message.content.content);
+                            playSound(message,userid);
                             break;
                         case RongIMClient.MessageType.ImageMessage:
                             // do something...
@@ -144,7 +145,8 @@ $(function(){
                             // do something...
                             break;
                         case RongIMClient.MessageType.InformationNotificationMessage:
-                            // do something...
+
+                            reciveInBox(message);
                             break;
                         case RongIMClient.MessageType.ContactNotificationMessage:
                             // do something...

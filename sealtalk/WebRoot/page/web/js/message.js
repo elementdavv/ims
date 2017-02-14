@@ -363,7 +363,6 @@ $(function(){
                     var style = 'left:'+left+'px;top:'+top+'px';
                     var id = 'newsLeftClick';
                     var memberShip = $topEle.attr('targetid');
-                    //var memberShip =
                     fshowContexMenu(arr,style,id,memberShip,targeType,bTopHas);
                 }else{
                     var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
@@ -964,6 +963,7 @@ function removeConvers(type,id){
     RongIMClient.getInstance().removeConversation(RongIMLib.ConversationType[type],id,{
         onSuccess:function(bool){
             // 删除会话成功。
+            getConverList();
             console.log('删除会话列表成功');
 
         },
@@ -971,17 +971,12 @@ function removeConvers(type,id){
             // error => 删除会话的错误码
         }
     });
-    setTimeout(function(){
-        getConverList();
-
-    },2000)
 }
 
 
 //点击的是部门
 function changeClick1Content(data){
     var sHTML = '<div class="orgNavTitle">标题</div><ul>';
-        //console.log('+++++++++++++++++++',data);
     for(var i = 0;i<data.length;i++){
         var sHeadImg=data[i].logo || 'PersonImg.png';//头像
         var sName=data[i].name||'';//姓名
