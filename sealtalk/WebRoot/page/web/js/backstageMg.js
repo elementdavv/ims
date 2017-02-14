@@ -38,21 +38,26 @@ $(document).ready(function(){
     $('#personalData').on('click','.searchHostoryInfo',function(){
         var sTargettype=$('#perContainer').attr('targettype');
         var sTargetid=$('#perContainer').attr('targetid');
-        var sVal=$(this).prev().val();
-        var oPagetest = new PageObj({divObj:$('.infoDet-chatRecord').find('.infoDet-page'),pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        //var sVal=$(this).prev().val();
+        var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+        var oPagetest = new PageObj({divObj:$perEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
         {
-            getChatRecord(list);
+            getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
 
         });
-        //RongIMLib.RongIMClient.getInstance().searchMessageByContent(RongIMLib.ConversationType[sTargettype],sTargetid,sVal,0,20,1,{
-        //    onSuccess:function(data, count){
-        //        alert(data,count);
-        //        console.log(data);
-        //        console.log(count);
-        //    },
-        //    onError:function(error){
-        //    }
-        //});
+    });
+    //搜索常用人历史记录
+    $('#groupData').on('click','.searchHostoryInfo',function(){
+        var sTargettype=$('#groupContainer').attr('targettype');
+        var sTargetid=$('#groupContainer').attr('targetid');
+        //var sVal=$(this).prev().val();
+        var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+        var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        {
+            getChatRecord(list,'#groupDetailsBox .infoDet-chatRecord .chatRecordSel');
+            //showHistoryMessages(list);
+
+        });
     });
     //群组消息面打扰
     $('#groupData').delegate('.voiceSet','click',function(){
