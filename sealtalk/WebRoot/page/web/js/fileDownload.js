@@ -52,12 +52,12 @@ $(function(){
 
     $('.mr-chatview').undelegate('.openFile','click')
     $('.mr-chatview').delegate('.openFile','click',function(){
-        var URL = $(this).parent().prev().attr('href');
+        var URL = $(this).parent().prev('a').attr('href');
         window.Electron.openFile(URL);
     })
     $('.mr-chatview').undelegate('.openFloder','click');
     $('.mr-chatview').delegate('.openFloder','click',function(){
-        var URL = $(this).parent().prev().attr('href');
+        var URL = $(this).parent().prev('a').attr('href');
         window.Electron.openFileDir(URL);
     })
     $('.infoDet-chatRecord .chatRecordSel').undelegate('.openFile','click');
