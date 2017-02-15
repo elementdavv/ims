@@ -291,6 +291,10 @@ public class GroupServiceImpl implements GroupService {
 				//小灰条显示
 				Integer[] idsInt = new Integer[userIds.length];
 				
+				for(int i = 0; i < userIds.length;i++) {
+					idsInt[i] = Integer.parseInt(userIds[i]);
+				}
+				
 				String[] groupIds = {groupId};
 				
 				List<TMember> memList = memberDao.getMultipleMemberForIds(idsInt);

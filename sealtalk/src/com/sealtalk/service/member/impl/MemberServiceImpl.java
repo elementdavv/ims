@@ -11,8 +11,10 @@ import com.sealtalk.dao.member.TextCodeDao;
 import com.sealtalk.model.TMember;
 import com.sealtalk.model.TextCode;
 import com.sealtalk.service.member.MemberService;
+import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PropertiesUtils;
+import com.sealtalk.utils.RongCloudUtils;
 import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TimeGenerator;
 
@@ -276,6 +278,67 @@ public class MemberServiceImpl implements MemberService {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+		
+		return jo.toString();
+	}
+	
+	@Override
+	public TMember getMemberByToken(String token) {
+		
+		try {
+			if (!StringUtils.getInstance().isBlank(token)) {
+				TMember member = memberDao.getMemberByToken(token);
+				
+				if (member != null) {
+					String tokenMaxAge = PropertiesUtils.getStringByKey("db.tokenMaxAge");
+					
+					long tokenMaxAgeLong = 0;
+					long now = TimeGenerator.getInstance().getUnixTime();
+					long firstTokenDate = member.getCreatetokendate();
+					
+					if (tokenMaxAge != null && !"".equals(tokenMaxAge)) {
+						tokenMaxAgeLong = Long.valueOf(tokenMaxAge);
+					}
+					
+					if ((now - firstTokenDate) <= tokenMaxAgeLong || tokenMaxAgeLong == 0) {
+						return member;
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String getAllMemberInfo() {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			List<TMember> memberList = memberDao.getAllMemberInfo();
+			
+			if (memberList != null) {
+				int memberLen = memberList.size();
+				
+				JSONArray ja = new JSONArray();
+				
+				for(int i = 0; i < memberLen; i++) {
+					TMember tms = memberList.get(i);
+					JSONObject text = JSONUtils.getInstance().modelToJSONObj(tms);
+					ja.add(text);
+				}
+				jo.put("code", 1);
+				jo.put("text", ja.toString());
+			} else {
+				jo.put("code", 0);
+				jo.put("text", Tips.NULLGROUPMEMBER.getText());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return jo.toString();

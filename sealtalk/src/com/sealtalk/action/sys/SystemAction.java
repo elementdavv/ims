@@ -197,6 +197,107 @@ public class SystemAction extends BaseAction {
 		
 		logger.info(token);
 		
+		//设置用户session
+		SessionUser su = new SessionUser();
+		
+		su.setId(member.getId());
+		su.setAccount(member.getAccount());
+		su.setFullname(member.getFullname());
+		su.setToken(token);
+		setSessionUser(su);
+		
+		
+		//2.设置权限
+		List privList = privService.getRoleIdForId(member.getId());
+		SessionPrivilege sp = new SessionPrivilege();
+		ArrayList<JSONObject> ja = new ArrayList<JSONObject>();
+		
+		if (privList != null) {
+			Iterator it = privList.iterator();
+			
+			while(it.hasNext()) {
+				Object[] o = (Object[])it.next();
+				JSONObject js = new JSONObject();
+				js.put("privid", o[0]);
+				js.put("priurl", o[1]);
+				ja.add(js);
+			}
+		
+		} 
+		
+		sp.setPrivilige(ja);
+		setSessionAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGE, sp);
+		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
+		
+		text.remove("password");
+		text.put("token", token);
+		text.put("priv", JSONUtils.getInstance().modelToJSONObj(sp));
+		
+		result.put("code", 1);
+		result.put("text", text.toString());
+		
+		returnToClient(result.toString());
+		
+		return "text";
+	}
+
+	/**
+	 * 免登陆web端
+	 * @return
+	 * @throws ServletException
+	 */
+	public String freeLandingForWeb() throws ServletException {
+		
+		TMember member = memberService.getMemberByToken(token);
+		if (member == null) {
+			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.WRONGTOKEN.getName());
+			return "loginPage";
+		} 
+		
+		SessionUser su = new SessionUser();
+		
+		su.setId(member.getId());
+		su.setAccount(member.getAccount());
+		su.setFullname(member.getFullname());
+		su.setToken(member.getToken());
+		setSessionUser(su);
+		
+		//2.设置权限session
+		List privList = privService.getRoleIdForId(member.getId());
+		SessionPrivilege sp = new SessionPrivilege();
+		
+		if (privList != null) {
+			Iterator it = privList.iterator();
+			ArrayList<JSONObject> ja = new ArrayList<JSONObject>();
+			while(it.hasNext()) {
+				Object[] o = (Object[])it.next();
+				JSONObject js = new JSONObject();
+				js.put("privid", o[0]);
+				js.put("priurl", o[1]);
+				ja.add(js);
+			}
+		
+			sp.setPrivilige(ja);
+		}
+		setSessionAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGE, sp);
+		
+		return "loginSuccess";
+			
+	}
+	
+	/**
+	 * 验证免登陆app端
+	 * @return
+	 * @throws ServletException
+	 */
+	public String freeLandingForApp() throws ServletException {
+		JSONObject result = new JSONObject();
+		TMember member = memberService.getMemberByToken(token);
+		if (member == null) {
+			request.setAttribute(LOGIN_ERROR_MESSAGE, Tips.WRONGTOKEN.getName());
+			return "loginPage";
+		} 
+		
 		//2.设置权限
 		List privList = privService.getRoleIdForId(member.getId());
 		SessionPrivilege sp = new SessionPrivilege();
@@ -433,6 +534,15 @@ public class SystemAction extends BaseAction {
 	private String comparepwd;
 	private String dataSource;
 	private String phone;
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getAccount() {
 		return account;

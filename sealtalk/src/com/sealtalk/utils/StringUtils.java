@@ -33,6 +33,7 @@ public class StringUtils {
 	}
 	
 	public int strToInt(String str) {
+		
 		str = str.replace("\"", "");
 		
 		if(isNumeric(str)) {
@@ -129,6 +130,13 @@ public class StringUtils {
 		
 		return null;
 		
+	}
+	
+	/**
+	 * 转义字符+
+	 */
+	public String plusSlash(String str) {
+        return str.replaceAll("+", "\\+");
 	}
 
 }

@@ -9,14 +9,14 @@
 	<!-- struts-default -->
     <package name="com.sealtalk.action.msg" extends="struts-default">
    		<!-- 消息管理 -->
-        <action name="messageAction" class="com.sealtalk.action.msg.MessageAction">
+        <action name="msg" class="com.sealtalk.action.msg.MessageAction">
 			<result name="text" type="stream">
 				<param name="contentType">text/plain</param>
 				<param name="inputName">inputStream</param>
 			</result>
         </action>
         <!-- 用户服务 -->
-        <action name="userServiceAction" class="com.sealtalk.action.msg.UserServiceAction">
+        <action name="userservice" class="com.sealtalk.action.msg.UserServiceAction">
 			<result name="text" type="stream">
 				<param name="contentType">text/plain</param>
 				<param name="inputName">inputStream</param>
