@@ -167,6 +167,7 @@ window.Electron.ipcRenderer.on('logout', () => {
 })
 
 window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progress) => {
+  console.log('=================================',event)
   if(typeof(chDownloadProgress) == "undefined"){
     console.log('chDownloadProgress do not exist');
     return
@@ -177,7 +178,9 @@ window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progres
 })
 
 window.Electron.ipcRenderer.on('chDownloadState', (event, url, state) => {
-  if(typeof(chDownloadState) == "undefined"){
+  console.log('=================================',event)
+
+if(typeof(chDownloadState) == "undefined"){
     console.log('chDownloadState do not exist');
     return
   }
@@ -229,7 +232,6 @@ function chDownloadProgress(url, state, progress){
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
     var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
-    //var targetParent = targetA.parents('.mr-chatBox');
     if($(targetParent[0]).hasClass('.mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
       if ($('#down_process[uniquetime=' + file + ']').length == 0) {
         $('#down_process[uniquetime=' + file + ']').remove();

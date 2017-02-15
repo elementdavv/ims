@@ -890,10 +890,10 @@ span.defaultText{
     color: #1a1a1a;
 }
 .orgNavClick3{
-    /*height: 100%;*/
     width: 100%;
-    padding-top: 61px;
-    /*background: palevioletred;*/
+    /* padding-top: 61px; */
+    /* background: palevioletred; */
+    height: 100%;
 }
 
 
@@ -971,10 +971,10 @@ span.defaultText{
 .organizeListOuter>div{
     position: absolute;
     /* height: 30px; */
-     width: 100%;
-    top: -35px;
+    width: 100%;
+    /* top: -35px; */
     margin: 0px auto;
-    left: 100px;
+    /* left: 100px; */
 }
 .outerHorizontal{
     height:56px;
@@ -988,6 +988,9 @@ span.defaultText{
 }
 .organizeListOuter{
     position: relative;
+    width: 100%;
+    height: 100%;
+    /*background: papayawhip;*/
 }
 
 

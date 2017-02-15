@@ -330,6 +330,7 @@ $(function(){
         }
     })
     //点击消息列表
+    $('.newsChatList').undelegate('li','mousedown');
     $('.newsChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
         var targetID = $(this).attr('targetid');
@@ -418,7 +419,8 @@ $(function(){
         }
     })
     var oChatList=null;
-    //点击常用联系人（左右键）
+    //点击常用联系人（左右键）3$('.usualChatList').delegate('li','mousedown'
+    $('.usualChatList').undelegate('li','mousedown')
     $('.usualChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
         if(e.buttons==2){
@@ -448,6 +450,7 @@ $(function(){
         $(this).addClass('active');
         return false;
     });
+    $('.usualChatList').undelegate('li','dblclick')
     $('.usualChatList').delegate('li','dblclick',function(){
         clearTimeout(oChatList);
         var targetID = $(this).attr('targetid');
