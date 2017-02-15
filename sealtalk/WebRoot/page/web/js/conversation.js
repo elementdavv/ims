@@ -57,7 +57,7 @@ function sendMsg(content,targetId,way,extra,callback){
                 '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a fileName="'+file+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>' +
+                '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>' +
                 //'<button class="downLoadFileMask"></button>' +
                 '</li>';
         }else{//上传的是图片类型的文件
