@@ -116,7 +116,7 @@ $(function(){
 
     }
 
-    var $file = $("#perContainer .comment-pic-upd");
+    var $file = $(".comment-pic-upd");
     $file.on('change',function(){
         var limit = $('body').attr('limit');
         //var oLimit = JSON.parse(limit);

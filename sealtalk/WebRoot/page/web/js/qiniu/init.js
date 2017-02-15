@@ -53,7 +53,7 @@
         var URL = window.URL || window.webkitURL;
         if(URL){
             var obj = URL.createObjectURL(file)
-            //callback(obj);
+            callback(obj);
         }else{
 
         }
@@ -73,7 +73,7 @@
                 var base64 = canvas.toDataURL(file.type, opts.quality);
                 var reg = new RegExp('^data:image/[^;]+;base64,');
                 base64 = base64.replace(reg, '');
-                callback(base64);
+                //callback(base64);
             } catch (e) {
                 throw new Error(e);
             }
