@@ -60,6 +60,26 @@ $(function(){
         var URL = $(this).parent().prev().attr('href');
         window.Electron.openFileDir(URL);
     })
+    $('.infoDet-chatRecord .chatRecordSel').undelegate('.openFile','click');
+    $('.infoDet-chatRecord .chatRecordSel').delegate('.openFile','click',function(){
+        var URL = $(this).parent().prev().attr('href');
+        window.Electron.openFile(URL);
+    })
+    $('.infoDet-chatRecord .chatRecordSel').undelegate('.openFloder','click');
+    $('.infoDet-chatRecord .chatRecordSel').delegate('.openFloder','click',function(){
+        var URL = $(this).parent().prev().attr('href');
+        window.Electron.openFileDir(URL);
+    })
+    $('.infoDet-flieRecord .chatRecordSel').undelegate('.hosOpenFile','click');
+    $('.infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFile','click',function(){
+        var URL = $(this).attr('data-url');
+        window.Electron.openFile(URL);
+    })
+    $('.infoDet-flieRecord .chatRecordSel').undelegate('.hosOpenFloder','click');
+    $('.infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFloder','click',function(){
+        var URL = $(this).attr('data-url');
+        window.Electron.openFileDir(URL);
+    })
     $('.mr-chatview').undelegate('.voiceMsgContent','click');
     $('.mr-chatview').delegate('.voiceMsgContent','click',function(){
         var _this = $(this);

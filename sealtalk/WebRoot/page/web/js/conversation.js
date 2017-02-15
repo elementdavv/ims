@@ -1403,7 +1403,7 @@ function reciveInBox(msg){
 //从URL连接中取得文件名
 function getFileUniqueName(fileURL){
     var aURM = fileURL.split('attname=')[1];
-    var fileName = aURM.split('.')[0];
+    var fileName = aURM?aURM.split('.')[0]: '';
     return fileName;
 }
 

@@ -53,7 +53,7 @@
         var URL = window.URL || window.webkitURL;
         if(URL){
             var obj = URL.createObjectURL(file)
-            callback(obj);
+            //callback(obj);
         }else{
 
         }
