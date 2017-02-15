@@ -230,16 +230,17 @@ function chDownloadProgress(url, state, progress){
     var targetA = $("a[fileName=" + file + "]");
     var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
     //var targetParent = targetA.parents('.mr-chatBox');
-
-    if ($('#down_process[uniquetime=' + file + ']').length == 0) {
-      $('#down_process[uniquetime=' + file + ']').remove();
-      var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
-          '<div id="down_precent" uniquetime="' + file + '" style="width: 0%;">' +
-          '</div>' +
-          '</div>'
-      targetParent.append(sHTML);
-    } else {
-      $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
+    if($(targetParent[0]).hasClass('.mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
+      if ($('#down_process[uniquetime=' + file + ']').length == 0) {
+        $('#down_process[uniquetime=' + file + ']').remove();
+        var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
+            '<div id="down_precent" uniquetime="' + file + '" style="width: 0%;">' +
+            '</div>' +
+            '</div>'
+        targetParent.append(sHTML);
+      } else {
+        $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
+      }
     }
   }
   console.log(targetA);
@@ -247,16 +248,57 @@ function chDownloadProgress(url, state, progress){
 
 
 function chDownloadState(url, state){
-  console.log(state);
   if (state == 'completed') {
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
-    var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
-    $('#down_process[uniquetime=' + file + ']').remove();
-    var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-        '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
-        '</div>';
-    targetParent.append(sHTML);
+    console.log(targetA.length);
+    for(var i=0;i<targetA.length;++i){
+      if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
+        $('#down_process[uniquetime=' + file + ']').remove();
+        var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+            '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
+            '</div>';
+        var targetParent = targetA.eq(i).parents('.mr-ownChat').length==1?targetA.eq(i).parents('.mr-ownChat'):targetA.eq(i).parents('.mr-chatBox');
+        targetParent.append(sHTML);
+      }else if(targetA.eq(i).closest('.downLoadFileInfo').length>0){
+        targetA.eq(i).closest('.downLoadFileInfo').find('#fileOperate1').remove();
+        var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+            '<span class="openFile">打开文件</span>' +
+            '<span class="openFloder">打开文件夹</span>' +
+            '</div>'
+        targetA.eq(i).closest('.downLoadFileInfo').append($(sHTML));
+      }else{
+        targetA.eq(i).closest('strong').remove();
+        $('.chatFile-folder').find('strong').remove();
+        var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
+            <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
+        $('.chatFile-folder').append(sHtml);
+      }
+    }
+    targetA.each(function(index){
+    });
+    //var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
+    //if(targetA.closest('.mr-ownChat') || targetA.closest('.mr-chatBox')){
+    //  $('#down_process[uniquetime=' + file + ']').remove();
+    //  var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+    //      '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
+    //      '</div>';
+    //  var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
+    //  targetParent.append(sHTML);
+    //}else if (targetA.closest('.downLoadFileInfo').length==1){
+    //  targetA.closest('.downLoadFileInfo').find('#fileOperate').remove();
+    //  var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+    //      '<span class="openFile">打开文件</span>' +
+    //      '<span class="openFloder">打开文件夹</span>' +
+    //      '</div>'
+    //  targetA.closest('.downLoadFileInfo').append($(sHTML));
+    //}else{
+    //    targetA.closest('strong').remove();
+    //    $('.chatFile-folder').find('strong').remove();
+    //    var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
+    //        <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
+    //      $('.chatFile-folder').append(sHtml);
+    //}
   }
 }
