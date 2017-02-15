@@ -157,7 +157,9 @@ app.on('ready', () => {
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
     let _url = item.getURL();
     let savePath = path.join(downloadSavePath, Utils.getSavePath(_url));
+    console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
 
+    console.log(event,item);
     // var rightNow = new Date();
     // var folderDate = rightNow.toISOString().slice(0,10).replace(/-/g,"");
 

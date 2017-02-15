@@ -1381,7 +1381,7 @@ function reciveInBox(msg){
             case "TextMessage":
                 var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
                 var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
-                    '<img class="headImg" src="'+globalVar.defaultLogo+'">' +
+                    '<img class="headImg" src="'+sImg+'">' +
                     '<div class="mr-chatBox">' +
                     '<span>' + str + '</span>' +
                     '<i></i>' +
@@ -1402,9 +1402,13 @@ function reciveInBox(msg){
 }
 //从URL连接中取得文件名
 function getFileUniqueName(fileURL){
-    var aURM = fileURL.split('attname=')[1];
-    var fileName = aURM.split('.')[0];
-    return fileName;
+    if(fileURL){
+        var aURM = fileURL.split('attname=')[1];
+        var fileName = aURM.split('.')[0];
+        return fileName;
+    }else{
+        return "";
+    }
 }
 
 

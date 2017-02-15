@@ -164,7 +164,7 @@ $(function(){
                             })
                             if(data.thumbnail){
                                 image.onload = function(){
-                                    content.base64Str = getBase64Image(image);
+                                    content.base64Str = data.thumbnail;
                                     sendByRongImg(content,targetId,targetType);
                                 }
                             }

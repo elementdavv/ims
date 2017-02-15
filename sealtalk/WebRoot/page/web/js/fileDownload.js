@@ -37,7 +37,6 @@ $(function(){
     //var _down = function(ev){
     //    console.info(ev.target, ev);
     //};
-
     $('.mr-chatview').delegate('.downLoadFile', 'click', _fnDown);
     $('.infoDet-chatRecord .chatRecordSel').delegate('.downLoadFile', 'click', _fnDown);
     $('.infoDet-flieRecord .chatRecordSel').delegate('.downLoadFile', 'click', _fnDownHos);
@@ -49,12 +48,24 @@ $(function(){
             $(this).prev('a').click();
         }
     });*/
-
-    $('.mr-chatview').undelegate('.openFile','click')
-    $('.mr-chatview').delegate('.openFile','click',function(){
-        var URL = $(this).parent().prev('a').attr('href');
-        window.Electron.openFile(URL);
+    var DownImgFlag = false;
+    $('.mr-chatview').undelegate('.uploadImgFile','click')
+    $('.mr-chatview').delegate('.uploadImgFile','click',function(){
+        if(!DownImgFlag){
+            DownImgFlag = true;
+            var url = $(this).attr('src');
+            var localPath = window.Electron.chkFileExists(url);
+            if(localPath){//本地有这个文件
+                window.Electron.openFile(url);
+            }else{
+                console.log('本地没有这个文件');
+                //下载
+                window.location.href = url;
+            }
+            DownImgFlag = false;
+        }
     })
+
     $('.mr-chatview').undelegate('.openFloder','click');
     $('.mr-chatview').delegate('.openFloder','click',function(){
         var URL = $(this).parent().prev('a').attr('href');
