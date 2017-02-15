@@ -116,7 +116,7 @@ $(function(){
 
     }
 
-    var $file = $(".comment-pic-upd");
+    var $file = $("#perContainer .comment-pic-upd");
     $file.on('change',function(){
         var limit = $('body').attr('limit');
         //var oLimit = JSON.parse(limit);
@@ -163,6 +163,12 @@ $(function(){
                                 eDom.scrollTop = eDom.scrollHeight;
                             })
                             if(data.thumbnail){
+                                //image.onreadystatechange = function() {
+                                //    if(image.readyState=="complete"||image.readyState=="loaded"){
+                                //        content.base64Str = data.thumbnail;
+                                //        sendByRongImg(content,targetId,targetType);
+                                //    }
+                                //}
                                 image.onload = function(){
                                     content.base64Str = data.thumbnail;
                                     sendByRongImg(content,targetId,targetType);
