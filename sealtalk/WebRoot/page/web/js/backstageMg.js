@@ -38,7 +38,7 @@ $(document).ready(function(){
     $('#personalData').on('click','.searchHostoryInfo',function(){
         var sTargettype=$('#perContainer').attr('targettype');
         var sTargetid=$('#perContainer').attr('targetid');
-        //var sVal=$(this).prev().val();
+        var sVal=$(this).prev().val();
         var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
         var oPagetest = new PageObj({divObj:$perEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
         {
@@ -50,9 +50,9 @@ $(document).ready(function(){
     $('#groupData').on('click','.searchHostoryInfo',function(){
         var sTargettype=$('#groupContainer').attr('targettype');
         var sTargetid=$('#groupContainer').attr('targetid');
-        //var sVal=$(this).prev().val();
+        var sVal=$(this).prev().val();
         var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
-        var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
         {
             getChatRecord(list,'#groupDetailsBox .infoDet-chatRecord .chatRecordSel');
             //showHistoryMessages(list);
@@ -477,6 +477,15 @@ $(document).ready(function(){
                var oData= JSON.parse(sData);
                var sId=oData.id;
                var sSelfImg=oData.logo;
+               new Window().alert({
+                   title   : '',
+                   content : '个人资料保存成功！',
+                   hasCloseBtn : false,
+                   hasImg : true,
+                   textForSureBtn : false,
+                   textForcancleBtn : false,
+                   autoHide:true
+               });
            }
         });
 
