@@ -284,15 +284,16 @@ function fillGroupPage(targetID,targetType,groupName){
             }else{
                 $('#groupContainer .mr-chatview').attr('data-on',1);
             }
-            var sDoM = '<ul class="mr-chatContent">';
+            var sDoM = '<div class="mr-chatview"><ul class="mr-chatContent">';
             sDoM=createConversationList(sDoM,list,targetType);
-            sDoM+='</ul>';
+            sDoM+='</ul></div>';
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');
+            $('.mesContainerGroup .mr-chatview').remove();
             $('.mr-record').addClass('active');
             $('.mesContainerGroup').removeClass('mesContainer-translateL');
-            $('#groupContainer .mr-chatview').empty();
-            $('#groupContainer .mr-chatview').append(sDoM);
+            //$('#groupContainer .mr-chatview').empty();
+            $('#groupContainer .mr-chateditBox').before(sDoM);
             var eDom=document.querySelector('#groupContainer .mr-chatview');
             if(eDom.scrollHeight>$('#groupContainer .mr-chatview').height()){
                 if($('#groupContainer .uploadImgFile').length!=0){
@@ -416,7 +417,6 @@ function po_Last_Div(obj) {
     }
 }
 function createConversationList(sDoM,list,targetType){
-    console.log(list);
     var timestamp = new Date().getTime();//获取当前时间戳
     var sStartTime=0;
     var sCurrentTime = changeTimeFormat(timestamp, 'yh');
@@ -597,14 +597,14 @@ function fillSelfPage(targetID,targetType){
             }else{
                 $('#perContainer .mr-chatview').attr('data-on',1);
             }
-            var sDoM = '<ul class="mr-chatContent">';
+            var sDoM = ' <div class="mr-chatview"><ul class="mr-chatContent">';
             sDoM=createConversationList(sDoM,list,targetType);
-            sDoM+='</ul>';
+            sDoM+='</ul></div>';
+            $('#perContainer').find('.mr-chatview').remove();
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerSelf').removeClass('chatHide');
             $('.mr-record').addClass('active');
-            $('#perContainer .mr-chatview').empty();
-            $('#perContainer .mr-chatview').append(sDoM);
+            $('#perContainer .mr-chateditBox').before(sDoM);
             var eDom=document.querySelector('#perContainer .mr-chatview');
             eDom.scrollTop = eDom.scrollHeight;
             if($('#perContainer .uploadImgFile').length!=0){
@@ -636,32 +636,32 @@ function conversationSelf(targetID,targetType){
     if(eDom.scrollHeight>$('#perContainer .mr-chatview').height()){
         //$container.perfectScrollbar();
         $container.scroll(function(e) {
-            if($container.scrollTop() === 0) {
-                if($container.attr('data-on')==0){
-                    return;
-                }
-                var stampTime=parseInt($('#perContainer .mr-chatview').find('ul li').first().attr('data-t'));
-                RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
-                    onSuccess: function(list, hasMsg) {
-                        /*  console.log(list);
-                         console.log(hasMsg);*/
-                        if(list.length==0 && !hasMsg){
-                            $('#perContainer .mr-chatview').attr('data-on',0)
+                    if($container.scrollTop() === 0) {
+                        if($container.attr('data-on')==0){
+                            return;
                         }
-                        var sDoM = '';
-                        sDoM=createConversationList(sDoM,list,targetType);
-                        //$('#perContainer .mr-chatview').empty();
-                        $('#perContainer .mr-chatview ul').prepend(sDoM);
-                        /*var eDom=document.querySelector('#perContainer .mr-chatview');
-                         eDom.scrollTop = eDom.scrollHeight;*/
-                    },
-                    onError: function(error) {
-                        // APP未开启消息漫游或处理异常
-                        // throw new ERROR ......
+                        var stampTime=parseInt($('#perContainer .mr-chatview').find('ul li').first().attr('data-t'));
+                        RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
+                            onSuccess: function(list, hasMsg) {
+                                /*  console.log(list);
+                                 console.log(hasMsg);*/
+                                if(list.length==0 && !hasMsg){
+                                    $('#perContainer .mr-chatview').attr('data-on',0)
+                                }
+                                var sDoM = '';
+                                sDoM=createConversationList(sDoM,list,targetType);
+                                //$('#perContainer .mr-chatview').empty();
+                                $('#perContainer .mr-chatview ul').prepend(sDoM);
+                                /*var eDom=document.querySelector('#perContainer .mr-chatview');
+                                 eDom.scrollTop = eDom.scrollHeight;*/
+                            },
+                            onError: function(error) {
+                                // APP未开启消息漫游或处理异常
+                                // throw new ERROR ......
+                            }
+                        });
+                        //$status.text('it reaches the top!');
                     }
-                });
-                //$status.text('it reaches the top!');
-            }
         });
    }
     $('.message-content').html();

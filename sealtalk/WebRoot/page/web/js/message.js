@@ -442,8 +442,8 @@ $(function(){
                 var targetID = sThis.attr('targetid');
                 var targeType = 'PRIVATE';
                 conversationSelf(targetID,targeType);
-                $('.orgNavClick').addClass('chatHide');
-                $('.mesContainerSelf').removeClass('chatHide');
+                //$('.orgNavClick').addClass('chatHide');
+                //$('.mesContainerSelf').removeClass('chatHide');
             },200);
         }
         $('.usualChatList li').removeClass('active');
