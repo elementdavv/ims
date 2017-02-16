@@ -14,6 +14,8 @@ import io.rong.models.TokenReslut;
 
 import java.util.List;
 
+import com.sealtalk.common.Tips;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -170,21 +172,42 @@ public class RongCloudUtils {
 	 * @param type消息类型
 	 * @return
 	 */
-	public String sendSysMsg(String fromId, String[] targetIds, String msg, String extraMsg, int type) {
+	public String sendSysMsg(String fromId, String[] targetIds, String msg, String pushContent, String pushData, String isPersisted, String isCounted, String type) {
 		JSONObject jo = new JSONObject();
 		
-		System.out.println("msg: " + msg);
 		try {
 			if (rongCloud == null) {
 				this.init();
 			}
 
 			JSONObject pushMsg = new JSONObject();
-			pushMsg.put("pushData", msg);
+			pushMsg.put("pushData", pushData);
+			String extraMsg = "";
 			
 			BaseMessage messagePublishSystemTxtMessage = null;
 			
-			switch(type) {
+			int msgType = 1;
+			int isCountedInt = 0;
+			int isPersistedInt = 0;
+			
+			if (pushContent == null) {
+				pushContent = "thisisapush";
+			}
+			if (msg == null) {
+				msg = "";
+			}
+			
+			if (!StringUtils.getInstance().isBlank(type)) {
+				msgType = StringUtils.getInstance().strToInt(type);
+			}
+			if (!StringUtils.getInstance().isBlank(isCounted)) {
+				isCountedInt = Integer.valueOf(StringUtils.getInstance().strToInt(isCounted));
+			}
+			if (!StringUtils.getInstance().isBlank(isPersisted)) {
+				isPersistedInt = Integer.valueOf(StringUtils.getInstance().strToInt(isPersisted));
+			}
+			
+			switch(msgType) {
 				case 1:
 					messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
 					break;
@@ -194,15 +217,15 @@ public class RongCloudUtils {
 			}
 			//TxtMessage messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
 			CodeSuccessReslut messagePublishSystemResult = 
-				rongCloud.message.PublishSystem(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), 0, 0);
+				rongCloud.message.PublishSystem(fromId, targetIds, messagePublishSystemTxtMessage, pushContent, pushMsg.toString(), isPersistedInt, isCountedInt);
 			
 			if (messagePublishSystemResult != null) {
 				System.out.println("sendSysMsg->code: " + messagePublishSystemResult.toString());
 				jo.put("code", messagePublishSystemResult.getCode());
-				jo.put("text", "ok");
+				jo.put("text", Tips.OK.getName());
 			} else {
 				jo.put("code", 0);
-				jo.put("text", "fail");
+				jo.put("text", Tips.FAIL.getName());
 			}
 		} catch (Exception e) {
 			jo.put("code", 0);
@@ -272,7 +295,7 @@ public class RongCloudUtils {
 	 * @param type
 	 * @return
 	 */
-	public String sendPrivateMsg(String fromId, String[] targetIds, String msg, String extraMsg, String count, Integer verifyBlacklist, Integer isPersisted, Integer isCounted, int type) {
+	public String sendPrivateMsg(String fromId, String[] targetIds, String msg, String pushContent, String count, String verifyBlacklist, String isPersisted, String isCounted, String type) {
 		JSONObject jo = new JSONObject();
 		
 		try {
@@ -285,7 +308,30 @@ public class RongCloudUtils {
 			
 			BaseMessage messagePublishSystemTxtMessage = null;
 			
-			switch(type) {
+			int msgType = 1;
+			int isCountedInt = 0;
+			int isPersistedInt = 0;
+			int verifyBlacklistInt = 0;
+			
+			if (pushContent == null) {
+				pushContent = "thisisapush";
+			}
+			
+			String extraMsg = "";
+			if (!StringUtils.getInstance().isBlank(type)) {
+				msgType = StringUtils.getInstance().strToInt(type);
+			}
+			if (!StringUtils.getInstance().isBlank(isCounted)) {
+				isCountedInt = StringUtils.getInstance().strToInt(isCounted);
+			}
+			if (!StringUtils.getInstance().isBlank(isPersisted)) {
+				isPersistedInt = StringUtils.getInstance().strToInt(isPersisted);
+			}
+			if (!StringUtils.getInstance().isBlank(isPersisted)) {
+				isPersistedInt = StringUtils.getInstance().strToInt(verifyBlacklist);
+			}
+			
+			switch(msgType) {
 				case 1:
 					messagePublishSystemTxtMessage = new TxtMessage(msg, extraMsg);
 					break;
@@ -294,7 +340,7 @@ public class RongCloudUtils {
 					break;
 			}
 			CodeSuccessReslut messagePublishSystemResult = 
-				rongCloud.message.publishPrivate(fromId, targetIds, messagePublishSystemTxtMessage, "thisisapush", pushMsg.toString(), count, verifyBlacklist, isPersisted, isCounted);
+				rongCloud.message.publishPrivate(fromId, targetIds, messagePublishSystemTxtMessage, pushContent, pushMsg.toString(), count, verifyBlacklistInt, isPersistedInt, isCountedInt);
 			
 			if (messagePublishSystemResult != null) {
 				System.out.println("sendPrivateMsg->code: " + messagePublishSystemResult.toString());

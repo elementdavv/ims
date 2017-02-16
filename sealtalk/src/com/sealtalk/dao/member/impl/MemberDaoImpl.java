@@ -496,5 +496,43 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public TMember getMemberByToken(String token) {
+		try {
+			String hql = (new StringBuilder("from TMember t where t.token='").append(token).append("'")).toString();
+			
+			List<TMember> list = getSession().createQuery(hql).list();
+			
+			if (list.size() > 0) {
+				return (TMember) list.get(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TMember> getAllMemberInfo() {
+		String sql = (new StringBuilder("from TMember t")).toString();
+		
+		try {
+			Query query = getSession().createQuery(sql);
+			List<TMember> list = query.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
 }

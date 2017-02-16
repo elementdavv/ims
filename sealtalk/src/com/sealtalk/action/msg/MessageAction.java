@@ -22,7 +22,6 @@ import com.sealtalk.utils.StringUtils;
 public class MessageAction extends BaseAction {
 
 	private static final long serialVersionUID = -1948853366651740073L;
-	private static final Logger logger = Logger.getLogger(MessageAction.class);
 	
 	/**
 	 * 发送系统消息
@@ -30,40 +29,48 @@ public class MessageAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String sendSysMsg() throws ServletException {
-		JSONObject jo = new JSONObject();
-		String result = null;
-		
-		if (StringUtils.getInstance().isBlank(fromid) ||
-				StringUtils.getInstance().isBlank(targetids)) {
-			
-			jo.put("code", 0);
-			jo.put("text", Tips.NOSENDPERSON.getName());
-			result = jo.toString();
-			
-		} else {
-			result = msgService.sendSysMsg(fromid, targetids, msg, extraMsg);
-		}
-		
-		return result;
+		String result = msgService.sendSysMsg(fromId, targetIds, msg, pushContent, pushData, isPersisted, isCounted);
+		returnToClient(result);
+		return "text";
 	}
 	
-	private String fromid;
-	private String targetids;
-	private String msg;
-	private String extraMsg;
+	/**
+	 * 发送单人多人会话
+	 * @return
+	 * @throws ServletException
+	 */
+	public String sendPrivateMsg() throws ServletException {
+		String result = msgService.sendPrivateMsg(fromId, targetIds, msg, pushContent, count, verifyBlacklist, isPersisted, isCounted);
+		returnToClient(result);
+		return "text";
+	}
 	
+	private String fromId;
+	private String targetIds;
+	private String msg;
+	private String pushContent;
+	private String pushData;
+	private String isPersisted;
+	private String isCounted;
+	private String count;
+	private String verifyBlacklist;
+ 	
 	private MessageService msgService;
 
-	public String getFromid() {
-		return fromid;
+	public String getFromId() {
+		return fromId;
 	}
 
-	public void setFromid(String fromid) {
-		this.fromid = fromid;
+	public void setFromId(String fromId) {
+		this.fromId = fromId;
 	}
 
-	public String getTargetids() {
-		return targetids;
+	public String getTargetIds() {
+		return targetIds;
+	}
+
+	public void setTargetIds(String targetIds) {
+		this.targetIds = targetIds;
 	}
 
 	public String getMsg() {
@@ -74,16 +81,36 @@ public class MessageAction extends BaseAction {
 		this.msg = msg;
 	}
 
-	public String getExtraMsg() {
-		return extraMsg;
+	public String getPushContent() {
+		return pushContent;
 	}
 
-	public void setExtraMsg(String extraMsg) {
-		this.extraMsg = extraMsg;
+	public void setPushContent(String pushContent) {
+		this.pushContent = pushContent;
 	}
 
-	public void setTargetids(String targetids) {
-		this.targetids = targetids;
+	public String getPushData() {
+		return pushData;
+	}
+
+	public void setPushData(String pushData) {
+		this.pushData = pushData;
+	}
+
+	public String getIsPersisted() {
+		return isPersisted;
+	}
+
+	public void setIsPersisted(String isPersisted) {
+		this.isPersisted = isPersisted;
+	}
+
+	public String getIsCounted() {
+		return isCounted;
+	}
+
+	public void setIsCounted(String isCounted) {
+		this.isCounted = isCounted;
 	}
 
 	public MessageService getMsgService() {
@@ -93,7 +120,21 @@ public class MessageAction extends BaseAction {
 	public void setMsgService(MessageService msgService) {
 		this.msgService = msgService;
 	}
-	
-	
+
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+	public String getVerifyBlacklist() {
+		return verifyBlacklist;
+	}
+
+	public void setVerifyBlacklist(String verifyBlacklist) {
+		this.verifyBlacklist = verifyBlacklist;
+	}
 
 }

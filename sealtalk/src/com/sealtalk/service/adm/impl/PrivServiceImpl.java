@@ -140,13 +140,25 @@ public class PrivServiceImpl implements PrivService {
 	/**
 	 * 根据用户id获取权限
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List getRoleIdForId(int id) {
 		TMemberRole tmList = memberRoleDao.getRoleForId(id);
 		
 		if (tmList != null) {
 			int roleId = tmList.getRoleId();
-			return roleDao.getPrivilegeById(roleId);
+			List<Object[]> list = roleDao.getPrivilegeById(roleId);
+			
+			if (list != null) {
+				return list;
+			/*	int len = list.size();
+				
+				for(int i = 0; i < len; i++) {
+					Object[] o = list.get(i);
+					System.out.println(o[0] + "_" + o[1]);
+				}*/
+			} 
+			
 		}
 		
 		return null;

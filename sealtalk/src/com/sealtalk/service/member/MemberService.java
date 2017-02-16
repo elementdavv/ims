@@ -108,4 +108,17 @@ public interface MemberService {
 	 */
 	public boolean updateUserPwd(String account, String newPwd);
 
+	/**
+	 * 根据token取成员
+	 * @param token
+	 * @return
+	 */
+	public TMember getMemberByToken(String token);
+
+	/**
+	 * 获取所有成员
+	 * @return
+	 */
+	public String getAllMemberInfo();
+
 }

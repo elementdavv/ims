@@ -170,7 +170,7 @@ function sendByRongImg(content,targetId,way){
                         info = '不在聊天室中';
                         break;
                     default :
-                        info = x;
+                        //info = x;
                         break;
                 }
                 console.log('发送失败:' + info);

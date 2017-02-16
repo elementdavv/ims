@@ -24,7 +24,7 @@ public enum  Tips {
 	HAVEZEROFRIEND("没有好友", "00018"),
 	NOHAVEFRIENDRELATION("不存在好友关系", "00019"),
 	NOSENDPERSON("消息发送或接收主体不存在", "00020"),
-	NULLGROUPMEMBER("没有组员", "00021"),
+	NULLGROUPMEMBER("没有成员", "00021"),
 	NULLGROUPNAME("没有群组名称", "00022"),
 	NOSECGROUP("未选取群组", "00023"),
 	NOTCLEARALLMEMBER("有成员未删除，重试或手动删除", "00024"),
@@ -35,6 +35,7 @@ public enum  Tips {
 	WRONGPARAMS("参数不正确", "00029"),
 	NOLOGOERR("没有头像", "00030"),
 	USEDLOGO("头像正在被使用", "00031"),
+	WRONGTOKEN("Token无效","00032"),
 	OK("OK", "10000"),
 	FAIL("fail", "20000");
 	

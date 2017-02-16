@@ -47,6 +47,30 @@ public class SessionPrivilege {
 	private String qzglck;			//查看
 	private String qzgljs;			//解散
 	private String qzglxg;			//修改
+	
+	qxglck			查看（权限管理）
+	qxgltj			添加（权限管理）
+	qxglxg			修改（权限管理）
+	qxglsc			删除（权限管理）
+	grszsygzqm		使用工作签名（个人设置）
+	grszxgyhm		修改用户名（个人设置）
+	grszxgxm		修改姓名 （个人设置）
+	grszxgzw		修改职务（个人设置）
+	ltszfqgrlt		发起个人聊天（聊天设置）
+	ltszqzlt		群组聊天（聊天设置）
+	ltszwjsc		文件上传（聊天设置）
+	qzcjq			创建群（群组）
+	qzjsq			解散群（群组）
+	qzxgqcjz		修改群创建者（群组）
+	djjkq			开启（对讲机）
+	djjfysqtrjy		发言时其他人禁言（对讲机）
+	djjjjhj			紧急呼叫（对讲机）
+	qtckdlwz		查看地理位置(其它)
+	dpjhzsjbmkffqgrlt	发起个人聊天（对平级或者上级部门开放）
+	dpjhzsjbmkfwjsc		文件上传（对平级或者上级部门开放）
+	dpjhzsjbmkfcjq		创建群（对平级或者上级部门开放）
+	dpjhzsjbmkfckdlwz	查看地理位置（对平级或者上级部门开放）
+	dpjhzsjbmkfjjtz		紧急通知（对平级或者上级部门开放）
 	*/
 	public SessionPrivilege(){
 		addList();
@@ -105,5 +129,28 @@ public class SessionPrivilege {
 		privileges.add("qzglck");
 		privileges.add("qzgljs");
 		privileges.add("qzglxg");
+		privileges.add("qxglck");
+		privileges.add("qxgltj");
+		privileges.add("qxglxg");
+		privileges.add("qxglsc");	
+		privileges.add("grszsygzqm");
+		privileges.add("grszxgyhm");
+		privileges.add("grszxgxm");
+		privileges.add("grszxgzw");
+		privileges.add("ltszfqgrlt");
+		privileges.add("ltszqzlt");	
+		privileges.add("ltszwjsc");
+		privileges.add("qzcjq");
+		privileges.add("qzjsq");
+		privileges.add("qzxgqcjz");
+		privileges.add("djjkq");
+		privileges.add("djjfysqtrjy");
+		privileges.add("djjjjhj");
+		privileges.add("qtckdlwz");
+		privileges.add("dpjhzsjbmkffqgrlt");
+		privileges.add("dpjhzsjbmkfwjsc");
+		privileges.add("dpjhzsjbmkfcjq");
+		privileges.add("dpjhzsjbmkfckdlwz");
+		privileges.add("dpjhzsjbmkfjjtz");
 	}
 }
