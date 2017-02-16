@@ -83,7 +83,7 @@
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
-		<c:if test="${SessionPrivilege.map.htgl != null && SessionPrivilege.map.yyapppcd != null}">
+		<c:if test="${SessionPrivilege.map.htgl != null}">
 			<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
 		</c:if>
         <%--<li bindPanel="back">后台管理</li>   --%>
@@ -131,17 +131,17 @@
                 <li class="chatLeftIcon">添加好友</li>
                 <%--权限--%>
                 <%--<li class="chatLeftIcon">发起聊天</li>--%>
-                <c:if test="${SessionPrivilege.map.stsz != null}">
+                <c:if test="${SessionPrivilege.map.ltszfqgrlt != null}">
                     <li class="chatLeftIcon">发起聊天</li>
                 </c:if>
-                <c:if test="${SessionPrivilege.map.stsz == null}">
+                <c:if test="${SessionPrivilege.map.ltszfqgrlt == null}">
                     <li class="chatLeftIcon" displayLimit="false">发起聊天</li>
                 </c:if>
-                <c:if test="${SessionPrivilege.map.stsz != null}">
+                <c:if test="${SessionPrivilege.map.qzcjq != null}">
                     <li class="chatLeftIcon">创建群组</li>
 
                 </c:if>
-                <c:if test="${SessionPrivilege.map.stsz == null}">
+                <c:if test="${SessionPrivilege.map.qzcjq == null}">
                     <li class="chatLeftIcon" displayLimit="false">创建群组</li>
 
                 </c:if>
@@ -281,7 +281,7 @@
                     <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
-                        <c:if test="${SessionPrivilege.map.stsz != null}">
+                        <c:if test="${SessionPrivilege.map.ltszwjsc != null}">
                             <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
                         </c:if>
                     </div>
@@ -333,8 +333,8 @@
                     <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
-                        <c:if test="${SessionPrivilege.map.stsz != null}">
-                        <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
+                        <c:if test="${SessionPrivilege.map.ltszwjsc != null}">
+                            <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
                         </c:if>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ $(function(){
         else e.returnValue = false;
 
         var limit = $('body').attr('limit');
-        if(limit.indexOf('stsz')==-1){
+        if(limit.indexOf('ltszwjsc')==-1){
             new Window().alert({
                 title   : '',
                 content : '您无文件发送权限！',
@@ -120,7 +120,7 @@ $(function(){
     $file.on('change',function(){
         var limit = $('body').attr('limit');
         //var oLimit = JSON.parse(limit);
-        if(limit.indexOf('stsz')==-1){
+        if(limit.indexOf('ltszwjsc')==-1){
             return false;
         }else{
             var _this = this;
