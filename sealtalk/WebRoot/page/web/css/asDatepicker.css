@@ -168,17 +168,18 @@
   z-index: 9999;
 }
 .calendar-input {
-  border: 1px solid green;
+  border: 1px solid #e6e6e6;
+  outline: none;
 }
 .calendar-icon {
-  background-color: gray;
-  border: 1px solid green;
+  background-color: #e6e6e6;
+  border: 1px solid #e6e6e6;
 }
 .calendar_active .calendar-input {
-  border: 1px solid red;
+  border: 1px solid #e6e6e6;
 }
 .calendar_active .calendar-icon {
-  border: 1px solid red;
+  border: 1px solid #e6e6e6;
 }
 .calendar-content {
   background-color: white;

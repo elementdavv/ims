@@ -244,22 +244,22 @@
                 <div class="clearfix cp-oldPassword">
                     <span>旧密码：</span>
                     <input type="password" id="oldPassword">
+                    <p class="oldPassworderror"></p>
                 </div>
-                <p class="oldPassworderror"></p>
                 <div class="clearfix">
                     <span>新密码：</span>
                     <input type="password" class="cp-newPassword" id="cp-newPasswordId">
+        <ul class="cp-passwordSecurity clearfix">
+        <li id="strength_L"></li>
+        <li id="strength_M"></li>
+        <li id="strength_H"></li>
+        </ul>
                 </div>
-                <ul class="cp-passwordSecurity clearfix">
-                    <li id="strength_L"></li>
-                    <li id="strength_M"></li>
-                    <li id="strength_H"></li>
-                </ul>
                 <div class="clearfix cp-reNewPassword">
                     <span>新密码：</span>
                     <input type="password" id="comparepwd">
+                    <p class="retMewPw"></p>
                 </div>
-                <p class="retMewPw"></p>
             </div>
             <b class="systemSet-keep" id="systemSet-keep">保存</b>
         </div>
@@ -273,8 +273,8 @@
                     <i class="mr-record" id="mr-record"></i>
                 </div>
             </h3>
-            <div class="mr-chatview">
-            </div>
+            <%--<div class="mr-chatview">--%>
+            <%--</div>--%>
             <div class="mr-chateditBox">
                 <div class="rongyun-emoji"></div>
                 <div class="mr-expresFile clearfix">
@@ -302,7 +302,7 @@
                     <i class="mr-record" id="groupRecord"></i>
                 </div>
             </h3>
-            <div class="mr-chatview">
+            <%--<div class="mr-chatview">--%>
                 <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
 
                 <%--<p class="mr-time">9:28</p>--%>
@@ -326,7 +326,7 @@
                         <%--</div>--%>
                     <%--</li>--%>
                 <%--</ul>--%>
-            </div>
+            <%--</div>--%>
             <div class="mr-chateditBox">
                 <div class="rongyun-emoji"></div>
                 <div class="mr-expresFile clearfix">
