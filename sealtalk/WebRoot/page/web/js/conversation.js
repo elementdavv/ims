@@ -397,7 +397,6 @@ function conversationGroup(targetID,targetType,groupName){
 
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
-    getGroupDetails(targetID);
     clearNoReadMsg(targetType,targetID);
     getConverList();
 }
@@ -701,7 +700,6 @@ function conversationSelf(targetID,targetType){
         }
     })
     //获取右侧的联系人资料聊天记录
-    getInfoDetails(targetID,targetType,findMemberInList(targetID));
     clearNoReadMsg(targetType,targetID);
     getConverList();
 }
@@ -818,11 +816,12 @@ function getGroupMembersList(groupid){
  * @param oInfoDetails 个人资料
  */
 function getPerInfo(oInfoDetails){
+    console.log(oInfoDetails);
     var sName=oInfoDetails.name || '';//姓名
     var sLogo=oInfoDetails.logo?  globalVar.imgSrc+oInfoDetails.logo : globalVar.defaultLogo;//头像
     var sMobile=oInfoDetails.mobile || '';//手机
     var sEmail=oInfoDetails.email || '';//邮箱
-    var sBranch=oInfoDetails.sex || '';//部门
+    var sBranch=oInfoDetails.postitionname || '';//部门
     var sJob=oInfoDetails.sex || '';//职位
     var sOrg=oInfoDetails.sex || '';//组织
     var sAddress=oInfoDetails.address || '';//地址

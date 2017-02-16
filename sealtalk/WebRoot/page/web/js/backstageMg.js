@@ -161,6 +161,12 @@ $(document).ready(function(){
             $('#perContainer').addClass('mesContainer-translateL');
             $(this).addClass('active');
             $('#personalData').removeClass('chatHide');
+            $('#personalData .infoDetails li').removeClass('active');
+            $('#personalData .infoDetails li').eq(0).addClass('active');
+            $('#personalData .infoDetailsBox>div').addClass('chatHide');
+            $('#personalData .infoDetailsBox>div').eq(0).removeClass('chatHide');
+            var targetID=$('#perContainer').attr('targetid');
+            getPerInfo(findMemberInList(targetID));
         }
     });
 //    后台管理
@@ -228,6 +234,13 @@ $(document).ready(function(){
             $('#groupContainer').addClass('mesContainer-translateL');
             $(this).addClass('active');
             $('#groupData').removeClass('chatHide');
+            $('#groupData .infoDetails li').removeClass('active');
+            $('#groupData .infoDetails li').eq(0).addClass('active');
+            $('#groupData .infoDetailsBox>div').addClass('chatHide');
+            $('#groupData .infoDetailsBox>div').eq(0).removeClass('chatHide');
+            var targetID=$('#groupContainer').attr('targetid');
+            getGroupDetails(targetID);
+
         }
     });
     /*点击群组右边选项卡*/
