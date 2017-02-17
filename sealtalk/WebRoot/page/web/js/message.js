@@ -66,7 +66,7 @@ $(function(){
                 case 'sendMsg'://发起聊天
                     var limit = $('body').attr('limit');
                     //var oLimit = JSON.parse(limit);
-                    if(limit.indexOf('stsz')==-1){//没有权限
+                    if(limit.indexOf('ltszfqgrlt')==-1){//没有权限
                         new Window().alert({
                             title   : '',
                             content : '您无权限发起聊天！',
@@ -91,7 +91,7 @@ $(function(){
                 case 'checkPosition'://查看位置
                     var limit = $('body').attr('limit');
                     //var oLimit = JSON.parse(limit);
-                    if(limit.indexOf('stsz')==-1){//没有权限
+                    if(limit.indexOf('dpjhzsjbmkfckdlwz')==-1){//没有权限
                         new Window().alert({
                             title   : '',
                             content : '您无权限查看位置！',
@@ -116,7 +116,7 @@ $(function(){
                 case 'addConver'://添加群聊
                     var limit = $('body').attr('limit');
                     //var oLimit = JSON.parse(limit);
-                    if(limit.indexOf('stsz')==-1){//没有权限
+                    if(limit.indexOf('qzcjq')==-1){//没有权限
                         new Window().alert({
                             title   : '',
                             content : '您无权限添加群聊！',
@@ -227,7 +227,7 @@ $(function(){
                 //添加新成员
                 var limit = $('body').attr('limit');
                 //var oLimit = JSON.parse(limit);
-                if(limit.indexOf('stsz')==-1) {//没有权限
+                if(limit.indexOf('qzcjq')==-1) {//没有权限
                     return false;
                 }else{
                     var data = localStorage.getItem('getBranchTree');
@@ -362,13 +362,13 @@ $(function(){
                     }else{
                         sTopChat='置顶会话';
                     }
-                    var arr = [{limit:'',value:sTopChat},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
                     var style = 'left:'+left+'px;top:'+top+'px';
                     var id = 'newsLeftClick';
                     var memberShip = $topEle.attr('targetid');
                     fshowContexMenu(arr,style,id,memberShip,targeType,bTopHas);
                 }else{
-                    var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var arr = [{limit:'',value:'置顶会话'},{limit:'ltszqzlt',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'qzcjq',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
                     var style = 'left:'+left+'px;top:'+top+'px';
                     var id = 'newsLeftClick';
                     var memberShip = $topEle.attr('targetid');
@@ -556,14 +556,13 @@ $(function(){
             var memship = $(this).attr('targetid');
             var top = e.clientY;
             //var arr = ['群成员管理','解散群','转让群'];
-            var arr = [{limit:'qzgl',value:'群成员管理'},{limit:'qzgljs',value:'解散群'},{limit:'qzglxg',value:'转让群'}];
+            var arr = [{limit:'qzgl',value:'群成员管理'},{limit:'qzgljs',value:'解散群'},{limit:'qzxgqcjz',value:'转让群'}];
 
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'groupLeftClick'
             fshowContexMenu(arr,style,id,memship);
         }else{//点击群组
             clearTimeout(groupTimer);
-            //var sThis=$(this);
             var targetID = $(this).attr('targetid');
             var targeType = 'GROUP';
             var groupName = $(this).find('.groupName').html();
@@ -834,7 +833,7 @@ $(function(){
 
                 var limit = $('body').attr('limit');
                 //var oLimit = JSON.parse(limit);
-                if(limit.indexOf('stsz')==-1){//没有权限
+                if(limit.indexOf('qzcjq')==-1){//没有权限
                     return false;
                     break;
                 }else{

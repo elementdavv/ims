@@ -83,7 +83,7 @@ window.Electron = {
     }
   },
   chkFileExists: function (url){
-    console.log('bababababab');
+    //console.log('bababababab');
     var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
     var exist = fileExists(savePath);
     return exist ? savePath : '';
@@ -129,7 +129,6 @@ window.Electron.ipcRenderer.on('menu.main.account_settings', () => {
     console.log('_open_account_settings do not exist');
   }
 })
-
 window.Electron.ipcRenderer.on('screenshot', () => {
   // if(typeof(upload_base64) == "undefined"){
   //   console.log('upload_base64 do not exist');
@@ -167,7 +166,7 @@ window.Electron.ipcRenderer.on('logout', () => {
 })
 
 window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progress) => {
-  console.log('=================================',event)
+  //console.log('=================================',event)
   if(typeof(chDownloadProgress) == "undefined"){
     console.log('chDownloadProgress do not exist');
     return
@@ -178,7 +177,7 @@ window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progres
 })
 
 window.Electron.ipcRenderer.on('chDownloadState', (event, url, state) => {
-  console.log('=================================',event)
+  //console.log('=================================',event)
 
 if(typeof(chDownloadState) == "undefined"){
     console.log('chDownloadState do not exist');
@@ -208,7 +207,7 @@ Notification = function (title, options) {
   const notification = new NativeNotification(title, options)
   // 消息提示均由app端调用Notification做,这里只处理win7情况(win7不支持Notification)
   notification.addEventListener('click', () => {
-    console.log('click')
+    //console.log('click')
     window.Electron.ipcRenderer.send('notification-click')
   })
   if (platform.Windows){
@@ -227,7 +226,7 @@ Notification.requestPermission = NativeNotification.requestPermission.bind(Notif
 
 function chDownloadProgress(url, state, progress){
   if (state == 'progressing') {
-    console.log(url, state, progress);
+    //console.log(url, state, progress);
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
@@ -245,7 +244,7 @@ function chDownloadProgress(url, state, progress){
       }
     }
   }
-  console.log(targetA);
+  //console.log(targetA);
 }
 
 
@@ -254,7 +253,14 @@ function chDownloadState(url, state){
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
-    console.log(targetA.length);
+
+    //var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+    //targetA.attr('href',savePath);
+
+    //console.log('*********************');
+    //console.log(targetA.attr('href'));
+
+
     for(var i=0;i<targetA.length;++i){
       if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
         $('#down_process[uniquetime=' + file + ']').remove();

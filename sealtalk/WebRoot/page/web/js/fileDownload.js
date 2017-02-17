@@ -28,7 +28,7 @@ $(function(){
                 var parentNode = $(this).parent().parent();
                 parentNode.find('strong').remove();
                 var sHTML = '<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
-            <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
+                             <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
                 parentNode.append($(sHTML));
                 return false;
             }
@@ -54,49 +54,70 @@ $(function(){
         if(!DownImgFlag){
             DownImgFlag = true;
             var url = $(this).attr('src');
-            var localPath = window.Electron.chkFileExists(url);
-            if(localPath){//本地有这个文件
-                window.Electron.openFile(url);
-            }else{
-                console.log('本地没有这个文件');
-                //下载
-                window.location.href = url;
+            if(window.Electron){
+                var localPath = window.Electron.chkFileExists(url);
+                if(localPath){//本地有这个文件
+                    window.Electron.openFile(url);
+                }else{
+                    console.log('本地没有这个文件');
+                    window.location.href = url;
+                }
+                DownImgFlag = false;
             }
-            DownImgFlag = false;
         }
     })
 
     $('.mr-chatview').undelegate('.openFloder','click');
     $('.mr-chatview').delegate('.openFloder','click',function(){
-        var URL = $(this).parent().prev('a').attr('href');
-        window.Electron.openFileDir(URL);
+        if(window.Electron){
+            var URL = $(this).parent().prev('a').attr('href');
+            window.Electron.openFileDir(URL);
+        }
     })
+
+    $('.mr-chatview').undelegate('.openFile','click');
+    $('.mr-chatview').delegate('.openFile','click',function(){
+        if(window.Electron){
+            var URL = $(this).parent().prev('a').attr('href');
+            window.Electron.openFile(URL);
+        }
+    })
+
     $('.infoDet-chatRecord .chatRecordSel').undelegate('.openFile','click');
     $('.infoDet-chatRecord .chatRecordSel').delegate('.openFile','click',function(){
-        var URL = $(this).parent().prev().attr('href');
-        window.Electron.openFile(URL);
+        if(window.Electron){
+            var URL = $(this).parent().prev().attr('href');
+            window.Electron.openFile(URL);
+        }
     })
     $('.infoDet-chatRecord .chatRecordSel').undelegate('.openFloder','click');
     $('.infoDet-chatRecord .chatRecordSel').delegate('.openFloder','click',function(){
-        var URL = $(this).parent().prev().attr('href');
-        window.Electron.openFileDir(URL);
+        if(window.Electron){
+            var URL = $(this).parent().prev().attr('href');
+            window.Electron.openFileDir(URL);
+        }
+
     })
     $('.infoDet-flieRecord .chatRecordSel').undelegate('.hosOpenFile','click');
     $('.infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFile','click',function(){
-        var URL = $(this).attr('data-url');
-        window.Electron.openFile(URL);
+        if(window.Electron){
+            var URL = $(this).attr('data-url');
+            window.Electron.openFile(URL);
+        }
+
     })
     $('.infoDet-flieRecord .chatRecordSel').undelegate('.hosOpenFloder','click');
     $('.infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFloder','click',function(){
-        var URL = $(this).attr('data-url');
-        window.Electron.openFileDir(URL);
+        if(window.Electron){
+            var URL = $(this).attr('data-url');
+            window.Electron.openFileDir(URL);
+        }
+
     })
     $('.mr-chatview').undelegate('.voiceMsgContent','click');
     $('.mr-chatview').delegate('.voiceMsgContent','click',function(){
         var _this = $(this);
-
         var voiceTimer = null;
-
         //把正在播放的声音停止
         var voicePlaying = $('.voiceMsgContent.playing');
         if(voicePlaying.length!=0){
@@ -105,7 +126,6 @@ $(function(){
             RongIMLib.RongIMVoice.stop(base64Str);
             voicePlaying.removeClass('playing');
         }
-
         var base64Str = _this.attr('base64str');
         var duration = base64Str.length/1024;
         _this.parents('li').find('.msgUnread').remove();
@@ -115,18 +135,74 @@ $(function(){
             voiceTimer = setTimeout(function(){
                 _this.removeClass('playing');
             },duration*1000);
-
         }else{
             clearTimeout(voiceTimer);
             RongIMLib.RongIMVoice.stop(base64Str);
             _this.parent().removeClass('playing');
         }
-
     })
-
 })
 
 
-function chDownloadProgress(){
-    console.log('filedownload');
-}
+//function chDownloadProgress(){
+//    console.log('filedownload');
+//}
+
+//
+//window.chDownloadProgress = function(url, state, progress){
+//    if (state == 'progressing') {
+//        console.log(url, state, progress);
+//        var fileName = url.split('attname=')[1];
+//        var file = fileName.split('.')[0];
+//        var targetA = $("a[fileName=" + file + "]");
+//        var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
+//        if($(targetParent[0]).hasClass('.mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
+//            if ($('#down_process[uniquetime=' + file + ']').length == 0) {
+//                $('#down_process[uniquetime=' + file + ']').remove();
+//                var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
+//                    '<div id="down_precent" uniquetime="' + file + '" style="width: 0%;">' +
+//                    '</div>' +
+//                    '</div>'
+//                targetParent.append(sHTML);
+//            } else {
+//                $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
+//            }
+//        }
+//    }
+//    console.log(targetA);
+//}
+//
+//
+//window.chDownloadState = function(url, state){
+//    if (state == 'completed') {
+//        var fileName = url.split('attname=')[1];
+//        var file = fileName.split('.')[0];
+//        var targetA = $("a[fileName=" + file + "]");
+//        console.log(targetA.length);
+//        for(var i=0;i<targetA.length;++i){
+//            if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
+//                $('#down_process[uniquetime=' + file + ']').remove();
+//                var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+//                            '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
+//                            '</div>';
+//                var targetParent = targetA.eq(i).parents('.mr-ownChat').length==1?targetA.eq(i).parents('.mr-ownChat'):targetA.eq(i).parents('.mr-chatBox');
+//                targetParent.append(sHTML);
+//            }else if(targetA.eq(i).closest('.downLoadFileInfo').length>0){
+//                targetA.eq(i).closest('.downLoadFileInfo').find('#fileOperate1').remove();
+//                var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+//                            '<span class="openFile">打开文件</span>' +
+//                            '<span class="openFloder">打开文件夹</span>' +
+//                            '</div>'
+//                targetA.eq(i).closest('.downLoadFileInfo').append($(sHTML));
+//            }else{
+//                targetA.eq(i).closest('strong').remove();
+//                $('.chatFile-folder').find('strong').remove();
+//                var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
+//            <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
+//                $('.chatFile-folder').append(sHtml);
+//            }
+//        }
+//        targetA.each(function(index){
+//        });
+//    }
+//}
