@@ -625,6 +625,7 @@ function fPersonalSet(){
 function showGroupMemberInfo(oGroupInfo,pos){
     var sName=oGroupInfo.name || '';//群名称
     var sCreatorId=oGroupInfo.mid;//群创建者id
+    var sCreatorAcconut=oGroupInfo.account//群创建者帐号
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
     var oCreator=findMemberInList(sCreatorId);
     if(!oCreator.logo){
@@ -649,7 +650,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     <span>群主/管理员:</span>\
     <i>\
     <img src="'+sImg+'">\
-    </i>\
+    <span class="groupCreater">'+sCreatorAcconut+'</span></i>\
     </li>\
     </ul>\
     </div>';

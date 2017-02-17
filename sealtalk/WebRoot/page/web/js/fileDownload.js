@@ -34,23 +34,14 @@ $(function(){
             }
         }
     };
-    //var _down = function(ev){
-    //    console.info(ev.target, ev);
-    //};
-    $('.mr-chatview').delegate('.downLoadFile', 'click', _fnDown);
+
+    $('.orgNavClick').delegate('.downLoadFile', 'click', _fnDown);
     $('.infoDet-chatRecord .chatRecordSel').delegate('.downLoadFile', 'click', _fnDown);
     $('.infoDet-flieRecord .chatRecordSel').delegate('.downLoadFile', 'click', _fnDownHos);
-    /*$('.mr-chatview').delegate('.downLoadFileMask','click',function(){
-        if(window.Electron){
-            var url = $(this).prev().attr('href');
-            var localPath = window.Electron.chkFileExists(url);
-            console.log(localPath);
-            $(this).prev('a').click();
-        }
-    });*/
+
     var DownImgFlag = false;
-    $('.mr-chatview').undelegate('.uploadImgFile','click')
-    $('.mr-chatview').delegate('.uploadImgFile','click',function(){
+    $('.orgNavClick').undelegate('.uploadImgFile','click')
+    $('.orgNavClick').delegate('.uploadImgFile','click',function(){
         if(!DownImgFlag){
             DownImgFlag = true;
             var url = $(this).attr('src');
@@ -67,16 +58,16 @@ $(function(){
         }
     })
 
-    $('.mr-chatview').undelegate('.openFloder','click');
-    $('.mr-chatview').delegate('.openFloder','click',function(){
+    $('.orgNavClick').undelegate('.openFloder','click');
+    $('.orgNavClick').delegate('.openFloder','click',function(){
         if(window.Electron){
             var URL = $(this).parent().prev('a').attr('href');
             window.Electron.openFileDir(URL);
         }
     })
 
-    $('.mr-chatview').undelegate('.openFile','click');
-    $('.mr-chatview').delegate('.openFile','click',function(){
+    $('.orgNavClick').undelegate('.openFile','click');
+    $('.orgNavClick').delegate('.openFile','click',function(){
         if(window.Electron){
             var URL = $(this).parent().prev('a').attr('href');
             window.Electron.openFile(URL);
@@ -114,8 +105,8 @@ $(function(){
         }
 
     })
-    $('.mr-chatview').undelegate('.voiceMsgContent','click');
-    $('.mr-chatview').delegate('.voiceMsgContent','click',function(){
+    $('.orgNavClick').undelegate('.voiceMsgContent','click');
+    $('.orgNavClick').delegate('.voiceMsgContent','click',function(){
         var _this = $(this);
         var voiceTimer = null;
         //把正在播放的声音停止
@@ -143,66 +134,3 @@ $(function(){
     })
 })
 
-
-//function chDownloadProgress(){
-//    console.log('filedownload');
-//}
-
-//
-//window.chDownloadProgress = function(url, state, progress){
-//    if (state == 'progressing') {
-//        console.log(url, state, progress);
-//        var fileName = url.split('attname=')[1];
-//        var file = fileName.split('.')[0];
-//        var targetA = $("a[fileName=" + file + "]");
-//        var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
-//        if($(targetParent[0]).hasClass('.mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
-//            if ($('#down_process[uniquetime=' + file + ']').length == 0) {
-//                $('#down_process[uniquetime=' + file + ']').remove();
-//                var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
-//                    '<div id="down_precent" uniquetime="' + file + '" style="width: 0%;">' +
-//                    '</div>' +
-//                    '</div>'
-//                targetParent.append(sHTML);
-//            } else {
-//                $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
-//            }
-//        }
-//    }
-//    console.log(targetA);
-//}
-//
-//
-//window.chDownloadState = function(url, state){
-//    if (state == 'completed') {
-//        var fileName = url.split('attname=')[1];
-//        var file = fileName.split('.')[0];
-//        var targetA = $("a[fileName=" + file + "]");
-//        console.log(targetA.length);
-//        for(var i=0;i<targetA.length;++i){
-//            if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
-//                $('#down_process[uniquetime=' + file + ']').remove();
-//                var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-//                            '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
-//                            '</div>';
-//                var targetParent = targetA.eq(i).parents('.mr-ownChat').length==1?targetA.eq(i).parents('.mr-ownChat'):targetA.eq(i).parents('.mr-chatBox');
-//                targetParent.append(sHTML);
-//            }else if(targetA.eq(i).closest('.downLoadFileInfo').length>0){
-//                targetA.eq(i).closest('.downLoadFileInfo').find('#fileOperate1').remove();
-//                var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-//                            '<span class="openFile">打开文件</span>' +
-//                            '<span class="openFloder">打开文件夹</span>' +
-//                            '</div>'
-//                targetA.eq(i).closest('.downLoadFileInfo').append($(sHTML));
-//            }else{
-//                targetA.eq(i).closest('strong').remove();
-//                $('.chatFile-folder').find('strong').remove();
-//                var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
-//            <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
-//                $('.chatFile-folder').append(sHtml);
-//            }
-//        }
-//        targetA.each(function(index){
-//        });
-//    }
-//}
