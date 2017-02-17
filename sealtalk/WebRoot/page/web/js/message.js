@@ -979,13 +979,15 @@ function removeConvers(type,id,$topEle){
             var sData=window.localStorage.getItem("datas");
             var oData= JSON.parse(sData);
             var sId=oData.id;
-            var sTopHas=$topEle.attr('data-top');
-            if(sTopHas==1){
-                sendAjax('fun!cancelMsgTop',{userid:sId,topid:id,toptype:nTopType},function(data){
+            if($topEle){
+                var sTopHas=$topEle.attr('data-top');
+                if(sTopHas==1){
+                    sendAjax('fun!cancelMsgTop',{userid:sId,topid:id,toptype:nTopType},function(data){
+                        getConverList();
+                    });
+                }else{
                     getConverList();
-                });
-            }else{
-                getConverList();
+                }
             }
             console.log('删除会话列表成功');
 

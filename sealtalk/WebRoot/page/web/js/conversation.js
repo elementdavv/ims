@@ -304,6 +304,33 @@ function fillGroupPage(targetID,targetType,groupName){
                     eDom.scrollTop = eDom.scrollHeight;
                 }
             }
+            var $container = $('#groupContainer .mr-chatview');
+            var eDom=document.querySelector('#groupContainer .mr-chatview');
+            if(eDom.scrollHeight>$('#groupContainer .mr-chatview').height()){
+                //$container.perfectScrollbar();
+                $container.scroll(function(e) {
+                    if($container.scrollTop() === 0) {
+                        if($container.attr('data-on')==0){
+                            return;
+                        }
+                        var stampTime=parseInt($('#groupContainer .mr-chatview').find('ul li').first().attr('data-t'));
+                        RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
+                            onSuccess: function(list, hasMsg) {
+                                if(list.length==0 && !hasMsg){
+                                    $('#groupContainer .mr-chatview').attr('data-on',0)
+                                }
+                                var sDoM = '';
+                                sDoM=createConversationList(sDoM,list);
+                                $('#groupContainer .mr-chatview ul').prepend(sDoM);
+                            },
+                            onError: function(error) {
+                                // APP未开启消息漫游或处理异常
+                                // throw new ERROR ......
+                            }
+                        });
+                    }
+                });
+            }
         },
         onError: function(error) {
             // APP未开启消息漫游或处理异常
@@ -323,33 +350,6 @@ function conversationGroup(targetID,targetType,groupName){
     $('.mesContainerGroup').attr('targetID',targetID)
     $('.mesContainerGroup').attr('targetType',targetType)
     //页面滚动条
-    var $container = $('#groupContainer .mr-chatview');
-    var eDom=document.querySelector('#groupContainer .mr-chatview');
-    if(eDom.scrollHeight>$('#groupContainer .mr-chatview').height()){
-        //$container.perfectScrollbar();
-        $container.scroll(function(e) {
-            if($container.scrollTop() === 0) {
-                if($container.attr('data-on')==0){
-                    return;
-                }
-                var stampTime=parseInt($('#groupContainer .mr-chatview').find('ul li').first().attr('data-t'));
-                RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
-                    onSuccess: function(list, hasMsg) {
-                        if(list.length==0 && !hasMsg){
-                            $('#groupContainer .mr-chatview').attr('data-on',0)
-                        }
-                        var sDoM = '';
-                        sDoM=createConversationList(sDoM,list);
-                        $('#groupContainer .mr-chatview ul').prepend(sDoM);
-                    },
-                    onError: function(error) {
-                        // APP未开启消息漫游或处理异常
-                        // throw new ERROR ......
-                    }
-                });
-            }
-        });
-    }
     //点击emoji表情
     $('.rongyun-emoji>span').unbind('click');
     $('.rongyun-emoji>span').on('click',function(){
@@ -641,6 +641,34 @@ function fillSelfPage(targetID,targetType){
             }else{
                 eDom.scrollTop = eDom.scrollHeight;
             }
+            var $container = $('#perContainer .mr-chatview');
+            var eDom=document.querySelector('#perContainer .mr-chatview');
+            if(eDom.scrollHeight>$('#perContainer .mr-chatview').height()){
+                //$container.perfectScrollbar();
+                $container.scroll(function(e) {
+                    if($container.scrollTop() === 0) {
+                        if($container.attr('data-on')==0){
+                            return;
+                        }
+                        var stampTime=parseInt($('#perContainer .mr-chatview').find('ul li').first().attr('data-t'));
+                        RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
+                            onSuccess: function(list, hasMsg) {
+                                if(list.length==0 && !hasMsg){
+                                    $('#perContainer .mr-chatview').attr('data-on',0)
+                                }
+                                var sDoM = '';
+                                sDoM=createConversationList(sDoM,list,targetType);
+                                $('#perContainer .mr-chatview ul').prepend(sDoM);
+                            },
+                            onError: function(error) {
+                                // APP未开启消息漫游或处理异常
+                                // throw new ERROR ......
+                            }
+                        });
+                        //$status.text('it reaches the top!');
+                    }
+                });
+            }
         },
         onError: function(error) {
             // APP未开启消息漫游或处理异常
@@ -652,47 +680,12 @@ function conversationSelf(targetID,targetType){
     //var target = targetID;
     //噗页面 把targetID放进去
     fillSelfPage(targetID,targetType);
-
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
     var curTargetList = findMemberInList(targetID);
     var name = curTargetList.name;
     $('.perSetBox-title span').html(name);
     $('.mesContainerSelf').attr('targetID',targetID);
     $('.mesContainerSelf').attr('targetType',targetType);
-    var $container = $('#perContainer .mr-chatview');
-    var eDom=document.querySelector('#perContainer .mr-chatview');
-    if(eDom.scrollHeight>$('#perContainer .mr-chatview').height()){
-        //var flag = false;
-        $container.off('scroll');
-        $container.scroll(function(e) {
-                    if($container.scrollTop() === 0) {
-                        if($container.attr('data-on')==0){
-                            return;
-                        }
-                        var stampTime=parseInt($('#perContainer .mr-chatview').find('ul li').first().attr('data-t'));
-                        RongIMClient.getInstance().getHistoryMessages(RongIMLib.ConversationType[targetType], targetID, stampTime, 20, {
-                            onSuccess: function(list, hasMsg) {
-                                /*  console.log(list);
-                                 console.log(hasMsg);*/
-                                if(list.length==0 && !hasMsg){
-                                    $('#perContainer .mr-chatview').attr('data-on',0)
-                                }
-                                var sDoM = '';
-                                sDoM=createConversationList(sDoM,list,targetType);
-                                //$('#perContainer .mr-chatview').empty();
-                                $('#perContainer .mr-chatview ul').prepend(sDoM);
-                                /*var eDom=document.querySelector('#perContainer .mr-chatview');
-                                 eDom.scrollTop = eDom.scrollHeight;*/
-                            },
-                            onError: function(error) {
-                                // APP未开启消息漫游或处理异常
-                                // throw new ERROR ......
-                            }
-                        });
-                        //$status.text('it reaches the top!');
-                    }
-        });
-   }
     $('.message-content').html();
     $('.rongyun-emoji>span').off('click')
     $('.rongyun-emoji>span').on('click',function(){
@@ -1341,7 +1334,11 @@ function reciveInBox(msg){
     var targetType = msg.conversationType;
     //clearNoReadMsg(targetType,targetID);
     var oData=findMemberInList(targetID);
-    var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
+    if(oData){
+        var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
+    }else{
+        var sImg=globalVar.defaultLogo;
+    }
 
     if(targetType==3){//群聊 找到各自的消息容器
         var $MesContainer = $('.mesContainerGroup');
