@@ -8,7 +8,9 @@ $(document).ready(function(){
 	var h = document.body.clientHeight > 830 ? document.body.clientHeight : '830';
 	$('.sidebar11').css('height', h + 'px');
 	$('#tree11').css('height', (h - 100) + 'px');
+	$('#tree11').css('overflow', 'auto');
 	$('.sidebar11').css('width', document.body.clientWidth * 0.13);
+	
 	
 	showpage('110');
 	$('#member').on('shown.bs.modal', function(e) {
