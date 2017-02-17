@@ -486,10 +486,16 @@ $(document).ready(function(){
         sendAjax('member!updateMemberInfoForWeb',{userid:sId,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
-               var sData=window.localStorage.getItem("datas");
-               var oData= JSON.parse(sData);
-               var sId=oData.id;
-               var sSelfImg=oData.logo;
+               //var sData=window.localStorage.getItem("datas");
+              // var oData= JSON.parse(sData);
+
+               //var sSelfImg=oData.logo;
+               oData.sex=sSex;
+               oData.email=sEmail;
+               oData.phone=sTelephone;
+               oData.sign=sSign;
+               var sDatas=JSON.stringify(oData);
+               window.localStorage.setItem("datas",sDatas);
                new Window().alert({
                    title   : '',
                    content : '个人资料保存成功！',
@@ -517,6 +523,9 @@ $(document).ready(function(){
         }else{
             $('.cropper-crop-box').addClass('cropper-hidden');
         }
+    });
+    $('#personSettingId').delegate('.perSetBox-telephone','keyup',function(){
+        $(this).val($(this).val().replace(/[^\d]/ig,''));
     });
     //getGroupMembersList(1);
 });
@@ -546,10 +555,10 @@ function fPersonalSet(){
         var sAccountNum=oData?oData.account|| '' : '';//成员账号
         var sSex=oData.sex;//性别
         switch(sSex){
-            case '男':
+            case 1:
                 sSex= '男';
                 break;
-            case '女':
+            case 0:
                 sSex= '女';
                 break;
             default :
