@@ -1386,9 +1386,9 @@ function createTransforContent(data,groupid){
         var curList = data[i];
         var curGroup = searchFromList('1',curList.id);
 
-        var limit = curList.qzqx==true?'true':'false';
-        var limitText = curList.qzqx==true?'是':'否';
-        var transferText = curList.qzqx==true?'<span class="transferGroupTo">转让群</span>':''
+        var limit = curList.qzgl==true?'true':'false';
+        var limitText = curList.qzgl==true?'是':'否';
+        var transferText = curList.qzgl==true?'<span class="transferGroupTo">转让群</span>':''
         var img = curList.logo?globalVar.imgSrc+curList.logo:globalVar.defaultLogo;
         sHTML+='<tr targetid="'+curList.id+'" transferlimit="'+limit+'">'+
                     '<td><img class="transferImg" src="'+img+'" alt="">'+curList.fullname+'</td>'+

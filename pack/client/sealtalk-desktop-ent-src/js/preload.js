@@ -72,19 +72,19 @@ window.Electron = {
   },
   openFile: function (url){
     if(remote.shell){
-      var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+      var savePath = path.join(downloadSavePath, getSavePath(url));
       remote.shell.openItem(savePath);
     }
   },
   openFileDir: function (url){
     if(remote.shell){
-      var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+      var savePath = path.join(downloadSavePath, getSavePath(url));
       remote.shell.showItemInFolder(savePath);
     }
   },
   chkFileExists: function (url){
     //console.log('bababababab');
-    var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+    var savePath = path.join(downloadSavePath, getSavePath(url));
     var exist = fileExists(savePath);
     return exist ? savePath : '';
   },
@@ -215,7 +215,6 @@ Notification = function (title, options) {
       window.Electron.displayBalloon(title, options)
     }
   }
-
   return notification
 }
 
@@ -286,27 +285,24 @@ function chDownloadState(url, state){
     }
     targetA.each(function(index){
     });
-    //var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
-    //if(targetA.closest('.mr-ownChat') || targetA.closest('.mr-chatBox')){
-    //  $('#down_process[uniquetime=' + file + ']').remove();
-    //  var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-    //      '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
-    //      '</div>';
-    //  var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
-    //  targetParent.append(sHTML);
-    //}else if (targetA.closest('.downLoadFileInfo').length==1){
-    //  targetA.closest('.downLoadFileInfo').find('#fileOperate').remove();
-    //  var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-    //      '<span class="openFile">打开文件</span>' +
-    //      '<span class="openFloder">打开文件夹</span>' +
-    //      '</div>'
-    //  targetA.closest('.downLoadFileInfo').append($(sHTML));
-    //}else{
-    //    targetA.closest('strong').remove();
-    //    $('.chatFile-folder').find('strong').remove();
-    //    var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
-    //        <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
-    //      $('.chatFile-folder').append(sHtml);
-    //}
   }
+}
+
+
+getSavePath = function (url) {
+  var fileName = getNameByUrl('attname', url);
+  var savePath = path.join(getDirByUrl(url), fileName);
+  return savePath;
+}
+getNameByUrl = function (field, url) {
+  var href = url ? url : window.location.href;
+  //var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+  //var string = reg.exec(href);
+  var string = href.split('attname=')[1];
+  return string ? string : null;
+}
+
+getDirByUrl = function (url) {
+  var re = /([\w\d_-]*)\.?[^\\\/]*$/i;
+  return url.match(re)[1];
 }
