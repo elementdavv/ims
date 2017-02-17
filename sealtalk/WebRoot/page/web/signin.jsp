@@ -25,7 +25,7 @@
     <div class="signin-form">
         <div class="rightBox ">
             <div class="sign-flow signinBox">
-                <form onsubmit="addMD5()" method="post" action="system!loginForWeb" class="form-inline" name="formSignin" novalidate="novalidate">
+                <div class="form-inline" name="formSignin" novalidate="novalidate">
                     <div class="form-group firstNone">
                         <label for="username" class="username"></label>
                         <input type="text" name="account" placeholder="手机号" required="" class="form-control" name="accountNumber" ng-model="user.accountNumber" ng-pattern="/^1[3-9][0-9]{9,9}$/" id="username" my-focus="">
@@ -38,9 +38,9 @@
                         <a class="pull-right" href="<%=request.getContextPath() %>/system!fogetPassword" ui-sref="account.forgotpassword" id="forgetPwd" onclick="">忘记密码？</a>
                     </div>
                     <div class="button-wrapper form-group">
-                        <button class="sign-button submit" type="submit">登录</button>
+                        <button class="sign-button submit" type="submit" onclick="signin()">登录</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

@@ -102,42 +102,16 @@ function signin(){
     var userpwd = hex_md5($('#pwdIn').val());
     var data = {account:accout,userpwd:userpwd};
     //验证
-    sendAjax('system!loginForWeb',data,function(datas){
-        window.localStorage.datas=datas;
+    sendAjax('system!afterLogin',data,function(datas){
+        //window.localStorage.datas=datas;
         var datas = JSON.parse(datas);
         if(datas &&	datas.code == 1){
             data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(data);
         }
-        //event.preventDefault()
-        //window.Electron.remote.BrowserWindow.loadURL('http://localhost:8080/sealtalk/page/web/main.jsp')
-        //window.Electron.configInfo.loadURL('http://localhost:8080/sealtalk/page/web/main.jsp');
-        //window.open('http://localhost:8080/sealtalk/page/web/main.jsp','_parent');
-        //if(window.Electron){
-        //    window.Electron.remote.getCurrentWindow().loadUrl('http://localhost:8080/sealtalk/page/web/main.jsp');
-        //}
-        //shell.openExternal('http://localhost:8080/sealtalk/page/web/main.jsp');
-        //if(2!=1){
-        //    event.preventDefault();
-        //    window.location.href="http://www.baidu.com";
-        //    window.event.returnValue=false;
-        //}
 
         window.location.href = 'system!login';
-        //window.open('http://localhost:8080/sealtalk/page/web/main.jsp','_parent');
-        //console.log(window.location.href)
-        //window.location.href = 'http://localhost:8080/sealtalk/page/web/main.jsp';
-        //console.log(window.location.href);
-        //document.URL=location.href;
-        //location.replace('main.jsp');
-        //console.log(window.location.href);
-        //var pageURL = window.location.href.split('?')[0];
-        //remote.getCurrentWindow().loadUrl('http://localhost:8080/sealtalk/page/web/main.jsp')
-        //window.location.href = pageURL;
-        //window.navigate("system!login");
-        //window.location.reload(true);
-        //history.go(0)
-        //window.location=window.location;
+
     },function(){
         new Window().alert({
             title   : '',
@@ -161,7 +135,6 @@ function fBackToSignin(){
 }
 
 function addMD5(){
-    //alert(11);
     var userpwd = hex_md5($('#pwdIn').val());
     $('#pwdIn').val(userpwd);
 }
