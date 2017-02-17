@@ -148,9 +148,13 @@
     /*right:2px;*/
     /*border-radius: 50%;*/
 }
+.groupInfo-memberAll{
+    max-height:495px;
+    overflow-y:auto;
+}
 .systemSet-keep{
     display: block;
-   margin-left:510px;
+   /*margin-left:510px;*/
     width:110px;
     height:34px;
     background: #30c0da;
@@ -158,14 +162,19 @@
     line-height: 34px;
     text-align: center;
     border-radius: 5px;
+    margin:0 auto;
    /* margin-top:134px;*/
 }
 .changePassword{
     padding-top:100px;
 }
+.changePassword>div{
+    width:420px;
+    margin:0 auto;
+}
 .changePassword span{
     float:left;
-    padding-left:340px;
+    /*padding-left:340px;*/
     line-height: 34px;
     font-size: 13px;
     color:rgb(51,51,51);
@@ -184,16 +193,19 @@
     margin-bottom:4px;
 }
 .changePassword .cp-passwordSecurity{
-    margin-left:440px;
+    margin-left:100px;
     margin-bottom:16px;
+    float:left;
 }
 .oldPassworderror{
     color:red;
     font-size:12px;
-    margin-left:440px;
+    /*margin-left:440px;*/
     margin-bottom:20px;
     height:20px;
     line-height:20px;
+    float:left;
+    padding-left:100px;
 }
 .cp-passwordSecurity li{
     float:left;
@@ -206,9 +218,10 @@
     margin-bottom:60px;
 }
 .retMewPw{
+    float:left;
     color:red;
     font-size:12px;
-    margin-left:440px;
+    padding-left:100px;
     margin-bottom:40px;
     height:20px;
     line-height:20px;
@@ -408,6 +421,7 @@
     width: 44px;
     height: 44px;
     border-radius: 100%;
+    float: left;
 }
 .mr-chatContentLFile .fileImg{
     float: left;
@@ -470,6 +484,40 @@ img.uploadImgLeft {
     border-radius: 30px;
     background-size: 70px 70px;
     background-position: -2px -38px;
+}
+span.msgUnread {
+    display: inline-block;
+    float: left;
+    height: 10px;
+    width: 10px;
+    /* margin-top: 20px; */
+    position: relative;
+    top: 20px;
+    border-radius: 10px;
+    background: red;
+    margin-right: 10px
+}
+p.voiceMsgContent {
+    height: 25px;
+    width: 30px;
+    background: url("img/backstage.png") no-repeat 0px -592px;
+    float: left;
+}
+p.voiceSecond {
+    height: 46px;
+    width: 40px;
+    /*background: paleturquoise;*/
+    float: left;
+    margin-left: -20px;
+    line-height: 46px;
+}
+.mr-chatContent li {
+    margin-bottom: 18px;
+    position: relative;
+    min-height: 46px;
+}
+.pageHostoryBox img{
+    max-width:260px;
 }
 button.downLoadFileMask {
     display: inline-block;
@@ -560,6 +608,12 @@ p.converLimit {
     overflow-y:auto;
     height:calc(100% - 230px);
     border-bottom:1px solid #f0f0f0;
+}
+.calendar-input{
+    float:left;
+    width:98px;
+    height:30px;
+    border-radius: 5px 0 0 5px;
 }
 .mr-expresFile{
     padding-left:28px;
@@ -825,6 +879,28 @@ p.converLimit {
     /*height:30px;*/
     /*border:1px solid #f0f0f0;*/
     /*margin-left:14px;*/
+    position: relative;
+    width:140px;
+    height:32px;
+    margin-left:14px;
+
+}
+/*.example .dateIcon{*/
+    /*position: absolute;*/
+    /*zoom:1;*/
+    /*right:-2px;*/
+    /*top:0;*/
+/*}*/
+.calendar-inputWrap{
+    overflow: hidden;
+}
+.calendar-icon{
+    border-radius: 0 5px 5px 0;
+    float: left;
+    width:30px;
+    height:30px;
+    margin-left: -1px;
+    background:  #e6e6e6 url('img/backstage.png')no-repeat 0 -658px;
 }
 .infoDet-page .infoDet-pageQuery {
     float:right;
@@ -927,6 +1003,7 @@ p.converLimit {
     color:rgb(48,192,218);
     line-height:58px;
     font-size:14px;
+    position: relative;
 }
 /*群组资料*/
 .groupInfo{
@@ -1051,6 +1128,10 @@ div#fileOperate {
     line-height:44px;
     font-size:13px;
     color:rgb(51,51,51);
+    max-width:180px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 #iqs_iframe{
     width:100%;
@@ -1083,6 +1164,14 @@ div#fileOperate {
     color:rgb(128,128,128);
     padding:15px 0 13px 22px;
 }
+.groupDataBox i .groupCreater {
+    float: left;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    /*background: paleturquoise;*/
+    padding:15px;
+}
 .groupDataBox b{
     float:left;
     font-size:14px;
@@ -1096,15 +1185,17 @@ div#fileOperate {
 }
 .groupDataBox i{
     float:left;
-    width:44px;
+    width: auto;
     height:44px;
     border-radius:22px;
     overflow: hidden;
 }
 .groupDataBox i img{
-    width:100%;
-    height:100%;
+    width: 44px;
+    height: 44px;
     display: block;
+    float: left;
+    border-radius: 44px;
 }
 .groupMap{
     height:100%;

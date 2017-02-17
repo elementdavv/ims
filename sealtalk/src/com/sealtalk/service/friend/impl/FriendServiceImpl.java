@@ -101,7 +101,7 @@ public class FriendServiceImpl implements FriendService {
 					//通知融云
 					String msg = "建立好友关系，现在可以开始聊天";
 					String extrMsg = msg;
-					RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, extrMsg, "4", 0, 0, 0, 2);
+					RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, msg, "4", "0", "0", "0", "2");
 				}
 			}
 		} catch (Exception e) {
@@ -149,8 +149,7 @@ public class FriendServiceImpl implements FriendService {
 				String[] targetIds = {friend};
 				
 				String msg = "解除好友关系";
-				String extrMsg = msg;
-				RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, extrMsg, "4", 0, 0, 0, 2);
+				RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, msg, "4", "0", "0", "0", "2");
 				jo.put("code", 1);
 				jo.put("text", Tips.SUCDELFRIEND.getText());
 			} else {
@@ -202,8 +201,8 @@ public class FriendServiceImpl implements FriendService {
 							for(int i = 0; i < memberLen; i++) {
 								TMember tms = memberList.get(i);
 								JSONObject text = JSONUtils.getInstance().modelToJSONObj(tms);
-								jo.put("code", 1);
-								jo.put("text", Tips.OK.getText());
+								//jo.put("code", 1);
+								//jo.put("text", Tips.OK.getText());
 								ja.add(text);
 							}
 							
@@ -217,17 +216,16 @@ public class FriendServiceImpl implements FriendService {
 			if (!status) {
 				jo.put("code", 0);
 				jo.put("text", Tips.HAVEZEROFRIEND.getText());
-				result = jo.toString();
 			}  else {
-			//	jo.put("code", 1);
-			//	jo.put("text", result);
+				jo.put("code", 1);
+				jo.put("text", result);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return result;
+		return jo.toString();
 	}
 
 	@Override

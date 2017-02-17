@@ -140,6 +140,8 @@ public class FunctionAction extends BaseAction {
 		returnToClient(result);
 		return "text";
 	}
+	
+	
 	private String status;
 	private String groupid;
 	private String userid;

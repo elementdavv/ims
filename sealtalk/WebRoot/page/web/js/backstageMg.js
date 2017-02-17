@@ -39,20 +39,25 @@ $(document).ready(function(){
         var sTargettype=$('#perContainer').attr('targettype');
         var sTargetid=$('#perContainer').attr('targetid');
         var sVal=$(this).prev().val();
-        var oPagetest = new PageObj({divObj:$('.infoDet-chatRecord').find('.infoDet-page'),pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+        var oPagetest = new PageObj({divObj:$perEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
         {
-            getChatRecord(list);
+            getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
 
         });
-        //RongIMLib.RongIMClient.getInstance().searchMessageByContent(RongIMLib.ConversationType[sTargettype],sTargetid,sVal,0,20,1,{
-        //    onSuccess:function(data, count){
-        //        alert(data,count);
-        //        console.log(data);
-        //        console.log(count);
-        //    },
-        //    onError:function(error){
-        //    }
-        //});
+    });
+    //搜索群组历史记录
+    $('#groupData').on('click','.searchHostoryInfo',function(){
+        var sTargettype=$('#groupContainer').attr('targettype');
+        var sTargetid=$('#groupContainer').attr('targetid');
+        var sVal=$(this).prev().val();
+        var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+        var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        {
+            getChatRecord(list,'#groupDetailsBox .infoDet-chatRecord .chatRecordSel');
+            //showHistoryMessages(list);
+
+        });
     });
     //群组消息面打扰
     $('#groupData').delegate('.voiceSet','click',function(){
@@ -156,6 +161,12 @@ $(document).ready(function(){
             $('#perContainer').addClass('mesContainer-translateL');
             $(this).addClass('active');
             $('#personalData').removeClass('chatHide');
+            $('#personalData .infoDetails li').removeClass('active');
+            $('#personalData .infoDetails li').eq(0).addClass('active');
+            $('#personalData .infoDetailsBox>div').addClass('chatHide');
+            $('#personalData .infoDetailsBox>div').eq(0).removeClass('chatHide');
+            var targetID=$('#perContainer').attr('targetid');
+            getPerInfo(findMemberInList(targetID));
         }
     });
 //    后台管理
@@ -223,6 +234,13 @@ $(document).ready(function(){
             $('#groupContainer').addClass('mesContainer-translateL');
             $(this).addClass('active');
             $('#groupData').removeClass('chatHide');
+            $('#groupData .infoDetails li').removeClass('active');
+            $('#groupData .infoDetails li').eq(0).addClass('active');
+            $('#groupData .infoDetailsBox>div').addClass('chatHide');
+            $('#groupData .infoDetailsBox>div').eq(0).removeClass('chatHide');
+            var targetID=$('#groupContainer').attr('targetid');
+            getGroupDetails(targetID);
+
         }
     });
     /*点击群组右边选项卡*/
@@ -263,31 +281,55 @@ $(document).ready(function(){
     $('#chatBox').on('keyup change','#cp-newPasswordId',function(){
         checklevel(this.value)
     });
-    $('#chatBox').on('blur','#oldPassword',function(){
-        if(!editOldPassword(hex_md5(this.value))){
-            $('.oldPassworderror').html('原始密码错误');
-        }else{
-            $('.oldPassworderror').html('');
+    $('#chatBox').on('blur','#oldPassword',function(event){
+        $('.oldPassworderror').html('');
+        var sAccount=localStorage.getItem('account');
+        var oAccount=JSON.parse(sAccount);
+        if(oAccount) {
+            var sOldAccount = oAccount.text.account;
+            sendAjax('system!valideOldPwd', {account:sOldAccount,oldpwd: hex_md5(this.value)}, function (data) {
+                var oData = JSON.parse(data);
+                if (oData.code == 1) {
+                    $('.oldPassworderror').html('');
+                } else {
+                    $('.oldPassworderror').html('原始密码错误');
+                }
+            });
         }
+        event.stopPropagation();
+    });
+    $('#chatBox').on('keydown','#oldPassword',function(){
+        $('.oldPassworderror').html('');
+    });
+    $('#chatBox').on('keydown','#comparepwd',function(){
+        $('.retMewPw').html('');
     });
     /*修改密码保存*/
     $('#systemSet-keep').click(function(){
-        if(!editOldPassword(hex_md5($('#oldPassword').val()))){
-            $('.oldPassworderror').html('原始密码错误');
-            return;
-        }else{
-            $('.oldPassworderror').html('');
-            if($('#cp-newPasswordId').val()==''){
-                return;
-            }
-           var sNewPw=hex_md5($('#cp-newPasswordId').val());
-            var sComPd=hex_md5($('#comparepwd').val());
-            if(sNewPw == sComPd){
-                keerNewPw(hex_md5($('#oldPassword').val()),sNewPw,sComPd);
-                $('.retMewPw').html('');
-            }else{
-                $('.retMewPw').html('两次输入密码不一致');
-            }
+        var sAccount=localStorage.getItem('account');
+        var oAccount=JSON.parse(sAccount);
+        if(oAccount) {
+            var sOldAccount = oAccount.text.account;
+            sendAjax('system!valideOldPwd', {account:sOldAccount,oldpwd: hex_md5($('#oldPassword').val())}, function (data) {
+                var oData = JSON.parse(data);
+                if (oData.code == 1) {
+                    $('.oldPassworderror').html('');
+                    if($('#cp-newPasswordId').val()==''){
+                        return;
+                    }
+                    var sNewPw=hex_md5($('#cp-newPasswordId').val());
+                    var sComPd=hex_md5($('#comparepwd').val());
+                    if(sNewPw == sComPd){
+                        keerNewPw(hex_md5($('#oldPassword').val()),sNewPw,sComPd);
+                        $('.retMewPw').html('');
+                    }else{
+                        $('.retMewPw').html('两次输入密码不一致');
+                    }
+                } else {
+                    $('.oldPassworderror').html('原始密码错误');
+                    return;
+                }
+            });
         }
 
     });
@@ -323,6 +365,10 @@ $(document).ready(function(){
         //var account = accountObj.account;
         var accountID = accountObj.id;
         systemBeep(status,accountID);
+    });
+    $('#chatBox').on('click','.dateIcon',function(){
+        $('.calendar-inputWrap').click();
+        $('.calendar-inputWrap').focus();
     });
     $('#groupMap').on('click','.messageRecord b',function(e){
         var targetID = $(e.target).closest('.groupMap').attr('targetid');
@@ -440,10 +486,25 @@ $(document).ready(function(){
         sendAjax('member!updateMemberInfoForWeb',{userid:sId,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
-               var sData=window.localStorage.getItem("datas");
-               var oData= JSON.parse(sData);
-               var sId=oData.id;
-               var sSelfImg=oData.logo;
+               //var sData=window.localStorage.getItem("datas");
+              // var oData= JSON.parse(sData);
+
+               //var sSelfImg=oData.logo;
+               oData.sex=sSex;
+               oData.email=sEmail;
+               oData.phone=sTelephone;
+               oData.sign=sSign;
+               var sDatas=JSON.stringify(oData);
+               window.localStorage.setItem("datas",sDatas);
+               new Window().alert({
+                   title   : '',
+                   content : '个人资料保存成功！',
+                   hasCloseBtn : false,
+                   hasImg : true,
+                   textForSureBtn : false,
+                   textForcancleBtn : false,
+                   autoHide:true
+               });
            }
         });
 
@@ -462,6 +523,9 @@ $(document).ready(function(){
         }else{
             $('.cropper-crop-box').addClass('cropper-hidden');
         }
+    });
+    $('#personSettingId').delegate('.perSetBox-telephone','keyup',function(){
+        $(this).val($(this).val().replace(/[^\d]/ig,''));
     });
     //getGroupMembersList(1);
 });
@@ -491,10 +555,10 @@ function fPersonalSet(){
         var sAccountNum=oData?oData.account|| '' : '';//成员账号
         var sSex=oData.sex;//性别
         switch(sSex){
-            case '男':
+            case 1:
                 sSex= '男';
                 break;
-            case '女':
+            case 0:
                 sSex= '女';
                 break;
             default :
@@ -570,6 +634,7 @@ function fPersonalSet(){
 function showGroupMemberInfo(oGroupInfo,pos){
     var sName=oGroupInfo.name || '';//群名称
     var sCreatorId=oGroupInfo.mid;//群创建者id
+    var sCreatorAcconut=oGroupInfo.account//群创建者帐号
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
     var oCreator=findMemberInList(sCreatorId);
     if(!oCreator.logo){
@@ -594,7 +659,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     <span>群主/管理员:</span>\
     <i>\
     <img src="'+sImg+'">\
-    </i>\
+    <span class="groupCreater">'+sCreatorAcconut+'</span></i>\
     </li>\
     </ul>\
     </div>';
@@ -708,22 +773,39 @@ function checklevel(psw)
 function editOldPassword(sNewPw){
     var sAccount=localStorage.getItem('account');
     var oAccount=JSON.parse(sAccount);
-    var sPassword=oAccount.userpwd;
-    if(sNewPw == sPassword){
-        return true;
-    }else{
-        return false;
+    if(oAccount){
+       var sAccount=oAccount.text.account;
+        sendAjax('system!valideOldPwd',{oldpwd:sAccount},function(data){
+            var oData=JSON.parse(data);
+            if(oData.code==1){
+                var sPassword=oAccount.userpwd;
+                if(sNewPw == sPassword){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        });
     }
 }
 function keerNewPw(oldpwd,newPw,comparepwd){
     var sAccount=localStorage.getItem('account');
     var oAccount=JSON.parse(sAccount);
-    var sPassword=oAccount.userpwd;
-    var sAccNum=oAccount.account;
+    //var sPassword=oAccount.userpwd;
+    var sAccNum=oAccount?oAccount.text.account :'';
     sendAjax('system!newPassword',{account:sAccNum,oldpwd:oldpwd,newpwd:newPw,comparepwd:comparepwd},function(data){
         console.log(JSON.parse(data));
         var oData=JSON.parse(data);
         if(oData.code==1){
+            new Window().alert({
+                title   : '',
+                content : '密码保存成功！',
+                hasCloseBtn : false,
+                hasImg : true,
+                textForSureBtn : false,
+                textForcancleBtn : false,
+                autoHide:true
+            });
             oAccount.userpwd=newPw;
             window.localStorage.account=JSON.stringify(oAccount);
         }
@@ -768,3 +850,4 @@ function getHeadImgList(){
         }
     });
 }
+

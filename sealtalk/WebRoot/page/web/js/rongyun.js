@@ -124,8 +124,9 @@ $(function(){
                         case RongIMClient.MessageType.VoiceMessage:
                             // 对声音进行预加载
                             // message.content.content 格式为 AMR 格式的 base64 码
-                            playSound(message,userid);
+                            //RongIMLib.RongIMVoice.preLoaded(base64Str);
                             RongIMLib.RongIMVoice.preLoaded(message.content.content);
+                            playSound(message,userid);
                             break;
                         case RongIMClient.MessageType.ImageMessage:
                             // do something...
@@ -144,7 +145,8 @@ $(function(){
                             // do something...
                             break;
                         case RongIMClient.MessageType.InformationNotificationMessage:
-                            // do something...
+
+                            reciveInBox(message);
                             break;
                         case RongIMClient.MessageType.ContactNotificationMessage:
                             // do something...
@@ -282,28 +284,29 @@ function setConverToTop(Type,targetId,$topEle) {
         sendAjax('fun!cancelMsgTop',{userid:sId,topid:targetId,toptype:nTopType},function(data){
             var oCancelData=JSON.parse(data);
             if(oCancelData.code==1){
-                var nIndex;
-                var aNoTop=[];
-                $('.usualChatListUl li').each(function(index){
-                    if(!$(this).hasClass('top')){
-                        //nIndex=index;
-                        aNoTop.push($(this));
-                    }
-                });
-                $('.usualChatListUl li').each(function(index){
-                    var targetEle=$(this);
-                    var sTopId=$(this).attr('targetid');
-                    if(sTopId==targetId){
-                        $('.usualChatListUl li').eq(index).remove();
-                        if(aNoTop.length>0){
-                            aNoTop[0].before(targetEle);
-                        }else{
-                            $('.usualChatListUl').append(targetEle);
-                        }
-                        targetEle.removeClass('top');
-                        targetEle.removeClass('active');
-                    }
-                });
+                //var nIndex;
+                //var aNoTop=[];
+                //$('.usualChatListUl li').each(function(index){
+                //    if(!$(this).hasClass('top')){
+                //        //nIndex=index;
+                //        aNoTop.push($(this));
+                //    }
+                //});
+                getConverList();
+                //$('.usualChatListUl li').each(function(index){
+                //    var targetEle=$(this);
+                //    var sTopId=$(this).attr('targetid');
+                //    if(sTopId==targetId){
+                //        $('.usualChatListUl li').eq(index).remove();
+                //        if(aNoTop.length>0){
+                //            aNoTop[0].before(targetEle);
+                //        }else{
+                //            $('.usualChatListUl').append(targetEle);
+                //        }
+                //        targetEle.removeClass('top');
+                //        targetEle.removeClass('active');
+                //    }
+                //});
             }
         });
     }else{

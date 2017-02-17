@@ -33,7 +33,7 @@ $(function(){
         else e.returnValue = false;
 
         var limit = $('body').attr('limit');
-        if(limit.indexOf('stsz')==-1){
+        if(limit.indexOf('ltszwjsc')==-1){
             new Window().alert({
                 title   : '',
                 content : '您无文件发送权限！',
@@ -120,7 +120,7 @@ $(function(){
     $file.on('change',function(){
         var limit = $('body').attr('limit');
         //var oLimit = JSON.parse(limit);
-        if(limit.indexOf('stsz')==-1){
+        if(limit.indexOf('ltszwjsc')==-1){
             return false;
         }else{
             var _this = this;
@@ -145,31 +145,44 @@ $(function(){
                         var downloadLink = returnDLLink(data.filename);
                         var filedetail = {};
                         filedetail.type = this._self.type;
-
+                        var fileName = data.filename.split('.')[0];
                         filedetail.fileUrl = downloadLink;
                         var targetId = this._self.targetId;
                         var targetType = this._self.targetType;
                         var content = filedetail;
                         if(this._self.type=='image/png'||this._self.type=='image/jpeg'){
-                            filedetail.base64Str = data.thumbnail;// 图片转为可以使用 HTML5 的 FileReader 或者 canvas 也可以上传到后台进行转换。
+                            var image = new Image();
+                            image.src = downloadLink;
+
+                            //filedetail.base64Str = getBase64Image(downloadLink);// 图片转为可以使用 HTML5 的 FileReader 或者 canvas 也可以上传到后台进行转换。
                             filedetail.imageUri = downloadLink;
+                            $('a[fileName='+className+']').attr('fileName',fileName);
                             $('img[uniquetime="'+className+'"]').attr('src',downloadLink);
                             $('img[uniquetime="'+className+'"]').on('load',function(){
                                 var eDom=document.querySelector('#perContainer .mr-chatview');
                                 eDom.scrollTop = eDom.scrollHeight;
                             })
                             if(data.thumbnail){
-                                sendByRongImg(content,targetId,targetType);
+                                //image.onreadystatechange = function() {
+                                //    if(image.readyState=="complete"||image.readyState=="loaded"){
+                                //        content.base64Str = data.thumbnail;
+                                //        sendByRongImg(content,targetId,targetType);
+                                //    }
+                                //}
+                                image.onload = function(){
+                                    content.base64Str = data.thumbnail;
+                                    sendByRongImg(content,targetId,targetType);
+                                }
                             }
-
-
                         }else{
                             filedetail.name = this._self.name;
                             filedetail.uniqueTime = this._self.uniqueTime;
                             filedetail.size = this._self.size;
                             filedetail.type = this._self.type;
                             filedetail.filename = data.filename;
-                            $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
+                            $('a[fileName='+filedetail.uniqueTime+']').attr('fileName',fileName);
+                            $('a[fileName='+fileName+']').attr('href',downloadLink);
+                            $('#up_process[uniquetime="'+filedetail.uniqueTime+'"]').remove();
                             sendByRongFile(content,targetId,targetType);
 
                         }
@@ -191,6 +204,19 @@ $(function(){
 
     })
 })
+
+
+
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/"+ext);
+    return dataURL;
+}
 
 function sendFile(_file,_this,callback){
     var filedetail = {};

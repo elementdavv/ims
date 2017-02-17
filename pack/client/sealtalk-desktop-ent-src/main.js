@@ -65,7 +65,7 @@ electron.crashReporter.start({
 })
 
 // console.log(app)
-console.log(app.getPath('userData'))
+//console.log(app.getPath('userData'))
 
 // var addon = require('RongIMLib')
 // addon.initWithAppkey("n19jmcy59f1q9");
@@ -123,8 +123,8 @@ app.on('ready', () => {
   let workAreaSize = screen.getPrimaryDisplay().workAreaSize
   let savedBounds = loadWindowBounds()
   let downloadSavePath = app.getPath('downloads') + '/' + Config.AUTHOR;
-  console.log('+++++++++++++++++');
-  console.log(downloadSavePath);
+  //console.log('+++++++++++++++++');
+  //console.log(downloadSavePath);
 
   // Create the browser window.
   mainWindow = new BrowserWindow(
@@ -157,7 +157,9 @@ app.on('ready', () => {
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
     let _url = item.getURL();
     let savePath = path.join(downloadSavePath, Utils.getSavePath(_url));
+    //console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
 
+    //console.log(event,item);
     // var rightNow = new Date();
     // var folderDate = rightNow.toISOString().slice(0,10).replace(/-/g,"");
 
@@ -262,7 +264,7 @@ app.on('ready', () => {
 
   ipcMain.on('notification-click', () => {
     if (mainWindow) {
-  console.log(222);
+  //console.log(222);
        mainWindow.show()
     }
   })

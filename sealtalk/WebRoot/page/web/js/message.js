@@ -66,7 +66,7 @@ $(function(){
                 case 'sendMsg'://发起聊天
                     var limit = $('body').attr('limit');
                     //var oLimit = JSON.parse(limit);
-                    if(limit.indexOf('stsz')==-1){//没有权限
+                    if(limit.indexOf('ltszfqgrlt')==-1){//没有权限
                         new Window().alert({
                             title   : '',
                             content : '您无权限发起聊天！',
@@ -91,7 +91,7 @@ $(function(){
                 case 'checkPosition'://查看位置
                     var limit = $('body').attr('limit');
                     //var oLimit = JSON.parse(limit);
-                    if(limit.indexOf('stsz')==-1){//没有权限
+                    if(limit.indexOf('dpjhzsjbmkfckdlwz')==-1){//没有权限
                         new Window().alert({
                             title   : '',
                             content : '您无权限查看位置！',
@@ -116,7 +116,7 @@ $(function(){
                 case 'addConver'://添加群聊
                     var limit = $('body').attr('limit');
                     //var oLimit = JSON.parse(limit);
-                    if(limit.indexOf('stsz')==-1){//没有权限
+                    if(limit.indexOf('qzcjq')==-1){//没有权限
                         new Window().alert({
                             title   : '',
                             content : '您无权限添加群聊！',
@@ -227,7 +227,7 @@ $(function(){
                 //添加新成员
                 var limit = $('body').attr('limit');
                 //var oLimit = JSON.parse(limit);
-                if(limit.indexOf('stsz')==-1) {//没有权限
+                if(limit.indexOf('qzcjq')==-1) {//没有权限
                     return false;
                 }else{
                     var data = localStorage.getItem('getBranchTree');
@@ -307,6 +307,7 @@ $(function(){
                 break;
             case 5:
                 //从消息列表删除
+                var $THIS=$(this);
                 new Window().alert({
                     title   : '删除会话',
                     content : '确定要从会话列表中删除么？',
@@ -317,10 +318,11 @@ $(function(){
                     handlerForCancle : null,
                     handlerForSure : function(){
                         if(targetType=='GROUP'){
-                            removeConvers('GROUP',targetID);
+                            removeConvers('GROUP',targetID,$THIS);
                         }else{
-                            removeConvers('PRIVATE',targetID);
+                            removeConvers('PRIVATE',targetID,$THIS);
                         }
+
                     }
                 });
 
@@ -328,6 +330,7 @@ $(function(){
         }
     })
     //点击消息列表
+    $('.newsChatList').undelegate('li','mousedown');
     $('.newsChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
         var targetID = $(this).attr('targetid');
@@ -359,14 +362,13 @@ $(function(){
                     }else{
                         sTopChat='置顶会话';
                     }
-                    var arr = [{limit:'',value:sTopChat},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
                     var style = 'left:'+left+'px;top:'+top+'px';
                     var id = 'newsLeftClick';
                     var memberShip = $topEle.attr('targetid');
-                    //var memberShip =
                     fshowContexMenu(arr,style,id,memberShip,targeType,bTopHas);
                 }else{
-                    var arr = [{limit:'',value:'置顶会话'},{limit:'',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'stsz',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    var arr = [{limit:'',value:'置顶会话'},{limit:'ltszqzlt',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'qzcjq',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
                     var style = 'left:'+left+'px;top:'+top+'px';
                     var id = 'newsLeftClick';
                     var memberShip = $topEle.attr('targetid');
@@ -417,7 +419,8 @@ $(function(){
         }
     })
     var oChatList=null;
-    //点击常用联系人（左右键）
+    //点击常用联系人（左右键）3$('.usualChatList').delegate('li','mousedown'
+    $('.usualChatList').undelegate('li','mousedown')
     $('.usualChatList').delegate('li','mousedown',function(e){
         $('.myContextMenu').remove();
         if(e.buttons==2){
@@ -439,14 +442,15 @@ $(function(){
                 var targetID = sThis.attr('targetid');
                 var targeType = 'PRIVATE';
                 conversationSelf(targetID,targeType);
-                $('.orgNavClick').addClass('chatHide');
-                $('.mesContainerSelf').removeClass('chatHide');
+                //$('.orgNavClick').addClass('chatHide');
+                //$('.mesContainerSelf').removeClass('chatHide');
             },200);
         }
         $('.usualChatList li').removeClass('active');
         $(this).addClass('active');
         return false;
     });
+    $('.usualChatList').undelegate('li','dblclick')
     $('.usualChatList').delegate('li','dblclick',function(){
         clearTimeout(oChatList);
         var targetID = $(this).attr('targetid');
@@ -552,14 +556,13 @@ $(function(){
             var memship = $(this).attr('targetid');
             var top = e.clientY;
             //var arr = ['群成员管理','解散群','转让群'];
-            var arr = [{limit:'qzgl',value:'群成员管理'},{limit:'qzgljs',value:'解散群'},{limit:'qzglxg',value:'转让群'}];
+            var arr = [{limit:'qzgl',value:'群成员管理'},{limit:'qzgljs',value:'解散群'},{limit:'qzxgqcjz',value:'转让群'}];
 
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'groupLeftClick'
             fshowContexMenu(arr,style,id,memship);
         }else{//点击群组
             clearTimeout(groupTimer);
-            //var sThis=$(this);
             var targetID = $(this).attr('targetid');
             var targeType = 'GROUP';
             var groupName = $(this).find('.groupName').html();
@@ -830,7 +833,7 @@ $(function(){
 
                 var limit = $('body').attr('limit');
                 //var oLimit = JSON.parse(limit);
-                if(limit.indexOf('stsz')==-1){//没有权限
+                if(limit.indexOf('qzcjq')==-1){//没有权限
                     return false;
                     break;
                 }else{
@@ -959,11 +962,33 @@ function findParentCatalog(target,sHTML){
     return sHTML;
 }
 
-function removeConvers(type,id){
+function removeConvers(type,id,$topEle){
 
     RongIMClient.getInstance().removeConversation(RongIMLib.ConversationType[type],id,{
         onSuccess:function(bool){
             // 删除会话成功。
+            var nTopType;
+            switch(type){
+                case 'GROUP':
+                    nTopType=1;
+                    break;
+                case 'PRIVATE':
+                    nTopType=2;
+                    break;
+            }
+            var sData=window.localStorage.getItem("datas");
+            var oData= JSON.parse(sData);
+            var sId=oData.id;
+            if($topEle){
+                var sTopHas=$topEle.attr('data-top');
+                if(sTopHas==1){
+                    sendAjax('fun!cancelMsgTop',{userid:sId,topid:id,toptype:nTopType},function(data){
+                        getConverList();
+                    });
+                }else{
+                    getConverList();
+                }
+            }
             console.log('删除会话列表成功');
 
         },
@@ -971,17 +996,12 @@ function removeConvers(type,id){
             // error => 删除会话的错误码
         }
     });
-    setTimeout(function(){
-        getConverList();
-
-    },2000)
 }
 
 
 //点击的是部门
 function changeClick1Content(data){
     var sHTML = '<div class="orgNavTitle">标题</div><ul>';
-        //console.log('+++++++++++++++++++',data);
     for(var i = 0;i<data.length;i++){
         var sHeadImg=data[i].logo || 'PersonImg.png';//头像
         var sName=data[i].name||'';//姓名
@@ -1366,9 +1386,9 @@ function createTransforContent(data,groupid){
         var curList = data[i];
         var curGroup = searchFromList('1',curList.id);
 
-        var limit = curList.qzqx==true?'true':'false';
-        var limitText = curList.qzqx==true?'是':'否';
-        var transferText = curList.qzqx==true?'<span class="transferGroupTo">转让群</span>':''
+        var limit = curList.qzgl==true?'true':'false';
+        var limitText = curList.qzgl==true?'是':'否';
+        var transferText = curList.qzgl==true?'<span class="transferGroupTo">转让群</span>':''
         var img = curList.logo?globalVar.imgSrc+curList.logo:globalVar.defaultLogo;
         sHTML+='<tr targetid="'+curList.id+'" transferlimit="'+limit+'">'+
                     '<td><img class="transferImg" src="'+img+'" alt="">'+curList.fullname+'</td>'+

@@ -50,7 +50,7 @@ PageObj.prototype.init = function (options,actionCallback){
     this.getMoreMessage();
     this._setActionListener();
     this._matchValue();
-    this.datechange();
+   this.datechange();
 };
 PageObj.prototype.createHtml=function (){
     this._DestObj.empty();
@@ -67,6 +67,7 @@ PageObj.prototype.createHtml=function (){
     //</div>';
     this._m_sPageHtml='<section>\
     <div class="example">\
+    <strong class="dateIcon"></strong>\
     <input type="text" class="calendar">\
     </div>\
     </section>\
@@ -83,8 +84,17 @@ PageObj.prototype.createHtml=function (){
 };
 PageObj.prototype.datechange=function(){
     var _self=this;
-    this._DestObj.find('.calendar').blur(function(){
-        var aDateTime=$('.calendar').asDatepicker('getDate', 'yyyy/mm/dd');
+    this._DestObj.find('.calendar').off('blur');
+    this._DestObj.find('.calendar').on('blur',function(){
+        //if($('.calendar-wrap').hasClass('calendar_show')){
+        //    $('.calendar-wrap').removeClass('calendar_show');
+        //    $('calendar-inputWrap').removeClass('calendar_active');
+        //}
+        //if($('calendar-inputWrap').hasClass('calendar_active')){
+        //    $('calendar-inputWrap').removeClass('calendar_active');
+        //}
+        $('#calendar-api-show').asDatepicker('hide');
+        var aDateTime=_self._DestObj.find('.calendar').asDatepicker('getDate', 'yyyy/mm/dd');
         var sYear=aDateTime[0]+"  23:59:59";
         var date = new Date(sYear);
         var nSelTime = date.getTime();

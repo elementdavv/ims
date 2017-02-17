@@ -83,7 +83,7 @@
     <ul class="chatHeaderMenu">
         <li class="" bindPanel="news">消息</li>
         <li class="active" bindPanel="orgnized">组织通讯录</li>
-		<c:if test="${SessionPrivilege.map.htgl != null && SessionPrivilege.map.yyapppcd != null}">
+		<c:if test="${SessionPrivilege.map.htgl != null}">
 			<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
 		</c:if>
         <%--<li bindPanel="back">后台管理</li>   --%>
@@ -131,17 +131,17 @@
                 <li class="chatLeftIcon">添加好友</li>
                 <%--权限--%>
                 <%--<li class="chatLeftIcon">发起聊天</li>--%>
-                <c:if test="${SessionPrivilege.map.stsz != null}">
+                <c:if test="${SessionPrivilege.map.ltszfqgrlt != null}">
                     <li class="chatLeftIcon">发起聊天</li>
                 </c:if>
-                <c:if test="${SessionPrivilege.map.stsz == null}">
+                <c:if test="${SessionPrivilege.map.ltszfqgrlt == null}">
                     <li class="chatLeftIcon" displayLimit="false">发起聊天</li>
                 </c:if>
-                <c:if test="${SessionPrivilege.map.stsz != null}">
+                <c:if test="${SessionPrivilege.map.qzcjq != null}">
                     <li class="chatLeftIcon">创建群组</li>
 
                 </c:if>
-                <c:if test="${SessionPrivilege.map.stsz == null}">
+                <c:if test="${SessionPrivilege.map.qzcjq == null}">
                     <li class="chatLeftIcon" displayLimit="false">创建群组</li>
 
                 </c:if>
@@ -244,22 +244,22 @@
                 <div class="clearfix cp-oldPassword">
                     <span>旧密码：</span>
                     <input type="password" id="oldPassword">
+                    <p class="oldPassworderror"></p>
                 </div>
-                <p class="oldPassworderror"></p>
                 <div class="clearfix">
                     <span>新密码：</span>
                     <input type="password" class="cp-newPassword" id="cp-newPasswordId">
+        <ul class="cp-passwordSecurity clearfix">
+        <li id="strength_L"></li>
+        <li id="strength_M"></li>
+        <li id="strength_H"></li>
+        </ul>
                 </div>
-                <ul class="cp-passwordSecurity clearfix">
-                    <li id="strength_L"></li>
-                    <li id="strength_M"></li>
-                    <li id="strength_H"></li>
-                </ul>
                 <div class="clearfix cp-reNewPassword">
                     <span>新密码：</span>
                     <input type="password" id="comparepwd">
+                    <p class="retMewPw"></p>
                 </div>
-                <p class="retMewPw"></p>
             </div>
             <b class="systemSet-keep" id="systemSet-keep">保存</b>
         </div>
@@ -273,15 +273,15 @@
                     <i class="mr-record" id="mr-record"></i>
                 </div>
             </h3>
-            <div class="mr-chatview">
-            </div>
+            <%--<div class="mr-chatview">--%>
+            <%--</div>--%>
             <div class="mr-chateditBox">
                 <div class="rongyun-emoji"></div>
                 <div class="mr-expresFile clearfix">
                     <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
-                        <c:if test="${SessionPrivilege.map.stsz != null}">
+                        <c:if test="${SessionPrivilege.map.ltszwjsc != null}">
                             <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
                         </c:if>
                     </div>
@@ -302,7 +302,7 @@
                     <i class="mr-record" id="groupRecord"></i>
                 </div>
             </h3>
-            <div class="mr-chatview">
+            <%--<div class="mr-chatview">--%>
                 <%--<p class="mr-Date">-11月11日 星期五-</p>--%>
 
                 <%--<p class="mr-time">9:28</p>--%>
@@ -326,15 +326,15 @@
                         <%--</div>--%>
                     <%--</li>--%>
                 <%--</ul>--%>
-            </div>
+            <%--</div>--%>
             <div class="mr-chateditBox">
                 <div class="rongyun-emoji"></div>
                 <div class="mr-expresFile clearfix">
                     <span class="showEmoji"></span>
                     <i></i>
                     <div class="upload-img">
-                        <c:if test="${SessionPrivilege.map.stsz != null}">
-                        <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
+                        <c:if test="${SessionPrivilege.map.ltszwjsc != null}">
+                            <input type="file" class="comment-pic-upd upload_file" id="upload_file"/>
                         </c:if>
                     </div>
                 </div>

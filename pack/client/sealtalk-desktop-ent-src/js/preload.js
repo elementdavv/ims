@@ -72,19 +72,19 @@ window.Electron = {
   },
   openFile: function (url){
     if(remote.shell){
-      var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+      var savePath = path.join(downloadSavePath, getSavePath(url));
       remote.shell.openItem(savePath);
     }
   },
   openFileDir: function (url){
     if(remote.shell){
-      var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+      var savePath = path.join(downloadSavePath, getSavePath(url));
       remote.shell.showItemInFolder(savePath);
     }
   },
   chkFileExists: function (url){
-    console.log('bababababab');
-    var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+    //console.log('bababababab');
+    var savePath = path.join(downloadSavePath, getSavePath(url));
     var exist = fileExists(savePath);
     return exist ? savePath : '';
   },
@@ -129,7 +129,6 @@ window.Electron.ipcRenderer.on('menu.main.account_settings', () => {
     console.log('_open_account_settings do not exist');
   }
 })
-
 window.Electron.ipcRenderer.on('screenshot', () => {
   // if(typeof(upload_base64) == "undefined"){
   //   console.log('upload_base64 do not exist');
@@ -167,6 +166,7 @@ window.Electron.ipcRenderer.on('logout', () => {
 })
 
 window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progress) => {
+  //console.log('=================================',event)
   if(typeof(chDownloadProgress) == "undefined"){
     console.log('chDownloadProgress do not exist');
     return
@@ -177,7 +177,9 @@ window.Electron.ipcRenderer.on('chDownloadProgress', (event, url, state, progres
 })
 
 window.Electron.ipcRenderer.on('chDownloadState', (event, url, state) => {
-  if(typeof(chDownloadState) == "undefined"){
+  //console.log('=================================',event)
+
+if(typeof(chDownloadState) == "undefined"){
     console.log('chDownloadState do not exist');
     return
   }
@@ -205,7 +207,7 @@ Notification = function (title, options) {
   const notification = new NativeNotification(title, options)
   // 消息提示均由app端调用Notification做,这里只处理win7情况(win7不支持Notification)
   notification.addEventListener('click', () => {
-    console.log('click')
+    //console.log('click')
     window.Electron.ipcRenderer.send('notification-click')
   })
   if (platform.Windows){
@@ -213,7 +215,6 @@ Notification = function (title, options) {
       window.Electron.displayBalloon(title, options)
     }
   }
-
   return notification
 }
 
@@ -224,37 +225,84 @@ Notification.requestPermission = NativeNotification.requestPermission.bind(Notif
 
 function chDownloadProgress(url, state, progress){
   if (state == 'progressing') {
-    console.log(url, state, progress);
+    //console.log(url, state, progress);
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
-    var targetParent = targetA.parents('.mr-ownChat');
-    if ($('#down_process[uniquetime=' + file + ']').length == 0) {
-      $('#down_process[uniquetime=' + file + ']').remove();
-      var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
-          '<div id="down_precent" uniquetime="' + file + '" style="width: 0%;">' +
-          '</div>' +
-          '</div>'
-      targetParent.append(sHTML);
-    } else {
-      $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
+    var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
+    if($(targetParent[0]).hasClass('.mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
+      if ($('#down_process[uniquetime=' + file + ']').length == 0) {
+        $('#down_process[uniquetime=' + file + ']').remove();
+        var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
+            '<div id="down_precent" uniquetime="' + file + '" style="width: 0%;">' +
+            '</div>' +
+            '</div>'
+        targetParent.append(sHTML);
+      } else {
+        $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
+      }
     }
   }
-  console.log(targetA);
+  //console.log(targetA);
 }
 
 
 function chDownloadState(url, state){
-  console.log(state);
   if (state == 'completed') {
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
-    var targetParent = targetA.parents('.mr-ownChat');
-    $('#down_process[uniquetime=' + file + ']').remove();
-    var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-        '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
-        '</div>';
-    targetParent.append(sHTML);
+
+    //var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
+    //targetA.attr('href',savePath);
+
+    //console.log('*********************');
+    //console.log(targetA.attr('href'));
+
+
+    for(var i=0;i<targetA.length;++i){
+      if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
+        $('#down_process[uniquetime=' + file + ']').remove();
+        var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+            '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
+            '</div>';
+        var targetParent = targetA.eq(i).parents('.mr-ownChat').length==1?targetA.eq(i).parents('.mr-ownChat'):targetA.eq(i).parents('.mr-chatBox');
+        targetParent.append(sHTML);
+      }else if(targetA.eq(i).closest('.downLoadFileInfo').length>0){
+        targetA.eq(i).closest('.downLoadFileInfo').find('#fileOperate1').remove();
+        var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
+            '<span class="openFile">打开文件</span>' +
+            '<span class="openFloder">打开文件夹</span>' +
+            '</div>'
+        targetA.eq(i).closest('.downLoadFileInfo').append($(sHTML));
+      }else{
+        targetA.eq(i).closest('strong').remove();
+        $('.chatFile-folder').find('strong').remove();
+        var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
+            <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
+        $('.chatFile-folder').append(sHtml);
+      }
+    }
+    targetA.each(function(index){
+    });
   }
+}
+
+
+getSavePath = function (url) {
+  var fileName = getNameByUrl('attname', url);
+  var savePath = path.join(getDirByUrl(url), fileName);
+  return savePath;
+}
+getNameByUrl = function (field, url) {
+  var href = url ? url : window.location.href;
+  //var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+  //var string = reg.exec(href);
+  var string = href.split('attname=')[1];
+  return string ? string : null;
+}
+
+getDirByUrl = function (url) {
+  var re = /([\w\d_-]*)\.?[^\\\/]*$/i;
+  return url.match(re)[1];
 }

@@ -151,4 +151,16 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @return
 	 */
 	public List<TMember> getLimitMemberIds(int mapMax);
+	
+	/**
+	 * 根据token取成员
+	 * @param token
+	 * @return
+	 */
+	public TMember getMemberByToken(String token);
+	/**
+	 * 获取全部成员
+	 * @return
+	 */
+	public List<TMember> getAllMemberInfo();
 } 

@@ -104,6 +104,17 @@ public class MemberAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 获取所有成员
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getAllMemberInfo() throws ServletException {
+		String result = memberService.getAllMemberInfo();
+		returnToClient(result);
+		return "text";
+	}
+	
 	private MemberService memberService;
 	
 	public void setMemberService(MemberService ms) {

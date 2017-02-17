@@ -208,7 +208,7 @@ public class FunctionServiceImpl implements FunctionService {
 					jo.put("text", ja.toString());
 					
 				} else {
-					jo.put("code", 0);
+					jo.put("code", 1);
 					jo.put("text", Tips.NOTSETFUN.getText());
 				}
 			} else {

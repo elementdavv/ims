@@ -3,12 +3,12 @@
 
 #define MyAppName "SealTalk_Ent_Test"     
 #define MyCompanyName "RongCloud"
-#define MyAppVersion "1.0.2"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "RongCloud, Inc."
-#define MyAppURL "http://www.rongcloud.cn/"
+#define MyAppURL "http://localhost:8080/sealtalk/system!loginForWeb"
 #define MyAppExeName "SealTalk_Ent_Test.exe"     
 #define UninstallName "Uninstall"
-#define BaseDir "E:\myWork\Electron\sealtalk-desktop-EntA"
+#define BaseDir "D:\git\ims\pack\client\sealtalk-desktop-ent-src"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.

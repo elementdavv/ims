@@ -113,7 +113,7 @@ function fshowContexMenu(arr,style,id,memShip,targettype,bTopHas){
         if(arr[i].limit!=''&&limit.indexOf(arr[i].limit)==-1){
             listHTML+='<li displaylimit="false">'+arr[i].value+'</li>'
         }else{
-            if(i==0){
+            if(i==0 || i==5){
                 if(bTopHas){
                     listHTML+='<li data-top="1">'+arr[i].value+'</li>'
                 }else{
