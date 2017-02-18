@@ -686,7 +686,7 @@ function fPersonalSet(){
                 sSex= '女';
                 break;
         }
-        var sPosition=oData.positionname || '';//职位
+        var sPosition=oData.position || '';//职位
         var sBranch=oData.branchname || '';//部门
         var sEmail=oData.email || '';//邮箱
         var sTelephone=oData.telephone || '';//电话

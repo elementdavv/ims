@@ -896,7 +896,7 @@ function getPerInfo(oInfoDetails){
     var sMobile=oInfoDetails.mobile || '';//手机
     var sEmail=oInfoDetails.email || '';//邮箱
     var sBranch=oInfoDetails.postitionname || '';//部门
-    var sJob=oInfoDetails.sex || '';//职位
+    var sJob=oInfoDetails.position || '';//职位
     var sOrg=oInfoDetails.sex || '';//组织
     var sAddress=oInfoDetails.address || '';//地址
     var sTargetId=oInfoDetails.id || '';//ID

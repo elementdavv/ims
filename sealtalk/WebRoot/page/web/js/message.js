@@ -1064,7 +1064,7 @@ function changeClick2Content(data){
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo:globalVar.defaultLogo;
     var sTel=data.telephone ||'';
     var sEmail=data.email ||'';
-    var sJob=data.postitionname ||'';
+    var sJob=data.position ||'';
     var sGroupuse=data.groupuse ||'';
     var sAddress=data.address||'';
     var sHTML = '<div class="personalDetailContent">'+
@@ -1134,7 +1134,7 @@ function getMemberFriends(account,callback){
             var curData = myData.text[i];
             var account = curData.account;
             var fullname = curData.fullname;
-            var workno = curData.workno?' ('+curData.workno+')':''
+            var workno = curData.position?' ('+curData.position+')':''
             var logo = curData.logo?globalVar.imgSrc+curData.logo:globalVar.defaultLogo;
             //var curData = curData;
             sHTML += ' <li account="'+account+'" targetid="'+curData.id+'">'+
@@ -1217,7 +1217,7 @@ function showMemberInfo(data,pos){
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo :globalVar.defaultLogo;
     var sTel=data.telephone ||'';
     var sEmail=data.email ||'';
-    var sJob=data.postitionname ||'';
+    var sJob=data.position ||'';
     var sHTML = '<div class="memberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
                     '<div class="contextTri"></div>'+
                     '<ul class="memberInfoHover">'+

@@ -98,7 +98,7 @@ $(function(){
                             }else{
                                 imgsrc = globalVar.defaultLogo;
                             }
-                            var position = datas[i].positionname?'('+datas[i].positionname+')':'';
+                            var position = datas[i].position?'('+datas[i].positionname+')':'';
                             liHTML += '<li targetaccount="'+datas[i].account+'" targetid="'+datas[i].id+'"><img src="'+imgsrc+'"/>'+datas[i].name+position+'</li>'
                         }
                         var sHTML = ' <div class="searchResult">'+
