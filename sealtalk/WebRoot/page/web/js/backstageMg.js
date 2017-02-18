@@ -70,10 +70,14 @@ $(document).ready(function(){
                 var sFileName=eFile.find('.file_name').html();
                 var sFileSize=eFile.find('.file_size').attr('data-s');
                 var sFileType=eFile.find('.file_name').attr('data-type');
+                var sFileText=eTarget.find('.downLoadFile').attr('filename');
+                var sFileUrl=eTarget.find('.downLoadFile').attr('href');
                 oCopy.file={};
                 oCopy.file.name=sFileName;
                 oCopy.file.size=sFileSize;
                 oCopy.file.type=sFileType;
+                oCopy.file.uniqueTime=sFileText;
+                oCopy.file.fileUrl=sFileUrl;
                 var sCopy=JSON.stringify(oCopy);
                 window.localStorage.setItem('copy',sCopy);
             }else{
@@ -117,14 +121,13 @@ $(document).ready(function(){
             var sNewInfo=sOldInfo+sInfoContent;
             $('#chatBox #message-content').html(sNewInfo);
         }else if(sFile){
-            sFile.uniqueTime=new Date().getTime();
             sFile.filepaste=1;
             var extra = "uploadFile";
             var targetId = $('.mesContainerGroup').attr('targetID');
             var targetType = $('.mesContainerGroup').attr('targetType');
             var fileInfo=JSON.stringify(sFile);
                 sendMsg(fileInfo,targetId,targetType,extra);
-                //sendByRongFile(sFile,targetId,targetType);
+                sendByRongFile(sFile,targetId,targetType);
         }
 
     });

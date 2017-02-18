@@ -49,18 +49,33 @@ function sendMsg(content,targetId,way,extra,callback){
             var imgSrc = imgType(sendMsg.type);
             var file = sendMsg.name.split('.')[0];
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-            var sHTML = '<li class="mr-chatContentRFile clearfix">'+
-                '<div class="mr-ownChat">'+
-                '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
-                '<div class="file_content fl">' +
-                '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
-                '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
-                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
-                '</div>' +
-                '</div>' +
-                '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+returnDLLink(sendMsg.name)+'"></a>' +
-                    //'<button class="downLoadFileMask"></button>' +
-                '</li>';
+            if(sFilePaste==1){
+                var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                    '<div class="mr-ownChat">'+
+                    '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                    '<div class="file_content fl">' +
+                    '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
+                    '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
+                    '</div>' +
+                    '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
+                    '</div>' +
+                    '</li>';
+            }else{
+                var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                    '<div class="mr-ownChat">'+
+                        '<div class="file_type fl"><img src="'+imgSrc+'"/></div>'+
+                        '<div class="file_content fl">' +
+                            '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
+                            '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
+                            '<div id="up_process" uniqueTime="'+uniqueTime+'">' +
+                                '<div id="up_precent" uniqueTime="'+uniqueTime+'">' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
+                    '</div>'+
+                    '</li>';
+            }
         }else{//上传的是图片类型的文件
             var sHTML = '<li class="mr-chatContentRFile clearfix">'+
                     '<img uniqueTime="'+uniqueTime+'" src="'+globalVar.cssImgSrc+'imgLoading.gif" class="uploadImg uploadImgFile">'+
@@ -527,9 +542,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                     var localPath = window.Electron.chkFileExists(fileURL);
                     if (localPath) {
                         fileOperate = '<div id="fileOperate">' +
-                        '<span class="openFile">打开文件</span>' +
-                        '<span class="openFloder">打开文件夹</span>' +
-                        '</div>'
+                                    '<span class="openFile">打开文件</span>' +
+                                    '<span class="openFloder">打开文件夹</span>' +
+                                    '</div>'
+                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
                     } else {
                         downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' ;
                     }
@@ -595,7 +611,8 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 var imgSrc = imgType(sContent.type)
                 var file = getFileUniqueName(sendMsg.fileUrl);
                 var fileOperate = '';
-                var downstyle = '';
+                var downLoadFile = '';
+                //var downstyle = '';
                 if(window.Electron) {
                     if(sendMsg.fileUrl){
                         var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
@@ -603,7 +620,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                             fileOperate = '<div id="fileOperate">' +
                             '<span class="openFile">打开文件</span>' +
                             '<span class="openFloder">打开文件夹</span>' +
-                            '</div>'
+                            '</div>';
+                            downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + sendMsg.fileUrl + '" style="visibility:hidden;"></a>' ;
+                            //downLoadFile = '<a fileName="1111111111111"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
+
                         } else {
                             downLoadFile = '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' ;
                         }
@@ -618,8 +638,9 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                                 '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                                 '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
                             '</div>' +
-                            '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
-                            fileOperate+
+                            //'<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
+                            fileOperate+downLoadFile+
+                        '</div>'+
                         '</li>';
                 break;
             case "ImageMessage":
