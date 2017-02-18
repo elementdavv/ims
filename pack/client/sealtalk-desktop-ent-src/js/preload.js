@@ -224,6 +224,7 @@ Notification.requestPermission = NativeNotification.requestPermission.bind(Notif
 /* eslint-enable no-native-reassign, no-undef */
 
 function chDownloadProgress(url, state, progress){
+  console.log('progressprogressprogressprogressprogressprogressprogress');
   if (state == 'progressing') {
     //console.log(url, state, progress);
     var fileName = url.split('attname=')[1];
