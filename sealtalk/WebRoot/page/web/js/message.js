@@ -3,6 +3,8 @@
  */
 $(function(){
 
+
+
     //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
     var sdata = localStorage.getItem('datas');
@@ -10,10 +12,19 @@ $(function(){
     var account = oData?oData.account : '';
     var accountID = oData?oData.id :'';
     var timer=null,timer1 = null;
+
+
+    //刷新群组的在线人数
+    var groupOnlineNum = null;
+    groupOnlineNum = setInterval(function(){
+        changeGroupOnlineN(accountID);
+    },globalVar.refreshGroupOnline)
+
+
     function showPersonDetailDia(e,CurList){
         var pos = {};
         pos.top = e.clientY;
-        pos.left = e.clientX;
+        pos.left = 300;
         var data = '';
         var account = CurList.attr('account');
         var datas = localStorage.getItem('MemberFriends');
@@ -27,13 +38,13 @@ $(function(){
         }
     }
 
-    $('.usualChatList').delegate('li','mouseenter',function(e){
-        var _this = $(this);
+    $('.usualChatList').delegate('li .groupImg','mouseenter',function(e){
+        var _this = $(this).closest('li');
         timer=setTimeout(function(){
             showPersonDetailDia(e,_this);
         },1000);
     })
-    $('.usualChatList').delegate('li','mouseleave',function(e){
+    $('.usualChatList').delegate('li .groupImg','mouseleave',function(e){
         clearTimeout(timer);
         timer1 = setTimeout(function(){
             $('.memberHover').remove();
@@ -362,7 +373,13 @@ $(function(){
                     }else{
                         sTopChat='置顶会话';
                     }
-                    var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+                    if(targeType == "PRIVATE"){
+                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
+
+                    }else{
+                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'从消息列表删除'}];
+
+                    }
                     var style = 'left:'+left+'px;top:'+top+'px';
                     var id = 'newsLeftClick';
                     var memberShip = $topEle.attr('targetid');
@@ -618,9 +635,6 @@ $(function(){
             })
         },memShipArr);
     })
-    $('.groupInfo-groupManage').click(function(){
-
-    })
 
     //群组右键菜单
     $('body').delegate('#groupLeftClick li','click',function(){
@@ -797,36 +811,35 @@ $(function(){
                 }
                 creatDialogTree(data,'privateConvers','发起聊天',function(){
                     var targetAccount = converseACount[0];
-                    if($('.usualChatList').find('li[account='+targetAccount+']').length==0){
+                    if(targetAccount!=accountID){//是自己
+                        if($('.usualChatList').find   ('li[account='+targetAccount+']').length==0){
                             sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
                                 var datas = JSON.parse(data);
-                                console.log(data);
-                                //if(datas.code==1){
-                                    //刷新常用联系人
-                                    getMemberFriends(account,function(){
-                                        $('.manageCancle').click();
-                                        $('.chatMenu .chatLeftIcon')[1].click();
-                                        var targetDon = $('.usualChatList').find('li')
-                                        targetDon.removeClass('active');
-                                        var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-                                        targetMember.addClass('active');
-                                        var targetID = targetMember.attr('targetid');
-                                        var targeType = 'PRIVATE';
-                                        conversationSelf(targetID,targeType);
-                                    });
+                                //刷新常用联系人
+                                getMemberFriends(account,function(){
+                                    $('.manageCancle').click();
+                                    $('.chatMenu .chatLeftIcon')[1].click();
+                                    var targetDon = $('.usualChatList').find('li')
+                                    targetDon.removeClass('active');
+                                    var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+                                    targetMember.addClass('active');
+                                    var targetID = targetMember.attr('targetid');
+                                    var targeType = 'PRIVATE';
+                                    conversationSelf(targetID,targeType);
+                                });
                             })
-                    }else{
-                        $('.manageCancle').click();
-                        $('.chatMenu .chatLeftIcon')[1].click();
-                        var targetDon = $('.usualChatList').find('li')
-                        targetDon.removeClass('active');
-                        var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-                        targetMember.addClass('active');
-                        var targetID = targetMember.attr('targetid');
-                        var targeType = 'PRIVATE';
-                        conversationSelf(targetID,targeType);
+                        }else{
+                            $('.manageCancle').click();
+                            $('.chatMenu .chatLeftIcon')[1].click();
+                            var targetDon = $('.usualChatList').find('li')
+                            targetDon.removeClass('active');
+                            var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+                            targetMember.addClass('active');
+                            var targetID = targetMember.attr('targetid');
+                            var targeType = 'PRIVATE';
+                            conversationSelf(targetID,targeType);
+                        }
                     }
-
                 })
                 break;
             case 2:
@@ -838,6 +851,7 @@ $(function(){
                     break;
                 }else{
                     //创建群组
+                    converseACount = [];
                     converseACount.push(accountID);
                     creatDialogTree(data,'groupConvers','创建群组',function(){
 
@@ -896,7 +910,21 @@ function groupMemberList(groupid,callback){
 
 }
 
-
+function changeGroupOnlineN(accountID){
+    var $groupChatList = $('.groupChatList')
+    sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
+        if(data){
+            var datas = JSON.parse(data);
+            var groupList = datas.text;
+            for(var key in groupList){
+                var targetGroup = $groupChatList.find('li[targetid='+key+']');
+                if(targetGroup){
+                    targetGroup.find('.onlineCount ').html(groupList[key]);
+                }
+            }
+        }
+    })
+}
 
 //数组去重
 function unique3(arr){
@@ -928,7 +956,7 @@ function getGroupList(accountID){
                     '<img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
-                    '<em class="groupInlineNum">(15/'+curGroup.volumeuse+')</em>'+
+                    '<em class="groupInlineNum">(<span class="onlineCount">'+curGroup.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
                     '</div>'+
                     '</li>'
                 }
@@ -936,7 +964,7 @@ function getGroupList(accountID){
                 sHTML = '';
             }
             dom.html(sHTML);
-
+            changeGroupOnlineN(accountID)
         }
     })
 
@@ -1185,8 +1213,7 @@ function remove(arr,dx)
 
 function showMemberInfo(data,pos){
     //console.log('=================',data);
-    console.log(data);
-    var sName=data.name ||'';
+    var sName=data.fullname ||'';
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo :globalVar.defaultLogo;
     var sTel=data.telephone ||'';
     var sEmail=data.email ||'';
@@ -1386,10 +1413,11 @@ function createTransforContent(data,groupid){
     for(var i = 0;i<data.length;i++){
         var curList = data[i];
         var curGroup = searchFromList('1',curList.id);
-
-        var limit = curList.qzqx==true?'true':'false';
-        var limitText = curList.qzqx==true?'是':'否';
-        var transferText = curList.qzqx==true?'<span class="transferGroupTo">转让群</span>':''
+        //var limit = $('body').attr('limit');
+        //var limit = limit.indexOf('ltszfqgrlt')==-1?'false':'true';//没有权限
+        var limit = curList.qzqx=='true'?'true':'false';
+        var limitText = curList.qzqx=='true'?'是':'否';
+        var transferText = curList.qzqx=='true'?'<span class="transferGroupTo">转让群</span>':''
         var img = curList.logo?globalVar.imgSrc+curList.logo:globalVar.defaultLogo;
         sHTML+='<tr targetid="'+curList.id+'" transferlimit="'+limit+'">'+
                     '<td><img class="transferImg" src="'+img+'" alt="">'+curList.fullname+'</td>'+

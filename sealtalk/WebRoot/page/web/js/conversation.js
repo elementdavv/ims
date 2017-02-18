@@ -63,7 +63,7 @@ function sendMsg(content,targetId,way,extra,callback){
                 '</li>';
         }else{//上传的是图片类型的文件
             var sHTML = '<li class="mr-chatContentRFile clearfix">'+
-                    '<img uniqueTime="'+uniqueTime+'" src="'+returnDLLink(sendMsg.name)+'" class="uploadImg uploadImgFile">'+
+                    '<img uniqueTime="'+uniqueTime+'" src="'+globalVar.cssImgSrc+'imgLoading.gif" class="uploadImg uploadImgFile">'+
                     '</li>';
         }
     }else{//如果是普通消息
@@ -89,7 +89,11 @@ function sendMsg(content,targetId,way,extra,callback){
     //将消息放入盒子
     parentNode.append($(sHTML));
     //滚动条滚动到最低
+    $('.uploadImgFile').on('load',function(){
+        eDom.scrollTop = eDom.scrollHeight;
+    })
     eDom.scrollTop = eDom.scrollHeight;
+
     //写消息区域清空
     parent.find('.textarea').html('');
     callback&&callback();
@@ -591,7 +595,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 var imgSrc = imgType(sContent.type)
                 var file = getFileUniqueName(sendMsg.fileUrl);
                 var fileOperate = '';
-                var downLoadFile = '';
+                var downstyle = '';
                 if(window.Electron) {
                     if(sendMsg.fileUrl){
                         var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
@@ -604,7 +608,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                             downLoadFile = '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' ;
                         }
                     }else{
-                        downLoadFile = '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' ;
+                        //downLoadFile = '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' ;
                     }
                 }
                 sDoM += '<li class="mr-chatContentRFile clearfix" data-t="'+sSentTime+'">'+
@@ -614,7 +618,8 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                                 '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                                 '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
                             '</div>' +
-                            downLoadFile+fileOperate+
+                            '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
+                            fileOperate+
                         '</li>';
                 break;
             case "ImageMessage":

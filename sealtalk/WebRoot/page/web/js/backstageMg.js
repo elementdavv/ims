@@ -311,29 +311,26 @@ $(document).ready(function(){
        getHeadImgList();
     });
     //群组悬停
-    $('.groupChatList').delegate('li','mouseenter',function(e){
-        var _this = $(this);
-        var sId=$(this).attr('targetid');
+    $('.groupChatList').delegate('li .groupImg','mouseenter',function(e){
+        var _this = $(this).closest('li');
+        var sId=_this.attr('targetid');
         groupTimer=setTimeout(function(){
             var data = '';
             var pos = {};
             pos.top = e.clientY;
-            pos.left = e.clientX;
+            pos.left = 300;
             var account = _this.attr('account');
             var datas = localStorage.getItem('groupInfo');
             var data = JSON.parse(datas);
             var aText=data.text;
-            //console.log(data);
-            //console.log('----------');
             for(var i = 0;i<aText.length;i++){
-                //console.log(account,data[i].account);
                 if(aText[i].GID==sId){
                     showGroupMemberInfo(aText[i],pos);
                 }
             }
         },1000);
     });
-    $('.groupChatList').delegate('li','mouseleave',function(e){
+    $('.groupChatList').delegate('li .groupImg','mouseleave',function(e){
         clearTimeout(groupTimer);
         groupTimer1 = setTimeout(function(){
             $('.groupDataBox').remove();

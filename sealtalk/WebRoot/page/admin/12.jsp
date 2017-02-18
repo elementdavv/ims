@@ -39,11 +39,13 @@
 				</div>
 				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
 					<input style='width: 80px;border:none;padding-left:0' value='组织全称：' readonly/>
-					<input type="text" id="name" class='required'><span style="margin-left: 15px">填写后将显示在成员名片中</span>
+					<input type="text" id="name" class='required' style='margin-left: -5px'>
+					<span style="margin-left: 15px">填写后将显示在成员名片中</span>
 				</div>
 				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
 					<input style='width: 80px;border:none;padding-left:0' value='组织简称：' readonly/>
-					<input type="text" id="shortname" class='required'><span style="margin-left: 15px">填写后将显示在客户端标题栏</span>
+					<input type="text" id="shortname" class='required' style='margin-left: -5px'>
+					<span style="margin-left: 15px">填写后将显示在客户端标题栏</span>
 				</div>
 				<div class="line12b">
 					<input style='width: 80px;border:none' value='英文名称：' readonly/>
@@ -56,7 +58,7 @@
 				<div class="line12a" style='font-size: 16px'>联系方式</div>
 				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
 					<input style='width: 80px;border:none;padding-left:0' value='所在城市：' readonly/>
-					<select class="sel1" id="provinceid" class='required'>
+					<select class="sel1" id="provinceid" class='required' style='margin-left: -5px'>
 						<option value="id">上海</option>
 					</select>
 					<select class="sel1" id="cityid" class='required'>
@@ -68,11 +70,12 @@
 				</div>
 				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
 					<input style='width: 80px;border:none;padding-left:0' value='联系人：' readonly/>
-					<input type="text" id="contact" class='required'>
+					<input type="text" id="contact" class='required' style='margin-left: -5px'>
 				</div>
 				<div class="line12b" style='margin-left: 55px'><span style='color:red'>*</span>
 					<input style='width: 80px;border:none;padding-left:0' value='办公地址：' readonly/>
-					<input type="text"  id="address" class='required' style="width:410px"><span style="margin-left: 15px">填写后将显示在成员名片中</span>
+					<input type="text"  id="address" class='required' style="width:410px;margin-left: -5px">
+					<span style="margin-left: 15px">填写后将显示在成员名片中</span>
 				</div>
 				<div class="line12b">
 					<input style='width: 80px;border:none' value='电话：' readonly/>

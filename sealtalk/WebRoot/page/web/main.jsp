@@ -96,7 +96,7 @@
 </div>
 
 <!--消息-->
-<div class="chatContent news chatHide">
+<div class="chatContent news">
     <ul class="chatMenu">
         <li class="chatLeftIcon active" bindPanel="groupChatList"></li>
         <li class="chatLeftIcon" bindPanel="usualChatList"></li>
@@ -152,7 +152,7 @@
 </div>
 
 <!--组织通讯录-->
-<div class="chatContent orgnized">
+<div class="chatContent orgnized chatHide">
     <!--<div></div>-->
     <div class="serachMenber">
         <input class="searchInput chatLeftIcon">

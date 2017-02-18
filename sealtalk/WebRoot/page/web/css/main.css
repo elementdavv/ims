@@ -610,8 +610,8 @@ span.defaultText{
 
 .organizationList{
     padding: 19px 10px 0px 10px;
-    overflow: auto;
-    height: inherit;
+    overflow: scroll;
+    height: calc(100% - 70px);
 }
 
 .organizationList li .groupImg{
@@ -1168,7 +1168,7 @@ div.contactSearchResult{
 }
 .dialogClose {
     display: inline-block;
-    padding: 2px 10px 3px;
+    padding: 10px 10px 3px;
     position: absolute;
     top: 0;
     right: 15px;
@@ -1357,7 +1357,7 @@ div.contactSearchResult{
 }
 .memberInfoHover li span{
     display: inline-block;
-    height: 44px;
+    /*height: 44px;*/
     color: #808080;
     line-height: 49px;
 }

@@ -22,4 +22,5 @@ public interface RoleDao extends IBaseDao<TRole, Integer> {
 	 * @return
 	 */
 	List getPrivilegeById(int roleId);
+	
 }

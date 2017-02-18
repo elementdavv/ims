@@ -4,7 +4,9 @@ import io.rong.models.GagGroupUser;
 import io.rong.models.GroupInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -12,7 +14,9 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import com.sealtalk.common.Tips;
+import com.sealtalk.dao.adm.MemberRoleDao;
 import com.sealtalk.dao.adm.PrivDao;
+import com.sealtalk.dao.adm.RolePrivDao;
 import com.sealtalk.dao.fun.DontDistrubDao;
 import com.sealtalk.dao.group.GroupDao;
 import com.sealtalk.dao.group.GroupMemberDao;
@@ -21,7 +25,9 @@ import com.sealtalk.model.TDontDistrub;
 import com.sealtalk.model.TGroup;
 import com.sealtalk.model.TGroupMember;
 import com.sealtalk.model.TMember;
+import com.sealtalk.model.TMemberRole;
 import com.sealtalk.model.TPriv;
+import com.sealtalk.model.TRolePriv;
 import com.sealtalk.service.group.GroupService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PropertiesUtils;
@@ -926,12 +932,75 @@ public class GroupServiceImpl implements GroupService {
 						}
 					}
 					
-					//获取成员是否有管理群组的权限 
-					TPriv tp = privDao.getPrivByUrl("qz");
+					//获取管理群组的权限 
+					String[] groupManager = {"qzcjq", "qzjsq", "qzxgqcjz"};
+					List<TPriv> tps = privDao.getPrivByUrl(groupManager);
+					Map<Integer, String> memGroupPriv = new HashMap<Integer, String>();
 					
-					if(tp != null) {
-						int privId = Integer.valueOf(tp.getId());
-						List memPriv = privDao.getMemberByPrivId(privId);
+					if(tps != null && tps.size() == 3) {
+						Integer[] privIds = new Integer[tps.size()];
+						for(int i = 0; i < tps.size(); i++) {
+							privIds[i]  = Integer.valueOf(tps.get(i).getId());
+						}
+						//获取权限对应的角色
+						List<TRolePriv> rolePrivList = rolePrivDao.getRolePrivsByPrivs(privIds);
+						
+						//所有的符合条件的角色id
+						List<Integer> roleIds = new ArrayList<Integer>();
+						
+						if(rolePrivList != null) {
+							
+							for(int i = 0; i < rolePrivList.size(); i++) {
+								TRolePriv tp = rolePrivList.get(i);
+								if (!roleIds.contains(tp.getRoleId())) {
+									roleIds.add(tp.getRoleId());
+								}
+							}
+							
+							//获取成员的角色
+							List<TMemberRole> roleList = memberRoleDaoImpl.getRolesForIds(ids);
+							
+							if (roleList != null) {
+								for(int i = 0; i < roleList.size(); i++) {
+									TMemberRole tr = roleList.get(i);
+									String status = "false";
+									
+									if(roleIds.contains(tr.getRoleId())) {
+										status = "true";
+									}
+									memGroupPriv.put(tr.getMemberId(), status);
+								}
+							}
+						}
+						
+					
+						for(int i = 0; i < ja.size(); i++) {
+							JSONObject mem = ja.getJSONObject(i);
+							int id = mem.getInt("id");
+							boolean status = false;
+							
+							for(Map.Entry<Integer, String> m: memGroupPriv.entrySet()) {
+								if (m.getKey() == id) {
+									mem.put("qzqx", m.getValue());
+									status = true;
+									break;
+								} 
+							}
+							if (!status) {
+								mem.put("qxqx", "false");
+							}
+						}
+					}
+					
+					
+					/*废弃代码
+					if(tps != null && tps.size() == 3) {
+						int[] privIds = new int[tps.size()];
+						for(int i = 0; i < tps.size(); i++) {
+							privIds[i]  = Integer.valueOf(tps.get(i).getId());
+						}
+						
+						List memPriv = privDao.getMemberByPrivId(privIds);
 						for(int i = 0; i < ja.size(); i++) {
 							JSONObject mem = ja.getJSONObject(i);
 							if (memPriv == null) {
@@ -952,7 +1021,7 @@ public class GroupServiceImpl implements GroupService {
 								mem.put("qzqx", "false");
 							}
 						}
-					}
+					}*/
 				}
 				
 				jo.put("code", 1);
@@ -1152,7 +1221,26 @@ public class GroupServiceImpl implements GroupService {
 	private GroupMemberDao groupMemberDao;
 	private DontDistrubDao dontDistrubDao;
 	private PrivDao privDao;
+	private MemberRoleDao memberRoleDaoImpl;
+	private RolePrivDao rolePrivDao;
 	
+
+	public RolePrivDao getRolePrivDao() {
+		return rolePrivDao;
+	}
+
+	public void setRolePrivDao(RolePrivDao rolePrivDao) {
+		this.rolePrivDao = rolePrivDao;
+	}
+
+	public MemberRoleDao getMemberRoleDaoImpl() {
+		return memberRoleDaoImpl;
+	}
+
+	public void setMemberRoleDaoImpl(MemberRoleDao memberRoleDaoImpl) {
+		this.memberRoleDaoImpl = memberRoleDaoImpl;
+	}
+
 	public PrivDao getPrivDao() {
 		return privDao;
 	}

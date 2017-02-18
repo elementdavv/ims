@@ -31,6 +31,7 @@ public class GroupAction extends BaseAction {
 	public String createGroup() throws ServletException {
 		String result = null;
 		
+	
 		if (groupService != null) {
 			result = groupService.createGroup(userid, groupids);
 		} else {

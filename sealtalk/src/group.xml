@@ -12,6 +12,9 @@
 	<bean id="groupDao" class="com.sealtalk.dao.group.impl.GroupDaoImpl" autowire="byName" />
 	<bean id="groupMemberDao" class="com.sealtalk.dao.group.impl.GroupMemberDaoImpl" autowire="byName" />
 	<bean id="dontDistrubDao" class="com.sealtalk.dao.fun.impl.DontDistrubDaoImpl" autowire="byName" />
+	<bean id="memberRoleDaoImpl" class="com.sealtalk.dao.adm.impl.MemberRoleDaoImpl" autowire="byName" />
+	<bean id="rolePrivDao" class="com.sealtalk.dao.adm.impl.RolePrivDaoImpl" autowire="byName" />
+	<bean id="privDao" class="com.sealtalk.dao.adm.impl.PrivDaoImpl" autowire="byName" />
 	
 	<!-- service -->
 	<bean id="groupService" class="com.sealtalk.service.group.impl.GroupServiceImpl" autowire="byName" >
@@ -19,6 +22,9 @@
 		<property name="groupDao" ref="groupDao" />
 		<property name="groupMemberDao" ref="groupMemberDao" />
 		<property name="dontDistrubDao" ref="dontDistrubDao" />
+		<property name="memberRoleDaoImpl" ref="memberRoleDaoImpl" />
+		<property name="rolePrivDao" ref="rolePrivDao" />
+		<property name="privDao" ref="privDao" />
 	</bean>
 	
 	<!-- action -->

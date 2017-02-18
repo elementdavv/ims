@@ -47,4 +47,13 @@ public interface UploadService {
 	 */
 	public String getUserLogos(String userid);
 
+	/**
+	 * 上传头像(非裁剪)
+	 * @param userid
+	 * @param file
+	 * @param realPath
+	 * @return
+	 */
+	public String uploadUserLogNotCut(String userid, File file, String realPath);
+
 }
