@@ -105,7 +105,7 @@ function initEmoji(){
 
 
 //memShip表示与此操作相关的人员account
-function fshowContexMenu(arr,style,id,memShip,targettype,bTopHas){
+function fshowContexMenu(arr,style,id,memShip,targettype,bTopHas,eTarget){
 
     var listHTML = '';
     for(var i = 0;i<arr.length;i++){
@@ -129,7 +129,11 @@ function fshowContexMenu(arr,style,id,memShip,targettype,bTopHas){
     if(targettype){
         targetType = targettype;
     }
-    var sHTML = '<div memShip="'+memShip+'" class="myContextMenu" id="'+id+'" style="'+style+'" targetType="'+targetType+'">'+
+    var eDom='';
+    if(eTarget){
+        eDom=eTarget;
+    }
+    var sHTML = '<div memShip="'+memShip+'" class="myContextMenu" id="'+id+'" style="'+style+'" targetType="'+targetType+'" data-e="'+eDom+'">'+
         '<div class="contextTri"></div>'+
         '<ul>'+listHTML+'</ul>'+
         '</div>';

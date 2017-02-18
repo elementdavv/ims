@@ -43,6 +43,7 @@ function sendMsg(content,targetId,way,extra,callback){
         //var content = JSON.parse(content);
         var sendMsg = JSON.parse(content);
         var uniqueTime = sendMsg.uniqueTime;
+        var sFilePaste=sendMsg.filepaste;
         var Msize = KBtoM(sendMsg.size);
         if(sendMsg.type!='image/png'&&sendMsg.type!='image/jpeg'){
             var imgSrc = imgType(sendMsg.type);
@@ -52,13 +53,13 @@ function sendMsg(content,targetId,way,extra,callback){
                 '<div class="mr-ownChat">'+
                 '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                 '<div class="file_content fl">' +
-                '<p class="p1 file_name">'+sendMsg.name+'</p>' +
-                '<p class="p2 file_size">'+Msize+'</p>' +
+                '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
+                '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
                 '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+returnDLLink(sendMsg.filename)+'"></a>' +
-                //'<button class="downLoadFileMask"></button>' +
+                '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+returnDLLink(sendMsg.name)+'"></a>' +
+                    //'<button class="downLoadFileMask"></button>' +
                 '</li>';
         }else{//上传的是图片类型的文件
             var sHTML = '<li class="mr-chatContentRFile clearfix">'+
@@ -392,11 +393,31 @@ function conversationGroup(targetID,targetType,groupName){
         if(content){
             var targetId = $('.mesContainerGroup').attr('targetID');
             var targetType = $('.mesContainerGroup').attr('targetType');
-
             //显示到盒子里
             sendMsg(content,targetId,targetType);
-            //sendMsg(content,targetId,targetType)
         }
+        //if($(this).prev().find('.uploadImgFile').length>0){
+        //    var sImg = $(this).prev().find('.uploadImgFile').attr('src');
+        //    var content={};
+        //    content.name=sImg.split('attname=')[1];
+        //   var  sType=sImg.split('.')[sImg.split('.').length-1];
+        //    switch (sType){
+        //        case "png":
+        //            sType="images/png";
+        //            break;
+        //        case 'jpg':
+        //            sType="image/jpeg";
+        //            break;
+        //    }
+        //    content.type=sType;
+        //   content = JSON.stringify(content);
+        //    var targetId = $('.mesContainerGroup').attr('targetID');
+        //    var targetType = $('.mesContainerGroup').attr('targetType');
+        //    var extra = "uploadFile";
+        //    //显示到盒子里
+        //    sendMsg(content,targetId,targetType,extra);
+        //}else{
+        //}
     });
 
     $('.mr-record').addClass('active');
@@ -427,7 +448,7 @@ function createConversationList(sDoM,list,targetType){
     for (var i = 0; i < list.length; i++) {
         var sSentTime = list[i].sentTime;
         var extra = list[i].messageType || '';
-        var sContent = extra=='TextMessage'?list[i].content.content:list[i].content;
+        var sContent = extra=='TextMessage'?list[i].content.content:list[i].content ;
         switch(targetType){
                 case 'GROUP':
                     var sTargetId = list[i].senderUserId;
@@ -520,7 +541,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                                 '<div class="file_type fl"><img  class="fileImg" src="' + imgSrc + '"></div>' +
                                 '<div class="file_content fl">' +
                                 '<p class="p1 file_name">' + sContent.name + '</p>' +
-                                '<p class="p2 file_size">' + Msize + '</p>' +
+                                '<p class="p2 file_size data-s="'+sContent.size+'">' + Msize + '</p>' +
                             '</div>' +
                             downLoadFile+fileOperate+
                         '</li>';
@@ -576,14 +597,17 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 var fileOperate = '';
                 var downstyle = '';
                 if(window.Electron) {
-                    var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
-                    if (localPath) {
-                        fileOperate = '<div id="fileOperate">' +
-                        '<span class="openFile">打开文件</span>' +
-                        '<span class="openFloder">打开文件夹</span>' +
-                        '</div>'
-                        downstyle = 'display:none';
-                    } else {
+                    if(sendMsg.fileUrl){
+                        var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
+                        if (localPath) {
+                            fileOperate = '<div id="fileOperate">' +
+                            '<span class="openFile">打开文件</span>' +
+                            '<span class="openFloder">打开文件夹</span>' +
+                            '</div>'
+                        } else {
+                            downLoadFile = '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' ;
+                        }
+                    }else{
                         //downLoadFile = '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' ;
                     }
                 }
@@ -592,7 +616,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                                 '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                                 '<div class="file_content fl">' +
                                 '<p class="p1 file_name">'+sendMsg.name+'</p>' +
-                                '<p class="p2 file_size">'+Msize+'</p>' +
+                                '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
                             '</div>' +
                             '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
                             fileOperate+
@@ -1368,7 +1392,7 @@ function reciveInBox(msg){
                     '<div class="file_type fl"><img class="fileImg" src="'+imgSrc+'"></div>'+
                     '<div class="file_content fl">' +
                     '<p class="p1 file_name">'+content.name+'</p>' +
-                    '<p class="p2 file_size">'+Msize+'</p>' +
+                    '<p class="p2 file_size" data-s="'+content.size+'">'+Msize+'</p>' +
                     '</div>' +
                     '<a fileName="'+file+'" class="downLoadFile" href="'+fileURL+'"></a>'+
                     '</li>';
@@ -1424,7 +1448,7 @@ function reciveInBox(msg){
                 parentNode.append($(sHTML));
                 break;
         }
-        eDom.scrollTop = eDom.scrollHeight;
+        //eDom.scrollTop = eDom.scrollHeight;
         var targetType = targetType == 1?'PRIVATE':'GROUP';
         clearNoReadMsg(targetType,targetID,function(){
             getConverList();

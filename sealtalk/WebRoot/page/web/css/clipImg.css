@@ -69,6 +69,7 @@
     width:490px;
     height:254px;
     border:1px solid #e6e6e6;
+    overflow-y:auto;
 }
 .bMg-previewImg .bMg-selImg{
     width:80px;
