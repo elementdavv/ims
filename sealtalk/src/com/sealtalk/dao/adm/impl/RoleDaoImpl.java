@@ -2,8 +2,12 @@ package com.sealtalk.dao.adm.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.adm.RoleDao;
+import com.sealtalk.model.TPriv;
 import com.sealtalk.model.TRole;
 
 public class RoleDaoImpl extends BaseDao<TRole, Integer> implements RoleDao {
@@ -80,6 +84,5 @@ public class RoleDaoImpl extends BaseDao<TRole, Integer> implements RoleDao {
 		
 		return runSql(sql);
 	}
-
 	
 }

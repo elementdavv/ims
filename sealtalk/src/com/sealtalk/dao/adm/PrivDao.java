@@ -12,13 +12,19 @@ public interface PrivDao extends IBaseDao<TPriv, Integer> {
 	 * @param url
 	 * @return
 	 */
-	public TPriv getPrivByUrl(String url);
+	public List<TPriv> getPrivByUrl(String[] url);
 
 	/**
 	 * 根据权限id获取用户属性
 	 * @param privId
 	 * @return
 	 */
-	public List getMemberByPrivId(int privId);
+	public List getMemberByPrivId(int[] privId);
+
+	/**
+	 * 获取全部权限
+	 * @return
+	 */
+	public List<TPriv> getAllPriv();
 
 }
