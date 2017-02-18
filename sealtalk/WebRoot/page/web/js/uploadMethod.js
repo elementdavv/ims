@@ -86,7 +86,7 @@ $(function(){
                             filedetail.imageUri = downloadLink;
                             $('img[uniquetime="'+className+'"]').attr('src',downloadLink);
                             $('img[uniquetime="'+className+'"]').on('load',function(){
-                                var eDom=document.querySelector('#perContainer .mr-chatview');
+                                var eDom=document.querySelector('#chatBox .mr-chatview');
                                 eDom.scrollTop = eDom.scrollHeight;
                             })
                             if(data.thumbnail){
@@ -159,7 +159,7 @@ $(function(){
                             $('a[fileName='+className+']').attr('fileName',fileName);
                             $('img[uniquetime="'+className+'"]').attr('src',downloadLink);
                             $('img[uniquetime="'+className+'"]').on('load',function(){
-                                var eDom=document.querySelector('#perContainer .mr-chatview');
+                                var eDom=document.querySelector('#chatBox .mr-chatview');
                                 eDom.scrollTop = eDom.scrollHeight;
                             })
                             if(data.thumbnail){

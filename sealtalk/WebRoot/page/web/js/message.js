@@ -1185,6 +1185,7 @@ function remove(arr,dx)
 
 function showMemberInfo(data,pos){
     //console.log('=================',data);
+    console.log(data);
     var sName=data.name ||'';
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo :globalVar.defaultLogo;
     var sTel=data.telephone ||'';
