@@ -18,5 +18,16 @@
 		type: <input type="text" name="type" />
 		<input type="submit" value="test" />
 	</form>
+	<h1>测试上传非裁剪头像</h1>
+	<form action="<%=request.getContextPath() %>/upload!uploadUserLogoNotCut" enctype="multipart/form-data" method="post">
+		userId: <input name="userid" type="text" value="1" />
+		Image: <input name="file" type="file" accept="image/gif, image/jpeg"/>
+ 		<input name="upload" type="submit" value="上传" />
+	</form>
+	<h1>测试app免登陆接</h1>
+	<form action="<%=request.getContextPath() %>/system!freeLandingForApp" method="post">
+		Token: <input type="text" name="token" value="" />
+		<input type="submit" value="submit" />
+	</form>
 </body>
 <html/>
