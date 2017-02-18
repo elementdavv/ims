@@ -85,9 +85,11 @@ public interface MemberService {
 	 * @param email
 	 * @param phone
 	 * @param sign
+	 * @param sign2 
+	 * @param phone2 
 	 * @return
 	 */
-	public String updateMemberInfoForWeb(String userId, String sex, String email, String phone, String sign);
+	public String updateMemberInfoForWeb(String userId, String position, String fullName, String sex, String email, String phone, String sign);
 	
 	/**
 	 * 更新个人设置app端

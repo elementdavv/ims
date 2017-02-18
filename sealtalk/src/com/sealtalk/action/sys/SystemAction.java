@@ -230,6 +230,9 @@ public class SystemAction extends BaseAction {
 		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
 		
 		text.remove("password");
+		text.remove("createtokendate");
+		text.remove("groupmax");
+		text.remove("groupuse");
 		text.put("token", token);
 		text.put("priv", JSONUtils.getInstance().modelToJSONObj(sp));
 		
@@ -320,6 +323,9 @@ public class SystemAction extends BaseAction {
 		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
 		
 		text.remove("password");
+		text.remove("createtokendate");
+		text.remove("groupmax");
+		text.remove("groupuse");
 		text.put("token", token);
 		text.put("priv", JSONUtils.getInstance().modelToJSONObj(sp));
 		
@@ -423,6 +429,33 @@ public class SystemAction extends BaseAction {
 				text.put("code", 0);
 				text.put("text", Tips.FAIL.getText());
 			}
+		}
+		
+		returnToClient(text.toString());
+		
+		return "text";
+	}
+	
+	/**
+	 * 验证旧密码
+	 * @return
+	 * @throws ServletException
+	 */
+	public String valideOldPwd() throws ServletException {
+		JSONObject text = new JSONObject();
+		
+		if (!StringUtils.getInstance().isBlank(oldpwd)) {				//登陆后修改密码
+			boolean validOldPwd = memberService.valideOldPwd(account, oldpwd);
+			if (!validOldPwd) {
+				text.put("code", 0);
+				text.put("text", Tips.WRONGOLDPWD.getText());
+			} else {
+				text.put("code", 1);
+				text.put("text", Tips.OK.getText());
+			}
+		} else { 
+			text.put("code", 0);
+			text.put("text", Tips.WRONGOLDPWD.getText());
 		}
 		
 		returnToClient(text.toString());

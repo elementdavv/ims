@@ -33,7 +33,7 @@ public class UploadAction extends BaseAction {
 	}
 	
 	/**
-	 * 上传头像
+	 * 上传头像(裁剪)
 	 * @return
 	 * @throws IOException
 	 * @throws ServletException
@@ -54,6 +54,20 @@ public class UploadAction extends BaseAction {
 		returnToClient(result);
 		return "text";
     }  
+	
+	/**
+	 * 上传头像(非裁剪)
+	 * @return
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	public String uploadUserLogoNotCut() throws IOException, ServletException {  
+		//获取服务器的实际路径  
+	    String realPath = request.getSession().getServletContext().getRealPath("/");  
+		String result = uploadService.uploadUserLogNotCut(userid, file, realPath);
+		returnToClient(result);
+		return "text";
+	}
 	
 	/**
 	 * 删除头像从头像库

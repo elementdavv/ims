@@ -267,6 +267,59 @@ public class UploadServiceImpl implements UploadService {
 		return jo.toString();
 	}
 
+	@Override
+	public String uploadUserLogNotCut(String userId, File imageFile, String realPath) {
+		JSONObject jo = new JSONObject();
+		
+		if (StringUtils.getInstance().isBlank(userId) || 
+				imageFile == null) {
+			jo.put("code", -1);
+			jo.put("text", Tips.WRONGPARAMS.getText());
+		} else {
+			String seperate = PropertiesUtils.getStringByKey("dir.seperate");
+	        String resourcePath="upload" + seperate +  "images" + seperate;  
+
+			int userIdInt = StringUtils.getInstance().strToInt(userId);
+	        
+	        if(imageFile != null){  
+	             try{  
+		            //文件名  
+		             //String name= imageFile.getName();  
+		             
+		             File dir = new File(realPath + resourcePath);  
+		             
+		             if (!dir.exists()){  
+		                 dir.mkdirs();  
+		             }  
+		             
+		             String suffix = PropertiesUtils.getStringByKey("upload.suffix");
+	            	 String newName = userId + "-" + TimeGenerator.getInstance().getUnixTime() + "." + suffix;
+	            	 
+		             File file = new File(dir, newName);  
+		             
+		             FileUtil.copyFile(imageFile, file);
+		            	
+                	 TCutLogoTemp clte = new TCutLogoTemp();
+                	 
+                	 clte.setLogoName(newName);
+                	 clte.setUserId(userIdInt);
+                	 
+                	 cutLogoTempDao.saveTempPic(clte);
+                	 
+                	 this.saveSelectedPic(userId, newName);
+                	 
+                	jo.put("code", 1);
+         			jo.put("text", clte.getLogoName());
+	             } catch (Exception e) {  
+	            	jo.put("code", 0);
+         			jo.put("text", Tips.FAIL.getText());
+	                e.printStackTrace();  
+	            }  
+	        }
+         }  
+		
+		return jo.toString();
+	}
 	
 	private MemberDao memberDao;
 	private CutLogoTempDao cutLogoTempDao;

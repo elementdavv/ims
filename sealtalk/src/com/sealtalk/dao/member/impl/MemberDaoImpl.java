@@ -357,13 +357,21 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 	}
 
 	@Override
-	public int updateMemeberInfoForWeb(int userId, String sex, String email, String phone, String sign) {
+	public int updateMemeberInfoForWeb(int userId, String position, String fullName, String sex, String email, String phone, String sign) {
 		StringBuilder sbSql = new StringBuilder();
 		
 		sbSql.append("update TMember T set ");
 		
 		boolean bl = false;
 		
+		if (!StringUtils.getInstance().isBlank(position)) {
+			bl = true;
+			sbSql.append("T.position='").append(position).append("'");
+		}
+		if (!StringUtils.getInstance().isBlank(fullName)) {
+			bl = true;
+			sbSql.append("T.fullname='").append(fullName).append("'");
+		}
 		if (!StringUtils.getInstance().isBlank(sex)) {
 			bl = true;
 			sbSql.append("T.sex='").append(sex).append("'");

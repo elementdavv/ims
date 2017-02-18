@@ -83,16 +83,17 @@ public class MemberServiceImpl implements MemberService {
 					jo.put("telephone", isBlank(member[4]));
 					jo.put("email", isBlank(member[5]));
 					jo.put("address", isBlank(member[6]));
-					jo.put("birthday", isBlank(member[7]));
-					jo.put("workno", isBlank(member[8]));
-					jo.put("mobile", isBlank(member[9]));
-					jo.put("groupmax", isBlank(member[10]));
-					jo.put("groupuse", isBlank(member[11]));
-					jo.put("intro", isBlank(member[12]));
-					jo.put("branchname", isBlank(member[13]));
-					jo.put("positionname", isBlank(member[14]));
-					jo.put("organname", isBlank(member[15]));
-					jo.put("sex", isBlank(member[16]));
+					jo.put("token", isBlank(member[7]));
+					jo.put("sex", isBlank(member[8]));
+					jo.put("birthday", isBlank(member[9]));
+					jo.put("workno", isBlank(member[10]));
+					jo.put("mobile", isBlank(member[11]));
+					jo.put("groupmax", isBlank(member[12]));
+					jo.put("groupuse", isBlank(member[13]));
+					jo.put("intro", isBlank(member[14]));
+					jo.put("branchname", isBlank(member[15]));
+					jo.put("positionname", isBlank(member[16]));
+					jo.put("organname", isBlank(member[17]));
 				}
 			}
 		} catch (Exception e) {
@@ -211,7 +212,7 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public String updateMemberInfoForWeb(String userId, String sex, String email, String phone, String sign) {
+	public String updateMemberInfoForWeb(String userId, String position, String fullName, String sex, String email, String phone, String sign) {
 		
 		JSONObject jo = new JSONObject();
 		
@@ -222,7 +223,7 @@ public class MemberServiceImpl implements MemberService {
 			try {
 				sex = sex.equals("男") ? "1" : "0";
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
-				int ret = memberDao.updateMemeberInfoForWeb(userIdInt, sex, email, phone, sign);
+				int ret = memberDao.updateMemeberInfoForWeb(userIdInt, position, fullName, sex, email, phone, sign);
 				
 				if (ret > 0) {
 					jo.put("code", 1);

@@ -5,7 +5,7 @@
 #define MyCompanyName "RongCloud"
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "RongCloud, Inc."
-#define MyAppURL "http://localhost:8080/sealtalk/system!loginForWeb"
+#define MyAppURL "http://35.164.107.27:8080/im/system!login"
 #define MyAppExeName "SealTalk_Ent_Test.exe"     
 #define UninstallName "Uninstall"
 #define BaseDir "D:\git\ims\pack\client\sealtalk-desktop-ent-src"

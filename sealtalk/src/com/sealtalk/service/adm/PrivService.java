@@ -23,11 +23,4 @@ public interface PrivService {
 	 */
 	public List getRoleIdForId(int id);
 	
-	/**
-	 * 根据权限url获取权限对象
-	 * @param string
-	 * @return
-	 */
-	public TPriv getPrivByUrl(String string);
-	
 }
