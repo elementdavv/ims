@@ -13,5 +13,6 @@ var globalVar={
     imgSrc:'/sealtalk/upload/images/',
     cssImgSrc:'page/web/css/img/',
     defaultLogo:'page/web/css/img/PersonImg.jpg',
-    defaultDepLogo:'page/web/css/img/group_chart.jpg'
+    defaultDepLogo:'page/web/css/img/group_chart.jpg',
+    refreshGroupOnline:10000
 };

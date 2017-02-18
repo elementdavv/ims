@@ -180,38 +180,10 @@ Window.prototype = {
             }
         }
 
-        //查看弹窗是否可以拖动
-        //if(config.isDraggable){
-        //    //传递进来一个参数(点击上面位置可以拖动，使用jqueryUI的拖动功能)
-        //    if(config.dragHandle){
-        //        boundingBox.draggable({handle:config.dragHandle});
-        //    }else{
-        //        boundingBox.draggable();
-        //    }
-        //
-        //}
     },
     confirm: function(){},
     prompt : function(){}
 };
-//function allowDorp(event){
-//    event.preventDefault();
-//    //console.log(1);
-//}
-//function drag(event){
-//    console.log(event);
-//    var alert = event.dataTransfer.setData('alert',event.target.id);
-//    console.log(event);
-//    var id = event.dataTransfer.getData('alert');
-//    console.log(id);
-//}
-//function drop(event){
-//    console.log(event);
-//    event.preventDefault();
-//    var id = event.dataTransfer.getData('alert');
-//    console.log(id);
-//    event.target.appendChild(document.getElementById(id));
-//}
 
 function fMouseDown(This){
     //console.log(This);
