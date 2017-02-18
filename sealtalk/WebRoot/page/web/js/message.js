@@ -618,9 +618,6 @@ $(function(){
             })
         },memShipArr);
     })
-    $('.groupInfo-groupManage').click(function(){
-
-    })
 
     //群组右键菜单
     $('body').delegate('#groupLeftClick li','click',function(){
@@ -1385,10 +1382,11 @@ function createTransforContent(data,groupid){
     for(var i = 0;i<data.length;i++){
         var curList = data[i];
         var curGroup = searchFromList('1',curList.id);
-
-        var limit = curList.qzgl==true?'true':'false';
-        var limitText = curList.qzgl==true?'是':'否';
-        var transferText = curList.qzgl==true?'<span class="transferGroupTo">转让群</span>':''
+        //var limit = $('body').attr('limit');
+        //var limit = limit.indexOf('ltszfqgrlt')==-1?'false':'true';//没有权限
+        var limit = curList.qzqx==true?'true':'false';
+        var limitText = curList.qzqx==true?'是':'否';
+        var transferText = curList.qzqx==true?'<span class="transferGroupTo">转让群</span>':''
         var img = curList.logo?globalVar.imgSrc+curList.logo:globalVar.defaultLogo;
         sHTML+='<tr targetid="'+curList.id+'" transferlimit="'+limit+'">'+
                     '<td><img class="transferImg" src="'+img+'" alt="">'+curList.fullname+'</td>'+

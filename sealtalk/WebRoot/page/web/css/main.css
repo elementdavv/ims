@@ -610,8 +610,8 @@ span.defaultText{
 
 .organizationList{
     padding: 19px 10px 0px 10px;
-    overflow: auto;
-    height: inherit;
+    overflow: scroll;
+    height: calc(100% - 70px);
 }
 
 .organizationList li .groupImg{
