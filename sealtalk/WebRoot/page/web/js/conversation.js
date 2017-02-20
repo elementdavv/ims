@@ -50,16 +50,30 @@ function sendMsg(content,targetId,way,extra,callback){
             var file = sendMsg.name.split('.')[0];
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
             if(sFilePaste==1){
+                var fileOperate='';
+                var downLoadFile=''
                 var sHTML = '<li class="mr-chatContentRFile clearfix">'+
                     '<div class="mr-ownChat">'+
                     '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                     '<div class="file_content fl">' +
                     '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
                     '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
-                    '</div>' +
-                    '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
-                    '</div>' +
-                    '</li>';
+                    '</div>';
+                if(window.Electron) {
+                    var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
+                    if (localPath) {
+                        fileOperate = '<div id="fileOperate">' +
+                        '<span class="openFile">打开文件</span>' +
+                        '<span class="openFloder">打开文件夹</span>' +
+                        '</div>'
+                        downLoadFile = '<a fileName="' + uniqueTime + '"  class="downLoadFile" href="' + sendMsg.fileUrl + '" style="visibility:hidden;"></a>' ;
+                    } else {
+                        downLoadFile = '<a fileName="' + uniqueTime + '"  class="downLoadFile" href="' + sendMsg.fileUrl + '"></a>' ;
+                    }
+                }
+                sHTML+=fileOperate+downLoadFile+ '</div>' +
+                '</li>';
+                    //'<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
             }else{
                 var sHTML = '<li class="mr-chatContentRFile clearfix">'+
                     '<div class="mr-ownChat">'+
@@ -104,13 +118,15 @@ function sendMsg(content,targetId,way,extra,callback){
     //将消息放入盒子
     parentNode.append($(sHTML));
     //滚动条滚动到最低
-    $('.uploadImgFile').on('load',function(){
+    if(eDom){
+        $('.uploadImgFile').on('load',function(){
+            eDom.scrollTop = eDom.scrollHeight;
+        })
         eDom.scrollTop = eDom.scrollHeight;
-    })
-    eDom.scrollTop = eDom.scrollHeight;
+    }
 
     //写消息区域清空
-    parent.find('.textarea').html('');
+    parent.find('.textarea').empty();
     callback&&callback();
     //调用融云的发送文件
     if(extra!='uploadFile'&&(limit.indexOf('ltszwjsc')!=-1||way== 'PRIVATE')){
@@ -212,6 +228,7 @@ function sendByRong(content,targetId,way,extra){
                 //var
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
                 getConverList();
+
                 console.log("Send successfully");
             },
             onError: function (errorCode,message) {
@@ -964,6 +981,20 @@ function getChatRecord(aList,sClass){
                 var uniqueTime = sContent.uniqueTime;
                 var fileURL=sContent.fileUrl;
                 var file = getFileUniqueName(fileURL);
+                var fileOperate='';
+                var downLoadFile='';
+                if(window.Electron) {
+                    var localPath = window.Electron.chkFileExists(fileURL);
+                    if (localPath) {
+                        fileOperate = '<div id="fileOperate">' +
+                        '<span class="openFile">打开文件</span>' +
+                        '<span class="openFloder">打开文件夹</span>' +
+                        '</div>'
+                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
+                    } else {
+                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' ;
+                    }
+                }
                 sContent= '<div class="downLoadFileInfo clearfix">'+
                 '<div class="file_typeHos fl"><img src="'+imgSrc+'"></div>'+
                 '<div class="file_contentHos fl">' +
@@ -972,7 +1003,7 @@ function getChatRecord(aList,sClass){
                 '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
                 '</div>' +
                 '</div>' +
-                '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>';
+                fileOperate+downLoadFile;
             }else if(sExtra=="ImageMessage"){
                 var imgURL=sContent.imageUri;
                 sContent='<img src="'+imgURL+'">';

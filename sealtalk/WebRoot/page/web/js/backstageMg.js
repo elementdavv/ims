@@ -112,19 +112,26 @@ $(document).ready(function(){
         var sInfoContent=oPast.infoContent;
         var sFile=oPast.file;
         var sOldInfo=$('#chatBox #message-content').html();
-        $('#chatBox #message-content').html('');
+        //$('#chatBox #message-content').html('');
         if(sImgSrc){
             var sImg='<img src="'+sImgSrc+'"; class="uploadImgFile"/>';
             var sNewInfo=sOldInfo+sImg;
-            $('#chatBox #message-content').html(sImg);
+            $('#chatBox #message-content').append(sImg);
         }else if(sInfoContent){
-            var sNewInfo=sOldInfo+sInfoContent;
-            $('#chatBox #message-content').html(sNewInfo);
+            var sNewInfo=sInfoContent;
+            $('#chatBox #message-content').append(sNewInfo);
         }else if(sFile){
             sFile.filepaste=1;
             var extra = "uploadFile";
-            var targetId = $('.mesContainerGroup').attr('targetID');
-            var targetType = $('.mesContainerGroup').attr('targetType');
+            var targetId='';
+            var targetType='';
+            if(!$('.mesContainerSelf').hasClass('chatHide')){
+               targetId = $('.mesContainerSelf').attr('targetID');
+               targetType = $('.mesContainerSelf').attr('targetType');
+            }else{
+               targetId = $('.mesContainerGroup').attr('targetID');
+               targetType = $('.mesContainerGroup').attr('targetType');
+            }
             var fileInfo=JSON.stringify(sFile);
                 sendMsg(fileInfo,targetId,targetType,extra);
                 sendByRongFile(sFile,targetId,targetType);
