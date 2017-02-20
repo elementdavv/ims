@@ -382,7 +382,7 @@ $(function(){
                         var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
 
                     }else{
-                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'从消息列表删除'}];
+                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'aaaa',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
 
                     }
                     var style = 'left:'+left+'px;top:'+top+'px';
@@ -745,6 +745,17 @@ $(function(){
                                                                 autoHide:true
                                                             });
                                                             $('.WindowMask2').hide();
+                                                        }else if(datas&&datas.code==0){
+                                                            new Window().alert({
+                                                                title   : '',
+                                                                content : '群组转让失败！',
+                                                                hasCloseBtn : false,
+                                                                hasImg : true,
+                                                                textForSureBtn : false,
+                                                                textForcancleBtn : false,
+                                                                autoHide:true
+                                                            });
+                                                            $('.WindowMask2').hide();
                                                         }
                                                     }
                                                 })
@@ -951,7 +962,9 @@ function changePersonOnlineN(accountID){
 
 
 function changeGroupOnlineN(accountID){
-    var $groupChatList = $('.groupChatList')
+
+    groupOnlineMember(accountID)
+
     //sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
     //    if(data){
     //        var datas = JSON.parse(data);
@@ -1066,6 +1079,21 @@ function removeConvers(type,id,$topEle){
     });
 }
 
+function groupOnlineMember(accountID){
+    var $groupChatList = $('.groupChatList');
+    sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
+        if(data){
+            var datas = JSON.parse(data);
+            var groupList = datas.text;
+            for(var key in groupList){
+                var targetGroup = $groupChatList.find('li[targetid='+key+']');
+                if(targetGroup){
+                    targetGroup.find('.onlineCount ').html(groupList[key]);
+                }
+            }
+        }
+    })
+}
 
 //点击的是部门
 function changeClick1Content(data){
@@ -1086,9 +1114,9 @@ function changeClick1Content(data){
         '<div class="showPersonalInfo">'+
         '<span>'+sName+'</span>'+
         '<ul class="personalOperaIcon">'+
-        '<li class="sendMsg"></li>'+
-        '<li class="checkPosition"></li>'+
-        '<li class="addConver"></li>'+
+        '<li class="sendMsg" title="发起聊天"></li>'+
+        '<li class="checkPosition" title="查看位置"></li>'+
+        '<li class="addConver" title="加入会话"></li>'+
         '</ul>'+
         '</div>'+
         '</li>';
@@ -1103,7 +1131,7 @@ function changeClick2Content(data){
     var sName=data.name ||'';
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo:globalVar.defaultLogo;
     var sTel=data.telephone ||'';
-    var sBranch = data.branchname
+    var sBranch = data.branchname;
     var sEmail=data.email ||'';
     var sJob=data.postitionname ||'';
     var sGroupuse=data.organname ||'';
@@ -1113,7 +1141,7 @@ function changeClick2Content(data){
                     '<img src="'+sHeadImg+'" alt=""/><div>'+
                 '<p>'+sName+'</p>'+
                 '<ul class="selfImgOpera">'+
-                    '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
+                    '<li class="sendMsg" title="发起聊天"></li><li class="checkPosition" title="查看位置"></li><li class="addConver" title="加入会话"></li>'+
                 '</ul></div></div><div class="showPersonalInfo" targetID="'+data.id+'" targetTpe="PRIVATE">'+
                 '<ul>'+
                     '<li><div>手机:</div><div>'+sTel+'</div></li>'+
@@ -1271,9 +1299,9 @@ function showMemberInfo(data,pos){
                             '<div class="showPersonalInfo" targetID="'+data.id+'"targetType="PRIVATE">'+
                                 '<span>'+sName+'</span>'+
                                 '<ul class="personalOperaIcon">'+
-                                    '<li class="sendMsg"></li>'+
-                                    '<li class="checkPosition"></li>'+
-                                    '<li class="addConver"></li>'+
+                                    '<li class="sendMsg" title="发起聊天"></li>'+
+                                    '<li class="checkPosition" title="查看位置"></li>'+
+                                    '<li class="addConver" title="加入会话"></li>'+
                                 '</ul>'+
                             '</div>'+
                         '</li>'+

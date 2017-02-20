@@ -62,16 +62,16 @@ $(function(){
                             break;
                         //重新链接
                         case RongIMLib.ConnectionStatus.DISCONNECTED:
-                            //new Window().alert({
-                            //    title   : '',
-                            //    content : '断开连接！',
-                            //    hasCloseBtn : false,
-                            //    hasImg : true,
-                            //    textForSureBtn : false,
-                            //    textForcancleBtn : false
-                            //    //,
-                            //    //autoHide:true
-                            //});
+                            new Window().alert({
+                                title   : '',
+                                content : '断开连接！',
+                                hasCloseBtn : false,
+                                hasImg : true,
+                                textForSureBtn : false,
+                                textForcancleBtn : false
+                                //,
+                                //autoHide:true
+                            });
                             console.log('断开连接');
                             break;
                         //其他设备登录

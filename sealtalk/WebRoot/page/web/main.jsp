@@ -167,12 +167,12 @@
 <!--后台管理-->
 <div class="chatContent  chatHide personalCenter">
     <ul class="backstageMg" id="backstageMgId">
-		<c:if test="${SessionPrivilege.map.grsz != null}">	  
+		<%--<c:if test="${SessionPrivilege.map.grsz != null}">	  --%>
 			<li class="clearfix">
 				<em class="bMg-personalSet"></em>
 				<span>个人设置</span>
 			</li>
-		</c:if>
+		<%--</c:if>--%>
         <li class="clearfix">
             <em class="bMg-systemSet"></em>
             <span>系统设置</span>

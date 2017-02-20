@@ -2,6 +2,25 @@
  * Created by zhu_jq on 2017/2/7.
  */
 $(function(){
+
+    $('.mesContainer').delegate('.sendStatus','click',function(){
+        var _this = $(this);
+        new Window().alert({
+            title   : '重新发送',
+            content : '确定要重新发送么？',
+            hasCloseBtn : true,
+            hasImg : true,
+            textForSureBtn : '确定',              //确定按钮
+            textForcancleBtn : '取消',            //取消按钮
+            handlerForCancle : null,
+            handlerForSure : function(){
+                var content = _this.parent().find('.mr-ownChat span').html();
+                var targetId = _this.closest('.mesContainer').attr('targetid');
+                var targetType = _this.closest('.mesContainer').attr('targettype')
+                sendMsg(content,targetId,targetType,'','',new Date().getTime());
+            }
+        })
+    })
     var _fnDown = function(ev){
         if(window.Electron){
             var url = $(this).attr('href');

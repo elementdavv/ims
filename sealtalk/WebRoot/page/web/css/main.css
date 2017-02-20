@@ -436,9 +436,9 @@ button#downLoadFile:focus{
 }
 .groupChatListUl li .usualLastMsg{
     display: inline-block;
-    height: 44px;
+    height: 25px;
     float: left;
-    /* line-height: 44px; */
+    line-height: 27px;
     text-indent: 18px;
     position: absolute;
     top: 25px;
@@ -446,6 +446,8 @@ button#downLoadFile:focus{
     color: #666666;
     font-size: 12px;
     transform: scale(0.9,0.9);
+    /*background: palevioletred;*/
+    overflow: hidden;
 }
 .groupChatListUl li .lastTime{
     float: right;
@@ -1379,5 +1381,5 @@ span.onlineStatus {
     position: absolute;
     top: 14px;
     width: 40px;
-    background: white;
+    /*background: white;*/
 }

@@ -476,6 +476,10 @@ img.uploadImgLeft {
     height: auto;
     max-width: 500px;
 }
+span.sendStatus {
+    float: right;
+    line-height: 44px;
+}
 .downLoadFile{
     display: inline-block;
     width: 30px;
