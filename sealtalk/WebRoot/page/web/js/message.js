@@ -20,6 +20,11 @@ $(function(){
         changeGroupOnlineN(accountID);
     },globalVar.refreshGroupOnline)
 
+    var personOnlineNum = null;
+    personOnlineNum = setInterval(function(){
+        changePersonOnlineN('');
+    },globalVar.refreshGroupOnline)
+
 
     function showPersonDetailDia(e,CurList){
         var pos = {};
@@ -573,7 +578,7 @@ $(function(){
             var memship = $(this).attr('targetid');
             var top = e.clientY;
             //var arr = ['群成员管理','解散群','转让群'];
-            var arr = [{limit:'qzgl',value:'群成员管理'},{limit:'qzgljs',value:'解散群'},{limit:'qzxgqcjz',value:'转让群'}];
+            var arr = [{limit:'',value:'群成员管理'},{limit:'qzgljs',value:'解散群'},{limit:'qzxgqcjz',value:'转让群'}];
 
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'groupLeftClick'
@@ -910,6 +915,41 @@ function groupMemberList(groupid,callback){
 
 }
 
+
+
+function changePersonOnlineN(accountID){
+    var $organizationList = $('.organizationList');
+    sendAjax('member!getAllMemberOnLineStatus',{userid:accountID},function(data){
+        if(data){
+            var datas = JSON.parse(data);
+            var memberList = datas.text;
+            for(var key in memberList){
+                var targetGroup = $organizationList.find('li#'+key+'.member');
+                var sMemberStatus = ''
+                switch (memberList[key]){
+
+                    case '0':
+                        sMemberStatus = '离线'
+                        break;
+                    case '1':
+                        sMemberStatus = '在线'
+                        break;
+                    case '2':
+                        sMemberStatus = '手机在线';
+                        break;
+                    case '3':
+                        sMemberStatus = '繁忙'
+                        break;
+                }
+                if(targetGroup&&targetGroup.hasClass('member')){
+                    targetGroup.find('.onlineStatus ').html('('+sMemberStatus  +')');
+                }
+            }
+        }
+    })
+}
+
+
 function changeGroupOnlineN(accountID){
     var $groupChatList = $('.groupChatList')
     sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
@@ -1063,9 +1103,10 @@ function changeClick2Content(data){
     var sName=data.name ||'';
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo:globalVar.defaultLogo;
     var sTel=data.telephone ||'';
+    var sBranch = data.branchname
     var sEmail=data.email ||'';
-    var sJob=data.position ||'';
-    var sGroupuse=data.groupuse ||'';
+    var sJob=data.postitionname ||'';
+    var sGroupuse=data.organname ||'';
     var sAddress=data.address||'';
     var sHTML = '<div class="personalDetailContent">'+
                 '<div class="selfImgInfo">'+
@@ -1077,7 +1118,7 @@ function changeClick2Content(data){
                 '<ul>'+
                     '<li><div>手机:</div><div>'+sTel+'</div></li>'+
                     '<li><div>邮箱:</div><div>'+sEmail+'</div></li>'+
-                    '<li><div>部门:</div><div>'+sTel+'</div></li>'+
+                    '<li><div>部门:</div><div>'+sBranch+'</div></li>'+
                     '<li><div>职位:</div><div>'+sJob+'</div></li>'+
                     '<li><div>组织:</div><div>'+sGroupuse+'</div></li>'+
                     '<li><div>地址:</div><div>'+ sAddress+'</div></li>'+
@@ -1109,8 +1150,6 @@ function getBranchTreeAndMember(){
         if(datas && data.length!=0){
             //console.log(data);
             var myData = changeFormat(data);
-            //console.log(myData);
-
             if(myData){
                 window.localStorage.getBranchTree = JSON.stringify(myData);
             }
@@ -1119,6 +1158,7 @@ function getBranchTreeAndMember(){
             var sHTML = '';
             var HTML = createOrganizList(myData,sHTML,i);
             $ParendtDom.html(HTML);
+            changePersonOnlineN('');
         }
     })
 }
@@ -1217,6 +1257,9 @@ function showMemberInfo(data,pos){
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo :globalVar.defaultLogo;
     var sTel=data.telephone ||'';
     var sEmail=data.email ||'';
+    var sBranch=data.branch ||'';
+
+
     var sJob=data.position ||'';
     var sHTML = '<div class="memberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
                     '<div class="contextTri"></div>'+
@@ -1236,7 +1279,7 @@ function showMemberInfo(data,pos){
                         '</li>'+
                         '<li><span>手机：</span><span>'+sTel+'</span></li>'+
                         '<li><span>邮箱：</span><span>'+sEmail+'</span></li>'+
-                        '<li><span>部门：</span><span>'+sEmail+'</span></li>'+
+                        '<li><span>部门：</span><span>'+sBranch+'</span></li>'+
                         '<li><span>职位：</span><span>'+sJob+'</span></li>'+
                     '</ul>'+
                 '</div>';
@@ -1335,6 +1378,7 @@ function createOrganizList(data,sHTML,level){
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
                     '<img class="groupImg" src="'+imgSrc+'" alt="">'+
                     '<span class="groupName">'+oData.name+'</span>'+collspan+''+
+                    '<span class="onlineStatus"></span>'+
                     '</div>'+
                 '</li>'
         if(hasChild){

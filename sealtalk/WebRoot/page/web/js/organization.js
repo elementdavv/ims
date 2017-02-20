@@ -221,5 +221,4 @@ $(function(){
         $('.defaultText').show();
         $(this).css({backgroundPosition:'-281px -365px'});
     });
-
 })

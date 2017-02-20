@@ -81,8 +81,8 @@
     </audio>
     <div class="chatHeader">
     <ul class="chatHeaderMenu">
-        <li class="" bindPanel="news">消息</li>
-        <li class="active" bindPanel="orgnized">组织通讯录</li>
+        <li class="active" bindPanel="news">消息</li>
+        <li class="" bindPanel="orgnized">组织通讯录</li>
 		<c:if test="${SessionPrivilege.map.htgl != null}">
 			<li onclick='window.location.href="<%=request.getContextPath() %>/page/admin/11.jsp"'>后台管理</li>
 		</c:if>

@@ -1364,3 +1364,16 @@ div.contactSearchResult{
 .usualChatListUl{
     padding: 3px 0px 35px 0px;
 }
+
+span.onlineStatus {
+    display: inline-block;
+    height: 20px;
+    float: left;
+    line-height: 16px;
+    text-align: center;
+    /* border: 1px solid peru; */
+    position: absolute;
+    top: 14px;
+    width: 40px;
+    background: white;
+}

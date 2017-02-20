@@ -50,8 +50,9 @@ $(function(){
                 if(localPath){//本地有这个文件
                     window.Electron.openFile(url);
                 }else{
-                    console.log('本地没有这个文件');
+                    //console.log('本地没有这个文件');
                     window.location.href = url;
+                    //window.Electron.openFile(url);
                 }
                 DownImgFlag = false;
             }
