@@ -64,7 +64,7 @@
    float:left;
     line-height:34px;
 }
-.perSetBox-contDetails li .perSetBox-selSex{
+.perSetBox-contDetails li .select{
     -webkit-appearance:none;
     appearance:none;
     width:320px;
@@ -112,6 +112,7 @@
     font-size:14px;
     margin-right:60px;
     color:rgb(48,192,218);
+    cursor: pointer;
 }
 .systemSetVoice{
     padding:100px 0 134px 340px;
@@ -245,6 +246,7 @@
     float:left;
     width:20px;
     height:29px;
+    cursor: pointer;
 }
 .messageRecord .mr-Location{
    background-position: 0 -119px;
@@ -606,11 +608,12 @@ p.converLimit {
     height:12px;
 }
 .mr-chatview{
-    overflow-y:auto;
+    overflow:auto;
     height:calc(100% - 230px);
     border-bottom:1px solid #f0f0f0;
 }
 .calendar-input{
+    cursor: pointer;
     float:left;
     width:98px;
     height:30px;
@@ -626,6 +629,7 @@ p.converLimit {
     height:22px;
     background: url('img/backstage.png')no-repeat -49px -123px;
     margin-right:26px;
+    cursor: pointer;
 }
 .mr-expresFile i{
     float:left;
@@ -697,6 +701,7 @@ p.converLimit {
     height:32px;
     background: #30c0da;
     border-radius: 5px;
+    cursor: pointer;
 
 }
 .personalData{
@@ -720,6 +725,7 @@ p.converLimit {
     height:58px;
     font-size:16px;
     color:rgb(128,128,128);
+    cursor: pointer;
 }
 .infoDetails li:hover{
     border-bottom:2px solid #30c0da;
@@ -902,6 +908,7 @@ p.converLimit {
     overflow: hidden;
 }
 .calendar-icon{
+    cursor: pointer;
     border-radius: 0 5px 5px 0;
     float: left;
     width:30px;
@@ -916,6 +923,7 @@ p.converLimit {
 
 }
 .infoDet-pageQuery i{
+    cursor: pointer;
     width:16px;
     height:16px;
     float:left;
@@ -1062,6 +1070,7 @@ p.converLimit {
     line-height:24px;
 }
 .groupInfo .groupInfo-disturb .voiceSet{
+    cursor: pointer;
     float:left;
     background: url('img/voiceOpen.png') no-repeat;
     /*background-position: -75px -413px;*/
@@ -1110,6 +1119,7 @@ div#fileOperate {
     padding-right:20px;
 }
 .groupInfo-number p i{
+    cursor: pointer;
     float:left;
     width:20px;
     height:20px;

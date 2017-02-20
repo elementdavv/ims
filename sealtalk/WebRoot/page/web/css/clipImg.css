@@ -35,6 +35,7 @@
     padding-left:42px;
 }
 .bMg-cutPicture .bMg-closeBtn{
+    cursor: pointer;
     float:right;
     background: url('img/backstage.png')no-repeat 0 -81px;
     width:13px;
@@ -84,6 +85,7 @@
     visibility: hidden;
 }
 .bMg-gravityImg span{
+   cursor: pointer;
     position: relative;
     overflow: hidden;
     display:block;
@@ -122,6 +124,7 @@
     margin-left:20px;
     border-radius: 5px;
     color:#30c0da;
+    cursor: pointer;
 }
 .bMg-button .btnSave{
     float: left;
@@ -197,8 +200,10 @@
     width:20px;
     height:17px;
     margin-top:8px;
+    cursor: pointer;
 }
 .bMg-rotateDrag i{
+    cursor: pointer;
     display:block;
     background: url('img/backstage.png')no-repeat -81px -81px #e6e6e6;
     width:20px;
@@ -206,6 +211,7 @@
     margin-top:8px;
 }
 .bMg-rotateDrag strong{
+    cursor: pointer;
     margin-top:8px;
     float:left;
     background: url('img/backstage.png')no-repeat -123px -81px;
@@ -346,6 +352,7 @@
     width:100%;
     height:100%;
     opacity: 0;
+    cursor: pointer;
 }
 .btn-primary{
     border:none !important;

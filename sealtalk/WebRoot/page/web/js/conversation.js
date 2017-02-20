@@ -1014,6 +1014,9 @@ function getChatRecord(aList,sClass){
                     var  str= RongIMLib.RongIMEmoji.symbolToHTML(sTextContent);
                     sContent='<span>'+str+'</span><i></i>';
                     break;
+                case "InformationNotificationMessage":
+                    continue;
+                    break;
                 case "VoiceMessage":
                     var base64Str = sContent.content;
                     var duration = base64Str.length/1024;

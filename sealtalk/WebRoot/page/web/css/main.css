@@ -165,6 +165,7 @@ input::-ms-clear{display:none;}
     line-height: 50px;
     color: #ffffff;
     text-align: center;
+    cursor: pointer;
 }
 .chatHeaderMenu li.active{
     background: #1081bc;
@@ -192,6 +193,7 @@ input::-ms-clear{display:none;}
     display: inline-block;
     float: right;
     margin-left: 20px;
+    cursor: pointer;
 }
 .chatHeaderOper li:nth-child(1){
     background-position: -242px 0px;
@@ -225,6 +227,7 @@ input::-ms-clear{display:none;}
     width: 112px;
     height: 70px;
     float: left;
+    cursor: pointer;
 }
 .chatLeftIcon{
     background: url("img/chatLeftIcon.png") no-repeat;
@@ -314,6 +317,7 @@ input::-ms-clear{display:none;}
     margin-right: 10px;
     border-radius: 10px;
     position: relative;
+    cursor: pointer;
 }
 .sendFeedBackL{
     float: left;
@@ -729,6 +733,7 @@ span.defaultText{
 }
 
 .upload-img{
+    cursor: pointer;
     position: absolute;
     /* float: right; */
     margin: 7px 20px 0 0;
@@ -750,7 +755,6 @@ span.defaultText{
     z-index: 100;
     width: 58px;
     height: 58px;
-
     filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
     filter:alpha(opacity=0);
     -moz-opacity:0;
