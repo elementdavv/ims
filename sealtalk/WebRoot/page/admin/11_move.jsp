@@ -21,7 +21,7 @@
 	</div>
 	<div>
 		<div class='dialogtitle'>
-			<div class='treeopenwrap h400px' id='tree11movewrap' style='margin-top: -1px'>
+			<div class='treeopenwrap h400px' id='tree11movewrap' style='margin-top: -1px;overflow:auto;'>
 				<div id='tree11move' class='ztree'></div>
 			</div>
 		</div>

@@ -507,6 +507,9 @@ public class BranchServiceImpl implements BranchService {
 	
 	private boolean isDecendant(Integer branchId, Integer pId) {
 		
+		if (branchId < 101) return false;
+		if (branchId.intValue() == pId.intValue()) return true;
+		
 		TBranch branch = branchDao.get(branchId);
 		
 		if (branch.getParentId().intValue() == pId.intValue()) return true;
