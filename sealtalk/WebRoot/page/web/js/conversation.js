@@ -49,18 +49,47 @@ function sendMsg(content,targetId,way,extra,callback){
             var imgSrc = imgType(sendMsg.type);
             var file = sendMsg.name.split('.')[0];
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
-            var sHTML = '<li class="mr-chatContentRFile clearfix">'+
-                '<div class="mr-ownChat">'+
-                '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
-                '<div class="file_content fl">' +
-                '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
-                '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
-                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
-                '</div>' +
-                '</div>' +
-                '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+returnDLLink(sendMsg.name)+'"></a>' +
-                    //'<button class="downLoadFileMask"></button>' +
+            if(sFilePaste==1){
+                var fileOperate='';
+                var downLoadFile=''
+                var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                    '<div class="mr-ownChat">'+
+                    '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                    '<div class="file_content fl">' +
+                    '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
+                    '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
+                    '</div>';
+                if(window.Electron) {
+                    var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
+                    if (localPath) {
+                        fileOperate = '<div id="fileOperate">' +
+                        '<span class="openFile">打开文件</span>' +
+                        '<span class="openFloder">打开文件夹</span>' +
+                        '</div>'
+                        downLoadFile = '<a fileName="' + uniqueTime + '"  class="downLoadFile" href="' + sendMsg.fileUrl + '" style="visibility:hidden;"></a>' ;
+                    } else {
+                        downLoadFile = '<a fileName="' + uniqueTime + '"  class="downLoadFile" href="' + sendMsg.fileUrl + '"></a>' ;
+                    }
+                }
+                sHTML+=fileOperate+downLoadFile+ '</div>' +
                 '</li>';
+                    //'<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
+            }else{
+                var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                    '<div class="mr-ownChat">'+
+                        '<div class="file_type fl"><img src="'+imgSrc+'"/></div>'+
+                        '<div class="file_content fl">' +
+                            '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
+                            '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
+                            '<div id="up_process" uniqueTime="'+uniqueTime+'">' +
+                                '<div id="up_precent" uniqueTime="'+uniqueTime+'">' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
+                    '</div>'+
+                    '</li>';
+            }
         }else{//上传的是图片类型的文件
             var sHTML = '<li class="mr-chatContentRFile clearfix">'+
                     '<img uniqueTime="'+uniqueTime+'" src="'+globalVar.cssImgSrc+'imgLoading.gif" class="uploadImg uploadImgFile">'+
@@ -89,13 +118,15 @@ function sendMsg(content,targetId,way,extra,callback){
     //将消息放入盒子
     parentNode.append($(sHTML));
     //滚动条滚动到最低
-    $('.uploadImgFile').on('load',function(){
+    if(eDom){
+        $('.uploadImgFile').on('load',function(){
+            eDom.scrollTop = eDom.scrollHeight;
+        })
         eDom.scrollTop = eDom.scrollHeight;
-    })
-    eDom.scrollTop = eDom.scrollHeight;
+    }
 
     //写消息区域清空
-    parent.find('.textarea').html('');
+    parent.find('.textarea').empty();
     callback&&callback();
     //调用融云的发送文件
     if(extra!='uploadFile'&&(limit.indexOf('ltszwjsc')!=-1||way== 'PRIVATE')){
@@ -197,6 +228,7 @@ function sendByRong(content,targetId,way,extra){
                 //var
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
                 getConverList();
+
                 console.log("Send successfully");
             },
             onError: function (errorCode,message) {
@@ -527,9 +559,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                     var localPath = window.Electron.chkFileExists(fileURL);
                     if (localPath) {
                         fileOperate = '<div id="fileOperate">' +
-                        '<span class="openFile">打开文件</span>' +
-                        '<span class="openFloder">打开文件夹</span>' +
-                        '</div>'
+                                    '<span class="openFile">打开文件</span>' +
+                                    '<span class="openFloder">打开文件夹</span>' +
+                                    '</div>'
+                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
                     } else {
                         downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' ;
                     }
@@ -595,7 +628,8 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 var imgSrc = imgType(sContent.type)
                 var file = getFileUniqueName(sendMsg.fileUrl);
                 var fileOperate = '';
-                var downstyle = '';
+                var downLoadFile = '';
+                //var downstyle = '';
                 if(window.Electron) {
                     if(sendMsg.fileUrl){
                         var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
@@ -603,7 +637,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                             fileOperate = '<div id="fileOperate">' +
                             '<span class="openFile">打开文件</span>' +
                             '<span class="openFloder">打开文件夹</span>' +
-                            '</div>'
+                            '</div>';
+                            downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + sendMsg.fileUrl + '" style="visibility:hidden;"></a>' ;
+                            //downLoadFile = '<a fileName="1111111111111"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
+
                         } else {
                             downLoadFile = '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' ;
                         }
@@ -618,8 +655,9 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                                 '<p class="p1 file_name">'+sendMsg.name+'</p>' +
                                 '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
                             '</div>' +
-                            '<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
-                            fileOperate+
+                            //'<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
+                            fileOperate+downLoadFile+
+                        '</div>'+
                         '</li>';
                 break;
             case "ImageMessage":
@@ -936,31 +974,72 @@ function getChatRecord(aList,sClass){
             var sSentTime=aInfo[i].sentTime;//发送时间
             var sExtra=aInfo[i].messageType;//信息信息类型
             var sContent=aInfo[i].content;
-            if(sExtra=='FileMessage'){
-                //var sendMsg = JSON.parse(sContent);
-               // var imgSrc = '';
-                var imgSrc = imgType(sContent.type);
-                var Msize = KBtoM(sContent.size);
-                var uniqueTime = sContent.uniqueTime;
-                var fileURL=sContent.fileUrl;
-                var file = getFileUniqueName(fileURL);
-                sContent= '<div class="downLoadFileInfo clearfix">'+
-                '<div class="file_typeHos fl"><img src="'+imgSrc+'"></div>'+
-                '<div class="file_contentHos fl">' +
-                '<p class="p1 file_nameHos">'+sContent.name+'</p>' +
-                '<p class="p2 file_sizeHos">'+Msize+'</p>' +
-                '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
-                '</div>' +
-                '</div>' +
-                '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>';
-            }else if(sExtra=="ImageMessage"){
-                var imgURL=sContent.imageUri;
-                sContent='<img src="'+imgURL+'">';
-            }else{
-                var sTextContent=sContent.content;
-                var  str= RongIMLib.RongIMEmoji.symbolToHTML(sTextContent);
-                sContent='<span>'+str+'</span><i></i>';
+            switch (sExtra){
+                case 'FileMessage':
+                    var imgSrc = imgType(sContent.type);
+                    var Msize = KBtoM(sContent.size);
+                    var uniqueTime = sContent.uniqueTime;
+                    var fileURL=sContent.fileUrl;
+                    var file = getFileUniqueName(fileURL);
+                    var fileOperate='';
+                    var downLoadFile='';
+                    if(window.Electron) {
+                        var localPath = window.Electron.chkFileExists(fileURL);
+                        if (localPath) {
+                            fileOperate = '<div id="fileOperate">' +
+                            '<span class="openFile">打开文件</span>' +
+                            '<span class="openFloder">打开文件夹</span>' +
+                            '</div>'
+                            downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
+                        } else {
+                            downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' ;
+                        }
+                    }
+                    sContent= '<div class="downLoadFileInfo clearfix">'+
+                    '<div class="file_typeHos fl"><img src="'+imgSrc+'"></div>'+
+                    '<div class="file_contentHos fl">' +
+                    '<p class="p1 file_nameHos">'+sContent.name+'</p>' +
+                    '<p class="p2 file_sizeHos">'+Msize+'</p>' +
+                    '<div id="up_process" uniqueTime="'+uniqueTime+'"><div id="up_precent" uniqueTime="'+uniqueTime+'"></div>' +
+                    '</div>' +
+                    '</div>' +
+                    fileOperate+downLoadFile;
+                    break;
+                case "ImageMessage":
+                    var imgURL=sContent.imageUri;
+                    sContent='<img src="'+imgURL+'" class="uploadImgFile">';
+                    break;
+                case "TextMessage":
+                    var sTextContent=sContent.content;
+                    var  str= RongIMLib.RongIMEmoji.symbolToHTML(sTextContent);
+                    sContent='<span>'+str+'</span><i></i>';
+                    break;
+                case "VoiceMessage":
+                    var base64Str = sContent.content;
+                    var duration = base64Str.length/1024;
+                    var curWidth = duration*3+20;
+                    if(curWidth>170){
+                        curWidth = 170;
+                    }
+                    RongIMLib.RongIMVoice.preLoaded(base64Str);
+                    RongIMLib.RongIMVoice.play(base64Str,duration);
+                    RongIMLib.RongIMVoice.stop(base64Str);
+                    sContent= '<div class="voiceDownLoad">'+
+                    '<p class="voiceMsgContent" style="width:'+curWidth+'px" base64Str="'+base64Str+'"></p>'+
+                    '</div>'+
+                    '<p class="voiceSecond"><span>'+sContent.duration+'S</span></p>';
+                    break;
+
             }
+            //if(sExtra=='FileMessage'){
+            //}else if(sExtra=="ImageMessage"){
+            //    var imgURL=sContent.imageUri;
+            //    sContent='<img src="'+imgURL+'" class="uploadImgFile">';
+            //}else{
+            //    var sTextContent=sContent.content;
+            //    var  str= RongIMLib.RongIMEmoji.symbolToHTML(sTextContent);
+            //    sContent='<span>'+str+'</span><i></i>';
+            //}
             var sMessageId=aInfo[i].messageId;//信息id
             var sSentTimeReg=changeTimeFormat(sSentTime,'h');
             var sSentDate=changeTimeFormat(sSentTime,'y');

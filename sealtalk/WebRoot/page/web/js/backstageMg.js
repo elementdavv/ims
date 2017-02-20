@@ -70,10 +70,14 @@ $(document).ready(function(){
                 var sFileName=eFile.find('.file_name').html();
                 var sFileSize=eFile.find('.file_size').attr('data-s');
                 var sFileType=eFile.find('.file_name').attr('data-type');
+                var sFileText=eTarget.find('.downLoadFile').attr('filename');
+                var sFileUrl=eTarget.find('.downLoadFile').attr('href');
                 oCopy.file={};
                 oCopy.file.name=sFileName;
                 oCopy.file.size=sFileSize;
                 oCopy.file.type=sFileType;
+                oCopy.file.uniqueTime=sFileText;
+                oCopy.file.fileUrl=sFileUrl;
                 var sCopy=JSON.stringify(oCopy);
                 window.localStorage.setItem('copy',sCopy);
             }else{
@@ -108,23 +112,29 @@ $(document).ready(function(){
         var sInfoContent=oPast.infoContent;
         var sFile=oPast.file;
         var sOldInfo=$('#chatBox #message-content').html();
-        $('#chatBox #message-content').html('');
+        //$('#chatBox #message-content').html('');
         if(sImgSrc){
             var sImg='<img src="'+sImgSrc+'"; class="uploadImgFile"/>';
             var sNewInfo=sOldInfo+sImg;
-            $('#chatBox #message-content').html(sImg);
+            $('#chatBox #message-content').append(sImg);
         }else if(sInfoContent){
-            var sNewInfo=sOldInfo+sInfoContent;
-            $('#chatBox #message-content').html(sNewInfo);
+            var sNewInfo=sInfoContent;
+            $('#chatBox #message-content').append(sNewInfo);
         }else if(sFile){
-            sFile.uniqueTime=new Date().getTime();
             sFile.filepaste=1;
             var extra = "uploadFile";
-            var targetId = $('.mesContainerGroup').attr('targetID');
-            var targetType = $('.mesContainerGroup').attr('targetType');
+            var targetId='';
+            var targetType='';
+            if(!$('.mesContainerSelf').hasClass('chatHide')){
+               targetId = $('.mesContainerSelf').attr('targetID');
+               targetType = $('.mesContainerSelf').attr('targetType');
+            }else{
+               targetId = $('.mesContainerGroup').attr('targetID');
+               targetType = $('.mesContainerGroup').attr('targetType');
+            }
             var fileInfo=JSON.stringify(sFile);
                 sendMsg(fileInfo,targetId,targetType,extra);
-                //sendByRongFile(sFile,targetId,targetType);
+                sendByRongFile(sFile,targetId,targetType);
         }
 
     });

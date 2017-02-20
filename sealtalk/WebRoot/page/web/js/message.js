@@ -952,18 +952,18 @@ function changePersonOnlineN(accountID){
 
 function changeGroupOnlineN(accountID){
     var $groupChatList = $('.groupChatList')
-    sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
-        if(data){
-            var datas = JSON.parse(data);
-            var groupList = datas.text;
-            for(var key in groupList){
-                var targetGroup = $groupChatList.find('li[targetid='+key+']');
-                if(targetGroup){
-                    targetGroup.find('.onlineCount ').html(groupList[key]);
-                }
-            }
-        }
-    })
+    //sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
+    //    if(data){
+    //        var datas = JSON.parse(data);
+    //        var groupList = datas.text;
+    //        for(var key in groupList){
+    //            var targetGroup = $groupChatList.find('li[targetid='+key+']');
+    //            if(targetGroup){
+    //                targetGroup.find('.onlineCount ').html(groupList[key]);
+    //            }
+    //        }
+    //    }
+    //})
 }
 
 //数组去重

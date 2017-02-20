@@ -655,6 +655,11 @@ p.converLimit {
     margin-top: 2px;
     overflow: auto;
 }
+.voiceDownLoad{
+    border: 1px solid #b9c1ca;
+    padding:8px 10px;
+    float:left;
+}
 .rongyun-emoji span{
     height: 30px;
     width: 30px;
