@@ -952,7 +952,7 @@ function changePersonOnlineN(accountID){
 
 function changeGroupOnlineN(accountID){
 
-    froupOnlineMember(accountID)
+    groupOnlineMember(accountID)
 
     //sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
     //    if(data){
@@ -998,7 +998,7 @@ function getGroupList(accountID){
                     '<img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
-                    '<em class="groupInlineNum">(<span class="onlineCount">'+groupArr.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
+                    '<em class="groupInlineNum">(<span class="onlineCount">'+curGroup.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
                     '</div>'+
                     '</li>'
                 }
@@ -1068,7 +1068,7 @@ function removeConvers(type,id,$topEle){
     });
 }
 
-function froupOnlineMember(accountID){
+function groupOnlineMember(accountID){
     var $groupChatList = $('.groupChatList');
     sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
         if(data){
