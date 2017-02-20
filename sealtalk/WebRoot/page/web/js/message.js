@@ -745,6 +745,17 @@ $(function(){
                                                                 autoHide:true
                                                             });
                                                             $('.WindowMask2').hide();
+                                                        }else if(datas&&datas.code==0){
+                                                            new Window().alert({
+                                                                title   : '',
+                                                                content : '群组转让失败！',
+                                                                hasCloseBtn : false,
+                                                                hasImg : true,
+                                                                textForSureBtn : false,
+                                                                textForcancleBtn : false,
+                                                                autoHide:true
+                                                            });
+                                                            $('.WindowMask2').hide();
                                                         }
                                                     }
                                                 })

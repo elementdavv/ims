@@ -243,6 +243,8 @@ function creatDialogTree(data,className,title,callback,selected){
     var HTML = DialogTreeLoop(data,sHTML,level,userID);
     $('.contactsList').html(HTML);
     var dom = $('.selectedList ul');
+
+    selected = unique3(selected);
     if(selected){
         console.log('selected',selected);
         //找到自己的id 不用放到左侧管理
@@ -315,7 +317,8 @@ function changeSelected(converseACount){
 function selectedNum(converseACount){
     var selectNum = converseACount.length;
     var parentDom = $('.selectedContactOuter .outerTitle em');
-    var sHTML = '('+selectNum+'/99)';
+    var memberCount = findMemberCount()
+    var sHTML = '('+selectNum+'/'+memberCount+')';
     parentDom.html(sHTML);
 }
 

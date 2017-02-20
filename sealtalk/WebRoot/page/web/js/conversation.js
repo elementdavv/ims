@@ -1274,6 +1274,21 @@ function findMemberInList(targetId){
     return targetInfo;
 }
 
+function findMemberCount(targetId){
+    var memberCount = 0;
+    var normalInfo = localStorage.getItem('normalInfo');
+    if(normalInfo){
+        var aNormalInfo = JSON.parse(normalInfo);
+        for(var i = 0;i<aNormalInfo.length;i++){
+            var curInfo = aNormalInfo[i];
+            if(curInfo.flag==1){
+                memberCount++;
+            }
+        }
+    }
+    return memberCount;
+}
+
 //显示会话列表
 function usualChatList(list){
     var sHTML = '';
