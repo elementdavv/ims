@@ -52,7 +52,7 @@ function loopTree(data,sHTML,level){
         var datas = data[i];
         var className = datas.flag==0?'department':'member';
         if(className=='department'){
-            sHTML +='<li class="'+className+' '+datas.id+'" targetid="'+datas.id+'">'+btnShu(datas.name,10);
+            sHTML +='<li class="'+className+' '+datas.id+'" targetid="'+datas.id+'">'+btnShu(datas.name,8);
         }
         if(datas.hasChild.length!=0){//有子级
             sHTML =loopTree(datas.hasChild,sHTML,0)

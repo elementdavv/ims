@@ -14,5 +14,6 @@ var globalVar={
     cssImgSrc:'page/web/css/img/',
     defaultLogo:'page/web/css/img/PersonImg.jpg',
     defaultDepLogo:'page/web/css/img/group_chart.jpg',
-    refreshGroupOnline:5000
+    refreshGroupOnline:5000,
+    newsChatListTime:2505600000
 };

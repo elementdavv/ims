@@ -49,18 +49,18 @@ $(function(){
             showPersonDetailDia(e,_this);
         },1000);
     })
-    $('.usualChatList').delegate('li .groupImg','mouseleave',function(e){
-        clearTimeout(timer);
-        timer1 = setTimeout(function(){
-            $('.memberHover').remove();
-        },100)
-    })
-    $('body').delegate('.memberHover','mouseenter',function(){
-        clearTimeout(timer1);
-    })
-    $('body').delegate('.memberHover','mouseleave',function(){
-        $('.memberHover').remove();
-    })
+    //$('.usualChatList').delegate('li .groupImg','mouseleave',function(e){
+    //    clearTimeout(timer);
+    //    timer1 = setTimeout(function(){
+    //        $('.memberHover').remove();
+    //    },100)
+    //})
+    //$('body').delegate('.memberHover','mouseenter',function(){
+    //    clearTimeout(timer1);
+    //})
+    //$('body').delegate('.memberHover','mouseleave',function(){
+    //    $('.memberHover').remove();
+    //})
 
     //点击的事件  弹窗上的
     $(window).click(function(e){
@@ -951,7 +951,9 @@ function changePersonOnlineN(accountID){
 
 
 function changeGroupOnlineN(accountID){
-    var $groupChatList = $('.groupChatList')
+
+    froupOnlineMember(accountID)
+
     //sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
     //    if(data){
     //        var datas = JSON.parse(data);
@@ -996,7 +998,7 @@ function getGroupList(accountID){
                     '<img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
-                    '<em class="groupInlineNum">(<span class="onlineCount">'+curGroup.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
+                    '<em class="groupInlineNum">(<span class="onlineCount">'+groupArr.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
                     '</div>'+
                     '</li>'
                 }
@@ -1066,6 +1068,21 @@ function removeConvers(type,id,$topEle){
     });
 }
 
+function froupOnlineMember(accountID){
+    var $groupChatList = $('.groupChatList');
+    sendAjax('group!getGroupOnLineMember',{userid:accountID},function(data){
+        if(data){
+            var datas = JSON.parse(data);
+            var groupList = datas.text;
+            for(var key in groupList){
+                var targetGroup = $groupChatList.find('li[targetid='+key+']');
+                if(targetGroup){
+                    targetGroup.find('.onlineCount ').html(groupList[key]);
+                }
+            }
+        }
+    })
+}
 
 //点击的是部门
 function changeClick1Content(data){
@@ -1086,9 +1103,9 @@ function changeClick1Content(data){
         '<div class="showPersonalInfo">'+
         '<span>'+sName+'</span>'+
         '<ul class="personalOperaIcon">'+
-        '<li class="sendMsg"></li>'+
-        '<li class="checkPosition"></li>'+
-        '<li class="addConver"></li>'+
+        '<li class="sendMsg" title="发起聊天"></li>'+
+        '<li class="checkPosition" title="查看位置"></li>'+
+        '<li class="addConver" title="加入会话"></li>'+
         '</ul>'+
         '</div>'+
         '</li>';
@@ -1103,7 +1120,7 @@ function changeClick2Content(data){
     var sName=data.name ||'';
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo:globalVar.defaultLogo;
     var sTel=data.telephone ||'';
-    var sBranch = data.branchname
+    var sBranch = data.branchname;
     var sEmail=data.email ||'';
     var sJob=data.postitionname ||'';
     var sGroupuse=data.organname ||'';
@@ -1113,7 +1130,7 @@ function changeClick2Content(data){
                     '<img src="'+sHeadImg+'" alt=""/><div>'+
                 '<p>'+sName+'</p>'+
                 '<ul class="selfImgOpera">'+
-                    '<li class="sendMsg"></li><li class="checkPosition"></li><li class="addConver"></li>'+
+                    '<li class="sendMsg" title="发起聊天"></li><li class="checkPosition" title="查看位置"></li><li class="addConver" title="加入会话"></li>'+
                 '</ul></div></div><div class="showPersonalInfo" targetID="'+data.id+'" targetTpe="PRIVATE">'+
                 '<ul>'+
                     '<li><div>手机:</div><div>'+sTel+'</div></li>'+
@@ -1271,9 +1288,9 @@ function showMemberInfo(data,pos){
                             '<div class="showPersonalInfo" targetID="'+data.id+'"targetType="PRIVATE">'+
                                 '<span>'+sName+'</span>'+
                                 '<ul class="personalOperaIcon">'+
-                                    '<li class="sendMsg"></li>'+
-                                    '<li class="checkPosition"></li>'+
-                                    '<li class="addConver"></li>'+
+                                    '<li class="sendMsg" title="发起聊天"></li>'+
+                                    '<li class="checkPosition" title="查看位置"></li>'+
+                                    '<li class="addConver" title="加入会话"></li>'+
                                 '</ul>'+
                             '</div>'+
                         '</li>'+

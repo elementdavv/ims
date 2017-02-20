@@ -20,7 +20,7 @@ $(function(){
 })
 
 //包括单聊，群聊，聊天室
-function sendMsg(content,targetId,way,extra,callback){
+function sendMsg(content,targetId,way,extra,callback,uniqueTime){
     //发出去的消息 先显示到盒子里,
     //权限有没有
     var limit = $('body').attr('limit');
@@ -97,7 +97,7 @@ function sendMsg(content,targetId,way,extra,callback){
         }
     }else{//如果是普通消息
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
-        var sHTML = '<li class="mr-chatContentR clearfix">'+
+        var sHTML = '<li class="mr-chatContentR clearfix" uniqueTime="'+uniqueTime+'">'+
             '<div class="mr-ownChat">'+
             '<span>'+str+'</span>'+
             '<i></i>'+
@@ -130,7 +130,8 @@ function sendMsg(content,targetId,way,extra,callback){
     callback&&callback();
     //调用融云的发送文件
     if(extra!='uploadFile'&&(limit.indexOf('ltszwjsc')!=-1||way== 'PRIVATE')){
-        sendByRong(content,targetId,way);
+        //sendByRong(content,targetId,way);
+        sendByRong(content,targetId,way,'',new Date().getTime());
     }
 }
 //上传文件
@@ -215,7 +216,7 @@ function sendByRongImg(content,targetId,way){
     );
 }
 
-function sendByRong(content,targetId,way,extra){
+function sendByRong(content,targetId,way,extra,uniqueTime){
     // 定义消息类型,文字消息使用 RongIMLib.TextMessage
     var msg = new RongIMLib.TextMessage({content:content,extra:extra});
     //或者使用RongIMLib.TextMessage.obtain 方法.具体使用请参见文档
@@ -235,6 +236,8 @@ function sendByRong(content,targetId,way,extra){
                 var info = '';
                 switch (errorCode) {
                     case RongIMLib.ErrorCode.TIMEOUT:
+                        var eNode = $('<span class="sendStatus"><i>!</i>发送不成功</span>')
+                        $('.mr-ownChat').find('[uniqueTime='+uniqueTime+']').append(eNode);
                         info = '超时';
                         break;
                     case RongIMLib.ErrorCode.UNKNOWN_ERROR:
@@ -426,7 +429,8 @@ function conversationGroup(targetID,targetType,groupName){
             var targetId = $('.mesContainerGroup').attr('targetID');
             var targetType = $('.mesContainerGroup').attr('targetType');
             //显示到盒子里
-            sendMsg(content,targetId,targetType);
+            //sendMsg(content,targetId,targetType);
+            sendMsg(content,targetId,targetType,'','',new Date().getTime())
         }
         //if($(this).prev().find('.uploadImgFile').length>0){
         //    var sImg = $(this).prev().find('.uploadImgFile').attr('src');
@@ -787,7 +791,8 @@ function conversationSelf(targetID,targetType){
         if(content){
             var targetId = $('.mesContainerSelf').attr('targetID');
             var targetType = $('.mesContainerSelf').attr('targetType');
-            sendMsg(content,targetId,targetType)
+            //sendMsg(content,targetId,targetType)
+            sendMsg(content,targetId,targetType,'','',new Date().getTime())
         }
     })
     //获取右侧的联系人资料聊天记录
@@ -925,9 +930,9 @@ function getPerInfo(oInfoDetails){
     <div class="infoDet-text">\
     <p>'+sName+'</p>\
     <ul class="clearfix showPersonalInfo showPerCainter" targetid="'+sTargetId+'" targettype="'+sTargetType+'">\
-    <li class="sendMsg"></li>\
-    <li class="checkPosition"></li>\
-    <li class="addConver"></li>\
+    <li class="sendMsg" title="发起聊天"></li>\
+    <li class="checkPosition" title="查看位置"></li>\
+    <li class="addConver" title="加入会话"></li>\
     </ul>\
     </div>\
     </div>\
@@ -1339,9 +1344,11 @@ function creatTopList(sHTML,list,bFlg){
             content="[发送图片]";
         }else if(extra=="VoiceMessage"){
             content="[语音]";
+        }else if(extra=="InformationNotificationMessage"){
+            content="系统消息";
         }
         var targetId = curList.targetId;
-         if(nowTime - sendTime>=2505600000){//消息列表的显示时间为最近一月内的消息，超过一月的消息将从消息列表中删除
+         if(nowTime - sendTime>=globalVar.newsChatListTime){//消息列表的显示时间为最近一月内的消息，超过一月的消息将从消息列表中删除
              conversationType==1?removeConvers('PRIVATE',targetId):removeConvers('GROUP',targetId);
              continue;
          }
