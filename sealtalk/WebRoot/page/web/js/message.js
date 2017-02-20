@@ -382,7 +382,7 @@ $(function(){
                         var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
 
                     }else{
-                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'从消息列表删除'}];
+                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'aaaa',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
 
                     }
                     var style = 'left:'+left+'px;top:'+top+'px';
