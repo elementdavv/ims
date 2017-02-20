@@ -49,18 +49,18 @@ $(function(){
             showPersonDetailDia(e,_this);
         },1000);
     })
-    //$('.usualChatList').delegate('li .groupImg','mouseleave',function(e){
-    //    clearTimeout(timer);
-    //    timer1 = setTimeout(function(){
-    //        $('.memberHover').remove();
-    //    },100)
-    //})
-    //$('body').delegate('.memberHover','mouseenter',function(){
-    //    clearTimeout(timer1);
-    //})
-    //$('body').delegate('.memberHover','mouseleave',function(){
-    //    $('.memberHover').remove();
-    //})
+    $('.usualChatList').delegate('li .groupImg','mouseleave',function(e){
+        clearTimeout(timer);
+        timer1 = setTimeout(function(){
+            $('.memberHover').remove();
+        },100)
+    })
+    $('body').delegate('.memberHover','mouseenter',function(){
+        clearTimeout(timer1);
+    })
+    $('body').delegate('.memberHover','mouseleave',function(){
+        $('.memberHover').remove();
+    })
 
     //点击的事件  弹窗上的
     $(window).click(function(e){
