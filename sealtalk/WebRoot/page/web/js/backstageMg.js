@@ -687,29 +687,31 @@ function fPersonalSet(){
     var oData= JSON.parse(sData);
     if(oData){
         var sId=oData.id;
-        var oPerData=searchFromList(1,sId);
-        var nPerPosId=oPerData.postitionid;
-        var sName=oData?oData.name|| '' : '';//姓名
-        var sAccountNum=oData?oData.account|| '' : '';//成员账号
-        var sSex=oData.sex;//性别
-        switch(sSex){
-            case 1:
-                sSex= '男';
-                break;
-            case 0:
-                sSex= '女';
-                break;
-            default :
-                sSex= '女';
-                break;
-        }
-        var sPosition=oData.positionname|| '';//职位
-        var sBranch=oData.branchname || '';//部门
-        var sEmail=oData.email || '';//邮箱
-        var sTelephone=oData.telephone || '';//电话
-        var sSign=oData.organname || '';//工作签名
-        var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
-        var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
+        sendAjax('member!getOneOfMember',{userid:sId},function(data){
+            var oPerInfo=JSON.parse(data);
+            var oPerData=searchFromList(1,sId);
+            var nPerPosId=oPerData.postitionid;
+            var sName=oPerInfo?oPerInfo.name|| '' : '';//姓名
+            var sAccountNum=oPerInfo?oPerInfo.account|| '' : '';//成员账号
+            var sSex=oPerInfo.sex;//性别
+            switch(sSex){
+                case 1:
+                    sSex= '男';
+                    break;
+                case 0:
+                    sSex= '女';
+                    break;
+                default :
+                    sSex= '女';
+                    break;
+            }
+            var sPosition=oPerInfo.positionname|| '';//职位
+            var sBranch=oPerInfo.branchname || '';//部门
+            var sEmail=oPerInfo.email || '';//邮箱
+            var sTelephone=oPerInfo.telephone || '';//电话
+            var sSign=oPerInfo.organname || '';//工作签名
+            var sHeaderImg=oPerInfo.logo?globalVar.imgSrc+oPerInfo.logo:globalVar.defaultLogo;//头像
+            var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
     <ul class="perSetBox-contDetails">\
@@ -766,42 +768,45 @@ function fPersonalSet(){
     <p class="perSetBox-modifyHead" id="changeHeadImgId">修改头像</p>\
     </div>\
     </div>';
-        $('#chatBox #personSettingId').empty();
-        $('#chatBox #personSettingId').append(sHtml);
-        var limit = $('body').attr('limit');
-        if(limit.indexOf('grszxgxm')==-1) {//没有权限
-           $('.perSetBox-name').attr('readonly',true);
-            return false;
-        }else{
-            $('.perSetBox-name').attr('readonly',false);
-        }
-        if(limit.indexOf('grszsygzqm')==-1) {//没有权限
-            $('.perSetBox-textarea').attr('readonly',true);
-            return false;
-        }else{
-            $('.perSetBox-textarea').attr('readonly',false);
-        }
-        $('.perSetBox-selSex').val(sSex);
-        sendAjax('branch!getPosition',{},function(data){
-            var oPosData=JSON.parse(data);
-            var sDom='';
-            for(var i=0;i<oPosData.length;++i){
-                var nPosId=oPosData[i].id;
-                var sPosName=oPosData[i].name;
-                if(nPerPosId==nPosId){
-                    sDom+='<option data-id="'+nPosId+'" selected>'+sPosName+'</option>';
-                }else{
-                    sDom+='<option data-id="'+nPosId+'">'+sPosName+'</option>';
-                }
-            }
-            $('.perSetBox-position').empty();
-            $('.perSetBox-position').append(sDom);
-            if(limit.indexOf('grszxgzw')==-1) {//没有权限
-                $('.perSetBox-position').attr('disabled',true);
+            $('#chatBox #personSettingId').empty();
+            $('#chatBox #personSettingId').append(sHtml);
+            $('#chatBox #personSettingId').empty();
+            $('#chatBox #personSettingId').append(sHtml);
+            var limit = $('body').attr('limit');
+            if(limit.indexOf('grszxgxm')==-1) {//没有权限
+                $('.perSetBox-name').attr('readonly',true);
                 return false;
             }else{
-                $('.perSetBox-position').attr('disabled',false);
+                $('.perSetBox-name').attr('readonly',false);
             }
+            if(limit.indexOf('grszsygzqm')==-1) {//没有权限
+                $('.perSetBox-textarea').attr('readonly',true);
+                return false;
+            }else{
+                $('.perSetBox-textarea').attr('readonly',false);
+            }
+            $('.perSetBox-selSex').val(sSex);
+            sendAjax('branch!getPosition',{},function(data){
+                var oPosData=JSON.parse(data);
+                var sDom='';
+                for(var i=0;i<oPosData.length;++i){
+                    var nPosId=oPosData[i].id;
+                    var sPosName=oPosData[i].name;
+                    if(nPerPosId==nPosId){
+                        sDom+='<option data-id="'+nPosId+'" selected>'+sPosName+'</option>';
+                    }else{
+                        sDom+='<option data-id="'+nPosId+'">'+sPosName+'</option>';
+                    }
+                }
+                $('.perSetBox-position').empty();
+                $('.perSetBox-position').append(sDom);
+                if(limit.indexOf('grszxgzw')==-1) {//没有权限
+                    $('.perSetBox-position').attr('disabled',true);
+                    return false;
+                }else{
+                    $('.perSetBox-position').attr('disabled',false);
+                }
+            });
         });
     }
 }
