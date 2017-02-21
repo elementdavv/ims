@@ -200,7 +200,11 @@ $(function(){
                 var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
                 var groupName = eDom.find('.groupName').html();
                     newContactList(targetType,targetID,groupName,function(){
-                    $('#upload_file').click();
+                        if(targetType=='PRIVATE'){
+                            $('#perContainer').find('#upload_file').click()
+                        }else{
+                            $('#groupContainer').find('#upload_file').click()
+                        }
                 })
                 break;
             case 2:
@@ -478,15 +482,15 @@ $(function(){
         $('.newsChatList').find('li').removeClass('active');
         $(this).addClass('active');
         if(targeType=='PRIVATE'){
-            conversationSelf(targetID,targeType);
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerSelf').removeClass('chatHide');
+            conversationSelf(targetID,targeType,callback);
         }else{
-            conversationGroup(targetID,targeType,groupName);
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');
+            conversationGroup(targetID,targeType,groupName,callback);
         }
-        callback&&callback();
+        //callback&&callback();
     }
 
 

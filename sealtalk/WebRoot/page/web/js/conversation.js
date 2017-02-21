@@ -379,7 +379,7 @@ function fillGroupPage(targetID,targetType,groupName){
     });
 }
 
-function conversationGroup(targetID,targetType,groupName){
+function conversationGroup(targetID,targetType,groupName,callback){
     //噗页面
     fillGroupPage(targetID,targetType,groupName)
     //清空消息盒子
@@ -460,6 +460,7 @@ function conversationGroup(targetID,targetType,groupName){
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     clearNoReadMsg(targetType,targetID);
     getConverList();
+    callback&&callback()
 }
 function po_Last_Div(obj) {
     if (window.getSelection) {//ie11 10 9 ff safari
@@ -748,7 +749,7 @@ function fillSelfPage(targetID,targetType){
         }
     });
 }
-function conversationSelf(targetID,targetType){
+function conversationSelf(targetID,targetType,callback){
     //var target = targetID;
     //噗页面 把targetID放进去
     fillSelfPage(targetID,targetType);
@@ -798,6 +799,7 @@ function conversationSelf(targetID,targetType){
     //获取右侧的联系人资料聊天记录
     clearNoReadMsg(targetType,targetID);
     getConverList();
+    callback&&callback()
 }
 function getInfoDetails(targetID,targetType,oInfoDetails){
     getPerInfo(oInfoDetails);
