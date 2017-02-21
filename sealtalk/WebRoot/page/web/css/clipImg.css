@@ -218,6 +218,30 @@
     width:17px;
     height:17px;
 }
+.imgLoading{
+    z-index:100;
+    display:none;
+    background: #000;
+    opacity: 0.3;
+    width:100%;
+    height:100%;
+    position: absolute;
+    left:0;
+    top:0;
+}
+.imgLoading.active{
+    display: block;
+}
+.imgLoading i{
+    background: url(img/4.gif)no-repeat;
+    width:60px;
+    height:60px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-left:-30px;
+    margin-top:-30px;
+}
 .avatar-view {
     display: block;
     margin: 15% auto 5%;

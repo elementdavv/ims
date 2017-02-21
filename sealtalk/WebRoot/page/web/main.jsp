@@ -1094,7 +1094,7 @@
 
 
 </div>
-
+        <div class="imgLoading"><i></i></div>
 </body>
     <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
 
