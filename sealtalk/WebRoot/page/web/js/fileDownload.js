@@ -20,6 +20,7 @@ $(function(){
                         var content=_this.attr('data-content');
                         break;
 
+
                 }
                 //var content = _this.parent().find('.mr-ownChat span').html();
                 var targetId = _this.closest('.mesContainer').attr('targetid');
