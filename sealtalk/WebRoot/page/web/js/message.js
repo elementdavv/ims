@@ -49,18 +49,18 @@ $(function(){
             showPersonDetailDia(e,_this);
         },1000);
     })
-    //$('.usualChatList').delegate('li .groupImg','mouseleave',function(e){
-    //    clearTimeout(timer);
-    //    timer1 = setTimeout(function(){
-    //        $('.memberHover').remove();
-    //    },100)
-    //})
-    //$('body').delegate('.memberHover','mouseenter',function(){
-    //    clearTimeout(timer1);
-    //})
-    //$('body').delegate('.memberHover','mouseleave',function(){
-    //    $('.memberHover').remove();
-    //})
+    $('.usualChatList').delegate('li .groupImg','mouseleave',function(e){
+        clearTimeout(timer);
+        timer1 = setTimeout(function(){
+            $('.memberHover').remove();
+        },100)
+    })
+    $('body').delegate('.memberHover','mouseenter',function(){
+        clearTimeout(timer1);
+    })
+    $('body').delegate('.memberHover','mouseleave',function(){
+        $('.memberHover').remove();
+    })
 
     //点击的事件  弹窗上的
     $(window).click(function(e){
@@ -101,8 +101,8 @@ $(function(){
                         conversationSelf(targetID,targeType);
                         $('.orgNavClick').addClass('chatHide');
                         $('.mesContainerSelf').removeClass('chatHide');
-
                     }
+                    $('.memberHover').remove();
                     break;
                 case 'checkPosition'://查看位置
                     var limit = $('body').attr('limit');
@@ -117,6 +117,7 @@ $(function(){
                             textForcancleBtn : false,
                             autoHide:true
                         });
+                        //$('.memberHover').remove();
                         break;
                     }else{
                         $('.orgNavClick').addClass('chatHide');
@@ -127,7 +128,7 @@ $(function(){
                         creatMemberMap(targetID,targeType);
                         //console.log(targeType,targetID,datas);
                     }
-
+                    $('.memberHover').remove();
                     break;
                 case 'addConver'://添加群聊
                     var limit = $('body').attr('limit');
@@ -172,10 +173,12 @@ $(function(){
                             })
                         },memShipArr);
                     }
+                    $('.memberHover').remove();
                     break;
                 default :
             }
         //}
+
         $('.myContextMenu').remove();
     })
 
@@ -195,18 +198,20 @@ $(function(){
             case 1:
                 //发送文件
                 var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
-                //eDom.click();
-                eDom.mousedown();
-                setTimeout(function(){
-                    $('#upload_file').click();
-                },300);
+                var groupName = eDom.find('.groupName').html();
+                    newContactList(targetType,targetID,groupName,function(){
+                        if(targetType=='PRIVATE'){
+                            $('#perContainer').find('#upload_file').click()
+                        }else{
+                            $('#groupContainer').find('#upload_file').click()
+                        }
+                })
                 break;
             case 2:
                 //查看资料
                 if(targetType=='PRIVATE'){
                     var memberid = $(this).parents('.myContextMenu').attr('memship');
                     var CurList = $('[targetid='+memberid+'][targettype=PRIVATE]');
-                    //showPersonDetailDia(e,CurList)
                     var pos = {};
                     pos.top = parseInt(e.clientY)-100;
                     pos.left = e.clientX;
@@ -382,7 +387,7 @@ $(function(){
                         var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
 
                     }else{
-                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'',value:'从消息列表删除'}];
+                        var arr = [{limit:'',value:sTopChat},{limit:'ltszwjsc',value:'发送文件'},{limit:'',value:'查看资料'},{limit:'ltszqzlt',value:'添加新成员'},{limit:'aaaa',value:'定位到所在组织'},{limit:'',value:'从消息列表删除'}];
 
                     }
                     var style = 'left:'+left+'px;top:'+top+'px';
@@ -399,17 +404,7 @@ $(function(){
                 }
             });
         }else{//单击常用联系人
-            $('.newsChatList').find('li').removeClass('active');
-            $(this).addClass('active');
-            if(targeType=='PRIVATE'){
-                conversationSelf(targetID,targeType);
-                $('.orgNavClick').addClass('chatHide');
-                $('.mesContainerSelf').removeClass('chatHide');
-            }else{
-                conversationGroup(targetID,targeType,groupName);
-                $('.orgNavClick').addClass('chatHide');
-                $('.mesContainerGroup').removeClass('chatHide');
-            }
+            newContactList(targeType,targetID,groupName);
         }
         $('.newsChatList li').removeClass('active');
         $(this).addClass('active');
@@ -481,6 +476,23 @@ $(function(){
         $('.groupMap').removeClass('chatHide');
         creatMemberMap(targetID,targeType);
     });
+
+
+    function newContactList(targeType,targetID,groupName,callback){
+        $('.newsChatList').find('li').removeClass('active');
+        $(this).addClass('active');
+        if(targeType=='PRIVATE'){
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerSelf').removeClass('chatHide');
+            conversationSelf(targetID,targeType,callback);
+        }else{
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerGroup').removeClass('chatHide');
+            conversationGroup(targetID,targeType,groupName,callback);
+        }
+        //callback&&callback();
+    }
+
 
     //定位到所在组织
     function orginizPos(targetID,type){
@@ -738,6 +750,17 @@ $(function(){
                                                             new Window().alert({
                                                                 title   : '',
                                                                 content : '群组转让成功！',
+                                                                hasCloseBtn : false,
+                                                                hasImg : true,
+                                                                textForSureBtn : false,
+                                                                textForcancleBtn : false,
+                                                                autoHide:true
+                                                            });
+                                                            $('.WindowMask2').hide();
+                                                        }else if(datas&&datas.code==0){
+                                                            new Window().alert({
+                                                                title   : '',
+                                                                content : '群组转让失败！',
                                                                 hasCloseBtn : false,
                                                                 hasImg : true,
                                                                 textForSureBtn : false,

@@ -301,12 +301,15 @@ $(document).ready(function(){
         }
     });
 //    后台管理
-    fPersonalSet();
+   // fPersonalSet();
     $('#backstageMgId').on('click','li',function(){
         $('#backstageMgId li').removeClass('active');
         $(this).addClass('active');
         $('.perSetBox').addClass('chatHide');
         $('.perSetBox').eq($(this).index()).removeClass('chatHide');
+        if($(this).index()==0){
+            fPersonalSet();
+        }
     });
     $('#chatBox').on('click','#changeHeadImgId',function(){
         $('.bMgMask').removeClass('chatHide');
@@ -596,6 +599,8 @@ $(document).ready(function(){
         });
     });
     $('#personSettingId').on('click','.perSetBox-keep',function(){
+        var sPerName=$('#personSettingId .perSetBox-name').val();
+        var sPosId=$('#personSettingId .perSetBox-position option:selected').attr('data-id');
         var sEmail=$('#personSettingId .perSetBox-email').val();
         var sSex=$('#personSettingId .perSetBox-selSex').val();
         switch (sSex){
@@ -611,7 +616,9 @@ $(document).ready(function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.id;
-        sendAjax('member!updateMemberInfoForWeb',{userid:sId,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
+        //var oSelInfo=searchFromList(1,sId);
+        //console.log(oSelInfo);
+        sendAjax('member!updateMemberInfoForWeb',{userid:sId,position:sPosId,fullname:sPerName,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
                //var sData=window.localStorage.getItem("datas");
@@ -679,27 +686,32 @@ function fPersonalSet(){
    var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
     if(oData){
-        var sName=oData?oData.name|| '' : '';//姓名
-        var sAccountNum=oData?oData.account|| '' : '';//成员账号
-        var sSex=oData.sex;//性别
-        switch(sSex){
-            case 1:
-                sSex= '男';
-                break;
-            case 0:
-                sSex= '女';
-                break;
-            default :
-                sSex= '女';
-                break;
-        }
-        var sPosition=oData.position || '';//职位
-        var sBranch=oData.branchname || '';//部门
-        var sEmail=oData.email || '';//邮箱
-        var sTelephone=oData.telephone || '';//电话
-        var sSign=oData.organname || '';//工作签名
-        var sHeaderImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;//头像
-        var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
+        var sId=oData.id;
+        sendAjax('member!getOneOfMember',{userid:sId},function(data){
+            var oPerInfo=JSON.parse(data);
+            var oPerData=searchFromList(1,sId);
+            var nPerPosId=oPerData.postitionid;
+            var sName=oPerInfo?oPerInfo.name|| '' : '';//姓名
+            var sAccountNum=oPerInfo?oPerInfo.account|| '' : '';//成员账号
+            var sSex=oPerInfo.sex;//性别
+            switch(sSex){
+                case 1:
+                    sSex= '男';
+                    break;
+                case 0:
+                    sSex= '女';
+                    break;
+                default :
+                    sSex= '女';
+                    break;
+            }
+            var sPosition=oPerInfo.positionname|| '';//职位
+            var sBranch=oPerInfo.branchname || '';//部门
+            var sEmail=oPerInfo.email || '';//邮箱
+            var sTelephone=oPerInfo.telephone || '';//电话
+            var sSign=oPerInfo.organname || '';//工作签名
+            var sHeaderImg=oPerInfo.logo?globalVar.imgSrc+oPerInfo.logo:globalVar.defaultLogo;//头像
+            var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
     <div class="perSetBox-content clearfix">\
     <div class="perSetBox-leftCont">\
     <ul class="perSetBox-contDetails">\
@@ -709,12 +721,12 @@ function fPersonalSet(){
     </li>\
     <li>\
     <span>姓名：</span>\
-    <p class="perSetBox-name">'+sName+'</p>\
+    <p ><input type="text" value="'+sName+'" class="perSetBox-editText perSetBox-name" /></p>\
     </li>\
     <li>\
     <span>性别：</span>\
     <p>\
-    <select class="perSetBox-selSex">\
+    <select class="perSetBox-selSex  select">\
     <option value="男" selected>男</option>\
     <option value="女">女</option>\
     </select>\
@@ -722,7 +734,9 @@ function fPersonalSet(){
     </li>\
     <li>\
     <span>职位：</span>\
-    <p class="perSetBox-position">'+sPosition+'</p>\
+    <p ><select class="select perSetBox-position" disabled= "true">\
+    <option data-id="'+nPerPosId+'" selected>'+sPosition+'</option>\
+    </select></p>\
     </li>\
     <li>\
     <span>部门：</span>\
@@ -743,7 +757,7 @@ function fPersonalSet(){
     <li>\
     <span>工作签名：</span>\
     <p>\
-    <textarea class="perSetBox-textarea" >'+sSign+'</textarea>\
+    <textarea class="perSetBox-textarea" readonly="true">'+sSign+'</textarea>\
     </p>\
     </li>\
     </ul>\
@@ -754,9 +768,46 @@ function fPersonalSet(){
     <p class="perSetBox-modifyHead" id="changeHeadImgId">修改头像</p>\
     </div>\
     </div>';
-        $('#chatBox #personSettingId').empty();
-        $('#chatBox #personSettingId').append(sHtml);
-        $('.perSetBox-selSex').val(sSex);
+            $('#chatBox #personSettingId').empty();
+            $('#chatBox #personSettingId').append(sHtml);
+            $('#chatBox #personSettingId').empty();
+            $('#chatBox #personSettingId').append(sHtml);
+            var limit = $('body').attr('limit');
+            if(limit.indexOf('grszxgxm')==-1) {//没有权限
+                $('.perSetBox-name').attr('readonly',true);
+                return false;
+            }else{
+                $('.perSetBox-name').attr('readonly',false);
+            }
+            if(limit.indexOf('grszsygzqm')==-1) {//没有权限
+                $('.perSetBox-textarea').attr('readonly',true);
+                return false;
+            }else{
+                $('.perSetBox-textarea').attr('readonly',false);
+            }
+            $('.perSetBox-selSex').val(sSex);
+            sendAjax('branch!getPosition',{},function(data){
+                var oPosData=JSON.parse(data);
+                var sDom='';
+                for(var i=0;i<oPosData.length;++i){
+                    var nPosId=oPosData[i].id;
+                    var sPosName=oPosData[i].name;
+                    if(nPerPosId==nPosId){
+                        sDom+='<option data-id="'+nPosId+'" selected>'+sPosName+'</option>';
+                    }else{
+                        sDom+='<option data-id="'+nPosId+'">'+sPosName+'</option>';
+                    }
+                }
+                $('.perSetBox-position').empty();
+                $('.perSetBox-position').append(sDom);
+                if(limit.indexOf('grszxgzw')==-1) {//没有权限
+                    $('.perSetBox-position').attr('disabled',true);
+                    return false;
+                }else{
+                    $('.perSetBox-position').attr('disabled',false);
+                }
+            });
+        });
     }
 }
 function showGroupMemberInfo(oGroupInfo,pos){

@@ -162,12 +162,16 @@
         },
 
         submit: function () {
+            var _self=this;
             if (!this.$avatarSrc.val() && !this.$avatarInput.val()) {
                 return false;
             }
 
             if (this.support.formData) {
-                this.ajaxUpload();
+                $('.imgLoading').addClass('active');
+                setTimeout(function(){
+                    _self.ajaxUpload();
+                },1000);
                 return false;
             }
         },
@@ -289,6 +293,7 @@
             console.log(data);
             if(data.code === 1){
                 if (data.text) {
+                    $('.imgLoading').removeClass('active');
                     this.url = 'upload/images/'+data.text;
                     if (this.support.datauri || this.uploaded) {
                         this.uploaded = false;

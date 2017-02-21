@@ -1,6 +1,6 @@
 var branchmembertemplate=[
 	"<tr>" +
-		"<td></td>" +
+		"<td bmid='branchmemberid'></td>" +
 		"<td>branch</td>" +
 		"<td>position</td>" +
 		"<td>" +
@@ -49,11 +49,16 @@ $(document).ready(function(){
 
 		//权限
 		if (has('rsgljcxx')) {
-			branchmemberid = 0;
-			$('#position').modal({
-				backdrop: false,
-				remote: '112_position.jsp'
-			});
+			if ($('#branchmember').children().length > 4) {
+				bootbox.alert({'title':'提示', 'message':'每个成员最多兼职5个部门.'});
+			}
+			else {
+				branchmemberid = 0;
+				$('#position').modal({
+					backdrop: false,
+					remote: '112_position.jsp'
+				});
+			}
 		}
 		else {
 			bootbox.alert({'title':'提示', 'message':'您没有权限添加人员职位.'});

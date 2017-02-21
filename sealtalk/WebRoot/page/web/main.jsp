@@ -221,10 +221,10 @@
             </div>
         </div>
         <!--个人设置-->
-    <c:if test="${SessionPrivilege.map.grsz != null}">
+    <%--<c:if test="${SessionPrivilege.map.grsz != null}">--%>
     <div class="perSetBox orgNavClick chatHide" id="personSettingId">
     </div>
-    </c:if>
+    <%--</c:if>--%>
         <!--系统设置-->
         <div class="perSetBox orgNavClick chatHide" id="systemSet">
             <h3 class="perSetBox-title">系统设置</h3>
@@ -1094,7 +1094,7 @@
 
 
 </div>
-
+        <div class="imgLoading"><i></i></div>
 </body>
     <script src="<%=request.getContextPath() %>/page/web/js/uploadMethod.js"></script>
 

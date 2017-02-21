@@ -131,7 +131,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
     //调用融云的发送文件
     if(extra!='uploadFile'&&(limit.indexOf('ltszwjsc')!=-1||way== 'PRIVATE')){
         //sendByRong(content,targetId,way);
-        sendByRong(content,targetId,way,'',new Date().getTime());
+        sendByRong(content,targetId,way,'',uniqueTime);
     }
 }
 //上传文件
@@ -379,7 +379,7 @@ function fillGroupPage(targetID,targetType,groupName){
     });
 }
 
-function conversationGroup(targetID,targetType,groupName){
+function conversationGroup(targetID,targetType,groupName,callback){
     //噗页面
     fillGroupPage(targetID,targetType,groupName)
     //清空消息盒子
@@ -460,6 +460,7 @@ function conversationGroup(targetID,targetType,groupName){
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     clearNoReadMsg(targetType,targetID);
     getConverList();
+    callback&&callback();
 }
 function po_Last_Div(obj) {
     if (window.getSelection) {//ie11 10 9 ff safari
@@ -748,7 +749,7 @@ function fillSelfPage(targetID,targetType){
         }
     });
 }
-function conversationSelf(targetID,targetType){
+function conversationSelf(targetID,targetType,callback){
     //var target = targetID;
     //噗页面 把targetID放进去
     fillSelfPage(targetID,targetType);
@@ -798,6 +799,7 @@ function conversationSelf(targetID,targetType){
     //获取右侧的联系人资料聊天记录
     clearNoReadMsg(targetType,targetID);
     getConverList();
+    callback&&callback()
 }
 function getInfoDetails(targetID,targetType,oInfoDetails){
     getPerInfo(oInfoDetails);
@@ -917,7 +919,7 @@ function getPerInfo(oInfoDetails){
     //var memberInfoFromList = searchFromList(1,sTargetId);
     var sName=oInfoDetails.name || '';//姓名
     var sLogo=oInfoDetails.logo?  globalVar.imgSrc+oInfoDetails.logo : globalVar.defaultLogo;//头像
-    var sMobile=oInfoDetails.mobile || '';//手机
+    var sMobile=oInfoDetails.telephone || '';//手机
     var sEmail=oInfoDetails.email || '';//邮箱
     var sBranch=oInfoDetails.branchname || '';//部门
     var sJob=oInfoDetails.postitionname || '';//职位
@@ -1018,6 +1020,9 @@ function getChatRecord(aList,sClass){
                     var sTextContent=sContent.content;
                     var  str= RongIMLib.RongIMEmoji.symbolToHTML(sTextContent);
                     sContent='<span>'+str+'</span><i></i>';
+                    break;
+                case "InformationNotificationMessage":
+                    continue;
                     break;
                 case "VoiceMessage":
                     var base64Str = sContent.content;
@@ -1272,6 +1277,21 @@ function findMemberInList(targetId){
         }
     }
     return targetInfo;
+}
+
+function findMemberCount(targetId){
+    var memberCount = 0;
+    var normalInfo = localStorage.getItem('normalInfo');
+    if(normalInfo){
+        var aNormalInfo = JSON.parse(normalInfo);
+        for(var i = 0;i<aNormalInfo.length;i++){
+            var curInfo = aNormalInfo[i];
+            if(curInfo.flag==1){
+                memberCount++;
+            }
+        }
+    }
+    return memberCount;
 }
 
 //显示会话列表

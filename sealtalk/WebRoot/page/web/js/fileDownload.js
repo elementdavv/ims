@@ -81,7 +81,7 @@ $(function(){
     $('.orgNavClick').undelegate('.openFloder','click');
     $('.orgNavClick').delegate('.openFloder','click',function(){
         if(window.Electron){
-            var URL = $(this).parent().prev('a').attr('href');
+            var URL = $(this).parents('li').find('a').attr('href');
             window.Electron.openFileDir(URL);
         }
     })
@@ -89,7 +89,7 @@ $(function(){
     $('.orgNavClick').undelegate('.openFile','click');
     $('.orgNavClick').delegate('.openFile','click',function(){
         if(window.Electron){
-            var URL = $(this).parent().prev('a').attr('href');
+            var URL = $(this).parents('li').find('a').attr('href');
             window.Electron.openFile(URL);
         }
     })

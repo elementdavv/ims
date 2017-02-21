@@ -3,6 +3,7 @@ var curbranch = 0;
 var curmember = 0;
 var movnode = null;
 var searchnodes11 = null;
+var downid = 0;
 $(document).ready(function(){
 	
 	var h = document.body.clientHeight > 830 ? document.body.clientHeight : '830';
@@ -41,6 +42,7 @@ $(document).ready(function(){
 		if (has('rsglck')) {
 			callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 		}
+		$('#shuoming').show();
 	});
 	$('.addbranch').click(function(){
 		
@@ -80,6 +82,14 @@ $(document).ready(function(){
 		else {
 			bootbox.alert({title:'提示', message:'您没有权限批量导入成员.'});
 		}
+	});
+	
+	$('.downmov').click(function() {
+		mov(downid);
+	});
+	
+	$('.downdel').click(function() {
+		del(downid);
 	});
 	
 	callajax("branch!getOrganTree", "", cb_11_tree);
@@ -211,6 +221,7 @@ function loadmember(data) {
 	$('#memberaccount').val(data.account);
 	$('#memberfullname').val(data.fullname);
 	$('#membermobile').val(data.mobile);
+	$('#memberworkno').val(data.workno);
 	$('#membersex').val(data.sex);
 	$('#memberbirthday').val(showdate(data.birthday));
 	$('#memberpositionid').val(data.positionId);
@@ -250,7 +261,12 @@ function loadbranchmember(data) {
 	}
 	$('#branchmember tr').hover(function(){
 		if ($(this).find('td input').length == 0) {
-			$(this).find('td:first').append("<button class='makemain' onclick='setmaster(branchmemberid)'>设为主要</button>");
+			var tdfirst = $(this).find('td:first');
+			var bmid = $(tdfirst).attr('bmid');
+			$(tdfirst).append("<button class='makemain'>设为主要</button>");
+			$('.makemain').click(function() {
+				setmaster(bmid);
+			});
 		}
 		$(this).addClass('menuhover');
 	},function(){
@@ -317,9 +333,20 @@ var setting11 = {
 				//权限
 				if (has('rsglck')) {
 					if (curpage == '110') showpage('111');
+					if (curmember == '10001') 
+						$('#shuoming').show();
+					else
+						$('#shuoming').hide();
 					callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 				}
 			}
+		},
+		onRightClick: function(event, treeId, treeNode) {
+			if (treeNode.flag == 0) return;
+			downid = treeNode.tId;
+			$('#downb').click();
+			$('#downbdiv').css('top', event.clientY);
+			$('#downbdiv').css('left', event.clientX);
 		},
 		beforeDrag: function(treeId, treeNodes) {
 			
@@ -346,6 +373,9 @@ var setting11 = {
 				callajax("branch!getOrganTree", "", function(data) {
 					$.fn.zTree.init($('#tree110'), setting110, stripicon(data));
 				});
+				if (treeNodes[0].id > 10000) {
+					callajax("branch!getMemberById", {'id': data.id}, cb_111_112);
+				}
 			});
 		},
 	}
