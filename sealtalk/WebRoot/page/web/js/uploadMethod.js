@@ -14,7 +14,8 @@ $(function(){
         domain: globalVar.qiniuDOMAN,                              // default : '' ,必须设置文件服务器地址。
         file_data_name  : 'file',                                       // default : file , 文件对象的 key 。
         base64_size     : 4096,
-       chunk_size      : '4M',                                           // default : 10 单位 MB 。
+        max_file_size: '256mb',                                          //最大文件体积限制
+        chunk_size      : '4M',                                           // default : 10 单位 MB 。
         multi_parmas    : { },                                          // default : {} 扩展上传属性 。
         query           : { },                                          // default : {} 扩展 url 参数 e.g. http://rongcloud.cn?name=zhangsan 。
         support_options : true,                                         // default : true, 文件服务器不支持 OPTIONS 请求需设置为 false。
