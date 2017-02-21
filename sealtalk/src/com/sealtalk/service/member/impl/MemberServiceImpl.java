@@ -1,11 +1,17 @@
 package com.sealtalk.service.member.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.apache.poi.util.ArrayUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.sealtalk.common.Tips;
+import com.sealtalk.dao.adm.BranchMemberDao;
+import com.sealtalk.dao.adm.PositionDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.dao.member.TextCodeDao;
 import com.sealtalk.model.TMember;
@@ -88,12 +94,15 @@ public class MemberServiceImpl implements MemberService {
 					jo.put("birthday", isBlank(member[9]));
 					jo.put("workno", isBlank(member[10]));
 					jo.put("mobile", isBlank(member[11]));
-					jo.put("groupmax", isBlank(member[12]));
-					jo.put("groupuse", isBlank(member[13]));
-					jo.put("intro", isBlank(member[14]));
-					jo.put("branchname", isBlank(member[15]));
+					//jo.put("groupmax", isBlank(member[12]));
+					//jo.put("groupuse", isBlank(member[13]));
+					jo.put("intro", isBlank(member[12]));
+					jo.put("branchid", isBlank(member[13]));
+					jo.put("branchname", isBlank(member[14]));
+					jo.put("positionid", isBlank(member[15]));
 					jo.put("positionname", isBlank(member[16]));
-					jo.put("organname", isBlank(member[17]));
+					jo.put("organid", isBlank(member[17]));
+					jo.put("organname", isBlank(member[18]));
 				}
 			}
 		} catch (Exception e) {
@@ -223,9 +232,14 @@ public class MemberServiceImpl implements MemberService {
 			try {
 				sex = sex.equals("男") ? "1" : "0";
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
-				int ret = memberDao.updateMemeberInfoForWeb(userIdInt, position, fullName, sex, email, phone, sign);
+				int ret = memberDao.updateMemeberInfoForWeb(userIdInt, fullName, sex, email, phone, sign);
 				
 				if (ret > 0) {
+					
+					if (!StringUtils.getInstance().isBlank(position)) {
+						int positionId = StringUtils.getInstance().strToInt(position);
+						branchMemberDao.updatePositionByUseId(userIdInt, positionId);
+					}
 					jo.put("code", 1);
 					jo.put("text", Tips.OK.getText());
 				} else {
@@ -345,13 +359,64 @@ public class MemberServiceImpl implements MemberService {
 		return jo.toString();
 	}
 	
+	@Override
+	public String getAllMemberOnLineStatus(String userIds) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			ArrayList<String> idList = null;
+			
+			if (StringUtils.getInstance().isBlank(userIds)) {
+				idList = new ArrayList<String>();
+				List<TMember> memberList = memberDao.getAllMemberInfo();
+				if (memberList != null) {
+					int memberLen = memberList.size();
+					for(int i = 0; i < memberLen; i++) {
+						TMember tms = memberList.get(i);
+						String id = tms.getId()+"";
+						idList.add(id);
+					}
+				}
+			} else {
+				userIds = StringUtils.getInstance().replaceChar(userIds, "\"", "");
+				userIds = StringUtils.getInstance().replaceChar(userIds, "[", "");
+				userIds = StringUtils.getInstance().replaceChar(userIds, "]", "");
+				
+				String[] userIdses = userIds.split(",");
+				
+				idList = new ArrayList<String>(Arrays.asList(userIdses));
+			}
+				
+			JSONObject ja = new JSONObject();
+			//各成员在线状态
+			for(int i = 0; i < idList.size(); i++) {
+				String id = idList.get(i);
+				String status = RongCloudUtils.getInstance().checkOnLine(id);
+				ja.put(id, status);
+			}
+			jo.put("code", 1);
+			jo.put("text", ja.toString());
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jo.toString();
+	}
+	
+
 	private String isBlank(Object o) {
 		return o == null ? "" : o + "";
 	}
 	
+	
 	private TextCodeDao textCodeDao;
 	private MemberDao memberDao;
-	
+	private BranchMemberDao branchMemberDao;
+
+	public void setBranchMemberDao(BranchMemberDao branchMemberDao) {
+		this.branchMemberDao = branchMemberDao;
+	}
+
 	public void setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
 	}

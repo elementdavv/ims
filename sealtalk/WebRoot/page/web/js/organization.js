@@ -126,7 +126,7 @@ $(function(){
     $('.orgnized').delegate('.searchResultUL li','click',function(){
         var targetAccount = $(this).attr('targetaccount');
         var account = localStorage.getItem('account');
-        if(account){s
+        if(account){
             var accpunts = JSON.parse(account);
             var account = accpunts.text.account
         }

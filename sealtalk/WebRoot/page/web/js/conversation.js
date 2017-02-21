@@ -488,7 +488,7 @@ function conversationGroup(targetID,targetType,groupName,callback){
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     clearNoReadMsg(targetType,targetID);
     getConverList();
-    callback&&callback()
+    callback&&callback();
 }
 function po_Last_Div(obj) {
     if (window.getSelection) {//ie11 10 9 ff safari

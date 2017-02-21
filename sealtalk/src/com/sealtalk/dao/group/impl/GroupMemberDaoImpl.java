@@ -173,4 +173,24 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TGroupMember> getGroupMemberByGroupIds(Integer[] groupIds) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.in("groupId", groupIds));
+			
+			List<TGroupMember> list = ctr.list();
+			
+			if (list.size() > 0) {
+				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }

@@ -120,7 +120,7 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @param phone2 
 	 * @return
 	 */
-	public int updateMemeberInfoForWeb(int userId, String position, String fullName, String sex, String email, String phone, String sign);
+	public int updateMemeberInfoForWeb(int userId, String fullName, String sex, String email, String phone, String sign);
 	
 	/**
 	 * 更新个人设置app端

@@ -123,4 +123,12 @@ public interface MemberService {
 	 */
 	public String getAllMemberInfo();
 
+	/**
+	 * 获取成员在线状态(1：在线，0：离线，3：手机在线，4繁忙)
+	 * @param userids 
+	 * @return
+	 */
+	public String getAllMemberOnLineStatus(String userids);
+
+
 }
