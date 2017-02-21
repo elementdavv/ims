@@ -14,7 +14,14 @@ $(function(){
             textForcancleBtn : '取消',            //取消按钮
             handlerForCancle : null,
             handlerForSure : function(){
-                var content = _this.parent().find('.mr-ownChat span').html();
+                var sType=this.attr('data-type');
+                switch (sType){
+                    case 'textMessage':
+                        var content=_this.attr('data-content');
+                        break;
+
+                }
+                //var content = _this.parent().find('.mr-ownChat span').html();
                 var targetId = _this.closest('.mesContainer').attr('targetid');
                 var targetType = _this.closest('.mesContainer').attr('targettype')
                 sendMsg(content,targetId,targetType,'','',new Date().getTime());

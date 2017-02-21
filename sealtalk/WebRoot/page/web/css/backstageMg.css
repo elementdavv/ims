@@ -134,6 +134,19 @@
     border-radius: 15px;*/
     position: relative;
 }
+.infoLoading{
+    background: url('img/infoL.gif')no-repeat;
+    width:20px;
+    height:20px;
+    position: absolute;
+    left:-30px;
+    top:50%;
+    margin-top:-10px;
+    display: none;
+}
+.infoLoading.show{
+    display: block;
+}
 .systemSetVoice p.active{
     background-position: 0 -377px;
 }
@@ -341,9 +354,21 @@
 .mr-chatContentRFile .mr-ownChat{
     border: 1px solid #b9c1ca;
     border-radius: 5px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     width: 268px;
     padding: 8px;
+}
+.mr-ownImg{
+    word-wrap: break-word;
+    word-break:break-all;
+    float:right;
+    position: relative;
+    border:1px solid rgb(204,204,204);
+    padding:8px 10px;
+    margin-right:36px;
+    margin-left:36px;
+    border-radius: 5px;
+    min-height: 26px;
 }
 .downLoadFileInfo{
     width:100%;
@@ -378,9 +403,9 @@
     float: left;
     margin-left: 20px;
 }
-.mr-chatContentRFile .mr-ownChat{
-    overflow: hidden;
-}
+/*.mr-chatContentRFile .mr-ownChat{*/
+    /*overflow: hidden;*/
+/*}*/
 .mr-chatContentRFile .file_name{
     overflow: hidden;
     /*line-height: 44px;*/
@@ -464,7 +489,6 @@
 }
 img.uploadImg {
     float: right;
-    margin-right: 40px;
     width: auto;
     height: auto;
     max-width: 500px;
@@ -477,8 +501,17 @@ img.uploadImgLeft {
     max-width: 500px;
 }
 span.sendStatus {
-    float: right;
-    line-height: 44px;
+    width:20px;
+    height:20px;
+    background: red;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    left:-30px;
+    top:50%;
+    margin-top:-10px;
+    color:#fff;
 }
 .downLoadFile{
     display: inline-block;
