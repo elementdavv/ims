@@ -138,5 +138,31 @@ public class StringUtils {
 	public String plusSlash(String str) {
         return str.replaceAll("+", "\\+");
 	}
+	
+	/**
+	 * 去除重复数据元素
+	 * @param strArr
+	 * @return
+	 */
+	public String[] clearRepeat(String[] strArr) {
+		ArrayList<String> list = new ArrayList<String>();
+		
+		int j = 0;
+		
+		for(int i = 0; i < strArr.length; i++) {
+			if (!list.contains(strArr[i])) {
+				list.add(strArr[i]);
+			}
+		}
+		
+		int len = list.size();
+		String[] temp = new String[len];
+		
+		for(int i = 0; i < len;i++) {
+			temp[i] = list.get(i);
+		}
+		
+		return temp;
+	}
 
 }

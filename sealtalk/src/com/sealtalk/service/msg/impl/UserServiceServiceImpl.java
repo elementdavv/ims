@@ -2,6 +2,7 @@ package com.sealtalk.service.msg.impl;
 
 import net.sf.json.JSONObject;
 
+import com.sealtalk.common.Tips;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
 import com.sealtalk.service.msg.UserServiceService;
@@ -90,9 +91,16 @@ public class UserServiceServiceImpl implements UserServiceService {
 	
 	@Override
 	public String checkOnline(String userId) {
-		String code = RongCloudUtils.getInstance().checkOnLine(userId);
-		
-		return code;
+		JSONObject jo = new JSONObject();
+		if (StringUtils.getInstance().isBlank(userId)) {
+			jo.put("code", -1);
+			jo.put("text", Tips.NULLID.getName());
+		} else {
+			String status = RongCloudUtils.getInstance().checkOnLine(userId);
+			jo.put("code", 1);
+			jo.put("text", status);
+		}
+		return jo.toString();
 	}
 
 	

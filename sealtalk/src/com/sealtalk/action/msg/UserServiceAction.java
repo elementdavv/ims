@@ -71,18 +71,7 @@ public class UserServiceAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String checkOnline() throws ServletException {
-		JSONObject jo = new JSONObject();
-		String result = null;
-		
-		if (StringUtils.getInstance().isBlank(userid)) {
-			jo.put("code", -1);
-			jo.put("text", Tips.NULLID.getName());
-			result = jo.toString();
-		} else {
-			result = userService.checkOnline(userid);
-		}
-		
-		return result;
+		return userService.checkOnline(userid);
 	}
 	
 	private UserServiceService userService;

@@ -137,17 +137,20 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 				"M.birthday," +
 				"M.workno," +
 				"M.mobile," +
-				"M.groupmax," +
-				"M.groupuse," +
+				//"M.groupmax," +
+				//"M.groupuse," +
 				"M.intro," +
+				"B.id BID," +
 				"B.name BNAME," +
+				"P.id PID," +
 				"P.name PNAME," +
+				"O.id OID," +
 				"O.name ONAME " +
 				"from t_member M left join t_branch_member BM on M.id=BM.member_id " +
 				"left join t_branch B on BM.branch_id=B.id " +
 				"left join t_position P on BM.position_id=P.id " +
 				"inner join t_organ O on M.organ_id=O.id " +
-				"where M.id=" + id;
+				"where M.id=" + id + " and BM.is_master=1";
 			
 			SQLQuery query = this.getSession().createSQLQuery(hql);
 			
@@ -357,24 +360,20 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 	}
 
 	@Override
-	public int updateMemeberInfoForWeb(int userId, String position, String fullName, String sex, String email, String phone, String sign) {
+	public int updateMemeberInfoForWeb(int userId, String fullName, String sex, String email, String phone, String sign) {
 		StringBuilder sbSql = new StringBuilder();
 		
 		sbSql.append("update TMember T set ");
 		
 		boolean bl = false;
-		
-		if (!StringUtils.getInstance().isBlank(position)) {
-			bl = true;
-			sbSql.append("T.position='").append(position).append("'");
-		}
+
 		if (!StringUtils.getInstance().isBlank(fullName)) {
 			bl = true;
 			sbSql.append("T.fullname='").append(fullName).append("'");
 		}
 		if (!StringUtils.getInstance().isBlank(sex)) {
 			bl = true;
-			sbSql.append("T.sex='").append(sex).append("'");
+			sbSql.append(",T.sex='").append(sex).append("'");
 		}
 		if (!StringUtils.getInstance().isBlank(email)) {
 			bl = true;

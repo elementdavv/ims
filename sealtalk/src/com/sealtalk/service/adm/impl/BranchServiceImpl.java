@@ -741,6 +741,10 @@ public class BranchServiceImpl implements BranchService {
 						jm.put("postitionname", isBlank(o[23]));
 						jm.put("sexid", isBlank(o[24]));
 						jm.put("sexname", isBlank(o[25]));
+						jm.put("organid", isBlank(o[26]));
+						jm.put("organname", isBlank(o[27]));
+						jm.put("branchid", isBlank(o[4]));
+						jm.put("branchname", isBlank(o[6]));
 						
 						if (!branchList.contains(o[4])) {
 							String pid = isBlank(o[5]);

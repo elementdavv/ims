@@ -133,30 +133,20 @@ public class RongCloudUtils {
 	}
 
 	/**
-	 * 检测在线状态
+	 * 检测在线状态(1,在线，0不在线)
 	 * @param userId
 	 * @return
 	 */
 	public String checkOnLine(String userId) {
-		CheckOnlineReslut checkOnlineReslut = null;
 		JSONObject jo = new JSONObject();
 		
 		try {
 			if (rongCloud == null) {
 				this.init();
 			}
-			checkOnlineReslut = rongCloud.user.checkOnline(userId);
-			if (checkOnlineReslut != null) {
-				jo.put("code", checkOnlineReslut.getCode());
-				jo.put("status", checkOnlineReslut.getStatus());
-				jo.put("text", "ok");
-			} else {
-				jo.put("code", 0);
-				jo.put("text", "fail");
-			}
+			CheckOnlineReslut checkOnlineReslut = rongCloud.user.checkOnline(userId);
+			return checkOnlineReslut.getStatus();
 		} catch (Exception e) {
-			jo.put("code", 0);
-			jo.put("text", "fail");
 			e.printStackTrace();
 		}
 		

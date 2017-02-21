@@ -29,5 +29,20 @@
 		Token: <input type="text" name="token" value="" />
 		<input type="submit" value="submit" />
 	</form>
+	<h1>测试Web端个人设置接口</h1>
+	<form action="<%=request.getContextPath() %>/member!updateMemberInfoForWeb" method="post">
+		userid: <input type="text" name="userid" value="" />
+		position: <input type="text" name="position" value="" />
+		fullname: <input type="text" name="fullname" value="" />
+		sex: <input type="text" name="sex" value="" />
+		email: <input type="text" name="email" value="" />
+		phone: <input type="text" name="phone" value="" />
+		sign: <input type="text" name="sign" value="" />
+		<input type="submit" value="submit" />
+	</form>
+	<h1>测试对讲支持</h1>
+	<form action="<%=request.getLocalAddr() %>:<%=request.getLocalPort() %>/rce/restapi/ptt" method="post">
+		<input type="submit" value="submit" />
+	</form>
 </body>
 <html/>

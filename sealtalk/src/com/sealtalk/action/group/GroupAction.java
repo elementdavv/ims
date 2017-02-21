@@ -362,8 +362,25 @@ public class GroupAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 获取群禁言成员
+	 * @return
+	 * @throws ServletException
+	 */
 	public String getShutUpGroupMember() throws ServletException {
 		String result = groupService.getShutUpGroupMember(groupid);
+		
+		returnToClient(result);
+		return "text";
+	}
+	
+	/**
+	 * 获取群在线人数
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getGroupOnLineMember() throws ServletException {
+		String result = groupService.getGroupOnLineMember(userid);
 		
 		returnToClient(result);
 		return "text";

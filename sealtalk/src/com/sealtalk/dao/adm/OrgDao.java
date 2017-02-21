@@ -14,4 +14,5 @@ public interface OrgDao extends IBaseDao<TOrgan, Integer> {
 	public List getIndustry();
 	public List getSubdustry(Integer industryId);
 	public TOrgan getInfo(Integer orgId);
+	public List getInfos(String soStr);
 }
