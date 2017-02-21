@@ -1,19 +1,19 @@
 var branchmembertemplate=[
 	"<tr>" +
-		"<td></td>" +
+		"<td bmid='branchmemberid'></td>" +
 		"<td>branch</td>" +
 		"<td>position</td>" +
 		"<td>" +
-		"<img src='images/编辑.png' style='margin-right: 15px;cursor:pointer' onclick='editbranchmember(branchmemberid)' />" +
-		"<img src='images/删除.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
+		"<img src='images/edit.png' style='margin-right: 15px;cursor:pointer' onclick='editbranchmember(branchmemberid)' />" +
+		"<img src='images/delete.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
 		"</td></tr>",
 	"<tr>" +
 		"<td><input class='mainpos' value='主要职能' readonly /></td>" +
 		"<td>branch</td>" +
 		"<td>position</td>" +
 		"<td>" +
-		"<img src='images/编辑.png' style='margin-right: 15px;cursor:pointer' onclick='editbranchmember(branchmemberid)' />" +
-		"<img src='images/删除.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
+		"<img src='images/edit.png' style='margin-right: 15px;cursor:pointer' onclick='editbranchmember(branchmemberid)' />" +
+		"<img src='images/delete.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
 		"</td></tr>"];
 var branchmemberid;
 var branch112position = 0;
@@ -49,11 +49,16 @@ $(document).ready(function(){
 
 		//权限
 		if (has('rsgljcxx')) {
-			branchmemberid = 0;
-			$('#position').modal({
-				backdrop: false,
-				remote: '112_position.jsp'
-			});
+			if ($('#branchmember').children().length > 4) {
+				bootbox.alert({'title':'提示', 'message':'每个成员最多兼职5个部门.'});
+			}
+			else {
+				branchmemberid = 0;
+				$('#position').modal({
+					backdrop: false,
+					remote: '112_position.jsp'
+				});
+			}
 		}
 		else {
 			bootbox.alert({'title':'提示', 'message':'您没有权限添加人员职位.'});

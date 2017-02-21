@@ -15,7 +15,7 @@
 			<input class='treeedit xiala' id='xiala10' readonly></input>
 			<input type="hidden" id="branchmanagerid" name="branchmanagerid">
 			<span id="branchaddmember" style="color: rgb(255,162,0);font-size: 13px; cursor:pointer">
-				<img src="images/添加人员.png" style="padding: 0 5px 0 10px">添加人员
+				<img src="images/addmember.png" style="padding: 0 5px 0 10px">添加人员
 			</span>
 			<div class='treewrap' id='tree110wrap' style='height: 270px; overflow: auto'>
 				<div id='tree110' class='ztree'></div>

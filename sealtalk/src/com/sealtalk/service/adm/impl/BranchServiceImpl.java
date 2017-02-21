@@ -87,7 +87,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] br = (Object[])it.next();
 			jo.put("id", br[0]);
 			jo.put("pid", 0);
-			jo.put("name", "<img src='images/公司.png' style='padding-right: 10px'>" + br[1]);
+			jo.put("name", "<img src='images/orga.png' style='padding-right: 10px'>" + br[1]);
 			jo.put("flag", 0);
 			jl.add(jo);
 		}
@@ -100,7 +100,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] br = (Object[])it.next();
 			jo.put("id", br[0]);
 			jo.put("pid", (Integer)br[1] == 0 ? organId : br[1]);
-			jo.put("name", "<img src='images/工作.png' style='padding-right: 10px'>" + br[2]);
+			jo.put("name", "<img src='images/work.png' style='padding-right: 10px'>" + br[2]);
 			jo.put("flag", 1);
 			jo.put("isParent", "true");
 			jl.add(jo);
@@ -114,7 +114,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] br = (Object[])it.next();
 			jo.put("id", br[0]);
 			jo.put("pid", br[1]);
-			jo.put("name", "<img src='images/人员.png' style='padding-right: 10px'>" + br[2]);
+			jo.put("name", "<img src='images/memb.png' style='padding-right: 10px'>" + br[2]);
 			jo.put("flag", 2);
 			jl.add(jo);
 		}
@@ -505,6 +505,9 @@ public class BranchServiceImpl implements BranchService {
 	}
 	
 	private boolean isDecendant(Integer branchId, Integer pId) {
+		
+		if (branchId < 101) return false;
+		if (branchId.intValue() == pId.intValue()) return true;
 		
 		TBranch branch = branchDao.get(branchId);
 		

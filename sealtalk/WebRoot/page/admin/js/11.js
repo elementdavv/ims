@@ -3,12 +3,15 @@ var curbranch = 0;
 var curmember = 0;
 var movnode = null;
 var searchnodes11 = null;
+var downid = 0;
 $(document).ready(function(){
 	
 	var h = document.body.clientHeight > 830 ? document.body.clientHeight : '830';
 	$('.sidebar11').css('height', h + 'px');
 	$('#tree11').css('height', (h - 100) + 'px');
+	$('#tree11').css('overflow', 'auto');
 	$('.sidebar11').css('width', document.body.clientWidth * 0.13);
+	
 	
 	showpage('110');
 	$('#member').on('shown.bs.modal', function(e) {
@@ -25,7 +28,7 @@ $(document).ready(function(){
 
 	$('#move').on('shown.bs.modal', function(e) {
 		callajax("branch!getOrganOnlyTree", "", cb_11_move);
-		$('#title11move').text('移动 ' + movnode.name.substr(53) +' 到');
+		$('#title11move').text('移动 ' + movnode.name.substr(55) +' 到');
 		var o = $.fn.zTree.getZTreeObj('tree11move');
 		o.selectNode(o.getNodeByParam('id', movnode.pid));
 	});
@@ -39,6 +42,7 @@ $(document).ready(function(){
 		if (has('rsglck')) {
 			callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 		}
+		$('#shuoming').show();
 	});
 	$('.addbranch').click(function(){
 		
@@ -80,6 +84,14 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('.downmov').click(function() {
+		mov(downid);
+	});
+	
+	$('.downdel').click(function() {
+		del(downid);
+	});
+	
 	callajax("branch!getOrganTree", "", cb_11_tree);
 	callajax("branch!getRole", "", cb_111_role);
 	callajax("branch!getSex", "", cb_111_sex);
@@ -90,8 +102,8 @@ $(document).ready(function(){
 		var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
 		$('.movdel').remove();
 		var movdel = '<div class="movdel toright">'
-			+ '<div class="move toleft"><img src="images/移动button.png"></div>'
-		+ '<div class="delete toleft"><img src="images/删除button.png"></div></div>';
+			+ '<div class="move toleft"><img src="images/movbutton.png"></div>'
+		+ '<div class="delete toleft"><img src="images/delete-2.png"></div></div>';
 		$(this).find('a').first().after(movdel);
 		$('.move').click(function(){
 			mov($($(this)[0]).parent().parent().prop('id'));
@@ -165,15 +177,16 @@ function cb_11_tree(data) {
 	var ns = t.getNodesByParam('id', 1, null);
 	t.expandNode(ns[0], true);
 	$('#tree11 a').each(function(i, a) {
-		if (a.title.length > 53) {
-			a.title = a.title.substr(53);
+		if (a.title.length > 55) {
+			a.title = a.title.substr(55);
 		}
 	});
+//	$('#tree11 li').find('a:first').after('<div class="toright" style="height:30px"><img src="images/down.png" style="width:14px;margin:10px 5px 0 0" /></div>');
 }
 function stripicon(data) {
 	var i = data.length;
 	while (i--) {
-		data[i].name = data[i].name.substr(53);
+		data[i].name = data[i].name.substr(55);
 	}
 	return data;
 }
@@ -208,6 +221,7 @@ function loadmember(data) {
 	$('#memberaccount').val(data.account);
 	$('#memberfullname').val(data.fullname);
 	$('#membermobile').val(data.mobile);
+	$('#memberworkno').val(data.workno);
 	$('#membersex').val(data.sex);
 	$('#memberbirthday').val(showdate(data.birthday));
 	$('#memberpositionid').val(data.positionId);
@@ -247,7 +261,12 @@ function loadbranchmember(data) {
 	}
 	$('#branchmember tr').hover(function(){
 		if ($(this).find('td input').length == 0) {
-			$(this).find('td:first').append("<button class='makemain' onclick='setmaster(branchmemberid)'>设为主要</button>");
+			var tdfirst = $(this).find('td:first');
+			var bmid = $(tdfirst).attr('bmid');
+			$(tdfirst).append("<button class='makemain'>设为主要</button>");
+			$('.makemain').click(function() {
+				setmaster(bmid);
+			});
 		}
 		$(this).addClass('menuhover');
 	},function(){
@@ -314,9 +333,20 @@ var setting11 = {
 				//权限
 				if (has('rsglck')) {
 					if (curpage == '110') showpage('111');
+					if (curmember == '10001') 
+						$('#shuoming').show();
+					else
+						$('#shuoming').hide();
 					callajax("branch!getMemberById", {'id': curmember}, cb_111_112);
 				}
 			}
+		},
+		onRightClick: function(event, treeId, treeNode) {
+			if (treeNode.flag == 0) return;
+			downid = treeNode.tId;
+			$('#downb').click();
+			$('#downbdiv').css('top', event.clientY);
+			$('#downbdiv').css('left', event.clientX);
 		},
 		beforeDrag: function(treeId, treeNodes) {
 			
@@ -343,6 +373,9 @@ var setting11 = {
 				callajax("branch!getOrganTree", "", function(data) {
 					$.fn.zTree.init($('#tree110'), setting110, stripicon(data));
 				});
+				if (treeNodes[0].id > 10000) {
+					callajax("branch!getMemberById", {'id': data.id}, cb_111_112);
+				}
 			});
 		},
 	}
@@ -426,7 +459,12 @@ var setting11_branch_branch = {
 	},
 	callback: {
 		onClick: function(event, treeId, treeNode, clickFlag) {
-			if (treeNode.flag == 1) {
+			if (treeNode.flag == 0) {
+				$('#11branchbranch').val(treeNode.name);
+				$('#11branchbranchid').val(0);
+				$('#tree11branchbranchwrap').hide();
+			}
+			else if (treeNode.flag == 1) {
 				$('#11branchbranch').val(treeNode.name);
 				$('#11branchbranchid').val(treeNode.id);
 				$('#tree11branchbranchwrap').hide();
@@ -488,8 +526,8 @@ var setting11_move = {
 }
 function handletree11open() {
 	$('#tree11 a').each(function(i, a) {
-		if (a.title.length > 53) {
-			a.title = a.title.substr(53);
+		if (a.title.length > 55) {
+			a.title = a.title.substr(55);
 		}
 	});
 	$('#tree11 li').hover(function(){
@@ -497,8 +535,8 @@ function handletree11open() {
 		var ns = t.getNodesByParam('tId', $(this).prop('id'), null);
 		$('.movdel').remove();
 		var movdel = '<div class="movdel toright">'
-			+ '<div class="move toleft"><img src="images/移动button.png"></div>'
-		+ '<div class="delete toleft"><img src="images/删除button.png"></div></div>';
+			+ '<div class="move toleft"><img src="images/movbutton.png"></div>'
+		+ '<div class="delete toleft"><img src="images/delete-2.png"></div></div>';
 		$(this).find('a').first().after(movdel);
 		$('.move').click(function(){
 			mov($($(this)[0]).parent().parent().prop('id'));
@@ -573,7 +611,7 @@ function del(tId) {
 	
 	bootbox.confirm({
 		title:'提示',
-		message:'确定删除 ' + ns[0].name.substr(53) + ' ?',
+		message:'确定删除 ' + ns[0].name.substr(55) + ' ?',
 		callback: function(result) {
 			if (result == false) return;
 			if (hasChildBranch(ns[0].id)) {

@@ -29,34 +29,38 @@
 				<input type="text" id="membermobile" class='required' name="membermobile">
 			</div>
 			<div class="column2">
+				工号：
+				<input type="text" id="memberworkno" name="memberworkno">
+			</div>
+		</div>
+		<div class="line111">
+			<div class="column1">
 				性别：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<select id="membersex" name="membersex">
 				</select>
 			</div>
-		</div>
-		<div class="line111">
-			<div class="column1">
+			<div class="column2">
 				出生日期：
 				<input type="text" id="memberbirthday" name="memberbirthday">
 			</div>
-			<div class="column2">
+		</div>
+		<div class="line111">
+			<div class="column1">
 				职务：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<select id="memberpositionid" name="memberpositionid">
 				</select>
 			</div>
-		</div>
-		<div class="line111">
-			<div class="column1">
+			<div class="column2">
 				工作电话：
 				<input type="text" id="membertelephone" name="membertelephone">
 			</div>
-			<div class="column2">
-				E-mail：&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="text" id="memberemail" name="memberemail">
-			</div>
 		</div>
 		<div class="line111">
 			<div class="column1">
+				E-mail：&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="text" id="memberemail" name="memberemail">
+			</div>
+			<div class="column2">
 				身份权限：
 				<select id="memberroleid" name="memberroleid">
 				</select>
@@ -66,6 +70,10 @@
 			<textarea id="memberintro" name="memberintro"></textarea>
 		</div>
 		</form>
+		<div id='shuoming' class="line111" style='margin: 0 0 30px 30px; padding-top: 0'>
+			a) admin是系统自动为您分配的超级管理员。他可以进行组织架构、权限等后台管理操作。
+			<br>b) admin的初始密码为创建者手机号的前6位，为保障账号安全，请及时重置密码。
+		</div>
 		<div class="line111" style="margin: -10px 0 20px 75px">
 			<button id="membersave">保存</button>
 			<span class="toright" id="reset111" style="color: rgb(255,162,0);font-size: 14px; cursor:pointer">

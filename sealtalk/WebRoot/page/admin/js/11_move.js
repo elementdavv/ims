@@ -27,5 +27,8 @@ function cb_11_mov(data) {
 	else {
 		$('#move').modal('hide');
 		callajax("branch!getOrganTree", "", cb_11_tree);
+		if (data.id > 10000) {
+			callajax("branch!getMemberById", {'id': data.id}, cb_111_112);
+		}
 	}
 }

@@ -100,7 +100,7 @@ function cb_12_info(data) {
 	$('#computernumber').val(data.computernumber);
 	$('#intro').val(data.intro);
 	if (data.logo == '') {
-		$('#logo').prop('src', imagedir + '默认公司logo.png');
+		$('#logo').prop('src', imagedir + 'defaultlogo.png');
 	}
 	else {
 		$('#logo').prop('src', imagedir + data.logo);
@@ -166,7 +166,7 @@ function del() {
 	//权限
 	if (has('zzxxglxg')) {
 		info.logo = '';
-		$('#logo').prop('src', imagedir + '默认公司logo.png');
+		$('#logo').prop('src', imagedir + 'defaultlogo.png');
 	}
 	else {
 		bootbox.alert({'title':'提示','message':'您没有权限删除组织LOGO'});
