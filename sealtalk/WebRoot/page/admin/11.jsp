@@ -28,8 +28,8 @@
 		<div class="organline">
 			<button class="btnadmin" id='zzgly'><img src='images/superadmin.png' style='padding-right: 10px'>超级管理员</button>
 
-            <div class='btn-group dropdown toright'>
-            	<a class="btn  btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
+            <div id='downadiv' class='btn-group dropdown toright'>
+            	<a id='downa' class="btn  btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
             	<img src="images/addbutton.png">
             	</a>
             	<ul id="admadd" class="dropdown-menu pull-right" style="min-width: 350%">
@@ -91,6 +91,14 @@
 		<div class="modal-content" style="height: 530px;">
 		</div>
 	</div>
+</div>
+
+<div id='downbdiv' class='btn-group dropdown toright' style='position:absolute; top: 500px'>
+	<a id='downb' class="btn  btn-sm dropdown-toggle" data-toggle="dropdown" href="#"></a>
+	<ul id="admb" class="dropdown-menu pull-right"  style='min-width:80px;right:-90px'>
+		<li class="admadd downmov">移动</li>
+		<li class="admadd downdel" style="padding-bottom: 5px">删除</li>
+	</ul>
 </div>
 
 </div>
