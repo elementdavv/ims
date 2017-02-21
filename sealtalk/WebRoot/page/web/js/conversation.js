@@ -131,7 +131,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
     //调用融云的发送文件
     if(extra!='uploadFile'&&(limit.indexOf('ltszwjsc')!=-1||way== 'PRIVATE')){
         //sendByRong(content,targetId,way);
-        sendByRong(content,targetId,way,'',new Date().getTime());
+        sendByRong(content,targetId,way,'',uniqueTime);
     }
 }
 //上传文件
@@ -460,7 +460,7 @@ function conversationGroup(targetID,targetType,groupName,callback){
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     clearNoReadMsg(targetType,targetID);
     getConverList();
-    callback&&callback()
+    callback&&callback();
 }
 function po_Last_Div(obj) {
     if (window.getSelection) {//ie11 10 9 ff safari
