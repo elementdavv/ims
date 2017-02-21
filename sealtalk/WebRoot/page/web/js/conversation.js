@@ -917,7 +917,7 @@ function getPerInfo(oInfoDetails){
     //var memberInfoFromList = searchFromList(1,sTargetId);
     var sName=oInfoDetails.name || '';//姓名
     var sLogo=oInfoDetails.logo?  globalVar.imgSrc+oInfoDetails.logo : globalVar.defaultLogo;//头像
-    var sMobile=oInfoDetails.mobile || '';//手机
+    var sMobile=oInfoDetails.telephone || '';//手机
     var sEmail=oInfoDetails.email || '';//邮箱
     var sBranch=oInfoDetails.branchname || '';//部门
     var sJob=oInfoDetails.postitionname || '';//职位

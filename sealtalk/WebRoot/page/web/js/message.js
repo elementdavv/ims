@@ -101,8 +101,8 @@ $(function(){
                         conversationSelf(targetID,targeType);
                         $('.orgNavClick').addClass('chatHide');
                         $('.mesContainerSelf').removeClass('chatHide');
-
                     }
+                    $('.memberHover').remove();
                     break;
                 case 'checkPosition'://查看位置
                     var limit = $('body').attr('limit');
@@ -117,6 +117,7 @@ $(function(){
                             textForcancleBtn : false,
                             autoHide:true
                         });
+                        //$('.memberHover').remove();
                         break;
                     }else{
                         $('.orgNavClick').addClass('chatHide');
@@ -127,7 +128,7 @@ $(function(){
                         creatMemberMap(targetID,targeType);
                         //console.log(targeType,targetID,datas);
                     }
-
+                    $('.memberHover').remove();
                     break;
                 case 'addConver'://添加群聊
                     var limit = $('body').attr('limit');
@@ -172,10 +173,12 @@ $(function(){
                             })
                         },memShipArr);
                     }
+                    $('.memberHover').remove();
                     break;
                 default :
             }
         //}
+
         $('.myContextMenu').remove();
     })
 
@@ -195,18 +198,16 @@ $(function(){
             case 1:
                 //发送文件
                 var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
-                //eDom.click();
-                eDom.mousedown();
-                setTimeout(function(){
+                var groupName = eDom.find('.groupName').html();
+                    newContactList(targetType,targetID,groupName,function(){
                     $('#upload_file').click();
-                },300);
+                })
                 break;
             case 2:
                 //查看资料
                 if(targetType=='PRIVATE'){
                     var memberid = $(this).parents('.myContextMenu').attr('memship');
                     var CurList = $('[targetid='+memberid+'][targettype=PRIVATE]');
-                    //showPersonDetailDia(e,CurList)
                     var pos = {};
                     pos.top = parseInt(e.clientY)-100;
                     pos.left = e.clientX;
@@ -399,17 +400,7 @@ $(function(){
                 }
             });
         }else{//单击常用联系人
-            $('.newsChatList').find('li').removeClass('active');
-            $(this).addClass('active');
-            if(targeType=='PRIVATE'){
-                conversationSelf(targetID,targeType);
-                $('.orgNavClick').addClass('chatHide');
-                $('.mesContainerSelf').removeClass('chatHide');
-            }else{
-                conversationGroup(targetID,targeType,groupName);
-                $('.orgNavClick').addClass('chatHide');
-                $('.mesContainerGroup').removeClass('chatHide');
-            }
+            newContactList(targeType,targetID,groupName);
         }
         $('.newsChatList li').removeClass('active');
         $(this).addClass('active');
@@ -481,6 +472,23 @@ $(function(){
         $('.groupMap').removeClass('chatHide');
         creatMemberMap(targetID,targeType);
     });
+
+
+    function newContactList(targeType,targetID,groupName,callback){
+        $('.newsChatList').find('li').removeClass('active');
+        $(this).addClass('active');
+        if(targeType=='PRIVATE'){
+            conversationSelf(targetID,targeType);
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerSelf').removeClass('chatHide');
+        }else{
+            conversationGroup(targetID,targeType,groupName);
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerGroup').removeClass('chatHide');
+        }
+        callback&&callback();
+    }
+
 
     //定位到所在组织
     function orginizPos(targetID,type){

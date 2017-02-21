@@ -1125,7 +1125,7 @@ span.defaultText{
     /* width: 100%; */
     /* background: paleturquoise; */
     padding: 50px 42px 45px 42px;
-    overflow: hidden;
+    overflow: auto;
 }
 .dialogBody .outerTitle{
     height: 32px;
