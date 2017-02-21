@@ -56,4 +56,10 @@ public class OrgDaoImpl extends BaseDao<TOrgan, Integer> implements OrgDao {
 		return this.get(orgId);
 	}
 
+	@Override
+	public List getInfos(String soStr) {
+		String sql = new StringBuilder("select id, name from t_organ where id in(").append(soStr).append(")").toString();
+		return runSql(sql);
+	}
+
 }

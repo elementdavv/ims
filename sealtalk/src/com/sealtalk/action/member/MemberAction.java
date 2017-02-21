@@ -115,6 +115,17 @@ public class MemberAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 获取成员在线状态，如果不传成员id，则表示全部成员
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getAllMemberOnLineStatus() throws ServletException {
+		String result = memberService.getAllMemberOnLineStatus(userids);
+		returnToClient(result);
+		return "text";
+	}
+	
 	private MemberService memberService;
 	
 	public void setMemberService(MemberService ms) {
@@ -133,6 +144,15 @@ public class MemberAction extends BaseAction {
 	private String sign;
 	private String logo;
 	private String address;
+	private String userids;
+
+	public String getUserids() {
+		return userids;
+	}
+
+	public void setUserids(String userids) {
+		this.userids = userids;
+	}
 
 	public String getAddress() {
 		return address;

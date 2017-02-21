@@ -86,4 +86,11 @@ public interface GroupMemberDao {
 	public void delGroupMemberForMemberIdsAndGroupId(int groupIdInt,
 			String needDelStr);
 
+	/**
+	 * 根据组id获取群成员
+	 * @param groupIds
+	 * @return
+	 */
+	public List<TGroupMember> getGroupMemberByGroupIds(Integer[] groupIds);
+
 }

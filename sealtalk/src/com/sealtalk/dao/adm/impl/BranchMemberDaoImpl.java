@@ -76,4 +76,19 @@ public class BranchMemberDaoImpl extends BaseDao<TBranchMember, Integer> impleme
 		return (TBranchMember)list.get(0); 
 	}
 
+	@Override
+	public List getBranchMemberByMemberIds(String memberIds) {
+	
+		String hql = (new StringBuilder("select BM.member_id mid, P.name, B.name bname from t_branch_member BM left join t_branch B on B.id=BM.branch_id left join t_position P on BM.position_id=P.id where BM.member_id in (").
+				append(memberIds).
+				append(")")).toString();
+		return getSession().createSQLQuery(hql).list(); 
+	}
+
+	@Override
+	public int updatePositionByUseId(int userIdInt, int positionId) {
+		String hql = (new StringBuilder("update TBranchMember t set t.positionId=").append(positionId).append("where t.memberId=").append(userIdInt)).toString();
+		return update(hql);
+	}
+
 }

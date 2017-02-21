@@ -141,4 +141,11 @@ public interface GroupService {
 	 * @return
 	 */
 	public String getShutUpGroupMember(String groupid);
+
+	/**
+	 * 获取群在线人数
+	 * @param userId 
+	 * @return
+	 */
+	public String getGroupOnLineMember(String userId);
 }

@@ -36,6 +36,7 @@ public enum  Tips {
 	NOLOGOERR("没有头像", "00030"),
 	USEDLOGO("头像正在被使用", "00031"),
 	WRONGTOKEN("Token无效","00032"),
+	NULLGROUP("没有群组", "00033"),
 	OK("OK", "10000"),
 	FAIL("fail", "20000");
 	

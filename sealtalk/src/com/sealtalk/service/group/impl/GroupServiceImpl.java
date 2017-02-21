@@ -12,6 +12,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
+import org.hamcrest.core.IsNull;
 
 import com.sealtalk.common.Tips;
 import com.sealtalk.dao.adm.MemberRoleDao;
@@ -63,7 +64,10 @@ public class GroupServiceImpl implements GroupService {
 
 				ArrayList<String> tempArrIds = new ArrayList<String>();
 				
-				String[] groupIdsArr = groupIds.split(",");
+				String[] groupIdsArrSplit = groupIds.split(",");
+				
+				//去重
+				String[] groupIdsArr = StringUtils.getInstance().clearRepeat(groupIdsArrSplit);
 				
 				for(int i = 0; i < groupIdsArr.length; i++) {
 					if (!StringUtils.getInstance().isBlank(groupIdsArr[i])) {
@@ -987,7 +991,7 @@ public class GroupServiceImpl implements GroupService {
 								} 
 							}
 							if (!status) {
-								mem.put("qxqx", "false");
+								mem.put("qzqx", "false");
 							}
 						}
 					}
@@ -1216,6 +1220,108 @@ public class GroupServiceImpl implements GroupService {
 		return result.toString();
 	}
 
+
+	@Override
+	public String getGroupOnLineMember(String userId) {
+		JSONObject result = new JSONObject();
+		
+		try {
+			if (StringUtils.getInstance().isBlank(userId)) {
+				result.put("code", -1);
+				result.put("text", Tips.WRONGPARAMS.getText());
+			} else {
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
+				//获取用户的所有群组
+				List<TGroupMember> groupMemList = groupMemberDao.getGroupMemberForUserId(userIdInt);
+				boolean f = true;
+				
+				if (groupMemList != null) {
+					int len = groupMemList.size();
+					Integer[] groupIds = new Integer[len];
+					
+					for(int i = 0; i < len; i++) {
+						TGroupMember tm = groupMemList.get(i);
+						groupIds[i] = tm.getGroupId();
+					}
+					
+					ArrayList<String> userIds = new ArrayList<String>();
+					
+					//获取所有群组的所有成员
+					List<TGroupMember> groupMems = groupMemberDao.getGroupMemberByGroupIds(groupIds);
+					
+					if (groupMems != null) {
+						for(int i = 0; i < groupMems.size(); i++) {
+							TGroupMember tm = groupMems.get(i);
+							int memberId = tm.getMemberId();
+							
+							if (!userIds.contains(memberId+"")) {
+								userIds.add(memberId+"");
+							}
+						}
+
+						//各成员在线状态
+						Map<String, String> statusMap = new HashMap<String, String>();
+						
+						for (int i = 0; i < userIds.size(); i++) {
+							String id = userIds.get(i);
+							String status = RongCloudUtils.getInstance().checkOnLine(userIds.get(i));
+							statusMap.put(id, status );
+						}
+						
+						Map<String, Integer> countMap = new HashMap<String, Integer>();
+						//用来判断重复
+						ArrayList<String> ids = new ArrayList<String>();	
+						int count = 0;
+						
+						for (int i = 0; i < groupMems.size(); i++) {
+							TGroupMember tm = groupMems.get(i);
+							String memberId = tm.getMemberId()+"";
+							String groupId = tm.getGroupId()+"";
+							String doubleId = memberId+"_"+groupId;
+							
+							if (countMap.get(groupId) != null) {
+								count = countMap.get(groupId);
+							} else {
+								count = 0;
+							}
+							
+							if (ids.contains(doubleId)) continue;
+							if (statusMap.get(memberId).equals("1")) {
+								count += 1;
+								countMap.put(groupId, count);
+							}
+							ids.add(doubleId);
+						}
+						
+						JSONObject jo = new JSONObject();
+						
+						//生成返回结果
+						for(Map.Entry<String, Integer> ct: countMap.entrySet()) {
+							jo.put(ct.getKey(), ct.getValue());
+						}
+						
+						result.put("code", 1);
+						result.put("text", jo.toString());
+					} else {
+						f = false;
+						result.put("text", Tips.NULLGROUPMEMBER.getText());
+					}
+				} else {
+					f = false;
+					result.put("text", Tips.NULLGROUP.getText());
+				}
+				
+				if (!f) {
+					result.put("code", 0);
+				}
+			}
+		} catch (Exception e) { 
+			e.printStackTrace();
+		}
+		
+		return result.toString();
+	}
+	
 	private MemberDao memberDao;
 	private GroupDao groupDao;
 	private GroupMemberDao groupMemberDao;
