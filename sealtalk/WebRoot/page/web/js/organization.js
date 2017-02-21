@@ -66,9 +66,7 @@ $(function(){
         $('.defaultText').hide();
         $(this).css({backgroundPosition:'-380px -365px'});
         $(this).unbind('keypress');
-
         $(this).on('input',function(){
-
             var inputVal = $(this).val();
             if(inputVal){
                 sendAjax('member!searchUser',{account:inputVal},function(data){
@@ -128,9 +126,9 @@ $(function(){
     $('.orgnized').delegate('.searchResultUL li','click',function(){
         var targetAccount = $(this).attr('targetaccount');
         var account = localStorage.getItem('account');
-        if(account){
+        if(account){s
             var accpunts = JSON.parse(account);
-            var account = accpunts.account
+            var account = accpunts.text.account
         }
         if($('.usualChatList').find('li[account='+targetAccount+']').length==0){
             sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
