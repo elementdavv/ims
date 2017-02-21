@@ -34,7 +34,7 @@
 		<div class="col21">
 			<div class="col1">
 				<div class="line21">
-					<button id='addrole' class='cancel'><img src='images/addicon.png' style='margin:-2px 5px 0 0' />添加权限</button>
+					<button id='addrole' class='cancel'><img src='images/addicon.png' style='margin:-2px 5px 0 0' />添加身份</button>
 					<button class='cancel' onclick='delrole()' style='width:64px;margin-left:5px'>删除</button>
 				</div>
 				<div class="line21" style="width:70%">

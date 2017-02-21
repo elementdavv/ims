@@ -235,7 +235,7 @@ input:focus {
 	color: rgb(128,128,128);
 	cursor: pointer;
 }
-#admadd :hover {
+#admadd :hover, #admb :hover {
 	background-color: #ebf0f5;
 	color: rgb(48,192,218);
 }

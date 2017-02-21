@@ -36,7 +36,7 @@ $(document).ready(function() {
 })
 function cb_111_reset(date) {
 	$('#reset').modal('hide');
-	bootbox.alert({'title':'提示', 'message':'密码重置成功.'});
+//	bootbox.alert({'title':'提示', 'message':'新密码已经通过短信通知对方.'});
 }
 function clear() {
 	$('#grade1').removeClass('grade0');
