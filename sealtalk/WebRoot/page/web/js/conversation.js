@@ -23,6 +23,7 @@ $(function(){
 function sendMsg(content,targetId,way,extra,callback,uniqueTime){
     //发出去的消息 先显示到盒子里,
     //权限有没有
+    console.log(content);
     var limit = $('body').attr('limit');
     if(limit.indexOf('ltszfqgrlt')==-1&&way== 'GROUP'){//没有权限
         var sGroupConverLisit = '<p class="converLimit">!</p>';
@@ -53,7 +54,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
             if(sFilePaste==1){
                 var fileOperate='';
                 var downLoadFile=''
-                var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                var sHTML = '<li class="mr-chatContentRFile clearfix" uniqueTime="'+nSendTime+'">'+
                     '<div class="mr-ownChat">'+
                     '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
                     '<div class="file_content fl">' +
@@ -76,7 +77,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
                 '</li>';
                     //'<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
             }else{
-                var sHTML = '<li class="mr-chatContentRFile clearfix">'+
+                var sHTML = '<li class="mr-chatContentRFile clearfix" uniqueTime="'+nSendTime+'">'+
                     '<div class="mr-ownChat">'+
                         '<div class="file_type fl"><img src="'+imgSrc+'"/></div>'+
                         '<div class="file_content fl">' +
@@ -92,8 +93,8 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
                     '</li>';
             }
         }else{//上传的是图片类型的文件
-            var sHTML = '<li class="mr-chatContentRFile clearfix">'+
-                    '<div class="mr-ownImg"><img uniqueTime="'+uniqueTime+'" src="'+globalVar.cssImgSrc+'imgLoading.gif" class="uploadImg uploadImgFile">'+
+            var sHTML = '<li class="mr-chatContentRFile clearfix" uniqueTime="'+nSendTime+'">'+
+                    '<div class=" mr-ownImg"><img uniqueTime="'+uniqueTime+'" src="'+globalVar.cssImgSrc+'imgLoading.gif" class="uploadImg uploadImgFile">'+
                     '<em class="infoLoading"  infoTime="'+nSendTime+'"></em></div></li>';
         }
     }else{//如果是普通消息
@@ -137,7 +138,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
 }
 //上传文件
 function sendByRongFile(content,targetId,way,extra,uniqueTime){
-
+        console.log(content);
     var msg = new RongIMLib.FileMessage(content);
     var conversationtype = RongIMLib.ConversationType[way]; // 私聊,其他会话选择相应的消息类型即可。
       $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=null;
@@ -179,7 +180,7 @@ function sendByRongFile(content,targetId,way,extra,uniqueTime){
                     }
                     clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
                     $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                    var eNode = $('<span class="sendStatus">!</span>');
+                    var eNode = $('<span class="sendStatus" data-type="uploadFile" data-t="'+uniqueTime+'" data-fUrl="'+content.fileUrl+'" data-fName="'+content.filename+'" data-name="'+content.filename+'" data-fSize="'+content.size+'">!</span>');
                     $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').append(eNode);
                     console.log('发送失败:' + info);
                 }
@@ -231,8 +232,8 @@ function sendByRongImg(content,targetId,way,uniqueTime){
                 }
                 clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
                 $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                var eNode = $('<span class="sendStatus" data-type="imgMessage" data-ImgT="'+sType+'" data-ImgU="'+sImgUrl+'">!</span>');
-                $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').append(eNode);
+                var eNode = $('<span class="sendStatus" data-type="imgMessage" data-t="'+uniqueTime+'" data-ImgT="'+sType+'" data-ImgU="'+sImgUrl+'">!</span>');
+                $('li[uniqueTime='+uniqueTime+'] .mr-ownImg').append(eNode);
                 console.log('发送失败:' + info);
             }
         }  );
@@ -287,8 +288,9 @@ function sendByRong(content,targetId,way,extra,uniqueTime){
                 }
                 clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
                 $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                var eNode = $('<span class="sendStatus" data-type="textMessage" data-content="'+content+'">!</span>');
+                var eNode = $('<span class="sendStatus" data-type="textMessage" data-t="'+uniqueTime+'">!</span>');
                 $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').append(eNode);
+                $('li[uniqueTime='+uniqueTime+'] .mr-ownChat .sendStatus')[0].content=content;
                 console.log('发送失败:' + info);
             }
         }  );

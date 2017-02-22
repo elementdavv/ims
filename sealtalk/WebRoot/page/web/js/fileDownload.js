@@ -5,6 +5,9 @@ $(function(){
 
     $('.mesContainer').delegate('.sendStatus','click',function(){
         var _this = $(this);
+        var targetId = _this.closest('.mesContainer').attr('targetid');
+        var targetType = _this.closest('.mesContainer').attr('targettype');
+        var sOldTimer= _this.attr('data-t');
         new Window().alert({
             title   : '重新发送',
             content : '确定要重新发送么？',
@@ -14,18 +17,32 @@ $(function(){
             textForcancleBtn : '取消',            //取消按钮
             handlerForCancle : null,
             handlerForSure : function(){
-                var sType=this.attr('data-type');
+                var sType=_this.attr('data-type');
                 switch (sType){
                     case 'textMessage':
-                        var content=_this.attr('data-content');
+                        var content= $('li[uniqueTime='+sOldTimer+'] .mr-ownChat .sendStatus')[0].content;
+                        sendMsg(content,targetId,targetType,'','',new Date().getTime());
                         break;
-
+                    case 'imgMessage':
+                        var sImgSrc=_this.attr('data-ImgU');
+                        var content='<img src="'+sImgSrc+'"; class="uploadImgFile"/>';
+                        sendMsg(content,targetId,targetType,'','',new Date().getTime());
+                        break;
+                    case 'uploadFile':
+                        var nSendTime=new Date().getTime();
+                        var extra='uploadFile';
+                        var oFileInfo={};
+                        oFileInfo.name=_this.attr('data-name');
+                        oFileInfo.size=_this.attr('data-fSize');
+                        oFileInfo.type='';
+                        oFileInfo.filepaste=1;
+                        oFileInfo.fileUrl=_this.attr('data-fUrl');
+                        var fileInfo=JSON.stringify(oFileInfo);
+                        sendMsg(fileInfo,targetId,targetType,extra,'',nSendTime);
+                        sendByRongFile(oFileInfo,targetId,targetType,'',nSendTime);
 
                 }
                 //var content = _this.parent().find('.mr-ownChat span').html();
-                var targetId = _this.closest('.mesContainer').attr('targetid');
-                var targetType = _this.closest('.mesContainer').attr('targettype')
-                sendMsg(content,targetId,targetType,'','',new Date().getTime());
             }
         })
     })
