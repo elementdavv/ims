@@ -225,22 +225,42 @@ public class GroupServiceImpl implements GroupService {
 				groupIds = StringUtils.getInstance().replaceChar(groupIds, "]", "");
 				
 				String[] groupIdsArr = StringUtils.getInstance().stringSplit(groupIds, ",");
+				
+				//去除重复添加
+				List<TGroupMember> tgm = groupMemberDao.getTGroupMemberList(groupIdInt);
+				
+				ArrayList<String> groupMemberIds = new ArrayList<String>();
+ 				
+				if (tgm != null) {
+					for (int i = 0; i < tgm.size(); i++) {
+						groupMemberIds.add(tgm.get(i).getMemberId()+"");
+					}
+				}
+				
+				ArrayList<Integer> finalIds = new ArrayList<Integer>();
+				
+				for(int i = 0; i < groupIdsArr.length; i++) {
+					if (!groupMemberIds.contains(groupIdsArr[i])) {
+						finalIds.add(Integer.parseInt(groupIdsArr[i]));
+					}
+				}
 
-				memberVolume = groupIdsArr.length;
+				memberVolume = finalIds.size();
 					
 				if (volumeUse >= volume ||
 						(volumeUse + memberVolume) > volume) {
 					jo.put("code", 0);
 					jo.put("text", Tips.GROUPMOREVOLUME.getText());
 				} else {
+					Integer[] idsInt = new Integer[finalIds.size()];
 					//保存数据库
 					ArrayList<TGroupMember> tgmList = new ArrayList<TGroupMember>();
 					
-					for(int i = 0; i < groupIdsArr.length; i++) {
-						
-						int id = StringUtils.getInstance().strToInt(groupIdsArr[i]);
+					for(int i = 0; i < finalIds.size(); i++) {
+						int id = finalIds.get(i);
 						
 						tgmList.add(new TGroupMember(groupIdInt, id, "0", 0));
+						idsInt[i] = id;
 					}
 					
 					groupMemberDao.saveGroupMemeber(tgmList);
@@ -250,18 +270,20 @@ public class GroupServiceImpl implements GroupService {
 					RongCloudUtils.getInstance().joinGroup(groupIdsArr, groupId, groupName);
 					
 					//小灰条显示
-					Integer[] idsInt = new Integer[groupIdsArr.length];
 					String[] groupIdA = {groupId};
 					
 					List<TMember> memList = memberDao.getMultipleMemberForIds(idsInt);
 					
-					for (int i = 0; i < memList.size(); i++) {
-						TMember tm = memList.get(i);
-						String msg = tm.getFullname() + "加入群组";
-						String extrMsg = msg;
-						RongCloudUtils.getInstance().sendGroupMsg(tm.getId()+"", groupIdA, msg, extrMsg, 1, 1, 2);
-					}
+					if (memList != null) {
 					
+						for (int i = 0; i < memList.size(); i++) {
+							TMember tm = memList.get(i);
+							String msg = tm.getFullname() + "加入群组";
+							String extrMsg = msg;
+							RongCloudUtils.getInstance().sendGroupMsg(tm.getId()+"", groupIdA, msg, extrMsg, 1, 1, 2);
+						}
+					}
+						
 					jo.put("code", 1);
 					jo.put("text", Tips.OK.getText());
 				}
