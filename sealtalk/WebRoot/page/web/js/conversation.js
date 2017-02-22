@@ -25,7 +25,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
     //权限有没有
     console.log(content);
     var limit = $('body').attr('limit');
-    if(limit.indexOf('ltszfqgrlt')==-1&&way== 'GROUP'){//没有权限
+    if(limit.indexOf('ltszqzlt')==-1&&way== 'GROUP'){//没有权限
         var sGroupConverLisit = '<p class="converLimit">!</p>';
         new Window().alert({
             title   : '',
