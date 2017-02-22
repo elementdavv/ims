@@ -255,17 +255,18 @@ function creatDialogTree(data,className,title,callback,selected){
         for(var i = 0;i<selected.length;i++){
             converseACount.push(selected[i]);
             var targetList = findMemberInList(selected[i]);
-            if(selected[i]==userID){
-                var editable = false;
-                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
-                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').attr('editable','false');
+            if(targetList){
+                if(selected[i]==userID){
+                    var editable = false;
+                    $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
+                    $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').attr('editable','false');
 
-            }else {
-                var editable = true;
-                $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
-            }
+                }else {
+                    var editable = true;
+                    $('.contactsList').find('li[account='+targetList.account+'][id='+selected[i]+']').find('.dialogCheckBox').addClass('CheckBoxChecked');
+                }
                 sHTML += '<li memberID="'+selected[i]+'" editable="'+editable+'"><span class="memberName">'+targetList.name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
-
+            }
         }
         dom.html(sHTML);
         selectedNum(selected)

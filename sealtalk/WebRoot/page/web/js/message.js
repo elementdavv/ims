@@ -95,6 +95,16 @@ $(function(){
                     }else{
                         $('.chatHeaderMenu li')[0].click();
                         $('.chatContent ul li')[1].click();
+                        var target = $('.usualChatList').find('li[targetid='+targetID+']');
+                        var sTarget = searchFromList(1,targetID)
+                        if(sTarget){
+                            var targetAccount = sTarget.account;
+                        }
+                        if(target.length==0){//如果不存在的话，添加好友并刷新列表
+                            addFriendAndRefreshList(account,targetAccount)
+                        }else{//如果存在的话刷新列表
+                            jumpToFriendListOpen(targetAccount)
+                        }
                         if(targeType=='member'){
                             targeType = 'PRIVATE';
                         }
@@ -839,33 +849,38 @@ $(function(){
                 }
                 creatDialogTree(data,'privateConvers','发起聊天',function(){
                     var targetAccount = converseACount[0];
+                    $('.manageCancle').click();
                     if(targetAccount!=accountID){//是自己
                         if($('.usualChatList').find   ('li[account='+targetAccount+']').length==0){
-                            sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
-                                var datas = JSON.parse(data);
-                                //刷新常用联系人
-                                getMemberFriends(account,function(){
-                                    $('.manageCancle').click();
-                                    $('.chatMenu .chatLeftIcon')[1].click();
-                                    var targetDon = $('.usualChatList').find('li')
-                                    targetDon.removeClass('active');
-                                    var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-                                    targetMember.addClass('active');
-                                    var targetID = targetMember.attr('targetid');
-                                    var targeType = 'PRIVATE';
-                                    conversationSelf(targetID,targeType);
-                                });
-                            })
+                            addFriendAndRefreshList(account,targetAccount);
+
+                            //sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
+                            //    var datas = JSON.parse(data);
+                            //    //刷新常用联系人
+                            //    getMemberFriends(account,function(){
+                            //        $('.manageCancle').click();
+                            //        $('.chatMenu .chatLeftIcon')[1].click();
+                            //        var targetDon = $('.usualChatList').find('li')
+                            //        targetDon.removeClass('active');
+                            //        var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+                            //        targetMember.addClass('active');
+                            //        var targetID = targetMember.attr('targetid');
+                            //        var targeType = 'PRIVATE';
+                            //        conversationSelf(targetID,targeType);
+                            //    });
+                            //})
                         }else{
-                            $('.manageCancle').click();
-                            $('.chatMenu .chatLeftIcon')[1].click();
-                            var targetDon = $('.usualChatList').find('li')
-                            targetDon.removeClass('active');
-                            var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-                            targetMember.addClass('active');
-                            var targetID = targetMember.attr('targetid');
-                            var targeType = 'PRIVATE';
-                            conversationSelf(targetID,targeType);
+                            //$('.manageCancle').click();
+                            jumpToFriendListOpen(targetAccount)
+
+                            //$('.chatMenu .chatLeftIcon')[1].click();
+                            //var targetDon = $('.usualChatList').find('li')
+                            //targetDon.removeClass('active');
+                            //var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+                            //targetMember.addClass('active');
+                            //var targetID = targetMember.attr('targetid');
+                            //var targeType = 'PRIVATE';
+                            //conversationSelf(targetID,targeType);
                         }
                     }
                 })
@@ -934,10 +949,39 @@ function getSysTipVoice(userid){
     })
 }
 
-function groupMemberList(groupid,callback){
-
+//跳转到常用联系人并打开会话
+function jumpToFriendListOpen(targetAccount){
+    $('.chatHeaderMenu li')[0].click();
+    $('.chatMenu .chatLeftIcon')[1].click();
+    var targetDon = $('.usualChatList').find('li')
+    targetDon.removeClass('active');
+    var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+    targetMember.addClass('active').click();
+    var targetID = targetMember.attr('targetid');
+    var targeType = 'PRIVATE';
+    conversationSelf(targetID,targeType);
 }
-
+//添加好友并跳转到常用联系人打开会话
+function addFriendAndRefreshList(account,targetAccount){
+    sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
+        //var datas = JSON.parse(data);
+        //console.log(data);
+        //if(datas.code==1){
+        //刷新常用联系人
+        getMemberFriends(account,function(){
+            $('.searchResult').remove();
+            $('.chatHeaderMenu li')[0].click();
+            $('.chatMenu .chatLeftIcon')[1].click();
+            var targetDon = $('.usualChatList').find('li')
+            targetDon.removeClass('active');
+            var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+            targetMember.addClass('active').click();
+            var targetID = targetMember.attr('targetid');
+            var targeType = 'PRIVATE';
+            conversationSelf(targetID,targeType);
+        });
+    })
+}
 
 
 function changePersonOnlineN(accountID){
@@ -993,15 +1037,20 @@ function changeGroupOnlineN(accountID){
 
 //数组去重
 function unique3(arr){
-    var res = [];
-    var json = {};
-    for(var i = 0; i < arr.length; i++){
-        if(!json[arr[i]]){
-            res.push(arr[i]);
-            json[arr[i]] = 1;
+    if(arr){
+        var res = [];
+        var json = {};
+        for(var i = 0; i < arr.length; i++){
+            if(!json[arr[i]]){
+                res.push(arr[i]);
+                json[arr[i]] = 1;
+            }
         }
+        return res;
     }
-    return res;
+    else{
+        return [];
+    }
 }
 
 //创建群组列表

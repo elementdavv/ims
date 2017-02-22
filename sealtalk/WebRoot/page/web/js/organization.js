@@ -131,35 +131,39 @@ $(function(){
             var account = accpunts.text.account
         }
         if($('.usualChatList').find('li[account='+targetAccount+']').length==0){
-            sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
-                //var datas = JSON.parse(data);
-                //console.log(data);
-                //if(datas.code==1){
-                //刷新常用联系人
-                getMemberFriends(account,function(){
-                    $('.searchResult').remove();
-                    $('.chatHeaderMenu li')[0].click();
-                    $('.chatMenu .chatLeftIcon')[1].click();
-                    var targetDon = $('.usualChatList').find('li')
-                    targetDon.removeClass('active');
-                    var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-                    targetMember.addClass('active').click();
-                    var targetID = targetMember.attr('targetid');
-                    var targeType = 'PRIVATE';
-                    conversationSelf(targetID,targeType);
-                });
-            })
+
+
+            addFriendAndRefreshList(account,targetAccount)
+            //sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
+            //    //var datas = JSON.parse(data);
+            //    //console.log(data);
+            //    //if(datas.code==1){
+            //    //刷新常用联系人
+            //    getMemberFriends(account,function(){
+            //        $('.searchResult').remove();
+            //        $('.chatHeaderMenu li')[0].click();
+            //        $('.chatMenu .chatLeftIcon')[1].click();
+            //        var targetDon = $('.usualChatList').find('li')
+            //        targetDon.removeClass('active');
+            //        var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+            //        targetMember.addClass('active').click();
+            //        var targetID = targetMember.attr('targetid');
+            //        var targeType = 'PRIVATE';
+            //        conversationSelf(targetID,targeType);
+            //    });
+            //})
         }else{
             $('.searchResult').remove();
-            $('.chatHeaderMenu li')[0].click();
-            $('.chatMenu .chatLeftIcon')[1].click();
-            var targetDon = $('.usualChatList').find('li')
-            targetDon.removeClass('active');
-            var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-            targetMember.addClass('active').click();
-            var targetID = targetMember.attr('targetid');
-            var targeType = 'PRIVATE';
-            conversationSelf(targetID,targeType);
+            jumpToFriendListOpen(targetAccount)
+            //$('.chatHeaderMenu li')[0].click();
+            //$('.chatMenu .chatLeftIcon')[1].click();
+            //var targetDon = $('.usualChatList').find('li')
+            //targetDon.removeClass('active');
+            //var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
+            //targetMember.addClass('active').click();
+            //var targetID = targetMember.attr('targetid');
+            //var targeType = 'PRIVATE';
+            //conversationSelf(targetID,targeType);
         }
     })
 
