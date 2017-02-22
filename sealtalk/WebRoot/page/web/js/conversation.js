@@ -901,13 +901,15 @@ function getGroupMembersList(groupid){
             if(aNewMember.length>0){
                 for(var i=0;i<aNewMember.length;i++){
                     var oCreator=findMemberInList(aNewMember[i]);
-                    var sMemberName=oCreator.name;
-                    var sJob=oCreator.account;
-                    var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
-                    sDom+=' <li>\
+                    if(oCreator){
+                        var sMemberName=oCreator.name;
+                        var sJob=oCreator.account;
+                        var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
+                        sDom+=' <li>\
                             <img src="'+sImg+'">\
                             <p>'+sMemberName+'('+sJob+')</p>\
                             </li>';
+                    }
                 }
             }
             sDom+='</ul>';
