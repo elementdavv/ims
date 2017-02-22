@@ -91,7 +91,7 @@ $(function(){
                                 eDom.scrollTop = eDom.scrollHeight;
                             })
                             if(data.thumbnail){
-                                sendByRongImg(content,targetId,targetType);
+                                sendByRongImg(content,targetId,targetType,this._self.uniqueTime);
                             }
                         }else{
                             filedetail.name = this._self.name;
@@ -100,7 +100,7 @@ $(function(){
                             filedetail.type = this._self.type;
                             filedetail.filename = data.filename;
                             $('#up_process[uniquetime="'+className+'"]').parent().next().attr('href',downloadLink);
-                            sendByRongFile(content,targetId,targetType);
+                            sendByRongFile(content,targetId,targetType,'',this._self.uniqueTime);
                         }
                     },
                     _self: _file
@@ -166,7 +166,7 @@ $(function(){
                             if(data.thumbnail){
                                 image.onload = function(){
                                     content.base64Str = data.thumbnail;
-                                    sendByRongImg(content,targetId,targetType);
+                                    sendByRongImg(content,targetId,targetType,className);
                                 }
                             }
                         }else{
@@ -178,7 +178,7 @@ $(function(){
                             $('a[fileName='+filedetail.uniqueTime+']').attr('fileName',fileName);
                             $('a[fileName='+fileName+']').attr('href',downloadLink);
                             $('#up_process[uniquetime="'+filedetail.uniqueTime+'"]').remove();
-                            sendByRongFile(content,targetId,targetType);
+                            sendByRongFile(content,targetId,targetType,'',this._self.uniqueTime);
 
                         }
                         //发送消息

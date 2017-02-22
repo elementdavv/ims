@@ -133,8 +133,9 @@ $(document).ready(function(){
                targetType = $('.mesContainerGroup').attr('targetType');
             }
             var fileInfo=JSON.stringify(sFile);
-                sendMsg(fileInfo,targetId,targetType,extra);
-                sendByRongFile(sFile,targetId,targetType);
+            var nSendTime=new Date().getTime();
+                sendMsg(fileInfo,targetId,targetType,extra,'',nSendTime);
+                sendByRongFile(sFile,targetId,targetType,'',nSendTime);
         }
 
     });

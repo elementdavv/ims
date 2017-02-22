@@ -48,7 +48,7 @@ function cb_11_save_member(data) {
 		bootbox.alert({'title':'提示', 'message':'帐号已存在，请重新输入.'});
 	}
 	else {
-//		bootbox.alert({'title':'提示', 'message':'添加成功.'});
+		bootbox.alert({'title':'提示', 'message':'账号和密码已经通过短信通知对方.'});
 		callajax("branch!getOrganTree", "", cb_11_tree);
 		if ($('#11membercontinue').prop('checked') == false) {
 			$('#member').modal('hide');

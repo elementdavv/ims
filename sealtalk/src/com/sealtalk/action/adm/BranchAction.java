@@ -23,9 +23,12 @@ import com.sealtalk.service.adm.BranchService;
 import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
+import com.sealtalk.utils.TextHttpSender;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import com.bcloud.msg.http.HttpSender;
 
 /**
  * @author alopex
@@ -303,6 +306,8 @@ public class BranchAction extends BaseAction {
 		branchService.saveMemberRole(memberRole);
 		
 		//发短信
+		String msg = "您的IMS产品帐号" + member.getAccount() + ", 密码111111.";
+		TextHttpSender.getInstance().sendText(member.getMobile(), msg);
 		
 		JSONObject jo = new JSONObject();
 		jo.put("memberid", memberId);

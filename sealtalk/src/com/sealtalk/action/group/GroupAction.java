@@ -54,7 +54,6 @@ public class GroupAction extends BaseAction {
 	public String joinGroup() throws ServletException {
 		String result = null;
 
-		//发送小灰条
 		if (groupService != null) {
 			result = groupService.joinGroup(groupids, groupid);
 		} else {
