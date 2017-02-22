@@ -199,7 +199,7 @@
 			<span style='font-size: 12px;color: rgb(51,51,51)'>
 				导入成功：<span id='success' style='color:#40d4a3; margin: 0 5px 0 0'>4</span>位成员
 			</span>
-			<span style='font-size: 12px; color:rgb(179,179,179)'>系统已短信告知他们</span>
+			<span style='font-size: 12px; color:rgb(179,179,179)'>账号和密码已经通过短信通知对方</span>
 		</div>
 		<div class='dialogtitle3'>
 			<span style='font-size: 12px;color: rgb(51,51,51)'>
