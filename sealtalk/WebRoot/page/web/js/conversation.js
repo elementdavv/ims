@@ -888,19 +888,19 @@ function getGroupMembersList(groupid){
         var oGroupidList = JSON.parse(data);
         var aMember=oGroupidList.text;
         if(aMember){
-
-            var smemship = JSON.stringify(aMember);
+            var aNewMember=unique3(aMember);
+            var smemship = JSON.stringify(aNewMember);
             var sDom='<div class="groupInfo-number clearfix">\
-            <span>成员('+aMember.length+')</span>\
+            <span>成员('+aNewMember.length+')</span>\
             <p class="clearfix">\
             <i class="groupInfo-noChat" data-groupid="'+groupid+'"></i>\
             <i class="groupInfo-groupManage" memship="'+smemship+'"></i>\
             </p>\
             </div>\
             <ul class="groupInfo-memberAll">';
-            if(aMember.length>0){
-                for(var i=0;i<aMember.length;i++){
-                    var oCreator=findMemberInList(aMember[i]);
+            if(aNewMember.length>0){
+                for(var i=0;i<aNewMember.length;i++){
+                    var oCreator=findMemberInList(aNewMember[i]);
                     var sMemberName=oCreator.name;
                     var sJob=oCreator.account;
                     var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
