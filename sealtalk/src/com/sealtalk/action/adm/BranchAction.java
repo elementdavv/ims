@@ -24,6 +24,7 @@ import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TextHttpSender;
+import com.sealtalk.utils.TimeGenerator;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -273,6 +274,9 @@ public class BranchAction extends BaseAction {
 		
 		member.setOrganId(this.getOrganId());
 
+		long now = TimeGenerator.getInstance().getUnixTime();
+		member.setCreatetokendate(Integer.valueOf(String.valueOf(now)));
+		
 		Integer memberId = branchService.saveMember(member);
 
 		//部门职务

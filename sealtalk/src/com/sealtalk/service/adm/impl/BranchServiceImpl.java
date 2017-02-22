@@ -27,6 +27,7 @@ import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TextHttpSender;
+import com.sealtalk.utils.TimeGenerator;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -538,6 +539,7 @@ public class BranchServiceImpl implements BranchService {
 		
 		// 存人员
 		Iterator<ImpUser> it = ua.iterator();
+		long now = TimeGenerator.getInstance().getUnixTime();
 		while(it.hasNext()) {
 			ImpUser user = it.next();
 			TMember m = new TMember();
@@ -553,6 +555,7 @@ public class BranchServiceImpl implements BranchService {
 			m.setPassword(PasswordGenerator.getInstance().getMD5Str("111111"));
 			m.setGroupmax(0);
 			m.setGroupuse(0);
+			m.setCreatetokendate(Integer.valueOf(String.valueOf(now)));
 			memberDao.save(m);
 			user.setId(m.getId());
 
