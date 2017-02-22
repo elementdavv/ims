@@ -1490,10 +1490,12 @@ function KBtoM(kb){
 //接收到的消息显示在盒子里或者在消息列表中显示
 function reciveInBox(msg){
     //打包后的程序在托盘里闪烁
-    if(msg.)
-    if (window.Electron) {
-        window.Electron.updateBadgeNumber(2);
+    if(msg.messageType!='InformationNotificationMessage'){
+        if (window.Electron) {
+            window.Electron.updateBadgeNumber(2);
+        }
     }
+
 
     var targetID = msg.targetId;
     var messageType = msg.messageType;
