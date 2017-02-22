@@ -365,15 +365,13 @@ function fillGroupPage(targetID,targetType,groupName){
             //$('#groupContainer .mr-chatview').empty();
             $('#groupContainer .mr-chateditBox').before(sDoM);
             var eDom=document.querySelector('#groupContainer .mr-chatview');
-            eDom.scrollTop = eDom.scrollHeight;
             if(eDom.scrollHeight>$('#groupContainer .mr-chatview').height()){
                 if($('#groupContainer .uploadImgFile').length!=0){
                     $('.uploadImgFile').on('load',function(){
                         eDom.scrollTop = eDom.scrollHeight;
                     })
-                }else{
-                    eDom.scrollTop = eDom.scrollHeight;
                 }
+                eDom.scrollTop = eDom.scrollHeight;
             }
             var $container = $('#groupContainer .mr-chatview');
             var eDom=document.querySelector('#groupContainer .mr-chatview');
