@@ -32,7 +32,10 @@ function cb_23_save(data) {
 	if (data.id == 0) {
 		bootbox.alert({
 			'title': '提示',
-			'message': '职务已存在.'
+			'message': '职务已存在.',
+			callback: function(result) {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			},
 		});
 	}
 	else {

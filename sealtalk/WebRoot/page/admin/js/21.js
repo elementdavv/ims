@@ -71,19 +71,25 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			bootbox.alert({'title':'提示','message':'您没有权限添加身份'});
+			bootbox.alert({'title':'提示','message':'您没有权限添加身份', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('#editmember').click(function(){
 		if (currole == 1) {
-			bootbox.alert({'title':'提示', 'message':'不能修改组织管理员.'});
+			bootbox.alert({'title':'提示', 'message':'不能修改组织管理员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 
 		//权限
 		if (has('qxglxg')) {
 			if (currole == 0) {
-				bootbox.alert({title:'提示', message:'请先选择身份.'});
+				bootbox.alert({title:'提示', message:'请先选择身份.', callback: function() {
+					$('#container').css('width', document.body.clientWidth + 'px');	
+				}});
 			}
 			else {
 				$('#member').modal({
@@ -93,26 +99,34 @@ $(document).ready(function(){
 			}
 		}
 		else {
-			bootbox.alert({'title':'提示','message':'您没有权限新增/修改人员.'});
+			bootbox.alert({'title':'提示','message':'您没有权限新增/修改人员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('#editpriv').click(function() {
 		if(currole == 1) {
-			bootbox.alert({"title":"提示","message":"不能修改组织管理员."});
+			bootbox.alert({"title":"提示","message":"不能修改组织管理员.", callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 
 		//权限
 		if (has('qxglxg')) {
 			if (currole == 0) {
-				bootbox.alert({title:'提示', message:'请先选择身份.'});
+				bootbox.alert({title:'提示', message:'请先选择身份.', callback: function() {
+					$('#container').css('width', document.body.clientWidth + 'px');	
+				}});
 			}
 			else {
 				showpage("212");
 			}
 		}
 		else {
-			bootbox.alert({'title':'提示','message':'您没有权限修改权限.'});
+			bootbox.alert({'title':'提示','message':'您没有权限修改权限.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('#pagefirst').click(function() {
@@ -399,7 +413,9 @@ function cb_21_fresh(data) {
 }
 function del210(id) {
 	if (currole == 1) {
-		bootbox.alert({'title':'提示', 'message':'不能删除组织管理员.'});
+		bootbox.alert({'title':'提示', 'message':'不能删除组织管理员.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 		return;
 	}
 	
@@ -412,11 +428,14 @@ function del210(id) {
 				if (result) {
 					callajax('priv!delMemberRole', {id: id}, cb_210_del)
 				}
+				$('#container').css('width', document.body.clientWidth + 'px');	
 			}
 		});
 	}
 	else {
-		bootbox.alert({'title':'提示','message':'您没有权限删除人员'});
+		bootbox.alert({'title':'提示','message':'您没有权限删除人员', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function cb_210_del(data) {
@@ -441,14 +460,18 @@ function cb_212_save(data) {
 }
 function delrole() {
 	if (currole == 1) {
-		bootbox.alert({title:'提示', message:'不能删除组织管理员.'});
+		bootbox.alert({title:'提示', message:'不能删除组织管理员.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 		return;
 	}
 
 	//权限
 	if (has('qxglsc')) {
 		if (currole == 0) {
-			bootbox.alert({title:'提示', message:'请先选择身份.'});
+			bootbox.alert({title:'提示', message:'请先选择身份.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 		else {
 			bootbox.confirm({
@@ -458,12 +481,15 @@ function delrole() {
 					if (result) {
 						callajax('priv!delRole', {roleid: currole}, cb_21_del);
 					}
+					$('#container').css('width', document.body.clientWidth + 'px');	
 				}
 			});
 		}
 	}
 	else {
-		bootbox.alert({'title':'提示','message':'您没有权限删除身份'});
+		bootbox.alert({'title':'提示','message':'您没有权限删除身份', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function cb_21_del(data) {

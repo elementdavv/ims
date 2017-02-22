@@ -22,7 +22,9 @@ $(document).ready(function(){
 function cb_11_mov(data) {
 
 	if (data.id == '0') {
-		bootbox.alert({title:'提示', message:'部门不能移动到其子部门内.'});
+		bootbox.alert({title:'提示', message:'部门不能移动到其子部门内.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 	else {
 		$('#move').modal('hide');
