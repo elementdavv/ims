@@ -294,8 +294,12 @@ input::-ms-clear{display:none;}
     position: absolute;
     /* border-top: 0px; */
     width: 100%;
+    cursor: pointer;
     bottom: 0px;
     background-color: #ffffff;
+}
+.listCtrl{
+    cursor: pointer;
 }
 .newsTabContent{
     height: calc(100% - 140px);
@@ -512,6 +516,7 @@ button#downLoadFile:focus{
     /* margin-top: 24px; */
     text-indent: 54px;
     border: none;
+    cursor: pointer;
     background-position: -281px -365px
     /*background-position: -397px -365px;*/
 
@@ -534,6 +539,7 @@ span.defaultText{
     position: relative;
     left: 156px;
     top: -30px;
+    cursor: pointer;
 }
 .searchResult{
     width: 318px;
@@ -636,6 +642,7 @@ span.defaultText{
     text-indent: 8px;
 }
 .organizationList li {
+    cursor: pointer;
     height: 46px;
     /* margin-right: 10px; */
     border-radius: 10px;
@@ -816,6 +823,7 @@ span.defaultText{
     background-image: url("img/chatLeftIcon.png");
     height: 30px;
     line-height: 30px;
+    cursor: pointer;
 }
 /*.showPersonalInfo1 li{*/
     /*width: 34px;*/
@@ -874,6 +882,7 @@ span.defaultText{
 }
 .selfImgInfo div .selfImgOpera li{
     float: left;
+    cursor: pointer;
 }
 .selfImgInfo div p{
     margin-top: 18px;
@@ -884,6 +893,7 @@ span.defaultText{
 .showPersonalInfo ul li{
     overflow: hidden;
     margin:20px 0px;
+    cursor: pointer;
 }
 .showPersonalInfo ul li div{
     float: left;
@@ -1087,6 +1097,7 @@ span.defaultText{
 }
 .myContextMenu ul li{
     margin: 10px auto;
+    cursor: pointer;
     /*line-height:;*/
 }
 .myContextMenu ul li[displaylimit=false]{
