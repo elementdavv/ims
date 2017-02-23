@@ -534,11 +534,11 @@
                     <span>成员(6)</span>
 
                     <p class="clearfix">
-                    <i class="groupInfo-noChat"></i>
+                    <i class="groupInfo-noChat" title="禁言"></i>
                     <i></i>
                     </p>
                     </div>
-                    <ul class="groupInfo-memberAll">
+                    <ul class="groupInfo-memberAll" title="群成员管理">
                         <%--<li>--%>
                         <%--<img src="page/web/css/img/1.jpg">--%>
 
