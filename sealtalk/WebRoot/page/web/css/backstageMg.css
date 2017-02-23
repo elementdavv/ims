@@ -330,6 +330,18 @@
     word-break:break-all;
     min-height: 26px;
 }
+.mr-otherImg{
+    float:left;
+    background: #fff;
+    border:1px solid rgb(204,204,204);
+    padding:8px 10px;
+    position: relative;
+    border-radius: 5px;
+    margin:2px 36px 0 98px;
+    word-wrap: break-word;
+    word-break:break-all;
+    min-height: 26px;
+}
 /*.mr-chatContentL img{*/
     /*position:absolute;*/
     /*left:30px;*/
@@ -495,7 +507,6 @@ img.uploadImg {
 }
 img.uploadImgLeft {
     float: left;
-    margin-left: 100px;
     width: auto;
     height: auto;
     max-width: 500px;

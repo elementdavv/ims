@@ -47,7 +47,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
         var uniqueTime = sendMsg.uniqueTime;
         var sFilePaste=sendMsg.filepaste;
         var Msize = KBtoM(sendMsg.size);
-        if(sendMsg.type!='image/png'&&sendMsg.type!='image/jpeg'){
+        if(sendMsg.type!='image/png'&&sendMsg.type!='image/jpeg'&& sendMsg.type!='ImageMessage'){
             var imgSrc = imgType(sendMsg.type);
             var file = sendMsg.name.split('.')[0];
             //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
@@ -93,15 +93,16 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
                     '</li>';
             }
         }else{//上传的是图片类型的文件
+            var sImgSrc=sendMsg.fileUrl || globalVar.cssImgSrc+'imgLoading.gif';
             var sHTML = '<li class="mr-chatContentRFile clearfix" uniqueTime="'+nSendTime+'">'+
-                    '<div class=" mr-ownImg"><img uniqueTime="'+uniqueTime+'" src="'+globalVar.cssImgSrc+'imgLoading.gif" class="uploadImg uploadImgFile">'+
+                    '<div class=" mr-ownImg"><img uniqueTime="'+uniqueTime+'" src="'+sImgSrc+'" class="uploadImg uploadImgFile" data-type="'+sendMsg.type+'">'+
                     '<em class="infoLoading"  infoTime="'+nSendTime+'"></em></div></li>';
         }
     }else{//如果是普通消息
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
         var sHTML = '<li class="mr-chatContentR clearfix" uniqueTime="'+uniqueTime+'">'+
             '<div class="mr-ownChat">'+
-            '<span>'+str+'</span>'+
+            '<span name="'+content+'">' + str + '</span>'+
             '<i></i><em class="infoLoading"  infoTime="'+nSendTime+'"></em>'+
             '</div>'+
             sGroupConverLisit+
@@ -354,12 +355,12 @@ function fillGroupPage(targetID,targetType,groupName){
             }else{
                 $('#groupContainer .mr-chatview').attr('data-on',1);
             }
+            $('.mesContainerGroup .mr-chatview').remove();
             var sDoM = '<div class="mr-chatview"><ul class="mr-chatContent">';
             sDoM=createConversationList(sDoM,list,targetType);
             sDoM+='</ul></div>';
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');
-            $('.mesContainerGroup .mr-chatview').remove();
             $('.mr-record').addClass('active');
             $('.mesContainerGroup').removeClass('mesContainer-translateL');
             //$('#groupContainer .mr-chatview').empty();
@@ -608,15 +609,27 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                                 '<div class="file_type fl"><img  class="fileImg" src="' + imgSrc + '"></div>' +
                                 '<div class="file_content fl">' +
                                 '<p class="p1 file_name">' + sContent.name + '</p>' +
-                                '<p class="p2 file_size data-s="'+sContent.size+'">' + Msize + '</p>' +
+                                '<p class="p2 file_size" data-s="'+sContent.size+'">' + Msize + '</p>' +
                             '</div>' +
                             downLoadFile+fileOperate+
                         '</li>';
                 break;
             case "ImageMessage":
+                var sImgUrl=sContent.imageUri;
+                var sImgName=sImgUrl.split('attname=')[1];
+                var sImgType=sImgName.split('.')[1];
+                var sImageType='';
+                switch (sImgType){
+                    case 'jpg':
+                        sImageType='image/jpeg';
+                        break;
+                    case 'png':
+                        sImageType='image/png';
+                        break;
+                }
                 sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
                             '<img class="headImg" src="'+sImg+'">'+
-                            '<img src="'+sContent.imageUri+'" class="uploadImgLeft uploadImgFile">'+
+                            '<div class="mr-otherImg"><img src="'+sContent.imageUri+'" class="uploadImgLeft uploadImgFile" data-type="'+sImageType+'"></div>'+
                         '</li>';
                 break;
             case "InformationNotificationMessage":
@@ -627,7 +640,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 sDoM += ' <li class="mr-chatContentL clearfix" data-t="' + sSentTime + '">\
                             <img class="headImg" src="' + sImg + '">\
                             <div class="mr-chatBox">\
-                                <span>' + str + '</span>\
+                                <span name="'+sContent+'">' + str + '</span>\
                                 <i></i>\
                             </div>\
                         </li>';
@@ -695,8 +708,20 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                         '</li>';
                 break;
             case "ImageMessage":
+                var sImgUrl=sContent.imageUri;
+                var sImgName=sImgUrl.split('attname=')[1];
+                var sImgType=sImgName.split('.')[1];
+                var sImageType='';
+                switch (sImgType){
+                    case 'jpg':
+                        sImageType='image/jpeg';
+                        break;
+                    case 'png':
+                        sImageType='image/png';
+                        break;
+                }
                 sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
-                        '<img src="'+sContent.imageUri+'" class="uploadImg uploadImgFile">'+
+                        '<div class=" mr-ownImg"><img src="'+sContent.imageUri+'" class="uploadImg uploadImgFile" data-type="'+sImageType+'"></div>'+
                         '</li>';
                 break;
             case "InformationNotificationMessage":
@@ -706,7 +731,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
                 sDoM += ' <li class="mr-chatContentR clearfix" data-t="'+sSentTime+'">\
                             <div class="mr-ownChat">\
-                            <span>' + str + '</span>\
+                            <span name="'+sContent+'">' + str + '</span>\
                             <i></i>\
                             </div>\
                             </li>';
@@ -1050,7 +1075,7 @@ function getChatRecord(aList,sClass){
                 case "TextMessage":
                     var sTextContent=sContent.content;
                     var  str= RongIMLib.RongIMEmoji.symbolToHTML(sTextContent);
-                    sContent='<span>'+str+'</span><i></i>';
+                    sContent='<span><span ></span>'+str+'</span><i></i>';
                     break;
                 case "InformationNotificationMessage":
                     continue;
@@ -1543,10 +1568,21 @@ function reciveInBox(msg){
             case "ImageMessage":
                 var content = msg.content;
                 var fileURL = content.imageUri;
+                var sImgName=fileURL.split('attname=')[1];
+                var sImgType=sImgName.split('.')[1];
+                var sImageType='';
+                switch (sImgType){
+                    case 'jpg':
+                        sImageType='image/jpeg';
+                        break;
+                    case 'png':
+                        sImageType='image/png';
+                        break;
+                }
                 var file = getFileUniqueName(fileURL);
                 var sHTML = ' <li class="mr-chatContentL clearfix" data-t="">'+
                     '<img class="headImg" src="'+sImg+'">'+
-                    '<img src="'+content.imageUri+'" class="uploadImgLeft uploadImgFile">'+
+                    '<div class="mr-otherImg"><img src="'+content.imageUri+'" class="uploadImgLeft uploadImgFile" data-type="'+sImageType+'"></div>'+
                     '</li>';
                 var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
                 parentNode.append($(sHTML));

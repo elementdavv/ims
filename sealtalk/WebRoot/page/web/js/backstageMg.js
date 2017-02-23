@@ -60,8 +60,12 @@ $(document).ready(function(){
         var sInfoContent='';
         var oCopy={};
         if(eTarget.hasClass('uploadImgFile')){
+            var sType='';
             sImgSrc=eTarget.attr('src');
-            oCopy.img=sImgSrc;
+            sType=eTarget.attr('data-type');
+            oCopy.fileUrl=sImgSrc;
+            oCopy.imageUri=sImgSrc;
+            oCopy.type=sType;
             var sCopy=JSON.stringify(oCopy);
             window.localStorage.setItem('copy',sCopy);
         }else{
@@ -81,7 +85,7 @@ $(document).ready(function(){
                 var sCopy=JSON.stringify(oCopy);
                 window.localStorage.setItem('copy',sCopy);
             }else{
-                sInfoContent=eTarget.find('span').html();
+                sInfoContent=eTarget.find('span').attr('name');
                 oCopy={};
                 oCopy.infoContent=sInfoContent;
                var sCopy=JSON.stringify(oCopy);
@@ -107,33 +111,34 @@ $(document).ready(function(){
     });
     $('body').on('click','#infoPaste li',function(){
         $('.myContextMenu').remove();
-        var oPast=JSON.parse(window.localStorage.getItem('copy'));
-        var sImgSrc=oPast.img;
+        var sFileImg=window.localStorage.getItem('copy');
+        var oPast=JSON.parse(sFileImg);
+        var sImgSrc=oPast.fileUrl;
         var sInfoContent=oPast.infoContent;
         var sFile=oPast.file;
         var sOldInfo=$('#chatBox #message-content').html();
+        var targetId='';
+        var targetType='';
+        var nSendTime=new Date().getTime();
+        if(!$('.mesContainerSelf').hasClass('chatHide')){
+            targetId = $('.mesContainerSelf').attr('targetID');
+            targetType = $('.mesContainerSelf').attr('targetType');
+        }else{
+            targetId = $('.mesContainerGroup').attr('targetID');
+            targetType = $('.mesContainerGroup').attr('targetType');
+        }
         //$('#chatBox #message-content').html('');
         if(sImgSrc){
-            var sImg='<img src="'+sImgSrc+'"; class="uploadImgFile"/>';
-            var sNewInfo=sOldInfo+sImg;
-            $('#chatBox #message-content').append(sImg);
+            var extra = "uploadFile";
+            sendMsg(sFileImg,targetId,targetType,extra,'',nSendTime);
+            sendByRongImg(oPast,targetId,targetType,nSendTime);
         }else if(sInfoContent){
             var sNewInfo=sInfoContent;
             $('#chatBox #message-content').append(sNewInfo);
         }else if(sFile){
             sFile.filepaste=1;
             var extra = "uploadFile";
-            var targetId='';
-            var targetType='';
-            if(!$('.mesContainerSelf').hasClass('chatHide')){
-               targetId = $('.mesContainerSelf').attr('targetID');
-               targetType = $('.mesContainerSelf').attr('targetType');
-            }else{
-               targetId = $('.mesContainerGroup').attr('targetID');
-               targetType = $('.mesContainerGroup').attr('targetType');
-            }
             var fileInfo=JSON.stringify(sFile);
-            var nSendTime=new Date().getTime();
                 sendMsg(fileInfo,targetId,targetType,extra,'',nSendTime);
                 sendByRongFile(sFile,targetId,targetType,'',nSendTime);
         }
