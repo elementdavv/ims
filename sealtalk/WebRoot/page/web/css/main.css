@@ -1068,14 +1068,16 @@ span.defaultText{
 }
 .contextTri{
     position: absolute;
-    height: 0px;
-    width: 0px;
-    border: 10px solid #f0f0f0;
-    border-top: 10px solid transparent;
-    border-left: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    left: -20px;
+    height: 10px;
+    width: 13px;
+    /* border: 10px solid #f0f0f0; */
+    /* border-top: 10px solid transparent; */
+    /* border-left: 10px solid transparent; */
+    /* border-bottom: 10px solid transparent; */
+    left: -8px;
     top: 10px;
+    background-color: white;
+    background-position: -1076px -380px;
 }
 .myContextMenu ul{
     margin-left:10px;

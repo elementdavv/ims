@@ -495,7 +495,7 @@ img.uploadImg {
 }
 img.uploadImgLeft {
     float: left;
-    margin-left: 100px;
+    /*margin-left: 100px;*/
     width: auto;
     height: auto;
     max-width: 500px;

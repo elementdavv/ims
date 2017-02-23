@@ -8,7 +8,7 @@ $(function(){
             if (window.Electron) {
                 var curWindow = window.Electron.remote.getCurrentWindow().reload();
             }else{
-                window.location.href = 'system!loginForWeb';
+                window.location.href = 'system!login';
 
             }
 
@@ -134,7 +134,7 @@ function fshowContexMenu(arr,style,id,memShip,targettype,bTopHas,eTarget){
         eDom=eTarget;
     }
     var sHTML = '<div memShip="'+memShip+'" class="myContextMenu" id="'+id+'" style="'+style+'" targetType="'+targetType+'" data-e="'+eDom+'">'+
-        '<div class="contextTri"></div>'+
+        '<div class="contextTri chatLeftIcon"></div>'+
         '<ul>'+listHTML+'</ul>'+
         '</div>';
     $('body').append($(sHTML));

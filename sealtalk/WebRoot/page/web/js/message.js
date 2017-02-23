@@ -1223,6 +1223,7 @@ function searchFromList(flag,id){
     if(normalInfo){
         var data = JSON.parse(normalInfo);
     }
+    id = parseInt(id);
     console.log(flag,id,data);
     for(var i = 0;i<data.length;i++){
         if(data[i].id==id&&data[i].flag==flag){
@@ -1351,7 +1352,7 @@ function showMemberInfo(data,pos){
 
     var sJob=data.position ||'';
     var sHTML = '<div class="memberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
-                    '<div class="contextTri"></div>'+
+                    '<div class="contextTri chatLeftIcon"></div>'+
                     '<ul class="memberInfoHover">'+
                         '<li>'+
                             '<div class="showImgInfo">'+

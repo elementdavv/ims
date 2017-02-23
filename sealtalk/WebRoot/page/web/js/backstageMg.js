@@ -622,10 +622,6 @@ $(document).ready(function(){
         sendAjax('member!updateMemberInfoForWeb',{userid:sId,position:sPosId,fullname:sPerName,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
-               //var sData=window.localStorage.getItem("datas");
-              // var oData= JSON.parse(sData);
-
-               //var sSelfImg=oData.logo;
                oData.sex=sSex;
                oData.email=sEmail;
                oData.phone=sTelephone;
@@ -826,6 +822,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     //console.log(findMemberInList(sCreatorId));
     //var aCreatedate=sCreatedate.join('-');
     var sHTML ='<div class="groupDataBox" style="left:'+pos.left+'px;top:'+pos.top+'px">\
+    <div class="contextTri chatLeftIcon"></div>\
         <ul>\
         <li>\
         <span>群组名称:</span>\
