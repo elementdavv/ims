@@ -404,7 +404,7 @@ function fillGroupPage(targetID,targetType,groupName){
         },
         onError: function(error) {
             $('.mesContainerGroup .mr-chatview').remove();
-            var sDoM = '<div class="mr-chatview"></div>';
+            var sDoM = '<div class="mr-chatview"><ul class="mr-chatContent"></ul></div>';
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');
             $('.mr-record').addClass('active');
@@ -623,16 +623,20 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 break;
             case "ImageMessage":
                 var sImgUrl=sContent.imageUri;
-                var sImgName=sImgUrl.split('attname=')[1];
-                var sImgType=sImgName.split('.')[1];
                 var sImageType='';
-                switch (sImgType){
-                    case 'jpg':
-                        sImageType='image/jpeg';
-                        break;
-                    case 'png':
-                        sImageType='image/png';
-                        break;
+                if(sImgUrl){
+                    var sImgName=sImgUrl.split('attname=')[1];
+                    var sImgType=sImgName.split('.')[1];
+                    switch (sImgType){
+                        case 'jpg':
+                            sImageType='image/jpeg';
+                            break;
+                        case 'png':
+                            sImageType='image/png';
+                            break;
+                    }
+                }else{
+                    sImageType='ImageMessage'
                 }
                 sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
                             '<img class="headImg" src="'+sImg+'">'+
@@ -806,7 +810,7 @@ function fillSelfPage(targetID,targetType){
         },
         onError: function(error) {
             $('#perContainer').find('.mr-chatview').remove();
-            var sDoM = ' <div class="mr-chatview"></div>';
+            var sDoM = ' <div class="mr-chatview"><ul class="mr-chatContent"></ul></div>';
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerSelf').removeClass('chatHide');
             $('.mr-record').addClass('active');
@@ -1588,16 +1592,20 @@ function reciveInBox(msg){
             case "ImageMessage":
                 var content = msg.content;
                 var fileURL = content.imageUri;
-                var sImgName=fileURL.split('attname=')[1];
-                var sImgType=sImgName.split('.')[1];
-                var sImageType='';
-                switch (sImgType){
-                    case 'jpg':
-                        sImageType='image/jpeg';
-                        break;
-                    case 'png':
-                        sImageType='image/png';
-                        break;
+                if(fileURL){
+                    var sImgName=fileURL.split('attname=')[1];
+                    var sImgType=sImgName.split('.')[1];
+                    var sImageType='';
+                    switch (sImgType){
+                        case 'jpg':
+                            sImageType='image/jpeg';
+                            break;
+                        case 'png':
+                            sImageType='image/png';
+                            break;
+                    }
+                }else{
+                    sImageType='ImageMessage';
                 }
                 var file = getFileUniqueName(fileURL);
                 var sHTML = ' <li class="mr-chatContentL clearfix" data-t="">'+
