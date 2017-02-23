@@ -325,8 +325,14 @@ $(document).ready(function(){
         $(this).addClass('active');
         $('.perSetBox').addClass('chatHide');
         $('.perSetBox').eq($(this).index()).removeClass('chatHide');
-        if($(this).index()==0){
-            fPersonalSet();
+        var sType=$(this).attr('data-type');
+        switch (sType){
+            case "0":
+                fPersonalSet();
+                break;
+            case "2":
+                $('.changePassword input').val('');
+                $('.changePassword p').html('');
         }
     });
     $('#chatBox').on('click','#changeHeadImgId',function(){
@@ -1035,6 +1041,9 @@ function keerNewPw(oldpwd,newPw,comparepwd){
                 textForcancleBtn : false,
                 autoHide:true
             });
+            $('.changePassword input').val('');
+            $('.changePassword p').html('');
+            $('.cp-passwordSecurity li').css('background','rgb(237, 237, 237)');
             oAccount.userpwd=newPw;
             window.localStorage.account=JSON.stringify(oAccount);
         }
