@@ -129,11 +129,11 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
     }
 
     //写消息区域清空
-    parent.find('.textarea').empty();
     callback&&callback();
     //调用融云的发送文件
     if(extra!='uploadFile'&&(limit.indexOf('ltszwjsc')!=-1||way== 'PRIVATE')){
         //sendByRong(content,targetId,way);
+        parent.find('.textarea').empty();
         sendByRong(content,targetId,way,'',uniqueTime);
     }
 }
