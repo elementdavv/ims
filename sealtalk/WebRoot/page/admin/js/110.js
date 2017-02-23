@@ -21,12 +21,16 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('#branchsave').click(function(){
 		if (curbranch == 0) {
-			bootbox.alert({'title':'提示', 'message': '请先选择部门.'});
+			bootbox.alert({'title':'提示', 'message': '请先选择部门.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 		
@@ -38,7 +42,9 @@ $(document).ready(function(){
 			callajax('branch!saveBranch', data, cb_110_1);
 		}
 		else {
-			bootbox.alert({'title':'提示', 'message':'您没有权限修改部门信息.'});
+			bootbox.alert({'title':'提示', 'message':'您没有权限修改部门信息.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 })
@@ -57,5 +63,7 @@ function loadbranch(data) {
 	$('#branchintro').val(data.intro);
 }
 function cb_110_1(data) {
-	bootbox.alert({'title':'提示', 'message':'保存成功.'});
+	bootbox.alert({'title':'提示', 'message':'保存成功.', callback: function() {
+		$('#container').css('width', document.body.clientWidth + 'px');	
+	}});
 }

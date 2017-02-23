@@ -100,7 +100,9 @@ function create(id) {
 		});
 	}
 	else {
-		bootbox.alert({'title':'提示','message':'您没有权限修改创建者.'});
+		bootbox.alert({'title':'提示','message':'您没有权限修改创建者.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function dismiss(id) {
@@ -113,11 +115,14 @@ function dismiss(id) {
 			callback: function(result) {
 				if (!result) return;
 				callajax('grp!dismiss', {id: id}, cb_13_dismiss);
-			}
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			},
 		});
 	}
 	else {
-		bootbox.alert({'title':'提示','message':'您没有权限解散群组.'});
+		bootbox.alert({'title':'提示','message':'您没有权限解散群组.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function cb_13_dismiss(data) {

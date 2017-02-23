@@ -56,16 +56,22 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 });
 function cb_11_save_branch(data) {
 	if (data.branchid == '0') {
-		bootbox.alert({'title':'提示', 'message':'部门名称已存在，请重新输入.'});
+		bootbox.alert({'title':'提示', 'message':'部门名称已存在，请重新输入.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 	else {
-//		bootbox.alert({'title':'提示', 'message':'添加成功.'});
+		bootbox.alert({'title':'提示', 'message':'添加成功.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 		callajax("branch!getOrganTree", "", cb_11_tree);
 		if ($('#11branchcontinue').prop('checked') == false) {
 			$('#branch').modal('hide');
