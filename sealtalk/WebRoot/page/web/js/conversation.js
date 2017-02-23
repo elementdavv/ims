@@ -403,6 +403,13 @@ function fillGroupPage(targetID,targetType,groupName){
             }
         },
         onError: function(error) {
+            $('.mesContainerGroup .mr-chatview').remove();
+            var sDoM = '<div class="mr-chatview"></div>';
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerGroup').removeClass('chatHide');
+            $('.mr-record').addClass('active');
+            $('.mesContainerGroup').removeClass('mesContainer-translateL');
+            $('#groupContainer .mr-chateditBox').before(sDoM);
             // APP未开启消息漫游或处理异常
             // throw new ERROR ......
         }
@@ -750,11 +757,11 @@ function fillSelfPage(targetID,targetType){
             }else{
                 $('#perContainer .mr-chatview').attr('data-on',1);
             }
+            $('#perContainer').find('.mr-chatview').remove();
             var sDoM = ' <div class="mr-chatview"><ul class="mr-chatContent">';
             sDoM=createConversationList(sDoM,list,targetType);
             sDoM+='</ul></div>';
-            $('#perContainer').find('.mr-chatview').remove();
-            $('#perContainer .mr-chatview').empty();
+            //$('#perContainer .mr-chatview').empty();
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerSelf').removeClass('chatHide');
             $('.mr-record').addClass('active');
@@ -798,6 +805,12 @@ function fillSelfPage(targetID,targetType){
             }
         },
         onError: function(error) {
+            $('#perContainer').find('.mr-chatview').remove();
+            var sDoM = ' <div class="mr-chatview"></div>';
+            $('.orgNavClick').addClass('chatHide');
+            $('.mesContainerSelf').removeClass('chatHide');
+            $('.mr-record').addClass('active');
+            $('#perContainer .mr-chateditBox').before(sDoM);
             // APP未开启消息漫游或处理异常
             // throw new ERROR ......
         }
