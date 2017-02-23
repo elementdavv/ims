@@ -18,6 +18,7 @@ $(document).ready(function(){
                var sTargettype=$('#perContainer').attr('targettype');
                var sTargetid=$('#perContainer').attr('targetid');
                var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+               $('#infoDetailsBox .infoDet-chatRecord .infoDet-search input').val('');
                var oPagetest = new PageObj({divObj:$perEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
                {
                    getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
@@ -395,6 +396,7 @@ $(document).ready(function(){
                 var sTargettype=$('#groupContainer').attr('targettype');
                 var sTargetid=$('#groupContainer').attr('targetid');
                 var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+                $('#groupDetailsBox .infoDet-chatRecord .infoDet-search input').val('');
                 console.log($groupEle);
                 var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
                 {

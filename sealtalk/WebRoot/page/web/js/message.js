@@ -728,6 +728,7 @@ $(function(){
                                         var data = JSON.parse(datas);
                                         var userid = data.id;
                                         sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
+                                            $('#perContainer').addClass('chatHide');
                                             getGroupList(userid);
                                             removeConvers("GROUP",groupid);
                                         },function(){
@@ -1113,8 +1114,10 @@ function removeConvers(type,id,$topEle){
             switch(type){
                 case 'GROUP':
                     nTopType=1;
+                    $('#groupContainer').addClass('chatHide');
                     break;
                 case 'PRIVATE':
+                    $('#perContainer').addClass('chatHide');
                     nTopType=2;
                     break;
             }
@@ -1288,7 +1291,6 @@ function cancleRelation(account,friend){
         console.log(data);
         if(datas.code==1){
             //刷新常用联系人
-            getMemberFriends(account);
             new Window().alert({
                 title   : '解除成功',
                 content : '好友解除成功！',
@@ -1298,6 +1300,10 @@ function cancleRelation(account,friend){
                 textForcancleBtn : false,
                 autoHide:true
             });
+            setTimeout(function(){
+                $('#perContainer').addClass('chatHide');
+                getMemberFriends(account);
+            },1000)
         }
     })
 }
