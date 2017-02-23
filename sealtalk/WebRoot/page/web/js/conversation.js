@@ -412,6 +412,7 @@ function conversationGroup(targetID,targetType,groupName,callback){
     //噗页面
     fillGroupPage(targetID,targetType,groupName)
     //清空消息盒子
+    //checkShutUp();
     $('.message-content').html();
     //换title
     $('.perSetBox-title span').html(groupName);
@@ -454,35 +455,15 @@ function conversationGroup(targetID,targetType,groupName,callback){
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
         var content = $(this).prev().html();
-        if(content){
+        var flag = $(this).prev().attr('contenteditable');
+
+        if(content&&flag=='true'){
             var targetId = $('.mesContainerGroup').attr('targetID');
             var targetType = $('.mesContainerGroup').attr('targetType');
             //显示到盒子里
             //sendMsg(content,targetId,targetType);
             sendMsg(content,targetId,targetType,'','',new Date().getTime())
         }
-        //if($(this).prev().find('.uploadImgFile').length>0){
-        //    var sImg = $(this).prev().find('.uploadImgFile').attr('src');
-        //    var content={};
-        //    content.name=sImg.split('attname=')[1];
-        //   var  sType=sImg.split('.')[sImg.split('.').length-1];
-        //    switch (sType){
-        //        case "png":
-        //            sType="images/png";
-        //            break;
-        //        case 'jpg':
-        //            sType="image/jpeg";
-        //            break;
-        //    }
-        //    content.type=sType;
-        //   content = JSON.stringify(content);
-        //    var targetId = $('.mesContainerGroup').attr('targetID');
-        //    var targetType = $('.mesContainerGroup').attr('targetType');
-        //    var extra = "uploadFile";
-        //    //显示到盒子里
-        //    sendMsg(content,targetId,targetType,extra);
-        //}else{
-        //}
     });
 
     $('.mr-record').addClass('active');
@@ -842,6 +823,7 @@ function getGroupDetails(groupId){
     var sdata = localStorage.getItem('datas');
     var accountID = JSON.parse(sdata).id;
     var voiceState = '';
+    //消息免打扰
     sendAjax('fun!getNotRecieveMsg',{groupid:groupId,userid:accountID},function(data){
         if(data){
             var datas = JSON.parse(data);
@@ -893,8 +875,8 @@ function getGroupMembersList(groupid){
             var sDom='<div class="groupInfo-number clearfix">\
             <span>成员('+aNewMember.length+')</span>\
             <p class="clearfix">\
-            <i class="groupInfo-noChat" data-groupid="'+groupid+'"></i>\
-            <i class="groupInfo-groupManage" memship="'+smemship+'"></i>\
+            <i class="groupInfo-noChat" data-groupid="'+groupid+'" title="禁言"></i>\
+            <i class="groupInfo-groupManage" memship="'+smemship+'" title="群成员管理"></i>\
             </p>\
             </div>\
             <ul class="groupInfo-memberAll">';
@@ -917,27 +899,30 @@ function getGroupMembersList(groupid){
             $('#groupData .group-data .groupInfo-memberList').append(sDom);
             console.log(oGroupidList);
             //查询群禁言状态
-            sendAjax('group!getShutUpGroupStatus',{groupid:groupid},function(data){
-                var sdata = localStorage.getItem('datas');
-                var accountID = JSON.parse(sdata).id;
-                var groupInfo = groupInfoFromList(groupid);
-                if(data){
-                    var datas = JSON.parse(data);
-                    if(datas&&datas.code==1&&datas.text==true&&accountID!=groupInfo.mid){
-                        $('.groupInfo-noChat').attr('data-chat','1');
-                        $('#groupContainer #message-content').attr('contenteditable','false');
-                        $('#groupContainer #message-content').html('群主已开启禁言!');
-
-                    }else if(datas&&datas.code==0&&datas.text==false){
-                        $('.groupInfo-noChat').attr('data-chat','0');
-                        $('#groupContainer #message-content').attr('contenteditable','true');
-                        $('#groupContainer #message-content').attr('placeholder','请输入文字...');
-
-                    }
-                }
-            })
+            checkShutUp();
+            //sendAjax('group!getShutUpGroupStatus',{groupid:groupid},function(data){
+            //    var sdata = localStorage.getItem('datas');
+            //    var accountID = JSON.parse(sdata).id;
+            //    var groupInfo = groupInfoFromList(groupid);
+            //    if(data){
+            //        var datas = JSON.parse(data);
+            //        if(datas&&datas.code==1&&datas.text==true){
+            //            //if(datas&&datas.code==1&&datas.text==true&&accountID!=groupInfo.mid){
+            //            $('.groupInfo-noChat').attr('data-chat','1');
+            //            if(accountID!=groupInfo.mid) {
+            //                $('#groupContainer #message-content').attr('contenteditable', 'false');
+            //                $('#groupContainer #message-content').html('群主已开启禁言!');
+            //            }
+            //
+            //        }else if(datas&&datas.code==1&&datas.text==false){
+            //            $('.groupInfo-noChat').attr('data-chat','0');
+            //
+            //            $('#groupContainer #message-content').attr('contenteditable','true');
+            //            $('#groupContainer #message-content').attr('placeholder','请输入文字...');
+            //        }
+            //    }
+            //})
         }
-
     });
 }
 /**

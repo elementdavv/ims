@@ -220,7 +220,16 @@ $(document).ready(function(){
         var groupInfo = groupInfoFromList(groupid);
         //console.log(groupInfo);
         if(accountID!=groupInfo.mid){//任何人都可以禁言？？
-            //return false;
+            new Window().alert({
+                title   : '',
+                content : '群主可以开启禁言！',
+                hasCloseBtn : false,
+                hasImg : true,
+                textForSureBtn : false,
+                textForcancleBtn : false,
+                autoHide:true
+            });
+            return false;
         }
         var sChat=$(this).attr('data-chat');
         if(sChat==1){
@@ -270,10 +279,12 @@ $(document).ready(function(){
                     sendAjax('group!shutUpGroup',{groupid:groupid},function(data){
                         if(data){
                             var oData=JSON.parse(data);
-                            if(oData.code==1&&accountID!=groupInfo.mid){
+                            if(oData.code==1){
                                 $('#groupData .groupInfo-noChat').attr('data-chat',1);
-                                $('#groupContainer #message-content').attr('contenteditable','false');
-                                $('#groupContainer #message-content').html('群主已开启禁言!');
+                                if(accountID!=groupInfo.mid){
+                                    $('#groupContainer #message-content').attr('contenteditable','false');
+                                    $('#groupContainer #message-content').html('群主已开启禁言!');
+                                }
                             }
                         }
                     },function(){
@@ -508,12 +519,15 @@ $(document).ready(function(){
         var grounpName = $(e.target).prev('span').html();
         switch(targeType){
             case 'GROUP':
+                checkShutUp();
+
                 conversationGroup(targetID,targeType,grounpName);
                 $('.orgNavClick').addClass('chatHide');
                 $('.mesContainerGroup').removeClass('chatHide');
                 break;
             case 'PRIVATE':
                 conversationSelf(targetID,targeType);
+
                 $('.orgNavClick').addClass('chatHide');
                 $('.mesContainerSelf').removeClass('chatHide');
                 break;
@@ -842,6 +856,37 @@ function showGroupMemberInfo(oGroupInfo,pos){
     </div>';
     $('body').append($(sHTML));
 }
+
+//查询群组禁言
+function checkShutUp(){
+    var targetGroup = $('#groupContainer');
+    var groupId = targetGroup.attr('targetid');
+
+    sendAjax('group!getShutUpGroupStatus',{groupid:groupId},function(data){
+        var sdata = localStorage.getItem('datas');
+        var accountID = JSON.parse(sdata).id;
+        var groupInfo = groupInfoFromList(groupId);
+        if(data){
+            var datas = JSON.parse(data);
+            if(datas&&datas.code==1&&datas.text==true){
+                $('.groupInfo-noChat').attr('data-chat','1');
+                if(accountID!=groupInfo.mid) {
+                    $('#groupContainer #message-content').attr('contenteditable', 'false');
+                    $('#groupContainer #message-content').html('群主已开启禁言!');
+                }
+            }else if(datas&&datas.code==1&&datas.text==false){
+                $('.groupInfo-noChat').attr('data-chat','0');
+                $('#groupContainer #message-content').attr('contenteditable','true');
+                $('#groupContainer #message-content').attr('placeholder','请输入文字...');
+                $('#groupContainer #message-content').html('');
+            }
+        }
+    })
+
+
+}
+
+
 function subTimer(string){
     var y=string.substring(0,4);
     var m=string.substring(4,6);

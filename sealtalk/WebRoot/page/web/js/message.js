@@ -2,8 +2,11 @@
  * Created by zhu_jq on 2017/1/10.
  */
 $(function(){
-
-
+    //查询群组禁言
+    var groupShutupTimer = null
+    groupShutupTimer = setInterval(function(){
+        checkShutUp()
+    },5000)
 
     //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
@@ -494,10 +497,14 @@ $(function(){
         if(targeType=='PRIVATE'){
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerSelf').removeClass('chatHide');
+            $('#groupContainer #message-content').attr('contenteditable','true');
+            $('#groupContainer #message-content').attr('placeholder','请输入文字...');
+            $('#groupContainer #message-content').html('');
             conversationSelf(targetID,targeType,callback);
         }else{
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');
+            checkShutUp();
             conversationGroup(targetID,targeType,groupName,callback);
         }
         //callback&&callback();
@@ -611,9 +618,10 @@ $(function(){
             var targeType = 'GROUP';
             var groupName = $(this).find('.groupName').html();
             groupTimer=setTimeout(function (){
-                conversationGroup(targetID,targeType,groupName);
                 $('.orgNavClick').addClass('chatHide');
                 $('.mesContainerGroup').removeClass('chatHide');
+                checkShutUp();
+                conversationGroup(targetID,targeType,groupName);
             },200);
         }
         $('.groupChatListUl li').removeClass('active');
