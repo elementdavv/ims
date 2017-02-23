@@ -54,7 +54,9 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			bootbox.alert({title:'提示', message:'您没有权限添加部门.'});
+			bootbox.alert({title:'提示', message:'您没有权限添加部门.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('.addmember').click(function(){
@@ -67,7 +69,9 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			bootbox.alert({title:'提示', message:'您没有权限添加人员.'});
+			bootbox.alert({title:'提示', message:'您没有权限添加人员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('.addbatch').click(function(){
@@ -80,7 +84,9 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			bootbox.alert({title:'提示', message:'您没有权限批量导入成员.'});
+			bootbox.alert({title:'提示', message:'您没有权限批量导入成员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	
@@ -554,20 +560,26 @@ function mov(tId) {
 	var ns = t.getNodesByParam('tId', tId, null);
 
 	if (ns[0].flag == 0) {
-		bootbox.alert({title:'提示', message:'不能移动组织.'});
+		bootbox.alert({title:'提示', message:'不能移动组织.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 		return;
 	}
 	
 	//权限
 	else if (ns[0].flag == 1) {
 		if (!has('bmglyd')) {
-			bootbox.alert({title:'提示', message:'您没有权限移动部门.'});
+			bootbox.alert({title:'提示', message:'您没有权限移动部门.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 	}
 	else if (ns[0].flag == 2){
 		if (!has('rsglyd')) {
-			bootbox.alert({title:'提示', message:'您没有权限移动人员.'});
+			bootbox.alert({title:'提示', message:'您没有权限移动人员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 	}
@@ -586,25 +598,33 @@ function del(tId) {
 	var ns = t.getNodesByParam('tId', tId, null);
 
 	if (ns[0].flag == 0) {
-		bootbox.alert({title:'提示', message:'不能删除组织.'});
+		bootbox.alert({title:'提示', message:'不能删除组织.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 		return;
 	}
 	
 	if (ns[0].id == '10001') {
-		bootbox.alert({title:'提示', message:'不能删除组织管理员.'});
+		bootbox.alert({title:'提示', message:'不能删除组织管理员.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 		return;
 	}
 	
 	//权限
 	else if (ns[0].flag == 1) {
 		if (!has('bmglsc')) {
-			bootbox.alert({title:'提示', message:'您没有权限删除部门.'});
+			bootbox.alert({title:'提示', message:'您没有权限删除部门.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 	}
 	else if (ns[0].flag == 2){
 		if (!has('rsglsc')) {
-			bootbox.alert({title:'提示', message:'您没有权限删除人员.'});
+			bootbox.alert({title:'提示', message:'您没有权限删除人员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 	}
@@ -627,13 +647,19 @@ function del(tId) {
 							this.modal('hide');
 							callajax('branch!del', {id: ns[0].id, r: 1}, cb_del_member);
 						}
+					},
+					callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
 					}
 				});
 			}
 			else {
 				callajax('branch!del', {id: ns[0].id, r: 0}, cb_del_member);
 			}
-		}
+		},
+		callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		},
 	});
 }
 function hasChildBranch(id) {

@@ -31,7 +31,9 @@ $(document).ready(function() {
 
 		//权限
 		if (! has('zzxxglxg')) {
-			bootbox.alert({'title':'提示','message':'您没有权限修改组织信息'});
+			bootbox.alert({'title':'提示','message':'您没有权限修改组织信息', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 			return;
 		}
 
@@ -63,7 +65,9 @@ $(document).ready(function() {
 	});
 });
 function cb_12_save(data) {
-	bootbox.alert({'title':'提示','message': '保存成功.'});
+	bootbox.alert({'title':'提示','message': '保存成功.', callback: function() {
+		$('#container').css('width', document.body.clientWidth + 'px');	
+	}});
 	complete();
 }
 function loadmeta() {
@@ -157,7 +161,9 @@ function edit() {
 		$('#filename').val('');
 	}
 	else {
-		bootbox.alert({'title':'提示','message':'您没有权限修改组织LOGO'});
+		bootbox.alert({'title':'提示','message':'您没有权限修改组织LOGO', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 	return false;
 }
@@ -169,7 +175,9 @@ function del() {
 		$('#logo').prop('src', imagedir + 'defaultlogo.png');
 	}
 	else {
-		bootbox.alert({'title':'提示','message':'您没有权限删除组织LOGO'});
+		bootbox.alert({'title':'提示','message':'您没有权限删除组织LOGO', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function complete() {

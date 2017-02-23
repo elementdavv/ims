@@ -24,6 +24,7 @@ import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TextHttpSender;
+import com.sealtalk.utils.TimeGenerator;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -248,9 +249,11 @@ public class BranchAction extends BaseAction {
 			member.setAccount(this.request.getParameter("memberaccount"));
 		if (this.request.getParameter("memberaddress") != null)
 			member.setAddress(this.request.getParameter("memberaddress"));
-		if (!"".equals(this.request.getParameter("memberbirthday"))) {
+		if (this.request.getParameter("memberbirthday") != null) {
 			String bd = this.request.getParameter("memberbirthday");
-			member.setBirthday(bd.substring(0,4) + bd.substring(5,7) + bd.substring(8,10));
+			if (bd.length() == 10) {
+				member.setBirthday(bd.substring(0,4) + bd.substring(5,7) + bd.substring(8,10));
+			}
 		}
 		if (this.request.getParameter("memberemail") != null)
 			member.setEmail(this.request.getParameter("memberemail"));
@@ -271,6 +274,9 @@ public class BranchAction extends BaseAction {
 		
 		member.setOrganId(this.getOrganId());
 
+		long now = TimeGenerator.getInstance().getUnixTime();
+		member.setCreatetokendate(Integer.valueOf(String.valueOf(now)));
+		
 		Integer memberId = branchService.saveMember(member);
 
 		//部门职务
@@ -387,6 +393,9 @@ public class BranchAction extends BaseAction {
 		branchService.reset(Integer.parseInt(memberid), md5password);
 
 		// 发短信
+		TMember member = branchService.getMemberObjectById(Integer.parseInt(memberid));
+		String msg = "您的IMS密码已重置为" + newpassword;
+		TextHttpSender.getInstance().sendText(member.getMobile(), msg);
 		
 		JSONObject jo = new JSONObject();
 		jo.put("branchmemberid", memberid );

@@ -26,6 +26,8 @@ import com.sealtalk.service.adm.BranchService;
 import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.StringUtils;
+import com.sealtalk.utils.TextHttpSender;
+import com.sealtalk.utils.TimeGenerator;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -537,6 +539,7 @@ public class BranchServiceImpl implements BranchService {
 		
 		// 存人员
 		Iterator<ImpUser> it = ua.iterator();
+		long now = TimeGenerator.getInstance().getUnixTime();
 		while(it.hasNext()) {
 			ImpUser user = it.next();
 			TMember m = new TMember();
@@ -552,8 +555,16 @@ public class BranchServiceImpl implements BranchService {
 			m.setPassword(PasswordGenerator.getInstance().getMD5Str("111111"));
 			m.setGroupmax(0);
 			m.setGroupuse(0);
+			m.setCreatetokendate(Integer.valueOf(String.valueOf(now)));
 			memberDao.save(m);
 			user.setId(m.getId());
+
+			// 发短信
+			String mobile = user.getMobile();
+			if (mobile.length() == 11) {
+				String msg = "您的IMS产品帐号" + m.getAccount() + ", 密码111111.";
+				TextHttpSender.getInstance().sendText(mobile, msg);
+			}
 		}
 
 		// 存部门
@@ -607,12 +618,6 @@ public class BranchServiceImpl implements BranchService {
 			branchMemberDao.save(bm);
 		}		
 		
-		// 发短信
-		it = ua.iterator();
-		while(it.hasNext()) {
-			ImpUser user = it.next();
-			
-		}
 	}
 
 	private String pinyin2account(String pinyin) {

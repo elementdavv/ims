@@ -64,6 +64,9 @@ $(document).ready(function() {
 				bootbox.alert({
 					'title': '提示',
 					'message': '请选择XLS、XLSX格式文件.',
+					callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
+					},
 				});
 			}
 			$('#impfile').val('');
@@ -102,7 +105,9 @@ function onedit(tr) {
 	js[0] = tojson(tr);
 	callajax('branch!impcheck', {'jtext': JSON.stringify(js)}, function(data) {
 		if (data.status == 3) {
-			bootbox.alert({'title': '提示', 'message': '数据库访问错误，请联系系统管理员.'});
+			bootbox.alert({'title': '提示', 'message': '数据库访问错误，请联系系统管理员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 		else {
 			if (data['bad'].length == 1) {
@@ -128,7 +133,9 @@ function updategood(name) {
 			js[0] = tojson(trs[i]);
 			callajax('branch!impcheck', {'jtext': JSON.stringify(js)}, function(data) {
 				if (data.status == 3) {
-					bootbox.alert({'title': '提示', 'message': '数据库访问错误，请联系系统管理员.'});
+					bootbox.alert({'title': '提示', 'message': '数据库访问错误，请联系系统管理员.', callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
+					}});
 				}
 				else {
 					if (data['bad'].length == 1) {
@@ -203,16 +210,24 @@ function onimp() {
 				clearInterval(tid);
 				var ret = $.parseJSON(t);
 				if (ret.status == 1) {
-					bootbox.alert({'title': '提示', 'message': '文件类型错误，请重新选择文件.'});
+					bootbox.alert({'title': '提示', 'message': '文件类型错误，请重新选择文件.', callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
+					}});
 				}
 				else if (ret.status == 2) {
-					bootbox.alert({'title': '提示', 'message': '文件读取错误，请联系系统管理员.'});
+					bootbox.alert({'title': '提示', 'message': '文件读取错误，请联系系统管理员.', callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
+					}});
 				}
 				else if (ret.status == 3) {
-					bootbox.alert({'title': '提示', 'message': '数据库访问错误，请联系系统管理员.'});
+					bootbox.alert({'title': '提示', 'message': '数据库访问错误，请联系系统管理员.', callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
+					}});
 				}
 				else if (ret.status == 4) {
-					bootbox.alert({'title': '提示', 'message': '文件格式错误，请重新选择文件.'});
+					bootbox.alert({'title': '提示', 'message': '文件格式错误，请重新选择文件.', callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
+					}});
 				}
 				else {
 					showdata(ret);
@@ -313,6 +328,12 @@ function okimp() {
 
 	var trs = $('#implgood').find('tr');
 	
+	if (trs.length < 1) {
+		bootbox.alert({'title': '提示', 'message': '没有数据可以导入.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
+		return;
+	}
 	var i = 0;
 	var js = [];
 	while(i < trs.length) {
@@ -322,6 +343,7 @@ function okimp() {
 
 	callajax('branch!impsave', {'jtext': JSON.stringify(js)}, function(data) {
 		if (data.status == 0) {
+			alert(data.succeed);
 			$('#succeed').text(data.succeed);
 			$('#fail').text(data.fail);
 			$('#imp2').hide();
@@ -329,7 +351,9 @@ function okimp() {
 			callajax("branch!getOrganTree", "", cb_11_tree);
 		}
 		else {
-			bootbox.alert({'title': '提示', 'message': '保存失败，请联系系统管理员.'});
+			bootbox.alert({'title': '提示', 'message': '保存失败，请联系系统管理员.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 }

@@ -45,10 +45,14 @@ $(document).ready(function(){
 })
 function cb_11_save_member(data) {
 	if (data.memberid == '0') {
-		bootbox.alert({'title':'提示', 'message':'帐号已存在，请重新输入.'});
+		bootbox.alert({'title':'提示', 'message':'帐号已存在，请重新输入.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 	else {
-		bootbox.alert({'title':'提示', 'message':'账号和密码已经通过短信通知对方.'});
+		bootbox.alert({'title':'提示', 'message':'账号和密码已经通过短信通知对方.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 		callajax("branch!getOrganTree", "", cb_11_tree);
 		if ($('#11membercontinue').prop('checked') == false) {
 			$('#member').modal('hide');

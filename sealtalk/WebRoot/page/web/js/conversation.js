@@ -1529,11 +1529,18 @@ function reciveInBox(msg){
     var content = messageType=="TextMessage"?msg.content.content:msg.content;
     var targetType = msg.conversationType;
     //clearNoReadMsg(targetType,targetID);
-    var oData=findMemberInList(targetID);
-    if(oData){
-        var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
+    //var oData=findMemberInList(targetID);
+    var senderUserId =msg.senderUserId;
+    var senderUser = searchFromList(1,senderUserId);
+    //if(oData){
+    //    var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
+    //}else{
+    //    var sImg=globalVar.defaultLogo;
+    //}
+    if(senderUser){
+        var senderImg = senderUser.logo?globalVar.imgSrc+senderUser.logo:globalVar.defaultLogo;
     }else{
-        var sImg=globalVar.defaultLogo;
+        var senderImg = globalVar.defaultLogo;
     }
 
     if(targetType==3){//群聊 找到各自的消息容器
@@ -1553,7 +1560,7 @@ function reciveInBox(msg){
                 var file = getFileUniqueName(fileURL);
                 //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
                 var sHTML = '<li class="mr-chatContentLFile clearfix">'+
-                    '<img class="headImg" src="'+sImg+'">'+
+                    '<img class="headImg" src="'+senderImg+'">'+
                     '<div class="mr-chatBox">'+
                     '<div class="file_type fl"><img class="fileImg" src="'+imgSrc+'"></div>'+
                     '<div class="file_content fl">' +
@@ -1581,15 +1588,15 @@ function reciveInBox(msg){
                 }
                 var file = getFileUniqueName(fileURL);
                 var sHTML = ' <li class="mr-chatContentL clearfix" data-t="">'+
-                    '<img class="headImg" src="'+sImg+'">'+
+                    '<img class="headImg" src="'+senderImg+'">'+
                     '<div class="mr-otherImg"><img src="'+content.imageUri+'" class="uploadImgLeft uploadImgFile" data-type="'+sImageType+'"></div>'+
                     '</li>';
                 var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
                 parentNode.append($(sHTML));
-                $('.uploadImgFile').on('load',function(){
-                    var eDom=document.querySelector('#perContainer .mr-chatview');
-                    eDom.scrollTop = eDom.scrollHeight;
-                })
+                //$('.uploadImgFile').on('load',function(){
+                //    var eDom=document.querySelector('#perContainer .mr-chatview');
+                //    eDom.scrollTop = eDom.scrollHeight;
+                //})
                 break;
             case "VoiceMessage":
                 var base64Str = content.content;
@@ -1603,7 +1610,7 @@ function reciveInBox(msg){
                 RongIMLib.RongIMVoice.play(base64Str,duration);
                 RongIMLib.RongIMVoice.stop(base64Str);
                 var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
-                    '<img class="headImg" src="'+sImg+'">'+
+                    '<img class="headImg" src="'+senderImg+'">'+
                     '<div class="mr-chatBox">'+
                     '<p class="voiceMsgContent" style="width:'+curWidth+'px" base64Str="'+base64Str+'"></p>'+
                     '</div>'+
@@ -1615,7 +1622,7 @@ function reciveInBox(msg){
             case "TextMessage":
                 var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
                 var sHTML = '<li messageUId="' + msg.messageUId + '" sentTime="' + msg.sentTime + '" class="mr-chatContentL clearfix">' +
-                    '<img class="headImg" src="'+sImg+'">' +
+                    '<img class="headImg" src="'+senderImg+'">' +
                     '<div class="mr-chatBox">' +
                     '<span>' + str + '</span>' +
                     '<i></i>' +
@@ -1625,7 +1632,12 @@ function reciveInBox(msg){
                 parentNode.append($(sHTML));
                 break;
         }
-        //eDom.scrollTop = eDom.scrollHeight;
+        if($('#groupContainer .uploadImgFile').length!=0){
+            $('.uploadImgFile').on('load',function(){
+                eDom.scrollTop = eDom.scrollHeight;
+            })
+        }
+        eDom.scrollTop = eDom.scrollHeight;
         var targetType = targetType == 1?'PRIVATE':'GROUP';
         clearNoReadMsg(targetType,targetID,function(){
             getConverList();

@@ -42,7 +42,9 @@ $(document).ready(function(){
 			callajax('branch!saveMember', data, cb_111_1);
 		}
 		else {
-			bootbox.alert({'title':'提示', 'message':'您没有权限修改人员信息.'});
+			bootbox.alert({'title':'提示', 'message':'您没有权限修改人员信息.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('.addposition').click(function(){
@@ -50,7 +52,9 @@ $(document).ready(function(){
 		//权限
 		if (has('rsgljcxx')) {
 			if ($('#branchmember').children().length > 4) {
-				bootbox.alert({'title':'提示', 'message':'每个成员最多兼职5个部门.'});
+				bootbox.alert({'title':'提示', 'message':'每个成员最多兼职5个部门.', callback: function() {
+					$('#container').css('width', document.body.clientWidth + 'px');	
+				}});
 			}
 			else {
 				branchmemberid = 0;
@@ -61,7 +65,9 @@ $(document).ready(function(){
 			}
 		}
 		else {
-			bootbox.alert({'title':'提示', 'message':'您没有权限添加人员职位.'});
+			bootbox.alert({'title':'提示', 'message':'您没有权限添加人员职位.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 	$('#reset111').click(function(){
@@ -74,7 +80,9 @@ $(document).ready(function(){
 			});
 		}
 		else {
-			bootbox.alert({title:'提示', message:'您没有权限修改人员密码.'});
+			bootbox.alert({title:'提示', message:'您没有权限修改人员密码.', callback: function() {
+				$('#container').css('width', document.body.clientWidth + 'px');	
+			}});
 		}
 	});
 })
@@ -90,7 +98,9 @@ function editbranchmember(bmid) {
 		});
 	}
 	else {
-		bootbox.alert({'title':'提示', 'message':'您没有权限修改人员职位.'});
+		bootbox.alert({'title':'提示', 'message':'您没有权限修改人员职位.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function delbranchmember(bmid) {
@@ -104,11 +114,14 @@ function delbranchmember(bmid) {
 				if (result == true) {
 					callajax("branch!delBranchMember", {branchmemberid: bmid}, cb_112_position_del);
 				}
+				$('#container').css('width', document.body.clientWidth + 'px');	
 			}
 		});
 	}
 	else {
-		bootbox.alert({'title':'提示', 'message':'您没有权限删除人员职位.'});
+		bootbox.alert({'title':'提示', 'message':'您没有权限删除人员职位.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function setmaster(bmid) {
@@ -117,7 +130,9 @@ function setmaster(bmid) {
 		callajax("branch!setMaster", {branchmemberid: bmid}, cb_112_position_master);
 	}
 	else {
-		bootbox.alert({'title':'提示', 'message':'您没有权限设置主要职位.'});
+		bootbox.alert({'title':'提示', 'message':'您没有权限设置主要职位.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 }
 function cb_112_position_tree(data) {
@@ -165,7 +180,9 @@ function cb_112_position_del(data) {
 		
 	}
 	else if (data.branchmemberid > 0) {
-		bootbox.alert({'title':'提示', 'message':'最后一个职位不能删除.'});
+		bootbox.alert({'title':'提示', 'message':'最后一个职位不能删除.', callback: function() {
+			$('#container').css('width', document.body.clientWidth + 'px');	
+		}});
 	}
 	else {
 		update_112_position();
@@ -181,5 +198,7 @@ function cb_112_position_after(data) {
 	loadbranchmember(data);
 }
 function cb_111_1(data) {
-	bootbox.alert({'title':'提示', 'message':'保存成功.'});
+	bootbox.alert({'title':'提示', 'message':'保存成功.', callback: function() {
+		$('#container').css('width', document.body.clientWidth + 'px');	
+	}});
 }

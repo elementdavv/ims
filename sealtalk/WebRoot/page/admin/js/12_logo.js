@@ -13,6 +13,9 @@ $(document).ready(function() {
 				bootbox.alert({
 					'title': '提示',
 					'message': '请选择JPG、PNG、BMP格式文件.',
+					callback: function() {
+						$('#container').css('width', document.body.clientWidth + 'px');	
+					},
 				});
 				$('#filename').val('');
 			}
@@ -27,6 +30,9 @@ $(document).ready(function() {
 			bootbox.alert({
 				'title': '提示',
 				'message': '请先选择文件.',
+				callback: function() {
+					$('#container').css('width', document.body.clientWidth + 'px');	
+				},
 			});
 		}
 		else {
