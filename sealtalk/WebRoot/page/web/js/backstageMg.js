@@ -892,10 +892,15 @@ function checkShutUp(){
                         $('#groupContainer #message-content').html('群主已开启禁言!');
                     }
                 }else if(datas&&datas.code==1&&datas.text=='0'){
-                    $('.groupInfo-noChat').attr('data-chat','0');
-                    $('#groupContainer #message-content').attr('contenteditable','true');
-                    $('#groupContainer #message-content').attr('placeholder','请输入文字...');
-                    $('#groupContainer #message-content').html('');
+                    var contentBox = $('#groupContainer #message-content')
+                    if(contentBox.attr('contenteditable')=='false'){
+                        $('.groupInfo-noChat').attr('data-chat','0');
+                        contentBox.attr('contenteditable','true');
+                        contentBox.attr('placeholder','请输入文字...');
+                        //var contentTest = $('#groupContainer #message-content').html();
+                        contentBox.html('');
+                    }
+
                 }
             }
         })
