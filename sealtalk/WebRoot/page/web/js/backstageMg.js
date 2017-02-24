@@ -867,30 +867,33 @@ function showGroupMemberInfo(oGroupInfo,pos){
 //查询群组禁言
 function checkShutUp(){
     var targetGroup = $('#groupContainer');
-    var groupId = targetGroup.attr('targetid');
-
-    sendAjax('group!getShutUpGroupStatus',{groupid:groupId},function(data){
+    if(!targetGroup.hasClass("chatHide")){
+        var groupId = targetGroup.attr('targetid');
         var sdata = localStorage.getItem('datas');
-        var accountID = JSON.parse(sdata).id;
-        var groupInfo = groupInfoFromList(groupId);
-        if(data){
-            var datas = JSON.parse(data);
-            if(datas&&datas.code==1&&datas.text==true){
-                $('.groupInfo-noChat').attr('data-chat','1');
-                if(accountID!=groupInfo.mid) {
-                    $('#groupContainer #message-content').attr('contenteditable', 'false');
-                    $('#groupContainer #message-content').html('群主已开启禁言!');
+        var oData=JSON.parse(sdata);
+        //var userid = oData?oData.id :'';
+
+        sendAjax('group!getShutUpGroupStatus',{groupid:groupId},function(data){
+            var sdata = localStorage.getItem('datas');
+            var accountID = JSON.parse(sdata).id;
+            var groupInfo = groupInfoFromList(groupId);
+            if(data){
+                var datas = JSON.parse(data);
+                if(datas&&datas.code==1&&datas.text=='1'){
+                    $('.groupInfo-noChat').attr('data-chat','1');
+                    if(accountID!=groupInfo.mid) {
+                        $('#groupContainer #message-content').attr('contenteditable', 'false');
+                        $('#groupContainer #message-content').html('群主已开启禁言!');
+                    }
+                }else if(datas&&datas.code==1&&datas.text=='0'){
+                    $('.groupInfo-noChat').attr('data-chat','0');
+                    $('#groupContainer #message-content').attr('contenteditable','true');
+                    $('#groupContainer #message-content').attr('placeholder','请输入文字...');
+                    $('#groupContainer #message-content').html('');
                 }
-            }else if(datas&&datas.code==1&&datas.text==false){
-                $('.groupInfo-noChat').attr('data-chat','0');
-                $('#groupContainer #message-content').attr('contenteditable','true');
-                $('#groupContainer #message-content').attr('placeholder','请输入文字...');
-                $('#groupContainer #message-content').html('');
             }
-        }
-    })
-
-
+        })
+    }
 }
 
 

@@ -562,6 +562,14 @@ p.voiceSecond {
     margin-left: -20px;
     line-height: 46px;
 }
+p.voiceSecond2 {
+    height: 46px;
+    width: 40px;
+    /*background: paleturquoise;*/
+    float: left;
+    margin-left: 10px;
+    line-height: 46px;
+}
 .mr-chatContent li {
     margin-bottom: 18px;
     position: relative;
@@ -711,6 +719,7 @@ p.converLimit {
     border: 1px solid #b9c1ca;
     padding:8px 10px;
     float:left;
+    border-radius: 5px;
 }
 .rongyun-emoji span{
     height: 30px;

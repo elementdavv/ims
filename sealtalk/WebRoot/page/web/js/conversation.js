@@ -1095,7 +1095,7 @@ function getChatRecord(aList,sClass){
                     sContent= '<div class="voiceDownLoad">'+
                     '<p class="voiceMsgContent" style="width:'+curWidth+'px" base64Str="'+base64Str+'"></p>'+
                     '</div>'+
-                    '<p class="voiceSecond"><span>'+sContent.duration+'S</span></p>';
+                    '<p class="voiceSecond2"><span>'+sContent.duration+'S</span></p>';
                     break;
 
             }
