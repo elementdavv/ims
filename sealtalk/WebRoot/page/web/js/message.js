@@ -736,7 +736,7 @@ $(function(){
                                         var data = JSON.parse(datas);
                                         var userid = data.id;
                                         sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
-                                            $('#perContainer').addClass('chatHide');
+                                            $('.orgNavClick').addClass('chatHide');
                                             getGroupList(userid);
                                             removeConvers("GROUP",groupid);
                                         },function(){
@@ -1122,10 +1122,10 @@ function removeConvers(type,id,$topEle){
             switch(type){
                 case 'GROUP':
                     nTopType=1;
-                    $('#groupContainer').addClass('chatHide');
+                    $('.orgNavClick').addClass('chatHide');
                     break;
                 case 'PRIVATE':
-                    $('#perContainer').addClass('chatHide');
+                    $('.orgNavClick').addClass('chatHide');
                     nTopType=2;
                     break;
             }
@@ -1309,7 +1309,7 @@ function cancleRelation(account,friend){
                 autoHide:true
             });
             setTimeout(function(){
-                $('#perContainer').addClass('chatHide');
+                $('.orgNavClick').addClass('chatHide');
                 getMemberFriends(account);
             },1000)
         }
