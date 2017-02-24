@@ -150,6 +150,22 @@
 
                         this.url = URL.createObjectURL(file);
                         this.startCropper();
+                    }else{
+                        new Window().alert({
+                            title   : '',
+                            content : '您选择的不是图片，请选择选择！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false,
+                            autoHide:true
+                        });
+                        $('.bMg-cropImgSet').removeClass('chatHide');
+                        $('.bMg-cropImgBox').addClass('chatHide');
+                        $('.bMg-gravityImg').removeClass('active');
+                        $('.bMg-confirm').addClass('chatHide');
+                        $('.bMg-preserve').removeClass('chatHide');
+                        $('.bMg-imgList li').removeClass('active');
                     }
                 }
             } else {
@@ -157,6 +173,22 @@
 
                 if (this.isImageFile(file)) {
                     this.syncUpload();
+                }else{
+                    new Window().alert({
+                        title   : '',
+                        content : '您选择的不是图片，请选择选择！',
+                        hasCloseBtn : false,
+                        hasImg : true,
+                        textForSureBtn : false,
+                        textForcancleBtn : false,
+                        autoHide:true
+                    });
+                    $('.bMg-cropImgSet').removeClass('chatHide');
+                    $('.bMg-cropImgBox').addClass('chatHide');
+                    $('.bMg-gravityImg').removeClass('active');
+                    $('.bMg-confirm').addClass('chatHide');
+                    $('.bMg-preserve').removeClass('chatHide');
+                    $('.bMg-imgList li').removeClass('active');
                 }
             }
         },

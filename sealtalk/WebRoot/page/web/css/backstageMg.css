@@ -115,7 +115,9 @@
     cursor: pointer;
 }
 .systemSetVoice{
-    padding:100px 0 134px 340px;
+    padding:100px 0 134px 0;
+    width:260px;
+    margin: 0 auto;
 }
 .systemSetVoice span{
      float:left;
