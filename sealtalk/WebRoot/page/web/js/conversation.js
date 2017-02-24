@@ -807,7 +807,7 @@ function conversationSelf(targetID,targetType,callback){
     fillSelfPage(targetID,targetType);
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
     var curTargetList = findMemberInList(targetID);
-    var name = curTargetList.name;
+    var name =curTargetList?curTargetList.name : '';
     $('.perSetBox-title span').html(name);
     $('.mesContainerSelf').attr('targetID',targetID);
     $('.mesContainerSelf').attr('targetType',targetType);

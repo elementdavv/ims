@@ -39,6 +39,9 @@ $(document).ready(function(){
     $('#chatBox').delegate('.mr-chatContent .mr-ownChat,.mr-chatContent .mr-chatBox,.mr-chatContent .uploadImgFile','mousedown',function(e){
         $('.myContextMenu').remove();
         if(e.buttons==2){
+            if($(this).find('.voiceMsgContent').length>0){
+                return;
+            }
             var left = e.clientX+10;
             var top = e.clientY-20;
             var memship = $(this).closest('.orgNavClick').attr('targetid');
