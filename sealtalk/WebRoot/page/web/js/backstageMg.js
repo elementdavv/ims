@@ -318,7 +318,7 @@ $(document).ready(function(){
             $('#personalData .infoDetailsBox>div').addClass('chatHide');
             $('#personalData .infoDetailsBox>div').eq(0).removeClass('chatHide');
             var targetID=$('#perContainer').attr('targetid');
-            getPerInfo(findMemberInList(targetID));
+            getPerInfo(searchFromList(1,targetID));
         }
     });
 //    后台管理

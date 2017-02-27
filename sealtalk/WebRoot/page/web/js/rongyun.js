@@ -13,21 +13,12 @@ $(function(){
         var changeFormatData = {};
         changeFormatData.text = datas
         if(datas){
-            //data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(changeFormatData);
-
-            // RongIMClient.init(globalVar.rongKey);
             if(RongIMLib.VCDataProvider&&window.Electron){
                 RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
                 RongIMClient.init(globalVar.rongKey);
             }
-            //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
-            //RongIMLib.RongIMClient.init("e5t4ouvpe564a",new RongIMLib.WebSQLDataProvider());
-            //var sAccount = datas.account;
-            //if(sAccount){
-            //    var oAccount = JSON.parse(sAccount);
-            //    var token = datas.token;
             var account = datas.account;
             var accountID = datas.id;
             //获取常用联系人
@@ -50,9 +41,9 @@ $(function(){
                         //链接成功
                         case RongIMLib.ConnectionStatus.CONNECTED:
                             console.log('链接成功');
-                            if($('.window_mask')){
-                                $('.window_mask').remove()
-                            }
+                            //if($('.window_mask')){
+                            //    $('.window_mask').remove()
+                            //}
                             //显示会话列表
                             getConverList()
                             break;
@@ -62,30 +53,36 @@ $(function(){
                             break;
                         //重新链接
                         case RongIMLib.ConnectionStatus.DISCONNECTED:
-                            new Window().alert({
-                                title   : '',
-                                content : '断开连接！',
-                                hasCloseBtn : false,
-                                hasImg : true,
-                                textForSureBtn : false,
-                                textForcancleBtn : false
-                                //,
-                                //autoHide:true
-                            });
+                            if($('.window_mask').length==0){
+                                new Window().alert({
+                                    title   : '',
+                                    content : '断开连接！',
+                                    hasCloseBtn : false,
+                                    hasImg : true,
+                                    textForSureBtn : false,
+                                    textForcancleBtn : false
+                                });
+                            }
+
+                           // RongIMClient.clearListeners();
+                            RongIMClient._memoryStore.listenerList={};
                             console.log('断开连接');
                             break;
                         //其他设备登录
                         case RongIMLib.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT:
-                            new Window().alert({
-                                title   : '',
-                                content : '其他设备登录！',
-                                hasCloseBtn : false,
-                                hasImg : true,
-                                textForSureBtn : false,
-                                textForcancleBtn : false
-                                //,
-                                //autoHide:true
-                            });
+                            if($('.window_mask').length==0){
+                                new Window().alert({
+                                    title   : '',
+                                    content : '其他设备登录！',
+                                    hasCloseBtn : false,
+                                    hasImg : true,
+                                    textForSureBtn : false,
+                                    textForcancleBtn : false
+                                    //,
+                                    //autoHide:true
+                                });
+                            }
+
                             console.log('其他设备登录');
                             break;
                         //网络不可用

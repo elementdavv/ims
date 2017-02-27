@@ -254,7 +254,7 @@ function creatDialogTree(data,className,title,callback,selected){
         converseACount = [];
         for(var i = 0;i<selected.length;i++){
             converseACount.push(selected[i]);
-            var targetList = findMemberInList(selected[i]);
+            var targetList = searchFromList(1,selected[i]);
             if(targetList){
                 if(selected[i]==userID){
                     var editable = false;

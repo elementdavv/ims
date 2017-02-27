@@ -521,7 +521,7 @@ $(function(){
     }
 
     function creatMemberMap(targetID,targeType){
-        var curTargetList = findMemberInList(targetID);
+        var curTargetList = searchFromList(1,targetID);
         var name = curTargetList.name;
         $('.perSetBox-title span').html(name);
         $('.groupMap').attr('targetID',targetID);
