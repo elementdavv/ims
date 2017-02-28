@@ -130,6 +130,7 @@ public interface GroupService {
 
 	/**
 	 * 查询群禁言状态
+	 * @param userId
 	 * @param groupid
 	 * @return
 	 */

@@ -37,6 +37,7 @@ public enum  Tips {
 	USEDLOGO("头像正在被使用", "00031"),
 	WRONGTOKEN("Token无效","00032"),
 	NULLGROUP("没有群组", "00033"),
+	SEARCHFAIL("查询失败", "00034"),
 	OK("OK", "10000"),
 	FAIL("fail", "20000");
 	

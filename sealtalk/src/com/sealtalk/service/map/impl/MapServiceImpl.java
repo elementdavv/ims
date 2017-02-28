@@ -139,14 +139,13 @@ public class MapServiceImpl implements MapService {
 	@Override
 	public String subLocation(String userId, String latitude, String longtitude) {
 		JSONObject jo = new JSONObject();
-		
-		if (StringUtils.getInstance().isBlank(userId) ||
-				StringUtils.getInstance().isBlank(latitude) ||
-				StringUtils.getInstance().isBlank(longtitude)) {
-			jo.put("code", 0);
-			jo.put("text", Tips.WRONGPARAMS.getText());
-		} else {
-			try {
+		try {
+			if (StringUtils.getInstance().isBlank(userId) ||
+					StringUtils.getInstance().isBlank(latitude) ||
+					StringUtils.getInstance().isBlank(longtitude)) {
+				jo.put("code", 0);
+				jo.put("text", Tips.WRONGPARAMS.getText());
+			} else {
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
 				
 				TMap t = mapDao.getLaLongtitudeForUserId(userIdInt);
@@ -168,9 +167,11 @@ public class MapServiceImpl implements MapService {
 				
 				jo.put("code", 1);
 				jo.put("text", Tips.OK.getText());
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			jo.put("code", 0);
+			jo.put("text", Tips.FAIL.getText());
 		}
 		
 		return jo.toString();
