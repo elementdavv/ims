@@ -806,7 +806,7 @@ function conversationSelf(targetID,targetType,callback){
     //噗页面 把targetID放进去
     fillSelfPage(targetID,targetType);
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
-    var curTargetList = findMemberInList(targetID);
+    var curTargetList = searchFromList(1,targetID);
     var name =curTargetList?curTargetList.name : '';
     $('.perSetBox-title span').html(name);
     $('.mesContainerSelf').attr('targetID',targetID);
@@ -924,7 +924,7 @@ function getGroupMembersList(groupid){
             <ul class="groupInfo-memberAll">';
             if(aNewMember.length>0){
                 for(var i=0;i<aNewMember.length;i++){
-                    var oCreator=findMemberInList(aNewMember[i]);
+                    var oCreator=searchFromList(1,aNewMember[i]);
                     if(oCreator){
                         var sMemberName=oCreator.name;
                         var sJob=oCreator.account;
@@ -1160,7 +1160,7 @@ function getFileRecord(aList,sClass){
             var oLocData = JSON.parse(sdata);
             var accountID = oLocData.id;
             if (sTargetId != accountID) {
-                var oThers = findMemberInList(sTargetId);
+                var oThers = searchFromList(1,sTargetId);
                 var sSendfName = oThers ? oThers.name : '';
             } else {
                 var sSendfName = oLocData.name;

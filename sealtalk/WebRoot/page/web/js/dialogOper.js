@@ -308,7 +308,7 @@ function changeSelected(converseACount){
         }else{
             var editable = 'true';
         }
-        var name = findMemberInList(converseACount[i]).name;
+        var name = searchFromList(1,converseACount[i]).name;
         sHTML+='<li memberID="'+converseACount[i]+'" editable="'+editable+'"><span class="memberName">'+name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
     }
     dom.html($(sHTML));

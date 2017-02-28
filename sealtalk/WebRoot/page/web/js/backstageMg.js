@@ -842,7 +842,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     var sCreatorId=oGroupInfo.mid;//群创建者id
     var sCreatorAcconut=oGroupInfo.account//群创建者帐号
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
-    var oCreator=findMemberInList(sCreatorId);
+    var oCreator=searchFromList(1,sCreatorId);
     if(!oCreator.logo){
         var sImg=globalVar.defaultLogo;
     }else{
