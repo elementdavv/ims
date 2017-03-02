@@ -419,8 +419,9 @@ CREATE TABLE `t_cutlogtemp` (
 CREATE TABLE `t_map` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL DEFAULT '0',
-  `latitude` VARCHAR(10) NOT NULL DEFAULT '0',
-  `longitude` VARCHAR(10) NOT NULL DEFAULT '0',
+  `latitude` VARCHAR(50) NOT NULL DEFAULT '0',
+  `longitude` VARCHAR(50) NOT NULL DEFAULT '0',
+  `subdate` VARCHAR(15) NOT NULL DEFAULT '0',
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 

@@ -17,5 +17,8 @@
         <property name="longitude" type="java.lang.String">
             <column name="longitude" not-null="true" />
         </property>
+        <property name="subDate" type="java.lang.Long">
+            <column name="subdate" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

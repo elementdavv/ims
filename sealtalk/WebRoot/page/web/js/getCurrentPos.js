@@ -36,7 +36,7 @@ function getCurrentMemberPos(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.id;
-        sendAjax('map!subLocation',{userid:sId,latitude:latiude,longtitude:longtiude},function(data){
+        sendAjax('map!subLocation',{userid:sId,latitude:latiude,longitude:longtiude},function(data){
             var aDatas=JSON.parse(data);
 
         });

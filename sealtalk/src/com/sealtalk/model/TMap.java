@@ -13,6 +13,7 @@ public class TMap implements java.io.Serializable {
 	private int userId;
 	private String latitude;
 	private String longitude;
+	private long subDate;
 	
 	public int getId() {
 		return id;
@@ -37,5 +38,11 @@ public class TMap implements java.io.Serializable {
 	}
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+	public long getSubDate() {
+		return subDate;
+	}
+	public void setSubDate(long subDate) {
+		this.subDate = subDate;
 	}
 }
