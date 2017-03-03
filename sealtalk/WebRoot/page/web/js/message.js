@@ -2,8 +2,11 @@
  * Created by zhu_jq on 2017/1/10.
  */
 $(function(){
-
-
+    //查询群组禁言
+    var groupShutupTimer = null
+    groupShutupTimer = setInterval(function(){
+        checkShutUp()
+    },5000)
 
     //获取常用联系人左侧
     var sAccount = localStorage.getItem('account');
@@ -494,10 +497,14 @@ $(function(){
         if(targeType=='PRIVATE'){
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerSelf').removeClass('chatHide');
+            $('#groupContainer #message-content').attr('contenteditable','true');
+            $('#groupContainer #message-content').attr('placeholder','请输入文字...');
+            $('#groupContainer #message-content').html('');
             conversationSelf(targetID,targeType,callback);
         }else{
             $('.orgNavClick').addClass('chatHide');
             $('.mesContainerGroup').removeClass('chatHide');
+            checkShutUp();
             conversationGroup(targetID,targeType,groupName,callback);
         }
         //callback&&callback();
@@ -514,7 +521,7 @@ $(function(){
     }
 
     function creatMemberMap(targetID,targeType){
-        var curTargetList = findMemberInList(targetID);
+        var curTargetList = searchFromList(1,targetID);
         var name = curTargetList.name;
         $('.perSetBox-title span').html(name);
         $('.groupMap').attr('targetID',targetID);
@@ -611,9 +618,10 @@ $(function(){
             var targeType = 'GROUP';
             var groupName = $(this).find('.groupName').html();
             groupTimer=setTimeout(function (){
-                conversationGroup(targetID,targeType,groupName);
                 $('.orgNavClick').addClass('chatHide');
                 $('.mesContainerGroup').removeClass('chatHide');
+                checkShutUp();
+                conversationGroup(targetID,targeType,groupName);
             },200);
         }
         $('.groupChatListUl li').removeClass('active');
@@ -728,6 +736,7 @@ $(function(){
                                         var data = JSON.parse(datas);
                                         var userid = data.id;
                                         sendAjax('group!disslovedGroup',{userid:userid,groupid:groupid},function(){
+                                            $('.orgNavClick').addClass('chatHide');
                                             getGroupList(userid);
                                             removeConvers("GROUP",groupid);
                                         },function(){
@@ -1113,8 +1122,10 @@ function removeConvers(type,id,$topEle){
             switch(type){
                 case 'GROUP':
                     nTopType=1;
+                    $('.orgNavClick').addClass('chatHide');
                     break;
                 case 'PRIVATE':
+                    $('.orgNavClick').addClass('chatHide');
                     nTopType=2;
                     break;
             }
@@ -1223,6 +1234,7 @@ function searchFromList(flag,id){
     if(normalInfo){
         var data = JSON.parse(normalInfo);
     }
+    id = parseInt(id);
     console.log(flag,id,data);
     for(var i = 0;i<data.length;i++){
         if(data[i].id==id&&data[i].flag==flag){
@@ -1287,7 +1299,6 @@ function cancleRelation(account,friend){
         console.log(data);
         if(datas.code==1){
             //刷新常用联系人
-            getMemberFriends(account);
             new Window().alert({
                 title   : '解除成功',
                 content : '好友解除成功！',
@@ -1297,6 +1308,10 @@ function cancleRelation(account,friend){
                 textForcancleBtn : false,
                 autoHide:true
             });
+            setTimeout(function(){
+                $('.orgNavClick').addClass('chatHide');
+                getMemberFriends(account);
+            },1000)
         }
     })
 }
@@ -1351,7 +1366,7 @@ function showMemberInfo(data,pos){
 
     var sJob=data.position ||'';
     var sHTML = '<div class="memberHover" style="left:'+pos.left+'px;top:'+pos.top+'px">'+
-                    '<div class="contextTri"></div>'+
+                    '<div class="contextTri chatLeftIcon"></div>'+
                     '<ul class="memberInfoHover">'+
                         '<li>'+
                             '<div class="showImgInfo">'+

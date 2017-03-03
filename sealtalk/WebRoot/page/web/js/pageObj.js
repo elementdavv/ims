@@ -86,14 +86,8 @@ PageObj.prototype.datechange=function(){
     var _self=this;
     this._DestObj.find('.calendar').off('blur');
     this._DestObj.find('.calendar').on('blur',function(){
-        //if($('.calendar-wrap').hasClass('calendar_show')){
-        //    $('.calendar-wrap').removeClass('calendar_show');
-        //    $('calendar-inputWrap').removeClass('calendar_active');
-        //}
-        //if($('calendar-inputWrap').hasClass('calendar_active')){
-        //    $('calendar-inputWrap').removeClass('calendar_active');
-        //}
         $('#calendar-api-show').asDatepicker('hide');
+        _self.searchStr='';
         var aDateTime=_self._DestObj.find('.calendar').asDatepicker('getDate', 'yyyy/mm/dd');
         var sYear=aDateTime[0]+"  23:59:59";
         var date = new Date(sYear);

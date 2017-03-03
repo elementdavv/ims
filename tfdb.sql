@@ -29,7 +29,7 @@ USE `tfdb`;
 --
 
 CREATE TABLE `t_organ` (
-  `id` INT NOT NULL AUTO_INCREMENT = 1,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `code` VARCHAR(256),
   `name` VARCHAR(256),
   `shortname` VARCHAR(256),
@@ -58,6 +58,8 @@ CREATE TABLE `t_organ` (
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
+alter table `t_organ` AUTO_INCREMENT=1;
+
 -- --------------------------------------------------------
 
 --
@@ -65,7 +67,7 @@ CREATE TABLE `t_organ` (
 --
 
 CREATE TABLE `t_branch` (
-  `id` INT NOT NULL AUTO_INCREMENT = 101,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `organ_id` INT NOT NULL DEFAULT 0,
   `parent_id` INT NOT NULL DEFAULT 0,
   `name` VARCHAR(256),
@@ -79,6 +81,7 @@ CREATE TABLE `t_branch` (
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
+alter table `t_branch` AUTO_INCREMENT=101;
 -- --------------------------------------------------------
 
 --
@@ -86,7 +89,7 @@ CREATE TABLE `t_branch` (
 --
 
 CREATE TABLE `t_member` (
-  `id` INT NOT NULL AUTO_INCREMENT = 10001,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `account` VARCHAR(256),
   `password` VARCHAR(32),
   `token` VARCHAR(256) COMMENT '验证token',
@@ -107,6 +110,8 @@ CREATE TABLE `t_member` (
   `intro` VARCHAR(1024),
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
+
+alter table `t_member` AUTO_INCREMENT=10001;
 
 -- --------------------------------------------------------
 
@@ -414,8 +419,9 @@ CREATE TABLE `t_cutlogtemp` (
 CREATE TABLE `t_map` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL DEFAULT '0',
-  `latitude` VARCHAR(10) NOT NULL DEFAULT '0',
-  `longitude` VARCHAR(10) NOT NULL DEFAULT '0',
+  `latitude` VARCHAR(50) NOT NULL DEFAULT '0',
+  `longitude` VARCHAR(50) NOT NULL DEFAULT '0',
+  `subdate` VARCHAR(15) NOT NULL DEFAULT '0',
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 

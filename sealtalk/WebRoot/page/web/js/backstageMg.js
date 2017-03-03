@@ -18,6 +18,7 @@ $(document).ready(function(){
                var sTargettype=$('#perContainer').attr('targettype');
                var sTargetid=$('#perContainer').attr('targetid');
                var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+               $('#infoDetailsBox .infoDet-chatRecord .infoDet-search input').val('');
                var oPagetest = new PageObj({divObj:$perEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
                {
                    getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
@@ -38,6 +39,9 @@ $(document).ready(function(){
     $('#chatBox').delegate('.mr-chatContent .mr-ownChat,.mr-chatContent .mr-chatBox,.mr-chatContent .uploadImgFile','mousedown',function(e){
         $('.myContextMenu').remove();
         if(e.buttons==2){
+            if($(this).find('.voiceMsgContent').length>0){
+                return;
+            }
             var left = e.clientX+10;
             var top = e.clientY-20;
             var memship = $(this).closest('.orgNavClick').attr('targetid');
@@ -60,8 +64,12 @@ $(document).ready(function(){
         var sInfoContent='';
         var oCopy={};
         if(eTarget.hasClass('uploadImgFile')){
+            var sType='';
             sImgSrc=eTarget.attr('src');
-            oCopy.img=sImgSrc;
+            sType=eTarget.attr('data-type');
+            oCopy.fileUrl=sImgSrc;
+            oCopy.imageUri=sImgSrc;
+            oCopy.type=sType;
             var sCopy=JSON.stringify(oCopy);
             window.localStorage.setItem('copy',sCopy);
         }else{
@@ -81,7 +89,7 @@ $(document).ready(function(){
                 var sCopy=JSON.stringify(oCopy);
                 window.localStorage.setItem('copy',sCopy);
             }else{
-                sInfoContent=eTarget.find('span').html();
+                sInfoContent=eTarget.find('span').attr('name');
                 oCopy={};
                 oCopy.infoContent=sInfoContent;
                var sCopy=JSON.stringify(oCopy);
@@ -107,33 +115,34 @@ $(document).ready(function(){
     });
     $('body').on('click','#infoPaste li',function(){
         $('.myContextMenu').remove();
-        var oPast=JSON.parse(window.localStorage.getItem('copy'));
-        var sImgSrc=oPast.img;
+        var sFileImg=window.localStorage.getItem('copy');
+        var oPast=JSON.parse(sFileImg);
+        var sImgSrc=oPast.fileUrl;
         var sInfoContent=oPast.infoContent;
         var sFile=oPast.file;
         var sOldInfo=$('#chatBox #message-content').html();
+        var targetId='';
+        var targetType='';
+        var nSendTime=new Date().getTime();
+        if(!$('.mesContainerSelf').hasClass('chatHide')){
+            targetId = $('.mesContainerSelf').attr('targetID');
+            targetType = $('.mesContainerSelf').attr('targetType');
+        }else{
+            targetId = $('.mesContainerGroup').attr('targetID');
+            targetType = $('.mesContainerGroup').attr('targetType');
+        }
         //$('#chatBox #message-content').html('');
         if(sImgSrc){
-            var sImg='<img src="'+sImgSrc+'"; class="uploadImgFile"/>';
-            var sNewInfo=sOldInfo+sImg;
-            $('#chatBox #message-content').append(sImg);
+            var extra = "uploadFile";
+            sendMsg(sFileImg,targetId,targetType,extra,'',nSendTime);
+            sendByRongImg(oPast,targetId,targetType,nSendTime);
         }else if(sInfoContent){
             var sNewInfo=sInfoContent;
             $('#chatBox #message-content').append(sNewInfo);
         }else if(sFile){
             sFile.filepaste=1;
             var extra = "uploadFile";
-            var targetId='';
-            var targetType='';
-            if(!$('.mesContainerSelf').hasClass('chatHide')){
-               targetId = $('.mesContainerSelf').attr('targetID');
-               targetType = $('.mesContainerSelf').attr('targetType');
-            }else{
-               targetId = $('.mesContainerGroup').attr('targetID');
-               targetType = $('.mesContainerGroup').attr('targetType');
-            }
             var fileInfo=JSON.stringify(sFile);
-            var nSendTime=new Date().getTime();
                 sendMsg(fileInfo,targetId,targetType,extra,'',nSendTime);
                 sendByRongFile(sFile,targetId,targetType,'',nSendTime);
         }
@@ -220,7 +229,16 @@ $(document).ready(function(){
         var groupInfo = groupInfoFromList(groupid);
         //console.log(groupInfo);
         if(accountID!=groupInfo.mid){//任何人都可以禁言？？
-            //return false;
+            new Window().alert({
+                title   : '',
+                content : '群主可以开启禁言！',
+                hasCloseBtn : false,
+                hasImg : true,
+                textForSureBtn : false,
+                textForcancleBtn : false,
+                autoHide:true
+            });
+            return false;
         }
         var sChat=$(this).attr('data-chat');
         if(sChat==1){
@@ -270,10 +288,12 @@ $(document).ready(function(){
                     sendAjax('group!shutUpGroup',{groupid:groupid},function(data){
                         if(data){
                             var oData=JSON.parse(data);
-                            if(oData.code==1&&accountID!=groupInfo.mid){
+                            if(oData.code==1){
                                 $('#groupData .groupInfo-noChat').attr('data-chat',1);
-                                $('#groupContainer #message-content').attr('contenteditable','false');
-                                $('#groupContainer #message-content').html('群主已开启禁言!');
+                                if(accountID!=groupInfo.mid){
+                                    $('#groupContainer #message-content').attr('contenteditable','false');
+                                    $('#groupContainer #message-content').html('群主已开启禁言!');
+                                }
                             }
                         }
                     },function(){
@@ -298,7 +318,7 @@ $(document).ready(function(){
             $('#personalData .infoDetailsBox>div').addClass('chatHide');
             $('#personalData .infoDetailsBox>div').eq(0).removeClass('chatHide');
             var targetID=$('#perContainer').attr('targetid');
-            getPerInfo(findMemberInList(targetID));
+            getPerInfo(searchFromList(1,targetID));
         }
     });
 //    后台管理
@@ -308,8 +328,14 @@ $(document).ready(function(){
         $(this).addClass('active');
         $('.perSetBox').addClass('chatHide');
         $('.perSetBox').eq($(this).index()).removeClass('chatHide');
-        if($(this).index()==0){
-            fPersonalSet();
+        var sType=$(this).attr('data-type');
+        switch (sType){
+            case "0":
+                fPersonalSet();
+                break;
+            case "2":
+                $('.changePassword input').val('');
+                $('.changePassword p').html('');
         }
     });
     $('#chatBox').on('click','#changeHeadImgId',function(){
@@ -390,6 +416,7 @@ $(document).ready(function(){
                 var sTargettype=$('#groupContainer').attr('targettype');
                 var sTargetid=$('#groupContainer').attr('targetid');
                 var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+                $('#groupDetailsBox .infoDet-chatRecord .infoDet-search input').val('');
                 console.log($groupEle);
                 var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
                 {
@@ -508,12 +535,15 @@ $(document).ready(function(){
         var grounpName = $(e.target).prev('span').html();
         switch(targeType){
             case 'GROUP':
+                checkShutUp();
+
                 conversationGroup(targetID,targeType,grounpName);
                 $('.orgNavClick').addClass('chatHide');
                 $('.mesContainerGroup').removeClass('chatHide');
                 break;
             case 'PRIVATE':
                 conversationSelf(targetID,targeType);
+
                 $('.orgNavClick').addClass('chatHide');
                 $('.mesContainerSelf').removeClass('chatHide');
                 break;
@@ -622,10 +652,6 @@ $(document).ready(function(){
         sendAjax('member!updateMemberInfoForWeb',{userid:sId,position:sPosId,fullname:sPerName,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
-               //var sData=window.localStorage.getItem("datas");
-              // var oData= JSON.parse(sData);
-
-               //var sSelfImg=oData.logo;
                oData.sex=sSex;
                oData.email=sEmail;
                oData.phone=sTelephone;
@@ -816,7 +842,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     var sCreatorId=oGroupInfo.mid;//群创建者id
     var sCreatorAcconut=oGroupInfo.account//群创建者帐号
     var sCreatedate=subTimer(oGroupInfo.createdate);//创建时间
-    var oCreator=findMemberInList(sCreatorId);
+    var oCreator=searchFromList(1,sCreatorId);
     if(!oCreator.logo){
         var sImg=globalVar.defaultLogo;
     }else{
@@ -826,6 +852,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
     //console.log(findMemberInList(sCreatorId));
     //var aCreatedate=sCreatedate.join('-');
     var sHTML ='<div class="groupDataBox" style="left:'+pos.left+'px;top:'+pos.top+'px">\
+    <div class="contextTri chatLeftIcon"></div>\
         <ul>\
         <li>\
         <span>群组名称:</span>\
@@ -845,6 +872,45 @@ function showGroupMemberInfo(oGroupInfo,pos){
     </div>';
     $('body').append($(sHTML));
 }
+
+//查询群组禁言
+function checkShutUp(){
+    var targetGroup = $('#groupContainer');
+    if(!targetGroup.hasClass("chatHide")){
+        var groupId = targetGroup.attr('targetid');
+        var sdata = localStorage.getItem('datas');
+        var oData=JSON.parse(sdata);
+        //var userid = oData?oData.id :'';
+
+        sendAjax('group!getShutUpGroupStatus',{groupid:groupId},function(data){
+            var sdata = localStorage.getItem('datas');
+            var accountID = JSON.parse(sdata).id;
+            var groupInfo = groupInfoFromList(groupId);
+            if(data){
+                var datas = JSON.parse(data);
+                if(datas&&datas.code==1&&datas.text=='1'){
+                    $('.groupInfo-noChat').attr('data-chat','1');
+                    if(accountID!=groupInfo.mid) {
+                        $('#groupContainer #message-content').attr('contenteditable', 'false');
+                        $('#groupContainer #message-content').html('群主已开启禁言!');
+                    }
+                }else if(datas&&datas.code==1&&datas.text=='0'){
+                    var contentBox = $('#groupContainer #message-content')
+                    if(contentBox.attr('contenteditable')=='false'){
+                        $('.groupInfo-noChat').attr('data-chat','0');
+                        contentBox.attr('contenteditable','true');
+                        contentBox.attr('placeholder','请输入文字...');
+                        //var contentTest = $('#groupContainer #message-content').html();
+                        contentBox.html('');
+                    }
+
+                }
+            }
+        })
+    }
+}
+
+
 function subTimer(string){
     var y=string.substring(0,4);
     var m=string.substring(4,6);
@@ -986,6 +1052,9 @@ function keerNewPw(oldpwd,newPw,comparepwd){
                 textForcancleBtn : false,
                 autoHide:true
             });
+            $('.changePassword input').val('');
+            $('.changePassword p').html('');
+            $('.cp-passwordSecurity li').css('background','rgb(237, 237, 237)');
             oAccount.userpwd=newPw;
             window.localStorage.account=JSON.stringify(oAccount);
         }

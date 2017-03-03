@@ -168,16 +168,16 @@
 <div class="chatContent  chatHide personalCenter">
     <ul class="backstageMg" id="backstageMgId">
 		<%--<c:if test="${SessionPrivilege.map.grsz != null}">	  --%>
-			<li class="clearfix">
+			<li class="clearfix" data-type="0">
 				<em class="bMg-personalSet"></em>
 				<span>个人设置</span>
 			</li>
 		<%--</c:if>--%>
-        <li class="clearfix">
+        <li class="clearfix" data-type="1">
             <em class="bMg-systemSet"></em>
             <span>系统设置</span>
         </li>
-        <li class="clearfix">
+        <li class="clearfix" data-type="2">
             <em class="bMg-changePw"></em>
             <span>修改密码</span>
         </li>
@@ -534,11 +534,11 @@
                     <span>成员(6)</span>
 
                     <p class="clearfix">
-                    <i class="groupInfo-noChat"></i>
+                    <i class="groupInfo-noChat" title="禁言"></i>
                     <i></i>
                     </p>
                     </div>
-                    <ul class="groupInfo-memberAll">
+                    <ul class="groupInfo-memberAll" title="群成员管理">
                         <%--<li>--%>
                         <%--<img src="page/web/css/img/1.jpg">--%>
 

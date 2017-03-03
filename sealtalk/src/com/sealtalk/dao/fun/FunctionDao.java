@@ -27,4 +27,6 @@ public interface FunctionDao extends IBaseDao<TFunction, Long> {
 
 	public void updateFunctionStatus(String name, String status);
 
+	public void delFunctionStatus(TFunction tf);
+	
 } 

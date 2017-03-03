@@ -254,7 +254,7 @@ function creatDialogTree(data,className,title,callback,selected){
         converseACount = [];
         for(var i = 0;i<selected.length;i++){
             converseACount.push(selected[i]);
-            var targetList = findMemberInList(selected[i]);
+            var targetList = searchFromList(1,selected[i]);
             if(targetList){
                 if(selected[i]==userID){
                     var editable = false;
@@ -308,7 +308,7 @@ function changeSelected(converseACount){
         }else{
             var editable = 'true';
         }
-        var name = findMemberInList(converseACount[i]).name;
+        var name = searchFromList(1,converseACount[i]).name;
         sHTML+='<li memberID="'+converseACount[i]+'" editable="'+editable+'"><span class="memberName">'+name+'</span><span class="chatLeftIcon deleteMemberIcon"></span></li>'
     }
     dom.html($(sHTML));

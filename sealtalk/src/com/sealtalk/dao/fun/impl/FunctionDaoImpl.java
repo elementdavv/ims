@@ -36,7 +36,16 @@ public class FunctionDaoImpl extends BaseDao<TFunction, Long> implements Functio
 		
 		return null;
 	}
-
+	
+	public void delFunctionStatus(TFunction tf) {
+		try{
+			delete(tf);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	public void setFunctionStatus(TFunction tf) {
 		try {

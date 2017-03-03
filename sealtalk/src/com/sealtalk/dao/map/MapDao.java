@@ -39,7 +39,8 @@ public interface MapDao extends IBaseDao<TMap, Long> {
 	 * @param userId
 	 * @param latitude
 	 * @param longtitude
+	 * @param now 
 	 */
-	public void updateLocation(int userId, String latitude, String longtitude);
+	public void updateLocation(int userId, String latitude, String longtitude, long now);
 
 }

@@ -16,9 +16,7 @@ public class MapDaoImpl extends BaseDao<TMap, Long> implements MapDao {
 	@Override
 	public Object[] getLocation(int targetId) {
 		try {
-
-			String hql = "select MEM.logo, MAP.latitude, MAP.longitude from t_member MEM inner join t_map MAP on MEM.id=MAP.user_id where MEM.id=" + targetId;
-			
+			String hql = "select MEM.logo, MAP.latitude, MAP.longitude, MAP.subdate from t_member MEM inner join t_map MAP on MEM.id=MAP.user_id where MEM.id=" + targetId;
 			
 			SQLQuery query = getSession().createSQLQuery(hql);
 			
@@ -40,7 +38,7 @@ public class MapDaoImpl extends BaseDao<TMap, Long> implements MapDao {
 	@Override
 	public List<Object[]> getLocationForMultId(String targetIdInt) {
 		try {
-			String hql = "select MEM.id, MEM.logo, MAP.latitude, MAP.longitude from t_member MEM inner join t_map MAP on MEM.id=MAP.user_id where MEM.id in(" + targetIdInt + ")";
+			String hql = "select MEM.id, MEM.logo, MAP.latitude, MAP.longitude, MAP.subdate from t_member MEM inner join t_map MAP on MEM.id=MAP.user_id where MEM.id in(" + targetIdInt + ")";
 			
 			SQLQuery query = getSession().createSQLQuery(hql);
 			
@@ -89,11 +87,20 @@ public class MapDaoImpl extends BaseDao<TMap, Long> implements MapDao {
 
 
 	@Override
-	public void updateLocation(int userId, String latitude, String longtitude) {
+	public void updateLocation(int userId, String latitude, String longtitude, long now) {
 		try {
-			String hql = "update TMap tm set tm.latitude='" + latitude + "', tm.longitude='" + longtitude + "' where userId=" + userId;
+			StringBuilder sbSql = new StringBuilder("update TMap tm set tm.subDate=");
+			sbSql.append(now);
 			
-			update(hql);
+			if (latitude != null) {
+				sbSql.append(",tm.latitude='").append(latitude).append("'");
+			}
+			if (longtitude != null) {
+				sbSql.append(",tm.longitude='").append(longtitude).append("'");
+			}
+			
+			sbSql.append(" where userId=").append(userId);
+			update(sbSql.toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

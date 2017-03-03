@@ -81,7 +81,10 @@ public class SystemAction extends BaseAction {
 		String tokenMaxAge = PropertiesUtils.getStringByKey("db.tokenMaxAge");
 		
 		long tokenMaxAgeLong = 0;
-		long firstTokenDate = member.getCreatetokendate();
+		long firstTokenDate = 0;
+		if (member.getCreatetokendate() != null) {
+			firstTokenDate = member.getCreatetokendate();
+		}
 		long now = TimeGenerator.getInstance().getUnixTime();
 		
 		if (tokenMaxAge != null && !"".equals(tokenMaxAge)) {
@@ -171,7 +174,11 @@ public class SystemAction extends BaseAction {
 		String tokenMaxAge = PropertiesUtils.getStringByKey("db.tokenMaxAge");
 		
 		long tokenMaxAgeLong = 0;
-		long firstTokenDate = member.getCreatetokendate();
+		long firstTokenDate = 0;
+		if (member.getCreatetokendate()!=null) {
+			firstTokenDate = member.getCreatetokendate();
+			System.out.println("afterLogin 180: " + firstTokenDate);
+		}
 		long now = TimeGenerator.getInstance().getUnixTime();
 		
 		if (tokenMaxAge != null && !"".equals(tokenMaxAge)) {
@@ -183,9 +190,14 @@ public class SystemAction extends BaseAction {
 				String domain = PropertiesUtils.getDomain();
 				String uploadDir = PropertiesUtils.getUploadDir();
 				String logo = member.getLogo();
+				if(logo == null) logo = "PersonImg.png";
 				String url = domain + uploadDir + logo;
 				
+				System.out.println("afterLogin 195url: " + url);
+				System.out.println("afterLogin userId: " + userId);
+				System.out.println("afterLogin name: " + name);
 				token = RongCloudUtils.getInstance().getToken(userId, name, url);
+				System.out.println("afterLogin 196: " + token);
 				memberService.updateUserTokenForId(userId, token);
 			} catch (Exception e) {
 				logger.error(e);
@@ -194,7 +206,7 @@ public class SystemAction extends BaseAction {
 		} else {
 			token = member.getToken();
 		}
-		
+		System.out.println("afterLogin 205: " + token);
 		logger.info(token);
 		
 		//设置用户session
