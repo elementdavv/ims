@@ -633,6 +633,7 @@ function del(tId) {
 		title:'提示',
 		message:'确定删除 ' + ns[0].name.substr(55) + ' ?',
 		callback: function(result) {
+			alert(result);
 			if (result == false) return;
 			if (hasChildBranch(ns[0].id)) {
 				bootbox.dialog({
@@ -656,8 +657,6 @@ function del(tId) {
 			else {
 				callajax('branch!del', {id: ns[0].id, r: 0}, cb_del_member);
 			}
-		},
-		callback: function() {
 			$('#container').css('width', document.body.clientWidth + 'px');	
 		},
 	});

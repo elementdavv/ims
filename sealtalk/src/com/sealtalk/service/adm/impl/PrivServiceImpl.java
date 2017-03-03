@@ -95,10 +95,12 @@ public class PrivServiceImpl implements PrivService {
 		String[] pa = privs.split(",");
 		Integer i = pa.length;
 		while(i-- > 0) {
-			TRolePriv rolePriv = new TRolePriv();
-			rolePriv.setRoleId(role.getId());
-			rolePriv.setPrivId(Integer.parseInt(pa[i]));
-			rolePrivDao.save(rolePriv);
+			if (!"".equals(pa[i])) {
+				TRolePriv rolePriv = new TRolePriv();
+				rolePriv.setRoleId(role.getId());
+				rolePriv.setPrivId(Integer.parseInt(pa[i]));
+				rolePrivDao.save(rolePriv);
+			}
 		}
 		
 		return role.getId();
