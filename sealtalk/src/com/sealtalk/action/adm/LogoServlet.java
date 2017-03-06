@@ -25,7 +25,7 @@ public class LogoServlet extends HttpServlet {
 		
 		Part p = req.getPart("logofile");
 		String name = getFileName(p);
-		String path = getServletContext().getRealPath("./images/");
+		String path = getServletContext().getRealPath("images") + "/";
 		
 		p.write(path + name);
 		

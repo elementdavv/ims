@@ -2,7 +2,8 @@ package com.sealtalk.common;
 
 public enum FunctionName {
 	SYSTIPVOICE("systipvoice"),
-	MSGTOP("msgtop");
+	MSGTOP("msgtop"),
+	SHUTUP("shutup");
 	
 	private String name;
 	

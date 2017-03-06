@@ -299,17 +299,17 @@ public class BranchAction extends BaseAction {
 		branchService.saveBranchMember(branchMember);
 		
 		//人员角色
-		TMemberRole memberRole = null;
-		memberRole = branchService.getMemberRoleByMemberId(memberId);
-		if (memberRole == null) {
-			memberRole = new TMemberRole();
-			memberRole.setMemberId(memberId);
-			memberRole.setListorder(0);
-		}
 		if (this.request.getParameter("memberroleid") != null) {
+			TMemberRole memberRole = null;
+			memberRole = branchService.getMemberRoleByMemberId(memberId);
+			if (memberRole == null) {
+				memberRole = new TMemberRole();
+				memberRole.setMemberId(memberId);
+				memberRole.setListorder(0);
+			}
 			memberRole.setRoleId(Integer.parseInt(this.request.getParameter("memberroleid")));
+			branchService.saveMemberRole(memberRole);
 		}
-		branchService.saveMemberRole(memberRole);
 		
 		//发短信
 		String msg = "您的IMS产品帐号" + member.getAccount() + ", 密码111111.";

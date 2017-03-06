@@ -12,17 +12,19 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
-import org.hamcrest.core.IsNull;
 
+import com.sealtalk.common.FunctionName;
 import com.sealtalk.common.Tips;
 import com.sealtalk.dao.adm.MemberRoleDao;
 import com.sealtalk.dao.adm.PrivDao;
 import com.sealtalk.dao.adm.RolePrivDao;
 import com.sealtalk.dao.fun.DontDistrubDao;
+import com.sealtalk.dao.fun.FunctionDao;
 import com.sealtalk.dao.group.GroupDao;
 import com.sealtalk.dao.group.GroupMemberDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TDontDistrub;
+import com.sealtalk.model.TFunction;
 import com.sealtalk.model.TGroup;
 import com.sealtalk.model.TGroupMember;
 import com.sealtalk.model.TMember;
@@ -1103,10 +1105,15 @@ public class GroupServiceImpl implements GroupService {
 					List<TGroupMember> groupMemList = groupMemberDao.getTGroupMemberList(groupIdInt);
 					if (groupMemList != null) {
 						for(int i = 0; i < groupMemList.size(); i++) {
-							userList.add(groupMemList.get(i).getMemberId()+"");
+							TGroupMember tm = groupMemList.get(i);
+							if (!tm.getIsCreator().equals("1")) {		//去除群主
+								userList.add(tm.getMemberId()+"");
+							}
 						}
 					}
 				}
+				
+				System.out.println("---------shutUpGroup-------------: " + userList.toString());
 				
 				String shutUpTime = PropertiesUtils.getStringByKey("group.shutuptime");
 				ArrayList<String> codeList = new ArrayList<String>();
@@ -1117,7 +1124,22 @@ public class GroupServiceImpl implements GroupService {
 					codeList.add(code);
 				}
 				
-				if (codeList.size() == userList.size()) {
+				//服务器主动记录状态	
+				String name =(new StringBuilder(groupId).append("_").append(FunctionName.SHUTUP.getName())).toString();
+				TFunction tf = functionDao.getFunctionStatus(name);
+				if (tf != null) {
+					functionDao.updateFunctionStatus(name, "1");
+				} else {
+					tf = new TFunction();
+					tf.setIsOpen("1");
+					tf.setListorder(0);
+					tf.setName((new StringBuilder(groupId).append("_").append(FunctionName.SHUTUP.getName())).toString());
+					functionDao.setFunctionStatus(tf);
+				}
+				
+				TFunction tf1 = functionDao.getFunctionStatus(name);
+				if (tf1.getIsOpen().equals("1")) {
+				//if (codeList.size() == userList.size()) {
 					jo.put("code", 1);
 					jo.put("text", Tips.OK.getText());
 				} else {
@@ -1156,6 +1178,8 @@ public class GroupServiceImpl implements GroupService {
 					userList.add(userId);
 				}
 				
+				System.out.println("---------shutUpGroup-------------: " + userList.toString());
+				
 				ArrayList<String> codeList = new ArrayList<String>();
 				
 				String[] userIds = (String[]) userList.toArray(new String[userList.size()]);
@@ -1163,6 +1187,13 @@ public class GroupServiceImpl implements GroupService {
 				for(int i = 0; i < userList.size(); i++) {
 					String code = RongCloudUtils.getInstance().unShutUpGroup(userIds, groupId);
 					codeList.add(code);
+				}
+				
+				//删除禁言状态
+				String name =(new StringBuilder(groupId).append("_").append(FunctionName.SHUTUP.getName())).toString();
+				TFunction tf = functionDao.getFunctionStatus(name);
+				if (tf != null) {
+					functionDao.updateFunctionStatus(name, "0");
 				}
 				
 				if (codeList.size() == userList.size()) {
@@ -1189,7 +1220,17 @@ public class GroupServiceImpl implements GroupService {
 				result.put("code", -1);
 				result.put("text", Tips.WRONGPARAMS.getText());
 			} else {
-				List<GagGroupUser> memList = RongCloudUtils.getInstance().getShutUpGroupMember(groupId);
+				String name =(new StringBuilder(groupId).append("_").append(FunctionName.SHUTUP.getName())).toString();
+				TFunction tf = functionDao.getFunctionStatus(name);
+				String status = "0";
+				
+				if (tf != null) {
+					status = tf.getIsOpen();
+				}
+				result.put("code", 1);
+				result.put("text", status);
+				
+			/*	List<GagGroupUser> memList = RongCloudUtils.getInstance().getShutUpGroupMember(groupId);
 				boolean status = false;
 				
 				if (memList != null && memList.size() > 0) {
@@ -1198,6 +1239,7 @@ public class GroupServiceImpl implements GroupService {
 				
 				result.put("code", 1);
 				result.put("text", status);
+				*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1351,7 +1393,15 @@ public class GroupServiceImpl implements GroupService {
 	private PrivDao privDao;
 	private MemberRoleDao memberRoleDaoImpl;
 	private RolePrivDao rolePrivDao;
+	private FunctionDao functionDao;
 	
+	public FunctionDao getFunctionDao() {
+		return functionDao;
+	}
+
+	public void setFunctionDao(FunctionDao functionDao) {
+		this.functionDao = functionDao;
+	}
 
 	public RolePrivDao getRolePrivDao() {
 		return rolePrivDao;
