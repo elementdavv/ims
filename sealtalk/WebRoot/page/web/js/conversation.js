@@ -701,27 +701,29 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 break;
             case "ImageMessage":
                 var sImgUrl=sContent.imageUri;
-                var sImgName=sImgUrl.split('attname=')[1];
-                var sImgType=sImgName.split('.')[1];
-                var sImageType='';
-                switch (sImgType){
-                    case 'jpg':
-                        sImageType='image/jpeg';
-                        break;
-                    case 'png':
-                        sImageType='image/png';
-                        break;
+                if(sImgUrl){
+                    var sImgName=sImgUrl.split('attname=')[1];
+                    var  sImgType=sImgName.split('.')[1];
+                    var sImageType='';
+                    switch (sImgType){
+                        case 'jpg':
+                            sImageType='image/jpeg';
+                            break;
+                        case 'png':
+                            sImageType='image/png';
+                            break;
+                    }
+                    sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
+                    '<div class=" mr-ownImg"><img src="'+sContent.imageUri+'" class="uploadImg uploadImgFile" data-type="'+sImageType+'"></div>'+
+                    '</li>';
                 }
-                sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
-                        '<div class=" mr-ownImg"><img src="'+sContent.imageUri+'" class="uploadImg uploadImgFile" data-type="'+sImageType+'"></div>'+
-                        '</li>';
                 break;
             case "InformationNotificationMessage":
                 sDoM += '<li data-t="1486971032807"><p class="mr-Date">'+sContent.message+'</p></li>'
                 break;
             case "TextMessage":
                 var str = RongIMLib.RongIMEmoji.symbolToHTML(sContent);
-                sDoM += ' <li class="mr-chatContentR clearfix" data-t="'+sSentTime+'">\
+                sDoM += '<li class="mr-chatContentR clearfix" data-t="'+sSentTime+'">\
                             <div class="mr-ownChat">\
                             <span name="'+sContent+'">' + str + '</span>\
                             <i></i>\
@@ -851,6 +853,7 @@ function conversationSelf(targetID,targetType,callback){
     //获取右侧的联系人资料聊天记录
     clearNoReadMsg(targetType,targetID);
     getConverList();
+    console.log('conversation 857')
     callback&&callback()
 }
 function getInfoDetails(targetID,targetType,oInfoDetails){
@@ -1555,9 +1558,12 @@ function reciveInBox(msg){
         var targetType = targetType == 1?'PRIVATE':'GROUP';
         clearNoReadMsg(targetType,targetID,function(){
             getConverList();
+            console.log('conversation 1562')
         });
     }else{
         getConverList();
+        console.log('conversation 1566')
+
     }
 }
 //从URL连接中取得文件名

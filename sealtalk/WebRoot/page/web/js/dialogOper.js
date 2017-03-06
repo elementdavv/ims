@@ -40,8 +40,9 @@ $(function(){
         var account = JSON.parse(sAccount).account;
         var accountID = JSON.parse(sdata).id;
         var _this = $(this);
-        _this.keypress(function(event) {
-            if (event.which == 13) {
+        _this.on('input',function(){
+        //_this.keypress(function(event) {
+        //    if (event.which == 13) {
                 $('.contactSearchResult').remove();
                 var keyWord = _this.val();
                 sendAjax('member!searchUser',{account:keyWord},function(data){
@@ -87,7 +88,7 @@ $(function(){
 
                 })
 
-            }
+            //}
         })
     })
 

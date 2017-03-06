@@ -25,8 +25,8 @@ function getCurrentMemberPos(){
     //解析定位结果
     function onComplete(data) {
         var str=['定位成功'];
-        var latiude=data.position.getLng();//经度
-        var longtiude=data.position.getLat();//纬度
+        var longtiude=data.position.getLng();//经度
+        var latiude=data.position.getLat();//纬度
         str.push('经度：' + data.position.getLng());
         str.push('纬度：' + data.position.getLat());
         if(data.accuracy){
@@ -36,7 +36,7 @@ function getCurrentMemberPos(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.id;
-        sendAjax('map!subLocation',{userid:sId,latitude:latiude,longtitude:longtiude},function(data){
+        sendAjax('map!subLocation',{userid:sId,latitude:latiude,longitude:longtiude},function(data){
             var aDatas=JSON.parse(data);
 
         });
@@ -49,4 +49,4 @@ function getCurrentMemberPos(){
 }
     setInterval(function (){
         getCurrentMemberPos();
-    },3600000);
+    },10000);

@@ -5,7 +5,6 @@ $(function(){
 
 
     var userid = $('body').attr('userid');
-
     var token = $('body').attr('token');
     sendAjax('member!getOneOfMember',{userid:userid},function(data){
         window.localStorage.datas=data;
@@ -15,9 +14,11 @@ $(function(){
         if(datas){
             window.localStorage.account=JSON.stringify(changeFormatData);
             if(RongIMLib.VCDataProvider&&window.Electron){
-                RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
+                RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon),{navi:globalVar.navi,fileServer:globalVar.fileServer});
+                //RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
-                RongIMClient.init(globalVar.rongKey);
+                RongIMClient.init(globalVar.rongKey,null,{navi:globalVar.navi});
+                //RongIMClient.init(globalVar.rongKey);
             }
             var account = datas.account;
             var accountID = datas.id;
@@ -41,31 +42,36 @@ $(function(){
                         //链接成功
                         case RongIMLib.ConnectionStatus.CONNECTED:
                             console.log('链接成功');
-                            //if($('.window_mask')){
-                            //    $('.window_mask').remove()
-                            //}
+                            clearTimeout(globalVar.disconnectTimer);
+                            if($('.window_mask')){
+                                $('.window_mask').remove()
+                            }
                             //显示会话列表
                             getConverList()
                             break;
                         //正在链接
                         case RongIMLib.ConnectionStatus.CONNECTING:
+
                             console.log('正在链接');
                             break;
                         //重新链接
                         case RongIMLib.ConnectionStatus.DISCONNECTED:
-                            if($('.window_mask').length==0){
-                                new Window().alert({
-                                    title   : '',
-                                    content : '断开连接！',
-                                    hasCloseBtn : false,
-                                    hasImg : true,
-                                    textForSureBtn : false,
-                                    textForcancleBtn : false
-                                });
-                            }
+                            globalVar.disconnectTimer = setTimeout(function(){
+                                if($('.window_mask').length==0){
+                                    new Window().alert({
+                                        title   : '',
+                                        content : '断开连接！',
+                                        hasCloseBtn : false,
+                                        hasImg : true,
+                                        textForSureBtn : false,
+                                        textForcancleBtn : false
+                                    });
+                                }
+                            },1000);
+
 
                            // RongIMClient.clearListeners();
-                            RongIMClient._memoryStore.listenerList={};
+                           // RongIMClient._memoryStore.listenerList={};
                             console.log('断开连接');
                             break;
                         //其他设备登录
@@ -78,11 +84,8 @@ $(function(){
                                     hasImg : true,
                                     textForSureBtn : false,
                                     textForcancleBtn : false
-                                    //,
-                                    //autoHide:true
                                 });
                             }
-
                             console.log('其他设备登录');
                             break;
                         //网络不可用
@@ -94,8 +97,6 @@ $(function(){
                                 hasImg : true,
                                 textForSureBtn : false,
                                 textForcancleBtn : false
-                                //,
-                                //autoHide:true
                             });
                             console.log('网络不可用');
                             break;

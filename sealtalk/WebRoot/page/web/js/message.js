@@ -109,6 +109,7 @@ $(function(){
                             jumpToFriendListOpen(targetAccount)
                         }
                         if(targeType=='member'){
+
                             targeType = 'PRIVATE';
                         }
                         conversationSelf(targetID,targeType);
@@ -137,6 +138,7 @@ $(function(){
                         $('.groupMap').removeClass('chatHide');
                         if(targeType=='member'){
                             targeType = 'PRIVATE';
+
                         }
                         creatMemberMap(targetID,targeType);
                         //console.log(targeType,targetID,datas);
@@ -210,15 +212,22 @@ $(function(){
                 break;
             case 1:
                 //发送文件
-                var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
-                var groupName = eDom.find('.groupName').html();
+                var limit = $('body').attr('limit');
+                //var oLimit = JSON.parse(limit);
+                if(limit.indexOf('qzcjq')==-1) {//没有权限
+                    return false;
+                }else{
+                    var eDom = $('.usualChatListUl').find('[targetid='+targetID+'][targettype='+targetType+']');
+                    var groupName = eDom.find('.groupName').html();
                     newContactList(targetType,targetID,groupName,function(){
                         if(targetType=='PRIVATE'){
                             $('#perContainer').find('#upload_file').click()
                         }else{
                             $('#groupContainer').find('#upload_file').click()
                         }
-                })
+                    })
+                }
+
                 break;
             case 2:
                 //查看资料
@@ -527,7 +536,7 @@ $(function(){
         $('.groupMap').attr('targetID',targetID);
         $('.groupMap').attr('targetType',targeType);
         $('.groupMapMember').addClass('chatHide');
-        getGroupMap(targetID,0);
+        getGroupMap(targetID,2);
     }
     function creatGroupMap(targetID,targeType,groupName){
         $('.groupMapMember ul').empty();
@@ -548,7 +557,14 @@ $(function(){
         var _onClick = function(position){
             map.setZoomAndCenter(18, position);
         };
-        sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:count},function(data){
+        var sdata = localStorage.getItem('datas');
+        var oData=JSON.parse(sdata);
+        //var account = oData?oData.account : '';
+        var accountID = oData?oData.id :'';
+        if(targetID==accountID){
+            targetID = 0;
+        }
+        sendAjax('map!getLocation',{userid:sId,targetid:targetID,type:count,isInit:1},function(data){
             var aDatas=JSON.parse(data);
             var aText=aDatas.text;
             if(aDatas.code==1) {
@@ -560,8 +576,10 @@ $(function(){
                         var sUserID=aText[i].userID;//用户id
                         var marker;
                         var lnglats=[];
-                        lnglats.push(sLatitude);
+                        sLatitude = sLatitude>=90?39.90923:sLatitude;
+                        sLongtitude = sLongtitude>=180?116.397428:sLongtitude;
                         lnglats.push(sLongtitude);
+                        lnglats.push(sLatitude);
                         if(!$('.groupMapMember').hasClass('chatHide')){
                             var sDom='<li>\
                             <img src="'+sLogo+'">\
@@ -1359,7 +1377,7 @@ function showMemberInfo(data,pos){
     //console.log('=================',data);
     var sName=data.fullname ||'';
     var sHeadImg=data.logo?globalVar.imgSrc+data.logo :globalVar.defaultLogo;
-    var sTel=data.telephone ||'';
+    var sTel=data.mobile ||'';
     var sEmail=data.email ||'';
     var sBranch=data.branch ||'';
 

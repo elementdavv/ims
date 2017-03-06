@@ -1231,7 +1231,9 @@
                         }
                     }
                 }
-                this.hide();
+                if(_target.parent('.calendar-body').length === 1){
+                    this.hide();
+                }
             }
             e.preventDefault();
         },
