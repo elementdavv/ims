@@ -3,6 +3,20 @@
  */
 $(function(){
 
+
+    //回车发送消息
+    $('.textarea').focus(function(){
+        var _this = $(this);
+        _this.keypress(function(event) {
+            if (event.which == 13) {
+                event.cancelBubble=true;
+                event.preventDefault();
+                event.stopPropagation();
+                sendMsgBoxMsg(_this);
+            }
+        })
+    })
+
     //点击会话标题上的地图跳到定位
     $('.mr-Location').click(function(){
         var $parentNode = $(this).parents('.mesContainer');
@@ -421,7 +435,7 @@ function conversationGroup(targetID,targetType,groupName,callback){
     fillGroupPage(targetID,targetType,groupName)
     //清空消息盒子
     //checkShutUp();
-    $('.message-content').html();
+    $('.mesContainerGroup').find('.textarea').html('');
     //换title
     $('.perSetBox-title span').html(groupName);
     //将重要信息放到title的属性上
@@ -432,7 +446,7 @@ function conversationGroup(targetID,targetType,groupName,callback){
     $('.rongyun-emoji>span').unbind('click');
     $('.rongyun-emoji>span').on('click',function(){
         var name = $(this).find('span').attr('name');
-        $('.textarea').append(name);
+        $(".mesContainer:not(.chatHide)").find('.textarea').append(name)
     })
     $('.showEmoji').click(function(){
 
@@ -451,28 +465,13 @@ function conversationGroup(targetID,targetType,groupName,callback){
             $('.rongyun-emoji').hide();
         },1000)
     })
-    //回车的时候
-    $('#message-content').click(function(){
-        $(this).keypress(function(event) {
-            if (event.which == 13) {
-                console.log(1111);
-            }
-        })
-    })
     //发送消息
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
-        var content = $(this).prev().html();
-        var flag = $(this).prev().attr('contenteditable');
-
-        if(content&&flag=='true'){
-            var targetId = $('.mesContainerGroup').attr('targetID');
-            var targetType = $('.mesContainerGroup').attr('targetType');
-            //显示到盒子里
-            //sendMsg(content,targetId,targetType);
-            sendMsg(content,targetId,targetType,'','',new Date().getTime())
-        }
+        var contentBox = $(this).prev()
+        sendMsgBoxMsg(contentBox);
     });
+
 
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
@@ -495,6 +494,25 @@ function po_Last_Div(obj) {
         range.select();
     }
 }
+
+//发送消息()
+function sendMsgBoxMsg(contentBox){
+    var content = contentBox.html();
+    if(content){
+        var targetNode = $(".mesContainer:not(.chatHide)")
+        var targetType = targetNode.attr('targetType');
+        var targetId = targetNode.attr('targetID');
+        if(targetType=='GROUP'){
+            var flag = contentBox.attr('contenteditable');
+            if(flag=='true'){
+                sendMsg(content,targetId,targetType,'','',new Date().getTime())
+            }
+        }else{
+            sendMsg(content,targetId,targetType,'','',new Date().getTime());
+        }
+    }
+}
+
 function createConversationList(sDoM,list,targetType){
     var timestamp = new Date().getTime();//获取当前时间戳
     var sStartTime=0;
@@ -807,6 +825,7 @@ function conversationSelf(targetID,targetType,callback){
     //var target = targetID;
     //噗页面 把targetID放进去
     fillSelfPage(targetID,targetType);
+    $('.mesContainerSelf').find('.textarea').html('');
     $('.mesContainerSelf').removeClass('mesContainer-translateL');
     var curTargetList = searchFromList(1,targetID);
     var name =curTargetList?curTargetList.name : '';
@@ -819,8 +838,8 @@ function conversationSelf(targetID,targetType,callback){
         $('.textarea b').attr('contenteditable','false');
         var name = $(this).find('span').attr('name');
         //var newEmo = $(this).clone();
-        $('.textarea').append(name);
-        var textarea = document.getElementById('message-content')
+        $(".mesContainer:not(.chatHide)").find('.textarea').append(name)
+        //var textarea = document.getElementById('message-content')
         //po_Last_Div(textarea);
     })
     $('.showEmoji').click(function(){
@@ -842,13 +861,8 @@ function conversationSelf(targetID,targetType,callback){
     })
     $('.sendMsgBTN').unbind('click')
     $('.sendMsgBTN').click(function(){
-        var content = $(this).prev().html();
-        if(content){
-            var targetId = $('.mesContainerSelf').attr('targetID');
-            var targetType = $('.mesContainerSelf').attr('targetType');
-            //sendMsg(content,targetId,targetType)
-            sendMsg(content,targetId,targetType,'','',new Date().getTime())
-        }
+        var contentBox = $(this).prev()
+        sendMsgBoxMsg(contentBox);
     })
     //获取右侧的联系人资料聊天记录
     clearNoReadMsg(targetType,targetID);
