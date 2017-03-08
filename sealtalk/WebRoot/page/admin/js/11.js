@@ -124,6 +124,7 @@ $(document).ready(function(){
 	$('#search11').keyup(function(e) {
 		if (e.keyCode == 13) {
 			searchnodes11 = dosearch('search11', 'tree11', searchnodes11);
+			handletree11open();
 		}
 	});
 	$('.btnadmin').hover(function(){
