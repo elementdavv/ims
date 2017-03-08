@@ -2,19 +2,57 @@
  * Created by zhu_jq on 2017/1/12.
  */
 $(function(){
-
+    function placeCaretAtEnd(el) {
+        el.focus();
+        if (typeof window.getSelection != "undefined" && typeof document.createRange != "undefined") {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            range.collapse(false);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (typeof document.body.createTextRange != "undefined") {
+            var textRange = document.body.createTextRange();
+            textRange.moveToElementText(el);
+            textRange.collapse(false);
+            textRange.select();
+        }
+    }
 
     //回车发送消息
+    $('.textarea').off('focus');
     $('.textarea').focus(function(){
+        var down=0;
         var _this = $(this);
-        _this.keypress(function(event) {
+        var jsThis = this;
+
+        _this.off('keydown');
+        _this.on('keydown',function(){
+            if(event.keyCode==17)
+            {
+                down=1;      //ctrl按下
+            }
             if (event.which == 13) {
-                event.cancelBubble=true;
-                event.preventDefault();
-                event.stopPropagation();
-                sendMsgBoxMsg(_this);
+
+                if(down==1)//ctrl+enter
+                {
+                    var oldContent = _this.html();
+                    var newContent = oldContent+'<div><br><div>';
+                    _this.html(newContent);
+                    placeCaretAtEnd(jsThis)
+                    down=0;
+                }else//enter
+                {
+                    event.cancelBubble=true;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    sendMsgBoxMsg(_this);
+                }
             }
         })
+        //_this.keypress(function(event) {
+        //
+        //})
     })
 
     //点击会话标题上的地图跳到定位
