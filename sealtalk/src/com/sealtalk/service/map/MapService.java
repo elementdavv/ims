@@ -7,9 +7,10 @@ public interface MapService {
 	 * @param userid
 	 * @param targetid
 	 * @param type
+	 * @param isInit  显示原始坐标(1)还是初始90,180(0)
 	 * @return
 	 */
-	public String getLocation(String userid, String targetid, String type);
+	public String getLocation(String userid, String targetid, String type, String isInit);
 
 	/**
 	 * 提交个人位置 
