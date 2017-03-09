@@ -15,7 +15,7 @@ import javax.crypto.Cipher;
  */
 public class SecretUtils {
 
-	private static String strDefaultKey = "8b7b3a2e-158a-465f-a0fb-130ae543ee98";
+	private static String strDefaultKey = "8b7b3a2e";
 	private Cipher encryptCipher = null;
 	private Cipher decryptCipher = null;
 

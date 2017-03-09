@@ -260,6 +260,7 @@ public class BranchAction extends BaseAction {
 		if (this.request.getParameter("memberfullname") != null) {
 			member.setFullname(this.request.getParameter("memberfullname"));
 			member.setPinyin(PinyinGenerator.getPinYinHeadChar(this.request.getParameter("memberfullname")));
+			member.setAllpinyin(PinyinGenerator.getPinYin(this.request.getParameter("memberfullname")));
 		}
 		if (this.request.getParameter("memberintro") != null)
 			member.setIntro(this.request.getParameter("memberintro"));

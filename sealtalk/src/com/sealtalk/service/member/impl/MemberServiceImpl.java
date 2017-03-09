@@ -19,6 +19,7 @@ import com.sealtalk.model.TextCode;
 import com.sealtalk.service.member.MemberService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PasswordGenerator;
+import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.PropertiesUtils;
 import com.sealtalk.utils.RongCloudUtils;
 import com.sealtalk.utils.StringUtils;

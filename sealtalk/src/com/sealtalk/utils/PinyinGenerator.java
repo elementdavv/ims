@@ -177,7 +177,7 @@ public class PinyinGenerator {
   
     public static void main(String[] args) {  
         String cnStr = "liusong";  
-        System.out.println(getPy(cnStr));  
+        System.out.println(getPinYin(cnStr));  
 //        System.out.println(getPinYinHeadChar(cnStr));  
 //        System.out.println(getCnASCII(cnStr));  
 //        System.out.println(StringUtils.arrayToDelimitedString(getFirstHeadChar(cnStr), ""));  

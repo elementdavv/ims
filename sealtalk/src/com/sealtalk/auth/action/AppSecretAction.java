@@ -35,6 +35,18 @@ public class AppSecretAction extends BaseAction {
 		returnToClient(result);
 		return "text";
 	}
+	
+	/**
+	 * 获取临时令牌
+	 * @return
+	 * @throws ServletException
+	 */
+	public String getTempToken() throws ServletException {
+		String result = appSecretService.getTempToken(appId);
+		returnToClient(result);
+		return "text";
+	}
+	
 	private String appId;
 	private String secret;
 	private String url;

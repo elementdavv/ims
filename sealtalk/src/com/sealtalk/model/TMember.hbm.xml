@@ -21,6 +21,11 @@
         </property>
         <property name="pinyin" type="java.lang.String">
             <column name="pinyin" length="256">
+                <comment>姓名首字母</comment>
+            </column>
+        </property>
+        <property name="allpinyin" type="java.lang.String">
+            <column name="allpinyin" length="256">
                 <comment>姓名全拼</comment>
             </column>
         </property>

@@ -102,6 +102,9 @@ public class RongCloudUtils {
 				this.init();
 			}
 			userGetTokenResult = this.getTokenResult(userId, userName, url);
+			//System.out.println("getToken :" + userGetTokenResult.getErrorMessage());
+			//System.out.println("getToken :" + userGetTokenResult.getUserId());
+			//System.out.println("getToken :" + userGetTokenResult.getCode());
 			token = userGetTokenResult.getToken();
 		} catch (Exception e) {
 			e.printStackTrace();

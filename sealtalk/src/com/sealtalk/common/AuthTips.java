@@ -3,8 +3,9 @@ package com.sealtalk.common;
 import net.sf.json.JSONObject;
 
 public enum  AuthTips {
-	WORNGAPPID("AppId或secret生成错误", "00001"),
-	WORNGPARAM("参数错误", "00001"),
+	WORNGMAKEAS("AppId或secret生成错误", "00001"),
+	WORNGAPPID("AppId或secret生成错误", "00002"),
+	WORNGPARAM("参数错误", "00003"),
 	
 	OK("OK", "10000"),
 	ERROR("error", "3000"),

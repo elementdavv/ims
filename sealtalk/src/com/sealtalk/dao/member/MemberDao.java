@@ -81,6 +81,7 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	/**
 	 * 按 账号或名称或全拼查找用户
 	 * @param account
+	 * @param pinYin 
 	 * @return
 	 */
 	public List searchUser(String account);
