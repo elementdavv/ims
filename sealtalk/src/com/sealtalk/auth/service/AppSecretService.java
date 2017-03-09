@@ -14,4 +14,11 @@ public interface AppSecretService {
 	 * @param url
 	 */
 	public String setAppIDAndSecretAndUrl(String appId, String secret, String url);
+
+	/**
+	 * 获取临时令牌
+	 * @param appId
+	 * @return
+	 */
+	public String getTempToken(String appId);
 }

@@ -38,7 +38,7 @@ public class AppSecretServiceImpl implements AppSecretService {
 				text = jo1.toString();
 			} else {
 				code = "500";
-				text = AuthTips.WORNGAPPID.getText();
+				text = AuthTips.WORNGMAKEAS.getText();
 			}
 			jo.put("code", code);
 			jo.put("text", text);
@@ -94,21 +94,18 @@ public class AppSecretServiceImpl implements AppSecretService {
 		
 		return jo.toString();
 	}
-
-	/**
-	 * 生成appId和secret
-	 * 
-	 * @return
-	 */
+	
 	private ArrayList<String> makeAppId() {
 		ArrayList<String> as = new ArrayList<String>();
-
+		long now = TimeGenerator.getInstance().getUnixTimeMills();
+		
 		try {
 			UUID uuid = UUID.randomUUID();
 			String uuidStr = uuid.toString();
+			uuidStr = StringUtils.getInstance().replaceChar(uuidStr, "-", "");
+			as.add(uuidStr);
 			uuidStr = new SecretUtils().encrypt(uuidStr);
-			as.add(uuidStr.substring(0, 18));
-			as.add(uuidStr.substring(18, uuidStr.length()));
+			as.add(uuidStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(LogUtils.getInstance().getErrorInfoFromException(e));
@@ -117,9 +114,38 @@ public class AppSecretServiceImpl implements AppSecretService {
 		return as;
 	}
 	
+	@Override
+	public String getTempToken(String appId) {
+		JSONObject jo = new JSONObject();
+		String code = "500";
+		String text = null;
+		
+		try {
+			if (StringUtils.getInstance().isBlank(appId)) {
+				text = AuthTips.WORNGPARAM.getText();
+			} else {
+				AppSecret as = appSecretDao.getAppSecretByAppId(appId);
+				
+				if (as == null) {
+					text = AuthTips.WORNGAPPID.getText();
+				} else {
+					
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(LogUtils.getInstance().getErrorInfoFromException(e));
+		}
+		
+		jo.put("code", code);
+		jo.put("text", text);
+		return jo.toString();
+	}
+	
 	private AppSecretDao appSecretDao;
 
 	public void setAppSecretDao(AppSecretDao appSecretDao) {
 		this.appSecretDao = appSecretDao;
 	}
+
 }
