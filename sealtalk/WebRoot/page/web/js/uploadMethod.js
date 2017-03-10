@@ -126,6 +126,7 @@ $(function(){
         }else{
             var _this = this;
             var _file = this.files[0];
+            $(this).val("");
             UploadClient.initImage(config, function(uploadFile){
                 //uploading = true;
                 var callback = {

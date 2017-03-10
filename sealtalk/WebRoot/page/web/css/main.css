@@ -1225,6 +1225,7 @@ div.contactSearchResult{
 }
 .contactsList ul li div span{
     float: left;
+    max-width: 200px;
 }
 .dialogCollspanO{
     display: inline-block;

@@ -37,7 +37,7 @@ $(function(){
                 if(down==1)//ctrl+enter
                 {
                     var oldContent = _this.html();
-                    var newContent = oldContent+'<div><br><div>';
+                    var newContent = oldContent+'<div><br><div >';
                     _this.html(newContent);
                     placeCaretAtEnd(jsThis)
                     down=0;
@@ -50,9 +50,6 @@ $(function(){
                 }
             }
         })
-        //_this.keypress(function(event) {
-        //
-        //})
     })
 
     //点击会话标题上的地图跳到定位
@@ -1479,33 +1476,44 @@ function groupInfo(id){
 
 //KB转换成M
 function KBtoM(kb){
-    return Math.floor(kb/1024 * 100) / 100;
+    if(!kb){
+        return 0;
+    }else{
+        return Math.floor(kb/1024 * 100) / 100;
+    }
 }
 //接收到的消息显示在盒子里或者在消息列表中显示
 function reciveInBox(msg){
     //打包后的程序在托盘里闪烁
-    if(msg.messageType!='InformationNotificationMessage'){
-        if (window.Electron) {
-            window.Electron.updateBadgeNumber(2);
-        }
-    }
+
     var targetID = msg.targetId;
     var messageType = msg.messageType;
     var content = messageType=="TextMessage"?msg.content.content:msg.content;
+
+    var alertMsg = messageType=="TextMessage"?msg.content.content:'发送文件'
     var targetType = msg.conversationType;
-    //clearNoReadMsg(targetType,targetID);
-    //var oData=findMemberInList(targetID);
     var senderUserId =msg.senderUserId;
+    var targetID = msg.targetId;
     var senderUser = searchFromList(1,senderUserId);
-    //if(oData){
-    //    var sImg=oData.logo?globalVar.imgSrc+oData.logo:globalVar.defaultLogo;
-    //}else{
-    //    var sImg=globalVar.defaultLogo;
-    //}
+
+
     if(senderUser){
         var senderImg = senderUser.logo?globalVar.imgSrc+senderUser.logo:globalVar.defaultLogo;
+        var sender = senderUser.name;
     }else{
         var senderImg = globalVar.defaultLogo;
+        var sender = '';
+    }
+
+    if(msg.messageType!='InformationNotificationMessage'){
+        if(targetType==3){
+            var targetGroup = matchGroupList(targetID)
+            var sender = targetGroup.name||'';
+            window.Electron.displayBalloon(sender,{body:alertMsg})
+        }else if(targetType==1){
+            var sender = senderUser.name||'';
+            window.Electron.displayBalloon(sender,{body:alertMsg})
+        }
     }
 
     if(targetType==3){//群聊 找到各自的消息容器
@@ -1618,6 +1626,21 @@ function reciveInBox(msg){
 
     }
 }
+
+function matchGroupList(sId){
+    var datas = localStorage.getItem('groupInfo');
+    var data = JSON.parse(datas);
+    var aText=data.text;
+    var targetGroup;
+    for(var i = 0;i<aText.length;i++){
+        if(aText[i].GID==sId){
+            targetGroup = aText[i]
+            //showGroupMemberInfo(aText[i],pos);
+        }
+    }
+    return targetGroup;
+}
+
 //从URL连接中取得文件名
 function getFileUniqueName(fileURL){
     if(fileURL){

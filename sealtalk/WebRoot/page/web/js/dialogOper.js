@@ -231,7 +231,7 @@ function hasItem(parentLevelarr,parentLevel){
     return bhas;
 }
 
-function creatDialogTree(data,className,title,callback,selected){
+function creatDialogTree(data,className,title,callback,selected,addGroupIn){
     $('.WindowMask').find('.conversWindow').attr('class','conversWindow '+className);
     $('.WindowMask').find('.dialogHeader').html(title);
     $('.WindowMask').show();
@@ -242,7 +242,13 @@ function creatDialogTree(data,className,title,callback,selected){
     var userID = datasAll.id;
 
     var HTML = DialogTreeLoop(data,sHTML,level,userID);
-    $('.contactsList').html(HTML);
+    $('.contactsList').html('');
+    if(addGroupIn&&addGroupIn=='group'){
+        var sGroupHtml = DialogGroupLoop();
+    }
+
+    $('.contactsList').append($(sGroupHtml));
+    $('.contactsList').append($(HTML));
     var dom = $('.selectedList ul');
 
     selected = unique3(selected);
@@ -280,6 +286,36 @@ function creatDialogTree(data,className,title,callback,selected){
     $('.manageSure').click(function(){
         callback&&callback();
     });
+}
+
+function DialogGroupLoop(){
+    var sGroupInfo = localStorage.getItem('groupInfo');
+    if(sGroupInfo){
+        var oGroupInfo = JSON.parse(sGroupInfo);
+        var aGroupList = oGroupInfo.text;
+        var sHTML = '';
+        sHTML += '<ul>';
+        sHTML += '<li  id="1" class="department" editable="true">' +
+                    '<div level="1" class="department">' +
+                    '<span style="height: 20px;width: 0px;display:inline-block;float: left;">' +
+                    '</span><span class="dialogCollspan chatLeftIcon dialogCollspanO">' +
+                    '</span><span class="chatLeftIcon dialogCheckBox"></span>' +
+                    '<span class="dialogGroupName">我的群租</span></div></li><ul>';
+        console.log(aGroupList);
+        for(var i = 0;i<aGroupList.length;i++){
+            aGroupList[i];
+            sHTML += '<li account="'+aGroupList[i].account+'" id="'+aGroupList[i].GID+'" class="group" editable="true">' +
+                        '<div level="1" class="group">' +
+                            '<span style="height: 20px;width: 22px;display:inline-block;float: left;">' +
+                            '</span>' +
+                            '<span class="dialogCollspan chatLeftIcon"></span><span class="chatLeftIcon dialogCheckBox"></span>' +
+                            '<span class="dialogGroupName">'+aGroupList[i].name+'</span>' +
+                        '</div>' +
+                    '</li>'
+        }
+        sHTML += '</ul></ul>';
+    }
+    return sHTML;
 }
 
 //删除数组中的某个对象
