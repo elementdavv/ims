@@ -175,17 +175,19 @@ public class SystemAction extends BaseAction {
 		
 		long tokenMaxAgeLong = 0;
 		long firstTokenDate = 0;
+		
 		if (member.getCreatetokendate()!=null) {
 			firstTokenDate = member.getCreatetokendate();
 			System.out.println("afterLogin 180: " + firstTokenDate);
 		}
+		
 		long now = TimeGenerator.getInstance().getUnixTime();
 		
 		if (tokenMaxAge != null && !"".equals(tokenMaxAge)) {
 			tokenMaxAgeLong = Long.valueOf(tokenMaxAge);
 		}
 		
-		if ((now - firstTokenDate) > tokenMaxAgeLong) {
+		if (StringUtils.getInstance().isBlank(member.getToken()) || (now - firstTokenDate) > tokenMaxAgeLong) {
 			try {
 				String domain = PropertiesUtils.getDomain();
 				String uploadDir = PropertiesUtils.getUploadDir();
@@ -193,7 +195,7 @@ public class SystemAction extends BaseAction {
 				if(logo == null) logo = "PersonImg.png";
 				String url = domain + uploadDir + logo;
 				
-				System.out.println("afterLogin 195url: " + url);
+				System.out.println("afterLogin url: " + url);
 				System.out.println("afterLogin userId: " + userId);
 				System.out.println("afterLogin name: " + name);
 				token = RongCloudUtils.getInstance().getToken(userId, name, url);

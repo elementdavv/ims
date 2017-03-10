@@ -22,7 +22,7 @@ import com.sealtalk.utils.TimeGenerator;
 public class MapServiceImpl implements MapService {
 
 	@Override
-	public String getLocation(String userId, String targetId, String type) {
+	public String getLocation(String userId, String targetId, String type, String isInit) {
 		JSONObject jo = new JSONObject();
 		JSONArray ja = new JSONArray();
 
@@ -108,15 +108,20 @@ public class MapServiceImpl implements MapService {
 					for (int i = 0; i < locations.size(); i++) {
 						Object[] ret = locations.get(i);
 						JSONObject t = new JSONObject();
-						long time = Long.parseLong(String.valueOf(ret[4]));
-						long timeVal = now - time;
 						
 						t.put("userID", ret[0]);
 						t.put("logo", ret[1]);
-
-						if (timeVal >= shareTime) {		
-							t.put("latitude", 90);
-							t.put("longtitude", 180);
+						if (isInit == null || isInit.equals("0")) {
+							long time = Long.parseLong(String.valueOf(ret[4]));
+							long timeVal = now - time;
+							
+							if (timeVal >= shareTime) {		
+								t.put("latitude", 90);
+								t.put("longtitude", 180);
+							} else {
+								t.put("latitude", ret[2]);
+								t.put("longtitude", ret[3]);
+							}
 						} else {
 							t.put("latitude", ret[2]);
 							t.put("longtitude", ret[3]);
@@ -180,6 +185,10 @@ public class MapServiceImpl implements MapService {
 					if (longt.equals(longtitude)) {
 						longtitude = null;
 					}
+					System.out.println("subLocation: userId: " + userIdInt);
+					System.out.println("subLocation: latitude: " + latitude);
+					System.out.println("subLocation: longtitude: " + longtitude);
+					System.out.println("subLocation: now: " + now);
 					mapDao.updateLocation(userIdInt, latitude, longtitude, now);
 				} else {
 					TMap tm = new TMap();

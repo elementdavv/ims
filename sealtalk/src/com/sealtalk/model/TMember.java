@@ -9,6 +9,7 @@ public class TMember implements java.io.Serializable {
 	private String password;
 	private String fullname;
 	private String pinyin;
+	private String allpinyin;
 	private String workno;
 	private String sex;
 	private String birthday;
@@ -31,7 +32,7 @@ public class TMember implements java.io.Serializable {
 	}
 
 	public TMember(String account, String password, String fullname,
-			String pinyin, String workno, String sex, String birthday,
+			String pinyin, String allpinyin, String workno, String sex, String birthday,
 			String logo, String email, String mobile, String telephone,
 			String address, Integer groupmax, Integer groupuse, String intro,
 			String token, Integer createtokendate) {
@@ -39,6 +40,7 @@ public class TMember implements java.io.Serializable {
 		this.password = password;
 		this.fullname = fullname;
 		this.pinyin = pinyin;
+		this.allpinyin = allpinyin;
 		this.workno = workno;
 		this.sex = sex;
 		this.birthday = birthday;
@@ -93,7 +95,13 @@ public class TMember implements java.io.Serializable {
 	public void setPinyin(String pinyin) {
 		this.pinyin = pinyin;
 	}
-
+	
+	public String getAllpinyin() {
+		return allpinyin;
+	}
+	public void setAllpinyin(String allpinyin) {
+		this.allpinyin = allpinyin;
+	}
 	public String getWorkno() {
 		return this.workno;
 	}

@@ -44,5 +44,15 @@
 	<form action="<%=request.getLocalAddr() %>:<%=request.getLocalPort() %>/rce/restapi/ptt" method="post">
 		<input type="submit" value="submit" />
 	</form>
+	<h1>测试oauth2<h1>
+	设置appId,secret,url<br />
+	<form action="<%=request.getContextPath() %>/auth!setAppIDAndSecret" method="post">
+		<input type="text" name="appId" value="5ec7e02b0b9fa83fcf" />
+		<input type="text" name="secret" value="e469ebb88c39b7670af906799516334c34d8a33764af8f3954295541205627" />
+		<input type="text" name="url" value="http://localhost:8080/sealtalk/" />
+		<input type="submit" value="submit" />
+	</form><br />
+	登陆按钮<br />
+	
 </body>
 <html/>

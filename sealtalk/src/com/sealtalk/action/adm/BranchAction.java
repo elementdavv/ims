@@ -222,7 +222,7 @@ public class BranchAction extends BaseAction {
 		
 		TMember member = null;
 		String id = this.request.getParameter("memberid");
-		if (id != null) {
+		if (id != null && !"".equals(id)) {
 			member = branchService.getMemberObjectById(Integer.parseInt(id));
 			if (!member.getAccount().equalsIgnoreCase(this.request.getParameter("memberaccount"))) {
 				if (branchService.getMemberByAccount(this.request.getParameter("memberaccount")) != null) {
@@ -260,6 +260,7 @@ public class BranchAction extends BaseAction {
 		if (this.request.getParameter("memberfullname") != null) {
 			member.setFullname(this.request.getParameter("memberfullname"));
 			member.setPinyin(PinyinGenerator.getPinYinHeadChar(this.request.getParameter("memberfullname")));
+			member.setAllpinyin(PinyinGenerator.getPinYin(this.request.getParameter("memberfullname")));
 		}
 		if (this.request.getParameter("memberintro") != null)
 			member.setIntro(this.request.getParameter("memberintro"));
@@ -281,8 +282,9 @@ public class BranchAction extends BaseAction {
 
 		//部门职务
 		TBranchMember branchMember = null;
-		if (this.request.getParameter("branchmemberid") != null) {
-			branchMember = branchService.getBranchMemberById(Integer.parseInt(this.request.getParameter("branchmemberid")));
+		String branchmemberid = this.request.getParameter("branchmemberid");
+		if ( branchmemberid != null && !"".equals(branchmemberid)) {
+			branchMember = branchService.getBranchMemberById(Integer.parseInt(branchmemberid));
 		}
 		else {
 			branchMember = new TBranchMember();
@@ -290,16 +292,25 @@ public class BranchAction extends BaseAction {
 			branchMember.setIsMaster("1");
 		}
 		branchMember.setMemberId(memberId);
-		if (this.request.getParameter("memberbranchid") != null) {
-			branchMember.setBranchId(Integer.parseInt(this.request.getParameter("memberbranchid")));
+		String memberbranchid = this.request.getParameter("memberbranchid");
+		if ( memberbranchid!= null && !"".equals(memberbranchid)) {
+			branchMember.setBranchId(Integer.parseInt(memberbranchid));
 		}
-		if (this.request.getParameter("memberpositionid") != null) {
-			branchMember.setPositionId(Integer.parseInt(this.request.getParameter("memberpositionid")));
+		else {
+			branchMember.setBranchId(0);
+		}
+		String memberpositionid = this.request.getParameter("memberpositionid");
+		if ( memberpositionid != null && !"".equals(memberpositionid)) {
+			branchMember.setPositionId(Integer.parseInt(memberpositionid));
+		}
+		else {
+			branchMember.setPositionId(0);
 		}
 		branchService.saveBranchMember(branchMember);
 		
 		//人员角色
-		if (this.request.getParameter("memberroleid") != null) {
+		String membberroleid = this.request.getParameter("memberroleid");
+		if ( membberroleid != null && !"".equals(membberroleid)) {
 			TMemberRole memberRole = null;
 			memberRole = branchService.getMemberRoleByMemberId(memberId);
 			if (memberRole == null) {
@@ -307,7 +318,7 @@ public class BranchAction extends BaseAction {
 				memberRole.setMemberId(memberId);
 				memberRole.setListorder(0);
 			}
-			memberRole.setRoleId(Integer.parseInt(this.request.getParameter("memberroleid")));
+			memberRole.setRoleId(Integer.parseInt(membberroleid));
 			branchService.saveMemberRole(memberRole);
 		}
 		

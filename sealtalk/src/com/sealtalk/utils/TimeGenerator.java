@@ -22,6 +22,11 @@ public class TimeGenerator {
 		return (long)Math.floor((double)seconds);
 	}
 	
+	public long getUnixTimeMills() {
+		long seconds = Calendar.getInstance().getTimeInMillis();
+		return (long)Math.floor((double)seconds);
+	}
+	
 	public int getMinutes() {
 		return Calendar.getInstance().get(Calendar.MINUTE);
 	}

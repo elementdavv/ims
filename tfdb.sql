@@ -95,7 +95,8 @@ CREATE TABLE `t_member` (
   `token` VARCHAR(256) COMMENT '验证token',
   `createtokendate` INT DEFAULT 0 COMMENT '创建token时间到秒',
   `fullname` VARCHAR(256),
-  `pinyin` VARCHAR(256) COMMENT '姓名全拼',
+  `pinyin` VARCHAR(256) COMMENT '姓名首字母',
+  `allpinyin` VARCHAR(256) COMMENT '姓名全拼',
   `workno` VARCHAR(50) COMMENT '工号',
   `sex` CHAR(1),
   `birthday` VARCHAR(8),
@@ -438,6 +439,15 @@ CREATE TABLE `t_msgtop` (
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
+--以下为认证系统数据表实现
+CREATE TABLE `t_appsecret` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `appId` VARCHAR(100) NOT NULL DEFAULT '0',
+  `secert` VARCHAR(100) NOT NULL DEFAULT '0',
+  `callbackurl` VARCHAR(300) NOT NULL DEFAULT '0',
+  `time` BIGINT(11) NOT NULL DEFAULT 0,
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

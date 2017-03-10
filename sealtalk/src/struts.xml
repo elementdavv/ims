@@ -23,6 +23,7 @@
     <include file="struts-map.xml" />
     <include file="strutst-test.xml" />
     <include file="strutst-privilege.xml" />
+    <include file="struts-auth.xml" />
     
 </struts>
 

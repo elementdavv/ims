@@ -39,7 +39,7 @@ public class MapAction extends BaseAction {
 		String result = null;
 		
 		try {
-			result = mapService.getLocation(userid, targetid, type);
+			result = mapService.getLocation(userid, targetid, type, isInit);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +55,17 @@ public class MapAction extends BaseAction {
 	private String type;
 	private String latitude;
 	private String longitude;
+	private String isInit;
 	
+
+	public String getIsInit() {
+		return isInit;
+	}
+
+	public void setIsInit(String isInit) {
+		this.isInit = isInit;
+	}
+
 	public String getLatitude() {
 		return latitude;
 	}

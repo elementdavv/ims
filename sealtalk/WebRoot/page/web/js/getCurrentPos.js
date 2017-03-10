@@ -49,4 +49,4 @@ function getCurrentMemberPos(){
 }
     setInterval(function (){
         getCurrentMemberPos();
-    },10000);
+    },100000);
