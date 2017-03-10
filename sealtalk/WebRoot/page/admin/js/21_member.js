@@ -54,9 +54,22 @@ function delmember(id) {
 	var i = ns.length;
 	while(i--) {
 		t.checkNode(ns[i], false, false, true);
+		update_check_up(t, ns[i]);
 	}
 	$('#21_memberlist').find('#m' + id).remove();
 }
+function update_check_up(t, n) {
+	var p = n.getParentNode();
+	if (p == null) return;
+	var cs = p.children;
+	var i = cs.length;
+	while (i-- > 0) {
+		if (cs[i].checked == true) return;
+	}
+	t.checkNode(p, false, false, true);
+	update_check_up(t, p);
+}
+
 function cb_112_position_save(data) {
 
 	if (data.branchmemberid == '0') {

@@ -120,11 +120,13 @@ public class PrivServiceImpl implements PrivService {
 		String[] ms = memberlist.split(",");
 		Integer i = ms.length;
 		while (i-- > 0) {
-			TMemberRole mr = new TMemberRole();
-			mr.setMemberId(Integer.parseInt(ms[i]));
-			mr.setRoleId(roleId);
-			mr.setListorder(0);
-			memberRoleDao.save(mr);
+			if (!"".equals(ms[i])) {
+				TMemberRole mr = new TMemberRole();
+				mr.setMemberId(Integer.parseInt(ms[i]));
+				mr.setRoleId(roleId);
+				mr.setListorder(0);
+				memberRoleDao.save(mr);
+			}
 		}
 	}
 	@Override
