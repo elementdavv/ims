@@ -793,6 +793,7 @@ $(function(){
                                                                 textForcancleBtn : false,
                                                                 autoHide:true
                                                             });
+                                                            getGroupList(accountID);
                                                             $('.WindowMask2').hide();
                                                         }else if(datas&&datas.code==0){
                                                             new Window().alert({
@@ -1253,7 +1254,7 @@ function searchFromList(flag,id){
         var data = JSON.parse(normalInfo);
     }
     id = parseInt(id);
-    console.log(flag,id,data);
+    //console.log(flag,id,data);
     for(var i = 0;i<data.length;i++){
         if(data[i].id==id&&data[i].flag==flag){
             curList = data[i];

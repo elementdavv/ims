@@ -14,11 +14,11 @@ $(function(){
         if(datas){
             window.localStorage.account=JSON.stringify(changeFormatData);
             if(RongIMLib.VCDataProvider&&window.Electron){
-                RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon),{navi:globalVar.navi,fileServer:globalVar.fileServer});
-                //RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
+                //RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon),{navi:globalVar.navi,fileServer:globalVar.fileServer});
+                RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));
             }else{
-                RongIMClient.init(globalVar.rongKey,null,{navi:globalVar.navi});
-                //RongIMClient.init(globalVar.rongKey);
+                //RongIMClient.init(globalVar.rongKey,null,{navi:globalVar.navi});
+                RongIMClient.init(globalVar.rongKey);
             }
             var account = datas.account;
             var accountID = datas.id;

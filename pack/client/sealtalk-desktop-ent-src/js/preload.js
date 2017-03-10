@@ -247,7 +247,6 @@ function chDownloadProgress(url, state, progress){
   //console.log(targetA);
 }
 
-
 function chDownloadState(url, state){
   if (state == 'completed') {
     var fileName = url.split('attname=')[1];
@@ -291,12 +290,12 @@ function chDownloadState(url, state){
   }
 }
 
-
 getSavePath = function (url) {
   var fileName = getNameByUrl('attname', url);
   var savePath = path.join(getDirByUrl(url), fileName);
   return savePath;
 }
+
 getNameByUrl = function (field, url) {
   var href = url ? url : window.location.href;
   //var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );

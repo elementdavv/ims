@@ -2,6 +2,9 @@
  * Created by gao_yn on 2017/1/9.
  */
 $(document).ready(function(){
+    var sdata = localStorage.getItem('datas');
+    var oData=JSON.parse(sdata);
+    var account = oData?oData.account : '';
     var groupTimer=null,groupTimer1 = null;
    // var sAccount = localStorage.getItem('account');
    $('#perInfo').on('click','li',function(){
@@ -42,11 +45,18 @@ $(document).ready(function(){
             if($(this).find('.voiceMsgContent').length>0){
                 return;
             }
+            if($(this).parent().attr('class').indexOf('File')!=-1){
+                var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
+
+            }else{
+                var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'}];
+
+            }
+
             var left = e.clientX+10;
             var top = e.clientY-20;
             var memship = $(this).closest('.orgNavClick').attr('targetid');
             var targeType = $(this).closest('.orgNavClick').attr('targettype');
-            var arr = [{limit:'',value:'复制'}];
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'infoCopy';
             $('#chatBox .mr-ownChat').removeClass('active');
@@ -95,6 +105,46 @@ $(document).ready(function(){
                var sCopy=JSON.stringify(oCopy);
                 window.localStorage.setItem('copy',sCopy);
             }
+        }
+
+        var index = $(this).closest('ul').find('li').index($(this));
+        var getBranchTree = localStorage.getItem('getBranchTree');
+        if(getBranchTree){
+            var data = JSON.parse(getBranchTree);
+        }
+        switch (index)
+        {
+            //case 0:
+            case 1://点击的是转发，要弹出转发的对话框
+                creatDialogTree(data,'privateConvers','消息转发',function(){
+                    //if(){//选择的是个人或群组（1.个人要先确定是好友 2.群组）
+                    //
+                    //}else if
+                    sendAjax('friend!addFriend',{account:account,friend:converseACount[0]},function(data){
+                        var datas = JSON.parse(data);
+                        console.log(data);
+                        if(datas.code==1){
+                            //刷新常用联系人
+                            getMemberFriends(account);
+                            $('.manageCancle').click();
+                            new Window().alert({
+                                title   : '添加好友',
+                                content : '好友添加成功！',
+                                hasCloseBtn : false,
+                                hasImg : true,
+                                textForSureBtn : false,
+                                textForcancleBtn : false,
+                                autoHide:true
+                            });
+                        }else{
+                            alert('失败!'+datas.text);
+                        }
+                    })
+                },'','group');
+            case 2:
+            case 3:
+            case 4:
+            case 5:
         }
     });
     $('#chatBox').on('mousedown','#message-content',function(e){
@@ -149,29 +199,17 @@ $(document).ready(function(){
 
     });
     //搜索常用人历史记录
-    $('#personalData').on('click','.searchHostoryInfo',function(){
-        var sTargettype=$('#perContainer').attr('targettype');
-        var sTargetid=$('#perContainer').attr('targetid');
-        var sVal=$(this).prev().val();
-        sVal=sVal.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ');
-        if(sVal==''){
-            new Window().alert({
-                title   : '',
-                content : '请输入您要搜索的内容！',
-                hasCloseBtn : false,
-                hasImg : true,
-                textForSureBtn : false,
-                textForcancleBtn : false,
-                autoHide:true
-            });
-        }else{
-            var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
-            var oPagetest = new PageObj({divObj:$perEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
-            {
-                getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
+    $('.infoDet-search input').focus(function(){
+        var _this = $(this);
+        _this.keypress(function(event) {
+            if (event.which == 13) {
+                fSearchPersonalHistory();
+            }
+        })
+    })
 
-            });
-        }
+    $('#personalData').on('click','.searchHostoryInfo',function(){
+        fSearchPersonalHistory()
 
     });
     //搜索群组历史记录
@@ -647,8 +685,6 @@ $(document).ready(function(){
         var sData=window.localStorage.getItem("datas");
         var oData= JSON.parse(sData);
         var sId=oData.id;
-        //var oSelInfo=searchFromList(1,sId);
-        //console.log(oSelInfo);
         sendAjax('member!updateMemberInfoForWeb',{userid:sId,position:sPosId,fullname:sPerName,sex:sSex,email:sEmail,phone:sTelephone,sign:sSign},function(data){
             var oDatas=JSON.parse(data);
            if(oDatas.code==1){
@@ -692,6 +728,35 @@ $(document).ready(function(){
     //getGroupMembersList(1);
 });
 
+
+
+//搜索个人历史消息
+function fSearchPersonalHistory(){
+    var sTargettype=$('#perContainer').attr('targettype');
+    var sTargetid=$('#perContainer').attr('targetid');
+    var sVal=$('#personalData').find('.infoDet-search input').val();
+    //var sVal=$(this).prev().val();
+    sVal=sVal.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ');
+    if(sVal==''){
+        new Window().alert({
+            title   : '',
+            content : '请输入您要搜索的内容！',
+            hasCloseBtn : false,
+            hasImg : true,
+            textForSureBtn : false,
+            textForcancleBtn : false,
+            autoHide:true
+        });
+    }else{
+        var $perEle=$('#infoDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+        var oPagetest = new PageObj({divObj:$perEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        {
+            getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
+
+        });
+    }
+}
+
 //查询单个群信息
 function groupInfoFromList(id){
     var groupInfo = localStorage.getItem('groupInfo');
@@ -717,7 +782,7 @@ function fPersonalSet(){
         sendAjax('member!getOneOfMember',{userid:sId},function(data){
             var oPerInfo=JSON.parse(data);
             var oPerData=searchFromList(1,sId);
-            var nPerPosId=oPerData.postitionid;
+            var nPerPosId=oPerInfo.positionid;
             var sName=oPerInfo?oPerInfo.name|| '' : '';//姓名
             var sAccountNum=oPerInfo?oPerInfo.account|| '' : '';//成员账号
             var sSex=oPerInfo.sex;//性别
@@ -738,102 +803,98 @@ function fPersonalSet(){
             var sTelephone=oPerInfo.telephone || '';//电话
             var sSign=oPerInfo.organname || '';//工作签名
             var sHeaderImg=oPerInfo.logo?globalVar.imgSrc+oPerInfo.logo:globalVar.defaultLogo;//头像
-            var sHtml='<h3 class="perSetBox-title">个人设置</h3>\
-    <div class="perSetBox-content clearfix">\
-    <div class="perSetBox-leftCont">\
-    <ul class="perSetBox-contDetails">\
-    <li >\
-    <span>成员账号:</span>\
-    <p class="perSetBox-account">'+sAccountNum+'</p>\
-    </li>\
-    <li>\
-    <span>姓名：</span>\
-    <p ><input type="text" value="'+sName+'" class="perSetBox-editText perSetBox-name" /></p>\
-    </li>\
-    <li>\
-    <span>性别：</span>\
-    <p>\
-    <select class="perSetBox-selSex  select">\
-    <option value="男" selected>男</option>\
-    <option value="女">女</option>\
-    </select>\
-    </p>\
-    </li>\
-    <li>\
-    <span>职位：</span>\
-    <p ><select class="select perSetBox-position" disabled= "true">\
-    <option data-id="'+nPerPosId+'" selected>'+sPosition+'</option>\
-    </select></p>\
-    </li>\
-    <li>\
-    <span>部门：</span>\
-    <p class="perSetBox-branch">'+sBranch+'</p>\
-    </li>\
-    <li>\
-    <span>邮箱：</span>\
-    <p>\
-    <input value="'+sEmail+'" class="perSetBox-editText perSetBox-email"/>\
-    </p>\
-    </li>\
-    <li>\
-    <span>电话：</span>\
-    <p>\
-    <input value="'+sTelephone+'" class="perSetBox-editText perSetBox-telephone"/>\
-    </p>\
-    </li>\
-    <li>\
-    <span>工作签名：</span>\
-    <p>\
-    <textarea class="perSetBox-textarea" readonly="true">'+sSign+'</textarea>\
-    </p>\
-    </li>\
-    </ul>\
-    <button class="perSetBox-keep">保存</button>\
-    </div>\
-    <div class="perSetBox-rightCont">\
-    <img src="'+sHeaderImg+'" class="perSetBox-head"/>\
-    <p class="perSetBox-modifyHead" id="changeHeadImgId">修改头像</p>\
-    </div>\
-    </div>';
-            $('#chatBox #personSettingId').empty();
-            $('#chatBox #personSettingId').append(sHtml);
-            $('#chatBox #personSettingId').empty();
-            $('#chatBox #personSettingId').append(sHtml);
             var limit = $('body').attr('limit');
+            //姓名
             if(limit.indexOf('grszxgxm')==-1) {//没有权限
-                $('.perSetBox-name').attr('readonly',true);
-                return false;
+                var sNameSpace = sName;
             }else{
-                $('.perSetBox-name').attr('readonly',false);
+                var sNameSpace = '<input type="text" value="'+sName+'" class="perSetBox-editText perSetBox-name" />';
             }
+            //签名
             if(limit.indexOf('grszsygzqm')==-1) {//没有权限
-                $('.perSetBox-textarea').attr('readonly',true);
+                var sSignature = sSign;
+            }else{
+                var sSignature = '<textarea class="perSetBox-textarea">'+sSign+'</textarea>'
+            }
+            //职位
+
+            var sHtml='<h3 class="perSetBox-title">个人设置</h3>'+
+                        '<div class="perSetBox-content clearfix">'+
+                        '<div class="perSetBox-leftCont">'+
+                        '<ul class="perSetBox-contDetails">'+
+                        '<li >'+
+                        '<span>成员账号:</span>'+
+                        '<p class="perSetBox-account">'+sAccountNum+'</p>'+
+                        '</li>'+
+                        '<li>'+
+                        '<span>姓名：</span>'+
+                        '<p >'+sNameSpace+'</p>'+
+                        '</li>'+
+                        '<li>'+
+                        '<span>性别：</span>'+
+                        '<p>'+sSex+'</p>'+
+                        '</li>'+
+                        '<li>'+
+                        '<span>职位：</span>'+
+                        '<p id="perSetBox-position"><select class="select perSetBox-position" disabled= "true">'+
+                        '<option data-id="'+nPerPosId+'" selected>'+sPosition+'</option>'+
+                        '</select></p>'+
+                        '</li>'+
+                        '<li>'+
+                        '<span>部门：</span>'+
+                        '<p class="perSetBox-branch">'+sBranch+'</p>'+
+                        '</li>'+
+                        '<li>'+
+                        '<span>邮箱：</span>'+
+                        '<p>'+
+                        '<p>'+sEmail+'</p>'+
+                        '</p>'+
+                        '</li>'+
+                        '<li>'+
+                        '<span>电话：</span>'+
+                        '<p>'+
+                        '<p>'+sTelephone+'</p>'+
+                        '</p>'+
+                        '</li>'+
+                        '<li>'+
+                        '<span>工作签名：</span>'+
+                        '<p>'+
+                        sSignature  +
+                        '</p>'+
+                        '</li>'+
+                        '</ul>'+
+                        '<button class="perSetBox-keep">保存</button>'+
+                        '</div>'+
+                        '<div class="perSetBox-rightCont">'+
+                        '<img src="'+sHeaderImg+'" class="perSetBox-head"/>'+
+                        '<p class="perSetBox-modifyHead" id="changeHeadImgId">修改头像</p>'+
+                        '</div>'+
+                        '</div>';
+
+            $('#chatBox #personSettingId').empty();
+            $('#chatBox #personSettingId').append(sHtml);
+
+            if(limit.indexOf('grszxgzw')==-1) {//没有权限
+                $('#perSetBox-position').html(sPosition);
                 return false;
             }else{
-                $('.perSetBox-textarea').attr('readonly',false);
-            }
-            $('.perSetBox-selSex').val(sSex);
-            sendAjax('branch!getPosition',{},function(data){
-                var oPosData=JSON.parse(data);
-                var sDom='';
-                for(var i=0;i<oPosData.length;++i){
-                    var nPosId=oPosData[i].id;
-                    var sPosName=oPosData[i].name;
-                    if(nPerPosId==nPosId){
-                        sDom+='<option data-id="'+nPosId+'" selected>'+sPosName+'</option>';
-                    }else{
-                        sDom+='<option data-id="'+nPosId+'">'+sPosName+'</option>';
+                sendAjax('branch!getPosition',{},function(data){
+                    var oPosData=JSON.parse(data);
+                    var sDom='';
+                    for(var i=0;i<oPosData.length;++i){
+                        var nPosId=oPosData[i].id;
+                        var sPosName=oPosData[i].name;
+                        if(nPerPosId==nPosId){
+                            sDom+='<option data-id="'+nPosId+'" selected>'+sPosName+'</option>';
+                        }else{
+                            sDom+='<option data-id="'+nPosId+'">'+sPosName+'</option>';
+                        }
                     }
-                }
-                $('.perSetBox-position').empty();
-                $('.perSetBox-position').append(sDom);
-                if(limit.indexOf('grszxgzw')==-1) {//没有权限
-                    $('.perSetBox-position').attr('disabled',true);
-                    return false;
-                }else{
-                    $('.perSetBox-position').attr('disabled',false);
-                }
-            });
+                    $('.perSetBox-position').empty();
+                    $('.perSetBox-position').append(sDom);
+                });
+                $('.perSetBox-position').attr('disabled',false);
+            }
         });
     }
 }
