@@ -33,7 +33,8 @@
 	    	classpath:group.xml,
 	    	classpath:function.xml,
 	    	classpath:upload.xml,
-	    	classpath:map.xml
+	    	classpath:map.xml,
+	    	classpath:auth.xml
 	    </param-value>
 	</context-param>
 	

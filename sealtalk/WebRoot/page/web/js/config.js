@@ -8,10 +8,10 @@ var globalVar={
     SYSTEMSOUND:1,//系统声音
     MESSAGESOUND:1,//消息免打扰
     //融云appKey
-    rongKey:'m7ua80guyso7u',
+    //rongKey:'m7ua80guyso7u',
     navi:'103.36.132.10:80',
     fileServer:'upload.qiniu.com',
-    //rongKey:'e5t4ouvpe564a',
+    rongKey:'e5t4ouvpe564a',
     //七牛配置
     qiniuTOKEN:'5aZfPtTZP10rsriqnktyCKXjq99EX9z9wUAq-Yll:DJMQqJxwhqRWzVkLE2AVDD6DJ_4=:eyJlbmRVc2VyIjoieSIsInNjb3BlIjoiZWR1cGljdHVyZSIsImRlYWRsaW5lIjo5MjIzMzcyMDM2ODU0Nzc1ODA3fQ==',
     qiniuDOMAN:'http://up.qbox.me',
