@@ -28,5 +28,8 @@ var globalVar={
     //
     refreshGroupOnline:5000,
     newsChatListTime:2505600000,
-    disconnectTimer:null
+    disconnectTimer:null,
+
+    appID:'dfe1691293e34dc580152d5e2356730c',
+    secret:'b03314a9e49cbdd28e1a6221579f8fb6eb7c107a156d81d001d83e32ba9ccfbb2b6be8b8dd2fcb73'
 };
