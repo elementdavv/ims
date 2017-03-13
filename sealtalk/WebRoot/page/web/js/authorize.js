@@ -5,19 +5,20 @@ $(function(){
     window.onload=window.onresize=function(){
         document.documentElement.style.fontSize=20*document.documentElement.clientWidth/375+'px';
     };
-    $('.checkMem .dialogCheckBox').click(function(){
-        var _this = $(this);
-        _this.toggleClass('CheckBoxChecked');
-    })
-    $('#checkAll .dialogCheckBox').click(function(){
-        var _this = $(this);
-        _this.toggleClass('CheckBoxChecked');_this.hasClass('');
-        if(_this.hasClass('CheckBoxChecked')){
-            $('.checkMem .dialogCheckBox').addClass('CheckBoxChecked')
-        }else{
-            $('.checkMem .dialogCheckBox').removeClass('CheckBoxChecked')
-        }
-    })
+    //$('.checkMem .dialogCheckBox').click(function(){
+    //    var _this = $(this);
+    //    _this.toggleClass('CheckBoxChecked');
+    //})
+    //$('#checkAll .dialogCheckBox').click(function(){
+    //
+    //    var _this = $(this);
+    //    _this.toggleClass('CheckBoxChecked');_this.hasClass('');
+    //    if(_this.hasClass('CheckBoxChecked')){
+    //        $('.checkMem .dialogCheckBox').addClass('CheckBoxChecked')
+    //    }else{
+    //        $('.checkMem .dialogCheckBox').removeClass('CheckBoxChecked')
+    //    }
+    //})
     $('.authorize-signin').click(function(){
         var userName = $('.authorize-user');
         var userPsd = $('.authorize-psd');
@@ -46,8 +47,10 @@ $(function(){
         $('.authorize-psd').val(userpwd);
         var sURL = window.location.href;
         var unAuthToken = UrlParamHash(sURL).unAuthToken;
+        var appid = globalVar.appID;
         var sHTML = '<input class="authorize-user" name="info" value="'+info+'" type="text" style="display:none">'
         sHTML += '<input class="authorize-user" name="unAuthToken" value="'+unAuthToken+'" type="text" style="display:none">'
+        sHTML += '<input class="authorize-user" name="appId" value="'+appid+'" type="text" style="display:none">'
         $('.authorize-submit').append($(sHTML));
         $('.authorize-submit')[0].submit();
         //document.submit();

@@ -237,56 +237,67 @@ function sendByRongFile(content,targetId,way,extra,uniqueTime){
             }
         );
 }
+function setRongTimer(uniqueTime){
+    if($('.infoLoading[infoTime='+uniqueTime+']').length!=0){
+        $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=null;
+        $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=setTimeout(function(){
+            $('.infoLoading[infoTime='+uniqueTime+']').addClass('show');
+        },1000);
+    }
+}
+function clearRongTimer(uniqueTime){
+    clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
+}
 //上传文件为图片类型
 function sendByRongImg(content,targetId,way,uniqueTime){
     var conversationtype = RongIMLib.ConversationType[way]; // 私聊,其他会话选择相应的消息类型即可。
     var sImgUrl=content.imageUri;
     var sType=content.type;
     var msg = new RongIMLib.ImageMessage(content);
-     $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=null;
-    $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=setTimeout(function(){
-            $('.infoLoading[infoTime='+uniqueTime+']').addClass('show');
-        },1000);
-        RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
-            onSuccess: function (message) {
-                clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
-                $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
-                console.log("Send successfully");
-                getConverList();
-            },
-            onError: function (errorCode,message) {
-                var info = '';
-                switch (errorCode) {
-                    case RongIMLib.ErrorCode.TIMEOUT:
-                        info = '超时';
-                        break;
-                    case RongIMLib.ErrorCode.UNKNOWN_ERROR:
-                        info = '未知错误';
-                        break;
-                    case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-                        info = '在黑名单中，无法向对方发送消息';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-                        info = '不在讨论组中';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_GROUP:
-                        info = '不在群组中';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-                        info = '不在聊天室中';
-                        break;
-                    default :
-                        //info = x;
-                        break;
-                }
-                clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
-                $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                var eNode = $('<span class="sendStatus" data-type="imgMessage" data-t="'+uniqueTime+'" data-ImgT="'+sType+'" data-ImgU="'+sImgUrl+'">!</span>');
-                $('li[uniqueTime='+uniqueTime+'] .mr-ownImg').append(eNode);
-                console.log('发送失败:' + info);
+
+    setRongTimer(uniqueTime);
+
+    RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+        onSuccess: function (message) {
+            clearRongTimer(uniqueTime)
+
+            $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
+            //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+            console.log("Send successfully");
+            getConverList();
+        },
+        onError: function (errorCode,message) {
+            var info = '';
+            switch (errorCode) {
+                case RongIMLib.ErrorCode.TIMEOUT:
+                    info = '超时';
+                    break;
+                case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                    info = '未知错误';
+                    break;
+                case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+                    info = '在黑名单中，无法向对方发送消息';
+                    break;
+                case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+                    info = '不在讨论组中';
+                    break;
+                case RongIMLib.ErrorCode.NOT_IN_GROUP:
+                    info = '不在群组中';
+                    break;
+                case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+                    info = '不在聊天室中';
+                    break;
+                default :
+                    //info = x;
+                    break;
             }
-        }  );
+            clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
+            $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
+            var eNode = $('<span class="sendStatus" data-type="imgMessage" data-t="'+uniqueTime+'" data-ImgT="'+sType+'" data-ImgU="'+sImgUrl+'">!</span>');
+            $('li[uniqueTime='+uniqueTime+'] .mr-ownImg').append(eNode);
+            console.log('发送失败:' + info);
+        }
+    });
 }
 
 function sendByRong(content,targetId,way,extra,uniqueTime){
@@ -312,11 +323,8 @@ function sendByRong(content,targetId,way,extra,uniqueTime){
                     clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
                     $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
                 }
-
-                //var
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
                 getConverList();
-
                 console.log("Send successfully");
             },
             onError: function (errorCode,message) {
@@ -353,11 +361,9 @@ function sendByRong(content,targetId,way,extra,uniqueTime){
                     console.log('发送失败:' + info);
                 }else{
                     console.log('转发发送失败:' + info);
-
                 }
-
             }
-        }  );
+        });
 }
 //发送出去的的信息显示在盒子里
 //function sendInBox(msg,way,callback){

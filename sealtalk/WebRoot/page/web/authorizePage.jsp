@@ -11,6 +11,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/authorize.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/config.js"></script>
 
     </head>
 <body>
@@ -23,8 +24,16 @@
             <div class="authorize-login">
                 <h1 class="phoneHide">账户密码登录</h1>
                 <h1 class="chatHide">请使用你的IMS帐号访问</h1>
-                <h2 class="phoneHide">推荐使用<span>快速安全登录</span></h2>
-                <p class="login-tips phoneHide"><i>!</i>IMS授权失败请重新授权</p>
+
+                <c:if test="${error != null && error != ''}">
+                    <p class="login-tips phoneHide" style="visibility:visible;"><i>!</i>IMS授权失败请重新授权</p>
+
+                </c:if>
+                <c:if test="${error == null}">
+                    <p class="login-tips phoneHide" style="visibility:hidden;"><i>!</i>&nbsp;</p>
+                </c:if>
+    <%--<h2 class="phoneHide">推荐使用<span>快速安全登录</span></h2>--%>
+                <%--<p class="login-tips phoneHide" style="visibility:hidden;"><i>!</i>IMS授权失败请重新授权</p>--%>
                 <form class="authorize-submit" action="<%=request.getContextPath()%>/auth!reqAuthorizeOne" method="post">
                     <input placeholder="用户名" name="userName" class="authorize-user" type="text"/><label class="label-user" for="authorize-user"></label>
                     <input placeholder="密码" name="userPwd" class="authorize-psd" type="password"/><label class="label-psd" for="authorize-psd"></label>
@@ -35,19 +44,17 @@
             </div>
             <div class="authorize-login-des">
                 <h2><span>团餐Saas平台</span>将获得以下权限</h2>
-                <div id="checkAll" class="phoneHide"><span class="chatLeftIcon dialogCheckBox"></span><span class="checkDes">全选</span></div>
                 <div class="checkMem checkMem1">
-                    <span class="chatLeftIcon dialogCheckBox"></span>
+                    <span class="chatLeftIcon dialogCheckBox CheckBoxChecked" onclick="return false"></span>
                     <span class="checkDes">获得你的姓名、头像、性别、职位</span>
                 </div>
                 <div class="checkMem checkMem2">
-                    <span class="chatLeftIcon dialogCheckBox"></span>
+                    <span class="chatLeftIcon dialogCheckBox CheckBoxChecked" onclick="return false"></span>
                     <span class="checkDes">获得你的联系方式、所属公司、邮箱</span>
                 </div>
                 <span class="checkDescribe phoneHide">授权表明你已同意IMS登陆协议</span>
             </div>
         </div>
     </div>
-
 </body>
 </html>

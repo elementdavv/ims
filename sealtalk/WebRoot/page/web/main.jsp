@@ -66,6 +66,7 @@
     <script src="<%=request.getContextPath() %>/page/web/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/cropper.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/clipImg.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/loginOA.js"></script>
 
     </head>
     <%--${SessionPrivilege.map}--%>
@@ -89,9 +90,9 @@
         <%--<li bindPanel="back">后台管理</li>   --%>
     </ul>
     <ul class="chatHeaderOper">
-        <%--<li class="chatLeftIcon"></li>--%>
         <li class="chatLeftIcon"></li>
         <li class="chatLeftIcon"></li>
+        <li class="chatLeftIcon" class="" onclick="loginOA()">登录OA</li>
     </ul>
 </div>
 

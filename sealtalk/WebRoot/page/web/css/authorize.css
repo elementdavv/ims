@@ -335,6 +335,7 @@ label.label-psd {
     .authorize-login{
         width: 343px;
         margin: 0px auto;
+        position: relative;
     }
     input.authorize-user{
         width: 100%;
@@ -387,5 +388,23 @@ label.label-psd {
     .checkMem2{
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
+    }
+    .login-tips {
+        color: #fc7a8c;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        position: absolute;
+        top: 39px;
+        z-index: 1000;
+        background: rgba(59, 59, 59, 0.95);
+        width: 101%;
+        height: 50px;
+        line-height: 50px;
+        color: white;
+        border-radius: 6px;
+    }
+    .login-tips i{
+        display: none;
     }
 }
