@@ -5,20 +5,13 @@ $(function(){
     window.onload=window.onresize=function(){
         document.documentElement.style.fontSize=20*document.documentElement.clientWidth/375+'px';
     };
-    //$('.checkMem .dialogCheckBox').click(function(){
-    //    var _this = $(this);
-    //    _this.toggleClass('CheckBoxChecked');
-    //})
-    //$('#checkAll .dialogCheckBox').click(function(){
-    //
-    //    var _this = $(this);
-    //    _this.toggleClass('CheckBoxChecked');_this.hasClass('');
-    //    if(_this.hasClass('CheckBoxChecked')){
-    //        $('.checkMem .dialogCheckBox').addClass('CheckBoxChecked')
-    //    }else{
-    //        $('.checkMem .dialogCheckBox').removeClass('CheckBoxChecked')
-    //    }
-    //})
+
+    var sURL = window.location.href;
+    var erroeText = UrlParamHash(sURL)
+    if(sURL.indexOf('err')!=-1){
+        $('.login-tips').css('visibility','visible');
+    }
+
     $('.authorize-signin').click(function(){
         var userName = $('.authorize-user');
         var userPsd = $('.authorize-psd');

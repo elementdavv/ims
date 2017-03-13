@@ -25,15 +25,15 @@
                 <h1 class="phoneHide">账户密码登录</h1>
                 <h1 class="chatHide">请使用你的IMS帐号访问</h1>
 
-                <c:if test="${error != null && error != ''}">
-                    <p class="login-tips phoneHide" style="visibility:visible;"><i>!</i>IMS授权失败请重新授权</p>
+                <%--<c:if test="${error != null && error != ''}">--%>
+                    <%--<p class="login-tips phoneHide" style="visibility:visible;"><i>!</i>IMS授权失败请重新授权</p>--%>
 
-                </c:if>
-                <c:if test="${error == null}">
-                    <p class="login-tips phoneHide" style="visibility:hidden;"><i>!</i>&nbsp;</p>
-                </c:if>
+                <%--</c:if>--%>
+                <%--<c:if test="${error == null}">--%>
+                    <%--<p class="login-tips phoneHide" style="visibility:hidden;"><i>!</i>&nbsp;</p>--%>
+                <%--</c:if>--%>
     <%--<h2 class="phoneHide">推荐使用<span>快速安全登录</span></h2>--%>
-                <%--<p class="login-tips phoneHide" style="visibility:hidden;"><i>!</i>IMS授权失败请重新授权</p>--%>
+                <p class="login-tips phoneHide" style="visibility:hidden;"><i>!</i>IMS授权失败请重新授权</p>
                 <form class="authorize-submit" action="<%=request.getContextPath()%>/auth!reqAuthorizeOne" method="post">
                     <input placeholder="用户名" name="userName" class="authorize-user" type="text"/><label class="label-user" for="authorize-user"></label>
                     <input placeholder="密码" name="userPwd" class="authorize-psd" type="password"/><label class="label-psd" for="authorize-psd"></label>
