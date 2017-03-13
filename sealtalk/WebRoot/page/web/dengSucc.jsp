@@ -9,7 +9,8 @@
     <title></title>
     <!--<link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/authorize.css"/>-->
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
-    <!--<script src="<%=request.getContextPath() %>/page/web/js/authorize.js"></script>-->
+    <script src="<%=request.getContextPath() %>/page/web/js/dengSucc.js"></script>
+    <script src="<%=request.getContextPath() %>/page/web/js/config.js"></script>
 </head>
 <body>
 

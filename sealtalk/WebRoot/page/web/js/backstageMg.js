@@ -117,31 +117,64 @@ $(document).ready(function(){
             //case 0:
             case 1://点击的是转发，要弹出转发的对话框
                 creatDialogTree(data,'privateConvers','消息转发',function(){
-                    //if(){//选择的是个人或群组（1.个人要先确定是好友 2.群组）
-                    //
-                    //}else if
-                    sendAjax('friend!addFriend',{account:account,friend:converseACount[0]},function(data){
-                        var datas = JSON.parse(data);
-                        console.log(data);
-                        if(datas.code==1){
-                            //刷新常用联系人
-                            getMemberFriends(account);
-                            $('.manageCancle').click();
-                            new Window().alert({
-                                title   : '添加好友',
-                                content : '好友添加成功！',
-                                hasCloseBtn : false,
-                                hasImg : true,
-                                textForSureBtn : false,
-                                textForcancleBtn : false,
-                                autoHide:true
-                            });
-                        }else{
-                            alert('失败!'+datas.text);
+                    var targetTrans = $('#contactBox').find('.CheckBoxChecked');
+                    var targetClass = targetTrans.closest('li').hasClass('group');
+                    var sFileImg=window.localStorage.getItem('copy');
+                    var oPast=JSON.parse(sFileImg);
+                    var sImgSrc=oPast.fileUrl;
+                    var sInfoContent=oPast.infoContent;
+                    var sFile=oPast.file;
+                    //var sOldInfo=$('#chatBox #message-content').html();
+                    var targetId='';
+                    var targetType='';
+                    var nSendTime=new Date().getTime();
+                    targetId = targetTrans.closest('li').attr('id');
+                    targetType = targetTrans.closest('li').attr('class')=='group'?'GROUP':'PRIVATE';
+                    if(targetClass){//转发到群组
+                        console.log('z将消息转发给群组')
+                        if(sImgSrc){
+                            var extra = "uploadFile";
+                            //sendMsg(sFileImg,targetId,targetType,extra,'',nSendTime);
+                            sendByRongImg(oPast,targetId,targetType,nSendTime);
+                        }else if(sInfoContent){
+                            var uniqueTime = new Date().getTime();
+                            sendByRong(sInfoContent,targetId,targetType,extra,uniqueTime);
+                        }else if(sFile){
+                            sFile.filepaste=1;
+                            var extra = "uploadFile";
+                            var fileInfo=JSON.stringify(sFile);
+                            //sendMsg(fileInfo,targetId,targetType,extra,'',nSendTime);
+                            sendByRongFile(sFile,targetId,targetType,'',nSendTime);
                         }
-                    })
+                    }else{//转发到个人
+                        sendAjax('friend!addFriend',{account:account,friend:converseACount[0]},function(data){
+                            var datas = JSON.parse(data);
+                            if(datas.code==1){
+
+                                if(sImgSrc){
+                                    var extra = "uploadFile";
+                                    //sendMsg(sFileImg,targetId,targetType,extra,'',nSendTime);
+                                    sendByRongImg(oPast,targetId,targetType,nSendTime);
+                                }else if(sInfoContent){
+                                    var uniqueTime = new Date().getTime();
+                                    sendByRong(sInfoContent,targetId,targetType,extra,uniqueTime);
+                                }else if(sFile){
+                                    sFile.filepaste=1;
+                                    var extra = "uploadFile";
+                                    var fileInfo=JSON.stringify(sFile);
+                                    //sendMsg(fileInfo,targetId,targetType,extra,'',nSendTime);
+                                    sendByRongFile(sFile,targetId,targetType,'',nSendTime);
+                                }
+                            }else{
+                                alert('失败!'+datas.text);
+                            }
+                        })
+                    }
+                    $('.manageCancle').click();
+
                 },'','group');
-            case 2:
+            case 2://点击的是打开文件
+
             case 3:
             case 4:
             case 5:

@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/page/web/css/authorize.css"/>
     <script src="<%=request.getContextPath() %>/page/web/js/jquery-2.1.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/page/web/js/authorize.js"></script>
-</head>
+    <script src="<%=request.getContextPath() %>/page/web/js/md5.js"></script>
+
+    </head>
 <body>
     <div class="authorize-header">
         <p class="phoneHide">IMS帐号安全登录</p>
@@ -23,11 +25,11 @@
                 <h1 class="chatHide">请使用你的IMS帐号访问</h1>
                 <h2 class="phoneHide">推荐使用<span>快速安全登录</span></h2>
                 <p class="login-tips phoneHide"><i>!</i>IMS授权失败请重新授权</p>
-                <div class="authorize-submit">
-                    <input placeholder="用户名" class="authorize-user" type="text"/><label class="label-user" for="authorize-user"></label>
-                    <input placeholder="密码" class="authorize-psd" type="text"/><label class="label-psd" for="authorize-psd"></label>
-                    <input value="授权并登录" class="authorize-signin" type="button"/>
-                </div>
+                <form class="authorize-submit" action="<%=request.getContextPath()%>/auth!reqAuthorizeOne" method="post">
+                    <input placeholder="用户名" name="userName" class="authorize-user" type="text"/><label class="label-user" for="authorize-user"></label>
+                    <input placeholder="密码" name="userPwd" class="authorize-psd" type="password"/><label class="label-psd" for="authorize-psd"></label>
+                    <input value="授权并登录" class="authorize-signin" type="button" />
+                </form>
                 <a class="login-ap phoneHide">账号密码登录</a>
 
             </div>

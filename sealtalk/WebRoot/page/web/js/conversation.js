@@ -291,10 +291,15 @@ function sendByRongImg(content,targetId,way,uniqueTime){
 
 function sendByRong(content,targetId,way,extra,uniqueTime){
     // 定义消息类型,文字消息使用 RongIMLib.TextMessage
-    $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=null;
-    $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=setTimeout(function(){
-        $('.infoLoading[infoTime='+uniqueTime+']').addClass('show');
-    },1000);
+    var transFlag = null;
+    if($('.infoLoading[infoTime='+uniqueTime+']').length!=0){
+        transFlag = true
+        $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=null;
+        $('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer=setTimeout(function(){
+            $('.infoLoading[infoTime='+uniqueTime+']').addClass('show');
+        },1000);
+    }
+
     var msg = new RongIMLib.TextMessage({content:content,extra:extra});
     //或者使用RongIMLib.TextMessage.obtain 方法.具体使用请参见文档
     //var msg = RongIMLib.TextMessage.obtain("hello");
@@ -303,8 +308,11 @@ function sendByRong(content,targetId,way,extra,uniqueTime){
         RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
             // 发送消息成功
             onSuccess: function (message) {
-                clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
-                $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
+                if(transFlag){
+                    clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
+                    $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
+                }
+
                 //var
                 //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
                 getConverList();
@@ -336,12 +344,18 @@ function sendByRong(content,targetId,way,extra,uniqueTime){
                         info = '已禁言';
                         break;
                 }
-                clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
-                $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                var eNode = $('<span class="sendStatus" data-type="textMessage" data-t="'+uniqueTime+'">!</span>');
-                $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').append(eNode);
-                $('li[uniqueTime='+uniqueTime+'] .mr-ownChat .sendStatus')[0].content=content;
-                console.log('发送失败:' + info);
+                if(transFlag){
+                    clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
+                    $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
+                    var eNode = $('<span class="sendStatus" data-type="textMessage" data-t="'+uniqueTime+'">!</span>');
+                    $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').append(eNode);
+                    $('li[uniqueTime='+uniqueTime+'] .mr-ownChat .sendStatus')[0].content=content;
+                    console.log('发送失败:' + info);
+                }else{
+                    console.log('转发发送失败:' + info);
+
+                }
+
             }
         }  );
 }

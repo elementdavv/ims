@@ -13,7 +13,12 @@ function sendAjax(url,data,callback){
 }
 function jumoToAuth(){
     var appid = globalVar.appID;
-    sendAjax('auth!getTempTokenSceneOne',{appId:appid},function(){
-        console.log(11);
+    sendAjax('auth!getTempTokenSceneOne',{appId:appid},function(data){
+        if(data){
+            var datas = JSON.parse(data);
+            if(datas&&datas.code=='200'){
+                window.location.href = 'auth!redirectLogin?unAuthToken='+datas.text;
+            }
+        }
     })
 }
