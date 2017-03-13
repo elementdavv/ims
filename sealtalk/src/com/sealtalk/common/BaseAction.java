@@ -158,6 +158,13 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 		}
 	}
 	
+	/** 获取项目地址，不包含参数 */ 
+	protected String getUrl() {
+		String path = request.getContextPath();  
+		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+		return basePath;
+	}
+	
 	/** 设置当前会话的用户包装类 */
 	protected void setSessionUser(SessionUser su)
 	{

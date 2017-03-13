@@ -442,10 +442,17 @@ CREATE TABLE `t_msgtop` (
 --以下为认证系统数据表实现
 CREATE TABLE `t_appsecret` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `userid` int not null,
   `appId` VARCHAR(100) NOT NULL DEFAULT '0',
-  `secert` VARCHAR(100) NOT NULL DEFAULT '0',
+  `secert` VARCHAR(200) NOT NULL DEFAULT '0',
+  `unauthtoken` VARCHAR(200) NOT NULL DEFAULT '0',
+  `authtoken` VARCHAR(200) NOT NULL DEFAULT '0',
+  `visittoken` VARCHAR(200) NOT NULL DEFAULT '0',
   `callbackurl` VARCHAR(300) NOT NULL DEFAULT '0',
-  `time` BIGINT(11) NOT NULL DEFAULT 0,
+  `apptime` BIGINT(11) NOT NULL DEFAULT 0,
+  `unauthtokentime` BIGINT(11) NOT NULL DEFAULT 0,
+  `authtokentime` BIGINT(11) NOT NULL DEFAULT 0,
+  `visittokentime` BIGINT(11) NOT NULL DEFAULT 0,
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 

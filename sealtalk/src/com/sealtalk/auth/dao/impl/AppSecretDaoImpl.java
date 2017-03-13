@@ -18,8 +18,7 @@ import com.sealtalk.utils.LogUtils;
  * @date 2017/03/08
  * @since jdk1.7
  */
-public class AppSecretDaoImpl extends BaseDao<AppSecret, Integer> implements
-		AppSecretDao {
+public class AppSecretDaoImpl extends BaseDao<AppSecret, Integer> implements AppSecretDao {
 	private static final Logger logger = Logger
 			.getLogger(AppSecretDaoImpl.class);
 
@@ -27,7 +26,7 @@ public class AppSecretDaoImpl extends BaseDao<AppSecret, Integer> implements
 	public void setAppIDAndSecretAndUrl(AppSecret as) {
 		try {
 			save(as);
-			logger.info("AppId and Secret and callbackUrl is saved!");
+			logger.info("AppId and Secret and callbackUrl were saved!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(LogUtils.getInstance().getErrorInfoFromException(e));
@@ -40,6 +39,56 @@ public class AppSecretDaoImpl extends BaseDao<AppSecret, Integer> implements
 		try {
 			Criteria ctr = getCriteria();
 			ctr.add(Restrictions.eq("appId", appId));
+
+			List<AppSecret> list = ctr.list();
+
+			if (list.size() > 0) {
+				return (AppSecret) list.get(0);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public void updateAppSecret(AppSecret as) {
+		try {
+			update(as);
+			logger.info("AppIdSecret was updated, !");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(LogUtils.getInstance().getErrorInfoFromException(e));
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public AppSecret getAppSecretByRealToken(String visitToken) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("visitToken", visitToken));
+
+			List<AppSecret> list = ctr.list();
+
+			if (list.size() > 0) {
+				return (AppSecret) list.get(0);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public AppSecret getAppSecretBySecret(String secret) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.eq("secert", secret));
 
 			List<AppSecret> list = ctr.list();
 
