@@ -8,10 +8,11 @@ var globalVar={
     SYSTEMSOUND:1,//系统声音
     MESSAGESOUND:1,//消息免打扰
     //融云appKey
-    //rongKey:'m7ua80guyso7u',
-    //navi:'103.36.132.10:80',
-    navi:'nav.cn.ronghub.com',
-    rongKey:'e5t4ouvpe564a',
+    //rongKey:'m7ua80guyso7u',		//适用于120
+    //navi:'103.36.132.10:80',		//适用于120
+    navi:'nav.cn.ronghub.com',		//适用于本地及35
+    rongKey:'e5t4ouvpe564a',		//适用于本地及35
+    
     fileServer:'upload.qiniu.com',
    
     //七牛配置
@@ -27,5 +28,8 @@ var globalVar={
     //
     refreshGroupOnline:5000,
     newsChatListTime:2505600000,
-    disconnectTimer:null
+    disconnectTimer:null,
+
+    appID:'dfe1691293e34dc580152d5e2356730c',
+    secret:'b03314a9e49cbdd28e1a6221579f8fb6eb7c107a156d81d001d83e32ba9ccfbb2b6be8b8dd2fcb73'
 };

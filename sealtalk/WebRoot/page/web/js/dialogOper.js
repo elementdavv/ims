@@ -134,7 +134,8 @@ $(function(){
             //bPrivate是私聊还是群聊
             var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
             var id =  $(this).closest('li').attr('id');
-            if(bPrivate){//创建个人的聊天页面 单选模式
+            var hasMember = $(this).closest('li').hasClass('member');
+            if(bPrivate&&hasMember){//创建个人的聊天页面 单选模式
                 var account =  $(this).closest('li').attr('account');
                 $('.dialogCheckBox').removeClass('CheckBoxChecked');
                 $(this).addClass('CheckBoxChecked');
@@ -143,6 +144,8 @@ $(function(){
                 converseACount.push(account);
 
                 //}
+            //}else if(bPrivate&&!hasMember){
+            //    converseACount.pusha()
             }else{//创建群组的聊天 多选模式
                 //首先自己的选中状态
                 //$(this).toggleClass('CheckBoxChecked','dialogCheckBox');

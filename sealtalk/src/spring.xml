@@ -92,6 +92,7 @@
 				<value>com/sealtalk/model/TCutLogoTemp.hbm.xml</value>
 				<value>com/sealtalk/model/TMap.hbm.xml</value>
 				<value>com/sealtalk/model/TMsgTop.hbm.xml</value>
+				<value>com/sealtalk/auth/model/AppSecret.hbm.xml</value>
 			</list>
 		</property>
 		

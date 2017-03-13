@@ -10,6 +10,7 @@ public class TestAction extends BaseAction {
 	private static final long serialVersionUID = -3827421291421868917L;
 
 	public String test() throws ServletException {
+		System.out.println("------------------ " + getSessionUser().getAccount());
 		return "test";
 	}
 }

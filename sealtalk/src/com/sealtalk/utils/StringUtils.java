@@ -2,6 +2,7 @@ package com.sealtalk.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -165,4 +166,18 @@ public class StringUtils {
 		return temp;
 	}
 
+	public String getRandomString(String str, int len) {
+		StringBuilder sb = new StringBuilder();
+		
+		char[] ch = str.toCharArray();
+		Random r = new Random();
+		
+		for(int i = 0; i < len; i++) {
+			int t = r.nextInt(len);
+			sb.append(ch[t]);
+		}
+		
+		return sb.toString();
+	}
+	
 }

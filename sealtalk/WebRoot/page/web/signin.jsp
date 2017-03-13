@@ -22,7 +22,7 @@
     <div class="signin-logo">
         <div class="main clearfix">
             <a href=""><span>G</span>roup Meal</a>
-            <a class="pull-left ng-binding">团餐IM系统</a>
+            <a class="pull-left ng-binding" onclick="jumpToAuth()">团餐IM系统</a>
         </div>
     </div>
     <div class="signin-form">

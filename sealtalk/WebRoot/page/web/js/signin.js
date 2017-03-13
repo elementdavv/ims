@@ -180,3 +180,13 @@ function fToNextStep(i){
     $('.resetStep').addClass('chatHide');
     $('[step=resetStep-'+i+']').closest('.resetStep').removeClass('chatHide');
 }
+
+
+/*
+*
+* 跳转到授权登陆页面
+*
+* */
+//function jumpToAuth(){
+//
+//}

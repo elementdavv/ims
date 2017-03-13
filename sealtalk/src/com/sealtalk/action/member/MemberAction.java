@@ -85,7 +85,7 @@ public class MemberAction extends BaseAction {
 		String result = null;
 		
 		if (memberService != null) {
-			result = memberService.updateMemberInfoForWeb(userid, position, fullname, sex, email, phone, sign);
+			result = memberService.updateMemberInfoForWeb(userid, position, fullname,  sign);
 		} else {
 			JSONObject jo = new JSONObject();
 			jo.put("code", 0);
