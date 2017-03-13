@@ -861,7 +861,7 @@ public class GroupServiceImpl implements GroupService {
                         {
                             Object t[] = (Object[])groupList.get(i);
                             JSONObject jo1 = new JSONObject();
-                            jo1.put("mid", t[0]);
+                            jo1.put("MID", t[0]);
                             jo1.put("account", t[1]);
                             jo1.put("fullname", t[2]);
                             jo1.put("logo", t[3]);
@@ -897,7 +897,7 @@ public class GroupServiceImpl implements GroupService {
 
                             if(dontDistrubList == null)
                                 jo1.put("dontdistrub", Integer.valueOf(0));
-                            if (jo1.getString("mid").equals(userId)) {
+                            if (jo1.getString("MID").equals(userId)) {
                             	ja.add(jo1);		//我创建的
                             } else {
                             	ja1.add(jo1);		//我加入的

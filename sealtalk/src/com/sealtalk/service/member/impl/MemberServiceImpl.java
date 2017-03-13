@@ -222,7 +222,7 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public String updateMemberInfoForWeb(String userId, String position, String fullName, String sex, String email, String phone, String sign) {
+	public String updateMemberInfoForWeb(String userId, String position, String fullName, String sign) {
 		
 		JSONObject jo = new JSONObject();
 		
@@ -231,9 +231,8 @@ public class MemberServiceImpl implements MemberService {
 			jo.put("text", Tips.WRONGPARAMS.getText());
 		} else {
 			try {
-				sex = sex.equals("男") ? "1" : "0";
 				int userIdInt = StringUtils.getInstance().strToInt(userId);
-				int ret = memberDao.updateMemeberInfoForWeb(userIdInt, fullName, sex, email, phone, sign);
+				int ret = memberDao.updateMemeberInfoForWeb(userIdInt, fullName, sign);
 				
 				if (ret > 0) {
 					

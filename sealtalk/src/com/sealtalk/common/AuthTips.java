@@ -6,6 +6,11 @@ public enum  AuthTips {
 	WORNGMAKEAS("AppId或secret生成错误", "00001"),
 	WORNGAPPID("AppId或secret生成错误", "00002"),
 	WORNGPARAM("参数错误", "00003"),
+	INVALIDAPPID("AppId无效", "00004"),
+	INVALTOKEN("令牌无效", "00005"),
+	INVALUSER("账号或密码无效", "00006"),
+	WORNGSECRET("Secret无效", "00007"),
+	NOTLOGIN("用户未登陆", "00008"),
 	
 	OK("OK", "10000"),
 	ERROR("error", "3000"),

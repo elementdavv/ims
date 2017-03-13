@@ -1,5 +1,9 @@
 package com.sealtalk.auth.service;
 
+import org.json.JSONObject;
+
+import com.sealtalk.model.SessionUser;
+
 public interface AppSecretService {
 	/**
 	 * 获取生成的appid和secret
@@ -16,9 +20,43 @@ public interface AppSecretService {
 	public String setAppIDAndSecretAndUrl(String appId, String secret, String url);
 
 	/**
-	 * 获取临时令牌
+	 * 场景一获取临时令牌
 	 * @param appId
 	 * @return
 	 */
-	public String getTempToken(String appId);
+	public JSONObject getTempTokenSceneOne(String appId);
+
+	/**
+	 * 场景一验证登陆，授权
+	 * @param unAuthToken
+	 * @param userName
+	 * @param userPwd
+	 * @param userPwd2 
+	 * @return
+	 */
+	public JSONObject reqAuthorizeOne(String unAuthToken, String userName, String userPwd);
+
+	/**
+	 * 获取真实访问令牌
+	 * @param secret
+	 * @param authToken
+	 * @return
+	 */
+	public String getRealToken(String secret, String authToken);
+	
+	/**
+	 * 获取授权资源
+	 * @param visitiToken
+	 * @return
+	 */
+	public String getAuthResource(String visitiToken);
+
+	/**
+	 * 场景二授权
+	 * @param sessionUser 
+	 * @param appId
+	 * @return
+	 */
+	public String reqAuthorizeTwo(SessionUser sessionUser, String unAuthToken);
+
 }

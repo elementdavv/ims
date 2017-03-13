@@ -8,10 +8,11 @@ var globalVar={
     SYSTEMSOUND:1,//系统声音
     MESSAGESOUND:1,//消息免打扰
     //融云appKey
-    //rongKey:'m7ua80guyso7u',
-    //navi:'103.36.132.10:80',
-    navi:'nav.cn.ronghub.com',
-    rongKey:'e5t4ouvpe564a',
+    //rongKey:'m7ua80guyso7u',		//适用于120
+    //navi:'103.36.132.10:80',		//适用于120
+    navi:'nav.cn.ronghub.com',		//适用于本地及35
+    rongKey:'e5t4ouvpe564a',		//适用于本地及35
+    
     fileServer:'upload.qiniu.com',
    
     //七牛配置
