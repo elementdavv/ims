@@ -297,8 +297,10 @@ $(document).ready(function(){
 
     });
     //搜索常用人历史记录
-    $('.infoDet-search input').focus(function(){
+    $('#personalData .infoDet-search input').off('focus');
+    $('#personalData .infoDet-search input').focus(function(){
         var _this = $(this);
+        _this.off('keypress');
         _this.keypress(function(event) {
             if (event.which == 13) {
                 fSearchPersonalHistory();
@@ -311,30 +313,20 @@ $(document).ready(function(){
 
     });
     //搜索群组历史记录
+    $('#groupData .infoDet-search input').off('focus');
+    $('#groupData .infoDet-search input').focus(function(){
+        var _this = $(this);
+        _this.off('keypress');
+        _this.keypress(function(event) {
+            if (event.which == 13) {
+                fSearchGroupHistory();
+            }
+        })
+    })
+    //搜索群组历史记录
     $('#groupData').on('click','.searchHostoryInfo',function(){
-        var sTargettype=$('#groupContainer').attr('targettype');
-        var sTargetid=$('#groupContainer').attr('targetid');
-        var sVal=$(this).prev().val();
-        sVal=sVal.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ');
-        if(sVal==''){
-            new Window().alert({
-                title   : '',
-                content : '请输入您要搜索的内容！',
-                hasCloseBtn : false,
-                hasImg : true,
-                textForSureBtn : false,
-                textForcancleBtn : false,
-                autoHide:true
-            });
-        }else{
-            var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
-            var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
-            {
-                getChatRecord(list,'#groupDetailsBox .infoDet-chatRecord .chatRecordSel');
-                //showHistoryMessages(list);
+        fSearchGroupHistory();
 
-            });
-        }
     });
     //群组消息面打扰
     $('#groupData').delegate('.voiceSet','click',function(){
@@ -850,6 +842,31 @@ function fSearchPersonalHistory(){
         var oPagetest = new PageObj({divObj:$perEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
         {
             getChatRecord(list,'#infoDetailsBox .infoDet-chatRecord .chatRecordSel');
+
+        });
+    }
+}
+function fSearchGroupHistory(){
+    var sTargettype=$('#groupContainer').attr('targettype');
+    var sTargetid=$('#groupContainer').attr('targetid');
+    var sVal=$('#groupData').find('.infoDet-search input').val();
+    sVal=sVal.replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ');
+    if(sVal==''){
+        new Window().alert({
+            title   : '',
+            content : '请输入您要搜索的内容！',
+            hasCloseBtn : false,
+            hasImg : true,
+            textForSureBtn : false,
+            textForcancleBtn : false,
+            autoHide:true
+        });
+    }else{
+        var $groupEle=$('#groupDetailsBox .infoDet-chatRecord').find('.infoDet-page');
+        var oPagetest = new PageObj({divObj:$groupEle,pageSize:20,searchstr:sVal,conversationtype:sTargettype,targetId:sTargetid},function(type,list,callback)//声明page1
+        {
+            getChatRecord(list,'#groupDetailsBox .infoDet-chatRecord .chatRecordSel');
+            //showHistoryMessages(list);
 
         });
     }

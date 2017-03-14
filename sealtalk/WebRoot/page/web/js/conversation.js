@@ -1099,11 +1099,11 @@ function getChatRecord(aList,sClass){
                     var Msize = KBtoM(sContent.size);
                     var uniqueTime = sContent.uniqueTime;
                     var fileURL=sContent.fileUrl;
-                    var file = getFileUniqueName(fileURL);
+                    var file = fileURL?getFileUniqueName(fileURL):'';
                     var fileOperate='';
                     var downLoadFile='';
                     if(window.Electron) {
-                        var localPath = window.Electron.chkFileExists(fileURL);
+                        var localPath = fileURL?window.Electron.chkFileExists(fileURL):'';
                         if (localPath) {
                             fileOperate = '<div id="fileOperate">' +
                             '<span class="openFile"></span>' +
