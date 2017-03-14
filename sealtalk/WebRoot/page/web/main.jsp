@@ -92,7 +92,7 @@
     <ul class="chatHeaderOper">
         <li class="chatLeftIcon"></li>
         <li class="chatLeftIcon"></li>
-        <li class="chatLeftIcon" class="" onclick="loginOA()">登录OA</li>
+        <%--<li class="chatLeftIcon" class="" onclick="loginOA()">登录OA</li>--%>
     </ul>
 </div>
 

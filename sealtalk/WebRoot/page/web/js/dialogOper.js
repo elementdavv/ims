@@ -134,27 +134,21 @@ $(function(){
             //bPrivate是私聊还是群聊
             var bPrivate = $(this).parents('.conversWindow').hasClass('privateConvers');
             var id =  $(this).closest('li').attr('id');
-            var hasMember = $(this).closest('li').hasClass('member');
+            var hasMember = $(this).closest('li').hasClass('member')||$(this).closest('li').hasClass('group');
             if(bPrivate&&hasMember){//创建个人的聊天页面 单选模式
                 var account =  $(this).closest('li').attr('account');
                 $('.dialogCheckBox').removeClass('CheckBoxChecked');
                 $(this).addClass('CheckBoxChecked');
-                //var bhas = arrHasElement(converseACount,account);
-                //if(bhas){
                 converseACount.push(account);
 
-                //}
-            //}else if(bPrivate&&!hasMember){
-            //    converseACount.pusha()
             }else{//创建群组的聊天 多选模式
                 //首先自己的选中状态
-                //$(this).toggleClass('CheckBoxChecked','dialogCheckBox');
+
                 if($(this).hasClass('CheckBoxChecked')){
                     $(this).removeClass('CheckBoxChecked');
                 }else{
                     $(this).addClass('CheckBoxChecked');
                 }
-
 
                 //然后子级的选中状态
                 var member = $(this).closest('li').next('ul').find('div.member');
@@ -166,14 +160,12 @@ $(function(){
                 if($(this).hasClass('CheckBoxChecked')){//选中的push
                     $(this).closest('li').next('ul').find('.dialogCheckBox').addClass('CheckBoxChecked');
                 }else{//未选中，移出数组
-                    //if($(this).closest('li').attr('editable')=='true'){
                     var $dialogCheckBox = $(this).closest('li').next('ul').find('.dialogCheckBox');
                     for(var i = 0;i<$dialogCheckBox.length;i++){
                         if($($dialogCheckBox[i]).closest('li').attr('editable')=='true'){
                             $($dialogCheckBox[i]).removeClass('CheckBoxChecked');
                         }
                     }
-                    //}
                 }
 
 
@@ -201,11 +193,9 @@ $(function(){
                         if(!bhas){
                             converseACount.push(account);
                         }
-                        //converseACount.push(account);
                     }
                 }
                 changeSelected(converseACount);
-
             }
         }
     })
