@@ -243,7 +243,7 @@ public class GroupServiceImpl implements GroupService {
 				
 				for(int i = 0; i < groupIdsArr.length; i++) {
 					if (!groupMemberIds.contains(groupIdsArr[i])) {
-						finalIds.add(Integer.parseInt(groupIdsArr[i]));
+						finalIds.add(Integer.parseInt(groupIdsArr[i].trim()));
 					}
 				}
 
@@ -326,7 +326,7 @@ public class GroupServiceImpl implements GroupService {
 				Integer[] idsInt = new Integer[userIds.length];
 				
 				for(int i = 0; i < userIds.length;i++) {
-					idsInt[i] = Integer.parseInt(userIds[i]);
+					idsInt[i] = Integer.parseInt(userIds[i].trim());
 				}
 				
 				String[] groupIds = {groupId};
@@ -861,6 +861,11 @@ public class GroupServiceImpl implements GroupService {
                         {
                             Object t[] = (Object[])groupList.get(i);
                             JSONObject jo1 = new JSONObject();
+                            System.out.println(i + "-" + t[0]);
+                            if (t[0] == null) {
+                            	System.out.println(i + "-" + t[0]);
+                            	continue;
+                            }
                             jo1.put("MID", t[0]);
                             jo1.put("account", t[1]);
                             jo1.put("fullname", t[2]);
