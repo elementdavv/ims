@@ -166,4 +166,11 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @return
 	 */
 	public List<TMember> getAllMemberInfo();
+	
+	/**
+	 * oauth2登陆获取成员信息
+	 * @param userId
+	 * @return
+	 */
+	public Object[] getAuthResouce(int userId);
 } 

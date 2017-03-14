@@ -109,8 +109,7 @@ function signin(){
             data.token = datas.text.token;
             window.localStorage.account=JSON.stringify(data);
             window.location.href = 'system!login';
-
-        }else{
+        } else {
             new Window().alert({
                 title   : '',
                 content : '用户名或密码输入错误！',
