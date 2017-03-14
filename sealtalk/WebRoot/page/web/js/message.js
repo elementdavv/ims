@@ -489,6 +489,7 @@ $(function(){
         $(this).addClass('active');
         return false;
     });
+    //双击常用联系人
     $('.usualChatList').undelegate('li','dblclick')
     $('.usualChatList').delegate('li','dblclick',function(){
         clearTimeout(oChatList);
@@ -516,10 +517,7 @@ $(function(){
             checkShutUp();
             conversationGroup(targetID,targeType,groupName,callback);
         }
-        //callback&&callback();
     }
-
-
     //定位到所在组织
     function orginizPos(targetID,type){
         $('.chatHeaderMenu li')[1].click();
@@ -528,7 +526,6 @@ $(function(){
         targetNode.addClass('active');
         targetNode.click();
     }
-
     function creatMemberMap(targetID,targeType){
         var curTargetList = searchFromList(1,targetID);
         var name = curTargetList.name;

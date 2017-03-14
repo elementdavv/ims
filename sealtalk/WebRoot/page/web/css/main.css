@@ -1403,3 +1403,22 @@ span.onlineStatus {
     width: 40px;
     /*background: white;*/
 }
+
+span.sendSuccess{
+    background: url("img/chatLeftIcon.png") no-repeat right top;
+    height: 20px;
+    width: 30px;
+    /*background: papayawhip;*/
+    display: none;
+    float: right;
+    margin-top: 20px;
+}
+.mr-chatContentL span.sendSuccess,.mr-chatContentLFile span.sendSuccess{
+    height: 20px;
+    width: 30px;
+    display: none;
+
+    /*background: papayawhip;*/
+    float: left;
+    margin-top: 20px;
+}

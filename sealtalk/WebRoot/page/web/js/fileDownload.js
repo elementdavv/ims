@@ -55,8 +55,8 @@ $(function(){
                 var parentNode = $(this).parent();
                 parentNode.find('#fileOperate').remove();
                 var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-                '<span class="openFile">打开文件</span>' +
-                '<span class="openFloder">打开文件夹</span>' +
+                '<span class="openFile"></span>' +
+                '<span class="openFloder"></span>' +
                 '</div>'
                 parentNode.append($(sHTML));
                 return false;

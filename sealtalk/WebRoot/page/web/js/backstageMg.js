@@ -38,6 +38,38 @@ $(document).ready(function(){
                break;
        }
    });
+
+    $('.orgNavClick').delegate('.sendSuccess','click',function(e){
+        $('.myContextMenu').remove();
+        if($(this).find('.voiceMsgContent').length>0){
+            return;
+        }
+        if($(this).parent().attr('class').indexOf('File')!=-1){
+            var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
+        }else{
+            var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'}];
+        }
+        var left = e.clientX+10;
+        var top = e.clientY-20;
+        var memship = $(this).parent().attr('class');
+        var targeType = $(this).parent().attr('data-t');
+        if(!targeType||targeType.length==0){
+            targeType = $(this).parent().attr('uniquetime')
+        }
+        if(!targeType||targeType.length==0){
+            targeType = $(this).parent().attr('senttime')
+        }
+        var style = 'left:'+left+'px;top:'+top+'px';
+        var id = 'infoCopy';
+        $('#chatBox .mr-ownChat').removeClass('active');
+        $('#chatBox .mr-chatBox').removeClass('active');
+        $('#chatBox .uploadImgFile').removeClass('active');
+        $('#chatBox .mr-ownImg').removeClass('active');
+
+        $(this).prev().addClass('active');
+        fshowContexMenu(arr,style,id,memship,targeType,false,$(this));
+        return false;
+    })
     //复制粘贴
     $('#chatBox').delegate('.mr-chatContent .mr-ownChat,.mr-chatContent .mr-chatBox,.mr-chatContent .uploadImgFile','mousedown',function(e){
         $('.myContextMenu').remove();
@@ -45,36 +77,44 @@ $(document).ready(function(){
             if($(this).find('.voiceMsgContent').length>0){
                 return;
             }
+            //$(this).find('.downLoadFile')
             if($(this).parent().attr('class').indexOf('File')!=-1){
-                var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
 
+                var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
             }else{
                 var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'}];
-
             }
 
             var left = e.clientX+10;
             var top = e.clientY-20;
-            var memship = $(this).closest('.orgNavClick').attr('targetid');
-            var targeType = $(this).closest('.orgNavClick').attr('targettype');
+            //var memship = $(this).closest('.orgNavClick').attr('targetid');
+            //var targeType = $(this).closest('.orgNavClick').attr('targettype');
+            var memship = $(this).parent().attr('class');
+            var targeType = $(this).parent().attr('data-t');
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'infoCopy';
             $('#chatBox .mr-ownChat').removeClass('active');
             $('#chatBox .mr-chatBox').removeClass('active');
             $('#chatBox .uploadImgFile').removeClass('active');
             $(this).addClass('active');
-            fshowContexMenu(arr,style,id,memship,targeType,false);
+            fshowContexMenu(arr,style,id,memship,targeType,false,$(this));
         }
     });
     //消息复制
     $('body').on('click','#infoCopy li',function(){
+        var target = $(this).parents('#infoCopy');
+        var targetDataT = target.attr('targettype');
+        var className = target.attr('memship');
         $('.myContextMenu').remove();
         var eTarget=$('#chatBox .mr-chatContent li .active');
         var sImgSrc='';
         var sInfoContent='';
         var oCopy={};
-        if(eTarget.hasClass('uploadImgFile')){
+        if(eTarget.hasClass('uploadImgFile')||eTarget.find('.uploadImgFile').length!=0){
             var sType='';
+            if(eTarget.find('.uploadImgFile').length!=0){
+                eTarget = eTarget.find('.uploadImgFile');
+            }
             sImgSrc=eTarget.attr('src');
             sType=eTarget.attr('data-type');
             oCopy.fileUrl=sImgSrc;
@@ -99,7 +139,7 @@ $(document).ready(function(){
                 var sCopy=JSON.stringify(oCopy);
                 window.localStorage.setItem('copy',sCopy);
             }else{
-                sInfoContent=eTarget.find('span').attr('name');
+                sInfoContent=eTarget.find('span').attr('name')||eTarget.find('span').html();
                 oCopy={};
                 oCopy.infoContent=sInfoContent;
                var sCopy=JSON.stringify(oCopy);
@@ -173,13 +213,37 @@ $(document).ready(function(){
                     $('.manageCancle').click();
 
                 },'','group');
+                break;
             case 2://点击的是打开文件
 
-            case 3:
+                var sClass = className?className.split(' '):'';
+                eTarget = $('.'+sClass[0]+'[data-t='+targetDataT+']');
+                if(eTarget.length==0){
+                    eTarget = $('.'+sClass[0]+'[uniquetime='+targetDataT+']');
+                }
+                if(eTarget.length==0){
+                    eTarget = $('.'+sClass[0]+'[senttime='+targetDataT+']');
+                }
+                eTarget.find('.openFile').click();
+                break;
+            case 3://点击的是打开文件夹
+
+                var sClass = className?className.split(' '):'';
+                eTarget = $('.'+sClass[0]+'[data-t='+targetDataT+']');
+                if(eTarget.length==0){
+                    eTarget = $('.'+sClass[0]+'[uniquetime='+targetDataT+']');
+                }
+                if(eTarget.length==0){
+                    eTarget = $('.'+sClass[0]+'[senttime='+targetDataT+']');
+                }
+                eTarget.find('.openFloder').click();
+                break;
             case 4:
             case 5:
         }
     });
+
+
     $('#chatBox').on('mousedown','#message-content',function(e){
         if(window.localStorage.getItem('copy')){
             $('.myContextMenu').remove();
@@ -195,6 +259,7 @@ $(document).ready(function(){
 
             }
         }
+        //return false;
     });
     $('body').on('click','#infoPaste li',function(){
         $('.myContextMenu').remove();
