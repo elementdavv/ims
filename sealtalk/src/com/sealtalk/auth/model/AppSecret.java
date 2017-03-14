@@ -8,6 +8,7 @@ package com.sealtalk.auth.model;
 public class AppSecret {
 	private int id;
 	private int userId;						//用户id
+	private int info;						//用户信息类型(1:姓名，头像，性别，职位.2:联系方式，公司，邮箱)
 	private String appId;					//appid		用来获取未授权临时令牌
 	private String secert;					//secret	用来获取访问令牌
 	private String unAuthToken;
@@ -24,6 +25,12 @@ public class AppSecret {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getInfo() {
+		return info;
+	}
+	public void setInfo(int info) {
+		this.info = info;
 	}
 	public int getUserId() {
 		return userId;

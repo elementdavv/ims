@@ -11,11 +11,14 @@
 
     <package name="com.sealtalk.auth.action" extends="struts-default">
         <action name="auth" class="com.sealtalk.auth.action.AppSecretAction">
+        	<!--  服务器做重定向 -->
+        	<!--
         	<result name="redirectLogin" type="redirectAction">
         	  	<param name="actionName">auth!redirectLogin</param>  
 				<param name="unAuthToken">${unAuthToken}</param>  
-        	</result>
-        	<result name="login">/page/web/signin.jsp</result>
+        	</result>-->
+        	<result name="oaLogin">/page/web/deng.jsp</result>
+        	<result name="login">/page/web/authorizePage.jsp</result>
         	<result name="text" type="stream">
         		<param name="contentType">text/plain</param>
 				<param name="inputName">inputStream</param>

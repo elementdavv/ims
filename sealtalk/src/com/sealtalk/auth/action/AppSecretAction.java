@@ -1,6 +1,9 @@
 package com.sealtalk.auth.action;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 
@@ -9,6 +12,7 @@ import org.json.JSONObject;
 
 import com.sealtalk.auth.service.AppSecretService;
 import com.sealtalk.common.BaseAction;
+import com.sealtalk.common.Tips;
 
 /**
  * appid, secret action
@@ -48,14 +52,19 @@ public class AppSecretAction extends BaseAction {
 	 */
 	public String getTempTokenSceneOne() throws ServletException,IOException, JSONException {
 		JSONObject result = appSecretService.getTempTokenSceneOne(appId);
-		if (result.getString("code").equals("500")) {
+		//服务器主动跳转(前端异步提交时，不能正常跳转，会把页面返回去)
+		//如果使用服务器跳转，前端请使用form表单
+		/*if (result.getString("code").equals("500")) {
 			returnToClient(result.toString());
 			return "text";
 		} else {
 			setUnAuthToken(result.getString("text"));
 			return "redirectLogin";
-			//response.sendRedirect("apage.jsp");
+			//response.sendRedirect("auth!redirectLogin?unAuthToken="+result.getString("text"));
 		}
+		*/
+		returnToClient(result.toString());
+		return "text";
 	}
 	
 	/**
@@ -86,18 +95,21 @@ public class AppSecretAction extends BaseAction {
 	 * @throws IOException 
 	 */
 	public String reqAuthorizeOne() throws ServletException, JSONException, IOException {
-		JSONObject result = appSecretService.reqAuthorizeOne(unAuthToken, userName, userPwd);
+		JSONObject result = appSecretService.reqAuthorizeOne(unAuthToken, userName, userPwd, appId, info);
 		String code = result.getString("code");
 		
 		if (code.equals("500")) {
-			returnToClient(result.toString());
-			return "text";
+			String url = getUrl();
+			response.sendRedirect(url + "auth!redirectLogin?unAuthToken=" + unAuthToken + "&err=1");
+			//return "login";
+			//returnToClient(result.toString());
+			//return "text";
 		} else {
 			String url = result.getString("url") + "?authToken=" + result.getString("text");
 			response.sendRedirect(url);
 		}
 		return null;
-	}
+	} 
 	
 	/**
 	 * 场景二授权
@@ -107,7 +119,7 @@ public class AppSecretAction extends BaseAction {
 	 * @throws IOException 
 	 */
 	public String reqAuthorizeTwo() throws ServletException, IOException {
-		String result = appSecretService.reqAuthorizeTwo(getSessionUser(), unAuthToken);
+		String result = appSecretService.reqAuthorizeTwo(getSessionUser(), appId, unAuthToken);
 		returnToClient(result);
 		return "text";
 	}
@@ -130,20 +142,36 @@ public class AppSecretAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String getAuthResource() throws ServletException {
-		String result = appSecretService.getAuthResource(visitiToken);
+		System.out.println("getAuthResource() visitToken: " + visitToken);
+		String result = appSecretService.getAuthResource(visitToken);
 		returnToClient(result.toString());
 		return "text";
 	}
 	
-	public String visitiToken;
-	public String authToken;
-	public String unAuthToken;
-	private String appId;
-	private String secret;
-	private String url;
-	private String userName;
-	private String userPwd;
+	/** 以下接口为oa测试使用 **/
+	public String oaLogin() throws ServletException {
+		return "oaLogin";
+	}
 	
+	
+	public String visitToken;	//访问令牌
+	public String authToken;	//授权令牌
+	public String unAuthToken;	//未授权令牌
+	private String info;		//要获取的用户信息
+	private String appId;		//appId
+	private String secret;		//secret
+	private String url;			//回调url
+	private String userName;	//用户名
+	private String userPwd;		//用户密码
+	
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
 	public void setAppId(String appId) {
 		this.appId = appId;
 	}
@@ -173,11 +201,11 @@ public class AppSecretAction extends BaseAction {
 	}
 
 	public String getVisitiToken() {
-		return visitiToken;
+		return visitToken;
 	}
 
-	public void setVisitiToken(String visitiToken) {
-		this.visitiToken = visitiToken;
+	public void setVisitToken(String visitToken) {
+		this.visitToken = visitToken;
 	}
 
 	public String getUserName() {

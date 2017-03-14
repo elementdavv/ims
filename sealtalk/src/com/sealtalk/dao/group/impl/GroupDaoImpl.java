@@ -152,6 +152,7 @@ public class GroupDaoImpl extends BaseDao<TGroup, Long> implements GroupDao {
         {
             String hql = (new StringBuilder("select M.id MID,M.account,M.fullname,M.logo,M.telephone,M.email,M.address,M.token,M.sex,M.birthday,M.workno,M.mobile,M.groupmax,M.groupuse,M.intro,G.id GID,G.code,G.name,G.createdate,G.volume,G.volumeuse,G.space,G.spaceuse,G.annexlong,G.notice from t_member M right join t_group G on G.creator_id=M.id where G.id in (")).append(groupIds).append(")").toString();
        
+            System.out.println("getGroupListWithCreaterInfo() sql: " + hql);
             SQLQuery query = getSession().createSQLQuery(hql);
             List list = query.list();
             

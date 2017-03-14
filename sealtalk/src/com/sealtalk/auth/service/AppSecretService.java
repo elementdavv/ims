@@ -31,10 +31,10 @@ public interface AppSecretService {
 	 * @param unAuthToken
 	 * @param userName
 	 * @param userPwd
-	 * @param userPwd2 
+	 * @param info 
 	 * @return
 	 */
-	public JSONObject reqAuthorizeOne(String unAuthToken, String userName, String userPwd);
+	public JSONObject reqAuthorizeOne(String unAuthToken, String userName, String userPwd, String appId, String info);
 
 	/**
 	 * 获取真实访问令牌
@@ -57,6 +57,6 @@ public interface AppSecretService {
 	 * @param appId
 	 * @return
 	 */
-	public String reqAuthorizeTwo(SessionUser sessionUser, String unAuthToken);
+	public String reqAuthorizeTwo(SessionUser sessionUser, String appId, String unAuthToken);
 
 }

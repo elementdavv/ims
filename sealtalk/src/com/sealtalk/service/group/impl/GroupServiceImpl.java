@@ -894,7 +894,6 @@ public class GroupServiceImpl implements GroupService {
                                 else
                                     jo1.put("dontdistrub", Integer.valueOf(0));
                             }
-
                             if(dontDistrubList == null)
                                 jo1.put("dontdistrub", Integer.valueOf(0));
                             if (jo1.getString("MID").equals(userId)) {

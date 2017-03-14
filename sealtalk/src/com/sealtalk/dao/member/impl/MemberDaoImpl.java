@@ -123,7 +123,6 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 	@Override
 	public Object[] getOneOfMember(int id) {
 		try {
-			
 			String hql = "select " +
 				"M.id MID," + 
 				"M.account," +
@@ -523,6 +522,42 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 			
 			if (list.size() > 0) {
 				return list;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public Object[] getAuthResouce(int id) {
+		try {
+			String hql = "select " +
+				"M.fullname," +
+				"M.logo," +
+				"M.telephone," +
+				"M.email," +
+				"M.mobile," +
+				"S.name SNAME," +
+				"P.name PNAME," +
+				"O.name ONAME " +
+				"from t_member M left join t_branch_member BM on M.id=BM.member_id " +
+				"left join t_branch B on BM.branch_id=B.id " +
+				"left join t_position P on BM.position_id=P.id " +
+				"left join t_sex S on M.sex=S.id " +
+				"inner join t_organ O on M.organ_id=O.id " +
+				"where M.id=" + id + " and BM.is_master=1";
+			
+			SQLQuery query = this.getSession().createSQLQuery(hql);
+			
+			System.out.println("getAuthResouce->hql :" + hql);
+			
+			List list = query.list();
+			
+			if (list.size() > 0) {
+				return (Object[]) list.get(0);
 			}
 			
 		} catch (Exception e) {

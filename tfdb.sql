@@ -443,6 +443,7 @@ CREATE TABLE `t_msgtop` (
 CREATE TABLE `t_appsecret` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `userid` int not null,
+  `info` int not null default 3,
   `appId` VARCHAR(100) NOT NULL DEFAULT '0',
   `secert` VARCHAR(200) NOT NULL DEFAULT '0',
   `unauthtoken` VARCHAR(200) NOT NULL DEFAULT '0',
