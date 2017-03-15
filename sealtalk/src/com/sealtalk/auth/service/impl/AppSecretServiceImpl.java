@@ -120,6 +120,7 @@ public class AppSecretServiceImpl implements AppSecretService {
 				appId = appId.trim();
 				AppSecret as = appSecretDao.getAppSecretByAppId(appId);
 
+				System.out.println("as= " + as);
 				if (as == null) {
 					text = AuthTips.INVALIDAPPID.getText();
 				} else {
@@ -187,6 +188,7 @@ public class AppSecretServiceImpl implements AppSecretService {
 				String appIdc = appIdCode.substring(0, appIdCode.length() - 10);
 				
 				if (!appId.equals(appIdc)) {
+					
 					text = AuthTips.INVALTOKEN.getText();
 				} else {
 					AppSecret as = appSecretDao.getAppSecretByAppId(appId);
@@ -200,6 +202,7 @@ public class AppSecretServiceImpl implements AppSecretService {
 	
 						if (!unAuthTokenDB.equals(unAuthToken)
 								|| (now >= unAuthTokenTime)) {
+							System.out.println("555555555555555");
 							text = AuthTips.INVALTOKEN.getText();
 						} else {
 							TMember tm = memberDao.searchSigleUser(userName,userPwd);
