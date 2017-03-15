@@ -253,19 +253,12 @@ function chDownloadState(url, state){
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
 
-    //var savePath = path.join(downloadSavePath, Utils.getSavePath(url));
-    //targetA.attr('href',savePath);
-
-    //console.log('*********************');
-    //console.log(targetA.attr('href'));
-
-
     for(var i=0;i<targetA.length;++i){
       if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
         $('#down_process[uniquetime=' + file + ']').remove();
         targetA.eq(i).css('visibility','hidden');
         var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-            '<span class="openFile">打开文件</span><span class="openFloder">打开文件夹</span>' +
+            '<span class="openFile"></span><span class="openFloder"></span>' +
             '</div>';
         var targetParent = targetA.eq(i).parents('.mr-ownChat').length==1?targetA.eq(i).parents('.mr-ownChat'):targetA.eq(i).parents('.mr-chatBox');
         targetParent.append(sHTML);
@@ -273,16 +266,17 @@ function chDownloadState(url, state){
         targetA.eq(i).css('visibility','hidden');
         targetA.eq(i).closest('.downLoadFileInfo').find('#fileOperate1').remove();
         var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
-            '<span class="openFile">打开文件</span>' +
-            '<span class="openFloder">打开文件夹</span>' +
+            '<span class="openFile"></span>' +
+            '<span class="openFloder"></span>' +
             '</div>'
         targetA.eq(i).closest('.downLoadFileInfo').append($(sHTML));
       }else{
-        targetA.eq(i).closest('strong').remove();
-        $('.chatFile-folder').find('strong').remove();
         var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
             <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
-        $('.chatFile-folder').append(sHtml);
+        targetA.eq(i).closest('.chatFile-folder').append(sHtml);
+        targetA.eq(i).closest('strong').remove();
+        //$('.chatFile-folder').find('strong').remove();
+
       }
     }
     targetA.each(function(index){

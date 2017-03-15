@@ -38,14 +38,20 @@ $(document).ready(function(){
                break;
        }
    });
-
+    //点击操作的icon
     $('.orgNavClick').delegate('.sendSuccess','click',function(e){
         $('.myContextMenu').remove();
         if($(this).find('.voiceMsgContent').length>0){
             return;
         }
         if($(this).parent().attr('class').indexOf('File')!=-1){
-            var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
+            var sURL = $(this).parent().find('.downLoadFile').attr('href');
+            var localPath = sURL?window.Electron.chkFileExists(sURL):'';
+            if(localPath){
+                var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
+            }else{
+                var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'}];
+            }
         }else{
             var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'}];
         }
@@ -77,10 +83,16 @@ $(document).ready(function(){
             if($(this).find('.voiceMsgContent').length>0){
                 return;
             }
-            //$(this).find('.downLoadFile')
-            if($(this).parent().attr('class').indexOf('File')!=-1){
 
-                var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
+            if($(this).parent().attr('class').indexOf('File')!=-1){
+                var sURL = $(this).parent().find('.downLoadFile').attr('href');
+                var localPath = sURL?window.Electron.chkFileExists(sURL):'';
+                if(localPath){
+                    var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
+                }else{
+                    var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'}];
+                }
+                //var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
             }else{
                 var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'}];
             }

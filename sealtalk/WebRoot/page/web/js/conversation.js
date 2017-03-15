@@ -121,7 +121,7 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
                     '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
                     '<em class="infoLoading"  infoTime="'+nSendTime+'"></em></div>';
                 if(window.Electron) {
-                    var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
+                    var localPath = sendMsg.fileUrl?window.Electron.chkFileExists(sendMsg.fileUrl):'';
                     if (localPath) {
                         fileOperate = '<div id="fileOperate">' +
                         '<span class="openFile"></span>' +
@@ -721,7 +721,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 //var downstyle = '';
                 if(window.Electron) {
                     if(sendMsg.fileUrl){
-                        var localPath = window.Electron.chkFileExists(sendMsg.fileUrl);
+                        var localPath = sendMsg.fileUrl?window.Electron.chkFileExists(sendMsg.fileUrl):'';
                         if (localPath) {
                             fileOperate = '<div id="fileOperate">' +
                             '<span class="openFile"></span>' +
@@ -1106,8 +1106,8 @@ function getChatRecord(aList,sClass){
                         var localPath = fileURL?window.Electron.chkFileExists(fileURL):'';
                         if (localPath) {
                             fileOperate = '<div id="fileOperate">' +
-                            '<span class="openFile"></span>' +
-                            '<span class="openFloder"></span>' +
+                            '<span class="openFile">打开文件</span>' +
+                            '<span class="openFloder">打开文件夹</span>' +
                             '</div>'
                             downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
                         } else {
@@ -1218,7 +1218,7 @@ function getFileRecord(aList,sClass){
                 var sSendfName = oLocData.name;
             }
             if(window.Electron){
-                var localPath = window.Electron.chkFileExists(fileSrc);
+                var localPath = fileSrc?window.Electron.chkFileExists(fileSrc):'';
                 if(localPath){
                     sLi += ' <li class="chatFile-folder">\
             <i></i>\

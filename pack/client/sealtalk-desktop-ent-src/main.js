@@ -157,7 +157,6 @@ app.on('ready', () => {
   mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
     let _url = item.getURL();
     let savePath = path.join(downloadSavePath, Utils.getSavePath(_url));
-    console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
 
     //console.log(event,item);
     // var rightNow = new Date();
@@ -165,10 +164,8 @@ app.on('ready', () => {
 
     const totalBytes = item.getTotalBytes();
     item.setSavePath(savePath);
-    console.log('=============');
 
     item.on('updated', (event, state) => {
-      console.log(')))))))))))))))))');
 
 mainWindow.setProgressBar(item.getReceivedBytes() / totalBytes);
 
@@ -188,7 +185,7 @@ mainWindow.setProgressBar(item.getReceivedBytes() / totalBytes);
     })
     item.once('done', (event, state) => {
       if (!mainWindow.isDestroyed()) {
-           mainWindow.setProgressBar(-1);        
+           mainWindow.setProgressBar(-1);
            mainWindow.webContents.send('chDownloadState', _url, state)
       }
 
