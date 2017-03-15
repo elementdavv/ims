@@ -103,6 +103,9 @@ $(document).ready(function(){
             //var targeType = $(this).closest('.orgNavClick').attr('targettype');
             var memship = $(this).parent().attr('class');
             var targeType = $(this).parent().attr('data-t');
+            if(!targeType){
+                var targeType = $(this).parent().attr('uniquetime');
+            }
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'infoCopy';
             $('#chatBox .mr-ownChat').removeClass('active');
@@ -205,7 +208,6 @@ $(document).ready(function(){
 
                                 if(sImgSrc){
                                     var extra = "uploadFile";
-                                    //sendMsg(sFileImg,targetId,targetType,extra,'',nSendTime);
                                     sendByRongImg(oPast,targetId,targetType,nSendTime);
                                 }else if(sInfoContent){
                                     var uniqueTime = new Date().getTime();
