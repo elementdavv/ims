@@ -22,11 +22,11 @@ $(function(){
     groupOnlineNum = setInterval(function(){
         changeGroupOnlineN(accountID);
     },globalVar.refreshGroupOnline)
-
+    //获取个人在线状态
     var personOnlineNum = null;
     personOnlineNum = setInterval(function(){
         changePersonOnlineN('');
-    },globalVar.refreshGroupOnline)
+    },globalVar.refreshPersonalOnline)
 
 
     function showPersonDetailDia(e,CurList){

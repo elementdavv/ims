@@ -15,7 +15,8 @@ $(function(){
                     if(data){
                         var datas = JSON.parse(data);
                         if(datas&&datas.code=='200'){
-                            console.log('0000000000000');
+                            //console.log('0000000000000');
+                            document.write(datas.text)
                         }
                     }
                 })
