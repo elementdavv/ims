@@ -22,7 +22,7 @@ $(function(){
         var targetId = $(this).attr('id');
         var targetLi = $('#contactBox .contactsList').find('li.member[id="'+targetId+'"]');
         $('.contactSearchResult').remove();
-        $('.contactsSearch').val();
+        $('.contactsSearch').val('');
         targetLi.find('.dialogCheckBox').click();
     })
     $('.contactBox').delegate('.contactSearchResult .dialogCheckBox','click',function(){
