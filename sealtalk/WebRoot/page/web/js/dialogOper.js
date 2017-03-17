@@ -16,6 +16,15 @@ $(function(){
             _this.remove();
         },1000)
     })
+
+
+    $('.WindowMask').delegate('.privateConvers .contactSearchResult li','click',function(){
+        var targetId = $(this).attr('id');
+        var targetLi = $('#contactBox .contactsList').find('li.member[id="'+targetId+'"]');
+        $('.contactSearchResult').remove();
+        $('.contactsSearch').val();
+        targetLi.find('.dialogCheckBox').click();
+    })
     $('.contactBox').delegate('.contactSearchResult .dialogCheckBox','click',function(){
         if($(this).parents('li').attr('editable')=='true'){
             var targetId = $(this).closest('li').attr('id');
@@ -58,6 +67,8 @@ $(function(){
                     }else if(datas.length!=0){
                         //生成搜索结果
                         var sHTML = '';
+                        $('.contactSearchResult').remove();
+
                         console.log('converseACount',converseACount);
 
                         for(var i = 0;i<datas.length;i++){

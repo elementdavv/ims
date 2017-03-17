@@ -1017,24 +1017,37 @@ function changePersonOnlineN(accountID){
             var memberList = datas.text;
             for(var key in memberList){
                 var targetGroup = $organizationList.find('li#'+key+'.member');
-                var sMemberStatus = ''
+                var sMemberStatus = '';
+                var onlineClassName = '';
+                //memberList[key] = '3';
                 switch (memberList[key]){
 
-                    case '0':
-                        sMemberStatus = '离线'
+                    case '0'://离线
+                        onlineClassName = 'imgToGrey';
+                        sMemberStatus = '';
+
+                        //sMemberStatus = '离线'
                         break;
-                    case '1':
-                        sMemberStatus = '在线'
+                    case '1'://在线
+                        onlineClassName = '';
+                        sMemberStatus = '';
+
+                        //sMemberStatus = '在线'
                         break;
-                    case '2':
-                        sMemberStatus = '手机在线';
+                    case '2'://手机在线
+                        onlineClassName = '';
+
+                        sMemberStatus = 'phoneOnline';
+
                         break;
-                    case '3':
-                        sMemberStatus = '繁忙'
+                    case '3'://繁忙
+                        onlineClassName = '';
+                        sMemberStatus = 'memberbusy';
                         break;
                 }
                 if(targetGroup&&targetGroup.hasClass('member')){
-                    targetGroup.find('.onlineStatus ').html('('+sMemberStatus  +')');
+                    targetGroup.find('.onlineStatus ').attr('class','onlineStatus '+sMemberStatus)
+                    targetGroup.find('.groupImg').attr('class','groupImg '+onlineClassName);
                 }
             }
         }
@@ -1486,10 +1499,10 @@ function createOrganizList(data,sHTML,level){
             }else{
                 var imgSrc = globalVar.defaultLogo;
             }
-
-
+            var poaitionName = '('+oData.postitionname+')'
         }else{
             var imgSrc = globalVar.defaultDepLogo;
+            var poaitionName = ''
 
         }
         //console.log('oData',oData);
@@ -1498,7 +1511,8 @@ function createOrganizList(data,sHTML,level){
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
                     '<img class="groupImg" src="'+imgSrc+'" alt="">'+
                     '<span class="groupName">'+oData.name+'</span>'+collspan+''+
-                    '<span class="onlineStatus"></span>'+
+                    //'<span class="poaitionName" >'+poaitionName+'</span>'+
+                    '<span class="memberPos" style="position: absolute;left: '+level*32+'px"></span>'+
                     '</div>'+
                 '</li>'
         if(hasChild){
@@ -1529,10 +1543,12 @@ function DialogTreeLoop(data,sHTML,level,userID){
             var collspan =  '<span class="dialogCollspan chatLeftIcon"></span>'+
                             '<span class="chatLeftIcon dialogCheckBox"></span>';
             var department = 'member';
+            //var positionName = '('+oData.postitionname+')';
         }else{//部门
             var collspan =  '<span class="dialogCollspan chatLeftIcon dialogCollspanO"></span>'+
                             '<span class="chatLeftIcon dialogCheckBox"></span>';
             var department = 'department';
+            //var positionName = '';
         }
         if(oData.hasChild.length==0){
             var collspan =  '<span class="dialogCollspan chatLeftIcon"></span>'+

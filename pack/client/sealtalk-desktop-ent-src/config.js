@@ -20,7 +20,7 @@ var sealtalk_config = {
   AUTHOR: "RongCloud",
   LICENSE: "MIT",
   PACKAGE: {
-     RUNTIMEVERSION: "1.4.3",
+     RUNTIMEVERSION: "1.4.15",
      COPYRIGHT: ""
   },
   WIN: {

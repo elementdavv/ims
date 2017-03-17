@@ -13,7 +13,7 @@ var globalVar={
     navi:'nav.cn.ronghub.com',		//适用于本地及35
     rongKey:'e5t4ouvpe564a',		//适用于本地及35
     
-    fileServer:'upload.qiniu.com',
+    //fileServer:'upload.qiniu.com',
    
     //七牛配置
     qiniuTOKEN:'5aZfPtTZP10rsriqnktyCKXjq99EX9z9wUAq-Yll:DJMQqJxwhqRWzVkLE2AVDD6DJ_4=:eyJlbmRVc2VyIjoieSIsInNjb3BlIjoiZWR1cGljdHVyZSIsImRlYWRsaW5lIjo5MjIzMzcyMDM2ODU0Nzc1ODA3fQ==',
@@ -27,9 +27,10 @@ var globalVar={
     defaultDepLogo:'page/web/css/img/group_chart.jpg',
     //
     refreshGroupOnline:5000,
+    refreshPersonalOnline:5000,
     newsChatListTime:2505600000,
     disconnectTimer:null,
-
+	//oAuth2相关配置
     appID:'dfe1691293e34dc580152d5e2356730c',
     secret:'b03314a9e49cbdd28e1a6221579f8fb6eb7c107a156d81d001d83e32ba9ccfbb2b6be8b8dd2fcb73'
 };

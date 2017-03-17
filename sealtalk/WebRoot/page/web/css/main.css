@@ -1391,7 +1391,21 @@ div.contactSearchResult{
     padding: 3px 0px 35px 0px;
 }
 
-span.onlineStatus {
+
+
+span.onlineStatus.phoneOnline {
+     display: inline-block;
+     height: 20px;
+     float: left;
+     line-height: 16px;
+     text-align: center;
+     /* border: 1px solid peru; */
+     position: absolute;
+     top: 14px;
+     width: 14px;
+     background: plum;
+ }
+span.onlineStatus.memberbusy {
     display: inline-block;
     height: 20px;
     float: left;
@@ -1400,8 +1414,11 @@ span.onlineStatus {
     /* border: 1px solid peru; */
     position: absolute;
     top: 14px;
-    width: 40px;
-    /*background: white;*/
+    width: 14px;
+    background: palegreen;
+}
+.department span.onlineStatus{
+    display: none;
 }
 
 span.sendSuccess{
@@ -1421,4 +1438,9 @@ span.sendSuccess{
     /*background: papayawhip;*/
     float: left;
     margin-top: 20px;
+}
+.imgToGrey{
+    -webkit-filter: grayscale(1);/* Webkit */
+    filter:gray;/* IE6-9 */
+    filter: grayscale(1);/* W3C */
 }
