@@ -156,6 +156,7 @@ CREATE TABLE `t_priv` (
   `category` CHAR(1) DEFAULT '0' COMMENT '种类：1权限，2层级限制',
   `grouping` CHAR(1) DEFAULT '0' COMMENT '0非分组记录，1分组记录',
   `url` VARCHAR(512) COMMENT '按url控制权限',
+  `app` varchar(50) comment '所属应用',
   `listorder` INT NOT NULL DEFAULT 0,
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
@@ -440,20 +441,30 @@ CREATE TABLE `t_msgtop` (
 ) ENGINE=InnoDB;
 
 --以下为认证系统数据表实现
+--应用数据表
 CREATE TABLE `t_appsecret` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `userid` int not null,
-  `info` int not null default 3,
+  `appname` VARCHAR(50) NOT NULL DEFAULT '0',
   `appId` VARCHAR(100) NOT NULL DEFAULT '0',
   `secert` VARCHAR(200) NOT NULL DEFAULT '0',
-  `unauthtoken` VARCHAR(200) NOT NULL DEFAULT '0',
-  `authtoken` VARCHAR(200) NOT NULL DEFAULT '0',
-  `visittoken` VARCHAR(200) NOT NULL DEFAULT '0',
   `callbackurl` VARCHAR(300) NOT NULL DEFAULT '0',
   `apptime` BIGINT(11) NOT NULL DEFAULT 0,
+  `isopen` int(1) not null default 1 comment '0关闭1开启',
+   PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+--登陆用户数据表
+CREATE TABLE `t_uservalid` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `asid` default 0,
+  `unauthtoken` VARCHAR(200) DEFAULT '0',
+  `authtoken` VARCHAR(200) DEFAULT '0',
+  `visittoken` VARCHAR(200) DEFAULT '0',
   `unauthtokentime` BIGINT(11) NOT NULL DEFAULT 0,
-  `authtokentime` BIGINT(11) NOT NULL DEFAULT 0,
-  `visittokentime` BIGINT(11) NOT NULL DEFAULT 0,
+  `authtokentime` BIGINT(11) DEFAULT 0,
+  `visittokentime` BIGINT(11) DEFAULT 0,
+  `userid` int,
+  `info` int default 3,
    PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 

@@ -64,26 +64,6 @@ public class AppSecretDaoImpl extends BaseDao<AppSecret, Integer> implements App
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public AppSecret getAppSecretByRealToken(String visitToken) {
-		try {
-			Criteria ctr = getCriteria();
-			ctr.add(Restrictions.eq("visitToken", visitToken));
-
-			List<AppSecret> list = ctr.list();
-
-			if (list.size() > 0) {
-				return (AppSecret) list.get(0);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
 	@Override
 	public AppSecret getAppSecretBySecret(String secret) {
 		try {

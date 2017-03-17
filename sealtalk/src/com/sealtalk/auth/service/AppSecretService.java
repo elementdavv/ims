@@ -17,7 +17,7 @@ public interface AppSecretService {
 	 * @param secret
 	 * @param url
 	 */
-	public String setAppIDAndSecretAndUrl(String appId, String secret, String url);
+	public String setAppIDAndSecretAndUrl(String appName, String appId, String secret, String url, String isOpen);
 
 	/**
 	 * 场景一获取临时令牌
@@ -58,5 +58,6 @@ public interface AppSecretService {
 	 * @return
 	 */
 	public String reqAuthorizeTwo(SessionUser sessionUser, String appId, String unAuthToken);
+
 
 }

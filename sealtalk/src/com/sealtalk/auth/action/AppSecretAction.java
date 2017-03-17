@@ -40,7 +40,7 @@ public class AppSecretAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String setAppIDAndSecretAndUrl() throws ServletException {
-		String result = appSecretService.setAppIDAndSecretAndUrl(appId, secret, url);
+		String result = appSecretService.setAppIDAndSecretAndUrl(appName, appId, secret, url, isOpen);
 		returnToClient(result);
 		return "text";
 	}
@@ -159,11 +159,17 @@ public class AppSecretAction extends BaseAction {
 	public String unAuthToken;	//未授权令牌
 	private String info;		//要获取的用户信息
 	private String appId;		//appId
+	private String appName;		//应用名称
+	private String isOpen;		//是否启用
 	private String secret;		//secret
 	private String url;			//回调url
 	private String userName;	//用户名
 	private String userPwd;		//用户密码
 	
+	public void setIsOpen(String isOpen) {
+		this.isOpen = isOpen;
+	}
+
 	public String getInfo() {
 		return info;
 	}
@@ -218,6 +224,10 @@ public class AppSecretAction extends BaseAction {
 
 	public String getUserPwd() {
 		return userPwd;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
 	}
 
 	public void setUserPwd(String userPwd) {
