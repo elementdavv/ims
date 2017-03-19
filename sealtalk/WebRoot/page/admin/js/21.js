@@ -287,6 +287,7 @@ function cb_210_count(data) {
 	else {
 		$('#list210').empty();
 		$('#pagecurr').text('0/0');
+		updatebrowse('1', pagenumber, curpage);
 	}
 }
 function load210page() {
@@ -294,6 +295,7 @@ function load210page() {
 	$('#pagecurr').text((curpage+1) + '/' + pagenumber);
 	var data = {roleid: currole, page: curpage, itemsperpage: itemsperpage};
 	callajax('priv!getMemberByRole', data, cb_210_fresh)
+	updatebrowse('1', pagenumber, curpage);
 }
 function cb_210_fresh(data) {
 	var i = data.length;

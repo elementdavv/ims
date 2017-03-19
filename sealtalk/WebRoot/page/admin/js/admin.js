@@ -127,3 +127,28 @@ function formtojson(form) {
 	astring += '}';
 	return $.parseJSON(astring);
 }
+function updatebrowse(id, pagenumber, curpage) {
+	if (pagenumber == 0) {
+		$('#imgfirst' + id).prop('src', 'images/firstpage_0.png');
+		$('#imgback' + id).prop('src', 'images/back_0.png');
+		$('#imgnext' + id).prop('src', 'images/next_0.png');
+		$('#imglast' + id).prop('src', 'images/lastpage_0.png');
+		return;
+	}
+	if (curpage == 0) {
+		$('#imgfirst' + id).prop('src', 'images/firstpage_0.png');
+		$('#imgback' + id).prop('src', 'images/back_0.png');
+	}
+	else {
+		$('#imgfirst' + id).prop('src', 'images/firstpage_1.png');
+		$('#imgback' + id).prop('src', 'images/back_1.png');
+	}
+	if (curpage == pagenumber - 1) {
+		$('#imgnext' + id).prop('src', 'images/next_0.png');
+		$('#imglast' + id).prop('src', 'images/lastpage_0.png');
+	}
+	else {
+		$('#imgnext' + id).prop('src', 'images/next_1.png');
+		$('#imglast' + id).prop('src', 'images/lastpage_1.png');
+	}
+}

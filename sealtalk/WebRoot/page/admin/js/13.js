@@ -7,8 +7,8 @@ var itemtemplate='<tr id="traid">'
 	+'<td>member</td>'
 	+'<td>date</td>'
 	+'<td>'
-		+'<button onclick="create(aid)" class="btntable" style="margin-right:10px"><img src="images/edit.png" />修改创建者</button>'
-		+'<button onclick="dismiss(aid)" class="btntable"><img src="images/delete.png" />解散群</button>'
+		+'<button onclick="create(aid)" class="btntable" style="margin-right:10px"><img src="images/edit-1.png" /> 修改创建者</button>'
+		+'<button onclick="dismiss(aid)" class="btntable"><img src="images/delete.png" /> 解散群</button>'
 	+'</td></tr>';
 var grpid = 0;
 $(document).ready(function() {
@@ -51,8 +51,8 @@ $(document).ready(function() {
 	});
 
 	$('#creator').on('shown.bs.modal', function(e) {
-//		curpagec = 0;
-//		pagecnumber = 0;
+		curpagec = 0;
+		pagecnumber = 0;
 		callajax('grp!getMemberCountByGrp', {id: grpid}, cb_13_creator_count);
 	});
 });
@@ -64,6 +64,7 @@ function cb_13_count(data) {
 	else {
 		$('#grouplist').empty();
 		$('#pagecurr').text('0/0');
+		updatebrowse('1', pagenumber, curpage);
 	}
 }
 function loadpage() {
@@ -71,6 +72,7 @@ function loadpage() {
 	$('#pagecurr').text((curpage+1) + '/' + pagenumber);
 	var data = {page: curpage, itemsperpage: itemsperpage};
 	callajax('grp!getList', data, cb_13_fresh);
+	updatebrowse('1', pagenumber, curpage);
 }
 function cb_13_fresh(data) {
 	var i = data.length;

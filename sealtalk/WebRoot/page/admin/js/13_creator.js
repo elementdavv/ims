@@ -1,6 +1,6 @@
 var pagecnumber = 0;
 var curpagec = 0;
-var itemsperpagec = 7;
+var itemsperpagec = 2;
 var itemtemplatec='<tr id="tgmid">'
 	+ '<td class="ftd">creator</td>'
 	+ '<td>name</td>'
@@ -40,6 +40,7 @@ function cb_13_creator_count(data) {
 	else {
 		$('#creatorlist').empty();
 		$('#pageccurr').text('0/0');
+		updatebrowse('2', pagecnumber, curpagec);
 	}
 }
 function loadpagec() {
@@ -47,6 +48,7 @@ function loadpagec() {
 	$('#pageccurr').text((curpagec+1) + '/' + pagecnumber);
 	var data = {id: grpid, page: curpagec, itemsperpage: itemsperpagec};
 	callajax('grp!getMemberByGrp', data, cb_13_creator_fresh);
+	updatebrowse('2', pagecnumber, curpagec);
 }
 function cb_13_creator_fresh(data) {
 	var l = data.length;
