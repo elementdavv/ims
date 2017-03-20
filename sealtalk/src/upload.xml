@@ -22,8 +22,5 @@
 	<bean id="uploadAction" class="com.sealtalk.action.upload.UploadAction" scope="prototype" autowire="byName" >
 		<property name="uploadService" ref="uploadService" />
 	</bean>
-	<bean id="qiNiuAction" class="com.sealtalk.action.upload.QiNiuAboutAction" scope="prototype" autowire="byName" >
-		<property name="uploadService" ref="uploadService" />
-	</bean>
 	
 </beans>

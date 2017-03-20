@@ -5,12 +5,6 @@ import java.io.File;
 public interface UploadService {
 
 	/**
-	 * 获取七牛token
-	 * @return
-	 */
-	public String getUploadQiniuToken();
-
-	/**
 	 * 处理图片
 	 * @param userId
 	 * @param x
