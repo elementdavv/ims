@@ -326,7 +326,7 @@ CREATE TABLE `t_inward` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_industry`：字典：主营行业
+-- 表的结构 `t_industry`：字典：行业
 --
 
 CREATE TABLE `t_industry` (
@@ -339,7 +339,7 @@ CREATE TABLE `t_industry` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_subdustry`：字典：主营行业
+-- 表的结构 `t_subdustry`：字典：子行业
 --
 
 CREATE TABLE `t_subdustry` (
@@ -456,11 +456,11 @@ CREATE TABLE `t_appsecret` (
 --登陆用户数据表
 CREATE TABLE `t_uservalid` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `asid` default 0,
+  `asid` int default 0,
   `unauthtoken` VARCHAR(200) DEFAULT '0',
   `authtoken` VARCHAR(200) DEFAULT '0',
   `visittoken` VARCHAR(200) DEFAULT '0',
-  `unauthtokentime` BIGINT(11) NOT NULL DEFAULT 0,
+  `unauthtokentime` BIGINT(11) default 0,
   `authtokentime` BIGINT(11) DEFAULT 0,
   `visittokentime` BIGINT(11) DEFAULT 0,
   `userid` int,

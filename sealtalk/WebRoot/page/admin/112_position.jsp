@@ -15,8 +15,9 @@
 	</div>
 	<div class='h40px'></div>
 	<div>
-		<div class='dialogtitle'>
-			<input type='text' id='search112position' class='w100pc'>
+		<div class='dialogtitle searchbox'>
+			<img src='images/boxsearch.png' class='searchimg' />
+			<input type='text' id='search112position' class='searchinput' style='width:270px' placeholder='查找联系人...'>
 		</div>
 	</div>
 	<div>

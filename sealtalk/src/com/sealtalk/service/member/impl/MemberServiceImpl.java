@@ -403,6 +403,18 @@ public class MemberServiceImpl implements MemberService {
 		return jo.toString();
 	}
 	
+	@Override
+	public int countMember() {
+		try{
+			int count = memberDao.getMemberCount();
+			return count;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
 
 	private String isBlank(Object o) {
 		return o == null ? "" : o + "";

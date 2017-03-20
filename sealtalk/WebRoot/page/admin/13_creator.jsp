@@ -37,11 +37,11 @@
  -->		</tbody>
 		</table>
 		<div>
-			<div class='toright leftspace15' id='pageclast'><img src='images/lastpage_1.png' /></div>
-			<div class='toright leftspace15' id='pagecnext'><img src='images/next_1.png' /></div>
+			<div class='toright leftspace15' id='pageclast'><img id='imglast2' src='images/lastpage_1.png' /></div>
+			<div class='toright leftspace15' id='pagecnext'><img id='imgnext2' src='images/next_1.png' /></div>
 			<div class='toright leftspace15' id='pageccurr'>1/10</div>
-			<div class='toright leftspace15' id='pagecprev'><img src='images/back_1.png' /></div>
-			<div class='toright leftspace15' id='pagecfirst'><img src='images/firstpage_1.png' /></div>
+			<div class='toright leftspace15' id='pagecprev'><img id='imgback2' src='images/back_1.png' /></div>
+			<div class='toright leftspace15' id='pagecfirst'><img id='imgfirst2' src='images/firstpage_1.png' /></div>
 		</div>
 	</div>
 	<div>

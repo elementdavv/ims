@@ -567,4 +567,14 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 		return null;
 	}
 
+	@Override
+	public int getMemberCount() {
+		try {
+			count("from TMember");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

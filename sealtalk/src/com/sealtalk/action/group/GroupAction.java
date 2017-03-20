@@ -224,16 +224,7 @@ public class GroupAction extends BaseAction {
 	public String groupList() throws ServletException {
 		
 		String result = null;
-		
-		if (groupService != null) {
-			result = groupService.getGroupList(userid);
-		} else {
-			JSONObject jo = new JSONObject();
-			jo.put("code", -1);
-			jo.put("text", Tips.UNKNOWERR.getText());
-			result = jo.toString();
-		}
-		
+		result = groupService.getGroupList(userid);
 		returnToClient(result);
 		
 		return "text";

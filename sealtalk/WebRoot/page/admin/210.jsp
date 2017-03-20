@@ -29,11 +29,11 @@
 -->			</tbody>
 		</table>
 		<div style='margin: 30px'>
-			<div class='toright leftspace15' id='pagelast'><img src='images/lastpage_1.png' /></div>
-			<div class='toright leftspace15' id='pagenext'><img src='images/next_1.png' /></div>
+			<div class='toright leftspace15' id='pagelast'><img id='imglast1' src='images/lastpage_1.png' /></div>
+			<div class='toright leftspace15' id='pagenext'><img id='imgnext1' src='images/next_1.png' /></div>
 			<div class='toright leftspace15' id='pagecurr'>1/10</div>
-			<div class='toright leftspace15' id='pageprev'><img src='images/back_1.png' /></div>
-			<div class='toright leftspace15' id='pagefirst'><img src='images/firstpage_1.png' /></div>
+			<div class='toright leftspace15' id='pageprev'><img id='imgback1' src='images/back_1.png' /></div>
+			<div class='toright leftspace15' id='pagefirst'><img id='imgfirst1' src='images/firstpage_1.png' /></div>
 		</div>
 	</div>
 </div>

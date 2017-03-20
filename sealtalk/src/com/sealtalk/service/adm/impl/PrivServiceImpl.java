@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import com.sealtalk.dao.adm.MemberRoleDao;
 import com.sealtalk.dao.adm.PrivDao;
 import com.sealtalk.dao.adm.RoleDao;
@@ -22,22 +24,27 @@ public class PrivServiceImpl implements PrivService {
 	PrivDao privDao;
 	RolePrivDao rolePrivDao;
 	MemberRoleDao memberRoleDao;
-	
+
 	public RoleDao getRoleDao() {
 		return roleDao;
 	}
+
 	public void setRoleDao(RoleDao roleDao) {
 		this.roleDao = roleDao;
 	}
+
 	public PrivDao getPrivDao() {
 		return privDao;
 	}
+
 	public void setPrivDao(PrivDao privDao) {
 		this.privDao = privDao;
 	}
+
 	public MemberRoleDao getMemberRoleDao() {
 		return memberRoleDao;
 	}
+
 	public void setMemberRoleDao(MemberRoleDao memberRoleDao) {
 		this.memberRoleDao = memberRoleDao;
 	}
@@ -45,25 +52,27 @@ public class PrivServiceImpl implements PrivService {
 	public RolePrivDao getRolePrivDao() {
 		return rolePrivDao;
 	}
+
 	public void setRolePrivDao(RolePrivDao rolePrivDao) {
 		this.rolePrivDao = rolePrivDao;
 	}
 
 	@Override
 	public List getRoleList() {
-		
+
 		return roleDao.find("from TRole order by listorder desc");
 	}
 
 	@Override
 	public int getMemberCountByRole(Integer roleId) {
-		
+
 		return roleDao.getMemberCountByRole(roleId);
 	}
 
 	@Override
-	public List getMemberByRole(Integer roleId, Integer page, Integer itemsperpage) {
-		
+	public List getMemberByRole(Integer roleId, Integer page,
+			Integer itemsperpage) {
+
 		return roleDao.getMemberByRole(roleId, page, itemsperpage);
 	}
 
@@ -75,7 +84,7 @@ public class PrivServiceImpl implements PrivService {
 
 	@Override
 	public List getPrivByRole(Integer roleId) {
-		
+
 		return roleDao.getPrivByRole(roleId);
 	}
 
@@ -89,12 +98,13 @@ public class PrivServiceImpl implements PrivService {
 			role.setListorder(roleDao.getMax("listorder", "from TRole") + 1);
 			roleDao.save(role);
 		}
-		
-		rolePrivDao.delete("delete from TRolePriv where roleId = " + role.getId());
-		
+
+		rolePrivDao.delete("delete from TRolePriv where roleId = "
+				+ role.getId());
+
 		String[] pa = privs.split(",");
 		Integer i = pa.length;
-		while(i-- > 0) {
+		while (i-- > 0) {
 			if (!"".equals(pa[i])) {
 				TRolePriv rolePriv = new TRolePriv();
 				rolePriv.setRoleId(role.getId());
@@ -102,21 +112,25 @@ public class PrivServiceImpl implements PrivService {
 				rolePrivDao.save(rolePriv);
 			}
 		}
-		
+
 		return role.getId();
 	}
+
 	@Override
 	public void delRole(Integer roleId) {
-		
+
 		rolePrivDao.delete("delete from TRolePriv where roleId = " + roleId);
-		memberRoleDao.delete("delete from TMemberRole where roleId = " + roleId);
+		memberRoleDao
+				.delete("delete from TMemberRole where roleId = " + roleId);
 		roleDao.deleteById(roleId);
 	}
+
 	@Override
 	public void saveRoleMember(Integer roleId, String memberlist) {
-		
-		memberRoleDao.delete("delete from TMemberRole where roleId = " + roleId);
-		
+
+		memberRoleDao
+				.delete("delete from TMemberRole where roleId = " + roleId);
+
 		String[] ms = memberlist.split(",");
 		Integer i = ms.length;
 		while (i-- > 0) {
@@ -129,21 +143,22 @@ public class PrivServiceImpl implements PrivService {
 			}
 		}
 	}
+
 	@Override
 	public String getPrivStringByMember(Integer memberId) {
-		
+
 		List list = roleDao.getPrivByMember(memberId);
 		Iterator it = list.iterator();
-		
+
 		StringBuffer privs = new StringBuffer(",");
-		while(it.hasNext()) {
-			Object[] o = (Object[])it.next();
+		while (it.hasNext()) {
+			Object[] o = (Object[]) it.next();
 			privs.append(o[4] + ",");
 		}
-		
+
 		return privs.toString();
 	}
-		
+
 	/**
 	 * 根据用户id获取权限
 	 */
@@ -151,30 +166,25 @@ public class PrivServiceImpl implements PrivService {
 	@Override
 	public List getRoleIdForId(int id) {
 		TMemberRole tmList = memberRoleDao.getRoleForId(id);
-		/*List<TPriv> privList = privDao.getAllPriv();
-		
-		for(int i = 0; i < privList.size();i++) {
-			System.out.println(privList.get(i).getId());
-		}
-		
-		//处理父级权限标识返回
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		if (privList != null) {
-			
-			for(int i = 0; i < privList.size(); i++) {
-				List<String> list = new ArrayList<String>();
-				TPriv t = privList.get(i);
-				
-				map.put(t.getId() + "", list);
-			}
-		}
-		
-		for(Map.Entry<String, List<String>> m: map.entrySet()) {
-			System.out.println(m.getKey() + ": " + m.getValue().toString());
-		}
-		*/
-		ArrayList<String> priList = new ArrayList<String>();	
-		
+		/*
+		 * List<TPriv> privList = privDao.getAllPriv();
+		 * 
+		 * for(int i = 0; i < privList.size();i++) {
+		 * System.out.println(privList.get(i).getId()); }
+		 * 
+		 * //处理父级权限标识返回 Map<String, List<String>> map = new HashMap<String,
+		 * List<String>>(); if (privList != null) {
+		 * 
+		 * for(int i = 0; i < privList.size(); i++) { List<String> list = new
+		 * ArrayList<String>(); TPriv t = privList.get(i);
+		 * 
+		 * map.put(t.getId() + "", list); } }
+		 * 
+		 * for(Map.Entry<String, List<String>> m: map.entrySet()) {
+		 * System.out.println(m.getKey() + ": " + m.getValue().toString()); }
+		 */
+		ArrayList<String> priList = new ArrayList<String>();
+
 		priList.add("rsglck");
 		priList.add("rsgltj");
 		priList.add("rsgljcxx");
@@ -195,29 +205,55 @@ public class PrivServiceImpl implements PrivService {
 		priList.add("qxgltj");
 		priList.add("qxglxg");
 		priList.add("qxglsc");
-	
+
 		if (tmList != null) {
 			int roleId = tmList.getRoleId();
 			List<Object[]> list = roleDao.getPrivilegeById(roleId);
-			
+
 			if (list != null) {
 				int len = list.size();
 				boolean b = false;
-				
-				for(int i = 0; i < len; i++) {
+
+				for (int i = 0; i < len; i++) {
 					Object[] o = list.get(i);
 					if (priList.contains(o[1])) {
-						list.add(new Object[]{1,"htgl"});
+						list.add(new Object[] { 1, "htgl" });
 						break;
 					}
-					//System.out.println(o[0] + "_" + o[1]);
+					// System.out.println(o[0] + "_" + o[1]);
 				}
-			} 
-			
+			}
+
 			return list;
 		}
-		
+
 		return null;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<JSONObject> getInitLoginPriv() {
+		ArrayList<JSONObject> alj = new ArrayList<JSONObject>();
+
+		List<TPriv> privList = privDao.find("from TPriv T where T.id between 15 and 53");
+
+		if (privList != null) {
+			int len = privList.size();
+			
+			for (int i = 0; i < len; i++) {
+				JSONObject jo = new JSONObject();
+				TPriv tp = privList.get(i);
+				jo.put("privid", tp.getId());
+				jo.put("priurl",tp.getUrl());
+				alj.add(jo);
+			}
+			JSONObject jo = new JSONObject();
+			jo.put("privid", 1);
+			jo.put("priurl", "htgl");
+			alj.add(jo);
+		}
+		
+		return alj;
+	}
+
 }

@@ -13,7 +13,7 @@ var branchmembertemplate=[
 		"<td>position</td>" +
 		"<td>" +
 		"<img src='images/edit.png' style='margin-right: 15px;cursor:pointer' onclick='editbranchmember(branchmemberid)' />" +
-		"<img src='images/delete.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
+		"<img src='images/delete-1.png' style='cursor:pointer' onclick='delbranchmember(branchmemberid)' />" +
 		"</td></tr>"];
 var branchmemberid;
 var branch112position = 0;
