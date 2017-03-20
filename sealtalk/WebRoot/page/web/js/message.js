@@ -1511,7 +1511,7 @@ function createOrganizList(data,sHTML,level){
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
                     '<img class="groupImg" src="'+imgSrc+'" alt="">'+
                     '<span class="groupName">'+oData.name+'</span>'+collspan+''+
-                    //'<span class="poaitionName" >'+poaitionName+'</span>'+
+                    '<span class="positionName" >'+poaitionName+'</span>'+
                     '<span class="memberPos" style="position: absolute;left: '+level*32+'px"></span>'+
                     '</div>'+
                 '</li>'

@@ -97,7 +97,7 @@
 </div>
 
 <!--消息-->
-<div class="chatContent news">
+<div class="chatContent chatBoxShadow news">
     <ul class="chatMenu">
         <li class="chatLeftIcon active" bindPanel="groupChatList"></li>
         <li class="chatLeftIcon" bindPanel="usualChatList"></li>
@@ -153,7 +153,7 @@
 </div>
 
 <!--组织通讯录-->
-<div class="chatContent orgnized chatHide">
+<div class="chatContent orgnized chatHide chatBoxShadow">
     <!--<div></div>-->
     <div class="serachMenber">
         <input class="searchInput chatLeftIcon">
@@ -166,7 +166,7 @@
 </div>
 
 <!--后台管理-->
-<div class="chatContent  chatHide personalCenter">
+<div class="chatContent chatBoxShadow chatHide personalCenter">
     <ul class="backstageMg" id="backstageMgId">
 		<%--<c:if test="${SessionPrivilege.map.grsz != null}">	  --%>
 			<li class="clearfix" data-type="0">
@@ -187,7 +187,7 @@
 
 <!--聊天部分-->
 <div class="chatBoxOuter">
-    <div class="chatBox" style="position:relative" id="chatBox">
+    <div class="chatBox chatBoxShadow" style="position:relative" id="chatBox">
         <div id="map"></div>
         <div id="tip"></div>
     <!--地图-->

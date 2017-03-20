@@ -176,8 +176,10 @@ input::-ms-clear{display:none;}
 /*width: 100%;*/
 
 /*}*/
+.chatBoxShadow{
+    box-shadow: 0px 0px 10px #e3e9f0;
 
-
+}
 
 .chatHeaderOper{
     height: 100%;
@@ -234,7 +236,7 @@ input::-ms-clear{display:none;}
 }
 .chatContent .chatMenu li:nth-child(1){
     /*background-color: palevioletred;*/
-    background-position: 24px -48px;
+    background-position: 24px -47px;
 }
 .chatContent .chatMenu li:nth-child(2){
     background-position: -162px -46px;
@@ -245,10 +247,10 @@ input::-ms-clear{display:none;}
 
 }
 .chatContent .chatMenu li:nth-child(1).active{
-    background-position: 24px -111px;
+    background-position: 22px -112px;
 }
 .chatContent .chatMenu li:nth-child(2).active{
-    background-position: -162px -112px;
+    background-position: -164px -112px;
 }
 .chatContent .chatMenu li:nth-child(3).active{
     background-position: -352px -110px;
@@ -267,7 +269,7 @@ input::-ms-clear{display:none;}
     height: calc(100% - 60px);
     width: calc(100% - 60px);
     background: #ffffff;
-    box-shadow: 0px 0px 0px #e3e9f0;
+    /*box-shadow: 0px 0px 10px #e3e9f0;*/
     margin: 0px auto;
     margin-top: 30px;
     max-width: 1100px;
@@ -443,15 +445,14 @@ button#downLoadFile:focus{
     height: 25px;
     float: left;
     line-height: 27px;
-    text-indent: 18px;
     position: absolute;
     top: 25px;
-    left: 50px;
+    left: 54px;
     color: #666666;
     font-size: 12px;
     transform: scale(0.9,0.9);
-    /*background: palevioletred;*/
     overflow: hidden;
+    width: 300px;
 }
 .groupChatListUl li .lastTime{
     float: right;
@@ -618,6 +619,7 @@ span.defaultText{
     border: none;
     padding: 10px;
     color: #000000;
+    background: white;
 }
 
 .organizationList{
@@ -635,6 +637,13 @@ span.defaultText{
     border-radius: 32px;
 }
 .organizationList li .groupName{
+    display: inline-block;
+    height: 44px;
+    float: left;
+    line-height: 44px;
+    text-indent: 8px;
+}
+.organizationList li .positionName{
     display: inline-block;
     height: 44px;
     float: left;
@@ -1087,9 +1096,9 @@ span.defaultText{
     /* border-top: 10px solid transparent; */
     /* border-left: 10px solid transparent; */
     /* border-bottom: 10px solid transparent; */
-    left: -8px;
+    left: -7px;
     top: 10px;
-    background-color: white;
+    /*background-color: white;*/
     background-position: -1076px -380px;
 }
 .myContextMenu ul{
