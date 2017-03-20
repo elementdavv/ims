@@ -17,7 +17,7 @@ const path = require('path')
 const fs = require('fs')
 const jsonfile = require('jsonfile')
 const i18n = require("i18n")
-const initSize = {width: 1400, height:900}
+const initSize = {width: 1000, height:700}
 const json = require('./package.json')
 const Config = require('./config.js')
 
@@ -130,12 +130,14 @@ app.on('ready', () => {
   mainWindow = new BrowserWindow(
     {
       x: savedBounds.x || (workAreaSize.width - initSize.width)/2,
-      y: savedBounds.y || (workAreaSize.height - initSize.height),
-      width: savedBounds.width || initSize.width,
-      height: savedBounds.height || initSize.height,
-      minWidth: 1400,
-      minHeight: 900,
-	  width:1400,height:900,
+      y: savedBounds.y || (workAreaSize.height - initSize.height)/2,
+      //x: (workAreaSize.width - initSize.width)/2,
+      //y: (workAreaSize.height - initSize.height)/2,
+      //width: savedBounds.width || initSize.width,
+      //height: savedBounds.height || initSize.height,
+      minWidth: 500,
+      minHeight: 500,
+	  width:1000,height:700,
       titleBarStyle: 'hidden',
       icon: path.join(__dirname, 'res', Config.WINICON),
       title: app.getName(),

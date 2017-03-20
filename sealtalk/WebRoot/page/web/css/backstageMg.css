@@ -166,8 +166,9 @@
     /*border-radius: 50%;*/
 }
 .groupInfo-memberAll{
-    max-height:495px;
+    /*max-height:495px;*/
     overflow-y:auto;
+    height: calc(100% - 71px);
 }
 .systemSet-keep{
     display: block;
@@ -657,6 +658,10 @@ p.converLimit {
     border-radius: 5px;
     min-height: 26px;
 }
+.mr-chatContentR .mr-ownChat{
+    background-color: #f5f5f5;
+
+}
 .mr-ownChat i{
     position: absolute;
     right:-7px;
@@ -806,6 +811,11 @@ p.converLimit {
 .infoDetails-data.active{
     display:block;
 }
+
+
+
+
+
 .infoDet-personal img{
     float:left;
     width:80px;
@@ -876,6 +886,9 @@ p.converLimit {
 }
 .infoDetailsBox{
     height:calc(100% - 61px);
+}
+.group-data {
+    height: 100%;
 }
 .infoDet-search input{
     width:239px;
@@ -1135,6 +1148,7 @@ p.converLimit {
     /*background-position: -75px -413px;*/
     width:67px;
     height:38px;
+    background-size: 80%;
 }
 
 div#fileOperate {
@@ -1153,7 +1167,11 @@ div#fileOperate {
 
 .groupInfo .groupInfo-disturb p.active.active{
     background: url('img/voiceClose.png') no-repeat;
+    background-size: 80%;
 
+}
+ul.chatFile {
+    margin-top: 20px;
 }
 .groupInfo .groupInfo-disturb p i{
     float:left;
@@ -1163,6 +1181,7 @@ div#fileOperate {
 }
 .groupInfo-memberList{
     padding-left:26px;
+    height: calc(100% - 220px);
 }
 .groupInfo-number{
     padding:24px 0;
@@ -1182,7 +1201,7 @@ div#fileOperate {
     float:left;
     width:20px;
     height:20px;
-    background: url('img/backstage.png')no-repeat #f5f5f5 0 -449px;
+    background: url('img/backstage.png')no-repeat 0 -449px;
     margin-left:14px;
 }
 .groupInfo-number p .groupInfo-noChat{
