@@ -24,7 +24,9 @@ var globalVar={
     cssImgSrc:'page/web/css/img/',
     //默认头像
     defaultLogo:'page/web/css/img/PersonImg.jpg',
-    defaultDepLogo:'page/web/css/img/group_chart.jpg',
+    defaultGroupLogo:'page/web/css/img/group_chart.jpg',
+    defaultComLogo:'page/web/css/img/defaultComLogo.jpg',
+    defaultDepLogo:'page/web/css/img/defaultDepLogo.jpg',
     //
     refreshGroupOnline:5000,
     refreshPersonalOnline:5000,

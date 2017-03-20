@@ -1105,7 +1105,7 @@ function getGroupList(accountID){
                     var curGroup = groupArr[i];
                     sHTML+='<li targetid="'+curGroup.GID+'">'+
                     '<div>'+
-                    '<img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt="">'+
+                    '<img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
                     '<em class="groupInlineNum">(<span class="onlineCount">'+curGroup.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
@@ -1495,17 +1495,17 @@ function createOrganizList(data,sHTML,level){
         if(oData.flag==1){
             if(oData.logo){
                 var imgSrc = globalVar.imgSrc+oData.logo;
-
             }else{
                 var imgSrc = globalVar.defaultLogo;
             }
             var poaitionName = oData.postitionname?'('+oData.postitionname+')':'';
+        }else if(oData.flag==-1){
+            var imgSrc = globalVar.defaultComLogo;
+            var poaitionName = ''
         }else{
             var imgSrc = globalVar.defaultDepLogo;
             var poaitionName = ''
-
         }
-        //console.log('oData',oData);
         sHTML += '<li class="'+state+'" id="'+oData.id+'">'+
                     '<div level="">'+
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
@@ -1523,9 +1523,6 @@ function createOrganizList(data,sHTML,level){
     sHTML += '</ul>';
     return sHTML;
 }
-
-
-
 
 function DialogTreeLoop(data,sHTML,level,userID){
     sHTML += '<ul>';

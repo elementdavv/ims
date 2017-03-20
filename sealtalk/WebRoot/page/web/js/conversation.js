@@ -1437,7 +1437,7 @@ function creatTopList(sHTML,list,bFlg){
             //if(curGroup){
             if(bFlg){
                 sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
-                '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
+                '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
                 sNum+
                 '<span class="groupName">'+curGroup.name+'</span>'+
                 '<span class="usualLastMsg">'+content+'</span>'+
@@ -1446,7 +1446,7 @@ function creatTopList(sHTML,list,bFlg){
                 '</li>'
             }else{
                 sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-                '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
+                '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
                 sNum+
                 '<span class="groupName">'+curGroup.name+'</span>'+
                 '<span class="usualLastMsg">'+content+'</span>'+
