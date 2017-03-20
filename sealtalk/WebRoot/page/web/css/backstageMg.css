@@ -43,12 +43,15 @@
 }
 .perSetBox  .perSetBox-leftCont{
      float:left;
+    height: 100%
  }
 .perSetBox  .perSetBox-rightCont{
     float:right;
 }
 .perSetBox-leftCont .perSetBox-contDetails{
-    padding:34px 0 0 42px;
+    padding: 34px 0 0 42px;
+    height: calc(100% - 80px);
+    overflow: auto;
 }
 .perSetBox-contDetails li{
     line-height:34px;
@@ -1158,6 +1161,17 @@ div#fileOperate {
     margin-top: -10px;
     margin-left: 70px;
     display: inline-block;
+}
+
+div#personSettingId {
+    height: 100%;
+    /*background: palegoldenrod;*/
+}
+.perSetBox-content.clearfix {
+    overflow: auto;
+    min-height: 500px;
+    height: calc(100% - 62px);
+    /*background: paleturquoise;*/
 }
 
 #fileOperate span {

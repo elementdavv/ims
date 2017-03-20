@@ -1499,7 +1499,7 @@ function createOrganizList(data,sHTML,level){
             }else{
                 var imgSrc = globalVar.defaultLogo;
             }
-            var poaitionName = '('+oData.postitionname+')'
+            var poaitionName = oData.postitionname?'('+oData.postitionname+')':'';
         }else{
             var imgSrc = globalVar.defaultDepLogo;
             var poaitionName = ''
