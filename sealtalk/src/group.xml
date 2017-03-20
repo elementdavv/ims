@@ -28,7 +28,7 @@
 	</bean>
 	
 	<!-- action -->
-	<bean id="groupAction" class="com.sealtalk.action.Group.GroupAction" scope="prototype" autowire="byName" >
+	<bean id="groupAction" class="com.sealtalk.action.group.GroupAction" scope="prototype" autowire="byName" >
 		<property name="groupService" ref="groupService" />
 	</bean>
 </beans>

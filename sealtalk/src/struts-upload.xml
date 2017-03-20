@@ -8,13 +8,6 @@
 	<!-- ssl-default -->
 	<!-- struts-default -->
  <package name="com.sealtalk.action.upload" extends="struts-default">
-    	<!-- 七牛相关 -->
-        <action name="qiniu" class="com.sealtalk.action.upload.QiNiuAboutAction">
-			<result name="text" type="stream">
-				<param name="contentType">text/plain</param>
-				<param name="inputName">inputStream</param>
-			</result>
-        </action>
         <!-- 上传管理 -->
         <action name="upload" class="com.sealtalk.action.upload.UploadAction">
         	<interceptor-ref name="fileUpload">   
