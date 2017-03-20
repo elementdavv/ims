@@ -156,6 +156,16 @@ public class SystemAction extends BaseAction {
 			returnToClient(result.toString());
 			return "text";
 		}
+
+		if (account.equals("Administrator")) {
+			int count = memberService.countMember();
+			if (count > 1) {
+				result.put("code", 0);
+				result.put("text", Tips.NOTINIT.getText());
+				returnToClient(result.toString());
+				return "text";
+			}
+		}
 		
 		TMember member = memberService.searchSigleUser(account, userpwd);
 		
@@ -193,13 +203,9 @@ public class SystemAction extends BaseAction {
 				String uploadDir = PropertiesUtils.getUploadDir();
 				String logo = member.getLogo();
 				if(logo == null) logo = "PersonImg.png";
-				String url = domain + uploadDir + logo;
 				
-				System.out.println("afterLogin url: " + url);
-				System.out.println("afterLogin userId: " + userId);
-				System.out.println("afterLogin name: " + name);
+				String url = domain + uploadDir + logo;
 				token = RongCloudUtils.getInstance().getToken(userId, name, url);
-				System.out.println("afterLogin 196: " + token);
 				memberService.updateUserTokenForId(userId, token);
 			} catch (Exception e) {
 				logger.error(e);
@@ -208,7 +214,6 @@ public class SystemAction extends BaseAction {
 		} else {
 			token = member.getToken();
 		}
-		System.out.println("afterLogin 205: " + token);
 		logger.info(token);
 		
 		//设置用户session
@@ -220,25 +225,28 @@ public class SystemAction extends BaseAction {
 		su.setToken(token);
 		setSessionUser(su);
 		
-		
 		//2.设置权限
-		List privList = privService.getRoleIdForId(member.getId());
 		SessionPrivilege sp = new SessionPrivilege();
 		ArrayList<JSONObject> ja = new ArrayList<JSONObject>();
 		
-		if (privList != null) {
-			Iterator it = privList.iterator();
+		if (!account.equals("Administrator")) {
+			List privList = privService.getRoleIdForId(member.getId());
 			
-			while(it.hasNext()) {
-				Object[] o = (Object[])it.next();
-				JSONObject js = new JSONObject();
-				js.put("privid", o[0]);
-				js.put("priurl", o[1]);
-				ja.add(js);
-			}
-		
-		} 
-		
+			if (privList != null) {
+				Iterator it = privList.iterator();
+				
+				while(it.hasNext()) {
+					Object[] o = (Object[])it.next();
+					JSONObject js = new JSONObject();
+					js.put("privid", o[0]);
+					js.put("priurl", o[1]);
+					ja.add(js);
+				}
+			} 
+		} else {
+			ja = privService.getInitLoginPriv();
+		}
+	
 		sp.setPrivilige(ja);
 		setSessionAttribute(Constants.ATTRIBUTE_NAME_OF_SESSIONPRIVILEGE, sp);
 		JSONObject text = JSONUtils.getInstance().modelToJSONObj(member);
@@ -253,7 +261,7 @@ public class SystemAction extends BaseAction {
 		result.put("code", 1);
 		result.put("text", text.toString());
 		
-		returnToClient(result.toString());
+		returnToClient(result.toString());  
 		
 		return "text";
 	}
@@ -263,6 +271,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws ServletException
 	 */
+	@Deprecated
 	public String freeLandingForWeb() throws ServletException {
 		
 		TMember member = memberService.getMemberByToken(token);
@@ -307,6 +316,7 @@ public class SystemAction extends BaseAction {
 	 * @return
 	 * @throws ServletException
 	 */
+	@Deprecated
 	public String freeLandingForApp() throws ServletException {
 		JSONObject result = new JSONObject();
 		TMember member = memberService.getMemberByToken(token);

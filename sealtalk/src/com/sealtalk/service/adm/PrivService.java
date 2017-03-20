@@ -1,6 +1,9 @@
 package com.sealtalk.service.adm;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.json.JSONObject;
 
 import com.sealtalk.model.TPriv;
 
@@ -22,5 +25,11 @@ public interface PrivService {
 	 * @return
 	 */
 	public List getRoleIdForId(int id);
+	
+	/**
+	 * 使用初始化账号登陆，获取满权限 
+	 * @return
+	 */
+	public ArrayList<JSONObject> getInitLoginPriv();
 	
 }

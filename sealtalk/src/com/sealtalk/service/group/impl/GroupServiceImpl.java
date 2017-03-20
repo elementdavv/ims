@@ -398,12 +398,12 @@ public class GroupServiceImpl implements GroupService {
 		JSONObject jo = new JSONObject();
 		
 		try {
-			int userIdInt = StringUtils.getInstance().strToInt(userId);
 			
-			if (userIdInt == -1) {
+			if (StringUtils.getInstance().isBlank(userId)) {
 				jo.put("code", -1);
 				jo.put("text", Tips.NULLUSER.getText());
 			} else {
+				int userIdInt = StringUtils.getInstance().strToInt(userId);
                 List<TGroupMember> groupMembers = groupMemberDao.getGroupMemberForUserId(userIdInt);
                 
                 if (groupMembers != null) {

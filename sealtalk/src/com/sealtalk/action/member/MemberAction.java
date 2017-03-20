@@ -8,7 +8,9 @@ import org.apache.log4j.Logger;
 
 import com.googlecode.sslplugin.annotation.Secured;
 import com.sealtalk.common.BaseAction;
+import com.sealtalk.common.Constants;
 import com.sealtalk.common.Tips;
+import com.sealtalk.model.SessionUser;
 import com.sealtalk.service.member.MemberService;
 
 /**
@@ -121,7 +123,11 @@ public class MemberAction extends BaseAction {
 	 * @throws ServletException
 	 */
 	public String getAllMemberOnLineStatus() throws ServletException {
-		String result = memberService.getAllMemberOnLineStatus(userids);
+		SessionUser su = getSessionUser();
+		String result = "{}";
+		if (su != null && !su.getAccount().equals("Administrator")) {
+			result = memberService.getAllMemberOnLineStatus(userids);
+		}
 		returnToClient(result);
 		return "text";
 	}
