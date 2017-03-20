@@ -129,8 +129,8 @@ app.on('ready', () => {
   // Create the browser window.
   mainWindow = new BrowserWindow(
     {
-      x: savedBounds.x || (workAreaSize.width - initSize.width)/2,
-      y: savedBounds.y || (workAreaSize.height - initSize.height)/2,
+      x: (workAreaSize.width - initSize.width)/2,
+      y: (workAreaSize.height - initSize.height)/2,
       //x: (workAreaSize.width - initSize.width)/2,
       //y: (workAreaSize.height - initSize.height)/2,
       //width: savedBounds.width || initSize.width,
