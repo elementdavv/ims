@@ -505,7 +505,7 @@ function conversationGroup(targetID,targetType,groupName,callback){
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     clearNoReadMsg(targetType,targetID);
-    //getConverList();
+    getConverList();
     callback&&callback();
 }
 function po_Last_Div(obj) {
@@ -901,7 +901,7 @@ function conversationSelf(targetID,targetType,callback){
     })
     //获取右侧的联系人资料聊天记录
     clearNoReadMsg(targetType,targetID);
-    //getConverList();
+    getConverList();
     console.log('conversation 857')
     callback&&callback()
 }
