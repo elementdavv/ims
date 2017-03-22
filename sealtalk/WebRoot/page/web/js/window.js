@@ -51,11 +51,7 @@ Window.prototype = {
             mask = $('<div class="window_mask" /*ondragover="allowDorp(event)" ondrop="drop(event)"*/></div>');
             hasParent?mask.prependTo($("body", parent.document)):mask.prependTo($("body"));
         }
-        //if($('.window_mask',parent.document).length==0){
-        //
-        //}else{
-        //    //$('.window_mask',parent.document).remove();
-        //}
+
         var hasInput = '';
         var inputText = '';
         if(config.hasInput){
