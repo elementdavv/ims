@@ -1080,6 +1080,7 @@ function getGroupList(accountID,callback){
         if(data){
             window.localStorage.groupInfo = data;
             var datas = JSON.parse(data);
+            callback&&callback();
             var groupArr = datas.text;
             if(groupArr){
                 for(var i = 0;i<groupArr.length;i++){
@@ -1098,7 +1099,7 @@ function getGroupList(accountID,callback){
             }
             dom.html(sHTML);
             changeGroupOnlineN(accountID);
-            callback&&callback();
+
         }
     })
 
