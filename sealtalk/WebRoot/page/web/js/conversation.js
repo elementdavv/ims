@@ -505,7 +505,7 @@ function conversationGroup(targetID,targetType,groupName,callback){
     $('.mr-record').addClass('active');
     $('.mesContainerGroup').removeClass('mesContainer-translateL');
     clearNoReadMsg(targetType,targetID);
-    getConverList();
+    //getConverList();
     callback&&callback();
 }
 function po_Last_Div(obj) {
@@ -901,7 +901,7 @@ function conversationSelf(targetID,targetType,callback){
     })
     //获取右侧的联系人资料聊天记录
     clearNoReadMsg(targetType,targetID);
-    getConverList();
+    //getConverList();
     console.log('conversation 857')
     callback&&callback()
 }
@@ -1344,7 +1344,6 @@ function usualChatList(list){
     var oData= JSON.parse(sData);
     var sId=oData.id;
     sendAjax('fun!getMsgTop',{userid:sId},function(data){
-
         var oData=JSON.parse(data);
         var aText=oData.text;
         $('.usualChatListUl').empty();
@@ -1434,26 +1433,43 @@ function creatTopList(sHTML,list,bFlg){
             }
         }else if(conversationType==3){
             var curGroup = groupInfo(targetId);
-            //if(curGroup){
-            if(bFlg){
-                sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
-                '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
-                sNum+
-                '<span class="groupName">'+curGroup.name+'</span>'+
-                '<span class="usualLastMsg">'+content+'</span>'+
-                '<span class="lastTime">'+lastTime+'</span>'+
-                '</div>'+
-                '</li>'
-            }else{
-                sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-                '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
-                sNum+
-                '<span class="groupName">'+curGroup.name+'</span>'+
-                '<span class="usualLastMsg">'+content+'</span>'+
-                '<span class="lastTime">'+lastTime+'</span>'+
-                '</div>'+
-                '</li>'
+            var createDom = function(){
+                var curGroup = groupInfo(targetId);
+                if(!curGroup){
+                    return;
+                }
+                if(bFlg){
+                    sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
+                    '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
+                    sNum+
+                    '<span class="groupName">'+curGroup.name+'</span>'+
+                    '<span class="usualLastMsg">'+content+'</span>'+
+                    '<span class="lastTime">'+lastTime+'</span>'+
+                    '</div>'+
+                    '</li>'
+                }else{
+                    sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
+                    '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
+                    sNum+
+                    '<span class="groupName">'+curGroup.name+'</span>'+
+                    '<span class="usualLastMsg">'+content+'</span>'+
+                    '<span class="lastTime">'+lastTime+'</span>'+
+                    '</div>'+
+                    '</li>'
+                }
             }
+            if(!curGroup){//如果在群组中没有找到这个群的信息，可能是对方刚创建的群，在我过去的群组列表中没有的，所以要刷新下群组列表
+                var sdata = localStorage.getItem('datas');
+                var oData=JSON.parse(sdata);
+                var accountID = oData?oData.id :'';
+                getGroupList(accountID,createDom);
+                //createDom();
+            }else{
+
+                createDom()
+            }
+            //if(curGroup){
+
         }
     }
     return sHTML;

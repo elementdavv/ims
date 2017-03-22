@@ -346,7 +346,7 @@ $(document).ready(function(){
     $('#groupData').delegate('.voiceSet','click',function(){
         var _this = $(this);
         var flag = _this.hasClass('active');
-        var states = flag?0:1;
+        var states = flag?1:0;
         //设置消息免打扰的接口
         var groupid = $('#groupContainer').attr('targetid');
         var sdata = localStorage.getItem('datas');
@@ -355,6 +355,7 @@ $(document).ready(function(){
             if(data){
                 var datas = JSON.parse(data);
                 if(datas&&datas.code==1){
+
                     flag?_this.removeClass('active'):_this.addClass('active');
                 }
             }
@@ -656,7 +657,9 @@ $(document).ready(function(){
         var accountObj = JSON.parse(sdata);
         //var account = accountObj.account;
         var accountID = accountObj.id;
-        systemBeep(status,accountID);
+        if(!(status==0&&globalVar.SYSTEMSOUND==false)||(status==1&&globalVar.SYSTEMSOUND==true)){
+            systemBeep(status,accountID);
+        }
     });
     $('#chatBox').on('click','.dateIcon',function(){
         $('.calendar-inputWrap').click();
@@ -1248,6 +1251,15 @@ function systemBeep(status,accountID){
         //var eParent=$('#chatBox #systemSet .systemVoiceBtn');
         if(oData.code==1){
             globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
+            new Window().alert({
+                title   : '',
+                content : '修改成功！',
+                hasCloseBtn : false,
+                hasImg : true,
+                textForSureBtn : false,
+                textForcancleBtn : false,
+                autoHide:true
+            });
         }
     });
 }

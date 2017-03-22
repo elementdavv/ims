@@ -1073,7 +1073,7 @@ function unique3(arr){
 }
 
 //创建群组列表
-function getGroupList(accountID){
+function getGroupList(accountID,callback){
     var dom = $('.groupChatList .groupChatListUl');
     var sHTML = '';
     sendAjax('group!groupList',{userid:accountID},function(data){
@@ -1097,7 +1097,8 @@ function getGroupList(accountID){
                 sHTML = '';
             }
             dom.html(sHTML);
-            changeGroupOnlineN(accountID)
+            changeGroupOnlineN(accountID);
+            callback&&callback();
         }
     })
 

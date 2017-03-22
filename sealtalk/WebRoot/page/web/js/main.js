@@ -69,6 +69,9 @@ $(function(){
             case 'back':
                 //$('.chatBox').html('cccc')
                 break;
+            case 'newsChatList':
+                getConverList();
+				console.log('aaaa')
         }
         nShowClass&&showPanel(nShowClass);
     })
