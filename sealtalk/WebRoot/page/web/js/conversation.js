@@ -1462,7 +1462,7 @@ function creatTopList(sHTML,list,bFlg){
                 var sdata = localStorage.getItem('datas');
                 var oData=JSON.parse(sdata);
                 var accountID = oData?oData.id :'';
-                getGroupList(accountID,createDom);
+                refreshGroup(accountID,createDom);
                 //createDom();
             }else{
 
@@ -1473,6 +1473,18 @@ function creatTopList(sHTML,list,bFlg){
         }
     }
     return sHTML;
+}
+
+
+function refreshGroup(accountID,callback){
+    sendAjax('group!groupList',{userid:accountID},function(data){
+        if(data){
+            window.localStorage.groupInfo = data;
+            var datas = JSON.parse(data);
+            callback&&callback();
+
+        }
+    })
 }
 //查询单个群信息
 function groupInfo(id){
