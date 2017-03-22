@@ -2,6 +2,11 @@
  * Created by zhu_jq on 2017/1/10.
  */
 $(function(){
+
+
+    setInterval(function(){
+        searchTree()
+    },3000)
     //查询群组禁言
     var groupShutupTimer = null
     groupShutupTimer = setInterval(function(){
@@ -940,10 +945,10 @@ function getSysTipVoice(userid){
 
             if(status==1){
                 globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
-                $('.systemVoiceBtn').removeClass('active');
+                $('.systemVoiceBtn').addClass('active');
             }else{
                 globalVar.SYSTEMSOUND=globalVar.SYSTEMSOUND;
-                $('.systemVoiceBtn').addClass('active');
+                $('.systemVoiceBtn').removeClass('active');
             }
 
         }
@@ -1231,6 +1236,11 @@ function changeClick2Content(data){
     return sHTML;
 }
 
+function searchTree(){
+    sendAjax('branch!getBranchTreeAndMember','',function(data){
+        window.localStorage.normalInfo = data;
+    })
+}
 
 //从组织结构中找到相应的成员、部门数据
 function searchFromList(flag,id){
@@ -1240,7 +1250,6 @@ function searchFromList(flag,id){
         var data = JSON.parse(normalInfo);
     }
     id = parseInt(id);
-    //console.log(flag,id,data);
     for(var i = 0;i<data.length;i++){
         if(data[i].id==id&&data[i].flag==flag){
             curList = data[i];
