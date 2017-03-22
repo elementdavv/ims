@@ -50,8 +50,6 @@ $(function(){
         var accountID = JSON.parse(sdata).id;
         var _this = $(this);
         _this.on('input',function(){
-        //_this.keypress(function(event) {
-        //    if (event.which == 13) {
                 $('.contactSearchResult').remove();
                 var keyWord = _this.val();
                 sendAjax('member!searchUser',{account:keyWord},function(data){
@@ -60,17 +58,12 @@ $(function(){
                     if(datas.length==0){
                         //没有用户
                         var sHTML = '';
-                        //for(var i = 0;i<datas.length;i++){
                         sHTML = '<div class="contactSearchResult">没有搜索结果</div>'
-                        //}
                         parentDom.append($(sHTML));
                     }else if(datas.length!=0){
                         //生成搜索结果
                         var sHTML = '';
                         $('.contactSearchResult').remove();
-
-                        console.log('converseACount',converseACount);
-
                         for(var i = 0;i<datas.length;i++){
                             if(hasItem(converseACount,datas[i].id)){
                                 var className = 'CheckBoxChecked'
@@ -98,8 +91,6 @@ $(function(){
                     }
 
                 })
-
-            //}
         })
     })
 
