@@ -1163,6 +1163,7 @@ span.defaultText{
     height: 500px;
     border: 1px solid #e6e6e6;
     position: relative;
+    overflow-y: scroll;
 }
 div.contactSearchResult{
     text-align: center;
