@@ -910,10 +910,10 @@ function fPersonalSet(){
             var sAccountNum=oPerInfo?oPerInfo.account|| '' : '';//成员账号
             var sSex=oPerInfo.sex;//性别
             switch(sSex){
-                case 1:
+                case '1':
                     sSex= '男';
                     break;
-                case 0:
+                case '0':
                     sSex= '女';
                     break;
                 default :

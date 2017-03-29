@@ -1388,6 +1388,8 @@ function creatTopList(sHTML,list,bFlg){
             content="[语音]";
         }else if(extra=="InformationNotificationMessage"){
             content="系统消息";
+        }else{
+            content="系统消息";
         }
         var targetId = curList.targetId;
          if(nowTime - sendTime>=globalVar.newsChatListTime){//消息列表的显示时间为最近一月内的消息，超过一月的消息将从消息列表中删除

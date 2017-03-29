@@ -77,6 +77,9 @@
     font-size:13px;
     background: url('img/backstage.png')no-repeat 10px -49px;
 }
+.perSetBox-contDetails li input,.perSetBox-contDetails li select,.perSetBox-contDetails li textarea{
+    margin-left: -9px;
+}
 .perSetBox-contDetails li .perSetBox-editText{
     width:320px;
     height:32px;

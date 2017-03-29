@@ -22,8 +22,9 @@
 		</div>
 		<div class='dialogtitle2' style='margin: 95px 0 0 220px'>
 			<span style='color: rgb(128,128,128); font-size: 12px'>1.请下载模板文档</span>
-			<a href='../../upload/人员模板.xls' style='color:rgb(255,162,0)'>
-			<img src='images/Excel-icon.png' style='margin: 0 10px' />下载模板</a>
+			<a href='../../upload/demo.xls?attname=demo.xls' style='color:rgb(255,162,0)' class="downloadDemo" fileName="demo">
+				<img src='images/Excel-icon.png' style='margin: 0 10px' />下载模板
+			</a>
 		</div>
 		<div class='dialogtitle2' style='margin: 15px 0 0 220px;'>
 			<span style='color: rgb(128,128,128); font-size: 12px'>2.编辑填写成员信息后再上传模板</span>
