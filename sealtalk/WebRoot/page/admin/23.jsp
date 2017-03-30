@@ -29,7 +29,7 @@
 <div class="infopanel23">
 	<div class="info" style="height: 110%" id="star">
 		<div class="infotitle">
-			<div class="title">成员身份权限</div>
+			<div class="title">职务职位</div>
 		</div>
 		<div class="line23">
 			职务职位：

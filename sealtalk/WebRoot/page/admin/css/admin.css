@@ -28,6 +28,15 @@ input, select, option {
 input, select, option, textarea {
 	border: 1px solid #ccc;
 	background-color: white;
+}
+input {
+	padding: 0 0 0 10px;
+}
+textarea {
+	padding: 5px 0 0 10px;
+	line-height: 24px;
+}
+select {
 	padding: 0 0 0 5px;
 }
 input:focus {
@@ -156,6 +165,10 @@ input:focus {
 	background-color: #fff;
 	border: 1px solid #ccc;
 	border-radius: 4px; 
+}
+.organsearchnone {
+	background: url("img/boxsearch.png") no-repeat;
+	background-position: 90px 6px;
 }
 .toleft {
 	float: left;
