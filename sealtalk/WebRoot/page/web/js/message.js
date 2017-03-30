@@ -2,6 +2,11 @@
  * Created by zhu_jq on 2017/1/10.
  */
 $(function(){
+
+
+    setInterval(function(){
+        searchTree()
+    },3000)
     //查询群组禁言
     var groupShutupTimer = null
     groupShutupTimer = setInterval(function(){
@@ -833,124 +838,100 @@ $(function(){
      * */
     $('.operMenuList').unbind('click');
     $('.operMenuList').click(function(e){
-
-        var getBranchTree = localStorage.getItem('getBranchTree');
-        if(getBranchTree){
-            var data = JSON.parse(getBranchTree);
-        }
-        var index = $(e.target).closest('ul').find('li').index($(e.target));
-        switch (index)
-        {
-            case 0:
-                //添加好友
-                //creatDialogTree四个参数 1结构数据 2类名(groupConvers/privateConvers) 3title 4已选联系人
-                creatDialogTree(data,'privateConvers','添加好友',function(){
-                    sendAjax('friend!addFriend',{account:account,friend:converseACount[0]},function(data){
-                        var datas = JSON.parse(data);
-                        console.log(data);
-                        if(datas.code==1){
-                            //刷新常用联系人
-                            getMemberFriends(account);
-                            $('.manageCancle').click();
-                            new Window().alert({
-                                title   : '添加好友',
-                                content : '好友添加成功！',
-                                hasCloseBtn : false,
-                                hasImg : true,
-                                textForSureBtn : false,
-                                textForcancleBtn : false,
-                                autoHide:true
-                            });
-                        }else{
-                            alert('失败!'+datas.text);
+        var afterNewTree = function(){
+            var getBranchTree = localStorage.getItem('getBranchTree');
+            if(getBranchTree){
+                var data = JSON.parse(getBranchTree);
+            }
+            var index = $(e.target).closest('ul').find('li').index($(e.target));
+            switch (index)
+            {
+                case 0:
+                    //添加好友
+                    //creatDialogTree四个参数 1结构数据 2类名(groupConvers/privateConvers) 3title 4已选联系人
+                    creatDialogTree(data,'privateConvers','添加好友',function(){
+                        sendAjax('friend!addFriend',{account:account,friend:converseACount[0]},function(data){
+                            var datas = JSON.parse(data);
+                            console.log(data);
+                            if(datas.code==1){
+                                //刷新常用联系人
+                                getMemberFriends(account);
+                                $('.manageCancle').click();
+                                new Window().alert({
+                                    title   : '添加好友',
+                                    content : '好友添加成功！',
+                                    hasCloseBtn : false,
+                                    hasImg : true,
+                                    textForSureBtn : false,
+                                    textForcancleBtn : false,
+                                    autoHide:true
+                                });
+                            }else{
+                                alert('失败!'+datas.text);
+                            }
+                        })
+                    });
+                    break;
+                case 1:
+                    //发起聊天
+                    if($(e.target).attr('displaylimit')=='false'){
+                        return false;
+                    }
+                    creatDialogTree(data,'privateConvers','发起聊天',function(){
+                        var targetAccount = converseACount[0];
+                        $('.manageCancle').click();
+                        if(targetAccount!=accountID){//是自己
+                            if($('.usualChatList').find   ('li[account='+targetAccount+']').length==0){
+                                addFriendAndRefreshList(account,targetAccount);
+                            }else{
+                                jumpToFriendListOpen(targetAccount)
+                            }
                         }
                     })
-                });
-                break;
-            case 1:
-                //发起聊天
-                if($(e.target).attr('displaylimit')=='false'){
-                    return false;
-                }
-                creatDialogTree(data,'privateConvers','发起聊天',function(){
-                    var targetAccount = converseACount[0];
-                    $('.manageCancle').click();
-                    if(targetAccount!=accountID){//是自己
-                        if($('.usualChatList').find   ('li[account='+targetAccount+']').length==0){
-                            addFriendAndRefreshList(account,targetAccount);
-
-                            //sendAjax('friend!addFriend',{account:account,friend:targetAccount},function(data){
-                            //    var datas = JSON.parse(data);
-                            //    //刷新常用联系人
-                            //    getMemberFriends(account,function(){
-                            //        $('.manageCancle').click();
-                            //        $('.chatMenu .chatLeftIcon')[1].click();
-                            //        var targetDon = $('.usualChatList').find('li')
-                            //        targetDon.removeClass('active');
-                            //        var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-                            //        targetMember.addClass('active');
-                            //        var targetID = targetMember.attr('targetid');
-                            //        var targeType = 'PRIVATE';
-                            //        conversationSelf(targetID,targeType);
-                            //    });
-                            //})
-                        }else{
-                            //$('.manageCancle').click();
-                            jumpToFriendListOpen(targetAccount)
-
-                            //$('.chatMenu .chatLeftIcon')[1].click();
-                            //var targetDon = $('.usualChatList').find('li')
-                            //targetDon.removeClass('active');
-                            //var targetMember = $('.usualChatList').find('li[account='+targetAccount+']');
-                            //targetMember.addClass('active');
-                            //var targetID = targetMember.attr('targetid');
-                            //var targeType = 'PRIVATE';
-                            //conversationSelf(targetID,targeType);
-                        }
-                    }
-                })
-                break;
-            case 2:
-
-                var limit = $('body').attr('limit');
-                //var oLimit = JSON.parse(limit);
-                if(limit.indexOf('qzcjq')==-1){//没有权限
-                    return false;
                     break;
-                }else{
-                    //创建群组
-                    converseACount = [];
-                    converseACount.push(accountID);
-                    creatDialogTree(data,'groupConvers','创建群组',function(){
+                case 2:
 
-                        var sConverseACount = JSON.stringify(converseACount);
+                    var limit = $('body').attr('limit');
+                    //var oLimit = JSON.parse(limit);
+                    if(limit.indexOf('qzcjq')==-1){//没有权限
+                        return false;
+                        break;
+                    }else{
+                        //创建群组
+                        converseACount = [];
+                        converseACount.push(accountID);
+                        creatDialogTree(data,'groupConvers','创建群组',function(){
 
-                        sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount,groupname:''},function(data){
-                            if(data){
-                                $('.manageCancle').click();
-                                var datas = JSON.parse(data);
-                                if(datas.code==200){
-                                    new Window().alert({
-                                        title   : '',
-                                        content : '创建群组成功！',
-                                        hasCloseBtn : false,
-                                        hasImg : true,
-                                        textForSureBtn : false,
-                                        textForcancleBtn : false,
-                                        autoHide:true
-                                    });
-                                    getGroupList(accountID);
-                                }else{
-                                    alert('失败',datas.text);
+                            var sConverseACount = JSON.stringify(converseACount);
+
+                            sendAjax('group!createGroup',{userid:accountID,groupids:sConverseACount,groupname:''},function(data){
+                                if(data){
+                                    $('.manageCancle').click();
+                                    var datas = JSON.parse(data);
+                                    if(datas.code==200){
+                                        new Window().alert({
+                                            title   : '',
+                                            content : '创建群组成功！',
+                                            hasCloseBtn : false,
+                                            hasImg : true,
+                                            textForSureBtn : false,
+                                            textForcancleBtn : false,
+                                            autoHide:true
+                                        });
+                                        getGroupList(accountID);
+                                    }else{
+                                        alert('失败',datas.text);
+                                    }
+
                                 }
-
-                            }
-                        });
-                    },converseACount)
-                }
-
-                break;
+                            });
+                        },converseACount)
+                    }
+                    break;
+            }
         }
+        getBranchTreeAndMember(afterNewTree);
+
     })
     /*点击"+"*/
     $('.footerPlus').click(function(){
@@ -964,10 +945,10 @@ function getSysTipVoice(userid){
 
             if(status==1){
                 globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
-                $('.systemVoiceBtn').removeClass('active');
+                $('.systemVoiceBtn').addClass('active');
             }else{
                 globalVar.SYSTEMSOUND=globalVar.SYSTEMSOUND;
-                $('.systemVoiceBtn').addClass('active');
+                $('.systemVoiceBtn').removeClass('active');
             }
 
         }
@@ -1092,20 +1073,21 @@ function unique3(arr){
 }
 
 //创建群组列表
-function getGroupList(accountID){
+function getGroupList(accountID,callback){
     var dom = $('.groupChatList .groupChatListUl');
     var sHTML = '';
     sendAjax('group!groupList',{userid:accountID},function(data){
         if(data){
             window.localStorage.groupInfo = data;
             var datas = JSON.parse(data);
+            callback&&callback();
             var groupArr = datas.text;
             if(groupArr){
                 for(var i = 0;i<groupArr.length;i++){
                     var curGroup = groupArr[i];
                     sHTML+='<li targetid="'+curGroup.GID+'">'+
                     '<div>'+
-                    '<img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt="">'+
+                    '<img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
                     '<em class="groupInlineNum">(<span class="onlineCount">'+curGroup.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
@@ -1116,7 +1098,8 @@ function getGroupList(accountID){
                 sHTML = '';
             }
             dom.html(sHTML);
-            changeGroupOnlineN(accountID)
+            changeGroupOnlineN(accountID);
+
         }
     })
 
@@ -1255,6 +1238,11 @@ function changeClick2Content(data){
     return sHTML;
 }
 
+function searchTree(){
+    sendAjax('branch!getBranchTreeAndMember','',function(data){
+        window.localStorage.normalInfo = data;
+    })
+}
 
 //从组织结构中找到相应的成员、部门数据
 function searchFromList(flag,id){
@@ -1264,7 +1252,6 @@ function searchFromList(flag,id){
         var data = JSON.parse(normalInfo);
     }
     id = parseInt(id);
-    //console.log(flag,id,data);
     for(var i = 0;i<data.length;i++){
         if(data[i].id==id&&data[i].flag==flag){
             curList = data[i];
@@ -1273,12 +1260,11 @@ function searchFromList(flag,id){
     return curList;
 }
 //获取组织结构图
-function getBranchTreeAndMember(){
+function getBranchTreeAndMember(callback){
     sendAjax('branch!getBranchTreeAndMember','',function(data){
         window.localStorage.normalInfo = data;
         var datas = JSON.parse(data);
         if(datas && data.length!=0){
-            //console.log(data);
             var myData = changeFormat(data);
             if(myData){
                 window.localStorage.getBranchTree = JSON.stringify(myData);
@@ -1289,6 +1275,8 @@ function getBranchTreeAndMember(){
             var HTML = createOrganizList(myData,sHTML,i);
             $ParendtDom.html(HTML);
             changePersonOnlineN('');
+            console.log('newTree');
+            callback&&callback();
         }
     })
 }
@@ -1296,7 +1284,6 @@ function getBranchTreeAndMember(){
 function getMemberFriends(account,callback){
     sendAjax('friend!getMemberFriends',{account:account},function(data){
         var myData = JSON.parse(data);
-        //myData = myData;
         window.localStorage.MemberFriends = data;
         var $ParendtDom = $('.usualChatList').find('ul.groupChatListUl');
         var sHTML = '';
@@ -1306,7 +1293,6 @@ function getMemberFriends(account,callback){
             var fullname = curData.fullname;
             var workno = curData.position?' ('+curData.position+')':''
             var logo = curData.logo?globalVar.imgSrc+curData.logo:globalVar.defaultLogo;
-            //var curData = curData;
             sHTML += ' <li account="'+account+'" targetid="'+curData.id+'">'+
             '<div>'+
             '<img class="groupImg" src="'+logo+'" alt=""/>'+
@@ -1316,7 +1302,6 @@ function getMemberFriends(account,callback){
         }
         $ParendtDom.html(sHTML);
         callback&&callback();
-
     },function(){
         callback&&callback();
     })
@@ -1495,17 +1480,17 @@ function createOrganizList(data,sHTML,level){
         if(oData.flag==1){
             if(oData.logo){
                 var imgSrc = globalVar.imgSrc+oData.logo;
-
             }else{
                 var imgSrc = globalVar.defaultLogo;
             }
-            var poaitionName = '('+oData.postitionname+')'
+            var poaitionName = oData.postitionname?'('+oData.postitionname+')':'';
+        }else if(oData.flag==-1){
+            var imgSrc = globalVar.defaultComLogo;
+            var poaitionName = ''
         }else{
             var imgSrc = globalVar.defaultDepLogo;
             var poaitionName = ''
-
         }
-        //console.log('oData',oData);
         sHTML += '<li class="'+state+'" id="'+oData.id+'">'+
                     '<div level="">'+
                     '<span style="height: 20px;width: '+level*32+'px;display:inline-block;float: left;"></span>'+
@@ -1523,9 +1508,6 @@ function createOrganizList(data,sHTML,level){
     sHTML += '</ul>';
     return sHTML;
 }
-
-
-
 
 function DialogTreeLoop(data,sHTML,level,userID){
     sHTML += '<ul>';

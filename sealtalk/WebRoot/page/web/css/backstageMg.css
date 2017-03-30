@@ -43,12 +43,15 @@
 }
 .perSetBox  .perSetBox-leftCont{
      float:left;
+    height: 100%
  }
 .perSetBox  .perSetBox-rightCont{
     float:right;
 }
 .perSetBox-leftCont .perSetBox-contDetails{
-    padding:34px 0 0 42px;
+    padding: 34px 0 0 42px;
+    height: calc(100% - 80px);
+    overflow: auto;
 }
 .perSetBox-contDetails li{
     line-height:34px;
@@ -73,6 +76,9 @@
     padding-left:9px;
     font-size:13px;
     background: url('img/backstage.png')no-repeat 10px -49px;
+}
+.perSetBox-contDetails li input,.perSetBox-contDetails li select,.perSetBox-contDetails li textarea{
+    margin-left: -9px;
 }
 .perSetBox-contDetails li .perSetBox-editText{
     width:320px;
@@ -332,6 +338,7 @@
     word-wrap: break-word;
     word-break:break-all;
     min-height: 26px;
+    max-width: 500px;
 }
 .mr-otherImg{
     float:left;
@@ -657,6 +664,7 @@ p.converLimit {
     margin-left:36px;
     border-radius: 5px;
     min-height: 26px;
+    max-width: 546px;
 }
 .mr-chatContentR .mr-ownChat{
     background-color: #f5f5f5;
@@ -1160,6 +1168,17 @@ div#fileOperate {
     display: inline-block;
 }
 
+div#personSettingId {
+    height: 100%;
+    /*background: palegoldenrod;*/
+}
+.perSetBox-content.clearfix {
+    overflow: auto;
+    min-height: 500px;
+    height: calc(100% - 62px);
+    /*background: paleturquoise;*/
+}
+
 #fileOperate span {
     margin-right: 20px;
     color: #30c0da;
@@ -1171,7 +1190,7 @@ div#fileOperate {
 
 }
 ul.chatFile {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .groupInfo .groupInfo-disturb p i{
     float:left;

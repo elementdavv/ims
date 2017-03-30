@@ -1344,7 +1344,6 @@ function usualChatList(list){
     var oData= JSON.parse(sData);
     var sId=oData.id;
     sendAjax('fun!getMsgTop',{userid:sId},function(data){
-
         var oData=JSON.parse(data);
         var aText=oData.text;
         $('.usualChatListUl').empty();
@@ -1388,6 +1387,8 @@ function creatTopList(sHTML,list,bFlg){
         }else if(extra=="VoiceMessage"){
             content="[语音]";
         }else if(extra=="InformationNotificationMessage"){
+            content="系统消息";
+        }else{
             content="系统消息";
         }
         var targetId = curList.targetId;
@@ -1434,29 +1435,58 @@ function creatTopList(sHTML,list,bFlg){
             }
         }else if(conversationType==3){
             var curGroup = groupInfo(targetId);
-            //if(curGroup){
-            if(bFlg){
-                sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
-                '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
-                sNum+
-                '<span class="groupName">'+curGroup.name+'</span>'+
-                '<span class="usualLastMsg">'+content+'</span>'+
-                '<span class="lastTime">'+lastTime+'</span>'+
-                '</div>'+
-                '</li>'
-            }else{
-                sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-                '<div><img class="groupImg" src="'+globalVar.defaultDepLogo+'" alt=""/>'+
-                sNum+
-                '<span class="groupName">'+curGroup.name+'</span>'+
-                '<span class="usualLastMsg">'+content+'</span>'+
-                '<span class="lastTime">'+lastTime+'</span>'+
-                '</div>'+
-                '</li>'
+            var createDom = function(){
+                var curGroup = groupInfo(targetId);
+                if(!curGroup){
+                    return;
+                }
+                if(bFlg){
+                    sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
+                    '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
+                    sNum+
+                    '<span class="groupName">'+curGroup.name+'</span>'+
+                    '<span class="usualLastMsg">'+content+'</span>'+
+                    '<span class="lastTime">'+lastTime+'</span>'+
+                    '</div>'+
+                    '</li>'
+                }else{
+                    sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
+                    '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
+                    sNum+
+                    '<span class="groupName">'+curGroup.name+'</span>'+
+                    '<span class="usualLastMsg">'+content+'</span>'+
+                    '<span class="lastTime">'+lastTime+'</span>'+
+                    '</div>'+
+                    '</li>'
+                }
             }
+            if(!curGroup){//如果在群组中没有找到这个群的信息，可能是对方刚创建的群，在我过去的群组列表中没有的，所以要刷新下群组列表
+                var sdata = localStorage.getItem('datas');
+                var oData=JSON.parse(sdata);
+                var accountID = oData?oData.id :'';
+                refreshGroup(accountID,createDom);
+                //createDom();
+            }else{
+
+                createDom()
+            }
+            //if(curGroup){
+
         }
     }
     return sHTML;
+}
+
+
+function refreshGroup(accountID,callback){
+    sendAjax('group!groupList',{userid:accountID},function(data){
+        if(data){
+            window.localStorage.groupInfo = data;
+            var datas = JSON.parse(data);
+            callback&&callback();
+
+        }
+    })
 }
 //查询单个群信息
 function groupInfo(id){

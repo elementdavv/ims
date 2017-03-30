@@ -247,7 +247,7 @@ input::-ms-clear{display:none;}
 
 }
 .chatContent .chatMenu li:nth-child(1).active{
-    background-position: 22px -112px;
+    background-position: 22px -113px;
 }
 .chatContent .chatMenu li:nth-child(2).active{
     background-position: -164px -112px;
@@ -1163,6 +1163,7 @@ span.defaultText{
     height: 500px;
     border: 1px solid #e6e6e6;
     position: relative;
+    overflow-y: scroll;
 }
 div.contactSearchResult{
     text-align: center;

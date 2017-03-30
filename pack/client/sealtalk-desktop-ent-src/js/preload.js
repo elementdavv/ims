@@ -242,9 +242,10 @@ function chDownloadProgress(url, state, progress){
       } else {
         $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
       }
+    }else if(targetA.hasClass('downloadDemo')){
+
     }
   }
-  //console.log(targetA);
 }
 
 function chDownloadState(url, state){
@@ -252,7 +253,7 @@ function chDownloadState(url, state){
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
     var targetA = $("a[fileName=" + file + "]");
-
+    console.log('chDownloadStatechDownloadStatechDownloadState');
     for(var i=0;i<targetA.length;++i){
       if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
         $('#down_process[uniquetime=' + file + ']').remove();
@@ -270,13 +271,14 @@ function chDownloadState(url, state){
             '<span class="openFloder"></span>' +
             '</div>'
         targetA.eq(i).closest('.downLoadFileInfo').append($(sHTML));
+      }else if(targetA.hasClass('downloadDemo')){
+        console.log('download Demo');
+        window.Electron.openFileDir(url);
       }else{
         var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
             <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
         targetA.eq(i).closest('.chatFile-folder').append(sHtml);
         targetA.eq(i).closest('strong').remove();
-        //$('.chatFile-folder').find('strong').remove();
-
       }
     }
     targetA.each(function(index){
@@ -292,8 +294,6 @@ getSavePath = function (url) {
 
 getNameByUrl = function (field, url) {
   var href = url ? url : window.location.href;
-  //var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
-  //var string = reg.exec(href);
   var string = href.split('attname=')[1];
   return string ? string : null;
 }

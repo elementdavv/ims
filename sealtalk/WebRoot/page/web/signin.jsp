@@ -22,7 +22,7 @@
     <div class="signin-logo">
         <div class="main clearfix">
             <a href=""><span>G</span>roup Meal</a>
-            <a class="pull-left ng-binding" onclick="jumpToAuth()">团餐IM系统</a>
+            <a class="pull-left ng-binding">团餐IM系统</a>
         </div>
     </div>
     <div class="signin-form">
@@ -31,7 +31,7 @@
                 <div class="form-inline" name="formSignin" novalidate="novalidate">
                     <div class="form-group firstNone">
                         <label for="username" class="username"></label>
-                        <input type="text" name="account" placeholder="手机号" required="" class="form-control" name="accountNumber" ng-model="user.accountNumber" ng-pattern="/^1[3-9][0-9]{9,9}$/" id="username" my-focus="">
+                        <input type="text" name="account" placeholder="用户名" required="" class="form-control" name="accountNumber" ng-model="user.accountNumber" ng-pattern="/^1[3-9][0-9]{9,9}$/" id="username" my-focus="">
                     </div>
                     <div class="form-group">
                         <label for="pwdIn" class="pwdIn"></label>

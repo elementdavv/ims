@@ -11,16 +11,9 @@ $(function(){
                 window.location.href = 'system!login';
 
             }
-
-            //alert('登出成功');
-            ////refreshWindow
-            //var mainWindow2 = window.Electron.ipcRenderer._events.logout();
-            //var window1 = mainWindow2.loadURL('http://localhost:8080/sealtalk/page/web/system!afterLogin');
-
         });
     }
     $('.chatHeaderOper li')[1].onclick = function(){
-        //$(".chatContent").addClass('chatHide');
         $('.news').addClass('chatHide');
         $('.orgnized').addClass('chatHide');
         $('.personalCenter').find('#backstageMgId li').removeClass('active');
@@ -69,11 +62,16 @@ $(function(){
                 //$('.chatBox').html('aaaaa')
                 break;
             case 'orgnized':
-                //$('.chatBox').html('bbbb')
+                //获取左侧组织树状图
+                getBranchTreeAndMember();
+                console.log('newTree');
                 break;
             case 'back':
                 //$('.chatBox').html('cccc')
                 break;
+            case 'newsChatList':
+                getConverList();
+				console.log('aaaa')
         }
         nShowClass&&showPanel(nShowClass);
     })

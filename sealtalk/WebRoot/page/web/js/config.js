@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by zhu_jq on 2017/1/21.
  */
 
@@ -8,10 +8,10 @@ var globalVar={
     SYSTEMSOUND:1,//系统声音
     MESSAGESOUND:1,//消息免打扰
     //融云appKey
-    //rongKey:'m7ua80guyso7u',		//适用于120
-    //navi:'103.36.132.10:80',		//适用于120
-    navi:'nav.cn.ronghub.com',		//适用于本地及35
-    rongKey:'e5t4ouvpe564a',		//适用于本地及35
+    rongKey:'m7ua80guyso7u',		//适用于120
+    navi:'103.36.132.10:80',		//适用于120
+    //navi:'nav.cn.ronghub.com',		//适用于本地及35
+    //rongKey:'e5t4ouvpe564a',		//适用于本地及35
     
     //fileServer:'upload.qiniu.com',
    
@@ -24,7 +24,9 @@ var globalVar={
     cssImgSrc:'page/web/css/img/',
     //默认头像
     defaultLogo:'page/web/css/img/PersonImg.jpg',
-    defaultDepLogo:'page/web/css/img/group_chart.jpg',
+    defaultGroupLogo:'page/web/css/img/group_chart.jpg',
+    defaultComLogo:'page/web/css/img/defaultComLogo.jpg',
+    defaultDepLogo:'page/web/css/img/defaultDepLogo.jpg',
     //
     refreshGroupOnline:5000,
     refreshPersonalOnline:5000,

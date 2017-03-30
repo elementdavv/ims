@@ -6,7 +6,17 @@ var XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 var fields = ['email', 'telephone', 'position', 'manager', 'branch', 'sex', 'workno', 'name', 'mobile'];
 var groups = ['good', 'well', 'bad'];
 $(document).ready(function() {
-	
+
+	$('.downloadDemo').click(function() {
+		if (window.Electron) {
+			var url = $(this).attr('href');
+			var localPath = window.Electron.chkFileExists(url);
+			if (localPath) {//本地有这个文件
+				window.Electron.openFileDir(url);
+				return false;
+			}
+		}
+	})
 	$('#imp2').on('dblclick', '.errimp', function() {
 		$(this).removeClass('errimp');
 		$(this).prop('title', '');

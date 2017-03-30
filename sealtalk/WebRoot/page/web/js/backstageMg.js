@@ -346,7 +346,7 @@ $(document).ready(function(){
     $('#groupData').delegate('.voiceSet','click',function(){
         var _this = $(this);
         var flag = _this.hasClass('active');
-        var states = flag?0:1;
+        var states = flag?1:0;
         //设置消息免打扰的接口
         var groupid = $('#groupContainer').attr('targetid');
         var sdata = localStorage.getItem('datas');
@@ -355,6 +355,7 @@ $(document).ready(function(){
             if(data){
                 var datas = JSON.parse(data);
                 if(datas&&datas.code==1){
+
                     flag?_this.removeClass('active'):_this.addClass('active');
                 }
             }
@@ -637,20 +638,11 @@ $(document).ready(function(){
     /*系统提示音*/
     $('#chatBox').on('click','#systemSet .systemVoiceBtn',function(){
         //var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
-        //var eParent=$(this);
         if($(this).hasClass('active')){
             $(this).removeClass('active');
         }else{
             $(this).addClass('active');
         }
-        /*switch(status){
-            case 0:
-                eParent.addClass('active');
-                break;
-            case 1:
-                eParent.removeClass('active');
-                break;
-        }*/
     });
     $('#chatBox').on('click','#systemSet .systemSet-keep',function(){
        // var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
@@ -665,7 +657,9 @@ $(document).ready(function(){
         var accountObj = JSON.parse(sdata);
         //var account = accountObj.account;
         var accountID = accountObj.id;
-        systemBeep(status,accountID);
+        if(!(status==0&&globalVar.SYSTEMSOUND==false)||(status==1&&globalVar.SYSTEMSOUND==true)){
+            systemBeep(status,accountID);
+        }
     });
     $('#chatBox').on('click','.dateIcon',function(){
         $('.calendar-inputWrap').click();
@@ -916,10 +910,10 @@ function fPersonalSet(){
             var sAccountNum=oPerInfo?oPerInfo.account|| '' : '';//成员账号
             var sSex=oPerInfo.sex;//性别
             switch(sSex){
-                case 1:
+                case '1':
                     sSex= '男';
                     break;
-                case 0:
+                case '0':
                     sSex= '女';
                     break;
                 default :
@@ -1257,6 +1251,15 @@ function systemBeep(status,accountID){
         //var eParent=$('#chatBox #systemSet .systemVoiceBtn');
         if(oData.code==1){
             globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
+            new Window().alert({
+                title   : '',
+                content : '修改成功！',
+                hasCloseBtn : false,
+                hasImg : true,
+                textForSureBtn : false,
+                textForcancleBtn : false,
+                autoHide:true
+            });
         }
     });
 }
