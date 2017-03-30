@@ -192,5 +192,5 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @param targetNames
 	 * @return
 	 */
-	public List getMemberIdsByAccount(String targetNames);
+	public List getMemberIdsByAccount(String[] targetNames);
 } 

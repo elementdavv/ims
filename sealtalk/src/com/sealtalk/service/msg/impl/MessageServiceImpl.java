@@ -46,7 +46,8 @@ public class MessageServiceImpl implements MessageService {
 					targetNames = StringUtils.getInstance().replaceChar(
 							targetNames, " ", "");
 
-					List list = memberDao.getMemberIdsByAccount(targetNames);
+					String[] names = targetNames.split(",");
+					List list = memberDao.getMemberIdsByAccount(names);
 
 					if (list != null) {
 						int len = list.size();
@@ -116,7 +117,8 @@ public class MessageServiceImpl implements MessageService {
 					targetNames = StringUtils.getInstance().replaceChar(
 							targetNames, " ", "");
 
-					List list = memberDao.getMemberIdsByAccount(targetNames);
+					String[] names = targetNames.split(",");
+					List list = memberDao.getMemberIdsByAccount(names);
 
 					if (list != null) {
 						int len = list.size();
