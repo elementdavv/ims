@@ -138,4 +138,11 @@ public interface MemberService {
 	 */
 	public int countMember();
 
+	/**
+	 * 按Id删除指定成员数据
+	 * @param userids
+	 * @return
+	 */
+	public String delMemberByUserId(String userids);
+
 }

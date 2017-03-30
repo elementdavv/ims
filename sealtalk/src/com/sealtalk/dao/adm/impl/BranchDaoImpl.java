@@ -216,12 +216,9 @@ public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDa
 				"M.email," +
 				"M.address," +
 				"M.token," +
-				"M.sex," +
 				"M.birthday," +
 				"M.workno," +
 				"M.mobile," +
-				"M.groupmax," +
-				"M.groupuse," +
 				"M.intro," +
 				"P.id PID," +
 				"P.name PNAME," +
@@ -232,10 +229,11 @@ public class BranchDaoImpl extends BaseDao<TBranch, Integer> implements BranchDa
 				"from t_branch_member BM " +
 				"right join t_branch BC on BM.branch_id=BC.id " +
 				"right join t_organ TOR on TOR.id=BC.organ_id " +
-				"left join t_member M on BM.member_id=M.id " +
+				"left join t_member M on M.id=BM.member_id " +
 				"left join t_position P on BM.position_id=P.id " +
 				"left join t_sex S on M.sex=S.id"; 
 		
+		System.out.println(sql);
 		try {
 			SQLQuery query = this.getSession().createSQLQuery(sql);
 			

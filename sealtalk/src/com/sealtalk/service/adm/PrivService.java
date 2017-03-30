@@ -20,7 +20,7 @@ public interface PrivService {
 	String getPrivStringByMember(Integer memberId);
 	
 	/**
-	 * 根据用户Id获取角色
+	 * 根据用户Id获取权限
 	 * @param id
 	 * @return
 	 */

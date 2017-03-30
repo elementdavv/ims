@@ -43,6 +43,13 @@ public interface CutLogoTempDao extends IBaseDao<TCutLogoTemp, Long> {
 	 * @return
 	 */
 	public List<TCutLogoTemp> getUserLogos(int userIdInt);
+
+	/**
+	 * 删除成员头像
+	 * @param userids
+	 * @return
+	 */
+	public int deletePicsByIds(String userids);
 	
 	
 } 

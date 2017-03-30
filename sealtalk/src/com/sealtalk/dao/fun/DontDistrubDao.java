@@ -35,4 +35,11 @@ public interface DontDistrubDao extends IBaseDao<TDontDistrub, Long> {
 	 */
 	public TDontDistrub getSingleDistrubListForUserId(int userIdInt, int groupIdInt);
 
+	/**
+	 * 删除记录
+	 * @param userids
+	 * @return
+	 */
+	public int deleteByIds(String userids);
+
 } 

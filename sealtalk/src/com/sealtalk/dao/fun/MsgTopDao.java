@@ -41,5 +41,12 @@ public interface MsgTopDao extends IBaseDao<TMsgtop, Integer> {
 	 * @param topType
 	 */
 	public void cancelMsgTop(int userIdInt, int topIdInt, String topType);
+
+	/**
+	 * 删除某成员置顶
+	 * @param userids
+	 * @return
+	 */
+	public int deleteRelationByIds(String userids);
 	
 } 

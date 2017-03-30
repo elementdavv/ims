@@ -11,6 +11,7 @@
 	<!-- dao -->
 	<bean id="appSecretDao" class="com.sealtalk.auth.dao.impl.AppSecretDaoImpl" autowire="byName" />
 	<bean id="userValidDao" class="com.sealtalk.auth.dao.impl.UserValidDaoImpl" autowire="byName" />
+	<bean id="userSysRelationDao" class="com.sealtalk.auth.dao.impl.UserSysRelationDaoImpl" autowire="byName" />
 	<bean id="memberDao" class="com.sealtalk.dao.member.impl.MemberDaoImpl" autowire="byName" />
 	
 	<!-- service -->
@@ -18,6 +19,7 @@
 		<property name="appSecretDao" ref="appSecretDao" />
 		<property name="userValidDao" ref="userValidDao" />
 		<property name="memberDao" ref="memberDao" />
+		<property name="userSysRelationDao" ref="userSysRelationDao" />
 	</bean>
 	
 	<!-- action -->

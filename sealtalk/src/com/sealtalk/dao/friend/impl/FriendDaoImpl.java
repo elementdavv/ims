@@ -142,4 +142,15 @@ public class FriendDaoImpl extends BaseDao<TFriend, Long> implements FriendDao {
 		return null;
 	}
 
+	@Override
+	public int deleteRelationByIds(String userids) {
+		try {
+			String hql = (new StringBuilder("delete from TFriend where memberId in (").append(userids).append(")")).toString();
+			return delete(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

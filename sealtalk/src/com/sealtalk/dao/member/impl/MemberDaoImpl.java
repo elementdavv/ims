@@ -6,11 +6,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.jdbc.object.SqlQuery;
 
 import com.sealtalk.common.BaseDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.model.TMember;
-import com.sealtalk.utils.PasswordGenerator;
 import com.sealtalk.utils.StringUtils;
 import com.sealtalk.utils.TimeGenerator;
 
@@ -136,8 +136,6 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 				"M.birthday," +
 				"M.workno," +
 				"M.mobile," +
-				//"M.groupmax," +
-				//"M.groupuse," +
 				"M.intro," +
 				"B.id BID," +
 				"B.name BNAME," +
@@ -540,6 +538,8 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 				"M.telephone," +
 				"M.email," +
 				"M.mobile," +
+				"M.id," +
+				"M.account," +
 				"S.name SNAME," +
 				"P.name PNAME," +
 				"O.name ONAME " +
@@ -575,6 +575,33 @@ public class MemberDaoImpl extends BaseDao<TMember, Integer> implements MemberDa
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public int delMemberByUserId(String ids) {
+		try {
+			String hql = (new StringBuilder("delete from TMember where id in (").append(ids).append(")")).toString();
+			return delete(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public List getMemberIdsByAccount(String targetNames) {
+		try {
+			String sql = (new StringBuilder("select id from t_member where account in('").append(targetNames).append("')")).toString();
+			SQLQuery query = this.getSession().createSQLQuery(sql);
+			List list = query.list();
+			
+			if (list != null && list.size() > 0) {
+				return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -83,4 +83,24 @@ public class AppSecretDaoImpl extends BaseDao<AppSecret, Integer> implements App
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public AppSecret getAppSecretByAppIdAndSecret(String appId, String secret) {
+		try {
+			Criteria ctr = getCriteria();
+			ctr.add(Restrictions.and(Restrictions.eq("secert", secret), Restrictions.eq("appId", appId)));
+
+			List<AppSecret> list = ctr.list();
+
+			if (list.size() > 0) {
+				return (AppSecret) list.get(0);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 }

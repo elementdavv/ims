@@ -43,4 +43,11 @@ public interface MapDao extends IBaseDao<TMap, Long> {
 	 */
 	public void updateLocation(int userId, String latitude, String longtitude, long now);
 
+	/**
+	 * 删除成员位置信息
+	 * @param userids
+	 * @return
+	 */
+	public int deleteRelationByIds(String userids);
+
 }

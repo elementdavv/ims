@@ -97,6 +97,17 @@ public class CutLogoTempDaoImpl extends BaseDao<TCutLogoTemp, Long> implements C
 		
 		return null;
 	}
+
+	@Override
+	public int deletePicsByIds(String userids) {
+		try {
+			String hql = (new StringBuilder("delete from TCutLogoTemp where userId in (").append(userids).append(")")).toString();
+			return delete(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 	
 

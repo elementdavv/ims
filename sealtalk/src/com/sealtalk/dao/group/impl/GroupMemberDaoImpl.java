@@ -193,4 +193,15 @@ public class GroupMemberDaoImpl extends BaseDao<TGroupMember, Long> implements G
 		return null;
 	}
 
+	@Override
+	public int deleteRelationByIds(String userids) {
+		try {
+			String hql = (new StringBuilder("delete from TGroupMember where memberId in (").append(userids).append(")")).toString();
+			return delete(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

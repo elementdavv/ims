@@ -4,7 +4,7 @@ import net.sf.json.JSONObject;
 
 public enum  AuthTips {
 	WORNGMAKEAS("AppId或secret生成错误", "00001"),
-	WORNGAPPID("AppId或secret生成错误", "00002"),
+	WORNGAPPID("AppId或secret错误", "00002"),
 	WORNGPARAM("参数错误", "00003"),
 	INVALIDAPPID("AppId无效", "00004"),
 	INVALTOKEN("令牌无效", "00005"),

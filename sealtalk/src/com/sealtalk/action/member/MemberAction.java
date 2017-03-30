@@ -132,6 +132,17 @@ public class MemberAction extends BaseAction {
 		return "text";
 	}
 	
+	/**
+	 * 使用id删除成员
+	 * @return
+	 * @throws ServletException
+	 */
+	public String delMemberByUserIds() throws ServletException {
+		String result = memberService.delMemberByUserId(userids);
+		returnToClient(result);
+		return "text";
+	}
+	
 	private MemberService memberService;
 	
 	public void setMemberService(MemberService ms) {
