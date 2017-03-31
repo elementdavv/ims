@@ -2,9 +2,10 @@ var sealtalk_config = {
   //http://electron.atom.io/docs/api/crash-reporter/
   REPORT_URL: 'http://electron.atom.io/docs/api/crash-reporter/',
   //http://electron.atom.io/docs/api/browser-window/  win.loadURL(APP_ONLINE)
-  //APP_ONLINE: 'http://35.164.107.27:8080/im/system!login',
+ // APP_ONLINE: 'http://35.164.107.27:8080/im/system!login',
   //APP_ONLINE: 'http://localhost:8080/sealtalk/system!login',
   APP_ONLINE: 'http://120.26.42.225:8080/sealtalk/system!login',
+  //APP_ONLINE : 'http://localhost:8080/sealtalk/page/cms/signin.jsp',
   //your homepage for menu link
   HOME: 'http://localhost:8080/sealtalk/system!loginForWeb',
   //这个参数的理解可以参考  http://electron.atom.io/docs/api/app/  setAsDefaultProtocolClient
