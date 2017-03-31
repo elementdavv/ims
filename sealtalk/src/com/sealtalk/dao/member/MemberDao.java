@@ -179,4 +179,18 @@ public interface MemberDao extends IBaseDao<TMember, Integer> {
 	 * @return
 	 */
 	public int getMemberCount();
+	
+	/**
+	 * 删除成员
+	 * @param idsInt
+	 * @return
+	 */
+	public int delMemberByUserId(String idsInt);
+	
+	/**
+	 * 根据账号获取成员id
+	 * @param targetNames
+	 * @return
+	 */
+	public List getMemberIdsByAccount(String[] targetNames);
 } 

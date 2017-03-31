@@ -84,10 +84,9 @@ public class FriendServiceImpl implements FriendService {
 					List<TFriend> friendRelation = friendDao.getFriendRelationForFriendIds(accountId, friendId);
 					
 					for(int i = 0; i < friendId.length; i++) {
-					//	TFriend tf = friendRelation.get(i);
-					//	if (tf == null) {
+						if (friendRelation == null || (friendRelation != null && friendRelation.get(i) == null)) {
 							friendDao.addFriend(accountId, friendId[i]);
-						//}
+						}
 					}
 					jo.put("code", 1);
 					jo.put("text", Tips.SUCADDFRIEND.getText());
@@ -105,7 +104,7 @@ public class FriendServiceImpl implements FriendService {
 					//通知融云
 					String msg = "建立好友关系，现在可以开始聊天";
 					String extrMsg = msg;
-					RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, msg, "4", "0", "0", "0", "2");
+					RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, "", msg, "4", "0", "0", "0", "2");
 				}
 			}
 		} catch (Exception e) {
@@ -153,7 +152,7 @@ public class FriendServiceImpl implements FriendService {
 				String[] targetIds = {friend};
 				
 				String msg = "解除好友关系";
-				RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, msg, "4", "0", "0", "0", "2");
+				RongCloudUtils.getInstance().sendPrivateMsg(accountId+"", targetIds, msg, "", msg, "4", "0", "0", "0", "2");
 				jo.put("code", 1);
 				jo.put("text", Tips.SUCDELFRIEND.getText());
 			} else {

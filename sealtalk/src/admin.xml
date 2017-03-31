@@ -18,6 +18,7 @@
 	<bean id="positionDao" class="com.sealtalk.dao.adm.impl.PositionDaoImpl" autowire="byName" />
 	<bean id="grpDao" class="com.sealtalk.dao.adm.impl.GrpDaoImpl" autowire="byName" />
 	<bean id="orgDao" class="com.sealtalk.dao.adm.impl.OrgDaoImpl" autowire="byName" />
+	<bean id="appSecretDao" class="com.sealtalk.auth.dao.impl.AppSecretDaoImpl" autowire="byName" />
 
 	<!-- service -->
 	<bean id="branchService" class="com.sealtalk.service.adm.impl.BranchServiceImpl" autowire="byName" >
@@ -26,6 +27,7 @@
 		<property name="branchMemberDao" ref="branchMemberDao" />
 		<property name="memberRoleDao" ref="memberRoleDao1" />
 		<property name="positionDao" ref="positionDao" />
+		<property name="appSecretDao" ref="appSecretDao" />
 	</bean>
 	<bean id="privService" class="com.sealtalk.service.adm.impl.PrivServiceImpl" autowire="byName" >
 		<property name="privDao" ref="privDao" />

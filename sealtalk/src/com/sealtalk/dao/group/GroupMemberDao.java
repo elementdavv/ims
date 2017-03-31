@@ -93,4 +93,11 @@ public interface GroupMemberDao {
 	 */
 	public List<TGroupMember> getGroupMemberByGroupIds(Integer[] groupIds);
 
+	/**
+	 * 删除群组成员
+	 * @param userids
+	 * @return
+	 */
+	public int deleteRelationByIds(String userids);
+
 }

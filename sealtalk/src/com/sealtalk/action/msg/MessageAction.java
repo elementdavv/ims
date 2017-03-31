@@ -4,16 +4,13 @@ import javax.servlet.ServletException;
 
 import net.sf.json.JSONObject;
 
-import org.apache.log4j.Logger;
-
-import com.googlecode.sslplugin.annotation.Secured;
+import com.sealtalk.common.AuthTips;
 import com.sealtalk.common.BaseAction;
-import com.sealtalk.common.Tips;
 import com.sealtalk.service.msg.MessageService;
-import com.sealtalk.utils.StringUtils;
 
 /**
  * 消息管理
+ * 
  * @author hao_dy
  * @since jdk1.7
  * @date 2017/01/12
@@ -22,29 +19,54 @@ import com.sealtalk.utils.StringUtils;
 public class MessageAction extends BaseAction {
 
 	private static final long serialVersionUID = -1948853366651740073L;
-	
+
 	/**
 	 * 发送系统消息
+	 * 
 	 * @return
 	 * @throws ServletException
 	 */
 	public String sendSysMsg() throws ServletException {
-		String result = msgService.sendSysMsg(fromId, targetIds, msg, pushContent, pushData, isPersisted, isCounted);
+		String result = null;
+
+		boolean as = msgService.validAppIdAndSecret(appId, secret);
+		if (as) {
+			result = msgService.sendSysMsg(fromId, targetIds, targetNames, msg,
+					extraMsg, pushContent, pushData, isPersisted, isCounted);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", 0);
+			jo.put("text", AuthTips.WORNGAPPID.getText());
+			result = jo.toString();
+		}
+
 		returnToClient(result);
 		return "text";
 	}
-	
+
 	/**
 	 * 发送单人多人会话
+	 * 
 	 * @return
 	 * @throws ServletException
 	 */
 	public String sendPrivateMsg() throws ServletException {
-		String result = msgService.sendPrivateMsg(fromId, targetIds, msg, pushContent, count, verifyBlacklist, isPersisted, isCounted);
+		String result = null;
+		boolean as = msgService.validAppIdAndSecret(appId, secret);
+		if (as) {
+			result = msgService.sendPrivateMsg(fromId, targetIds, targetNames,
+					msg, extraMsg, pushContent, count, verifyBlacklist,
+					isPersisted, isCounted);
+		} else {
+			JSONObject jo = new JSONObject();
+			jo.put("code", 0);
+			jo.put("text", AuthTips.WORNGAPPID.getText());
+			result = jo.toString();
+		}
 		returnToClient(result);
 		return "text";
 	}
-	
+
 	private String fromId;
 	private String targetIds;
 	private String msg;
@@ -54,8 +76,20 @@ public class MessageAction extends BaseAction {
 	private String isCounted;
 	private String count;
 	private String verifyBlacklist;
- 	
+	private String appId;
+	private String secret;
+	private String extraMsg;
+	private String targetNames;
+
 	private MessageService msgService;
+
+	public void setTargetNames(String targetNames) {
+		this.targetNames = targetNames;
+	}
+
+	public void setExtraMsg(String extraMsg) {
+		this.extraMsg = extraMsg;
+	}
 
 	public String getFromId() {
 		return fromId;
@@ -135,6 +169,14 @@ public class MessageAction extends BaseAction {
 
 	public void setVerifyBlacklist(String verifyBlacklist) {
 		this.verifyBlacklist = verifyBlacklist;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
 	}
 
 }

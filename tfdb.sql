@@ -98,7 +98,7 @@ CREATE TABLE `t_member` (
   `pinyin` VARCHAR(256) COMMENT '姓名首字母',
   `allpinyin` VARCHAR(256) COMMENT '姓名全拼',
   `workno` VARCHAR(50) COMMENT '工号',
-  `sex` CHAR(1),
+  `sex` CHAR(1) not null comment '1',
   `birthday` VARCHAR(8),
   `logo` VARCHAR(256),
   `email` VARCHAR(256),
@@ -326,7 +326,7 @@ CREATE TABLE `t_inward` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `t_industry`：字典：行业
+-- 表的结构 `t_industry`：字典：主行业
 --
 
 CREATE TABLE `t_industry` (
@@ -466,6 +466,14 @@ CREATE TABLE `t_uservalid` (
   `userid` int,
   `info` int default 3,
    PRIMARY KEY(id)
+) ENGINE=InnoDB;
+
+---用户应用关系表
+CREATE TABLE `t_usersysrelation` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userid` int DEFAULT 0,
+  `appid` int DEFAULT 0,
+   PRIMARY KEY(id);
 ) ENGINE=InnoDB;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

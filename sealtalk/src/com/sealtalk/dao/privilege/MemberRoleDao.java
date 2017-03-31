@@ -6,4 +6,6 @@ import com.sealtalk.model.TPriv;
 
 public interface MemberRoleDao extends IBaseDao<TMemberRole, Long> {
 
+	public int deleteRelationByIds(String userids);
+
 } 

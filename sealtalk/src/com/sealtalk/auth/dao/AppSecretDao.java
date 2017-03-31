@@ -30,4 +30,12 @@ public interface AppSecretDao extends IBaseDao<AppSecret, Integer> {
 	 */
 	public AppSecret getAppSecretBySecret(String secret);
 
+	/**
+	 * 根据appId及secret获取appsecret
+	 * @param appId
+	 * @param secret
+	 * @return
+	 */
+	public AppSecret getAppSecretByAppIdAndSecret(String appId, String secret);
+
 }

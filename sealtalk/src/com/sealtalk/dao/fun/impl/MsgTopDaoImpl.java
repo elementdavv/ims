@@ -60,4 +60,14 @@ public class MsgTopDaoImpl extends BaseDao<TMsgtop, Integer> implements MsgTopDa
 		}
 	}
 
+	public int deleteRelationByIds(String userids) {
+		try {
+			String hql = (new StringBuilder("delete from TMsgtop where userId in (").append(userids).append(")")).toString();
+			return delete(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

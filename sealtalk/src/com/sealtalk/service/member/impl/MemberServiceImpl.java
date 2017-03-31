@@ -4,22 +4,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.poi.util.ArrayUtil;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import com.sealtalk.auth.dao.UserValidDao;
 import com.sealtalk.common.Tips;
 import com.sealtalk.dao.adm.BranchMemberDao;
-import com.sealtalk.dao.adm.PositionDao;
+import com.sealtalk.dao.friend.FriendDao;
+import com.sealtalk.dao.fun.DontDistrubDao;
+import com.sealtalk.dao.fun.MsgTopDao;
+import com.sealtalk.dao.group.GroupMemberDao;
+import com.sealtalk.dao.map.MapDao;
 import com.sealtalk.dao.member.MemberDao;
 import com.sealtalk.dao.member.TextCodeDao;
+import com.sealtalk.dao.privilege.MemberRoleDao;
+import com.sealtalk.dao.upload.CutLogoTempDao;
 import com.sealtalk.model.TMember;
 import com.sealtalk.model.TextCode;
 import com.sealtalk.service.member.MemberService;
 import com.sealtalk.utils.JSONUtils;
 import com.sealtalk.utils.PasswordGenerator;
-import com.sealtalk.utils.PinyinGenerator;
 import com.sealtalk.utils.PropertiesUtils;
 import com.sealtalk.utils.RongCloudUtils;
 import com.sealtalk.utils.StringUtils;
@@ -95,8 +99,6 @@ public class MemberServiceImpl implements MemberService {
 					jo.put("birthday", isBlank(member[9]));
 					jo.put("workno", isBlank(member[10]));
 					jo.put("mobile", isBlank(member[11]));
-					//jo.put("groupmax", isBlank(member[12]));
-					//jo.put("groupuse", isBlank(member[13]));
 					jo.put("intro", isBlank(member[12]));
 					jo.put("branchid", isBlank(member[13]));
 					jo.put("branchname", isBlank(member[14]));
@@ -415,6 +417,38 @@ public class MemberServiceImpl implements MemberService {
 		return 0;
 	}
 
+	@Override
+	public String delMemberByUserId(String userids) {
+		JSONObject jo = new JSONObject();
+		
+		try {
+			if (StringUtils.getInstance().isBlank(userids)) {
+				jo.put("code", 0);
+				jo.put("text", Tips.WRONGPARAMS.getText());
+			} else {
+				userids = StringUtils.getInstance().replaceChar(userids, "\"", "");
+				userids = StringUtils.getInstance().replaceChar(userids, "[", "");
+				userids = StringUtils.getInstance().replaceChar(userids, "]", "");
+				int ret = memberDao.delMemberByUserId(userids);
+				int ret1 = branchMemberDao.delRelationByIds(userids);
+				int ret2 = cutLogoTempDao.deletePicsByIds(userids);
+				int ret3 = dontDistrubDao.deleteByIds(userids);
+				int ret4 = friendDao.deleteRelationByIds(userids);
+				int ret5 = groupMemberDao.deleteRelationByIds(userids);
+				int ret6 = mapDao.deleteRelationByIds(userids);
+				int ret7 = memberRoleDao.deleteRelationByIds(userids);
+				int ret8 = msgTopDao.deleteRelationByIds(userids);
+				int ret9 = userValidDao.deleteRelationByIds(userids);
+				
+				jo.put("code", 1);
+				jo.put("text", Tips.OK.getText());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return jo.toString();
+	}
+
 
 	private String isBlank(Object o) {
 		return o == null ? "" : o + "";
@@ -424,6 +458,46 @@ public class MemberServiceImpl implements MemberService {
 	private TextCodeDao textCodeDao;
 	private MemberDao memberDao;
 	private BranchMemberDao branchMemberDao;
+	private CutLogoTempDao cutLogoTempDao;
+	private DontDistrubDao dontDistrubDao;
+	private FriendDao friendDao;
+	private GroupMemberDao groupMemberDao;
+	private MapDao mapDao;
+	private MemberRoleDao memberRoleDao;
+	private MsgTopDao msgTopDao;
+	private UserValidDao userValidDao;
+	
+	public void setUserValidDao(UserValidDao userValidDao) {
+		this.userValidDao = userValidDao;
+	}
+
+	public void setMsgTopDao(MsgTopDao msgTopDao) {
+		this.msgTopDao = msgTopDao;
+	}
+
+	public void setMemberRoleDao(MemberRoleDao memberRoleDao) {
+		this.memberRoleDao = memberRoleDao;
+	}
+
+	public void setMapDao(MapDao mapDao) {
+		this.mapDao = mapDao;
+	}
+
+	public void setGroupMemberDao(GroupMemberDao gropuMemberDao) {
+		this.groupMemberDao = gropuMemberDao;
+	}
+
+	public void setFriendDao(FriendDao friendDao) {
+		this.friendDao = friendDao;
+	}
+
+	public void setDontDistrubDao(DontDistrubDao dontDistrubDao) {
+		this.dontDistrubDao = dontDistrubDao;
+	}
+
+	public void setCutLogoTempDao(CutLogoTempDao cutLogoTempDao) {
+		this.cutLogoTempDao = cutLogoTempDao;
+	}
 
 	public void setBranchMemberDao(BranchMemberDao branchMemberDao) {
 		this.branchMemberDao = branchMemberDao;

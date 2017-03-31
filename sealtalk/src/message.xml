@@ -10,12 +10,13 @@
 
 	<!-- dao -->
 	<!--<bean id="memberDao" class="com.sealtalk.dao.member.impl.MemberDaoImpl" autowire="byName" />-->
+	<bean id="appSecretDao" class="com.sealtalk.auth.dao.impl.AppSecretDaoImpl" autowire="byName" />
 	
 	<!-- service -->
 	<bean id="userService" class="com.sealtalk.service.msg.impl.UserServiceServiceImpl" autowire="byName" >
-		<property name="memberDao" ref="memberDao" />
 	</bean>
 	<bean id="msgService" class="com.sealtalk.service.msg.impl.MessageServiceImpl" autowire="byName" >
+		<property name="appSecretDao" ref="appSecretDao" />
 	</bean>
 	
 	

@@ -65,5 +65,16 @@ public class DontDistrubDaoImpl extends BaseDao<TDontDistrub, Long> implements D
 		
 		return null;
 	}
+
+	@Override
+	public int deleteByIds(String userids) {
+		try {
+			String hql = (new StringBuilder("delete from TDontDistrub where memberId in (").append(userids).append(")")).toString();
+			return delete(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 }

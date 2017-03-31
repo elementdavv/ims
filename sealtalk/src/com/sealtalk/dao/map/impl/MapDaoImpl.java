@@ -109,4 +109,16 @@ public class MapDaoImpl extends BaseDao<TMap, Long> implements MapDao {
 	}
 
 
+	@Override
+	public int deleteRelationByIds(String userids) {
+		try {
+			String hql = (new StringBuilder("delete from TMap where userId in (").append(userids).append(")")).toString();
+			return delete(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+
 }
