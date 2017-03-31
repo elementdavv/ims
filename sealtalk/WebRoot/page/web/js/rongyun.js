@@ -14,11 +14,11 @@ $(function(){
         if(datas){
             window.localStorage.account=JSON.stringify(changeFormatData);
 			if(RongIMLib.VCDataProvider&&window.Electron){
-                //RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon),{navi:globalVar.navi});//私有云适用120
-                RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));			//公有云   适用本地或35
+                RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon),{navi:globalVar.navi});//私有云适用120
+                //RongIMClient.init(globalVar.rongKey,new RongIMLib.VCDataProvider(window.Electron.addon));			//公有云   适用本地或35
             }else{
-                //RongIMClient.init(globalVar.rongKey,null,{navi:globalVar.navi});		//私有云适用120
-                RongIMClient.init(globalVar.rongKey);			//公有云   适用本地或35
+                RongIMClient.init(globalVar.rongKey,null,{navi:globalVar.navi});		//私有云适用120
+                //RongIMClient.init(globalVar.rongKey);			//公有云   适用本地或35
             }
             var account = datas.account;
             var accountID = datas.id;
@@ -243,7 +243,7 @@ function playSound(message,userid){
             sendAjax('fun!getNotRecieveMsg',{groupid:targetId,userid:userid},function(data){
                 if(data){
                     var datas = JSON.parse(data);
-                    if(datas&&datas.code==1&&datas.text==true){
+                    if(datas&&datas.code==1&&datas.text==false){
                         console.log(4444);
                     }else{
                         voicePlay();

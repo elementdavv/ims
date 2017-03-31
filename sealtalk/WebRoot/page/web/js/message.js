@@ -938,17 +938,18 @@ $(function(){
         $(this).find('.operMenuList').slideToggle();
     })
 })
+//系统提示音
 function getSysTipVoice(userid){
     sendAjax('fun!getSysTipVoice',{userid:userid},function(data){
         var oData=JSON.parse(data);
         if(oData.code==1){
-
-            if(status==1){
-                globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
-                $('.systemVoiceBtn').addClass('active');
-            }else{
-                globalVar.SYSTEMSOUND=globalVar.SYSTEMSOUND;
+            globalVar.SYSTEMSOUND=oData.text;
+            if(oData.text==1){//开启系统提示因
+                //globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
                 $('.systemVoiceBtn').removeClass('active');
+            }else{
+                //globalVar.SYSTEMSOUND=data.text;
+                $('.systemVoiceBtn').addClass('active');
             }
 
         }

@@ -924,7 +924,7 @@ function getGroupDetails(groupId){
     sendAjax('fun!getNotRecieveMsg',{groupid:groupId,userid:accountID},function(data){
         if(data){
             var datas = JSON.parse(data);
-            if(datas&&datas.code==1){
+            if(datas&&datas.code==1&&datas.text==false){
                 voiceState = datas.code==true?'active':'';
                 $('.voiceSet').addClass('active');
             }
@@ -1555,7 +1555,7 @@ function reciveInBox(msg){
         var eDom = document.querySelector('#perContainer .mr-chatview');
     }
 
-    if (!$MesContainer.hasClass('chatHide') || $MesContainer.attr('targetID') == targetID) {//如果当前页面正是你要聊的对象
+    if (!$MesContainer.hasClass('chatHide') && $MesContainer.attr('targetID') == targetID) {//如果当前页面正是你要聊的对象
         switch (messageType){
             case "FileMessage":
                 var Msize = KBtoM(content.size);
