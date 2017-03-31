@@ -229,9 +229,12 @@ function chDownloadProgress(url, state, progress){
     //console.log(url, state, progress);
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
+    //if(file.indexOf('%')!=-1){//有%
+    //  file = file.replace(/%/g,"")
+    //}
     var targetA = $("a[fileName=" + file + "]");
     var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
-    if($(targetParent[0]).hasClass('.mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
+    if($(targetParent[0]).hasClass('mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
       if ($('#down_process[uniquetime=' + file + ']').length == 0) {
         $('#down_process[uniquetime=' + file + ']').remove();
         var sHTML = '<div id="down_process" uniquetime="' + file + '">' +
@@ -243,19 +246,24 @@ function chDownloadProgress(url, state, progress){
         $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
       }
     }else if(targetA.hasClass('downloadDemo')){
-
+      window.Electron.openFile(url);
     }
   }
 }
 
 function chDownloadState(url, state){
   if (state == 'completed') {
+    console.log('chDownloadStatechDownloadStatechDownloadState');
+
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
+    //if(file.indexOf('%')!=-1){//有%
+    //  file = file.replace(/%/g,"")
+    //}
     var targetA = $("a[fileName=" + file + "]");
-    console.log('chDownloadStatechDownloadStatechDownloadState');
+
     for(var i=0;i<targetA.length;++i){
-      if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
+      if(targetA.eq(i).closest('mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
         $('#down_process[uniquetime=' + file + ']').remove();
         targetA.eq(i).css('visibility','hidden');
         var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +

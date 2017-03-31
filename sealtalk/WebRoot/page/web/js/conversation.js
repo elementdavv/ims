@@ -134,28 +134,28 @@ function sendMsg(content,targetId,way,extra,callback,uniqueTime){
                 }
                 sHTML+=fileOperate+downLoadFile+ '<em class="infoLoading"  infoTime="'+nSendTime+'"></em></div>' +
                 '</li>';
-                    //'<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
+                //'<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
             }else{
                 var sHTML = '<li class="mr-chatContentRFile clearfix" uniqueTime="'+nSendTime+'">'+
                     '<div class="mr-ownChat">'+
-                        '<div class="file_type fl"><img src="'+imgSrc+'"/></div>'+
-                        '<div class="file_content fl">' +
-                            '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
-                            '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
-                            '<div id="up_process" uniqueTime="'+uniqueTime+'">' +
-                                '<div id="up_precent" uniqueTime="'+uniqueTime+'">' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
+                    '<div class="file_type fl"><img src="'+imgSrc+'"/></div>'+
+                    '<div class="file_content fl">' +
+                    '<p class="p1 file_name" data-type="'+sendMsg.type+'">'+sendMsg.name+'</p>' +
+                    '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
+                    '<div id="up_process" uniqueTime="'+uniqueTime+'">' +
+                    '<div id="up_precent" uniqueTime="'+uniqueTime+'">' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<a fileName="'+uniqueTime+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>' +
                     '<em class="infoLoading"  infoTime="'+nSendTime+'"></em></div>'+
                     '</li>';
             }
         }else{//上传的是图片类型的文件
             var sImgSrc=sendMsg.fileUrl || globalVar.cssImgSrc+'imgLoading.gif';
             var sHTML = '<li class="mr-chatContentR clearfix" uniqueTime="'+nSendTime+'">'+
-                    '<div class=" mr-ownImg"><img uniqueTime="'+uniqueTime+'" src="'+sImgSrc+'" class="uploadImg uploadImgFile" data-type="'+sendMsg.type+'">'+
-                    '<em class="infoLoading"  infoTime="'+nSendTime+'"></em></div></li>';
+                '<div class=" mr-ownImg"><img uniqueTime="'+uniqueTime+'" src="'+sImgSrc+'" class="uploadImg uploadImgFile" data-type="'+sendMsg.type+'">'+
+                '<em class="infoLoading"  infoTime="'+nSendTime+'"></em></div></li>';
         }
     }else{//如果是普通消息
         var str = RongIMLib.RongIMEmoji.symbolToHTML(content);
@@ -215,7 +215,7 @@ function clearRongTimer(uniqueTime){
 }
 //上传文件
 function sendByRongFile(content,targetId,way,extra,uniqueTime){
-        console.log(content);
+    //console.log(content);
     var msg = new RongIMLib.FileMessage(content);
     var conversationtype = RongIMLib.ConversationType[way]; // 私聊,其他会话选择相应的消息类型即可。
     var transFlag = null;
@@ -335,58 +335,58 @@ function sendByRong(content,targetId,way,extra,uniqueTime){
     //或者使用RongIMLib.TextMessage.obtain 方法.具体使用请参见文档
     var conversationtype = RongIMLib.ConversationType[way]; // 私聊
     var targetId = targetId; // 目标 Id
-        RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
-            // 发送消息成功
-            onSuccess: function (message) {
-                if(transFlag){
-                    clearRongTimer(uniqueTime)
-                    //clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
-                    $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                }
-                //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
-                getConverList();
-                var sHTML = '<span class="sendSuccess"></span>';
-                $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').parent().append($(sHTML));
-                //console.log("Send successfully");
-            },
-            onError: function (errorCode,message) {
-                var info = '';
-                switch (errorCode) {
-                    case RongIMLib.ErrorCode.TIMEOUT:
-                        info = '超时';
-                        break;
-                    case RongIMLib.ErrorCode.UNKNOWN_ERROR:
-                        info = '未知错误';
-                        break;
-                    case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-                        info = '在黑名单中，无法向对方发送消息';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-                        info = '不在讨论组中';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_GROUP:
-                        info = '不在群组中';
-                        break;
-                    case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-                        info = '不在聊天室中';
-                        break;
-                    default :
-                        info = '已禁言';
-                        break;
-                }
-                if(transFlag){
-                    clearRongTimer(uniqueTime)
-                    //clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
-                    $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
-                    var eNode = $('<span class="sendStatus" data-type="textMessage" data-t="'+uniqueTime+'">!</span>');
-                    $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').append(eNode);
-                    $('li[uniqueTime='+uniqueTime+'] .mr-ownChat .sendStatus')[0].content=content;
-                    console.log('发送失败:' + info);
-                }else{
-                    console.log('转发发送失败:' + info);
-                }
+    RongIMClient.getInstance().sendMessage(conversationtype, targetId, msg, {
+        // 发送消息成功
+        onSuccess: function (message) {
+            if(transFlag){
+                clearRongTimer(uniqueTime)
+                //clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
+                $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
             }
-        });
+            //message 为发送的消息对象并且包含服务器返回的消息唯一Id和发送消息时间戳
+            getConverList();
+            var sHTML = '<span class="sendSuccess"></span>';
+            $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').parent().append($(sHTML));
+            //console.log("Send successfully");
+        },
+        onError: function (errorCode,message) {
+            var info = '';
+            switch (errorCode) {
+                case RongIMLib.ErrorCode.TIMEOUT:
+                    info = '超时';
+                    break;
+                case RongIMLib.ErrorCode.UNKNOWN_ERROR:
+                    info = '未知错误';
+                    break;
+                case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
+                    info = '在黑名单中，无法向对方发送消息';
+                    break;
+                case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
+                    info = '不在讨论组中';
+                    break;
+                case RongIMLib.ErrorCode.NOT_IN_GROUP:
+                    info = '不在群组中';
+                    break;
+                case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
+                    info = '不在聊天室中';
+                    break;
+                default :
+                    info = '已禁言';
+                    break;
+            }
+            if(transFlag){
+                clearRongTimer(uniqueTime)
+                //clearTimeout($('.infoLoading[infoTime='+uniqueTime+']')[0].sendByRongTimer);
+                $('.infoLoading[infoTime='+uniqueTime+']').removeClass('show');
+                var eNode = $('<span class="sendStatus" data-type="textMessage" data-t="'+uniqueTime+'">!</span>');
+                $('li[uniqueTime='+uniqueTime+'] .mr-ownChat').append(eNode);
+                $('li[uniqueTime='+uniqueTime+'] .mr-ownChat .sendStatus')[0].content=content;
+                console.log('发送失败:' + info);
+            }else{
+                console.log('转发发送失败:' + info);
+            }
+        }
+    });
 }
 
 
@@ -552,19 +552,19 @@ function createConversationList(sDoM,list,targetType){
         var extra = list[i].messageType || '';
         var sContent = extra=='TextMessage'?list[i].content.content:list[i].content ;
         switch(targetType){
-                case 'GROUP':
-                    var sTargetId = list[i].senderUserId;
-                    var sData=window.localStorage.getItem("datas");
-                    var oData= JSON.parse(sData);
-                    var sId=oData.id;
-                    if(sId==sTargetId){
-                        sTargetId=sId;
-                    }
-                    break;
-                case 'PRIVATE':
-                    var sTargetId = list[i].senderUserId;
-                    break;
-            }
+            case 'GROUP':
+                var sTargetId = list[i].senderUserId;
+                var sData=window.localStorage.getItem("datas");
+                var oData= JSON.parse(sData);
+                var sId=oData.id;
+                if(sId==sTargetId){
+                    sTargetId=sId;
+                }
+                break;
+            case 'PRIVATE':
+                var sTargetId = list[i].senderUserId;
+                break;
+        }
         var sDateTime = changeTimeFormat(sSentTime, 'y');
         var sDateHoursTime = changeTimeFormat(sSentTime, 'yh');
         var sHoursTime=changeTimeFormat(sSentTime, 'h');
@@ -621,6 +621,7 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             case "FileMessage":
                 var Msize = KBtoM(sContent.size);
                 var fileURL = sContent.fileUrl;
+
                 var imgSrc = imgType(sContent.type)
                 var file = fileURL?getFileUniqueName(fileURL):'';
                 var fileOperate = '';
@@ -629,9 +630,9 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                     var localPath = fileURL?window.Electron.chkFileExists(fileURL):'';
                     if (localPath) {
                         fileOperate = '<div id="fileOperate">' +
-                                    '<span class="openFile"></span>' +
-                                    '<span class="openFloder"></span>' +
-                                    '</div>'
+                        '<span class="openFile"></span>' +
+                        '<span class="openFloder"></span>' +
+                        '</div>'
                         downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
                     } else {
                         downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' ;
@@ -639,23 +640,25 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 }
 
                 sDoM += '<li class="mr-chatContentLFile clearfix" data-t="' + sSentTime + '">' +
-                            '<img class="headImg" src="' + sImg + '">' +
-                            '<div class="mr-ownChat">' +
-                                '<div class="file_type fl"><img  class="fileImg" src="' + imgSrc + '"></div>' +
-                                '<div class="file_content fl">' +
-                                '<p class="p1 file_name">' + sContent.name + '</p>' +
-                                '<p class="p2 file_size" data-s="'+sContent.size+'">' + Msize + '</p>' +
-                            '</div>' +
-                            downLoadFile+fileOperate+'</div>'+
-                            '<span class="sendSuccess"></span>'+
-                        '</li>';
+                '<img class="headImg" src="' + sImg + '">' +
+                '<div class="mr-ownChat">' +
+                '<div class="file_type fl"><img  class="fileImg" src="' + imgSrc + '"></div>' +
+                '<div class="file_content fl">' +
+                '<p class="p1 file_name">' + sContent.name + '</p>' +
+                '<p class="p2 file_size" data-s="'+sContent.size+'">' + Msize + '</p>' +
+                '</div>' +
+                downLoadFile+fileOperate+'</div>'+
+                '<span class="sendSuccess"></span>'+
+                '</li>';
                 break;
             case "ImageMessage":
                 var sImgUrl=sContent.imageUri;
                 var sImageType='';
                 if(sImgUrl){
                     var sImgName=sImgUrl.split('attname=')[1];
-                    var sImgType=sImgName.split('.')[1];
+                    if(sImgName){
+                        var sImgType=sImgName.split('.')[1];
+                    }
                     switch (sImgType){
                         case 'jpg':
                             sImageType='image/jpeg';
@@ -668,10 +671,10 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                     sImageType='ImageMessage'
                 }
                 sDoM += ' <li class="mr-chatContentL clearfix" data-t="'+sSentTime+'">'+
-                            '<img class="headImg" src="'+sImg+'">'+
-                            '<div class="mr-otherImg"><img src="'+sContent.imageUri+'" class="uploadImgLeft uploadImgFile" data-type="'+sImageType+'"></div>'+
-                            '<span class="sendSuccess"></span>'+
-                        '</li>';
+                '<img class="headImg" src="'+sImg+'">'+
+                '<div class="mr-otherImg"><img src="'+sContent.imageUri+'" class="uploadImgLeft uploadImgFile" data-type="'+sImageType+'"></div>'+
+                '<span class="sendSuccess"></span>'+
+                '</li>';
                 break;
             case "InformationNotificationMessage":
                 sDoM += '<li data-t="1486971032807"><p class="mr-Date">'+sContent.message+'</p></li>'
@@ -701,12 +704,12 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
 
 
                 sDoM += ' <li class="mr-chatContentL clearfix" data-t="">' +
-                    '<img class="headImg" src="'+sImg+'">'+
-                    '<div class="mr-chatBox">'+
-                    '<p class="voiceMsgContent" style="width:'+curWidth+'px" base64Str="'+base64Str+'"></p>'+
-                    '</div>'+
-                    '<p class="voiceSecond"><span>'+sContent.duration+'S</span></p>'+
-                    '</li>';
+                '<img class="headImg" src="'+sImg+'">'+
+                '<div class="mr-chatBox">'+
+                '<p class="voiceMsgContent" style="width:'+curWidth+'px" base64Str="'+base64Str+'"></p>'+
+                '</div>'+
+                '<p class="voiceSecond"><span>'+sContent.duration+'S</span></p>'+
+                '</li>';
                 break;
         }
     }else {//自己的
@@ -738,17 +741,17 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                     }
                 }
                 sDoM += '<li class="mr-chatContentRFile clearfix" data-t="'+sSentTime+'">'+
-                            '<div class="mr-ownChat">'+
-                                '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
-                                '<div class="file_content fl">' +
-                                '<p class="p1 file_name">'+sendMsg.name+'</p>' +
-                                '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
-                            '</div>' +
-                            //'<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
-                            fileOperate+downLoadFile+
-                        '</div>'+
-                        '<span class="sendSuccess"></span>'+
-                        '</li>';
+                '<div class="mr-ownChat">'+
+                '<div class="file_type fl"><img src="'+imgSrc+'"></div>'+
+                '<div class="file_content fl">' +
+                '<p class="p1 file_name">'+sendMsg.name+'</p>' +
+                '<p class="p2 file_size" data-s="'+sendMsg.size+'">'+Msize+'</p>' +
+                '</div>' +
+                    //'<a fileName="'+file+'" class="downLoadFile" href="'+sendMsg.fileUrl+'"></a>'+
+                fileOperate+downLoadFile+
+                '</div>'+
+                '<span class="sendSuccess"></span>'+
+                '</li>';
                 break;
             case "ImageMessage":
                 var sImgUrl=sContent.imageUri;
@@ -929,7 +932,7 @@ function getGroupDetails(groupId){
     })
     for(var i = 0;i<aText.length;i++){
         if(aText[i].GID==groupId){
-             var sName=aText[i].name || '';//群名称
+            var sName=aText[i].name || '';//群名称
             var sCreatorId=aText[i].mid;//群创建者id
             var sCreatedate=subTimer(aText[i].createdate);//创建时间
             var oCreator=searchFromList(1,sCreatorId);
@@ -1033,7 +1036,7 @@ function getPerInfo(oInfoDetails){
     var sEmail=oInfoDetails.email || '';//邮箱
     var sBranch=oInfoDetails.branchname || '';//部门
     var sJob=oInfoDetails.postitionname || '';//职位
-    var sOrg=oInfoDetails.organname || '';//组织
+    var sOrg=oInfoDetails.organname || '';//组织conversationType
     var sAddress=oInfoDetails.address || '';//地址
     var sTargetType=oInfoDetails.flag==1?'PRIVATE':'GROUP';//成员类型
     var sDom='\
@@ -1282,11 +1285,11 @@ function getConverList(){
 }
 
 /*
-*
-* 改变时间格式
-* mSec 毫秒数，format需要返回的时间格式
-*
-* */
+ *
+ * 改变时间格式
+ * mSec 毫秒数，format需要返回的时间格式
+ *
+ * */
 function changeTimeFormat(mSec,format){
     //var oldTime = (new Date("2012/12/25 20:11:11")).getTime(); //得到毫秒数
     var time;
@@ -1300,7 +1303,7 @@ function changeTimeFormat(mSec,format){
     var s = ifPlusZero(newTime.getSeconds()); //秒
     switch(format){
         case 'y':
-          time = y+'-'+month+'-'+d;
+            time = y+'-'+month+'-'+d;
             break;
         case 'h':
             time = h+':'+m+':'+s;
@@ -1343,32 +1346,44 @@ function usualChatList(list){
     var sData=window.localStorage.getItem("datas");
     var oData= JSON.parse(sData);
     var sId=oData.id;
-    sendAjax('fun!getMsgTop',{userid:sId},function(data){
-        var oData=JSON.parse(data);
-        var aText=oData.text;
-        $('.usualChatListUl').empty();
-        if(oData.code==1){
-            var aTopList=[];
-            for(var i=0;i<aText.length;i++){
-                var sTopType=aText[i].type;
-                var nTopId=aText[i].topId;
-                for(var j=0;j<list.length;j++){
-                    if(nTopId==list[j].targetId){
-                        var sTopList=list[j];
-                        list.splice(j,1);
-                        j--;
-                        aTopList.unshift(sTopList);
+
+
+    var sdata = localStorage.getItem('datas');
+    var oData=JSON.parse(sdata);
+    var accountID = oData?oData.id :'';
+    var createTopList = function(){
+        sendAjax('fun!getMsgTop',{userid:sId},function(data){
+            var oData=JSON.parse(data);
+            var aText=oData.text;
+            $('.usualChatListUl').empty();
+            if(oData.code==1){
+                var aTopList=[];
+                for(var i=0;i<aText.length;i++){
+                    var sTopType=aText[i].type;
+                    var nTopId=aText[i].topId;
+                    for(var j=0;j<list.length;j++){
+                        if(nTopId==list[j].targetId){
+                            var sTopList=list[j];
+                            list.splice(j,1);
+                            j--;
+                            aTopList.unshift(sTopList);
+                        }
                     }
                 }
+                sHTML+=creatTopList(sHTML,aTopList,true);
+                sHTML=creatTopList(sHTML,list,false);
+                $('.usualChatListUl').html(sHTML);
+            }else{
+                sHTML=creatTopList(sHTML,list,false);
+                $('.usualChatListUl').html(sHTML);
             }
-            sHTML+=creatTopList(sHTML,aTopList,true);
-            sHTML=creatTopList(sHTML,list,false);
-            $('.usualChatListUl').html(sHTML);
-        }else{
-            sHTML=creatTopList(sHTML,list,false);
-            $('.usualChatListUl').html(sHTML);
-        }
-    });
+        });
+    }
+    //createTopList();
+    refreshGroup(accountID,createTopList);
+
+
+
 }
 //消息置顶
 function creatTopList(sHTML,list,bFlg){
@@ -1388,14 +1403,16 @@ function creatTopList(sHTML,list,bFlg){
             content="[语音]";
         }else if(extra=="InformationNotificationMessage"){
             content="系统消息";
+        }else if(extra=="TextMessage"){
+            content = content;
         }else{
             content="系统消息";
         }
         var targetId = curList.targetId;
-         if(nowTime - sendTime>=globalVar.newsChatListTime){//消息列表的显示时间为最近一月内的消息，超过一月的消息将从消息列表中删除
-             conversationType==1?removeConvers('PRIVATE',targetId):removeConvers('GROUP',targetId);
-             continue;
-         }
+        if(nowTime - sendTime>=globalVar.newsChatListTime){//消息列表的显示时间为最近一月内的消息，超过一月的消息将从消息列表中删除
+            conversationType==1?removeConvers('PRIVATE',targetId):removeConvers('GROUP',targetId);
+            continue;
+        }
         var timeNow = new Date().getTime();
         var deltTime = timeNow-curList.sentTime;
         if(deltTime>=86400000){
@@ -1435,43 +1452,28 @@ function creatTopList(sHTML,list,bFlg){
             }
         }else if(conversationType==3){
             var curGroup = groupInfo(targetId);
-            var createDom = function(){
                 var curGroup = groupInfo(targetId);
-                if(!curGroup){
-                    return;
+                if(curGroup){
+                    if(bFlg){
+                        sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
+                        '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
+                        sNum+
+                        '<span class="groupName">'+curGroup.name+'</span>'+
+                        '<span class="usualLastMsg">'+content+'</span>'+
+                        '<span class="lastTime">'+lastTime+'</span>'+
+                        '</div>'+
+                        '</li>'
+                    }else{
+                        sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
+                        '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
+                        sNum+
+                        '<span class="groupName">'+curGroup.name+'</span>'+
+                        '<span class="usualLastMsg">'+content+'</span>'+
+                        '<span class="lastTime">'+lastTime+'</span>'+
+                        '</div>'+
+                        '</li>'
+                    }
                 }
-                if(bFlg){
-                    sHTML += ' <li targetid="'+targetId+'" targetType="GROUP" class="top">'+
-                    '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
-                    sNum+
-                    '<span class="groupName">'+curGroup.name+'</span>'+
-                    '<span class="usualLastMsg">'+content+'</span>'+
-                    '<span class="lastTime">'+lastTime+'</span>'+
-                    '</div>'+
-                    '</li>'
-                }else{
-                    sHTML += ' <li targetid="'+targetId+'" targetType="GROUP">'+
-                    '<div><img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt=""/>'+
-                    sNum+
-                    '<span class="groupName">'+curGroup.name+'</span>'+
-                    '<span class="usualLastMsg">'+content+'</span>'+
-                    '<span class="lastTime">'+lastTime+'</span>'+
-                    '</div>'+
-                    '</li>'
-                }
-            }
-            if(!curGroup){//如果在群组中没有找到这个群的信息，可能是对方刚创建的群，在我过去的群组列表中没有的，所以要刷新下群组列表
-                var sdata = localStorage.getItem('datas');
-                var oData=JSON.parse(sdata);
-                var accountID = oData?oData.id :'';
-                refreshGroup(accountID,createDom);
-                //createDom();
-            }else{
-
-                createDom()
-            }
-            //if(curGroup){
-
         }
     }
     return sHTML;
@@ -1484,7 +1486,6 @@ function refreshGroup(accountID,callback){
             window.localStorage.groupInfo = data;
             var datas = JSON.parse(data);
             callback&&callback();
-
         }
     })
 }
@@ -1571,7 +1572,7 @@ function reciveInBox(msg){
                     '<p class="p2 file_size" data-s="'+content.size+'">'+Msize+'</p>' +
                     '</div>' +
                     '<a fileName="'+file+'" class="downLoadFile" href="'+fileURL+'"></a></div>'+
-                        '<span class="sendSuccess"></span>'+
+                    '<span class="sendSuccess"></span>'+
                     '</li>';
                 var parentNode = $MesContainer.find('.mr-chatview .mr-chatContent');
                 parentNode.append($(sHTML));

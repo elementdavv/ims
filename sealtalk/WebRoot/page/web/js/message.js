@@ -6,7 +6,7 @@ $(function(){
 
     setInterval(function(){
         searchTree()
-    },3000)
+    },30000)
     //查询群组禁言
     var groupShutupTimer = null
     groupShutupTimer = setInterval(function(){

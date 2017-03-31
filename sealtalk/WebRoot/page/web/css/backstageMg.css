@@ -1099,6 +1099,7 @@ p.converLimit {
     line-height:58px;
     font-size:14px;
     position: relative;
+    cursor: pointer;
 }
 /*群组资料*/
 .groupInfo{

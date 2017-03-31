@@ -50,7 +50,7 @@ function loopTree(data,sHTML,level){
     }
     for(var i = 0;i<data.length;i++){
         var datas = data[i];
-        var className = datas.flag==0?'department':'member';
+        var className = datas.flag==1?'member':'department';
         if(className=='department'){
             sHTML +='<li class="'+className+' '+datas.id+'" targetid="'+datas.id+'">'+btnShu(datas.name,8);
         }

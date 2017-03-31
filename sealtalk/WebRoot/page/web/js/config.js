@@ -28,8 +28,8 @@ var globalVar={
     defaultComLogo:'page/web/css/img/defaultComLogo.jpg',
     defaultDepLogo:'page/web/css/img/defaultDepLogo.jpg',
     //
-    refreshGroupOnline:5000,
-    refreshPersonalOnline:5000,
+    refreshGroupOnline:30000,
+    refreshPersonalOnline:30000,
     newsChatListTime:2505600000,
     disconnectTimer:null,
 	//oAuth2相关配置
