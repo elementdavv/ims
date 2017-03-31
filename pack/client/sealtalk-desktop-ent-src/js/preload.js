@@ -246,7 +246,7 @@ function chDownloadProgress(url, state, progress){
         $('#down_process[uniquetime=' + file + ']').find('#down_precent').css('width', '100%');
       }
     }else if(targetA.hasClass('downloadDemo')){
-      window.Electron.openFile(url);
+      //window.Electron.openFile(url);
     }
   }
 }
@@ -263,7 +263,7 @@ function chDownloadState(url, state){
     var targetA = $("a[fileName=" + file + "]");
 
     for(var i=0;i<targetA.length;++i){
-      if(targetA.eq(i).closest('mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
+      if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
         $('#down_process[uniquetime=' + file + ']').remove();
         targetA.eq(i).css('visibility','hidden');
         var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
