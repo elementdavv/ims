@@ -5,15 +5,16 @@
 #define MyCompanyName "RongCloud"
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "RongCloud, Inc."
-#define MyAppURL "http://localhost:8080/sealtalk/"
+#define MyAppURL "http://120.26.42.225:8080/sealtalk/"
 #define MyAppExeName "SealTalk_Ent_Test.exe"     
 #define UninstallName "Uninstall"
-#define BaseDir "D:\workspace-ims\rongyun-ims\pack\client\sealtalk-desktop-ent-src"
+#define BaseDir "D:\git\ims\pack\client\sealtalk-desktop-ent-src"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)AppId={{13D9ED45-766A-4864-8EA9-1739712C7C46}
+; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
+AppId={{13D9ED45-766A-4864-8EA9-1739712C7C46}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppMutex={#MyAppName}
@@ -39,7 +40,8 @@ SetupIconFile={#BaseDir}\res\app.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
 SolidCompression=yes
-Uninstallable=yes;UninstallDisplayName=п╤ть{#MyAppName}
+Uninstallable=yes
+;UninstallDisplayName=п╤ть{#MyAppName}
 
 [Messages]
 SetupAppRunningError=Setup has detected that %1 is currently running.%n%nPlease close all instances of it now, then click OK to continue, or Cancel to exit.
@@ -69,7 +71,11 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 ;Name: "{group}\{#UninstallName} {#MyAppName}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
-[Registry]Root: HKCR; SubKey: sealtalk; ValueData: "SealTalk Protocol"; ValueType: string; Flags: CreateValueIfDoesntExist UninsDeleteKey;Root: HKCR; SubKey: sealtalk; ValueName: "URL Protocol"; Flags: CreateValueIfDoesntExist; ValueType: string;Root: HKCR; SubKey: sealtalk\DefaultIcon; ValueData: "{app}\{#MyAppExeName}"; Flags: CreateValueIfDoesntExist; ValueType: string;Root: HKCR; SubKey: sealtalk\shell\open\command; ValueData:"{app}\{#MyAppExeName} ""%1"""; Flags: CreateValueIfDoesntExist; ValueType: string;
+[Registry]
+Root: HKCR; SubKey: sealtalk; ValueData: "SealTalk Protocol"; ValueType: string; Flags: CreateValueIfDoesntExist UninsDeleteKey;
+Root: HKCR; SubKey: sealtalk; ValueName: "URL Protocol"; Flags: CreateValueIfDoesntExist; ValueType: string;
+Root: HKCR; SubKey: sealtalk\DefaultIcon; ValueData: "{app}\{#MyAppExeName}"; Flags: CreateValueIfDoesntExist; ValueType: string;
+Root: HKCR; SubKey: sealtalk\shell\open\command; ValueData:"{app}\{#MyAppExeName} ""%1"""; Flags: CreateValueIfDoesntExist; ValueType: string;
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
