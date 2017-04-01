@@ -5,6 +5,7 @@ $(document).ready(function(){
     var sdata = localStorage.getItem('datas');
     var oData=JSON.parse(sdata);
     var account = oData?oData.account : '';
+    var accountID = oData?oData.id : '';
     var groupTimer=null,groupTimer1 = null;
    // var sAccount = localStorage.getItem('account');
    $('#perInfo').on('click','li',function(){
@@ -476,6 +477,9 @@ $(document).ready(function(){
             case "0":
                 fPersonalSet();
                 break;
+            case "1":
+                getSysTipVoice(accountID);
+                break;
             case "2":
                 $('.changePassword input').val('');
                 $('.changePassword p').html('');
@@ -607,34 +611,34 @@ $(document).ready(function(){
         $('.retMewPw').html('');
     });
     /*修改密码保存*/
-    $('#systemSet-keep').click(function(){
-        var sAccount=localStorage.getItem('account');
-        var oAccount=JSON.parse(sAccount);
-        if(oAccount) {
-            var sOldAccount = oAccount.text.account;
-            sendAjax('system!valideOldPwd', {account:sOldAccount,oldpwd: hex_md5($('#oldPassword').val())}, function (data) {
-                var oData = JSON.parse(data);
-                if (oData.code == 1) {
-                    $('.oldPassworderror').html('');
-                    if($('#cp-newPasswordId').val()==''){
-                        return;
-                    }
-                    var sNewPw=hex_md5($('#cp-newPasswordId').val());
-                    var sComPd=hex_md5($('#comparepwd').val());
-                    if(sNewPw == sComPd){
-                        keerNewPw(hex_md5($('#oldPassword').val()),sNewPw,sComPd);
-                        $('.retMewPw').html('');
-                    }else{
-                        $('.retMewPw').html('两次输入密码不一致');
-                    }
-                } else {
-                    $('.oldPassworderror').html('原始密码错误');
-                    return;
-                }
-            });
-        }
-
-    });
+    //$('.systemSet-keep').click(function(){
+    //    var sAccount=localStorage.getItem('account');
+    //    var oAccount=JSON.parse(sAccount);
+    //    if(oAccount) {
+    //        var sOldAccount = oAccount.text.account;
+    //        sendAjax('system!valideOldPwd', {account:sOldAccount,oldpwd: hex_md5($('#oldPassword').val())}, function (data) {
+    //            var oData = JSON.parse(data);
+    //            if (oData.code == 1) {
+    //                $('.oldPassworderror').html('');
+    //                if($('#cp-newPasswordId').val()==''){
+    //                    return;
+    //                }
+    //                var sNewPw=hex_md5($('#cp-newPasswordId').val());
+    //                var sComPd=hex_md5($('#comparepwd').val());
+    //                if(sNewPw == sComPd){
+    //                    keerNewPw(hex_md5($('#oldPassword').val()),sNewPw,sComPd);
+    //                    $('.retMewPw').html('');
+    //                }else{
+    //                    $('.retMewPw').html('两次输入密码不一致');
+    //                }
+    //            } else {
+    //                $('.oldPassworderror').html('原始密码错误');
+    //                return;
+    //            }
+    //        });
+    //    }
+    //
+    //});
     /*系统提示音*/
     $('#chatBox').on('click','#systemSet .systemVoiceBtn',function(){
         //var status=parseInt($(this).attr('data-state'));//0 代表关闭  1代表开启
@@ -657,9 +661,10 @@ $(document).ready(function(){
         var accountObj = JSON.parse(sdata);
         //var account = accountObj.account;
         var accountID = accountObj.id;
-        if(!(status==0&&globalVar.SYSTEMSOUND==false)||(status==1&&globalVar.SYSTEMSOUND==true)){
-            systemBeep(status,accountID);
-        }
+        systemBeep(status,accountID);
+
+        //if(!(status==0&&globalVar.SYSTEMSOUND==false)||(status==1&&globalVar.SYSTEMSOUND==true)){
+        //}
     });
     $('#chatBox').on('click','.dateIcon',function(){
         $('.calendar-inputWrap').click();
@@ -1250,16 +1255,40 @@ function systemBeep(status,accountID){
         var oData=JSON.parse(data);
         //var eParent=$('#chatBox #systemSet .systemVoiceBtn');
         if(oData.code==1){
-            globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
-            new Window().alert({
-                title   : '',
-                content : '修改成功！',
-                hasCloseBtn : false,
-                hasImg : true,
-                textForSureBtn : false,
-                textForcancleBtn : false,
-                autoHide:true
-            });
+            if($('.systemVoiceBtn').hasClass('active')){
+                globalVar.SYSTEMSOUND = false
+                new Window().alert({
+                    title   : '',
+                    content : '提示音关！',
+                    hasCloseBtn : false,
+                    hasImg : true,
+                    textForSureBtn : false,
+                    textForcancleBtn : false,
+                    autoHide:true
+                });
+            }else{
+                globalVar.SYSTEMSOUND = true
+                new Window().alert({
+                    title   : '',
+                    content : '提示音开！',
+                    hasCloseBtn : false,
+                    hasImg : true,
+                    textForSureBtn : false,
+                    textForcancleBtn : false,
+                    autoHide:true
+                });
+
+            }
+            //globalVar.SYSTEMSOUND=!globalVar.SYSTEMSOUND;
+            //new Window().alert({
+            //    title   : '',
+            //    content : '修改成功！',
+            //    hasCloseBtn : false,
+            //    hasImg : true,
+            //    textForSureBtn : false,
+            //    textForcancleBtn : false,
+            //    autoHide:true
+            //});
         }
     });
 }

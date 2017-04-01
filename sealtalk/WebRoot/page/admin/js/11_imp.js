@@ -353,7 +353,7 @@ function okimp() {
 
 	callajax('branch!impsave', {'jtext': JSON.stringify(js)}, function(data) {
 		if (data.status == 0) {
-			alert(data.succeed);
+//			alert(data.succeed);
 			$('#succeed').text(data.succeed);
 			$('#fail').text(data.fail);
 			$('#imp2').hide();

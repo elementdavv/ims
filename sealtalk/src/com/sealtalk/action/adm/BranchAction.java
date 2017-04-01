@@ -248,6 +248,7 @@ public class BranchAction extends BaseAction {
 		
 		TMember member = null;
 		String id = this.request.getParameter("memberid");
+		boolean sms = false;
 		if (id != null && !"".equals(id)) {
 			member = branchService.getMemberObjectById(Integer.parseInt(id));
 			if (!member.getAccount().equalsIgnoreCase(this.request.getParameter("memberaccount"))) {
@@ -270,6 +271,7 @@ public class BranchAction extends BaseAction {
 			member.setGroupmax(0);
 			member.setGroupuse(0);
 			member.setPassword(PasswordGenerator.getInstance().getMD5Str("111111"));
+			sms = true;
 		}
 		if (this.request.getParameter("memberaccount") != null)
 			member.setAccount(this.request.getParameter("memberaccount"));
@@ -349,8 +351,10 @@ public class BranchAction extends BaseAction {
 		}
 		
 		//发短信
-		String msg = "您的IMS产品帐号" + member.getAccount() + ", 密码111111.";
-		TextHttpSender.getInstance().sendText(member.getMobile(), msg);
+		if (sms) {
+			String msg = "您的IMS产品帐号" + member.getAccount() + ", 密码111111.";
+			TextHttpSender.getInstance().sendText(member.getMobile(), msg);
+		}
 		
 		JSONObject jo = new JSONObject();
 		jo.put("memberid", memberId);
