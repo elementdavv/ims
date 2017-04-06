@@ -873,7 +873,7 @@ public class BranchServiceImpl implements BranchService {
 							jm.put("groupuse", isBlank(o[13]));
 							jm.put("intro", isBlank(o[14]));
 							jm.put("postitionname", isBlank(o[16]));
-							jm.put("accessStatus", memberIds.contains(Integer.parseInt(isBlank(o[7]))));
+							jm.put("accessStatus", memberIds.contains(Integer.parseInt(isBlank(o[17]))));
 							ja.add(jm); 
 							jm = null;
 						}

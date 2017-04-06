@@ -205,11 +205,11 @@ public class FriendServiceImpl implements FriendService {
 							TMember t = memberList.get(i);
 							sb.append(t.getId()).append(",");
 							if (!organId.contains(t.getOrganId())) {
-								so.append(t.getOrganId());
+								so.append(t.getOrganId()+",");
 							}
 						}
 						String sbStr = sb.toString();
-						String soStr = sb.toString();
+						String soStr = so.toString();
 						
 						if (sbStr != null) {
 							sbStr = sbStr.substring(0, sbStr.length() - 1);
@@ -248,7 +248,7 @@ public class FriendServiceImpl implements FriendService {
 								for(int k = 0; k < memberOrgan.size(); k++) {
 									if(memberOrgan.get(k) != null) {
 										Object[] organ = (Object[]) memberOrgan.get(k);
-										if ((tms.getId()+"").equals(String.valueOf(organ[0]))) {
+										if ((tms.getOrganId()+"").equals(String.valueOf(organ[0]))) {
 											text.put("organName", organ[1]);
 											g = true;
 											break;

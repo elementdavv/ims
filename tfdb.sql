@@ -473,9 +473,15 @@ CREATE TABLE `t_usersysrelation` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `userid` int DEFAULT 0,
   `appid` int DEFAULT 0,
-   PRIMARY KEY(id);
+   PRIMARY KEY(id)
 ) ENGINE=InnoDB;
 
+---角色应用关系表
+create table `t_role_appsecret` (
+	`id` int (11),
+	`role_id` int (11),
+	`appsecret_id` int (11)
+); 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
