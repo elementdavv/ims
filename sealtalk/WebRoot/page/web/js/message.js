@@ -25,6 +25,7 @@ $(function(){
     //刷新群组的在线人数
     var groupOnlineNum = null;
     groupOnlineNum = setInterval(function(){
+
         changeGroupOnlineN(accountID);
     },globalVar.refreshGroupOnline)
     //获取个人在线状态
@@ -1091,7 +1092,7 @@ function getGroupList(accountID,callback){
                     '<img class="groupImg" src="'+globalVar.defaultGroupLogo+'" alt="">'+
                     '<span class="groupName">'+curGroup.name+
                     '</span>'+
-                    '<em class="groupInlineNum">(<span class="onlineCount">'+curGroup.volumeuse+'</span>/'+curGroup.volumeuse+')</em>'+
+                    '<em class="groupInlineNum">(<span class="onlineCount">'+curGroup.volumeuse+'</span>/<span class="memberCount">'+curGroup.volumeuse+'</span>)</em>'+
                     '</div>'+
                     '</li>'
                 }
@@ -1173,7 +1174,8 @@ function groupOnlineMember(accountID){
             for(var key in groupList){
                 var targetGroup = $groupChatList.find('li[targetid='+key+']');
                 if(targetGroup){
-                    targetGroup.find('.onlineCount ').html(groupList[key]);
+                    targetGroup.find('.onlineCount ').html(groupList[key][0]);
+                    targetGroup.find('.memberCount ').html(groupList[key][1]);
                 }
             }
         }

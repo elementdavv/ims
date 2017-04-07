@@ -8,6 +8,43 @@ $(document).ready(function(){
     var accountID = oData?oData.id : '';
     var groupTimer=null,groupTimer1 = null;
    // var sAccount = localStorage.getItem('account');
+
+
+
+    //群组更名
+    $('.orgNavClick').undelegate('.groupSetBox-name','focus')
+    $('.orgNavClick').delegate('.groupSetBox-name','focus',function(){
+        var lastValur = $(this).val();
+        $(this).off('blur');
+        $(this).blur(function(){
+            var curValue = $(this).val();
+            if(curValue!=lastValur){
+                //掉接口，修改群组名称
+                var groupid = $('#groupContainer').attr('targetid');
+                sendAjax('group!changeGroupName',{groupid:groupid,groupname:curValue},function(data){
+                    var datas = JSON.parse(data);
+                    if(datas&&datas.code==1){
+
+                        $('.groupChatListUl').find('li.active .groupName').html(curValue);
+                        new Window().alert({
+                            title   : '',
+                            content : '群组名称已修改！',
+                            hasCloseBtn : false,
+                            hasImg : true,
+                            textForSureBtn : false,
+                            textForcancleBtn : false,
+                            autoHide:true
+                        });
+                    }
+                })
+            }
+        })
+    })
+    //$('.groupSetBox-name').focus(function(){
+
+    //})
+
+
    $('#perInfo').on('click','li',function(){
         $('#perInfo li').removeClass('active');
        $(this).addClass('active');
@@ -1045,7 +1082,7 @@ function showGroupMemberInfo(oGroupInfo,pos){
         <ul>\
         <li>\
         <span>群组名称:</span>\
-    <b>'+sName+'</b>\
+        <b>'+sName+'</b>\
     </li>\
     <li>\
     <span>创建时间:</span>\

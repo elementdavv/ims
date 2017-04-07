@@ -940,7 +940,7 @@ function getGroupDetails(groupId){
             sDom+='<ul class="groupInfo">\
                 <li class="groupInfo-name">\
             <span>群组名称：</span>\
-            <b>'+sName+'</b>\
+            <input type="text" value='+sName+' class="groupSetBox-name">\
             </li>\
             <li class="groupInfo-setTime">\
             <span>创建时间：</span>\
