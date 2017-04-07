@@ -1336,10 +1336,13 @@ public class GroupServiceImpl implements GroupService {
 							statusMap.put(id, status );
 						}
 						
-						Map<String, Integer> countMap = new HashMap<String, Integer>();
+						Map<String, Integer> countMap = new HashMap<String, Integer>();			//在线人数
+						Map<String, Integer> countMembers = new HashMap<String, Integer>();		//群组总人数
+						
 						//用来判断重复
 						ArrayList<String> ids = new ArrayList<String>();	
 						int count = 0;
+						int countM = 0;
 						
 						for (int i = 0; i < groupMems.size(); i++) {
 							TGroupMember tm = groupMems.get(i);
@@ -1353,19 +1356,32 @@ public class GroupServiceImpl implements GroupService {
 								count = 0;
 							}
 							
+							if (countMembers.get(groupId) != null) {
+								countM = countMembers.get(groupId);
+							} else {
+								countM = 0;
+							}
+							
 							if (ids.contains(doubleId)) continue;
 							if (statusMap.get(memberId).equals("1")) {
 								count += 1;
 								countMap.put(groupId, count);
 							}
+							countM += 1;
+							countMembers.put(groupId, countM);
 							ids.add(doubleId);
 						}
 						
 						JSONObject jo = new JSONObject();
 						
 						//生成返回结果
-						for(Map.Entry<String, Integer> ct: countMap.entrySet()) {
-							jo.put(ct.getKey(), ct.getValue());
+						for(Map.Entry<String, Integer> ct: countMembers.entrySet()) {
+							int[] s = {0, 0};
+							if (countMap.containsKey(ct.getKey())) {
+								s[0] = countMap.get(ct.getKey());
+							}
+							s[1] = ct.getValue();
+							jo.put(ct.getKey(), s);
 						}
 						
 						result.put("code", 1);

@@ -129,7 +129,7 @@ public class BranchServiceImpl implements BranchService {
 			Object[] br = (Object[])it.next();
 			jo.put("id", br[0]);
 			jo.put("pid", br[1]);
-			jo.put("name", "<img src='images/memb.png' height='28px' style='padding-right: 10px;'>" + br[2]);
+			jo.put("name", "<img src='images/memb.png' height='28px' style='padding-right: 10px'>" + br[2]);
 			jo.put("flag", 2);
 			jl.add(jo);
 		}
@@ -873,7 +873,7 @@ public class BranchServiceImpl implements BranchService {
 							jm.put("groupuse", isBlank(o[13]));
 							jm.put("intro", isBlank(o[14]));
 							jm.put("postitionname", isBlank(o[16]));
-							jm.put("accessStatus", memberIds.contains(Integer.parseInt(isBlank(o[7]))));
+							jm.put("accessStatus", memberIds.contains(Integer.parseInt(isBlank(o[17]))));
 							ja.add(jm); 
 							jm = null;
 						}

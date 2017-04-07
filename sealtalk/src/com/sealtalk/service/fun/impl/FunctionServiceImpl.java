@@ -99,7 +99,7 @@ public class FunctionServiceImpl implements FunctionService {
 			
 			jo.put("code", 1);
 			
-			if (tf != null) {
+			if (tf != null && tf.getIsOpen().equals("1")) {
 				jo.put("text", 1);
 			} else {
 				jo.put("text", 0);
