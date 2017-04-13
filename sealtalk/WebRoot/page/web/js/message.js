@@ -579,14 +579,17 @@ $(function(){
                         var sUserID=aText[i].userID;//用户id
                         var marker;
                         var lnglats=[];
-                        sLatitude = sLatitude>=90?39.90923:sLatitude;
-                        sLongtitude = sLongtitude>=180?116.397428:sLongtitude;
+                        if(sLatitude=='90'&&sLongtitude=='180'){
+                            continue;
+                        }
+                        //sLatitude = sLatitude>=90?39.90923:sLatitude;
+                        //sLongtitude = sLongtitude>=180?116.397428:sLongtitude;
                         lnglats.push(sLongtitude);
                         lnglats.push(sLatitude);
                         if(!$('.groupMapMember').hasClass('chatHide')){
                             var sDom='<li>\
-                            <img src="'+sLogo+'">\
-                        </li>';
+                                        <img src="'+sLogo+'">\
+                                     </li>';
                             $('.groupMapMember ul').append(sDom);
                         }
                         if(sId==sUserID){
@@ -839,6 +842,7 @@ $(function(){
      * */
     $('.operMenuList').unbind('click');
     $('.operMenuList').click(function(e){
+        clearTimeout(plusTimer);
         var afterNewTree = function(){
             var getBranchTree = localStorage.getItem('getBranchTree');
             if(getBranchTree){
@@ -935,9 +939,22 @@ $(function(){
 
     })
     /*点击"+"*/
+    var plusTimer = null;
     $('.footerPlus').click(function(){
         $(this).find('.operMenuList').slideToggle();
+        //plusTimer = setTimeout(function(){
+        //    $('.footerPlus').click();
+        //},2000)
     })
+    //$('.operMenuList').mouseenter(function(){
+    //    clearTimeout(plusTimer);
+    //})
+    //$('.operMenuList').mouseleave(function(){
+    //    plusTimer = setTimeout(function(){
+    //        $('.footerPlus').find('.operMenuList').slideDown();
+    //    },2000)
+    //})
+
 })
 //系统提示音
 function getSysTipVoice(userid){

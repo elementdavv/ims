@@ -930,6 +930,8 @@ function getGroupDetails(groupId){
             }
         }
     })
+    ////<input type="text" value='+sName+' class="groupSetBox-name">\
+    //<b>'+sName+'</b>\
     for(var i = 0;i<aText.length;i++){
         if(aText[i].GID==groupId){
             var sName=aText[i].name || '';//群名称
@@ -937,10 +939,11 @@ function getGroupDetails(groupId){
             var sCreatedate=subTimer(aText[i].createdate);//创建时间
             var oCreator=searchFromList(1,sCreatorId);
             var sImg=oCreator.logo?globalVar.imgSrc+oCreator.logo:globalVar.defaultLogo;
+            var groupName = sCreatorId==accountID?'<input type="text" value='+sName+' class="groupSetBox-name">':'<b>'+sName+'</b>';
             sDom+='<ul class="groupInfo">\
                 <li class="groupInfo-name">\
-            <span>群组名称：</span>\
-            <input type="text" value='+sName+' class="groupSetBox-name">\
+                <span>群组名称：</span>\
+                '+groupName+'\
             </li>\
             <li class="groupInfo-setTime">\
             <span>创建时间：</span>\
@@ -1492,13 +1495,13 @@ function refreshGroup(accountID,callback){
 //查询单个群信息
 function groupInfo(id){
     var groupInfo = localStorage.getItem('groupInfo');
+    var curInfo = '';
     if(groupInfo){
         groupInfo = JSON.parse(groupInfo);
-    }
-    var curInfo = '';
-    for(var i = 0;i<groupInfo.text.length;i++){
-        if(groupInfo.text[i].GID==id){
-            curInfo = groupInfo.text[i]
+        for(var i = 0;i<groupInfo.text.length;i++){
+            if(groupInfo.text[i].GID==id){
+                curInfo = groupInfo.text[i]
+            }
         }
     }
     return curInfo;

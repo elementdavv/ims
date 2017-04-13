@@ -1,6 +1,6 @@
 var pagecnumber = 0;
 var curpagec = 0;
-var itemsperpagec = 7;
+var itemsperpagec = 6;
 var itemtemplatec='<tr id="tgmid">'
 	+ '<td class="ftd">creator</td>'
 	+ '<td>name</td>'
@@ -20,6 +20,8 @@ $(document).ready(function() {
 		loadpagec();
 	});
 	$('#pagecnext').click(function() {
+		console.log(111);
+
 		if (pagecnumber == 0) return;
 		if (curpagec + 1 == pagecnumber) return;
 		curpagec++;

@@ -81,7 +81,6 @@ function sendAjax(url,data,callback){
 function fToStep2(dom){
     var phoneNum = $('#phoneNum').val();
     var textcode = $('#checkCode').val();
-    //var data = JSON.stringify({'phone':phoneNum,textcode:textcode});
     $('.sealtalk-forgetpassword').attr('account',phoneNum);
     sendAjax('system!testText',{phone:phoneNum,textcode:textcode},function(data){
         if(data){
@@ -91,7 +90,7 @@ function fToStep2(dom){
             }else if(datas.code=='0'){
                 new Window().alert({
                     title   : '',
-                    content : '验证码有误！',
+                    content : '验证码错误！',
                     hasCloseBtn : false,
                     hasImg : true,
                     textForSureBtn : false,

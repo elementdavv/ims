@@ -100,8 +100,22 @@ function initEmoji(){
     $('.rongyun-emoji').append($(emojis));
     $('.rongyun-emoji').perfectScrollbar();
 }
+function jumpToBack(){
+    const BrowserWindow = window.Electron.remote.BrowserWindow
+    const path = 'http://120.26.42.225:8080/sealtalk/page/admin/11.jsp';
 
-
+    //const newWindowBtn = document.getElementById('new-window')
+    var win = new BrowserWindow({ width: 1000, height: 700 })
+    win.on('close', function () { win = null })
+    win.loadURL(path)
+    win.show()
+    //newWindowBtn.addEventListener('click', function (event) {
+    //    var win = new BrowserWindow({ width: 400, height: 320 })
+    //    win.on('close', function () { win = null })
+    //    win.loadURL(path)
+    //    win.show()
+    //})
+}
 //memShip表示与此操作相关的人员account
 function fshowContexMenu(arr,style,id,memShip,targettype,bTopHas,eTarget){
 
