@@ -92,6 +92,9 @@ $(function(){
             if(window.Electron){
                 var localPath = window.Electron.chkFileExists(url);
                 if(localPath){//本地有这个文件
+                    if(url.indexOf('token')!=-1){//有%
+                        url = fileFromApp(url);
+                    }
                     window.Electron.openFile(url);
                 }else{
                     //console.log('本地没有这个文件');
@@ -107,6 +110,7 @@ $(function(){
     $('.orgNavClick').delegate('.openFloder','click',function(){
         if(window.Electron){
             var URL = $(this).parents('li').find('a').attr('href');
+
             window.Electron.openFileDir(URL);
         }
     })
@@ -115,6 +119,10 @@ $(function(){
     $('.orgNavClick').delegate('.openFile','click',function(){
         if(window.Electron){
             var URL = $(this).parents('li').find('a').attr('href');
+
+            if(URL.indexOf('token')!=-1){//有%
+                URL = fileFromApp(URL);
+            }
             window.Electron.openFile(URL);
         }
     })
@@ -123,6 +131,9 @@ $(function(){
     $('.infoDet-chatRecord .chatRecordSel').delegate('.openFile','click',function(){
         if(window.Electron){
             var URL = $(this).parent().prev().attr('href');
+            if(URL.indexOf('token')!=-1){//有%
+                URL = fileFromApp(URL);
+            }
             window.Electron.openFile(URL);
         }
     })
@@ -138,6 +149,9 @@ $(function(){
     $('.infoDet-flieRecord .chatRecordSel').delegate('.hosOpenFile','click',function(){
         if(window.Electron){
             var URL = $(this).attr('data-url');
+            if(URL.indexOf('token%')!=-1){//有%
+                URL = fileFromApp(URL);
+            }
             window.Electron.openFile(URL);
         }
 

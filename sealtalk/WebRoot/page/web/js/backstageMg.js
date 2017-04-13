@@ -84,7 +84,14 @@ $(document).ready(function(){
         }
         if($(this).parent().attr('class').indexOf('File')!=-1){
             var sURL = $(this).parent().find('.downLoadFile').attr('href');
+
+
+            if(sURL.indexOf('token')!=-1){//有%
+                sURL = fileFromApp(sURL);
+            }
+
             var localPath = sURL?window.Electron.chkFileExists(sURL):'';
+
             if(localPath){
                 var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
             }else{
@@ -124,6 +131,9 @@ $(document).ready(function(){
 
             if($(this).parent().attr('class').indexOf('File')!=-1){
                 var sURL = $(this).parent().find('.downLoadFile').attr('href');
+                if(sURL.indexOf('token')!=-1){//有%
+                    var sURL = fileFromApp(sURL)
+                }
                 var localPath = sURL?window.Electron.chkFileExists(sURL):'';
                 if(localPath){
                     var arr = [{limit:'',value:'复制'},{limit:'',value:'转发'},{limit:'',value:'打开文件'},{limit:'',value:'打开文件夹'}];
@@ -143,6 +153,9 @@ $(document).ready(function(){
             var targeType = $(this).parent().attr('data-t');
             if(!targeType){
                 var targeType = $(this).parent().attr('uniquetime');
+            }
+            if(!targeType){
+                var targeType = $(this).parent().attr('senttime');
             }
             var style = 'left:'+left+'px;top:'+top+'px';
             var id = 'infoCopy';
@@ -867,7 +880,14 @@ $(document).ready(function(){
     });
     //getGroupMembersList(1);
 });
-
+function fileFromApp(data)
+{
+    var str = decodeURI(data.replace(/\\u/g, '%u'));;
+    if(str.indexOf('&')!=-1){
+        str = str.split('&')[0];
+    }
+    return str;
+}
 
 
 //搜索个人历史消息
@@ -1358,4 +1378,7 @@ function getHeadImgList(){
         }
     });
 }
+
+
+
 

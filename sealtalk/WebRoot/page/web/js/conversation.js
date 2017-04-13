@@ -621,21 +621,28 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
             case "FileMessage":
                 var Msize = KBtoM(sContent.size);
                 var fileURL = sContent.fileUrl;
-
                 var imgSrc = imgType(sContent.type)
                 var file = fileURL?getFileUniqueName(fileURL):'';
+                if(fileURL.indexOf('token')!=-1){//有%
+                    file = getFileUniqueNameFromApp(fileURL) //文件唯一标识
+                }
+                var sFileUrl = fileURL;
                 var fileOperate = '';
                 var downLoadFile = '';
                 if(window.Electron) {
-                    var localPath = fileURL?window.Electron.chkFileExists(fileURL):'';
+                    if(fileURL.indexOf('%')!=-1){//有%
+                       var checkURL = fileFromApp(fileURL); //文件的checkbox连接
+                        //checkURL = checkURL.split('&')[0];
+                    }
+                    var localPath = checkURL?window.Electron.chkFileExists(checkURL):'';
                     if (localPath) {
                         fileOperate = '<div id="fileOperate">' +
                         '<span class="openFile"></span>' +
                         '<span class="openFloder"></span>' +
                         '</div>'
-                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '" style="visibility:hidden;"></a>' ;
+                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + sFileUrl + '" style="visibility:hidden;"></a>' ;
                     } else {
-                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + fileURL + '"></a>' ;
+                        downLoadFile = '<a fileName="' + file + '"  class="downLoadFile" href="' + sFileUrl + '"></a>' ;
                     }
                 }
 
@@ -722,9 +729,15 @@ function sessionContent(sDoM,sTargetId,sContent,extra,sSentTime,targetType){
                 var fileOperate = '';
                 var downLoadFile = '';
                 //var downstyle = '';
+                var sFileUrl = sendMsg.fileUrl;
+                var sURL = sendMsg.fileUrl
                 if(window.Electron) {
+                    //var sFileUrl = sendMsg.fileUrl
                     if(sendMsg.fileUrl){
-                        var localPath = sendMsg.fileUrl?window.Electron.chkFileExists(sendMsg.fileUrl):'';
+                        if(sURL.indexOf('token')!=-1){//有%
+                            sURL = fileFromApp(sendMsg.fileUrl);
+                        }
+                        var localPath = sURL?window.Electron.chkFileExists(sURL):'';
                         if (localPath) {
                             fileOperate = '<div id="fileOperate">' +
                             '<span class="openFile"></span>' +
@@ -1106,10 +1119,19 @@ function getChatRecord(aList,sClass){
                     var uniqueTime = sContent.uniqueTime;
                     var fileURL=sContent.fileUrl;
                     var file = fileURL?getFileUniqueName(fileURL):'';
+                    if(fileURL.indexOf('token')!=-1){//有%
+                        file = getFileUniqueNameFromApp(fileURL) //文件唯一标识
+                    }
+
+
                     var fileOperate='';
                     var downLoadFile='';
+                    var sURL = fileURL;
                     if(window.Electron) {
-                        var localPath = fileURL?window.Electron.chkFileExists(fileURL):'';
+                        if(sURL.indexOf('token')!=-1){//有%
+                            sURL = fileFromApp(sURL);
+                        }
+                        var localPath = sURL?window.Electron.chkFileExists(sURL):'';
                         if (localPath) {
                             fileOperate = '<div id="fileOperate">' +
                             '<span class="openFile">打开文件</span>' +
@@ -1208,7 +1230,13 @@ function getFileRecord(aList,sClass){
             var sSentTime = aInfo[i].sentTime;//发送时间
             var sContent = aInfo[i].content;
             var fileSrc = sContent.fileUrl;
+            var sFilrUrl = sContent.fileUrl;
             var file = getFileUniqueName(fileSrc);
+            if(fileSrc.indexOf('token')!=-1){//有%
+                file = getFileUniqueNameFromApp(fileSrc) //文件唯一标识
+            }
+
+
             var sSentTimeReg = changeTimeFormat(sSentTime, 'ym');
             var Msize = KBtoM(sContent.size);
             var sFileName = sContent.name;
@@ -1224,26 +1252,29 @@ function getFileRecord(aList,sClass){
                 var sSendfName = oLocData.name;
             }
             if(window.Electron){
+                if(fileSrc.indexOf('token')!=-1){//有%
+                    fileSrc = fileFromApp(fileSrc);
+                }
                 var localPath = fileSrc?window.Electron.chkFileExists(fileSrc):'';
                 if(localPath){
                     sLi += ' <li class="chatFile-folder">\
-            <i></i>\
-            <p>\
-            <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
-            <span>' + sSentTimeReg + sSendfName + '</span>\
-            </p>\
-            <strong  data-url="'+fileSrc+'" class="hosOpenFile">打开</strong>\
-            <strong data-url="'+fileSrc+'" class="hosOpenFloder">打开文件夹</strong>\
-            </li>';
+                            <i></i>\
+                            <p>\
+                            <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
+                            <span>' + sSentTimeReg + sSendfName + '</span>\
+                            </p>\
+                            <strong  data-url="'+sFilrUrl+'" class="hosOpenFile">打开</strong>\
+                            <strong data-url="'+sFilrUrl+'" class="hosOpenFloder">打开文件夹</strong>\
+                            </li>';
                 }else{
                     sLi += ' <li class="chatFile-folder">\
-            <i></i>\
-            <p>\
-            <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
-            <span>' + sSentTimeReg + sSendfName + '</span>\
-            </p>\
-            <strong  data-url="'+fileSrc+'" class="hosOpenFile"><a fileName="' + file + '"  class="downLoadFile" href="' + fileSrc + '"></a></strong>\
-            </li>';
+                            <i></i>\
+                            <p>\
+                            <b class="clearfix"><em class="hosFileName">'+sFileName+'</em><em>(' + Msize + ')</em></b>\
+                            <span>' + sSentTimeReg + sSendfName + '</span>\
+                            </p>\
+                            <strong  data-url="'+sFilrUrl+'" class="hosOpenFile"><a fileName="' + file + '"  class="downLoadFile" href="' + sFilrUrl + '"></a></strong>\
+                            </li>';
                 }
             }
         }
@@ -1565,6 +1596,9 @@ function reciveInBox(msg){
                 var fileURL = content.fileUrl;
                 var imgSrc = imgType(content.type);
                 var file = getFileUniqueName(fileURL);
+                if(fileURL.indexOf('token')!=-1){//有%
+                    file = getFileUniqueNameFromApp(fileURL) //文件唯一标识
+                }
                 //var str = RongIMLib.RongIMEmoji.symbolToHTML('成功发送文件');
                 var sHTML = '<li class="mr-chatContentLFile clearfix" sentTime="' + msg.sentTime + '">'+
                     '<img class="headImg" src="'+senderImg+'">'+
@@ -1678,11 +1712,27 @@ function matchGroupList(sId){
     return targetGroup;
 }
 
+//从URL连接中文件唯一标识 时间戳？
+function getFileUniqueNameFromApp(fileURL){
+    if(fileURL){
+        var aURM = fileURL.split('?attname=')[0];
+        var fileName = aURM.split('_');
+        var UniqueName = fileName[fileName.length-1];
+
+        return UniqueName;
+    }else{
+        return "";
+    }
+}
+
 //从URL连接中取得文件名
 function getFileUniqueName(fileURL){
     if(fileURL){
         var aURM = fileURL.split('attname=')[1];
         var fileName = aURM.split('.')[0];
+        if(fileName.indexOf('&')!=-1){
+            fileName = fileName.split('&')[0];
+        }
         return fileName;
     }else{
         return "";

@@ -6,6 +6,8 @@ var sealtalk_config = {
   //APP_ONLINE: 'http://localhost:8080/sealtalk/system!login',
   APP_ONLINE: 'http://120.26.42.225:8080/sealtalk/system!login',
   //APP_ONLINE : 'http://localhost:8080/sealtalk/page/cms/signin.jsp',
+  //APP_ONLINE : 'http://localhost:8080/im/system!login',
+  
   //your homepage for menu link
   HOME: 'http://localhost:8080/sealtalk/system!loginForWeb',
   //这个参数的理解可以参考  http://electron.atom.io/docs/api/app/  setAsDefaultProtocolClient

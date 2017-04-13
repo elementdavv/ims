@@ -229,9 +229,9 @@ function chDownloadProgress(url, state, progress){
     //console.log(url, state, progress);
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
-    //if(file.indexOf('%')!=-1){//有%
-    //  file = file.replace(/%/g,"")
-    //}
+    if(url.indexOf('token')!=-1){//有%
+      file = getFileUniqueNameFromApp(url);
+    }
     var targetA = $("a[fileName=" + file + "]");
     var targetParent = targetA.parents('.mr-ownChat').length==1?targetA.parents('.mr-ownChat'):targetA.parents('.mr-chatBox');
     if($(targetParent[0]).hasClass('mr-ownChat') || $(targetParent[0]).hasClass('mr-chatBox')){
@@ -257,13 +257,15 @@ function chDownloadState(url, state){
 
     var fileName = url.split('attname=')[1];
     var file = fileName.split('.')[0];
-    //if(file.indexOf('%')!=-1){//有%
-    //  file = file.replace(/%/g,"")
-    //}
+    if(url.indexOf('token')!=-1){//有%
+      file = getFileUniqueNameFromApp(url)
+    }
     var targetA = $("a[fileName=" + file + "]");
 
     for(var i=0;i<targetA.length;++i){
       if(targetA.eq(i).closest('.mr-ownChat').length>0 || targetA.eq(i).closest('.mr-chatBox').length>0){
+        //console.log(444444444444444444)
+
         $('#down_process[uniquetime=' + file + ']').remove();
         targetA.eq(i).css('visibility','hidden');
         var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
@@ -272,6 +274,8 @@ function chDownloadState(url, state){
         var targetParent = targetA.eq(i).parents('.mr-ownChat').length==1?targetA.eq(i).parents('.mr-ownChat'):targetA.eq(i).parents('.mr-chatBox');
         targetParent.append(sHTML);
       }else if(targetA.eq(i).closest('.downLoadFileInfo').length>0){
+        //console.log(333333333333333)
+
         targetA.eq(i).css('visibility','hidden');
         targetA.eq(i).closest('.downLoadFileInfo').find('#fileOperate1').remove();
         var sHTML = '<div id="fileOperate" uniquetime="1486626340273">' +
@@ -280,9 +284,11 @@ function chDownloadState(url, state){
             '</div>'
         targetA.eq(i).closest('.downLoadFileInfo').append($(sHTML));
       }else if(targetA.hasClass('downloadDemo')){
-        console.log('download Demo');
+        //console.log(2222222222222)
+        //console.log('download Demo');
         window.Electron.openFileDir(url);
       }else{
+        //console.log(11111111111)
         var sHtml='<strong  data-url="'+url+'" class="hosOpenFile">打开</strong>\
             <strong data-url="'+url+'" class="hosOpenFloder">打开文件夹</strong>';
         targetA.eq(i).closest('.chatFile-folder').append(sHtml);
@@ -309,4 +315,17 @@ getNameByUrl = function (field, url) {
 getDirByUrl = function (url) {
   var re = /([\w\d_-]*)\.?[^\\\/]*$/i;
   return url.match(re)[1];
+}
+
+
+function getFileUniqueNameFromApp(fileURL){
+  if(fileURL){
+    var aURM = fileURL.split('?attname=')[0];
+    var fileName = aURM.split('_');
+    var UniqueName = fileName[fileName.length-1];
+
+    return UniqueName;
+  }else{
+    return "";
+  }
 }
