@@ -935,7 +935,6 @@ $(function(){
                     break;
             }
         }
-        getBranchTreeAndMember(afterNewTree);
 
     })
     /*点击"+"*/
@@ -946,14 +945,14 @@ $(function(){
         //    $('.footerPlus').click();
         //},2000)
     })
-    //$('.operMenuList').mouseenter(function(){
-    //    clearTimeout(plusTimer);
-    //})
-    //$('.operMenuList').mouseleave(function(){
-    //    plusTimer = setTimeout(function(){
-    //        $('.footerPlus').find('.operMenuList').slideDown();
-    //    },2000)
-    //})
+    $('.footerPlus').mouseenter(function(){
+        clearTimeout(plusTimer);
+    })
+    $('.footerPlus').mouseleave(function(){
+        plusTimer = setTimeout(function(){
+            $('.footerPlus').find('.operMenuList').slideUp();
+        },2000)
+    })
 
 })
 //系统提示音
@@ -1201,31 +1200,35 @@ function groupOnlineMember(accountID){
 
 //点击的是部门
 function changeClick1Content(data){
-    var sHTML = '<div class="orgNavTitle">标题</div><ul>';
-    for(var i = 0;i<data.length;i++){
-        var sHeadImg=data[i].logo || 'PersonImg.png';//头像
-        var sName=data[i].name||'';//姓名
-        if(data[i].logo){
-            var imgHTML = '<img src="'+globalVar.imgSrc+sHeadImg+'" alt="">';
-        }else{
-            var imgHTML = '<img src="'+globalVar.defaultLogo+'" alt="">';
+    var sHTML = ''
+    if(data&&data.length!=0){
+        sHTML = '<div class="orgNavTitle">标题</div><ul>';
+        for(var i = 0;i<data.length;i++){
+            var sHeadImg=data[i].logo || 'PersonImg.png';//头像
+            var sName=data[i].name||'';//姓名
+            if(data[i].logo){
+                var imgHTML = '<img src="'+globalVar.imgSrc+sHeadImg+'" alt="">';
+            }else{
+                var imgHTML = '<img src="'+globalVar.defaultLogo+'" alt="">';
 
+            }
+            sHTML += '<li id="'+data[i].id+'" account="'+data[i].account+'">'+
+            '<div class="showImgInfo">'+
+            imgHTML+
+            '</div>'+
+            '<div class="showPersonalInfo">'+
+            '<span>'+sName+'</span>'+
+            '<ul class="personalOperaIcon">'+
+            '<li class="sendMsg" title="发起聊天"></li>'+
+            '<li class="checkPosition" title="查看位置"></li>'+
+            '<li class="addConver" title="加入会话"></li>'+
+            '</ul>'+
+            '</div>'+
+            '</li>';
         }
-        sHTML += '<li id="'+data[i].id+'" account="'+data[i].account+'">'+
-        '<div class="showImgInfo">'+
-        imgHTML+
-        '</div>'+
-        '<div class="showPersonalInfo">'+
-        '<span>'+sName+'</span>'+
-        '<ul class="personalOperaIcon">'+
-        '<li class="sendMsg" title="发起聊天"></li>'+
-        '<li class="checkPosition" title="查看位置"></li>'+
-        '<li class="addConver" title="加入会话"></li>'+
-        '</ul>'+
-        '</div>'+
-        '</li>';
+        sHTML+='</ul>'
     }
-    sHTML+='</ul>'
+
     return sHTML;
 }
 
